@@ -26,9 +26,9 @@ data class DexcomShareConfig(
 object DexcomShareConfigProvider {
     fun fromBuildConfig(): DexcomShareConfig {
         return DexcomShareConfig(
-            username = BuildConfig.DEXCOM_SHARE_USERNAME.trim(),
-            password = BuildConfig.DEXCOM_SHARE_PASSWORD.trim(),
-            server = BuildConfig.DEXCOM_SHARE_SERVER.trim().ifBlank { "US" },
+            username = "",
+            password = "",
+            server = "OUS",
             applicationId = BuildConfig.DEXCOM_SHARE_APPLICATION_ID.trim(),
         )
     }

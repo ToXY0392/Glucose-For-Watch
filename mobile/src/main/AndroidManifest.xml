@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:label="Widget G7 Phone"
         android:supportsRtl="true"
         android:theme="@style/Theme.WidgetG7.Phone">
@@ -19,6 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.DexcomSettingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.WatchSetupActivity"
+            android:exported="false" />
 
         <receiver
             android:name=".sync.PhoneAutoSyncReceiver"

@@ -12,12 +12,6 @@ android {
             ((project.findProperty("relayBaseUrl") as? String) ?: "https://example.com").replace("\"", "\\\"")
         val relayBearerToken =
             ((project.findProperty("relayBearerToken") as? String) ?: "").replace("\"", "\\\"")
-        val dexcomShareUsername =
-            ((project.findProperty("dexcomShareUsername") as? String) ?: "").replace("\"", "\\\"")
-        val dexcomSharePassword =
-            ((project.findProperty("dexcomSharePassword") as? String) ?: "").replace("\"", "\\\"")
-        val dexcomShareServer =
-            ((project.findProperty("dexcomShareServer") as? String) ?: "US").replace("\"", "\\\"")
         val dexcomShareApplicationId =
             ((project.findProperty("dexcomShareApplicationId") as? String)
                 ?: "d89443d2-327c-4a6f-89e5-496bbb0317db").replace("\"", "\\\"")
@@ -30,9 +24,6 @@ android {
 
         buildConfigField("String", "RELAY_BASE_URL", "\"$relayBaseUrl\"")
         buildConfigField("String", "RELAY_BEARER_TOKEN", "\"$relayBearerToken\"")
-        buildConfigField("String", "DEXCOM_SHARE_USERNAME", "\"$dexcomShareUsername\"")
-        buildConfigField("String", "DEXCOM_SHARE_PASSWORD", "\"$dexcomSharePassword\"")
-        buildConfigField("String", "DEXCOM_SHARE_SERVER", "\"$dexcomShareServer\"")
         buildConfigField("String", "DEXCOM_SHARE_APPLICATION_ID", "\"$dexcomShareApplicationId\"")
     }
 
@@ -65,6 +56,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
+    implementation("androidx.security:security-crypto:1.1.0-alpha06")
     implementation("com.google.android.gms:play-services-wearable:18.2.0")
     implementation("androidx.work:work-runtime-ktx:2.9.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
