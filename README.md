@@ -137,6 +137,7 @@ Si le tile se met a jour, la chaine principale `telephone -> montre` fonctionne.
 
 ## Documentation technique
 
+- mode d'emploi : [docs/MODE_D_EMPLOI.md](<C:/Users/Utilisateur/Desktop/THP/Projects/Widget G7/docs/MODE_D_EMPLOI.md>)
 - compatibilite Android et montres : [COMPATIBILITY.md](<C:/Users/Utilisateur/Desktop/THP/Projects/Widget G7/COMPATIBILITY.md>)
 - notes de version : [docs/RELEASE_NOTES.md](<C:/Users/Utilisateur/Desktop/THP/Projects/Widget G7/docs/RELEASE_NOTES.md>)
 
