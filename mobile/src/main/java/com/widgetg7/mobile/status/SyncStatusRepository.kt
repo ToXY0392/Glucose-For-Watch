@@ -18,6 +18,7 @@ data class SyncStatusSnapshot(
     val lastError: String,
     val lastErrorCategory: SyncErrorCategory,
     val authFailureCount: Int,
+    val consecutiveFailureCount: Int,
 ) {
     fun hasSuccessfulSync(): Boolean = lastValueMgDl != null && lastSyncEpochMs > 0L
 }
@@ -37,6 +38,7 @@ class SyncStatusRepository(context: Context) {
                 ?.let { runCatching { SyncErrorCategory.valueOf(it) }.getOrDefault(SyncErrorCategory.NONE) }
                 ?: SyncErrorCategory.NONE,
             authFailureCount = prefs.getInt(KEY_AUTH_FAILURE_COUNT, 0),
+            consecutiveFailureCount = prefs.getInt(KEY_CONSECUTIVE_FAILURE_COUNT, 0),
         )
     }
 
@@ -49,6 +51,7 @@ class SyncStatusRepository(context: Context) {
             .putString(KEY_LAST_ERROR, "")
             .putString(KEY_LAST_ERROR_CATEGORY, SyncErrorCategory.NONE.name)
             .putInt(KEY_AUTH_FAILURE_COUNT, 0)
+            .putInt(KEY_CONSECUTIVE_FAILURE_COUNT, 0)
             .apply()
     }
 
@@ -58,12 +61,14 @@ class SyncStatusRepository(context: Context) {
         } else {
             0
         }
+        val nextFailureCount = prefs.getInt(KEY_CONSECUTIVE_FAILURE_COUNT, 0) + 1
 
         prefs.edit()
             .putLong(KEY_LAST_SYNC_AT, System.currentTimeMillis())
             .putString(KEY_LAST_ERROR, message)
             .putString(KEY_LAST_ERROR_CATEGORY, category.name)
             .putInt(KEY_AUTH_FAILURE_COUNT, nextAuthFailureCount)
+            .putInt(KEY_CONSECUTIVE_FAILURE_COUNT, nextFailureCount)
             .apply()
     }
 
@@ -72,6 +77,7 @@ class SyncStatusRepository(context: Context) {
             .remove(KEY_LAST_ERROR)
             .remove(KEY_LAST_ERROR_CATEGORY)
             .remove(KEY_AUTH_FAILURE_COUNT)
+            .remove(KEY_CONSECUTIVE_FAILURE_COUNT)
             .apply()
     }
 
@@ -84,5 +90,6 @@ class SyncStatusRepository(context: Context) {
         private const val KEY_LAST_ERROR = "last_error"
         private const val KEY_LAST_ERROR_CATEGORY = "last_error_category"
         private const val KEY_AUTH_FAILURE_COUNT = "auth_failure_count"
+        private const val KEY_CONSECUTIVE_FAILURE_COUNT = "consecutive_failure_count"
     }
 }

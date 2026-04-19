@@ -1,15 +1,22 @@
 package com.widgetg7.mobile
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.widgetg7.mobile.battery.BatteryOptimizationHelper
 import com.widgetg7.mobile.data.PhoneGlucoseSourceFactory
 import com.widgetg7.mobile.dexcom.DexcomShareErrorKind
 import com.widgetg7.mobile.dexcom.DexcomShareException
+import com.widgetg7.mobile.notifications.NotificationHelper
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.status.SyncErrorCategory
 import com.widgetg7.mobile.status.SyncStatusRepository
@@ -25,6 +32,12 @@ import java.util.Date
 class MainActivity : AppCompatActivity() {
     private val logTag = "WidgetG7Phone"
 
+    private val notificationPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { granted ->
+        Log.d(logTag, "Notification permission granted=$granted")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,6 +48,10 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch { runManualSync() }
         }
 
+        findViewById<Button>(R.id.improveSyncButton).setOnClickListener {
+            startActivity(BatteryOptimizationHelper(this).buildSettingsIntent())
+        }
+
         findViewById<Button>(R.id.configureDexcomButton).setOnClickListener {
             startActivity(Intent(this, DexcomSettingsActivity::class.java))
         }
@@ -43,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, WatchSetupActivity::class.java))
         }
 
+        requestNotificationPermissionIfNeeded()
         refreshHome()
     }
 
@@ -54,12 +72,14 @@ class MainActivity : AppCompatActivity() {
     private fun refreshHome() {
         val syncStatus = SyncStatusRepository(this).load()
         val dexcomSettings = AppSettingsStore(this).loadDexcomSettings()
+        val batteryStatus = BatteryOptimizationHelper(this).loadStatus()
 
         val glucoseValueText = findViewById<TextView>(R.id.glucoseValueText)
         val glucoseTrendText = findViewById<TextView>(R.id.glucoseTrendText)
         val lastSyncText = findViewById<TextView>(R.id.lastSyncText)
         val dexcomStatusText = findViewById<TextView>(R.id.dexcomStatusText)
         val watchStatusText = findViewById<TextView>(R.id.watchStatusText)
+        val batteryStatusText = findViewById<TextView>(R.id.batteryStatusText)
         val syncStatusText = findViewById<TextView>(R.id.syncStatusText)
 
         glucoseValueText.text = syncStatus.lastValueMgDl?.toString() ?: "--"
@@ -91,6 +111,7 @@ class MainActivity : AppCompatActivity() {
             syncStatus.hasSuccessfulSync() -> "Etat: synchronisation active (${syncStatus.lastSourceName})"
             else -> "Etat: en attente d'une premiere synchronisation"
         }
+        batteryStatusText.text = batteryStatus.label()
 
         lifecycleScope.launch {
             val watchStatus = WatchConnectionRepository(this@MainActivity).loadStatus()
@@ -102,6 +123,7 @@ class MainActivity : AppCompatActivity() {
         val syncStatusText = findViewById<TextView>(R.id.syncStatusText)
         val source = PhoneGlucoseSourceFactory.create(this)
         val syncStatusRepository = SyncStatusRepository(this)
+        val notificationHelper = NotificationHelper(this)
 
         try {
             Log.d(logTag, "Manual sync started with source=${source.sourceName}")
@@ -109,16 +131,35 @@ class MainActivity : AppCompatActivity() {
             val reading = source.latest()
             PhoneWearSyncService(this).pushLatest(reading)
             syncStatusRepository.saveSuccess(source.sourceName, reading)
+            notificationHelper.cancelSyncAlerts()
             Log.d(logTag, "Manual sync push completed")
         } catch (t: Throwable) {
             Log.e(logTag, "Manual sync failed", t)
+            val category = toCategory(t)
             syncStatusRepository.saveError(
                 message = toUserMessage(t),
-                category = toCategory(t),
+                category = category,
             )
+            notifyIfNeeded(syncStatusRepository.load(), notificationHelper)
         }
 
         refreshHome()
+    }
+
+    private fun requestNotificationPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) return
+        notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    private fun notifyIfNeeded(syncStatus: com.widgetg7.mobile.status.SyncStatusSnapshot, notificationHelper: NotificationHelper) {
+        when {
+            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 ->
+                notificationHelper.notifyDexcomReconnectRequired()
+
+            syncStatus.consecutiveFailureCount >= 3 ->
+                notificationHelper.notifySyncInterrupted(syncStatus.lastError.ifBlank { "La synchronisation a besoin de votre attention." })
+        }
     }
 
     private fun displayServer(server: String): String = if (server.equals("US", true)) "US" else "Europe"

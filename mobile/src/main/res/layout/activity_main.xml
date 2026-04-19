@@ -72,12 +72,27 @@
             android:text="Aucune montre detectee"
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/batteryStatusText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Batterie: etat inconnu"
+            android:textSize="15sp" />
+
         <Button
             android:id="@+id/refreshNowButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="Actualiser maintenant" />
+
+        <Button
+            android:id="@+id/improveSyncButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Ameliorer la synchronisation" />
 
         <Button
             android:id="@+id/configureDexcomButton"
