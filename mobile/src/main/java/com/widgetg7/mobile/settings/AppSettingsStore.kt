@@ -33,6 +33,14 @@ class AppSettingsStore(context: Context) {
             .apply()
     }
 
+    fun clearDexcomSettings() {
+        prefs.edit()
+            .remove(KEY_DEXCOM_USERNAME)
+            .remove(KEY_DEXCOM_PASSWORD)
+            .remove(KEY_DEXCOM_SERVER)
+            .apply()
+    }
+
     fun toDexcomShareConfig(applicationId: String): DexcomShareConfig {
         val settings = loadDexcomSettings()
         return DexcomShareConfig(

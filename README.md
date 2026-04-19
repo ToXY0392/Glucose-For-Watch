@@ -1,162 +1,149 @@
-# Widget G7 - Phone + Wear OS
+# Widget G7 - Installer et utiliser le produit
 
-Companion app Android + Wear OS pour afficher une glycemie Dexcom G7 sur telephone, tile montre et complication de cadran.
+Widget G7 est une application Android compagnon pour afficher une glycemie Dexcom G7 sur :
+
+- le telephone Android
+- le tile de la montre Wear OS
+- la complication de cadran si le cadran choisi accepte bien ce type de slot
 
 ## Apercu
 
 ![Surveillez votre glycemie](docs/assets/surveillez-votre-glycemie.png)
 
-## Etat actuel
+## Ce qu'il faut
 
-- lecture Dexcom Share fonctionnelle sur le telephone
-- sync telephone -> montre via Wear Data Layer fonctionnelle
-- tile montre fonctionnel
-- complication de cadran fonctionnelle, mais le rendu depend du slot et du cadran utilises
-- auto-sync telephone configure a `2 min`
+- un telephone Android compatible : voir [COMPATIBILITY.md](<C:/Users/Utilisateur/Desktop/THP/Projects/Widget G7/COMPATIBILITY.md>)
+- une montre Wear OS compatible et reliee au telephone
+- un compte Dexcom Share
+- l'application `Widget G7` installee sur le telephone
 
-## Fonctionnement
+## Installation du produit
 
-1. le module `mobile` lit la derniere mesure glucose
-2. il pousse la mesure vers la montre via `/glucose/latest`
-3. le module `wear` recoit la donnee et la met en cache
-4. le tile et la complication lisent ce cache local
+### Etape 1 - Installer l'application Android
 
-## Documentation
+Deux cas possibles :
 
-- compatibilite Android : [COMPATIBILITY.md](<C:/Users/Utilisateur/Desktop/THP/Projects/Widget G7/COMPATIBILITY.md>)
+1. si un APK est fourni, installer l'APK sur le telephone Android
+2. si vous partez du code source, suivre la section `Installation depuis le code source` plus bas
 
-## Structure
+### Etape 2 - Ouvrir l'application sur le telephone
 
-- `mobile` : source glucose + sync vers la montre
-- `wear` : listener Data Layer + cache + complication + tile
+Au premier lancement :
 
-## Sources supportees
+1. ouvrir `Widget G7`
+2. toucher `Configurer Dexcom`
+3. saisir :
+   - email ou identifiant Dexcom
+   - mot de passe Dexcom
+   - region `Europe` ou `US`
+4. toucher `Tester la connexion`
+5. si le test reussit, toucher `Enregistrer`
 
-Le module `mobile` choisit automatiquement la source dans cet ordre :
+## Utilisation quotidienne
 
-1. `DexcomSharePhoneGlucoseSource` si Dexcom Share est configure
-2. `RelayPhoneGlucoseSource` si `relayBaseUrl` est configure
-3. `DemoPhoneGlucoseSource` sinon
+Une fois Dexcom configure :
 
-## Payload Data Layer
+1. revenir a l'accueil
+2. verifier que la glycemie s'affiche
+3. toucher `Actualiser maintenant` pour une premiere synchronisation immediate
+4. laisser ensuite l'application gerer l'auto-sync
 
-- `valueMgDl` (Int)
-- `trend` (String: `UP`, `UP_RIGHT`, `FLAT`, `DOWN_RIGHT`, `DOWN`)
-- `deltaMgDl` (Int)
-- `timestampEpochMs` (Long)
-- `stale` (Boolean)
+L'application telephone :
 
-## Dexcom Share
+- memorise le compte Dexcom localement
+- synchronise automatiquement environ toutes les `2 minutes`
+- affiche la derniere valeur, la tendance et l'etat de synchronisation
 
-### Configuration
+## Ajouter le tile sur la montre
 
-Dans `~/.gradle/gradle.properties` ou dans `gradle.properties` projet.
-Un exemple publiable sans secrets est fourni dans `gradle.properties.example`.
+1. verifier que la montre est connectee au telephone
+2. ouvrir `Widget G7` sur le telephone
+3. toucher `Configurer la montre`
+4. sur la montre, ouvrir la liste des tiles
+5. ajouter `Glucose Tile`
 
-```properties
-dexcomShareUsername=ton_email_ou_identifiant
-dexcomSharePassword=ton_mot_de_passe
-dexcomShareServer=OUS
-dexcomShareApplicationId=d89443d2-327c-4a6f-89e5-496bbb0317db
-```
+Le tile est aujourd'hui la surface la plus stable pour verifier que la synchronisation fonctionne bien.
 
-Notes :
+## Ajouter la complication sur le cadran
 
-- utiliser `OUS` pour un compte Europe / hors US
-- utiliser `US` pour un compte americain
-- l'application id Dexcom Share reste fixe
-
-## Relay backend
-
-Si Dexcom Share n'est pas configure, le module `mobile` peut utiliser un backend relay.
-
-### Configuration
-
-Dans `~/.gradle/gradle.properties` ou dans `gradle.properties` projet.
-Un exemple publiable sans secrets est fourni dans `gradle.properties.example`.
-
-```properties
-relayBaseUrl=https://ton-backend.example
-relayBearerToken=ton_token_si_necessaire
-```
-
-### Contrat endpoint attendu
-
-GET `${relayBaseUrl}/latest-glucose`
-
-Headers :
-
-- `Accept: application/json`
-- `Authorization: Bearer <token>` si token non vide
-
-JSON accepte :
-
-```json
-{
-  "valueMgDl": 128,
-  "trend": "UP_RIGHT",
-  "deltaMgDl": 4,
-  "timestampEpochMs": 1713350000000,
-  "stale": false
-}
-```
-
-Variantes supportees :
-
-- `value_mg_dl`, `value`, `mgdl`
-- `delta_mg_dl`, `delta`
-- `timestamp_epoch_ms`, `timestamp`, `ts`
-- `isStale`, `is_stale`
-
-## Affichage montre
-
-### Tile
-
-Le tile montre utilise actuellement une version semantique simple :
-
-- glycémie en tres grand
-- `mg/dL` + fleche sur une ligne secondaire
-- code couleur selon l'etat
-- pas de graphe
-
-### Regles semantiques
-
-- `normal` : `80..180`
-- `attention` : `70..79` ou `181..250`
-- `alerte` : `< 70` ou `> 250`
-- `stale` : donnees perimees
-
-### Complication de cadran
-
-La complication suit la meme logique semantique :
-
-- la valeur glucose reste toujours l'element le plus visible
-- les metadonnees restent secondaires
-- support `SHORT_TEXT` et `LONG_TEXT`
+1. faire un appui long sur le cadran de la montre
+2. ouvrir `Personnaliser`
+3. aller dans `Complications`
+4. choisir un slot texte principal
+5. selectionner `Glucose`
 
 Important :
 
-- selon le cadran choisi, certains slots acceptent mieux la complication que d'autres
-- en pratique, il faut privilegier un slot texte principal plutot qu'un micro-slot decoratif
+- certains cadrans acceptent mieux la complication que d'autres
+- il faut privilegier un vrai slot texte, pas un micro-slot decoratif
+- si la complication disparait au retour sur le cadran, essayer un autre slot ou un autre cadran
 
-## Auto-sync
+## Comment verifier que tout fonctionne
 
-- l'app telephone planifie une synchro automatique toutes les `2 minutes`
-- le bouton `SYNC NOW` reste disponible pour forcer un refresh immediat
+Le parcours conseille est :
 
-## Installation rapide
+1. verifier que l'app telephone affiche une glycemie
+2. toucher `Actualiser maintenant`
+3. ouvrir le tile sur la montre
+4. verifier que la meme valeur apparait
+
+Si le tile se met a jour, la chaine principale `telephone -> montre` fonctionne.
+
+## Depannage simple
+
+### Le telephone n'affiche rien
+
+- verifier les identifiants Dexcom
+- verifier la bonne region : `Europe` ou `US`
+- relancer `Tester la connexion`
+
+### Le tile montre n'affiche rien
+
+- verifier que la montre est bien connectee
+- toucher `Actualiser maintenant` sur le telephone
+- attendre quelques secondes
+- rouvrir le tile
+
+### La complication de cadran ne reste pas affichee
+
+- choisir un slot texte principal
+- reessayer sur un autre cadran si besoin
+- verifier d'abord que le tile fonctionne, car c'est le meilleur indicateur de synchronisation
+
+## Installation depuis le code source
+
+### Prerequis
+
+- Android Studio
+- un telephone Android branche ou connecte en debug
+- une montre Wear OS branchee ou connectee en debug
+
+### Etapes
 
 1. ouvrir le projet dans Android Studio
-2. laisser Gradle sync
+2. laisser Gradle sync terminer
 3. installer `mobile` sur le telephone
 4. installer `wear` sur la montre
-5. ouvrir l'app telephone
-6. appuyer une fois sur `SYNC NOW`
-7. ajouter le tile `Glucose Tile` sur la montre
-8. ajouter la complication `Glucose` sur un slot texte principal du cadran si besoin
+5. ouvrir l'application sur le telephone
+6. configurer Dexcom dans l'app
+7. toucher `Actualiser maintenant`
+8. ajouter `Glucose Tile` sur la montre
 
-## Notes utiles
+## Confidentialite
 
-- le tile est aujourd'hui la surface la plus stable pour verifier la synchro
-- si la complication disparait au retour sur le cadran, le probleme vient souvent du slot ou du type de complication accepte par ce cadran
-- la chaine principale `telephone -> Data Layer -> montre` est validee quand le tile se met a jour
+- les identifiants Dexcom saisis dans l'application telephone sont stockes localement
+- ils ne doivent pas etre commits dans Git
+- `gradle.properties` est ignore par Git dans ce projet
+
+## Documentation technique
+
+- compatibilite Android et montres : [COMPATIBILITY.md](<C:/Users/Utilisateur/Desktop/THP/Projects/Widget G7/COMPATIBILITY.md>)
+
+## Resume technique
+
+- source prioritaire : Dexcom Share
+- fallback possible : relay backend
+- sync telephone -> montre via Wear Data Layer
+- tile montre : version semantique simple, sans graphe
+- auto-sync telephone : cible `2 min`
+- Android peut tout de meme retarder ce rythme en arriere-plan selon l'etat du telephone

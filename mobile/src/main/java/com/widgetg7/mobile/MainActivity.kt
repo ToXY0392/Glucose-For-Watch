@@ -8,7 +8,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.data.PhoneGlucoseSourceFactory
+import com.widgetg7.mobile.dexcom.DexcomShareErrorKind
+import com.widgetg7.mobile.dexcom.DexcomShareException
 import com.widgetg7.mobile.settings.AppSettingsStore
+import com.widgetg7.mobile.status.SyncErrorCategory
 import com.widgetg7.mobile.status.SyncStatusRepository
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneWearSyncService
@@ -70,11 +73,20 @@ class MainActivity : AppCompatActivity() {
             "Derniere sync: aucune pour le moment"
         }
         dexcomStatusText.text = if (dexcomSettings.isConfigured()) {
-            "Dexcom: configure (${displayServer(dexcomSettings.server)})"
+            when {
+                syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 ->
+                    "Dexcom: reconnexion requise (${displayServer(dexcomSettings.server)})"
+
+                syncStatus.hasSuccessfulSync() -> "Dexcom: connecte (${displayServer(dexcomSettings.server)})"
+                else -> "Dexcom: configure (${displayServer(dexcomSettings.server)})"
+            }
         } else {
             "Dexcom: a configurer"
         }
         syncStatusText.text = when {
+            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 ->
+                "Etat: reconnectez votre compte Dexcom"
+
             syncStatus.lastError.isNotBlank() -> "Etat: ${syncStatus.lastError}"
             syncStatus.hasSuccessfulSync() -> "Etat: synchronisation active (${syncStatus.lastSourceName})"
             else -> "Etat: en attente d'une premiere synchronisation"
@@ -100,7 +112,10 @@ class MainActivity : AppCompatActivity() {
             Log.d(logTag, "Manual sync push completed")
         } catch (t: Throwable) {
             Log.e(logTag, "Manual sync failed", t)
-            syncStatusRepository.saveError(t.message ?: "Erreur inconnue")
+            syncStatusRepository.saveError(
+                message = toUserMessage(t),
+                category = toCategory(t),
+            )
         }
 
         refreshHome()
@@ -115,5 +130,24 @@ class MainActivity : AppCompatActivity() {
         "DOWN_RIGHT" -> "en baisse legere"
         "DOWN" -> "en baisse"
         else -> trend
+    }
+
+    private fun toCategory(t: Throwable): SyncErrorCategory {
+        if (t is DexcomShareException) {
+            return when (t.kind) {
+                DexcomShareErrorKind.AUTH -> SyncErrorCategory.AUTH
+                DexcomShareErrorKind.NETWORK -> SyncErrorCategory.NETWORK
+                DexcomShareErrorKind.NO_DATA -> SyncErrorCategory.OTHER
+                DexcomShareErrorKind.UNKNOWN -> SyncErrorCategory.OTHER
+            }
+        }
+        return SyncErrorCategory.OTHER
+    }
+
+    private fun toUserMessage(t: Throwable): String {
+        return when {
+            t is DexcomShareException -> t.message
+            else -> t.message ?: "Erreur inconnue"
+        }
     }
 }

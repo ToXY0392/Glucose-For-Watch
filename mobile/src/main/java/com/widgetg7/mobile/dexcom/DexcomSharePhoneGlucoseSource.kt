@@ -7,11 +7,24 @@ import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.math.roundToInt
+
+enum class DexcomShareErrorKind {
+    AUTH,
+    NETWORK,
+    NO_DATA,
+    UNKNOWN,
+}
+
+class DexcomShareException(
+    val kind: DexcomShareErrorKind,
+    override val message: String,
+) : IllegalStateException(message)
 
 class DexcomSharePhoneGlucoseSource(
     private val config: DexcomShareConfig,
@@ -26,14 +39,14 @@ class DexcomSharePhoneGlucoseSource(
         val sessionId = login(accountId)
         val values = readLatestValues(sessionId)
         if (values.length() == 0) {
-            throw IllegalStateException("Dexcom Share returned no values")
+            throw DexcomShareException(DexcomShareErrorKind.NO_DATA, "Aucune mesure Dexcom disponible.")
         }
 
         val newest = values.getJSONObject(0)
         val previous = values.optJSONObject(1)
 
         val value = newest.readInt("Value", "value")
-            ?: throw IllegalStateException("Missing glucose value")
+            ?: throw DexcomShareException(DexcomShareErrorKind.UNKNOWN, "Valeur glucose Dexcom manquante.")
         val trend = newest.readTrend()
         val timestampMs = newest.readTimestampMs() ?: System.currentTimeMillis()
         val delta = previous?.let {
@@ -61,7 +74,7 @@ class DexcomSharePhoneGlucoseSource(
 
         val raw = postJson(endpoint, body)
         return raw.trim().trim('"').takeIf { it.isNotBlank() }
-            ?: throw IllegalStateException("Dexcom Share authentication failed")
+            ?: throw DexcomShareException(DexcomShareErrorKind.AUTH, "Connexion Dexcom refusee.")
     }
 
     private fun login(accountId: String): String {
@@ -74,7 +87,7 @@ class DexcomSharePhoneGlucoseSource(
 
         val raw = postJson(endpoint, body)
         return raw.trim().trim('"').takeIf { it.isNotBlank() }
-            ?: throw IllegalStateException("Dexcom Share login failed")
+            ?: throw DexcomShareException(DexcomShareErrorKind.AUTH, "Connexion Dexcom refusee.")
     }
 
     private fun readLatestValues(sessionId: String): JSONArray {
@@ -106,11 +119,37 @@ class DexcomSharePhoneGlucoseSource(
             val code = connection.responseCode
             val body = readBody(if (code in 200..299) connection.inputStream else connection.errorStream)
             if (code !in 200..299) {
-                throw IllegalStateException("$label HTTP $code: $body")
+                throw classifyHttpFailure(code, body, label)
             }
             return body
+        } catch (t: IOException) {
+            throw DexcomShareException(
+                DexcomShareErrorKind.NETWORK,
+                "Impossible de contacter Dexcom pour le moment.",
+            )
         } finally {
             connection.disconnect()
+        }
+    }
+
+    private fun classifyHttpFailure(code: Int, body: String, label: String): DexcomShareException {
+        val normalized = body.lowercase()
+        return when {
+            normalized.contains("accountpasswordinvalid") ||
+                normalized.contains("invalidpassword") ||
+                normalized.contains("invalid password") ||
+                normalized.contains("account not found") ||
+                normalized.contains("authenticatepublisheraccount") ->
+                DexcomShareException(DexcomShareErrorKind.AUTH, "Identifiants Dexcom invalides.")
+
+            normalized.contains("sessionidnotfound") ->
+                DexcomShareException(DexcomShareErrorKind.AUTH, "Session Dexcom a renouveler.")
+
+            code in 500..599 ->
+                DexcomShareException(DexcomShareErrorKind.NETWORK, "Dexcom est temporairement indisponible.")
+
+            else ->
+                DexcomShareException(DexcomShareErrorKind.UNKNOWN, "$label HTTP $code")
         }
     }
 

@@ -23,6 +23,15 @@
             android:text="Entrez votre compte Dexcom Share pour synchroniser automatiquement votre glycemie vers la montre."
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/dexcomAccountSummaryText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Compte Dexcom non configure"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/dexcomUsernameInput"
             android:layout_width="match_parent"
@@ -60,6 +69,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Enregistrer" />
+
+        <Button
+            android:id="@+id/disconnectDexcomButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Deconnecter le compte" />
 
         <TextView
             android:id="@+id/dexcomSettingsStatusText"

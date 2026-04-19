@@ -3,12 +3,21 @@ package com.widgetg7.mobile.status
 import android.content.Context
 import com.widgetg7.mobile.data.GlucoseReading
 
+enum class SyncErrorCategory {
+    NONE,
+    AUTH,
+    NETWORK,
+    OTHER,
+}
+
 data class SyncStatusSnapshot(
     val lastValueMgDl: Int?,
     val lastTrend: String,
     val lastSourceName: String,
     val lastSyncEpochMs: Long,
     val lastError: String,
+    val lastErrorCategory: SyncErrorCategory,
+    val authFailureCount: Int,
 ) {
     fun hasSuccessfulSync(): Boolean = lastValueMgDl != null && lastSyncEpochMs > 0L
 }
@@ -24,6 +33,10 @@ class SyncStatusRepository(context: Context) {
             lastSourceName = prefs.getString(KEY_LAST_SOURCE, "").orEmpty(),
             lastSyncEpochMs = prefs.getLong(KEY_LAST_SYNC_AT, 0L),
             lastError = prefs.getString(KEY_LAST_ERROR, "").orEmpty(),
+            lastErrorCategory = prefs.getString(KEY_LAST_ERROR_CATEGORY, SyncErrorCategory.NONE.name)
+                ?.let { runCatching { SyncErrorCategory.valueOf(it) }.getOrDefault(SyncErrorCategory.NONE) }
+                ?: SyncErrorCategory.NONE,
+            authFailureCount = prefs.getInt(KEY_AUTH_FAILURE_COUNT, 0),
         )
     }
 
@@ -34,13 +47,31 @@ class SyncStatusRepository(context: Context) {
             .putString(KEY_LAST_SOURCE, sourceName)
             .putLong(KEY_LAST_SYNC_AT, System.currentTimeMillis())
             .putString(KEY_LAST_ERROR, "")
+            .putString(KEY_LAST_ERROR_CATEGORY, SyncErrorCategory.NONE.name)
+            .putInt(KEY_AUTH_FAILURE_COUNT, 0)
             .apply()
     }
 
-    fun saveError(message: String) {
+    fun saveError(message: String, category: SyncErrorCategory) {
+        val nextAuthFailureCount = if (category == SyncErrorCategory.AUTH) {
+            prefs.getInt(KEY_AUTH_FAILURE_COUNT, 0) + 1
+        } else {
+            0
+        }
+
         prefs.edit()
             .putLong(KEY_LAST_SYNC_AT, System.currentTimeMillis())
             .putString(KEY_LAST_ERROR, message)
+            .putString(KEY_LAST_ERROR_CATEGORY, category.name)
+            .putInt(KEY_AUTH_FAILURE_COUNT, nextAuthFailureCount)
+            .apply()
+    }
+
+    fun clearSessionState() {
+        prefs.edit()
+            .remove(KEY_LAST_ERROR)
+            .remove(KEY_LAST_ERROR_CATEGORY)
+            .remove(KEY_AUTH_FAILURE_COUNT)
             .apply()
     }
 
@@ -51,5 +82,7 @@ class SyncStatusRepository(context: Context) {
         private const val KEY_LAST_SOURCE = "last_source"
         private const val KEY_LAST_SYNC_AT = "last_sync_at"
         private const val KEY_LAST_ERROR = "last_error"
+        private const val KEY_LAST_ERROR_CATEGORY = "last_error_category"
+        private const val KEY_AUTH_FAILURE_COUNT = "auth_failure_count"
     }
 }
