@@ -1,0 +1,13 @@
+org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
+android.useAndroidX=true
+kotlin.code.style=official
+
+# Dexcom Share
+dexcomShareUsername=ton_email_ou_identifiant
+dexcomSharePassword=ton_mot_de_passe
+dexcomShareServer=OUS
+dexcomShareApplicationId=d89443d2-327c-4a6f-89e5-496bbb0317db
+
+# Relay backend optionnel
+relayBaseUrl=https://ton-backend.example
+relayBearerToken=ton_token_si_necessaire
