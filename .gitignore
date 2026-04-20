@@ -19,8 +19,12 @@ Thumbs.db
 
 # Local tooling caches used in this workspace
 .android-home/
+.g2/
 .gradle-user/
 .gradle-user-fresh/
 .gradle-user-home/
+.gradle-user-home-deploy/
 .gradle-user-home-fresh/
+.gradle-user-home-mobile-french-fix/
+.gradle-user-home-mobile-french-fix-2/
 .gradle-user-home-serial/
