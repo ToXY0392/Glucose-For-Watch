@@ -1,10 +1,13 @@
 package com.widgetg7.wear.tile
 
 import android.app.Activity
+import android.content.ComponentName
 import android.os.Bundle
 import android.util.Log
 import androidx.wear.tiles.TileService
+import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.google.android.gms.wearable.Wearable
+import com.widgetg7.wear.complication.GlucoseComplicationService
 import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
@@ -19,7 +22,7 @@ class GlucoseRefreshActivity : Activity() {
         val healthMonitor = WatchSyncHealthMonitor(this)
         cache.markRefreshPending()
         healthMonitor.updateAndReport()
-        TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+        requestSurfaceUpdates()
 
         Wearable.getNodeClient(this).connectedNodes
             .addOnSuccessListener { nodes ->
@@ -27,7 +30,7 @@ class GlucoseRefreshActivity : Activity() {
                 if (node == null) {
                     cache.markRefreshFailed("Telephone indisponible")
                     healthMonitor.updateAndReport()
-                    TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+                    requestSurfaceUpdates()
                     finish()
                     return@addOnSuccessListener
                 }
@@ -42,7 +45,7 @@ class GlucoseRefreshActivity : Activity() {
                         Log.e(logTag, "Refresh request failed", error)
                         cache.markRefreshFailed("Echec de synchro")
                         healthMonitor.updateAndReport()
-                        TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+                        requestSurfaceUpdates()
                         finish()
                     }
             }
@@ -50,8 +53,15 @@ class GlucoseRefreshActivity : Activity() {
                 Log.e(logTag, "Unable to resolve phone node", error)
                 cache.markRefreshFailed("Telephone indisponible")
                 healthMonitor.updateAndReport()
-                TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+                requestSurfaceUpdates()
                 finish()
             }
+    }
+
+    private fun requestSurfaceUpdates() {
+        TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+        ComplicationDataSourceUpdateRequester
+            .create(this, ComponentName(this, GlucoseComplicationService::class.java))
+            .requestUpdateAll()
     }
 }

@@ -77,6 +77,14 @@ La sync suit cette chaine :
 - la montre envoie une demande au telephone
 - le telephone relance une sync Dexcom immediate
 - puis renvoie la valeur vers la montre
+- le tile garde la derniere valeur visible et remplace sa ligne de statut par `Actualisation...`
+- la complication est rafraichie aussi quand la nouvelle donnee arrive
+
+### Affichage des valeurs extremes
+
+- le tile et la complication affichent `LOW` si la valeur est `<= 40 mg/dL`
+- le tile et la complication affichent `HI` si la valeur est `>= 400 mg/dL`
+- sinon la valeur numerique habituelle reste affichee
 
 ## Comportement batterie
 
@@ -131,7 +139,7 @@ Le parcours normal est :
 1. appui long sur le cadran
 2. ouvrir `Personnaliser`
 3. aller dans `Complications`
-4. choisir un slot texte compatible
+4. choisir un slot compatible `SHORT_TEXT`, `LONG_TEXT` ou `RANGED_VALUE`
 5. selectionner `Glucose`
 
 ## Depannage

@@ -16,6 +16,12 @@ data class GlucoseSnapshot(
     val timestampEpochMs: Long,
     val stale: Boolean,
 ) {
+    fun displayValueText(): String = when {
+        valueMgDl <= DISPLAY_LOW_MAX_MG_DL -> "LOW"
+        valueMgDl >= DISPLAY_HIGH_MIN_MG_DL -> "HI"
+        else -> valueMgDl.toString()
+    }
+
     fun trendArrow(): String = when (trend) {
         "UP" -> "\u2191"
         "UP_RIGHT" -> "\u2197"
@@ -53,6 +59,11 @@ data class GlucoseSnapshot(
     fun secondaryLabel(): String {
         if (stale) return "stale"
         return "mg/dL ${trendArrow()}"
+    }
+
+    private companion object {
+        private const val DISPLAY_LOW_MAX_MG_DL = 40
+        private const val DISPLAY_HIGH_MIN_MG_DL = 400
     }
 }
 

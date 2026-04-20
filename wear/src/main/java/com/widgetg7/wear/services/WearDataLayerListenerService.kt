@@ -41,14 +41,7 @@ class WearDataLayerListenerService : WearableListenerService() {
                 )
                 cache.save(snapshot)
                 cache.clearRefreshStatus()
-
-                ComplicationDataSourceUpdateRequester
-                    .create(this, ComponentName(this, GlucoseComplicationService::class.java))
-                    .requestUpdateAll()
-                Log.d(logTag, "Requested complication refresh")
-
-                TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
-                Log.d(logTag, "Requested tile refresh")
+                requestSurfaceUpdates()
                 healthMonitor.updateAndReport()
                 continue
             }
@@ -61,12 +54,22 @@ class WearDataLayerListenerService : WearableListenerService() {
                     GlucoseKeys.REFRESH_IN_PROGRESS -> cache.markRefreshPending(message)
                     GlucoseKeys.REFRESH_FAILED -> cache.markRefreshFailed(message)
                 }
-                TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+                requestSurfaceUpdates()
                 Log.d(logTag, "Received refresh status=$status message=$message")
                 healthMonitor.updateAndReport()
             }
         }
 
         super.onDataChanged(dataEvents)
+    }
+
+    private fun requestSurfaceUpdates() {
+        ComplicationDataSourceUpdateRequester
+            .create(this, ComponentName(this, GlucoseComplicationService::class.java))
+            .requestUpdateAll()
+        Log.d(logTag, "Requested complication refresh")
+
+        TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+        Log.d(logTag, "Requested tile refresh")
     }
 }
