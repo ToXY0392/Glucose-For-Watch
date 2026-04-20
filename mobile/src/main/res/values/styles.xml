@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Widget.WidgetG7.SectionCard" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardBackgroundColor">@color/wg7_surface</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
         <item name="strokeColor">@color/wg7_outline</item>
         <item name="strokeWidth">1dp</item>
         <item name="cardCornerRadius">28dp</item>
@@ -34,6 +34,8 @@
     <style name="Widget.WidgetG7.InputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/wg7_surface_alt</item>
         <item name="boxStrokeColor">@color/wg7_outline</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
         <item name="hintTextColor">@color/wg7_text_secondary</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.WidgetG7.Input</item>
     </style>

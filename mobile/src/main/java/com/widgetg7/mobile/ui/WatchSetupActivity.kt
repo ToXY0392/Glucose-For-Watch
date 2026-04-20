@@ -35,8 +35,8 @@ class WatchSetupActivity : AppCompatActivity() {
 
     private fun refreshWatchStatus() {
         refreshWatchStatusButton.isEnabled = false
-        refreshWatchStatusButton.text = "Verification..."
-        watchStatusText.text = "Verification de la montre..."
+        refreshWatchStatusButton.text = "Vérification..."
+        watchStatusText.text = "Vérification de la montre..."
         lifecycleScope.launch {
             val status = WatchConnectionRepository(this@WatchSetupActivity).loadStatus()
             val watchHealth = WatchSyncHealthRepository(this@WatchSetupActivity).load()
@@ -47,7 +47,7 @@ class WatchSetupActivity : AppCompatActivity() {
                 "${status.label()}\n$summary"
             }
             refreshWatchStatusButton.isEnabled = true
-            refreshWatchStatusButton.text = "Verifier la connexion montre"
+            refreshWatchStatusButton.text = "Vérifier la connexion montre"
         }
     }
 }

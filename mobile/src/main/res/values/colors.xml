@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="wg7_bg_top">#F7F3EB</color>
-    <color name="wg7_bg_bottom">#E8F2EE</color>
-    <color name="wg7_surface">#FFFDF9</color>
-    <color name="wg7_surface_alt">#F0ECE3</color>
-    <color name="wg7_outline">#D6D0C3</color>
+    <color name="wg7_bg_top">#F0E7D7</color>
+    <color name="wg7_bg_bottom">#CFE5DE</color>
+    <color name="wg7_surface">#99FFFDFC</color>
+    <color name="wg7_surface_alt">#FFFFFFFF</color>
+    <color name="wg7_outline">#8FA89D</color>
     <color name="wg7_text_primary">#1F2A2A</color>
     <color name="wg7_text_secondary">#5D6C69</color>
     <color name="wg7_accent">#0F766E</color>

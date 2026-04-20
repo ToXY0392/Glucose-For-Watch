@@ -93,8 +93,8 @@
                         android:layout_width="154dp"
                         android:layout_height="154dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/bg_watch_ring_stroke"
-                        android:alpha="0.22" />
+                        android:alpha="0.22"
+                        android:background="@drawable/bg_watch_ring_stroke" />
 
                     <TextView
                         android:id="@+id/watchFaceStatusText"
@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="Connectee"
+                        android:text="Connectée"
                         android:textColor="@color/wg7_watch_green"
                         android:textSize="24sp"
                         android:textStyle="bold" />
@@ -197,7 +197,7 @@
                             android:id="@+id/dexcomCardSummaryText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Non connecte"
+                            android:text="Non connecté"
                             android:textColor="@color/wg7_danger"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -259,7 +259,6 @@
                         android:textColor="@color/wg7_text_primary"
                         android:textSize="18sp"
                         android:textStyle="bold" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -287,7 +286,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Ouvrir les parametres du telephone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Notifications. Cocher Autoriser les notifications."
+                        android:text="Ouvrir les paramètres du téléphone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Notifications. Cocher Autoriser les notifications."
                         android:textColor="@color/wg7_text_secondary"
                         android:textSize="15sp" />
 
@@ -314,7 +313,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="Ouvrir les parametres du telephone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Utilisation de la batterie par l'application. Cocher Autoriser l'utilisation en arriere-plan."
+                        android:text="Ouvrir les paramètres du téléphone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Utilisation de la batterie par l'application. Cocher Autoriser l'utilisation en arrière-plan."
                         android:textColor="@color/wg7_text_secondary"
                         android:textSize="15sp" />
 

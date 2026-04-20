@@ -26,9 +26,6 @@ import com.widgetg7.mobile.ui.DexcomSettingsActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchConnectionStatus
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -122,12 +119,12 @@ class MainActivity : AppCompatActivity() {
         dexcomConnected = dexcomSettings.isConfigured()
         dexcomCardSummaryText.text = dexcomSummary(dexcomSettings, syncStatus)
         applyDexcomStatusStyle(dexcomConnected)
-        configureDexcomButton.text = if (dexcomConnected) "Deconnexion" else "Se connecter"
+        configureDexcomButton.text = if (dexcomConnected) "Déconnexion" else "Se connecter"
 
         notificationsStepsText.text =
-            "Ouvrir les parametres du telephone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Notifications. Cocher Autoriser les notifications."
+            "Ouvrir les paramètres du téléphone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Notifications. Cocher Autoriser les notifications."
         batteryStepsText.text =
-            "Ouvrir les parametres du telephone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Utilisation de la batterie par l'application. Cocher Autoriser l'utilisation en arriere-plan."
+            "Ouvrir les paramètres du téléphone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Utilisation de la batterie par l'application. Cocher Autoriser l'utilisation en arrière-plan."
 
         if (!dexcomSectionTouched) {
             dexcomExpanded = shouldOpenDexcomSection(dexcomSettings.isConfigured(), syncStatus.lastErrorCategory)
@@ -160,7 +157,7 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun runManualSync() {
         watchRefreshButton.isEnabled = false
-        watchRefreshButton.text = "…"
+        watchRefreshButton.text = "\u2026"
 
         when (val result = PhoneGlucoseSyncEngine(this).run(triggeredFromWatch = false)) {
             is SyncExecutionResult.Success ->
@@ -172,7 +169,7 @@ class MainActivity : AppCompatActivity() {
 
         refreshHome()
         watchRefreshButton.isEnabled = true
-        watchRefreshButton.text = "↻"
+        watchRefreshButton.text = "\u21BB"
     }
 
     private fun showWatchSettingsMenu() {
@@ -247,14 +244,14 @@ class MainActivity : AppCompatActivity() {
         syncStatus: SyncStatusSnapshot,
     ): String {
         return when {
-            !settings.isConfigured() -> "Non connecte"
-            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 -> "Non connecte"
-            else -> "Connecte"
+            !settings.isConfigured() -> "Non connecté"
+            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 -> "Non connecté"
+            else -> "Connecté"
         }
     }
 
     private fun watchSummary(watchStatus: WatchConnectionStatus): String =
-        if (watchStatus.connected) "Connectee" else "Non connectee"
+        if (watchStatus.connected) "Connectée" else "Non connectée"
 
     private fun watchModelLabel(watchStatus: WatchConnectionStatus): String =
         if (watchStatus.connected && watchStatus.displayName.isNotBlank()) watchStatus.displayName else "Aucune montre"

@@ -5,9 +5,11 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.BuildConfig
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.dexcom.DexcomShareConfig
@@ -20,8 +22,8 @@ import kotlinx.coroutines.launch
 
 class DexcomSettingsActivity : AppCompatActivity() {
     private lateinit var saveDexcomButton: Button
-    private lateinit var testDexcomButton: Button
     private lateinit var disconnectDexcomButton: Button
+    private lateinit var backIconButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +39,8 @@ class DexcomSettingsActivity : AppCompatActivity() {
         val statusText = findViewById<TextView>(R.id.dexcomSettingsStatusText)
         val accountSummaryText = findViewById<TextView>(R.id.dexcomAccountSummaryText)
         saveDexcomButton = findViewById(R.id.saveDexcomButton)
-        testDexcomButton = findViewById(R.id.testDexcomButton)
         disconnectDexcomButton = findViewById(R.id.disconnectDexcomButton)
+        backIconButton = findViewById(R.id.backIconButton)
 
         usernameInput.setText(currentSettings.username)
         passwordInput.setText(currentSettings.password)
@@ -53,25 +55,13 @@ class DexcomSettingsActivity : AppCompatActivity() {
 
         renderAccountSummary(currentSettings, syncStatusRepository.load(), accountSummaryText, statusText)
 
+        backIconButton.setOnClickListener { finish() }
+
         saveDexcomButton.setOnClickListener {
             lifecycleScope.launch {
                 setBusyState(true)
                 val settings = readSettings(usernameInput, passwordInput, serverInput)
-                settingsStore.saveDexcomSettings(settings)
-                syncStatusRepository.clearSessionState()
-                renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                statusText.text = "Configuration enregistrée."
-                setBusyState(false)
-            }
-        }
 
-        testDexcomButton.setOnClickListener {
-            lifecycleScope.launch {
-                setBusyState(true)
-                val settings = readSettings(usernameInput, passwordInput, serverInput)
-
-                settingsStore.saveDexcomSettings(settings)
-                syncStatusRepository.clearSessionState()
                 statusText.text = "Connexion Dexcom en cours..."
 
                 try {
@@ -82,16 +72,18 @@ class DexcomSettingsActivity : AppCompatActivity() {
                         applicationId = BuildConfig.DEXCOM_SHARE_APPLICATION_ID.trim(),
                     )
                     val reading = DexcomSharePhoneGlucoseSource(config).latest()
+                    settingsStore.saveDexcomSettings(settings)
                     syncStatusRepository.saveSuccess("dexcom-share", reading)
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                    statusText.text = "Connexion réussie. Dernière valeur : ${reading.valueMgDl} mg/dL"
+                    statusText.text = "Connexion réussie."
+                    Snackbar.make(findViewById(android.R.id.content), "Connexion réussie", 1000).show()
                 } catch (t: Throwable) {
                     syncStatusRepository.saveError(SyncText.toUserMessage(t), SyncText.toCategory(t))
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
                     statusText.text = "Connexion échouée : ${SyncText.toUserMessage(t)}"
-                } finally {
-                    setBusyState(false)
                 }
+
+                setBusyState(false)
             }
         }
 
@@ -102,7 +94,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
             passwordInput.setText("")
             serverInput.setText("Europe", false)
             renderAccountSummary(settingsStore.loadDexcomSettings(), syncStatusRepository.load(), accountSummaryText, statusText)
-            statusText.text = "Compte Dexcom supprimé de l’app."
+            statusText.text = "Compte Dexcom supprimé de l'application."
         }
     }
 
@@ -132,10 +124,9 @@ class DexcomSettingsActivity : AppCompatActivity() {
     }
 
     private fun setBusyState(isBusy: Boolean) {
-        testDexcomButton.isEnabled = !isBusy
         saveDexcomButton.isEnabled = !isBusy
         disconnectDexcomButton.isEnabled = !isBusy
-        testDexcomButton.text = if (isBusy) "Connexion..." else "Tester la connexion"
+        saveDexcomButton.text = if (isBusy) "Enregistrement..." else "Enregistrer"
     }
 
     private fun toServerCode(label: String): String = if (label.equals("US", true)) "US" else "OUS"
