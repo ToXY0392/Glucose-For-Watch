@@ -12,9 +12,9 @@ data class BatteryOptimizationStatus(
 ) {
     fun label(): String {
         return if (isProtectedFromOptimization) {
-            "Batterie: synchronisation plus fiable active"
+            "Batterie : synchronisation plus fiable active"
         } else {
-            "Batterie: optimisation active, la sync peut etre retardee"
+            "Batterie : optimisation active, la sync peut être retardée"
         }
     }
 }

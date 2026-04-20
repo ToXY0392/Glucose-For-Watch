@@ -10,6 +10,12 @@
     <color name="wg7_accent">#0F766E</color>
     <color name="wg7_accent_dark">#0A5E58</color>
     <color name="wg7_accent_soft">#D7EEE9</color>
+    <color name="wg7_success">#2E7D32</color>
+    <color name="wg7_success_soft">#DDF2DF</color>
+    <color name="wg7_watch_green">#66FF57</color>
+    <color name="wg7_watch_ring">#D8CCB8</color>
+    <color name="wg7_danger">#C62828</color>
+    <color name="wg7_danger_soft">#F9DEDE</color>
     <color name="wg7_alert">#A65A2A</color>
     <color name="wg7_alert_soft">#F8E3D3</color>
     <color name="wg7_on_accent">#FFFDF9</color>
