@@ -14,9 +14,9 @@ object SyncText {
 
     fun displayTrend(trend: String): String = when (trend) {
         "UP" -> "en hausse"
-        "UP_RIGHT" -> "en hausse legere"
+        "UP_RIGHT" -> "en hausse légère"
         "FLAT" -> "stable"
-        "DOWN_RIGHT" -> "en baisse legere"
+        "DOWN_RIGHT" -> "en baisse légère"
         "DOWN" -> "en baisse"
         else -> trend
     }
@@ -35,7 +35,7 @@ object SyncText {
 
     fun toUserMessage(t: Throwable): String {
         if (t.message?.contains("timed out", ignoreCase = true) == true) {
-            return "Delai depasse pendant la synchronisation."
+            return "Délai dépassé pendant la synchronisation."
         }
         return when {
             t is DexcomShareException -> t.message
@@ -44,46 +44,46 @@ object SyncText {
     }
 
     fun dexcomStatus(settings: DexcomUserSettings, syncStatus: SyncStatusSnapshot): String {
-        if (!settings.isConfigured()) return "Dexcom: a configurer"
+        if (!settings.isConfigured()) return "Dexcom : à configurer"
         return when {
             syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 ->
-                "Dexcom: reconnexion requise (${displayServer(settings.server)})"
+                "Dexcom : reconnexion requise (${displayServer(settings.server)})"
 
-            syncStatus.hasSuccessfulSync() -> "Dexcom: connecte (${displayServer(settings.server)})"
-            else -> "Dexcom: configure (${displayServer(settings.server)})"
+            syncStatus.hasSuccessfulSync() -> "Dexcom : connecté (${displayServer(settings.server)})"
+            else -> "Dexcom : configuré (${displayServer(settings.server)})"
         }
     }
 
     fun syncStatus(syncStatus: SyncStatusSnapshot): String {
         return when {
             syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 ->
-                "Etat: reconnectez votre compte Dexcom"
+                "État : reconnectez votre compte Dexcom"
 
             syncStatus.lastError.isNotBlank() ->
-                "Etat: ${syncStatus.lastError}${ageSuffix(syncStatus.lastSyncEpochMs)}"
+                "État : ${syncStatus.lastError}${ageSuffix(syncStatus.lastSyncEpochMs)}"
 
             syncStatus.hasSuccessfulSync() ->
-                "Etat: synchronisation active (${syncStatus.lastSourceName})${ageSuffix(syncStatus.lastSyncEpochMs)}"
+                "État : synchronisation active (${syncStatus.lastSourceName})${ageSuffix(syncStatus.lastSyncEpochMs)}"
 
-            else -> "Etat: en attente d'une premiere synchronisation"
+            else -> "État : en attente d'une première synchronisation"
         }
     }
 
     fun lastSync(syncStatus: SyncStatusSnapshot): String {
-        if (syncStatus.lastSyncEpochMs <= 0L) return "Derniere sync: aucune pour le moment"
+        if (syncStatus.lastSyncEpochMs <= 0L) return "Dernière sync : aucune pour le moment"
         val formatted = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
             .format(Date(syncStatus.lastSyncEpochMs))
-        return "Derniere sync: $formatted${ageSuffix(syncStatus.lastSyncEpochMs)}"
+        return "Dernière sync : $formatted${ageSuffix(syncStatus.lastSyncEpochMs)}"
     }
 
     fun dexcomAccountSummary(settings: DexcomUserSettings, syncStatus: SyncStatusSnapshot): String {
         return when {
-            !settings.isConfigured() -> "Compte Dexcom non configure"
+            !settings.isConfigured() -> "Compte Dexcom non configuré"
             syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 ->
-                "Compte Dexcom configure, reconnexion requise"
+                "Compte Dexcom configuré, reconnexion requise"
 
-            syncStatus.hasSuccessfulSync() -> "Compte Dexcom connecte (${displayServer(settings.server)})"
-            else -> "Compte Dexcom configure (${displayServer(settings.server)})"
+            syncStatus.hasSuccessfulSync() -> "Compte Dexcom connecté (${displayServer(settings.server)})"
+            else -> "Compte Dexcom configuré (${displayServer(settings.server)})"
         }
     }
 
@@ -91,7 +91,7 @@ object SyncText {
         if (epochMs <= 0L) return ""
         val ageMinutes = max(0L, (System.currentTimeMillis() - epochMs) / 60_000L)
         return when (ageMinutes) {
-            0L -> " - a l'instant"
+            0L -> " - à l'instant"
             1L -> " - il y a 1 min"
             else -> " - il y a $ageMinutes min"
         }

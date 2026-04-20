@@ -60,7 +60,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
                 settingsStore.saveDexcomSettings(settings)
                 syncStatusRepository.clearSessionState()
                 renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                statusText.text = "Configuration enregistree."
+                statusText.text = "Configuration enregistrée."
                 setBusyState(false)
             }
         }
@@ -84,11 +84,11 @@ class DexcomSettingsActivity : AppCompatActivity() {
                     val reading = DexcomSharePhoneGlucoseSource(config).latest()
                     syncStatusRepository.saveSuccess("dexcom-share", reading)
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                    statusText.text = "Connexion reussie. Derniere valeur: ${reading.valueMgDl} mg/dL"
+                    statusText.text = "Connexion réussie. Dernière valeur : ${reading.valueMgDl} mg/dL"
                 } catch (t: Throwable) {
                     syncStatusRepository.saveError(SyncText.toUserMessage(t), SyncText.toCategory(t))
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                    statusText.text = "Connexion echouee: ${SyncText.toUserMessage(t)}"
+                    statusText.text = "Connexion échouée : ${SyncText.toUserMessage(t)}"
                 } finally {
                     setBusyState(false)
                 }
@@ -102,7 +102,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
             passwordInput.setText("")
             serverInput.setText("Europe", false)
             renderAccountSummary(settingsStore.loadDexcomSettings(), syncStatusRepository.load(), accountSummaryText, statusText)
-            statusText.text = "Compte Dexcom supprime de l'app."
+            statusText.text = "Compte Dexcom supprimé de l’app."
         }
     }
 
@@ -127,7 +127,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
         accountSummaryText.text = SyncText.dexcomAccountSummary(settings, syncStatus)
 
         if (statusText.text.isNullOrBlank()) {
-            statusText.text = "Aucune verification effectuee pour le moment."
+            statusText.text = "Aucune vérification effectuée pour le moment."
         }
     }
 

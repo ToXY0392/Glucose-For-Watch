@@ -119,21 +119,21 @@ class MainActivity : AppCompatActivity() {
     private suspend fun runManualSync() {
         refreshNowButton.isEnabled = false
         refreshNowButton.text = "Actualisation..."
-        syncStatusText.text = "Etat: actualisation en cours..."
+        syncStatusText.text = "État : actualisation en cours..."
 
         when (val result = PhoneGlucoseSyncEngine(this).run(triggeredFromWatch = false)) {
             is SyncExecutionResult.Success ->
                 Log.d(logTag, "Manual sync completed source=${result.sourceName}")
 
             is SyncExecutionResult.Failure -> {
-                syncStatusText.text = "Etat: ${result.message}"
+                syncStatusText.text = "État : ${result.message}"
                 Log.d(logTag, "Manual sync failed message=${result.message}")
             }
         }
 
         refreshHome()
         refreshNowButton.isEnabled = true
-        refreshNowButton.text = "Verifier la synchronisation"
+        refreshNowButton.text = "Vérifier la synchronisation"
     }
 
     private fun buildSetupOverview(
@@ -145,38 +145,38 @@ class MainActivity : AppCompatActivity() {
     ): SetupOverview {
         return when {
             !dexcomConfigured -> SetupOverview(
-                headline = "Dexcom a configurer",
-                detail = "Le telephone ne peut pas alimenter le tile ni le widget tant que le compte Dexcom Share n'est pas configure.",
-                hint = "Commencez par Configurer Dexcom, puis revenez ici pour verifier la montre.",
+                headline = "Dexcom à configurer",
+                detail = "Le téléphone ne peut pas alimenter le tile ni le widget tant que le compte Dexcom Share n'est pas configuré.",
+                hint = "Commencez par Configurer Dexcom, puis revenez ici pour vérifier la montre.",
             )
 
             !watchStatus.connected -> SetupOverview(
-                headline = "Montre a relier",
-                detail = "Le compte Dexcom est pret, mais aucune montre connectee n'a ete detectee pour recevoir les mises a jour.",
+                headline = "Montre à relier",
+                detail = "Le compte Dexcom est prêt, mais aucune montre connectée n'a été détectée pour recevoir les mises à jour.",
                 hint = "Ouvrez Configurer la montre puis ajoutez ensuite le tile ou la complication.",
             )
 
             watchHealth?.syncLimited == true -> SetupOverview(
-                headline = "Sync montre limitee",
-                detail = "La montre signale une sync probablement bloquee pendant une batterie faible. Le tile peut rester fige tant que la montre n'est pas rechargee.",
-                hint = "Rechargez la montre puis relancez Verifier la synchronisation.",
+                headline = "Sync montre limitée",
+                detail = "La montre signale une sync probablement bloquée pendant une batterie faible. Le tile peut rester figé tant que la montre n'est pas rechargée.",
+                hint = "Rechargez la montre puis relancez Vérifier la synchronisation.",
             )
 
             !hasSuccessfulSync -> SetupOverview(
-                headline = "Premiere sync en attente",
-                detail = "La configuration est presque prete. Lancez une verification pour confirmer que le telephone recupere bien une donnee Dexcom.",
-                hint = "Utilisez Verifier la synchronisation, puis installez le tile ou le widget quand tout est vert.",
+                headline = "Première sync en attente",
+                detail = "La configuration est presque prête. Lancez une vérification pour confirmer que le téléphone récupère bien une donnée Dexcom.",
+                hint = "Utilisez Vérifier la synchronisation, puis installez le tile ou le widget quand tout est vert.",
             )
 
             !batteryProtected -> SetupOverview(
-                headline = "Configuration prete",
-                detail = "Dexcom et la montre sont bien relies. Android peut encore retarder la sync en arriere-plan tant que la restriction batterie reste active.",
-                hint = "Retirez la restriction batterie pour une sync plus reguliere.",
+                headline = "Configuration prête",
+                detail = "Dexcom et la montre sont bien reliés. Android peut encore retarder la sync en arrière-plan tant que la restriction batterie reste active.",
+                hint = "Retirez la restriction batterie pour une sync plus régulière.",
             )
 
             else -> SetupOverview(
-                headline = "Tout est pret",
-                detail = "Le telephone recupere les donnees, la montre est reliee et la synchronisation est active.",
+                headline = "Tout est prêt",
+                detail = "Le téléphone récupère les données, la montre est reliée et la synchronisation est active.",
                 hint = "Vous pouvez maintenant installer ou utiliser le tile, le widget et la complication en confiance.",
             )
         }

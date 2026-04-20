@@ -42,7 +42,7 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
         } catch (t: TimeoutCancellationException) {
             handleFailure(
                 triggeredFromWatch = triggeredFromWatch,
-                error = IllegalStateException("Delai depasse pendant la synchronisation.", t),
+                error = IllegalStateException("Délai dépassé pendant la synchronisation.", t),
             )
         } catch (t: Throwable) {
             handleFailure(triggeredFromWatch, t)

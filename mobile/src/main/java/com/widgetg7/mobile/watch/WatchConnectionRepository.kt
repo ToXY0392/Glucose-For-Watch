@@ -8,7 +8,7 @@ data class WatchConnectionStatus(
     val connected: Boolean,
     val displayName: String,
 ) {
-    fun label(): String = if (connected) "Montre connectee: $displayName" else "Aucune montre detectee"
+    fun label(): String = if (connected) "Montre connectée : $displayName" else "Aucune montre détectée"
 }
 
 class WatchConnectionRepository(private val context: Context) {

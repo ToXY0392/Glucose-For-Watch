@@ -33,10 +33,10 @@
             android:textSize="16sp" />
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.WidgetG7.SectionCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            style="@style/Widget.WidgetG7.SectionCard">
+            android:layout_marginTop="22dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Compte Dexcom non configure"
+                    android:text="Compte Dexcom non configuré"
                     android:textColor="@color/wg7_text_primary"
                     android:textSize="16sp" />
 
@@ -66,17 +66,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Aucune verification effectuee pour le moment."
+                    android:text="Aucune vérification effectuée pour le moment."
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="15sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.WidgetG7.SectionCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            style="@style/Widget.WidgetG7.SectionCard">
+            android:layout_marginTop="18dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                     style="@style/Widget.WidgetG7.InputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email ou identifiant Dexcom">
+                    android:hint="E-mail ou identifiant Dexcom">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/dexcomUsernameInput"
@@ -111,15 +111,24 @@
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Région"
+                    android:textColor="@color/wg7_text_secondary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.WidgetG7.InputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:hint="Région"
-                    app:endIconMode="dropdown_menu">
+                    app:endIconMode="dropdown_menu"
+                    app:hintEnabled="false">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/dexcomServerInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

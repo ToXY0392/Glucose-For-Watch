@@ -58,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Commencez par configurer Dexcom puis verifiez la montre."
+                    android:text="Commencez par configurer Dexcom puis vérifiez la montre."
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="16sp" />
 
@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Derniere sync: aucune pour le moment"
+                    android:text="Dernière sync : aucune pour le moment"
                     android:textColor="@color/wg7_text_primary"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -77,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:text="Dexcom: a configurer"
+                    android:text="Dexcom : à configurer"
                     android:textColor="@color/wg7_text_primary"
                     android:textSize="16sp" />
 
@@ -86,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Aucune montre detectee"
+                    android:text="Aucune montre détectée"
                     android:textColor="@color/wg7_text_primary"
                     android:textSize="16sp" />
 
@@ -95,7 +95,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Etat: en attente d'une premiere synchronisation"
+                    android:text="État : en attente d'une première synchronisation"
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="15sp" />
 
@@ -104,7 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Batterie: etat inconnu"
+                    android:text="Batterie : état inconnu"
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="15sp" />
             </LinearLayout>
@@ -159,7 +159,7 @@
                 style="@style/Widget.WidgetG7.PrimaryButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Verifier la synchronisation" />
+                android:text="Vérifier la synchronisation" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/improveSyncButton"
