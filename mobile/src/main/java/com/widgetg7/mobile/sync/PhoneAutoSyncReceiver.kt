@@ -11,10 +11,11 @@ import com.widgetg7.mobile.worker.PhoneGlucoseSyncWorker
 class PhoneAutoSyncReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {
+        PhoneAutoSyncScheduler.schedule(context)
         val work = OneTimeWorkRequestBuilder<PhoneGlucoseSyncWorker>().build()
         WorkManager.getInstance(context).enqueueUniqueWork(
             "phone-glucose-sync-immediate",
-            ExistingWorkPolicy.REPLACE,
+            ExistingWorkPolicy.KEEP,
             work,
         )
     }

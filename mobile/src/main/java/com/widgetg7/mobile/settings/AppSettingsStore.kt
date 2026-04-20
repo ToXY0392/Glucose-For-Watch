@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.widgetg7.mobile.settings
 
 import android.content.Context

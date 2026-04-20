@@ -4,23 +4,34 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.SystemClock
 
 object PhoneAutoSyncScheduler {
     private const val REQUEST_CODE = 1001
     private const val INTERVAL_MS = 2 * 60 * 1000L
 
-    fun schedule(context: Context) {
+    fun schedule(context: Context, delayMs: Long = INTERVAL_MS) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val pendingIntent = pendingIntent(context)
+        val triggerAtMillis = SystemClock.elapsedRealtime() + delayMs
 
         alarmManager.cancel(pendingIntent)
-        alarmManager.setInexactRepeating(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-            SystemClock.elapsedRealtime() + INTERVAL_MS,
-            INTERVAL_MS,
-            pendingIntent,
-        )
+        when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
+                alarmManager.setAndAllowWhileIdle(
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    triggerAtMillis,
+                    pendingIntent,
+                )
+
+            else ->
+                alarmManager.set(
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    triggerAtMillis,
+                    pendingIntent,
+                )
+        }
     }
 
     private fun pendingIntent(context: Context): PendingIntent {

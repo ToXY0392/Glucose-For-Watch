@@ -1,16 +1,18 @@
-﻿plugins {
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
     namespace = "com.widgetg7.wear"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.widgetg7.mobile"
         minSdk = 30
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1.0"
     }
@@ -30,14 +32,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("com.google.android.gms:play-services-wearable:18.2.0")
+    implementation("androidx.core:core-ktx:1.18.0")
+    implementation("com.google.android.gms:play-services-wearable:19.0.0")
 
     implementation("androidx.wear:wear:1.3.0")
     implementation("androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.1")

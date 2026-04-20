@@ -15,8 +15,6 @@ import com.widgetg7.wear.data.GlucoseCache
 class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
     private val logTag = "WidgetG7Wear"
 
-    // Keep glucose in the primary text slot so it remains the most prominent
-    // element regardless of how third-party watch faces size title vs text.
     private fun primaryGlucoseText(valueMgDl: Int): String = valueMgDl.toString()
 
     private fun secondaryMetadata(metadata: String): String = metadata
@@ -24,10 +22,10 @@ class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
     override fun getPreviewData(type: ComplicationType): ComplicationData? {
         return when (type) {
             ComplicationType.SHORT_TEXT ->
-                buildShortTextData(primaryGlucoseText(128), secondaryMetadata("mg/dL ↗"))
+                buildShortTextData(primaryGlucoseText(128), secondaryMetadata("mg/dL up-right"))
 
             ComplicationType.LONG_TEXT ->
-                buildLongTextData(primaryGlucoseText(128), secondaryMetadata("mg/dL ↗"))
+                buildLongTextData(primaryGlucoseText(128), secondaryMetadata("mg/dL up-right"))
 
             else -> null
         }

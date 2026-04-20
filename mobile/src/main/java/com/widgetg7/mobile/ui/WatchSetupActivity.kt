@@ -7,15 +7,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.watch.WatchConnectionRepository
+import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import kotlinx.coroutines.launch
 
 class WatchSetupActivity : AppCompatActivity() {
+    private lateinit var refreshWatchStatusButton: Button
+    private lateinit var watchStatusText: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_watch_setup)
 
-        findViewById<Button>(R.id.refreshWatchStatusButton).setOnClickListener {
+        refreshWatchStatusButton = findViewById(R.id.refreshWatchStatusButton)
+        watchStatusText = findViewById(R.id.watchSetupStatusText)
+
+        refreshWatchStatusButton.setOnClickListener {
             refreshWatchStatus()
         }
 
@@ -28,11 +34,20 @@ class WatchSetupActivity : AppCompatActivity() {
     }
 
     private fun refreshWatchStatus() {
-        val watchStatusText = findViewById<TextView>(R.id.watchSetupStatusText)
-
+        refreshWatchStatusButton.isEnabled = false
+        refreshWatchStatusButton.text = "Verification..."
+        watchStatusText.text = "Verification de la montre..."
         lifecycleScope.launch {
             val status = WatchConnectionRepository(this@WatchSetupActivity).loadStatus()
-            watchStatusText.text = status.label()
+            val watchHealth = WatchSyncHealthRepository(this@WatchSetupActivity).load()
+            val summary = watchHealth?.summary()
+            watchStatusText.text = if (summary.isNullOrBlank()) {
+                status.label()
+            } else {
+                "${status.label()}\n$summary"
+            }
+            refreshWatchStatusButton.isEnabled = true
+            refreshWatchStatusButton.text = "Verifier la connexion montre"
         }
     }
 }

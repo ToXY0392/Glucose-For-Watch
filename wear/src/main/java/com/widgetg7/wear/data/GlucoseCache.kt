@@ -1,4 +1,4 @@
-﻿package com.widgetg7.wear.data
+package com.widgetg7.wear.data
 
 import android.content.Context
 
@@ -17,11 +17,11 @@ data class GlucoseSnapshot(
     val stale: Boolean,
 ) {
     fun trendArrow(): String = when (trend) {
-        "UP" -> "↑"
-        "UP_RIGHT" -> "↗"
-        "FLAT" -> "→"
-        "DOWN_RIGHT" -> "↘"
-        "DOWN" -> "↓"
+        "UP" -> "\u2191"
+        "UP_RIGHT" -> "\u2197"
+        "FLAT" -> "\u2192"
+        "DOWN_RIGHT" -> "\u2198"
+        "DOWN" -> "\u2193"
         else -> "?"
     }
 
@@ -58,6 +58,9 @@ data class GlucoseSnapshot(
 
 object GlucoseKeys {
     const val PATH_LATEST = "/glucose/latest"
+    const val PATH_REFRESH_REQUEST = "/glucose/refresh/request"
+    const val PATH_REFRESH_STATUS = "/glucose/refresh/status"
+    const val PATH_WATCH_STATUS = "/watch/status"
 
     const val VALUE_MG_DL = "valueMgDl"
     const val TREND = "trend"
@@ -65,6 +68,69 @@ object GlucoseKeys {
     const val TIMESTAMP_EPOCH_MS = "timestampEpochMs"
     const val STALE = "stale"
     const val HISTORY = "history"
+    const val REFRESH_STATUS = "refreshStatus"
+    const val REFRESH_MESSAGE = "refreshMessage"
+    const val REFRESH_UPDATED_AT = "refreshUpdatedAt"
+    const val REFRESH_IN_PROGRESS = "in_progress"
+    const val REFRESH_FAILED = "failed"
+    const val WATCH_BATTERY_LEVEL = "watchBatteryLevel"
+    const val WATCH_LOW_POWER = "watchLowPower"
+    const val WATCH_SYNC_LIMITED = "watchSyncLimited"
+    const val WATCH_STATUS_MESSAGE = "watchStatusMessage"
+    const val WATCH_STATUS_UPDATED_AT = "watchStatusUpdatedAt"
+}
+
+data class RefreshStatusSnapshot(
+    val status: String,
+    val message: String,
+    val updatedAtEpochMs: Long,
+) {
+    fun shouldDisplay(nowEpochMs: Long): Boolean {
+        val ageMs = nowEpochMs - updatedAtEpochMs
+        return when (status) {
+            GlucoseKeys.REFRESH_IN_PROGRESS -> ageMs <= TIMEOUT_VISIBLE_MS
+            GlucoseKeys.REFRESH_FAILED -> ageMs <= FAILURE_VISIBLE_MS
+            else -> false
+        }
+    }
+
+    fun displayText(nowEpochMs: Long): String {
+        val ageMs = nowEpochMs - updatedAtEpochMs
+        if (status == GlucoseKeys.REFRESH_IN_PROGRESS && ageMs > PENDING_VISIBLE_MS) {
+            return "Delai depasse"
+        }
+        return message.ifBlank {
+            when (status) {
+                GlucoseKeys.REFRESH_IN_PROGRESS -> "Actualisation..."
+                GlucoseKeys.REFRESH_FAILED -> "Echec de synchro"
+                else -> ""
+            }
+        }
+    }
+
+    companion object {
+        private const val PENDING_VISIBLE_MS = 10_000L
+        private const val TIMEOUT_VISIBLE_MS = 45_000L
+        private const val FAILURE_VISIBLE_MS = 90_000L
+    }
+}
+
+data class WatchSyncHealthSnapshot(
+    val batteryLevel: Int,
+    val lowPowerMode: Boolean,
+    val syncLimited: Boolean,
+    val message: String,
+    val updatedAtEpochMs: Long,
+) {
+    fun shouldDisplay(nowEpochMs: Long): Boolean {
+        if (updatedAtEpochMs <= 0L) return false
+        if (nowEpochMs - updatedAtEpochMs > HEALTH_VISIBLE_MS) return false
+        return syncLimited || batteryLevel in 0..20
+    }
+
+    companion object {
+        private const val HEALTH_VISIBLE_MS = 6 * 60 * 60 * 1000L
+    }
 }
 
 class GlucoseCache(context: Context) {
@@ -94,6 +160,72 @@ class GlucoseCache(context: Context) {
         )
     }
 
+    fun loadRefreshStatus(nowEpochMs: Long = System.currentTimeMillis()): RefreshStatusSnapshot? {
+        if (!prefs.contains(KEY_REFRESH_UPDATED_AT)) return null
+
+        val snapshot = RefreshStatusSnapshot(
+            status = prefs.getString(KEY_REFRESH_STATUS, "").orEmpty(),
+            message = prefs.getString(KEY_REFRESH_MESSAGE, "").orEmpty(),
+            updatedAtEpochMs = prefs.getLong(KEY_REFRESH_UPDATED_AT, 0L),
+        )
+        return snapshot.takeIf { it.shouldDisplay(nowEpochMs) }
+    }
+
+    fun loadRefreshStatusRaw(): RefreshStatusSnapshot? {
+        if (!prefs.contains(KEY_REFRESH_UPDATED_AT)) return null
+        return RefreshStatusSnapshot(
+            status = prefs.getString(KEY_REFRESH_STATUS, "").orEmpty(),
+            message = prefs.getString(KEY_REFRESH_MESSAGE, "").orEmpty(),
+            updatedAtEpochMs = prefs.getLong(KEY_REFRESH_UPDATED_AT, 0L),
+        )
+    }
+
+    fun markRefreshPending(message: String = "Actualisation...") {
+        prefs.edit()
+            .putString(KEY_REFRESH_STATUS, GlucoseKeys.REFRESH_IN_PROGRESS)
+            .putString(KEY_REFRESH_MESSAGE, message)
+            .putLong(KEY_REFRESH_UPDATED_AT, System.currentTimeMillis())
+            .apply()
+    }
+
+    fun markRefreshFailed(message: String) {
+        prefs.edit()
+            .putString(KEY_REFRESH_STATUS, GlucoseKeys.REFRESH_FAILED)
+            .putString(KEY_REFRESH_MESSAGE, message)
+            .putLong(KEY_REFRESH_UPDATED_AT, System.currentTimeMillis())
+            .apply()
+    }
+
+    fun clearRefreshStatus() {
+        prefs.edit()
+            .remove(KEY_REFRESH_STATUS)
+            .remove(KEY_REFRESH_MESSAGE)
+            .remove(KEY_REFRESH_UPDATED_AT)
+            .apply()
+    }
+
+    fun saveWatchSyncHealth(snapshot: WatchSyncHealthSnapshot) {
+        prefs.edit()
+            .putInt(KEY_WATCH_BATTERY_LEVEL, snapshot.batteryLevel)
+            .putBoolean(KEY_WATCH_LOW_POWER, snapshot.lowPowerMode)
+            .putBoolean(KEY_WATCH_SYNC_LIMITED, snapshot.syncLimited)
+            .putString(KEY_WATCH_STATUS_MESSAGE, snapshot.message)
+            .putLong(KEY_WATCH_STATUS_UPDATED_AT, snapshot.updatedAtEpochMs)
+            .apply()
+    }
+
+    fun loadWatchSyncHealth(nowEpochMs: Long = System.currentTimeMillis()): WatchSyncHealthSnapshot? {
+        if (!prefs.contains(KEY_WATCH_STATUS_UPDATED_AT)) return null
+        val snapshot = WatchSyncHealthSnapshot(
+            batteryLevel = prefs.getInt(KEY_WATCH_BATTERY_LEVEL, -1),
+            lowPowerMode = prefs.getBoolean(KEY_WATCH_LOW_POWER, false),
+            syncLimited = prefs.getBoolean(KEY_WATCH_SYNC_LIMITED, false),
+            message = prefs.getString(KEY_WATCH_STATUS_MESSAGE, "").orEmpty(),
+            updatedAtEpochMs = prefs.getLong(KEY_WATCH_STATUS_UPDATED_AT, 0L),
+        )
+        return snapshot.takeIf { it.shouldDisplay(nowEpochMs) }
+    }
+
     fun loadHistory(): List<Int> {
         val raw = prefs.getString(GlucoseKeys.HISTORY, "").orEmpty()
         if (raw.isBlank()) return emptyList()
@@ -113,5 +245,13 @@ class GlucoseCache(context: Context) {
 
     companion object {
         private const val HISTORY_LIMIT = 12
+        private const val KEY_REFRESH_STATUS = "refresh_status"
+        private const val KEY_REFRESH_MESSAGE = "refresh_message"
+        private const val KEY_REFRESH_UPDATED_AT = "refresh_updated_at"
+        private const val KEY_WATCH_BATTERY_LEVEL = "watch_battery_level"
+        private const val KEY_WATCH_LOW_POWER = "watch_low_power"
+        private const val KEY_WATCH_SYNC_LIMITED = "watch_sync_limited"
+        private const val KEY_WATCH_STATUS_MESSAGE = "watch_status_message"
+        private const val KEY_WATCH_STATUS_UPDATED_AT = "watch_status_updated_at"
     }
 }

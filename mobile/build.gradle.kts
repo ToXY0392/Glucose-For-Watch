@@ -1,24 +1,27 @@
-﻿plugins {
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 }
 
 android {
     namespace = "com.widgetg7.mobile"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         val relayBaseUrl =
             ((project.findProperty("relayBaseUrl") as? String) ?: "https://example.com").replace("\"", "\\\"")
         val relayBearerToken =
             ((project.findProperty("relayBearerToken") as? String) ?: "").replace("\"", "\\\"")
+        //noinspection SpellCheckingInspection
         val dexcomShareApplicationId =
             ((project.findProperty("dexcomShareApplicationId") as? String)
                 ?: "d89443d2-327c-4a6f-89e5-496bbb0317db").replace("\"", "\\\"")
 
         applicationId = "com.widgetg7.mobile"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "0.1.0"
 
@@ -46,18 +49,21 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.13.1")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
-    implementation("androidx.security:security-crypto:1.1.0-alpha06")
-    implementation("com.google.android.gms:play-services-wearable:18.2.0")
-    implementation("androidx.work:work-runtime-ktx:2.9.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.8.1")
+    implementation("androidx.core:core-ktx:1.18.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("com.google.android.material:material:1.13.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
+    implementation("androidx.security:security-crypto:1.1.0")
+    implementation("com.google.android.gms:play-services-wearable:19.0.0")
+    implementation("androidx.work:work-runtime-ktx:2.11.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 }

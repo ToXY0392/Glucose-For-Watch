@@ -9,6 +9,14 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
 
+        <activity
+            android:name=".tile.GlucoseRefreshActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:taskAffinity=""
+            android:theme="@style/Theme.WidgetG7.RefreshProxy" />
+
         <service
             android:name=".services.WearDataLayerListenerService"
             android:exported="true">
