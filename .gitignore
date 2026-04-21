@@ -23,6 +23,7 @@ Thumbs.db
 .gradle-user/
 .gradle-user-fresh/
 .gradle-user-home/
+.gradle-user-home-*/
 .gradle-user-home-deploy/
 .gradle-user-home-fresh/
 .gradle-user-home-mobile-french-fix/
