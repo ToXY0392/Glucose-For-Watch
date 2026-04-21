@@ -1,0 +1,20 @@
+1. Connecter Dexcom
+
+- Appuyer sur Dexcom.
+- Appuyer sur Se connecter.
+- Saisir vos identifiants.
+- Appuyer sur Enregistrer.
+
+2. Vérifier la montre
+
+- Revenir à l'accueil.
+- Vérifier que la montre est connectée.
+
+3. Sur la montre
+
+- Ajouter le Glucose Tile.
+- Ou ajouter la complication Glucose.
+
+Si besoin
+
+- Utiliser le bouton de rafraîchissement.

@@ -23,6 +23,7 @@ import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
 import com.widgetg7.mobile.sync.SyncExecutionResult
 import com.widgetg7.mobile.ui.DexcomSettingsActivity
+import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchConnectionStatus
@@ -46,6 +47,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var permissionsCardContent: LinearLayout
     private lateinit var notificationsStepsText: TextView
     private lateinit var batteryStepsText: TextView
+    private lateinit var openNoticeButton: TextView
     private lateinit var openNotificationsSettingsButton: Button
     private lateinit var openAppSettingsButton: Button
 
@@ -76,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         permissionsCardContent = findViewById(R.id.permissionsCardContent)
         notificationsStepsText = findViewById(R.id.notificationsStepsText)
         batteryStepsText = findViewById(R.id.batteryStepsText)
+        openNoticeButton = findViewById(R.id.openNoticeButton)
         openNotificationsSettingsButton = findViewById(R.id.openNotificationsSettingsButton)
         openAppSettingsButton = findViewById(R.id.openAppSettingsButton)
 
@@ -104,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         }
         openNotificationsSettingsButton.setOnClickListener { openAppNotificationSettings() }
         openAppSettingsButton.setOnClickListener { openAppDetailsSettings() }
+        openNoticeButton.setOnClickListener { startActivity(Intent(this, NoticeActivity::class.java)) }
 
         refreshHome()
     }

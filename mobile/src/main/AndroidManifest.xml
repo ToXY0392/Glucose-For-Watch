@@ -29,6 +29,10 @@
             android:name=".ui.WatchSetupActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.NoticeActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".sync.PhoneAutoSyncReceiver"
             android:enabled="true"
