@@ -15,6 +15,7 @@ object GlucoseKeys {
     const val REFRESH_MESSAGE = "refreshMessage"
     const val REFRESH_UPDATED_AT = "refreshUpdatedAt"
     const val REFRESH_IN_PROGRESS = "in_progress"
+    const val REFRESH_COMPLETED = "completed"
     const val REFRESH_FAILED = "failed"
     const val WATCH_BATTERY_LEVEL = "watchBatteryLevel"
     const val WATCH_LOW_POWER = "watchLowPower"

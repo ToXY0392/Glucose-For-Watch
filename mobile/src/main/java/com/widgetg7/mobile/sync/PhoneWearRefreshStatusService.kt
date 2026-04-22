@@ -23,6 +23,13 @@ class PhoneWearRefreshStatusService(private val context: Context) {
         )
     }
 
+    suspend fun pushCompleted(message: String = "") {
+        pushStatus(
+            status = GlucoseKeys.REFRESH_COMPLETED,
+            message = message,
+        )
+    }
+
     private suspend fun pushStatus(status: String, message: String) {
         val request = PutDataMapRequest.create(GlucoseKeys.PATH_REFRESH_STATUS).apply {
             dataMap.putString(GlucoseKeys.REFRESH_STATUS, status)

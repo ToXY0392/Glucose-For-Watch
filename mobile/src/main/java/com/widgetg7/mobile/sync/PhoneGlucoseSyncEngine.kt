@@ -18,6 +18,8 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
         return try {
             Log.d(logTag, "Sync engine started triggeredFromWatch=$triggeredFromWatch")
             val source = PhoneGlucoseSourceFactory.create(context)
+            val syncStatusRepository = SyncStatusRepository(context)
+            val previousSync = syncStatusRepository.load()
             var readingFetchMs = 0L
             val reading = withTimeout(FETCH_TIMEOUT_MS) {
                 lateinit var latestReading: GlucoseReading
@@ -30,19 +32,32 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
                 logTag,
                 "Sync engine fetched value=${reading.valueMgDl} trend=${reading.trend} delta=${reading.deltaMgDl} stale=${reading.stale} fetchMs=$readingFetchMs",
             )
-            val wearPushMs = measureTimeMillis {
-                withTimeout(WEAR_PUSH_TIMEOUT_MS) {
-                    PhoneWearSyncService(context).pushLatest(reading)
+
+            val hasNewReading = previousSync.lastReadingTimestampEpochMs != reading.timestampEpochMs
+            if (hasNewReading) {
+                val wearPushMs = measureTimeMillis {
+                    withTimeout(WEAR_PUSH_TIMEOUT_MS) {
+                        PhoneWearSyncService(context).pushLatest(reading)
+                    }
+                }
+                Log.d(logTag, "Sync engine push completed wearPushMs=$wearPushMs source=${source.sourceName}")
+            } else {
+                Log.d(
+                    logTag,
+                    "Sync engine skipped wear push because reading timestamp is unchanged timestamp=${reading.timestampEpochMs}",
+                )
+                if (triggeredFromWatch) {
+                    PhoneWearRefreshStatusService(context).pushCompleted("Aucune nouvelle mesure")
                 }
             }
-            SyncStatusRepository(context).saveSuccess(source.sourceName, reading)
+
+            syncStatusRepository.saveSuccess(source.sourceName, reading)
             NotificationHelper(context).cancelSyncAlerts()
-            Log.d(logTag, "Sync engine push completed wearPushMs=$wearPushMs source=${source.sourceName}")
             SyncExecutionResult.Success(source.sourceName)
         } catch (t: TimeoutCancellationException) {
             handleFailure(
                 triggeredFromWatch = triggeredFromWatch,
-                error = IllegalStateException("Délai dépassé pendant la synchronisation.", t),
+                error = IllegalStateException("Delai depasse pendant la synchronisation.", t),
             )
         } catch (t: Throwable) {
             handleFailure(triggeredFromWatch, t)

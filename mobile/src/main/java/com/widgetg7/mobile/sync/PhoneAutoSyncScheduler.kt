@@ -9,7 +9,7 @@ import android.os.SystemClock
 
 object PhoneAutoSyncScheduler {
     private const val REQUEST_CODE = 1001
-    private const val INTERVAL_MS = 2 * 60 * 1000L
+    private const val INTERVAL_MS = 5 * 60 * 1000L
 
     fun schedule(context: Context, delayMs: Long = INTERVAL_MS) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

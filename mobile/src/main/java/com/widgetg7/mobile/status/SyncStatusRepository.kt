@@ -15,6 +15,7 @@ data class SyncStatusSnapshot(
     val lastTrend: String,
     val lastSourceName: String,
     val lastSyncEpochMs: Long,
+    val lastReadingTimestampEpochMs: Long,
     val lastError: String,
     val lastErrorCategory: SyncErrorCategory,
     val authFailureCount: Int,
@@ -33,6 +34,7 @@ class SyncStatusRepository(context: Context) {
             lastTrend = prefs.getString(KEY_LAST_TREND, "").orEmpty(),
             lastSourceName = prefs.getString(KEY_LAST_SOURCE, "").orEmpty(),
             lastSyncEpochMs = prefs.getLong(KEY_LAST_SYNC_AT, 0L),
+            lastReadingTimestampEpochMs = prefs.getLong(KEY_LAST_READING_TIMESTAMP, 0L),
             lastError = prefs.getString(KEY_LAST_ERROR, "").orEmpty(),
             lastErrorCategory = prefs.getString(KEY_LAST_ERROR_CATEGORY, SyncErrorCategory.NONE.name)
                 ?.let { runCatching { SyncErrorCategory.valueOf(it) }.getOrDefault(SyncErrorCategory.NONE) }
@@ -48,6 +50,7 @@ class SyncStatusRepository(context: Context) {
             .putString(KEY_LAST_TREND, reading.trend)
             .putString(KEY_LAST_SOURCE, sourceName)
             .putLong(KEY_LAST_SYNC_AT, System.currentTimeMillis())
+            .putLong(KEY_LAST_READING_TIMESTAMP, reading.timestampEpochMs)
             .putString(KEY_LAST_ERROR, "")
             .putString(KEY_LAST_ERROR_CATEGORY, SyncErrorCategory.NONE.name)
             .putInt(KEY_AUTH_FAILURE_COUNT, 0)
@@ -74,6 +77,11 @@ class SyncStatusRepository(context: Context) {
 
     fun clearSessionState() {
         prefs.edit()
+            .remove(KEY_LAST_VALUE)
+            .remove(KEY_LAST_TREND)
+            .remove(KEY_LAST_SOURCE)
+            .remove(KEY_LAST_SYNC_AT)
+            .remove(KEY_LAST_READING_TIMESTAMP)
             .remove(KEY_LAST_ERROR)
             .remove(KEY_LAST_ERROR_CATEGORY)
             .remove(KEY_AUTH_FAILURE_COUNT)
@@ -87,6 +95,7 @@ class SyncStatusRepository(context: Context) {
         private const val KEY_LAST_TREND = "last_trend"
         private const val KEY_LAST_SOURCE = "last_source"
         private const val KEY_LAST_SYNC_AT = "last_sync_at"
+        private const val KEY_LAST_READING_TIMESTAMP = "last_reading_timestamp"
         private const val KEY_LAST_ERROR = "last_error"
         private const val KEY_LAST_ERROR_CATEGORY = "last_error_category"
         private const val KEY_AUTH_FAILURE_COUNT = "auth_failure_count"
