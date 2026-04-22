@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.settings.AppSettingsStore
+import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.status.SyncErrorCategory
 import com.widgetg7.mobile.status.SyncStatusRepository
 import com.widgetg7.mobile.status.SyncStatusSnapshot
@@ -154,6 +155,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         AppSettingsStore(this).clearDexcomSettings()
+        LaunchStateStore(this).resetDexcomEntry()
         SyncStatusRepository(this).clearSessionState()
         dexcomConnected = false
         refreshHome()

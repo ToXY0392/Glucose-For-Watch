@@ -1,5 +1,6 @@
 package com.widgetg7.mobile.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -11,11 +12,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.BuildConfig
+import com.widgetg7.mobile.MainActivity
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.dexcom.DexcomShareConfig
 import com.widgetg7.mobile.dexcom.DexcomSharePhoneGlucoseSource
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.settings.DexcomUserSettings
+import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.status.SyncStatusRepository
 import com.widgetg7.mobile.sync.SyncText
 import kotlinx.coroutines.launch
@@ -24,12 +27,15 @@ class DexcomSettingsActivity : AppCompatActivity() {
     private lateinit var saveDexcomButton: Button
     private lateinit var disconnectDexcomButton: Button
     private lateinit var backIconButton: ImageView
+    private var firstConnectionFlow = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dexcom_settings)
+        firstConnectionFlow = intent.getBooleanExtra(EXTRA_FIRST_CONNECTION_FLOW, false)
 
         val settingsStore = AppSettingsStore(this)
+        val launchStateStore = LaunchStateStore(this)
         val syncStatusRepository = SyncStatusRepository(this)
         val currentSettings = settingsStore.loadDexcomSettings()
 
@@ -73,10 +79,19 @@ class DexcomSettingsActivity : AppCompatActivity() {
                     )
                     val reading = DexcomSharePhoneGlucoseSource(config).latest()
                     settingsStore.saveDexcomSettings(settings)
+                    launchStateStore.markDexcomEntryCompleted()
                     syncStatusRepository.saveSuccess("dexcom-share", reading)
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
                     statusText.text = "Connexion réussie."
                     Snackbar.make(findViewById(android.R.id.content), "Connexion réussie", 1000).show()
+                    if (firstConnectionFlow) {
+                        startActivity(
+                            Intent(this@DexcomSettingsActivity, MainActivity::class.java).apply {
+                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            }
+                        )
+                        finish()
+                    }
                 } catch (t: Throwable) {
                     syncStatusRepository.saveError(SyncText.toUserMessage(t), SyncText.toCategory(t))
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
@@ -89,6 +104,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
 
         disconnectDexcomButton.setOnClickListener {
             settingsStore.clearDexcomSettings()
+            launchStateStore.resetDexcomEntry()
             syncStatusRepository.clearSessionState()
             usernameInput.setText("")
             passwordInput.setText("")
@@ -130,4 +146,8 @@ class DexcomSettingsActivity : AppCompatActivity() {
     }
 
     private fun toServerCode(label: String): String = if (label.equals("US", true)) "US" else "OUS"
+
+    companion object {
+        const val EXTRA_FIRST_CONNECTION_FLOW = "extra_first_connection_flow"
+    }
 }

@@ -30,6 +30,11 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.DexcomEntryActivity"
+            android:theme="@style/Theme.WidgetG7.Phone.NoAnimation"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.DexcomSettingsActivity"
             android:exported="false" />
 
