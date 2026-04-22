@@ -18,9 +18,9 @@ data class WatchConnectionStatus(
     val preferredNodeMissing: Boolean,
 ) {
     fun label(): String = when {
-        !connected -> "Aucune montre detectee"
-        connectedWatches.size > 1 -> "Montre principale connectee : $displayName"
-        else -> "Montre connectee : $displayName"
+        !connected -> "Aucune montre détectée"
+        connectedWatches.size > 1 -> "Montre principale connectée : $displayName"
+        else -> "Montre connectée : $displayName"
     }
 }
 

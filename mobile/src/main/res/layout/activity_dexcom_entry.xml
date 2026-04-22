@@ -65,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="J'accepte les CGU et la Politique de confidentialite."
+                    android:text="J'accepte les CGU et la Politique de confidentialité."
                     android:textColor="@color/wg7_text_primary"
                     android:textSize="15sp" />
 
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Je reconnais l'avertissement medical et je comprends que l'application ne remplace ni un dispositif medical ni un avis medical."
+                    android:text="Je reconnais l'avertissement médical et je comprends que l'application ne remplace ni un dispositif médical ni un avis médical."
                     android:textColor="@color/wg7_text_primary"
                     android:textSize="15sp" />
 
@@ -84,7 +84,7 @@
                     android:layout_marginTop="14dp"
                     android:gravity="center"
                     android:lineSpacingExtra="4dp"
-                    android:text="Vos identifiants Dexcom peuvent etre stockes localement sur cet appareil afin de permettre le fonctionnement de l'application."
+                    android:text="Vos identifiants Dexcom peuvent être stockés localement sur cet appareil afin de permettre le fonctionnement de l'application."
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="13sp" />
 

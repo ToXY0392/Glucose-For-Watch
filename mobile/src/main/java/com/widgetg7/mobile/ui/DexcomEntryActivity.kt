@@ -54,7 +54,7 @@ class DexcomEntryActivity : AppCompatActivity() {
     }
 
     private fun bindLegalLinks(textView: TextView) {
-        val text = "Lire les CGU, la Politique de confidentialite et l'Avertissement medical."
+        val text = "Lire les CGU, la Politique de confidentialité et l'Avertissement médical."
         val spannable = SpannableString(text)
 
         addLink(
@@ -66,13 +66,13 @@ class DexcomEntryActivity : AppCompatActivity() {
         addLink(
             spannable = spannable,
             fullText = text,
-            linkText = "Politique de confidentialite",
+            linkText = "Politique de confidentialité",
             documentType = LegalDocumentActivity.DOCUMENT_TYPE_PRIVACY,
         )
         addLink(
             spannable = spannable,
             fullText = text,
-            linkText = "Avertissement medical",
+            linkText = "Avertissement médical",
             documentType = LegalDocumentActivity.DOCUMENT_TYPE_MEDICAL,
         )
 

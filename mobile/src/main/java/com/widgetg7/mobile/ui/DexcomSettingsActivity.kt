@@ -36,7 +36,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, DexcomEntryActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                }
+                },
             )
             finish()
             return
@@ -98,7 +98,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
                         startActivity(
                             Intent(this@DexcomSettingsActivity, MainActivity::class.java).apply {
                                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            }
+                            },
                         )
                         finish()
                     }

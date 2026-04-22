@@ -147,12 +147,12 @@ class MainActivity : AppCompatActivity() {
         dexcomConnected = dexcomSettings.isConfigured()
         dexcomCardSummaryText.text = dexcomSummary(dexcomSettings, syncStatus)
         applyDexcomStatusStyle(dexcomConnected)
-        configureDexcomButton.text = if (dexcomConnected) "Deconnexion" else "Se connecter"
+        configureDexcomButton.text = if (dexcomConnected) "Déconnexion" else "Se connecter"
 
         notificationsStepsText.text =
-            "Parametres > Applications > Widget G7 Phone > Notifications > Autoriser."
+            "Paramètres > Applications > Widget G7 Phone > Notifications > Autoriser."
         batteryStepsText.text =
-            "Parametres > Applications > Widget G7 Phone > Batterie > Autoriser l'utilisation en arriere-plan."
+            "Paramètres > Applications > Widget G7 Phone > Batterie > Autoriser l'utilisation en arrière-plan."
 
         if (!dexcomSectionTouched) {
             dexcomExpanded = shouldOpenDexcomSection(dexcomSettings.isConfigured(), syncStatus.lastErrorCategory)
@@ -279,12 +279,9 @@ class MainActivity : AppCompatActivity() {
         syncStatus: SyncStatusSnapshot,
     ): String {
         return when {
-            !settings.isConfigured() -> "Non connecte"
+            !settings.isConfigured() -> "Non connecté"
             syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 -> "Reconnecter"
-            else -> {
-                val ageLabel = readingAgeLabel(syncStatus.lastReadingTimestampEpochMs)
-                if (ageLabel == null) "Connecte" else "Connecte - $ageLabel"
-            }
+            else -> "Connecté"
         }
     }
 
@@ -293,9 +290,9 @@ class MainActivity : AppCompatActivity() {
         watchHealth: WatchSyncHealthStatus?,
     ): String =
         when {
-            !watchStatus.connected -> "Non connectee"
-            watchHealth?.syncLimited == true -> "Sync limitee"
-            else -> "Connectee"
+            !watchStatus.connected -> "Non connectée"
+            watchHealth?.syncLimited == true -> "Sync limitée"
+            else -> "Connectée"
         }
 
     private fun watchModelLabel(watchStatus: WatchConnectionStatus): String =
@@ -332,16 +329,6 @@ class MainActivity : AppCompatActivity() {
         lastErrorCategory: SyncErrorCategory?,
     ): Boolean {
         return !dexcomConfigured || lastErrorCategory == SyncErrorCategory.AUTH
-    }
-
-    private fun readingAgeLabel(timestampEpochMs: Long): String? {
-        if (timestampEpochMs <= 0L) return null
-        val ageMinutes = ((System.currentTimeMillis() - timestampEpochMs).coerceAtLeast(0L) / 60_000L)
-        return when {
-            ageMinutes <= 0L -> "maint."
-            ageMinutes == 1L -> "1 min"
-            else -> "$ageMinutes min"
-        }
     }
 
     private fun renderCardStates() {

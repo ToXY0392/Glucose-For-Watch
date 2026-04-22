@@ -66,7 +66,7 @@ class WatchSetupActivity : AppCompatActivity() {
     private fun refreshWatchStatus() {
         refreshWatchStatusButton.isEnabled = false
         refreshWatchStatusButton.text = "Test en cours..."
-        watchStatusText.text = "Verification de la liaison montre..."
+        watchStatusText.text = "Vérification de la liaison montre..."
 
         lifecycleScope.launch {
             refreshWatchChoices()
@@ -112,13 +112,13 @@ class WatchSetupActivity : AppCompatActivity() {
 
         if (!status.connected) {
             return listOfNotNull(
-                "Aucune montre detectee.",
+                "Aucune montre détectée.",
                 healthSummary,
             ).joinToString("\n")
         }
 
         val preferredNote = if (status.connectedWatches.size > 1) {
-            "Montre selectionnee : ${status.displayName}."
+            "Montre sélectionnée : ${status.displayName}."
         } else {
             null
         }
@@ -127,7 +127,7 @@ class WatchSetupActivity : AppCompatActivity() {
             return listOfNotNull(
                 status.label(),
                 preferredNote,
-                "La liaison telephone - montre est OK.",
+                "La liaison téléphone - montre est OK.",
                 "Le test complet demande une connexion Dexcom active.",
                 healthSummary,
             ).joinToString("\n")
@@ -144,23 +144,23 @@ class WatchSetupActivity : AppCompatActivity() {
             listOfNotNull(
                 status.label(),
                 preferredNote,
-                "Test complet reussi : la derniere glycemie a ete envoyee a la montre.",
-                "Valeur testee : ${reading.valueMgDl} mg/dL ${reading.trend}.",
+                "Test complet réussi : la dernière glycémie a été envoyée à la montre.",
+                "Valeur testée : ${reading.valueMgDl} mg/dL ${reading.trend}.",
                 healthSummary,
             ).joinToString("\n")
         } catch (_: TimeoutCancellationException) {
             listOfNotNull(
                 status.label(),
                 preferredNote,
-                "La liaison est detectee, mais le test complet a expire.",
-                "Verifiez Dexcom, le Bluetooth et la montre, puis recommencez.",
+                "La liaison est détectée, mais le test complet a expiré.",
+                "Vérifiez Dexcom, le Bluetooth et la montre, puis recommencez.",
                 healthSummary,
             ).joinToString("\n")
         } catch (error: Throwable) {
             listOfNotNull(
                 status.label(),
                 preferredNote,
-                "La liaison est detectee, mais l'envoi de la glycemie a echoue.",
+                "La liaison est détectée, mais l'envoi de la glycémie a échoué.",
                 error.message?.takeIf { it.isNotBlank() },
                 healthSummary,
             ).joinToString("\n")
