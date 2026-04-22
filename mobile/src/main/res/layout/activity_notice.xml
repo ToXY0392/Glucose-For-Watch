@@ -17,23 +17,9 @@
         android:paddingEnd="20dp"
         android:paddingBottom="28dp">
 
-        <ImageView
-            android:id="@+id/backButton"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/bg_round_icon_button"
-            android:clickable="true"
-            android:contentDescription="Retour"
-            android:focusable="true"
-            android:padding="16dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_back_arrow" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
             android:gravity="center"
             android:text="Notice utilisateur"
             android:textColor="@color/wg7_text_primary"
@@ -57,6 +43,20 @@
                 android:textIsSelectable="true"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="28dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_round_icon_button"
+            android:clickable="true"
+            android:contentDescription="Retour"
+            android:focusable="true"
+            android:padding="16dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_back_arrow" />
 
     </LinearLayout>
 </ScrollView>

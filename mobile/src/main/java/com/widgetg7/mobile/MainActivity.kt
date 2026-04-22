@@ -7,11 +7,11 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.view.View as AndroidView
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.view.View as AndroidView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope

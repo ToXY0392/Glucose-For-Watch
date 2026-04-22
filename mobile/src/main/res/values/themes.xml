@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="AnimationWidgetG7NoAnimation">
+        <item name="android:activityOpenEnterAnimation">@anim/none</item>
+        <item name="android:activityOpenExitAnimation">@anim/none</item>
+        <item name="android:activityCloseEnterAnimation">@anim/none</item>
+        <item name="android:activityCloseExitAnimation">@anim/none</item>
+    </style>
+
     <style name="Theme.WidgetG7.Phone" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/wg7_accent</item>
         <item name="colorOnPrimary">@color/wg7_on_accent</item>
@@ -13,5 +20,14 @@
         <item name="textInputStyle">@style/Widget.WidgetG7.InputLayout</item>
         <item name="android:textColorPrimary">@color/wg7_text_primary</item>
         <item name="android:textColorSecondary">@color/wg7_text_secondary</item>
+    </style>
+
+    <style name="Theme.WidgetG7.Phone.NoAnimation" parent="Theme.WidgetG7.Phone">
+        <item name="android:windowAnimationStyle">@style/AnimationWidgetG7NoAnimation</item>
+    </style>
+
+    <style name="Theme.WidgetG7.Phone.Launcher" parent="Theme.WidgetG7.Phone.NoAnimation">
+        <item name="android:windowBackground">@color/wg7_bg_top</item>
+        <item name="android:navigationBarColor">@color/wg7_bg_top</item>
     </style>
 </resources>
