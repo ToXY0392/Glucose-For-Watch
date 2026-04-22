@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Vérifiez la liaison avec la montre et retrouvez en un instant les étapes utiles pour afficher la glycémie."
+            android:text="Testez la liaison avec la montre et retrouvez les etapes utiles pour afficher la glycemie."
             android:textColor="@color/wg7_text_secondary"
             android:textSize="16sp" />
 
@@ -47,17 +47,40 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="État de connexion"
+                    android:text="Test de liaison"
                     android:textColor="@color/wg7_text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/watchSelectorLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Montre principale"
+                    android:textColor="@color/wg7_text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <Spinner
+                    android:id="@+id/watchSelectorSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@color/wg7_surface_alt"
+                    android:paddingStart="12dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="8dp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/watchSetupStatusText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="Vérification de la montre..."
+                    android:text="Verification de la montre..."
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="16sp" />
 
@@ -67,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Vérifier la connexion montre" />
+                    android:text="Tester la liaison montre" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -95,7 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:text="1. Vérifiez que la montre est bien connectée au téléphone."
+                    android:text="1. Verifiez que la montre est bien connectee au telephone."
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="15sp" />
 
@@ -119,7 +142,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="4. Revenez à l'accueil puis utilisez Actualiser maintenant si besoin."
+                    android:text="4. Revenez a l'accueil puis utilisez Actualiser maintenant si besoin."
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="15sp" />
             </LinearLayout>
