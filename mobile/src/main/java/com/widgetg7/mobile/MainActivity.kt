@@ -23,6 +23,7 @@ import com.widgetg7.mobile.status.SyncStatusSnapshot
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
 import com.widgetg7.mobile.sync.SyncExecutionResult
+import com.widgetg7.mobile.ui.DexcomEntryActivity
 import com.widgetg7.mobile.ui.DexcomSettingsActivity
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
@@ -150,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleDexcomAction() {
         if (!dexcomConnected) {
-            startActivity(Intent(this, DexcomSettingsActivity::class.java))
+            startActivity(Intent(this, DexcomEntryActivity::class.java))
             return
         }
 

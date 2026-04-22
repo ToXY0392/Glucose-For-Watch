@@ -1,0 +1,90 @@
+CONDITIONS GENERALES D'UTILISATION
+
+Derniere mise a jour : 22 avril 2026
+
+Important :
+Ce texte constitue une base contractuelle de travail pour l'application GlucoWatch / Widget G7 Phone.
+Il doit etre complete avant toute diffusion publique, notamment pour l'identite de l'editeur, les coordonnees de contact et le droit applicable.
+Ce document ne remplace pas une validation par un professionnel du droit.
+
+1. Objet
+
+Les presentes Conditions Generales d'Utilisation definissent les conditions dans lesquelles l'utilisateur peut acceder a l'application et l'utiliser.
+
+L'application a pour objet de faciliter l'affichage et la retransmission, sur telephone et montre connectee, de donnees de glycemie issues, directement ou indirectement, de services tiers compatibles.
+
+2. Editeur
+
+Editeur de l'application :
+
+- Nom / raison sociale : [A completer]
+- Forme juridique : [A completer]
+- Adresse : [A completer]
+- E-mail de contact : [A completer]
+- Responsable de publication : [A completer]
+
+3. Acceptation
+
+L'utilisation de l'application implique l'acceptation pleine et entiere des presentes CGU.
+
+Si l'utilisateur n'accepte pas les presentes CGU, il ne doit pas utiliser l'application.
+
+4. Description du service
+
+L'application fournit un service d'affichage, de synchronisation et de relais de donnees de glycemie entre un telephone Android et une montre compatible.
+
+5. Nature du service
+
+L'application est un outil logiciel de confort et d'affichage.
+
+Elle ne se substitue pas :
+
+- a l'application officielle Dexcom ;
+- a un dispositif medical officiel ;
+- a un lecteur ou recepteur officiel ;
+- a un professionnel de sante ;
+- a un avis medical, un diagnostic ou une decision therapeutique.
+
+L'utilisateur reconnait que l'application ne doit jamais constituer l'unique base d'une decision medicale, therapeutique ou d'urgence.
+
+6. Limites techniques
+
+L'utilisateur reconnait que le service peut etre affecte par des limites techniques, notamment :
+
+- delais de recuperation des donnees ;
+- retards de synchronisation ;
+- latence reseau ;
+- indisponibilite temporaire de Dexcom Share ou d'autres services tiers ;
+- limitations Android, Wear OS, Bluetooth, batterie ou restrictions d'arriere-plan ;
+- erreurs d'affichage, de cache ou de transmission ;
+- absence de donnee nouvelle au moment d'une actualisation.
+
+L'editeur ne garantit ni une disponibilite continue, ni l'absence d'erreur, ni une mise a jour en temps reel absolue.
+
+7. Obligations de l'utilisateur
+
+L'utilisateur s'engage a :
+
+- utiliser l'application conformement a sa destination ;
+- verifier toute information critique au moyen de la solution officielle et/ou appropriee ;
+- ne pas utiliser l'application comme unique support d'une decision medicale ;
+- proteger ses identifiants et son appareil.
+
+8. Avertissement medical
+
+En cas de doute, d'alerte, de symptome, d'hypoglycemie suspectee, d'hyperglycemie suspectee ou de situation d'urgence, l'utilisateur doit se referer sans delai a la solution officielle adaptee, suivre les consignes de son professionnel de sante et, si necessaire, contacter les services d'urgence.
+
+9. Responsabilite
+
+Dans les limites permises par la loi applicable, l'editeur ne pourra pas etre tenu responsable :
+
+- d'une absence de synchronisation ;
+- d'une donnee inexacte, incomplete, ancienne ou indisponible ;
+- d'un dysfonctionnement lie a un service tiers ;
+- d'une decision medicale ou therapeutique prise sur le seul fondement des informations affichees.
+
+10. Droit applicable et juridiction
+
+Les presentes CGU sont regies par le droit [A completer].
+
+Sous reserve des regles imperatives applicables, tout litige releve de la competence des juridictions [A completer].

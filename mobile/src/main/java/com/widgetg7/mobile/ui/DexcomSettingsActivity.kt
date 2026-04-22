@@ -19,6 +19,7 @@ import com.widgetg7.mobile.dexcom.DexcomSharePhoneGlucoseSource
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.settings.DexcomUserSettings
 import com.widgetg7.mobile.settings.LaunchStateStore
+import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.status.SyncStatusRepository
 import com.widgetg7.mobile.sync.SyncText
 import kotlinx.coroutines.launch
@@ -31,6 +32,15 @@ class DexcomSettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (!LegalConsentStore(this).hasAcceptedCurrentVersion()) {
+            startActivity(
+                Intent(this, DexcomEntryActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                }
+            )
+            finish()
+            return
+        }
         setContentView(R.layout.activity_dexcom_settings)
         firstConnectionFlow = intent.getBooleanExtra(EXTRA_FIRST_CONNECTION_FLOW, false)
 

@@ -1,0 +1,61 @@
+POLITIQUE DE CONFIDENTIALITE
+
+Derniere mise a jour : 22 avril 2026
+
+Important :
+Ce texte constitue une base de travail destinee a etre completee avant diffusion.
+Si l'application est distribuee a des tiers, une validation juridique et RGPD est fortement recommandee, en particulier en presence de donnees de sante.
+
+1. Responsable du traitement
+
+- Nom / raison sociale : [A completer]
+- Adresse : [A completer]
+- E-mail de contact vie privee : [A completer]
+
+2. Donnees traitees
+
+Selon les fonctionnalites utilisees, l'application peut traiter :
+
+- des identifiants Dexcom Share saisis par l'utilisateur ;
+- des parametres de configuration ;
+- des donnees de glycemie affichees ou synchronisees ;
+- des informations d'etat de synchronisation ;
+- des informations techniques liees a la montre, au telephone ou a la connectivite.
+
+3. Donnees de sante
+
+Les donnees de glycemie sont susceptibles de relever de la categorie des donnees de sante.
+
+4. Finalites
+
+Les donnees sont traitees pour les finalites suivantes :
+
+- permettre la connexion a un service tiers compatible ;
+- recuperer et afficher des donnees de glycemie ;
+- transmettre les donnees vers une montre compatible ;
+- assurer l'actualisation et le suivi de synchronisation ;
+- ameliorer la fiabilite technique et le support utilisateur.
+
+5. Stockage local
+
+Certaines donnees de configuration, y compris des elements necessaires a la connexion Dexcom, peuvent etre stockees localement sur l'appareil afin de permettre le fonctionnement de l'application.
+
+6. Securite
+
+L'editeur met en oeuvre des mesures techniques et organisationnelles raisonnables destinees a proteger les donnees contre l'acces non autorise, l'alteration, la perte ou la divulgation.
+
+Toutefois, aucun systeme n'offre une securite absolue.
+
+7. Services tiers
+
+L'utilisation de l'application peut impliquer des services tiers, notamment Dexcom Share, Android, Wear OS, Google Play Services, le reseau mobile, le Wi-Fi ou le Bluetooth.
+
+8. Droits des personnes
+
+Sous reserve de la reglementation applicable, l'utilisateur peut disposer de droits d'acces, de rectification, d'effacement, de limitation, d'opposition, de portabilite et de retrait du consentement lorsqu'il s'applique.
+
+9. Reclamation
+
+Pour la France, l'autorite de controle competente est la CNIL :
+
+https://www.cnil.fr/

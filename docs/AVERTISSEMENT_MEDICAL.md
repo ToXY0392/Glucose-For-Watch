@@ -1,0 +1,34 @@
+# Avertissement Médical Important
+
+Dernière mise à jour : 22 avril 2026
+
+`GlucoWatch` / `Widget G7 Phone` est une application d'affichage et de relais.
+
+Elle ne remplace pas :
+
+- l'application officielle Dexcom ;
+- un dispositif médical officiel ;
+- un lecteur ou récepteur officiel ;
+- un professionnel de santé ;
+- un avis médical, un diagnostic ou une décision thérapeutique.
+
+Les informations affichées peuvent être retardées, incomplètes, indisponibles ou inexactes en raison notamment :
+
+- de la connectivité ;
+- du Bluetooth ;
+- du téléphone ;
+- de la montre ;
+- du système Android ou Wear OS ;
+- des limitations d'arrière-plan ;
+- de services tiers ;
+- d'un décalage de synchronisation ;
+- de l'absence de nouvelle mesure disponible.
+
+Ne prenez jamais une décision médicale, thérapeutique ou d'urgence sur le seul fondement des informations affichées par l'application.
+
+En cas de doute, de symptôme, d'alerte, d'hypoglycémie suspectée, d'hyperglycémie suspectée ou de situation d'urgence :
+
+- vérifiez la donnée via la solution officielle adaptée ;
+- suivez les consignes de votre professionnel de santé ;
+- contactez les secours si nécessaire.
+
