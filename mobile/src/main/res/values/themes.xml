@@ -27,7 +27,7 @@
     </style>
 
     <style name="Theme.WidgetG7.Phone.Launcher" parent="Theme.WidgetG7.Phone.NoAnimation">
-        <item name="android:windowBackground">@color/wg7_bg_top</item>
+        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
         <item name="android:navigationBarColor">@color/wg7_bg_top</item>
     </style>
 </resources>
