@@ -11,9 +11,12 @@ import android.view.View as AndroidView
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.PopupMenu
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.settings.LaunchStateStore
@@ -24,7 +27,6 @@ import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
 import com.widgetg7.mobile.sync.SyncExecutionResult
 import com.widgetg7.mobile.ui.DexcomEntryActivity
-import com.widgetg7.mobile.ui.DexcomSettingsActivity
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.watch.WatchConnectionRepository
@@ -33,6 +35,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val logTag = "WidgetG7Phone"
+    private var baseScrollPaddingTop = 0
 
     private lateinit var watchSettingsButton: TextView
     private lateinit var watchModelText: TextView
@@ -64,6 +67,20 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         PhoneAutoSyncScheduler.schedule(this)
+
+        val mainScrollView = findViewById<ScrollView>(R.id.mainScrollView)
+        baseScrollPaddingTop = mainScrollView.paddingTop
+        ViewCompat.setOnApplyWindowInsetsListener(mainScrollView) { view, insets ->
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(
+                view.paddingLeft,
+                baseScrollPaddingTop + systemBarsInsets.top,
+                view.paddingRight,
+                view.paddingBottom,
+            )
+            insets
+        }
+        ViewCompat.requestApplyInsets(mainScrollView)
 
         watchSettingsButton = findViewById(R.id.watchSettingsButton)
         watchModelText = findViewById(R.id.watchModelText)
@@ -128,9 +145,9 @@ class MainActivity : AppCompatActivity() {
         configureDexcomButton.text = if (dexcomConnected) "Déconnexion" else "Se connecter"
 
         notificationsStepsText.text =
-            "Ouvrir les paramètres du téléphone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Notifications. Cocher Autoriser les notifications."
+            "Paramètres > Applications > Widget G7 Phone > Notifications > Autoriser."
         batteryStepsText.text =
-            "Ouvrir les paramètres du téléphone. Ouvrir Applications. Ouvrir Widget G7 Phone. Ouvrir Utilisation de la batterie par l'application. Cocher Autoriser l'utilisation en arrière-plan."
+            "Paramètres > Applications > Widget G7 Phone > Batterie > Autoriser l'utilisation en arrière-plan."
 
         if (!dexcomSectionTouched) {
             dexcomExpanded = shouldOpenDexcomSection(dexcomSettings.isConfigured(), syncStatus.lastErrorCategory)
@@ -164,7 +181,7 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun runManualSync() {
         watchRefreshButton.isEnabled = false
-        watchRefreshButton.text = "\u2026"
+        watchRefreshButton.text = "…"
 
         when (val result = PhoneGlucoseSyncEngine(this).run(triggeredFromWatch = false)) {
             is SyncExecutionResult.Success ->
@@ -176,7 +193,7 @@ class MainActivity : AppCompatActivity() {
 
         refreshHome()
         watchRefreshButton.isEnabled = true
-        watchRefreshButton.text = "\u21BB"
+        watchRefreshButton.text = "↻"
     }
 
     private fun showWatchSettingsMenu() {
@@ -189,6 +206,7 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this, WatchSetupActivity::class.java))
                     true
                 }
+
                 2 -> {
                     openSystemSettings(
                         primaryIntent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS),
@@ -196,6 +214,7 @@ class MainActivity : AppCompatActivity() {
                     )
                     true
                 }
+
                 else -> false
             }
         }
