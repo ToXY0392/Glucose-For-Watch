@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/wg7_bg_top" />
-
-    <item>
-        <bitmap
-            android:antialias="true"
-            android:filter="true"
-            android:gravity="fill"
-            android:src="@drawable/splash_logo" />
-    </item>
-</layer-list>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/wg7_bg_top" />
+</shape>

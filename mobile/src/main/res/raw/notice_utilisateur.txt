@@ -1,13 +1,14 @@
-1. Connecter Dexcom
+1. Première connexion Dexcom
 
-- Appuyer sur Dexcom.
+- Au premier lancement, l'écran Connexion Dexcom s'affiche.
+- Utiliser vos identifiants Dexcom.
 - Appuyer sur Se connecter.
 - Saisir vos identifiants.
 - Appuyer sur Enregistrer.
 
 2. Vérifier la montre
 
-- Revenir à l'accueil.
+- Après la connexion, l'accueil s'ouvre.
 - Vérifier que la montre est connectée.
 
 3. Sur la montre

@@ -12,11 +12,10 @@ import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
     private val logTag = "WidgetG7Splash"
-    private val splashDurationMs = 1800L
+    private val splashDurationMs = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
 
         lifecycleScope.launch {
             delay(splashDurationMs)
