@@ -56,9 +56,31 @@ data class GlucoseSnapshot(
         GlucoseSemanticLevel.STALE -> 0xFFA7B0BA.toInt()
     }
 
-    fun secondaryLabel(): String {
-        if (stale) return "stale"
-        return "mg/dL ${trendArrow()}"
+    fun secondaryLabel(nowEpochMs: Long): String {
+        val ageLabel = ageLabel(nowEpochMs)
+        return if (stale) {
+            "Donnee agee - $ageLabel"
+        } else {
+            "${trendArrow()} - $ageLabel"
+        }
+    }
+
+    fun compactSecondaryLabel(nowEpochMs: Long): String {
+        val ageLabel = ageLabel(nowEpochMs)
+        return if (stale) {
+            "Agee - $ageLabel"
+        } else {
+            "${trendArrow()} - $ageLabel"
+        }
+    }
+
+    private fun ageLabel(nowEpochMs: Long): String {
+        val ageMinutes = ((nowEpochMs - timestampEpochMs).coerceAtLeast(0L) / 60_000L)
+        return when {
+            ageMinutes <= 0L -> "maint."
+            ageMinutes == 1L -> "1 min"
+            else -> "$ageMinutes min"
+        }
     }
 
     private companion object {
@@ -101,6 +123,7 @@ data class RefreshStatusSnapshot(
         val ageMs = nowEpochMs - updatedAtEpochMs
         return when (status) {
             GlucoseKeys.REFRESH_IN_PROGRESS -> ageMs <= TIMEOUT_VISIBLE_MS
+            GlucoseKeys.REFRESH_COMPLETED -> ageMs <= COMPLETED_VISIBLE_MS
             GlucoseKeys.REFRESH_FAILED -> ageMs <= FAILURE_VISIBLE_MS
             else -> false
         }
@@ -114,6 +137,7 @@ data class RefreshStatusSnapshot(
         return message.ifBlank {
             when (status) {
                 GlucoseKeys.REFRESH_IN_PROGRESS -> "Actualisation..."
+                GlucoseKeys.REFRESH_COMPLETED -> "A jour"
                 GlucoseKeys.REFRESH_FAILED -> "Echec de synchro"
                 else -> ""
             }
@@ -123,6 +147,7 @@ data class RefreshStatusSnapshot(
     companion object {
         private const val PENDING_VISIBLE_MS = 10_000L
         private const val TIMEOUT_VISIBLE_MS = 45_000L
+        private const val COMPLETED_VISIBLE_MS = 30_000L
         private const val FAILURE_VISIBLE_MS = 90_000L
     }
 }
@@ -148,7 +173,7 @@ data class WatchSyncHealthSnapshot(
 class GlucoseCache(context: Context) {
     private val prefs = context.getSharedPreferences("glucose_cache", Context.MODE_PRIVATE)
 
-    fun save(snapshot: GlucoseSnapshot) {
+    fun save(snapshot: GlucoseSnapshot, receivedAtEpochMs: Long = System.currentTimeMillis()) {
         val history = updatedHistory(snapshot)
         prefs.edit()
             .putInt(GlucoseKeys.VALUE_MG_DL, snapshot.valueMgDl)
@@ -157,6 +182,7 @@ class GlucoseCache(context: Context) {
             .putLong(GlucoseKeys.TIMESTAMP_EPOCH_MS, snapshot.timestampEpochMs)
             .putBoolean(GlucoseKeys.STALE, snapshot.stale)
             .putString(GlucoseKeys.HISTORY, history.joinToString(","))
+            .putLong(KEY_LAST_PHONE_UPDATE_RECEIVED_AT, receivedAtEpochMs)
             .apply()
     }
 
@@ -203,6 +229,14 @@ class GlucoseCache(context: Context) {
     fun markRefreshFailed(message: String) {
         prefs.edit()
             .putString(KEY_REFRESH_STATUS, GlucoseKeys.REFRESH_FAILED)
+            .putString(KEY_REFRESH_MESSAGE, message)
+            .putLong(KEY_REFRESH_UPDATED_AT, System.currentTimeMillis())
+            .apply()
+    }
+
+    fun markRefreshCompleted(message: String = "A jour") {
+        prefs.edit()
+            .putString(KEY_REFRESH_STATUS, GlucoseKeys.REFRESH_COMPLETED)
             .putString(KEY_REFRESH_MESSAGE, message)
             .putLong(KEY_REFRESH_UPDATED_AT, System.currentTimeMillis())
             .apply()
@@ -260,6 +294,7 @@ class GlucoseCache(context: Context) {
         private const val KEY_REFRESH_STATUS = "refresh_status"
         private const val KEY_REFRESH_MESSAGE = "refresh_message"
         private const val KEY_REFRESH_UPDATED_AT = "refresh_updated_at"
+        private const val KEY_LAST_PHONE_UPDATE_RECEIVED_AT = "last_phone_update_received_at"
         private const val KEY_WATCH_BATTERY_LEVEL = "watch_battery_level"
         private const val KEY_WATCH_LOW_POWER = "watch_low_power"
         private const val KEY_WATCH_SYNC_LIMITED = "watch_sync_limited"

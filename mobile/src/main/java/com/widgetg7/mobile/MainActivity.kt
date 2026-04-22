@@ -25,12 +25,15 @@ import com.widgetg7.mobile.status.SyncStatusRepository
 import com.widgetg7.mobile.status.SyncStatusSnapshot
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
+import com.widgetg7.mobile.sync.PhoneSyncStateStore
 import com.widgetg7.mobile.sync.SyncExecutionResult
 import com.widgetg7.mobile.ui.DexcomEntryActivity
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchConnectionStatus
+import com.widgetg7.mobile.watch.WatchSyncHealthRepository
+import com.widgetg7.mobile.watch.WatchSyncHealthStatus
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -139,15 +142,17 @@ class MainActivity : AppCompatActivity() {
     private fun refreshHome() {
         val syncStatus = SyncStatusRepository(this).load()
         val dexcomSettings = AppSettingsStore(this).loadDexcomSettings()
+        val watchHealth = WatchSyncHealthRepository(this).load()
+
         dexcomConnected = dexcomSettings.isConfigured()
         dexcomCardSummaryText.text = dexcomSummary(dexcomSettings, syncStatus)
         applyDexcomStatusStyle(dexcomConnected)
-        configureDexcomButton.text = if (dexcomConnected) "Déconnexion" else "Se connecter"
+        configureDexcomButton.text = if (dexcomConnected) "Deconnexion" else "Se connecter"
 
         notificationsStepsText.text =
-            "Paramètres > Applications > Widget G7 Phone > Notifications > Autoriser."
+            "Parametres > Applications > Widget G7 Phone > Notifications > Autoriser."
         batteryStepsText.text =
-            "Paramètres > Applications > Widget G7 Phone > Batterie > Autoriser l'utilisation en arrière-plan."
+            "Parametres > Applications > Widget G7 Phone > Batterie > Autoriser l'utilisation en arriere-plan."
 
         if (!dexcomSectionTouched) {
             dexcomExpanded = shouldOpenDexcomSection(dexcomSettings.isConfigured(), syncStatus.lastErrorCategory)
@@ -159,8 +164,8 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val watchStatus = WatchConnectionRepository(this@MainActivity).loadStatus()
             watchModelText.text = watchModelLabel(watchStatus)
-            watchFaceStatusText.text = watchSummary(watchStatus)
-            applyWatchStatusStyle(watchStatus)
+            watchFaceStatusText.text = watchSummary(watchStatus, watchHealth)
+            applyWatchStatusStyle(watchStatus, watchHealth)
         }
 
         renderCardStates()
@@ -175,17 +180,21 @@ class MainActivity : AppCompatActivity() {
         AppSettingsStore(this).clearDexcomSettings()
         LaunchStateStore(this).resetDexcomEntry()
         SyncStatusRepository(this).clearSessionState()
+        PhoneSyncStateStore(this).clear()
         dexcomConnected = false
         refreshHome()
     }
 
     private suspend fun runManualSync() {
         watchRefreshButton.isEnabled = false
-        watchRefreshButton.text = "…"
+        watchRefreshButton.text = "..."
 
         when (val result = PhoneGlucoseSyncEngine(this).run(triggeredFromWatch = false)) {
-            is SyncExecutionResult.Success ->
-                Log.d(logTag, "Manual sync completed source=${result.sourceName}")
+            is SyncExecutionResult.SuccessNewReading ->
+                Log.d(logTag, "Manual sync completed with new reading source=${result.sourceName}")
+
+            is SyncExecutionResult.SuccessNoNewReading ->
+                Log.d(logTag, "Manual sync completed without new reading source=${result.sourceName}")
 
             is SyncExecutionResult.Failure ->
                 Log.d(logTag, "Manual sync failed message=${result.message}")
@@ -193,7 +202,7 @@ class MainActivity : AppCompatActivity() {
 
         refreshHome()
         watchRefreshButton.isEnabled = true
-        watchRefreshButton.text = "↻"
+        watchRefreshButton.text = "\u21bb"
     }
 
     private fun showWatchSettingsMenu() {
@@ -270,24 +279,42 @@ class MainActivity : AppCompatActivity() {
         syncStatus: SyncStatusSnapshot,
     ): String {
         return when {
-            !settings.isConfigured() -> "Non connecté"
-            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 -> "Non connecté"
-            else -> "Connecté"
+            !settings.isConfigured() -> "Non connecte"
+            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 -> "Reconnecter"
+            else -> {
+                val ageLabel = readingAgeLabel(syncStatus.lastReadingTimestampEpochMs)
+                if (ageLabel == null) "Connecte" else "Connecte - $ageLabel"
+            }
         }
     }
 
-    private fun watchSummary(watchStatus: WatchConnectionStatus): String =
-        if (watchStatus.connected) "Connectée" else "Non connectée"
+    private fun watchSummary(
+        watchStatus: WatchConnectionStatus,
+        watchHealth: WatchSyncHealthStatus?,
+    ): String =
+        when {
+            !watchStatus.connected -> "Non connectee"
+            watchHealth?.syncLimited == true -> "Sync limitee"
+            else -> "Connectee"
+        }
 
     private fun watchModelLabel(watchStatus: WatchConnectionStatus): String =
-        if (watchStatus.connected && watchStatus.displayName.isNotBlank()) watchStatus.displayName else "Aucune montre"
-
-    private fun applyWatchStatusStyle(watchStatus: WatchConnectionStatus) {
-        if (watchStatus.connected) {
-            watchFaceStatusText.setTextColor(ContextCompat.getColor(this, R.color.wg7_watch_green))
+        if (watchStatus.connected && watchStatus.displayName.isNotBlank()) {
+            watchStatus.displayName
         } else {
-            watchFaceStatusText.setTextColor(ContextCompat.getColor(this, R.color.wg7_danger))
+            "Aucune montre"
         }
+
+    private fun applyWatchStatusStyle(
+        watchStatus: WatchConnectionStatus,
+        watchHealth: WatchSyncHealthStatus?,
+    ) {
+        val color = when {
+            !watchStatus.connected -> R.color.wg7_danger
+            watchHealth?.syncLimited == true -> R.color.wg7_alert
+            else -> R.color.wg7_watch_green
+        }
+        watchFaceStatusText.setTextColor(ContextCompat.getColor(this, color))
     }
 
     private fun applyDexcomStatusStyle(connected: Boolean) {
@@ -305,6 +332,16 @@ class MainActivity : AppCompatActivity() {
         lastErrorCategory: SyncErrorCategory?,
     ): Boolean {
         return !dexcomConfigured || lastErrorCategory == SyncErrorCategory.AUTH
+    }
+
+    private fun readingAgeLabel(timestampEpochMs: Long): String? {
+        if (timestampEpochMs <= 0L) return null
+        val ageMinutes = ((System.currentTimeMillis() - timestampEpochMs).coerceAtLeast(0L) / 60_000L)
+        return when {
+            ageMinutes <= 0L -> "maint."
+            ageMinutes == 1L -> "1 min"
+            else -> "$ageMinutes min"
+        }
     }
 
     private fun renderCardStates() {

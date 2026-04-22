@@ -52,7 +52,12 @@ class WearDataLayerListenerService : WearableListenerService() {
                 val message = map.getString(GlucoseKeys.REFRESH_MESSAGE).orEmpty()
                 when (status) {
                     GlucoseKeys.REFRESH_IN_PROGRESS -> cache.markRefreshPending(message)
-                    GlucoseKeys.REFRESH_COMPLETED -> cache.clearRefreshStatus()
+                    GlucoseKeys.REFRESH_COMPLETED ->
+                        if (message.isBlank()) {
+                            cache.clearRefreshStatus()
+                        } else {
+                            cache.markRefreshCompleted(message)
+                        }
                     GlucoseKeys.REFRESH_FAILED -> cache.markRefreshFailed(message)
                 }
                 requestSurfaceUpdates()

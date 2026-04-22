@@ -38,7 +38,7 @@ class GlucoseTileService : TileService() {
             watchHealth.syncLimited -> watchHealth.message
             refreshStatus != null -> refreshStatus.displayText(nowEpochMs)
             snapshot == null -> "No data"
-            else -> snapshot.secondaryLabel()
+            else -> snapshot.secondaryLabel(nowEpochMs)
         }
         val refreshAction = ActionBuilders.LaunchAction.Builder()
             .setAndroidActivity(

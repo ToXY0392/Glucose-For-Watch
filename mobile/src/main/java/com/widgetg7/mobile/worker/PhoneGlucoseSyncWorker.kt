@@ -15,7 +15,7 @@ class PhoneGlucoseSyncWorker(
         val triggeredFromWatch = inputData.getBoolean(GlucoseKeys.INPUT_TRIGGERED_FROM_WATCH, false)
 
         return when (PhoneGlucoseSyncEngine(applicationContext).run(triggeredFromWatch)) {
-            is SyncExecutionResult.Success -> Result.success()
+            is SyncExecutionResult.SuccessNewReading, is SyncExecutionResult.SuccessNoNewReading -> Result.success()
             is SyncExecutionResult.Failure -> Result.retry()
         }
     }

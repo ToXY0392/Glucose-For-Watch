@@ -19,7 +19,9 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
             Log.d(logTag, "Sync engine started triggeredFromWatch=$triggeredFromWatch")
             val source = PhoneGlucoseSourceFactory.create(context)
             val syncStatusRepository = SyncStatusRepository(context)
-            val previousSync = syncStatusRepository.load()
+            val syncStateStore = PhoneSyncStateStore(context)
+            val previousSyncState = syncStateStore.load()
+            syncStateStore.recordFetchAttempt()
             var readingFetchMs = 0L
             val reading = withTimeout(FETCH_TIMEOUT_MS) {
                 lateinit var latestReading: GlucoseReading
@@ -32,14 +34,16 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
                 logTag,
                 "Sync engine fetched value=${reading.valueMgDl} trend=${reading.trend} delta=${reading.deltaMgDl} stale=${reading.stale} fetchMs=$readingFetchMs",
             )
+            syncStateStore.recordFetchedReading(reading.timestampEpochMs)
 
-            val hasNewReading = previousSync.lastReadingTimestampEpochMs != reading.timestampEpochMs
+            val hasNewReading = previousSyncState.lastPushedReadingTimestampEpochMs != reading.timestampEpochMs
             if (hasNewReading) {
                 val wearPushMs = measureTimeMillis {
                     withTimeout(WEAR_PUSH_TIMEOUT_MS) {
                         PhoneWearSyncService(context).pushLatest(reading)
                     }
                 }
+                syncStateStore.recordPushSuccess(reading.timestampEpochMs)
                 Log.d(logTag, "Sync engine push completed wearPushMs=$wearPushMs source=${source.sourceName}")
             } else {
                 Log.d(
@@ -53,7 +57,11 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
 
             syncStatusRepository.saveSuccess(source.sourceName, reading)
             NotificationHelper(context).cancelSyncAlerts()
-            SyncExecutionResult.Success(source.sourceName)
+            if (hasNewReading) {
+                SyncExecutionResult.SuccessNewReading(source.sourceName)
+            } else {
+                SyncExecutionResult.SuccessNoNewReading(source.sourceName)
+            }
         } catch (t: TimeoutCancellationException) {
             handleFailure(
                 triggeredFromWatch = triggeredFromWatch,
@@ -67,6 +75,7 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
     private suspend fun handleFailure(triggeredFromWatch: Boolean, error: Throwable): SyncExecutionResult.Failure {
         val message = SyncText.toUserMessage(error)
         val syncStatusRepository = SyncStatusRepository(context)
+        PhoneSyncStateStore(context).recordPushFailure(message)
         syncStatusRepository.saveError(
             message = message,
             category = SyncText.toCategory(error),
@@ -97,6 +106,7 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
 }
 
 sealed interface SyncExecutionResult {
-    data class Success(val sourceName: String) : SyncExecutionResult
+    data class SuccessNewReading(val sourceName: String) : SyncExecutionResult
+    data class SuccessNoNewReading(val sourceName: String) : SyncExecutionResult
     data class Failure(val message: String) : SyncExecutionResult
 }

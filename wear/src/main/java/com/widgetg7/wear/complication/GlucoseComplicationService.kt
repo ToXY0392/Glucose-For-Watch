@@ -16,7 +16,7 @@ import com.widgetg7.wear.data.GlucoseCache
 class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
     private val logTag = "WidgetG7Wear"
 
-    private fun secondaryMetadata(metadata: String): String = metadata
+    private fun secondaryMetadata(metadata: String): String = "mg/dL $metadata"
 
     override fun getPreviewData(type: ComplicationType): ComplicationData? {
         return when (type) {
@@ -39,13 +39,14 @@ class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
         val snapshot = GlucoseCache(this).load()
+        val nowEpochMs = System.currentTimeMillis()
         Log.d(
             logTag,
             "Complication request type=${request.complicationType} hasSnapshot=${snapshot != null}",
         )
 
         val text = if (snapshot == null) "--" else snapshot.displayValueText()
-        val title = if (snapshot == null) "No data" else secondaryMetadata(snapshot.secondaryLabel())
+        val title = if (snapshot == null) "No data" else secondaryMetadata(snapshot.compactSecondaryLabel(nowEpochMs))
 
         return when (request.complicationType) {
             ComplicationType.SHORT_TEXT -> buildShortTextData(text, title)
