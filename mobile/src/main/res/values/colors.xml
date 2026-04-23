@@ -19,4 +19,7 @@
     <color name="wg7_alert">#C96A2B</color>
     <color name="wg7_alert_soft">#FAE7D9</color>
     <color name="wg7_on_accent">#FFFDF9</color>
+    <color name="text_primary">@color/wg7_text_primary</color>
+    <color name="text_secondary">@color/wg7_text_secondary</color>
+    <color name="state_success">@color/wg7_success</color>
 </resources>

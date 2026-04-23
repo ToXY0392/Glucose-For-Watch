@@ -10,6 +10,7 @@ import android.view.View
 import android.view.View as AndroidView
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.ScrollView
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity() {
     private val logTag = "WidgetG7Phone"
     private var baseScrollPaddingTop = 0
 
-    private lateinit var watchSettingsButton: TextView
+    private lateinit var watchSettingsButton: ImageButton
     private lateinit var watchPreviewImage: ImageView
     private lateinit var watchModelText: TextView
     private lateinit var watchFaceStatusText: TextView
