@@ -205,7 +205,12 @@ class MainActivity : AppCompatActivity() {
         watchRefreshButton.isEnabled = false
         watchRefreshButton.text = "..."
 
-        when (val result = PhoneGlucoseSyncEngine(this).run(triggeredFromWatch = false)) {
+        when (
+            val result = PhoneGlucoseSyncEngine(this).run(
+                triggeredFromWatch = false,
+                forcePushCurrentReading = true,
+            )
+        ) {
             is SyncExecutionResult.SuccessNewReading ->
                 Log.d(logTag, "Manual sync completed with new reading source=${result.sourceName}")
 

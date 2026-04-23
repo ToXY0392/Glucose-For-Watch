@@ -26,7 +26,10 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
         Log.d(logTag, "Watch refresh requested from node=${messageEvent.sourceNodeId}")
         serviceScope.launch {
             PhoneWearRefreshStatusService(this@PhoneWearRefreshRequestService).pushInProgress()
-            PhoneGlucoseSyncEngine(this@PhoneWearRefreshRequestService).run(triggeredFromWatch = true)
+            PhoneGlucoseSyncEngine(this@PhoneWearRefreshRequestService).run(
+                triggeredFromWatch = true,
+                forcePushCurrentReading = true,
+            )
         }
     }
 

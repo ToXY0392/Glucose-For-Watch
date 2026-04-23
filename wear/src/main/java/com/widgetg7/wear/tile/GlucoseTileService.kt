@@ -28,18 +28,11 @@ class GlucoseTileService : TileService() {
         val healthMonitor = WatchSyncHealthMonitor(this)
         val snapshot = cache.load()
         val nowEpochMs = System.currentTimeMillis()
-        val watchHealth = healthMonitor.updateAndReport(nowEpochMs)
-        val refreshStatus = cache.loadRefreshStatus(nowEpochMs)
-        val hasRefreshState = refreshStatus != null
+        healthMonitor.updateAndReport(nowEpochMs)
         val valueText = snapshot?.displayValueText() ?: "--"
         val valueColor = snapshot?.semanticColorArgb() ?: 0xFFA7B0BA.toInt()
         val metadataColor = snapshot?.metadataColorArgb() ?: 0xFFA7B0BA.toInt()
-        val statusText = when {
-            watchHealth.syncLimited -> watchHealth.message
-            refreshStatus != null -> refreshStatus.displayText(nowEpochMs)
-            snapshot == null -> "No data"
-            else -> snapshot.secondaryLabel(nowEpochMs)
-        }
+        val statusText = if (snapshot == null) "No data" else snapshot.trendOnlyLabel()
         val refreshAction = ActionBuilders.LaunchAction.Builder()
             .setAndroidActivity(
                 ActionBuilders.AndroidActivity.Builder()
@@ -64,7 +57,7 @@ class GlucoseTileService : TileService() {
             .setText(statusText)
             .setFontStyle(
                 LayoutElementBuilders.FontStyle.Builder()
-                    .setSize(DimensionBuilders.sp(if (hasRefreshState) 13f else 14f))
+                    .setSize(DimensionBuilders.sp(14f))
                     .setColor(ColorBuilders.argb(metadataColor))
                     .build()
             )
@@ -73,7 +66,7 @@ class GlucoseTileService : TileService() {
                 ModifiersBuilders.Modifiers.Builder()
                     .setPadding(
                         ModifiersBuilders.Padding.Builder()
-                            .setTop(DimensionBuilders.dp(if (hasRefreshState) 10f else 8f))
+                            .setTop(DimensionBuilders.dp(8f))
                             .build()
                     )
                     .build()
@@ -105,7 +98,7 @@ class GlucoseTileService : TileService() {
                     )
                     .setPadding(
                         ModifiersBuilders.Padding.Builder()
-                            .setTop(DimensionBuilders.dp(if (hasRefreshState) 20f else 14f))
+                            .setTop(DimensionBuilders.dp(14f))
                             .build()
                     )
                     .build()

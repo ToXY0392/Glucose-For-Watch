@@ -65,12 +65,28 @@ data class GlucoseSnapshot(
         }
     }
 
+    fun trendOnlyLabel(): String {
+        return if (stale) {
+            "Donnee agee"
+        } else {
+            trendArrow()
+        }
+    }
+
     fun compactSecondaryLabel(nowEpochMs: Long): String {
         val ageLabel = ageLabel(nowEpochMs)
         return if (stale) {
             "Agee - $ageLabel"
         } else {
             "${trendArrow()} - $ageLabel"
+        }
+    }
+
+    fun compactTrendOnlyLabel(): String {
+        return if (stale) {
+            "Agee"
+        } else {
+            trendArrow()
         }
     }
 

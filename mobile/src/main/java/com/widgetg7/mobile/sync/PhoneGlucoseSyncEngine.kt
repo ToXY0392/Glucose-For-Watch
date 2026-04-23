@@ -14,9 +14,15 @@ import kotlin.system.measureTimeMillis
 class PhoneGlucoseSyncEngine(private val context: Context) {
     private val logTag = "WidgetG7Phone"
 
-    suspend fun run(triggeredFromWatch: Boolean): SyncExecutionResult {
+    suspend fun run(
+        triggeredFromWatch: Boolean,
+        forcePushCurrentReading: Boolean = false,
+    ): SyncExecutionResult {
         return try {
-            Log.d(logTag, "Sync engine started triggeredFromWatch=$triggeredFromWatch")
+            Log.d(
+                logTag,
+                "Sync engine started triggeredFromWatch=$triggeredFromWatch forcePushCurrentReading=$forcePushCurrentReading",
+            )
             val source = PhoneGlucoseSourceFactory.create(context)
             val syncStatusRepository = SyncStatusRepository(context)
             val syncStateStore = PhoneSyncStateStore(context)
@@ -37,14 +43,18 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
             syncStateStore.recordFetchedReading(reading.timestampEpochMs)
 
             val hasNewReading = previousSyncState.lastPushedReadingTimestampEpochMs != reading.timestampEpochMs
-            if (hasNewReading) {
+            val shouldPushToWatch = hasNewReading || forcePushCurrentReading
+            if (shouldPushToWatch) {
                 val wearPushMs = measureTimeMillis {
                     withTimeout(WEAR_PUSH_TIMEOUT_MS) {
                         PhoneWearSyncService(context).pushLatest(reading)
                     }
                 }
                 syncStateStore.recordPushSuccess(reading.timestampEpochMs)
-                Log.d(logTag, "Sync engine push completed wearPushMs=$wearPushMs source=${source.sourceName}")
+                Log.d(
+                    logTag,
+                    "Sync engine push completed wearPushMs=$wearPushMs source=${source.sourceName} hasNewReading=$hasNewReading",
+                )
             } else {
                 Log.d(
                     logTag,
