@@ -20,57 +20,43 @@
             android:layout_width="match_parent"
             android:layout_height="900dp">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="700dp"
-                android:layout_gravity="top|center_horizontal"
-                android:layout_marginTop="8dp">
-
-                <View
-                    android:layout_width="560dp"
-                    android:layout_height="560dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_watch_hero_glow"
-                    android:alpha="0.9" />
-
-                <ImageView
-                    android:id="@+id/watchPreviewImage"
-                    android:layout_width="680dp"
-                    android:layout_height="680dp"
-                    android:layout_gravity="center"
-                    android:adjustViewBounds="true"
-                    android:contentDescription="Montre connectée"
-                    android:scaleType="fitCenter"
-                    android:src="@drawable/watch_photo_transparent" />
-            </FrameLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="138dp"
+                android:layout_gravity="center"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingBottom="0dp">
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/watchSettingsButton"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:background="@drawable/bg_round_icon_button"
-                    android:contentDescription="Paramètres"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_settings_24"
-                    android:tint="@color/text_primary" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="700dp">
+
+                    <View
+                        android:layout_width="560dp"
+                        android:layout_height="560dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_watch_hero_glow"
+                        android:alpha="0.9" />
+
+                    <ImageView
+                        android:id="@+id/watchPreviewImage"
+                        android:layout_width="680dp"
+                        android:layout_height="680dp"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="Montre connectée"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/watch_photo_transparent" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/watchFaceStatusText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="-104dp"
                     android:text="Connectée"
                     android:textColor="@color/state_success"
-                    android:textSize="44sp"
+                    android:textSize="36sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -80,17 +66,38 @@
                     android:layout_marginTop="0dp"
                     android:text="Google Pixel Watch 2"
                     android:textColor="@color/text_primary"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/watchRefreshButton"
-                    style="@style/Widget.WidgetG7.Button.Link"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-2dp"
-                    android:minWidth="0dp"
-                    android:text="Actualiser" />
+                    android:layout_marginTop="14dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/watchSettingsButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="@drawable/bg_round_icon_button"
+                        android:contentDescription="Paramètres"
+                        android:padding="9dp"
+                        android:src="@drawable/ic_settings_24"
+                        android:tint="@color/text_primary" />
+
+                    <ImageButton
+                        android:id="@+id/watchRefreshButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/bg_round_icon_button"
+                        android:contentDescription="Actualiser"
+                        android:padding="9dp"
+                        android:src="@drawable/ic_refresh_24"
+                        android:tint="@color/text_secondary" />
+                </LinearLayout>
             </LinearLayout>
         </FrameLayout>
 

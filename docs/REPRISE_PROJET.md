@@ -10,7 +10,7 @@ Ce document sert de point de reprise rapide pour continuer le projet sans relire
 - L'APK debug téléphone compile
 - L'APK téléphone s'installe sur le `Pixel 8a`
 - L'APK Wear s'installe sur la `Pixel Watch 2`
-- Le dépôt n'est pas propre : il y a des modifications locales non commitéees en cours
+- Le dépôt n'est pas propre : il y a des modifications locales non commit en cours
 - Dernier commit de référence connu avant cette série de modifications : `ed032cc`
 
 ## 2. Ce qui est déjà en place
@@ -228,11 +228,18 @@ Le dernier step effectivement atteint est :
 - le libellé du haut `Montre Google connectée` a été supprimé
 - un asset de montre photo avec fond réellement transparent a été préparé et branché pour les `Pixel Watch`
 - la montre a été fortement agrandie sur l'accueil
+- le bloc sous la montre a été compacté
+- `Actualiser` a été remplacé par une icône
+- `Paramètres` et `Sync` ont maintenant la même taille
+- le hero a été reconstruit pour que le bloc `Connectée / modèle / boutons` soit centré sur le même axe que la montre
+- les boutons `Paramètres` et `Sync` sont maintenant placés sur une ligne commune sous le texte, comme un groupe visuel unique
 
 Le point de reprise produit juste après ce checkpoint est :
 
 - poursuivre la montée en gamme de l'accueil téléphone
 - garder la montre comme élément dominant
+- finaliser le centrage perçu du duo `Paramètres / Sync` sous le texte
+- affiner encore l'espacement vertical entre la montre, le statut, le modèle et les deux icônes
 - mieux organiser les menus autour d'elle au lieu de simples cartes empilées
 
 ## 7. Reprise conseillée
@@ -244,8 +251,9 @@ Le point de reprise produit juste après ce checkpoint est :
 3. finaliser la composition de l'accueil autour de la montre
 4. rendre les menus `DEXCOM` et `AUTORISATIONS` plus intégrés au hero
 5. ajuster précisément la taille et la position de la montre
-6. décider si le texte `Connectée` et `Google Pixel Watch 2` doit rester centré sous la montre ou se répartir autour d'elle
-7. seulement ensuite réharmoniser les autres écrans téléphone
+6. garder `Connectée` et `Google Pixel Watch 2` centrés sous la montre
+7. stabiliser la ligne commune `Paramètres / Sync`
+8. seulement ensuite réharmoniser les autres écrans téléphone
 
 ### Direction visuelle actuelle pour l'accueil
 
@@ -256,23 +264,15 @@ La bonne intention validée est :
 - la montre ne doit pas avoir un rendu brouillon
 - il faut penser l'écran comme une composition héro, pas comme une simple liste de cards
 
-### Prochain cran visuel recommandé
+### Demande utilisateur la plus récente
 
-Le prochain vrai chantier visuel n'est plus un simple changement de taille.
+La demande explicite la plus récente est :
 
-Il faut choisir entre :
-
-1. une composition `centrée classique`
-   - montre géante au centre
-   - statut et modèle dessous
-   - modules utilitaires en bas
-
-2. une composition `menus autour de la montre`
-   - montre encore plus dominante
-   - informations et actions réparties autour de l'objet
-   - logique plus design, moins "stack Android"
-
-La demande actuelle de l'utilisateur pousse clairement vers l'option 2.
+- garder la montre très grande
+- centrer horizontalement et verticalement tout le hero
+- faire en sorte que `Paramètres` et `Sync` soient un duo d'icônes strictement symétrique
+- les placer comme un groupe unique sous `Connectée` et `Google Pixel Watch 2`
+- continuer à ajuster tant que le centrage perçu n'est pas parfait
 
 ## 8. Fichiers clés à relire en priorité
 

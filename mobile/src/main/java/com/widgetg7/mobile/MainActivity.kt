@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var watchPreviewImage: ImageView
     private lateinit var watchModelText: TextView
     private lateinit var watchFaceStatusText: TextView
-    private lateinit var watchRefreshButton: TextView
+    private lateinit var watchRefreshButton: ImageButton
 
     private lateinit var dexcomCardHeader: LinearLayout
     private lateinit var dexcomStatusDot: AndroidView
@@ -203,7 +203,8 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun runManualSync() {
         watchRefreshButton.isEnabled = false
-        watchRefreshButton.text = "..."
+        watchRefreshButton.alpha = 0.45f
+        watchRefreshButton.contentDescription = "Actualisation en cours"
 
         when (
             val result = PhoneGlucoseSyncEngine(this).run(
@@ -226,7 +227,8 @@ class MainActivity : AppCompatActivity() {
 
         refreshHome()
         watchRefreshButton.isEnabled = true
-        watchRefreshButton.text = "Actualiser"
+        watchRefreshButton.alpha = 1f
+        watchRefreshButton.contentDescription = "Actualiser"
     }
 
     private fun showWatchSettingsMenu() {
