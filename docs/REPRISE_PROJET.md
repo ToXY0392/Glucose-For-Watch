@@ -90,17 +90,6 @@ Important :
 - mais le transport Wear n'est pas encore strictement ciblé par montre
 - autrement dit, l'app sait quelle montre est la référence utilisateur, mais la sync Data Layer reste encore globale
 
-### Design system
-
-- Un design system a été rédigé dans [DESIGN_SYSTEM.md](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/docs/DESIGN_SYSTEM.md)
-- Une première passe d'application a déjà été faite sur les écrans principaux
-- La direction actuelle évolue pour se rapprocher davantage du rendu visuel de l'app officielle Dexcom :
-  - fond très clair crème vers vert pâle
-  - gros titres noirs très lourds
-  - sous-textes gris-vert doux
-  - cards plates, calmes, avec contour fin vert grisé
-  - boutons verts pleins, très arrondis
-
 ### Documents juridiques créés
 
 Dans `docs` :
@@ -174,16 +163,24 @@ Nouvelle direction validée :
   - notice
   - écrans juridiques
 
-### Accueil : état actuel
+### Palette actuelle
 
-- `Dexcom` et `Autorisations` ont été retirés de l'accueil principal
-- `Voir la notice` reste en bas de l'écran
-- le bouton `⚙` ouvre maintenant un menu custom opaque au lieu du menu Android brut
-- ce menu contient :
-  - `Paramètres montre`
-  - `Dexcom`
-  - `Autorisations`
-- le rendu visé est plus fluide, plus dense et plus premium que le `PopupMenu` système
+La base crème a été abandonnée.
+
+Direction validée :
+
+- conserver le vert comme accent principal
+- remplacer le blanc cassé / crème par une base plus blanche et plus nette
+- garder un léger voile vert froid dans les surfaces secondaires
+
+Mapping appliqué :
+
+- `wg7_bg_top = #FFFFFF`
+- `wg7_bg_bottom = #F7FBFA`
+- `wg7_surface = #FCFEFE`
+- `wg7_surface_alt = #F2F8F6`
+- `wg7_outline = #D8E5E1`
+- `wg7_text_secondary = #6A7875`
 
 ### Image réelle du modèle de montre
 
@@ -234,18 +231,20 @@ Le dernier step effectivement atteint est :
 
 - refonte poussée de l'accueil pour en faire un `hero screen` centré sur la montre
 - la montre prend désormais l'essentiel du premier écran
-- `DEXCOM` et `AUTORISATIONS` sont relégués en dessous comme modules secondaires
-- l'ombre sous la montre a été supprimée
-- le libellé du haut `Montre Google connectée` a été supprimé
-- un asset de montre photo avec fond réellement transparent a été préparé et branché pour les `Pixel Watch`
-- la montre a été fortement agrandie sur l'accueil
-- le bloc sous la montre a été compacté
-- `Actualiser` a été remplacé par une icône
-- `Paramètres` et `Sync` ont maintenant la même taille
-- le hero a été reconstruit pour que le bloc `Connectée / modèle / boutons` soit centré sur le même axe que la montre
-- les boutons `Paramètres` et `Sync` sont maintenant placés sur une ligne commune sous le texte, comme un groupe visuel unique
-- `Dexcom` et `Autorisations` ont été sortis de l'accueil principal et passés dans un menu custom sous `⚙`
-- l'écran `Configuration de la montre` a été retouché :
+- `Voir la notice` reste en dessous, hors menu
+- `Dexcom` et `Autorisations` ont été retirés de l'accueil principal
+- le bouton `Paramètres` ouvre maintenant un menu custom sous le hero
+- ce menu contient :
+  - `Paramètres montre`
+  - `Dexcom`
+  - `Autorisations`
+- le menu custom a été rendu :
+  - opaque
+  - plus fluide
+  - sans ombre parasite
+  - centré sous le duo de boutons `Paramètres / Sync`, et plus seulement sous `⚙`
+- l'accueil utilise maintenant une palette blanche propre au lieu du fond crème
+- l'écran `Configuration de la montre` a encore été retouché :
   - vrai inset système en haut pour éviter que le titre passe sous les infos du téléphone
   - ajout d'un bouton retour en icône sous `Mise en route rapide`
   - compaction globale de l'écran pour supprimer le scroll
@@ -254,9 +253,8 @@ Le point de reprise produit juste après ce checkpoint est :
 
 - poursuivre la montée en gamme de l'accueil téléphone
 - garder la montre comme élément dominant
-- finaliser le centrage perçu du duo `Paramètres / Sync` sous le texte
-- affiner encore l'espacement vertical entre la montre, le statut, le modèle et les deux icônes
-- mieux organiser les menus autour d'elle au lieu de simples cartes empilées
+- affiner encore le centrage perçu du hero
+- continuer à organiser les actions autour de la montre
 - vérifier visuellement que l'écran `Configuration de la montre` ne scrolle plus sur le Pixel 8a
 - si besoin, compacter encore légèrement la carte `État de connexion` ou la carte `Mise en route rapide`
 
@@ -267,10 +265,10 @@ Le point de reprise produit juste après ce checkpoint est :
 1. ne plus toucher à la partie Wear
 2. ne retravailler que l'accueil téléphone
 3. finaliser la composition de l'accueil autour de la montre
-4. rendre les menus `DEXCOM` et `AUTORISATIONS` plus intégrés au hero
+4. garder le menu custom comme navigation secondaire
 5. ajuster précisément la taille et la position de la montre
 6. garder `Connectée` et `Google Pixel Watch 2` centrés sous la montre
-7. stabiliser la ligne commune `Paramètres / Sync`
+7. stabiliser le duo `Paramètres / Sync` et le menu centré sous ce duo
 8. seulement ensuite réharmoniser les autres écrans téléphone
 
 ### Direction visuelle actuelle pour l'accueil
@@ -286,19 +284,16 @@ La bonne intention validée est :
 
 La demande explicite la plus récente est :
 
-- garder la montre très grande
-- centrer horizontalement et verticalement tout le hero
-- faire en sorte que `Paramètres` et `Sync` soient un duo d'icônes strictement symétrique
-- les placer comme un groupe unique sous `Connectée` et `Google Pixel Watch 2`
-- continuer à ajuster tant que le centrage perçu n'est pas parfait
-- garder `Voir la notice` hors du menu
-- utiliser un menu déroulant custom, opaque et fluide pour `Dexcom` et `Autorisations`
-- supprimer le scroll résiduel de l'écran `Configuration de la montre`
+- conserver le menu sans ombre
+- garder la carte du menu centrée sous les deux boutons
+- continuer à affiner l'équilibre global du hero montre
 
 ## 8. Fichiers clés à relire en priorité
 
 - [MainActivity.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/MainActivity.kt)
 - [activity_main.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/activity_main.xml)
+- [popup_home_menu.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/popup_home_menu.xml)
+- [bg_home_menu_surface.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/drawable/bg_home_menu_surface.xml)
 - [WatchVisualResolver.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/watch/WatchVisualResolver.kt)
 - [watch_photo_transparent.png](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/drawable-nodpi/watch_photo_transparent.png)
 - [WatchSetupActivity.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/ui/WatchSetupActivity.kt)

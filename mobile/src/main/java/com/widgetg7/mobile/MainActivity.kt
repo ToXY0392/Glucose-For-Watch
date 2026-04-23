@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.TextView
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var watchFaceStatusText: TextView
     private lateinit var watchRefreshButton: ImageButton
     private lateinit var openNoticeButton: TextView
+    private lateinit var watchActionRow: LinearLayout
 
     private var dexcomConnected = false
     private var homeMenuPopup: PopupWindow? = null
@@ -70,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         watchFaceStatusText = findViewById(R.id.watchFaceStatusText)
         watchRefreshButton = findViewById(R.id.watchRefreshButton)
         openNoticeButton = findViewById(R.id.openNoticeButton)
+        watchActionRow = findViewById(R.id.watchActionRow)
 
         watchSettingsButton.setOnClickListener { showHomeMenu() }
         watchRefreshButton.setOnClickListener {
@@ -155,7 +158,7 @@ class MainActivity : AppCompatActivity() {
 
         popup.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         popup.isOutsideTouchable = true
-        popup.elevation = 18f
+        popup.elevation = 0f
         popup.animationStyle = R.style.AnimationWidgetG7HomeMenu
         popup.setOnDismissListener { homeMenuPopup = null }
 
@@ -178,8 +181,9 @@ class MainActivity : AppCompatActivity() {
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
             View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
         )
-        val xOffset = (watchSettingsButton.width - contentView.measuredWidth) / 2
-        val yOffset = (12 * resources.displayMetrics.density).toInt()
+        val xOffset =
+            ((watchActionRow.width - contentView.measuredWidth) / 2) - watchSettingsButton.left
+        val yOffset = (10 * resources.displayMetrics.density).toInt()
 
         popup.showAsDropDown(watchSettingsButton, xOffset, yOffset)
         homeMenuPopup = popup
