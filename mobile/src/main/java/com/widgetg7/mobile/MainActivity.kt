@@ -2,17 +2,18 @@ package com.widgetg7.mobile
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.view.View as AndroidView
-import android.widget.Button
+import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.PopupMenu
+import android.widget.PopupWindow
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -21,15 +22,6 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.settings.AppSettingsStore
-import com.widgetg7.mobile.settings.DexcomUserSettings
-import com.widgetg7.mobile.settings.LaunchStateStore
-import com.widgetg7.mobile.status.SyncErrorCategory
-import com.widgetg7.mobile.status.SyncStatusRepository
-import com.widgetg7.mobile.status.SyncStatusSnapshot
-import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
-import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
-import com.widgetg7.mobile.sync.PhoneSyncStateStore
-import com.widgetg7.mobile.sync.SyncExecutionResult
 import com.widgetg7.mobile.ui.DexcomEntryActivity
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
@@ -49,32 +41,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var watchModelText: TextView
     private lateinit var watchFaceStatusText: TextView
     private lateinit var watchRefreshButton: ImageButton
-
-    private lateinit var dexcomCardHeader: LinearLayout
-    private lateinit var dexcomStatusDot: AndroidView
-    private lateinit var dexcomCardSummaryText: TextView
-    private lateinit var dexcomCardContent: LinearLayout
-    private lateinit var configureDexcomButton: Button
-
-    private lateinit var permissionsCardHeader: LinearLayout
-    private lateinit var permissionsCardContent: LinearLayout
-    private lateinit var notificationsStepsText: TextView
-    private lateinit var batteryStepsText: TextView
     private lateinit var openNoticeButton: TextView
-    private lateinit var openNotificationsSettingsButton: Button
-    private lateinit var openAppSettingsButton: Button
 
     private var dexcomConnected = false
-    private var dexcomExpanded = false
-    private var permissionsExpanded = false
-    private var dexcomSectionTouched = false
-    private var permissionsSectionTouched = false
+    private var homeMenuPopup: PopupWindow? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        PhoneAutoSyncScheduler.schedule(this)
 
         val mainScrollView = findViewById<ScrollView>(R.id.mainScrollView)
         baseScrollPaddingTop = mainScrollView.paddingTop
@@ -95,46 +69,12 @@ class MainActivity : AppCompatActivity() {
         watchModelText = findViewById(R.id.watchModelText)
         watchFaceStatusText = findViewById(R.id.watchFaceStatusText)
         watchRefreshButton = findViewById(R.id.watchRefreshButton)
-
-        dexcomCardHeader = findViewById(R.id.dexcomCardHeader)
-        dexcomStatusDot = findViewById(R.id.dexcomStatusDot)
-        dexcomCardSummaryText = findViewById(R.id.dexcomCardSummaryText)
-        dexcomCardContent = findViewById(R.id.dexcomCardContent)
-        configureDexcomButton = findViewById(R.id.configureDexcomButton)
-
-        permissionsCardHeader = findViewById(R.id.permissionsCardHeader)
-        permissionsCardContent = findViewById(R.id.permissionsCardContent)
-        notificationsStepsText = findViewById(R.id.notificationsStepsText)
-        batteryStepsText = findViewById(R.id.batteryStepsText)
         openNoticeButton = findViewById(R.id.openNoticeButton)
-        openNotificationsSettingsButton = findViewById(R.id.openNotificationsSettingsButton)
-        openAppSettingsButton = findViewById(R.id.openAppSettingsButton)
 
-        watchSettingsButton.setOnClickListener { showWatchSettingsMenu() }
+        watchSettingsButton.setOnClickListener { showHomeMenu() }
         watchRefreshButton.setOnClickListener {
             lifecycleScope.launch { runManualSync() }
         }
-
-        dexcomCardHeader.setOnClickListener {
-            dexcomSectionTouched = true
-            dexcomExpanded = !dexcomExpanded
-            if (dexcomExpanded) {
-                permissionsExpanded = false
-            }
-            renderCardStates()
-        }
-        configureDexcomButton.setOnClickListener { handleDexcomAction() }
-
-        permissionsCardHeader.setOnClickListener {
-            permissionsSectionTouched = true
-            permissionsExpanded = !permissionsExpanded
-            if (permissionsExpanded) {
-                dexcomExpanded = false
-            }
-            renderCardStates()
-        }
-        openNotificationsSettingsButton.setOnClickListener { openAppNotificationSettings() }
-        openAppSettingsButton.setOnClickListener { openAppDetailsSettings() }
         openNoticeButton.setOnClickListener { startActivity(Intent(this, NoticeActivity::class.java)) }
 
         refreshHome()
@@ -146,34 +86,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshHome() {
-        val syncStatus = SyncStatusRepository(this).load()
-        val dexcomSettings = AppSettingsStore(this).loadDexcomSettings()
+        dexcomConnected = AppSettingsStore(this).loadDexcomSettings().isConfigured()
         val watchHealth = WatchSyncHealthRepository(this).load()
-
-        dexcomConnected = dexcomSettings.isConfigured()
-        dexcomCardSummaryText.text = dexcomSummary(dexcomSettings, syncStatus)
-        applyDexcomStatusStyle(dexcomConnected)
-        configureDexcomButton.text = if (dexcomConnected) "Déconnexion" else "Se connecter"
-
-        notificationsStepsText.text =
-            "Paramètres > Applications > Widget G7 Phone > Notifications > Autoriser."
-        batteryStepsText.text =
-            "Paramètres > Applications > Widget G7 Phone > Batterie > Autoriser l'utilisation en arrière-plan."
-
-        if (!dexcomSectionTouched) {
-            dexcomExpanded =
-                shouldOpenDexcomSection(dexcomSettings.isConfigured(), syncStatus.lastErrorCategory)
-        }
-        if (!permissionsSectionTouched) {
-            permissionsExpanded = false
-        }
 
         lifecycleScope.launch {
             val watchStatus = WatchConnectionRepository(this@MainActivity).loadStatus()
             applyWatchVisuals(watchStatus, watchHealth)
         }
-
-        renderCardStates()
     }
 
     private fun applyWatchVisuals(
@@ -187,41 +106,27 @@ class MainActivity : AppCompatActivity() {
         applyWatchStatusStyle(watchStatus, watchHealth)
     }
 
-    private fun handleDexcomAction() {
-        if (!dexcomConnected) {
-            startActivity(Intent(this, DexcomEntryActivity::class.java))
-            return
-        }
-
-        AppSettingsStore(this).clearDexcomSettings()
-        LaunchStateStore(this).resetDexcomEntry()
-        SyncStatusRepository(this).clearSessionState()
-        PhoneSyncStateStore(this).clear()
-        dexcomConnected = false
-        refreshHome()
-    }
-
     private suspend fun runManualSync() {
         watchRefreshButton.isEnabled = false
         watchRefreshButton.alpha = 0.45f
         watchRefreshButton.contentDescription = "Actualisation en cours"
 
         when (
-            val result = PhoneGlucoseSyncEngine(this).run(
+            val result = com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine(this).run(
                 triggeredFromWatch = false,
                 forcePushCurrentReading = true,
             )
         ) {
-            is SyncExecutionResult.SuccessNewReading ->
+            is com.widgetg7.mobile.sync.SyncExecutionResult.SuccessNewReading ->
                 Log.d(logTag, "Manual sync completed with new reading source=${result.sourceName}")
 
-            is SyncExecutionResult.SuccessNoNewReading ->
+            is com.widgetg7.mobile.sync.SyncExecutionResult.SuccessNoNewReading ->
                 Log.d(
                     logTag,
                     "Manual sync completed without new reading source=${result.sourceName}",
                 )
 
-            is SyncExecutionResult.Failure ->
+            is com.widgetg7.mobile.sync.SyncExecutionResult.Failure ->
                 Log.d(logTag, "Manual sync failed message=${result.message}")
         }
 
@@ -231,45 +136,53 @@ class MainActivity : AppCompatActivity() {
         watchRefreshButton.contentDescription = "Actualiser"
     }
 
-    private fun showWatchSettingsMenu() {
-        val menu = PopupMenu(this, watchSettingsButton)
-        menu.menu.add(0, 1, 0, "Configurer la montre")
-        menu.menu.add(0, 2, 1, "Ouvrir le Bluetooth")
-        menu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                1 -> {
-                    startActivity(Intent(this, WatchSetupActivity::class.java))
-                    true
-                }
-
-                2 -> {
-                    openSystemSettings(
-                        primaryIntent = Intent(Settings.ACTION_BLUETOOTH_SETTINGS),
-                        fallbackIntent = Intent(Settings.ACTION_WIRELESS_SETTINGS),
-                    )
-                    true
-                }
-
-                else -> false
+    private fun showHomeMenu() {
+        homeMenuPopup?.let { existing ->
+            if (existing.isShowing) {
+                existing.dismiss()
+                return
             }
         }
-        menu.show()
-    }
 
-    private fun openSystemSettings(primaryIntent: Intent, fallbackIntent: Intent) {
-        try {
-            if (primaryIntent.resolveActivity(packageManager) != null) {
-                startActivity(primaryIntent)
-            } else {
-                startActivity(fallbackIntent)
-            }
-        } catch (_: ActivityNotFoundException) {
-            try {
-                startActivity(fallbackIntent)
-            } catch (fallbackError: ActivityNotFoundException) {
-                Log.w(logTag, "Impossible d'ouvrir les paramètres système", fallbackError)
-            }
+        val contentView = LayoutInflater.from(this).inflate(R.layout.popup_home_menu, null)
+        val popup =
+            PopupWindow(
+                contentView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true,
+            )
+
+        popup.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        popup.isOutsideTouchable = true
+        popup.elevation = 18f
+        popup.animationStyle = R.style.AnimationWidgetG7HomeMenu
+        popup.setOnDismissListener { homeMenuPopup = null }
+
+        contentView.findViewById<TextView>(R.id.menuWatchSettings).setOnClickListener {
+            popup.dismiss()
+            startActivity(Intent(this, WatchSetupActivity::class.java))
         }
+
+        contentView.findViewById<TextView>(R.id.menuDexcom).setOnClickListener {
+            popup.dismiss()
+            startActivity(Intent(this, DexcomEntryActivity::class.java))
+        }
+
+        contentView.findViewById<TextView>(R.id.menuPermissions).setOnClickListener {
+            popup.dismiss()
+            openAppDetailsSettings()
+        }
+
+        contentView.measure(
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+        )
+        val xOffset = (watchSettingsButton.width - contentView.measuredWidth) / 2
+        val yOffset = (12 * resources.displayMetrics.density).toInt()
+
+        popup.showAsDropDown(watchSettingsButton, xOffset, yOffset)
+        homeMenuPopup = popup
     }
 
     private fun openAppDetailsSettings() {
@@ -281,34 +194,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(appDetailsIntent)
         } catch (_: ActivityNotFoundException) {
             Log.w(logTag, "Impossible d'ouvrir les détails de l'application")
-        }
-    }
-
-    private fun openAppNotificationSettings() {
-        val appNotificationIntent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-            putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-        }
-
-        try {
-            if (appNotificationIntent.resolveActivity(packageManager) != null) {
-                startActivity(appNotificationIntent)
-            } else {
-                openAppDetailsSettings()
-            }
-        } catch (_: ActivityNotFoundException) {
-            openAppDetailsSettings()
-        }
-    }
-
-    private fun dexcomSummary(
-        settings: DexcomUserSettings,
-        syncStatus: SyncStatusSnapshot,
-    ): String {
-        return when {
-            !settings.isConfigured() -> "Non connecté"
-            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH &&
-                syncStatus.authFailureCount >= 2 -> "Reconnecter"
-            else -> "Connecté"
         }
     }
 
@@ -334,25 +219,9 @@ class MainActivity : AppCompatActivity() {
         watchFaceStatusText.setTextColor(ContextCompat.getColor(this, color))
     }
 
-    private fun applyDexcomStatusStyle(connected: Boolean) {
-        if (connected) {
-            dexcomStatusDot.setBackgroundResource(R.drawable.bg_watch_status_dot_connected)
-            dexcomCardSummaryText.setTextColor(ContextCompat.getColor(this, R.color.wg7_success))
-        } else {
-            dexcomStatusDot.setBackgroundResource(R.drawable.bg_watch_status_dot_disconnected)
-            dexcomCardSummaryText.setTextColor(ContextCompat.getColor(this, R.color.wg7_danger))
-        }
-    }
-
-    private fun shouldOpenDexcomSection(
-        dexcomConfigured: Boolean,
-        lastErrorCategory: SyncErrorCategory?,
-    ): Boolean {
-        return !dexcomConfigured || lastErrorCategory == SyncErrorCategory.AUTH
-    }
-
-    private fun renderCardStates() {
-        dexcomCardContent.visibility = if (dexcomExpanded) View.VISIBLE else View.GONE
-        permissionsCardContent.visibility = if (permissionsExpanded) View.VISIBLE else View.GONE
+    override fun onDestroy() {
+        homeMenuPopup?.dismiss()
+        homeMenuPopup = null
+        super.onDestroy()
     }
 }

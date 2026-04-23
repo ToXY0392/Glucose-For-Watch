@@ -62,4 +62,9 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">22dp</item>
     </style>
+
+    <style name="AnimationWidgetG7HomeMenu" parent="">
+        <item name="android:windowEnterAnimation">@anim/home_menu_enter</item>
+        <item name="android:windowExitAnimation">@anim/home_menu_exit</item>
+    </style>
 </resources>
