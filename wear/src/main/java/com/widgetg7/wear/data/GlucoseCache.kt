@@ -112,6 +112,9 @@ object GlucoseKeys {
     const val WATCH_SYNC_LIMITED = "watchSyncLimited"
     const val WATCH_STATUS_MESSAGE = "watchStatusMessage"
     const val WATCH_STATUS_UPDATED_AT = "watchStatusUpdatedAt"
+    const val WATCH_MANUFACTURER = "watchManufacturer"
+    const val WATCH_MODEL = "watchModel"
+    const val WATCH_DEVICE = "watchDevice"
 }
 
 data class RefreshStatusSnapshot(

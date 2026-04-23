@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,15 +17,19 @@ import com.widgetg7.mobile.sync.PhoneWearSyncService
 import com.widgetg7.mobile.watch.ConnectedWatchNode
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
+import com.widgetg7.mobile.watch.WatchVisualResolver
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 
 class WatchSetupActivity : AppCompatActivity() {
     private lateinit var refreshWatchStatusButton: Button
+    private lateinit var watchStatusHeadlineText: TextView
+    private lateinit var watchStatusSupportText: TextView
     private lateinit var watchStatusText: TextView
     private lateinit var watchSelectorLabel: TextView
     private lateinit var watchSelectorSpinner: Spinner
+    private lateinit var watchHeroImage: ImageView
 
     private var connectedWatches: List<ConnectedWatchNode> = emptyList()
     private var applyingSelection = false
@@ -34,9 +39,12 @@ class WatchSetupActivity : AppCompatActivity() {
         setContentView(R.layout.activity_watch_setup)
 
         refreshWatchStatusButton = findViewById(R.id.refreshWatchStatusButton)
+        watchStatusHeadlineText = findViewById(R.id.watchStatusHeadlineText)
+        watchStatusSupportText = findViewById(R.id.watchStatusSupportText)
         watchStatusText = findViewById(R.id.watchSetupStatusText)
         watchSelectorLabel = findViewById(R.id.watchSelectorLabel)
         watchSelectorSpinner = findViewById(R.id.watchSelectorSpinner)
+        watchHeroImage = findViewById(R.id.watchHeroImage)
 
         refreshWatchStatusButton.setOnClickListener {
             refreshWatchStatus()
@@ -48,6 +56,7 @@ class WatchSetupActivity : AppCompatActivity() {
                 val selectedWatch = connectedWatches.getOrNull(position) ?: return
                 WatchConnectionRepository(this@WatchSetupActivity).savePreferredWatch(selectedWatch)
                 lifecycleScope.launch {
+                    refreshHeaderVisuals()
                     watchStatusText.text = runWatchVerification()
                 }
             }
@@ -65,14 +74,15 @@ class WatchSetupActivity : AppCompatActivity() {
 
     private fun refreshWatchStatus() {
         refreshWatchStatusButton.isEnabled = false
-        refreshWatchStatusButton.text = "Test en cours..."
+        refreshWatchStatusButton.text = "Vérification..."
         watchStatusText.text = "Vérification de la liaison montre..."
 
         lifecycleScope.launch {
             refreshWatchChoices()
+            refreshHeaderVisuals()
             watchStatusText.text = runWatchVerification()
             refreshWatchStatusButton.isEnabled = true
-            refreshWatchStatusButton.text = "Tester la liaison montre"
+            refreshWatchStatusButton.text = "Vérifier la connexion montre"
         }
     }
 
@@ -105,6 +115,37 @@ class WatchSetupActivity : AppCompatActivity() {
         applyingSelection = false
     }
 
+    private suspend fun refreshHeaderVisuals() {
+        val status = WatchConnectionRepository(this).loadStatus()
+        val health = WatchSyncHealthRepository(this).load()
+        val visual = WatchVisualResolver.resolve(status.displayName, health)
+
+        watchHeroImage.setImageResource(visual.drawableResId)
+        watchStatusHeadlineText.text = when {
+            !status.connected -> "Aucune montre connectée"
+            status.connectedWatches.size > 1 -> "Montre principale : ${visual.headline}"
+            else -> "Montre connectée : ${visual.headline}"
+        }
+
+        watchStatusSupportText.text = buildList {
+            if (!status.connected) {
+                add("Connectez une montre Wear OS au téléphone.")
+            } else {
+                add(visual.supportLabel ?: "Liaison détectée")
+                if (status.preferredNodeMissing) {
+                    add("La montre principale précédente n'est plus détectée.")
+                }
+                health?.summary()?.let {
+                    add(
+                        it.removePrefix("Montre: ").replaceFirstChar { char ->
+                            if (char.isLowerCase()) char.titlecase() else char.toString()
+                        },
+                    )
+                }
+            }
+        }.joinToString(" ")
+    }
+
     private suspend fun runWatchVerification(): String {
         val status = WatchConnectionRepository(this).loadStatus()
         val watchHealth = WatchSyncHealthRepository(this).load()
@@ -127,8 +168,8 @@ class WatchSetupActivity : AppCompatActivity() {
             return listOfNotNull(
                 status.label(),
                 preferredNote,
-                "La liaison téléphone - montre est OK.",
-                "Le test complet demande une connexion Dexcom active.",
+                "La liaison téléphone - montre est opérationnelle.",
+                "Le test complet nécessite une connexion Dexcom active.",
                 healthSummary,
             ).joinToString("\n")
         }

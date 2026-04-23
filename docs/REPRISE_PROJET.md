@@ -1,30 +1,30 @@
-est-ce qu# Reprise Projet
+# Reprise Projet
 
-Derniere mise a jour : 23 avril 2026
+Dernière mise à jour : 23 avril 2026
 
 Ce document sert de point de reprise rapide pour continuer le projet sans relire tout l'historique du chat.
 
-## 1. Etat actuel
+## 1. État actuel
 
 - Projet Android `Widget G7` / `GlucoWatch`
 - L'APK debug compile
-- L'APK telephone s'installe sur le `Pixel 8a`
+- L'APK téléphone s'installe sur le `Pixel 8a`
 - L'APK Wear s'installe sur la `Pixel Watch 2`
-- Le depot n'est plus propre : il y a des modifications locales non committees en cours
-- Dernier commit de reference connu avant cette serie de modifications : `ed032cc`
+- Le dépôt n'est plus propre : il y a des modifications locales non commitées en cours
+- Dernier commit de référence connu avant cette série de modifications : `ed032cc`
 
-## 2. Ce qui est deja en place
+## 2. Ce qui est déjà en place
 
-### Lancement et entree dans l'app
+### Lancement et entrée dans l'app
 
-- Le lancement de l'app est maintenant tres rapide
+- Le lancement de l'app est maintenant très rapide
 - Le splash n'affiche plus de visuel complexe, seulement un fond simple
-- Au premier lancement, l'app passe par un ecran `Connexion Dexcom`
+- Au premier lancement, l'app passe par un écran `Connexion Dexcom`
 
 ### Connexion Dexcom
 
-- Il existe un ecran d'entree dedie `Connexion Dexcom`
-- Cet ecran est reserve a Dexcom
+- Il existe un écran d'entrée dédié `Connexion Dexcom`
+- Cet écran est réservé à Dexcom
 - Le texte d'aide est `Utilisez vos identifiants Dexcom`
 - L'utilisateur doit accepter les textes juridiques avant de pouvoir se connecter
 
@@ -32,61 +32,72 @@ Ce document sert de point de reprise rapide pour continuer le projet sans relire
 
 - L'utilisateur doit accepter :
   - les `CGU`
-  - la `Politique de confidentialite`
-  - l'`Avertissement medical`
-- Les textes sont ouvrables depuis l'ecran d'entree
-- L'acceptation est memorisee localement avec une version
-- Si la version juridique change plus tard, le flow peut etre redemande
+  - la `Politique de confidentialité`
+  - l'`Avertissement médical`
+- Les textes sont ouvrables depuis l'écran d'entrée
+- L'acceptation est mémorisée localement avec une version
+- Si la version juridique change plus tard, le flow peut être redemandé
 
 ### Notice
 
-- La notice utilisateur a ete mise a jour pour le nouveau flow
-- Elle explique que l'ecran `Connexion Dexcom` apparait avant l'accueil
+- La notice utilisateur a été mise à jour pour le nouveau flow
+- Elle explique que l'écran `Connexion Dexcom` apparaît avant l'accueil
 
-### Synchronisation telephone / montre
+### Synchronisation téléphone / montre
 
-- La logique de sync a ete rapprochee du rythme reel du Dexcom G7
-- Le fallback auto cote telephone est passe de `2 min` a `5 min`
-- Le telephone compare le `timestampEpochMs` de la mesure Dexcom avec la derniere mesure deja poussee a la montre
-- Si la mesure n'est pas nouvelle, elle n'est pas renvoyee a la montre
-- Si la mesure est nouvelle, elle est poussee immediatement a la montre
+- La logique de sync a été rapprochée du rythme réel du Dexcom G7
+- Le fallback auto côté téléphone est passé de `2 min` à `5 min`
+- Le téléphone compare le `timestampEpochMs` de la mesure Dexcom avec la dernière mesure déjà poussée à la montre
+- Si la mesure n'est pas nouvelle, elle n'est pas renvoyée à la montre
+- Si la mesure est nouvelle, elle est poussée immédiatement à la montre
 - Le refresh manuel existe toujours
 - Un `PhoneSyncStateStore` suit maintenant :
-  - la derniere mesure Dexcom recuperee
-  - la derniere mesure reellement poussee a la montre
-  - les derniers succes / echecs de push
-- Cote montre, le cache affiche maintenant mieux l'age de la donnee
-- Le statut `Aucune nouvelle mesure` est gere plus proprement lors d'un refresh manuel
+  - la dernière mesure Dexcom récupérée
+  - la dernière mesure réellement poussée à la montre
+  - les derniers succès / échecs de push
+- Côté montre, le cache affiche maintenant mieux l'âge de la donnée
+- Le statut `Aucune nouvelle mesure` est géré plus proprement lors d'un refresh manuel
 
 ### Complication / Tile
 
 - La complication affiche de nouveau `mg/dL`
-- La tile et la complication affichent maintenant une information plus explicite sur la fraicheur de la donnee
+- La tile et la complication affichent maintenant une information plus explicite sur la fraîcheur de la donnée
 
-### Ecran montre
+### Écran montre
 
-- L'ecran `Configuration de la montre` ne fait plus seulement un simple refresh de statut
+- L'écran `Configuration de la montre` ne fait plus seulement un simple refresh de statut
 - Le bouton principal lance maintenant un vrai test utile :
-  - detection de la montre
-  - verification qu'une source Dexcom est configuree
-  - recuperation d'une vraie lecture si possible
-  - tentative de push reel vers la montre
-  - retour d'un message de resultat plus utile
+  - détection de la montre
+  - vérification qu'une source Dexcom est configurée
+  - récupération d'une vraie lecture si possible
+  - tentative de push réel vers la montre
+  - retour d'un message de résultat plus utile
 
 ### Multi-montres
 
-- Si plusieurs montres sont connectees, l'app peut maintenant les afficher dans l'ecran `Configuration de la montre`
+- Si plusieurs montres sont connectées, l'app peut maintenant les afficher dans l'écran `Configuration de la montre`
 - L'utilisateur peut choisir une `montre principale`
-- Ce choix est memorise localement via le `nodeId`
-- L'accueil et l'ecran montre utilisent cette montre comme reference d'affichage
+- Ce choix est mémorisé localement via le `nodeId`
+- L'accueil et l'écran montre utilisent cette montre comme référence d'affichage
 
 Important :
 
-- la notion de `montre principale` est proprement geree dans l'UI et dans le test de liaison
-- mais le transport Wear n'est pas encore strictement cible par montre
-- autrement dit, l'app sait quelle montre est la reference utilisateur, mais la sync Data Layer reste encore globale
+- la notion de `montre principale` est proprement gérée dans l'UI et dans le test de liaison
+- mais le transport Wear n'est pas encore strictement ciblé par montre
+- autrement dit, l'app sait quelle montre est la référence utilisateur, mais la sync Data Layer reste encore globale
 
-### Documents juridiques crees
+### Design system
+
+- Un design system a été rédigé dans [DESIGN_SYSTEM.md](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/docs/DESIGN_SYSTEM.md)
+- Une première passe d'application a déjà été faite sur les écrans principaux
+- La direction actuelle est en train d'évoluer pour se rapprocher davantage du rendu visuel de l'app officielle Dexcom :
+  - fond très clair crème vers vert pâle
+  - gros titres noirs très lourds
+  - sous-textes gris-vert doux
+  - cards plates, calmes, avec contour fin vert grisé
+  - boutons verts pleins, très arrondis
+
+### Documents juridiques créés
 
 Dans `docs` :
 
@@ -97,74 +108,83 @@ Dans `docs` :
 Attention :
 
 - ces textes sont une base solide
-- ils contiennent encore des champs `[A completer]`
-- ils doivent idealement etre relus par un juriste avant diffusion a des tiers
+- ils contiennent encore des champs `[À compléter]`
+- ils doivent idéalement être relus par un juriste avant diffusion à des tiers
 
-## 3. Ce qui a ete essaye puis annule
+## 3. Ce qui a été essayé puis annulé
 
-### Widget telephone
+### Widget téléphone
 
-Un widget Android pour le telephone a ete cree, puis retire.
+Un widget Android pour le téléphone a été créé, puis retiré.
 
-Decision finale actuelle :
+Décision finale actuelle :
 
-- pas de widget telephone dans l'APK
+- pas de widget téléphone dans l'APK
 
 ### Splash avec image complexe
 
-Plusieurs variantes de splash avec image montre ont ete testees.
+Plusieurs variantes de splash avec image montre ont été testées.
 
-Decision actuelle :
+Décision actuelle :
 
-- eviter les doubles visuels au lancement
-- rester sur un demarrage simple et rapide
+- éviter les doubles visuels au lancement
+- rester sur un démarrage simple et rapide
 
 ## 4. Points ouverts / sensibles
 
-### Texte Dexcom sur l'accueil
+### Ressemblance visuelle avec l'app Dexcom
 
-Le bloc `DEXCOM` affiche actuellement un temps du type `Connecte - X min`.
+Nouvelle direction validée :
 
-Decision utilisateur demandee :
+- l'utilisateur veut rapprocher l'interface du rendu de l'app officielle Dexcom
+- il faut viser une app plus plate, plus clinique, plus sobre, moins "compagnon premium"
+- priorité visuelle :
+  - écran montre
+  - accueil
+  - connexion Dexcom
+  - notice
+  - écrans juridiques
 
-- enlever ce temps de l'onglet Dexcom
+### Image réelle du modèle de montre
 
-### Passe grammaire / orthographe
+Nouvelle décision produit / technique :
 
-Il reste une vraie passe de relecture a faire sur toute l'APK.
+- au lieu d'afficher une image générique, l'app devra afficher l'image du modèle de montre connecté
+- Android / Wear OS ne fournit pas directement une photo officielle exploitable
+- la bonne solution retenue est :
+  1. faire remonter par la montre ses informations réelles (`manufacturer`, `model`, éventuellement `device`)
+  2. mapper ces informations côté téléphone vers un catalogue local d'images
+  3. afficher une montre générique uniquement si le modèle n'est pas reconnu
 
-Points visibles a relire en priorite :
+Important :
 
-- [MainActivity.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/MainActivity.kt)
-- [activity_main.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/activity_main.xml)
-- [WatchSetupActivity.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/ui/WatchSetupActivity.kt)
-- [activity_watch_setup.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/activity_watch_setup.xml)
-- [activity_dexcom_entry.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/activity_dexcom_entry.xml)
-- [activity_dexcom_settings.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/activity_dexcom_settings.xml)
-- les textes dans `mobile/src/main/res/raw/`
+- la stratégie retenue est un `mapping local par modèle`
+- pas de récupération d'image depuis le système
+- pas de dépendance web
+- fallback générique si modèle inconnu
 
 ### Multi-montres : limite actuelle
 
 La gestion multi-montres est meilleure qu'avant, mais incomplète techniquement.
 
-Etat actuel :
+État actuel :
 
 - l'utilisateur peut choisir une montre principale
 - l'UI suit ce choix
 - le test de liaison suit ce choix
 
-Point non encore resolu :
+Point non encore résolu :
 
-- la sync Wear n'est pas encore strictement ciblee sur cette montre principale
+- la sync Wear n'est pas encore strictement ciblée sur cette montre principale
 
-### Verification securite / risques
+### Vérification sécurité / risques
 
-Rien de critique n'a ete repere dans la partie locale au dernier passage, mais il reste deux risques produit/techniques :
+Rien de critique n'a été repéré dans la partie locale au dernier passage, mais il reste deux risques produit / techniques :
 
-- l'UI peut laisser croire que la montre principale est aussi la montre reellement ciblee par la sync, ce qui n'est pas encore strictement vrai
-- le bouton de test montre agrege plusieurs causes d'echec possibles :
+- l'UI peut laisser croire que la montre principale est aussi la montre réellement ciblée par la sync, ce qui n'est pas encore strictement vrai
+- le bouton de test montre agrège plusieurs causes d'échec possibles :
   - Dexcom
-  - reseau
+  - réseau
   - Bluetooth
   - montre
 
@@ -172,37 +192,42 @@ Rien de critique n'a ete repere dans la partie locale au dernier passage, mais i
 
 Le dernier step effectivement atteint est :
 
-- ajout d'une gestion UI de la multi-montre
-- ajout d'un choix de montre principale
+- application d'une première passe du design system
+- correction d'une partie importante des textes visibles utilisateur
 - rebuild
-- reinstallation de l'APK telephone sur le `Pixel 8a`
+- réinstallation de l'APK téléphone sur le `Pixel 8a`
 
-Le tout dernier correctif applique juste avant ce checkpoint :
+Le point de reprise produit juste après ce checkpoint est :
 
-- retour de `mg/dL` dans la complication Wear
-- rebuild de `wear`
-- reinstallation de l'APK Wear sur la `Pixel Watch 2`
+- rapprocher visuellement l'app du style Dexcom officiel
+- commencer par l'écran montre
+- puis dérouler le reste dans le même style
 
-## 6. Reprise conseillee
+## 6. Reprise conseillée
 
-Si on reprend le projet maintenant, l'ordre conseille est :
+Si on reprend le projet maintenant, l'ordre conseillé est :
 
-1. mettre a jour les textes visibles utilisateur
-2. enlever le temps dans le bloc `DEXCOM`
-3. faire une passe complete grammaire / orthographe dans toute l'app
-4. verifier les failles / ambiguities restantes
-5. decider ensuite si on pousse la gestion multi-montres jusqu'au vrai ciblage technique de la sync
+1. implémenter l'identification réelle du modèle de montre côté Wear
+2. créer un mapping local `modèle -> image`
+3. afficher cette image sur l'écran montre côté téléphone
+4. refondre visuellement l'écran montre pour le rapprocher au maximum du style Dexcom
+5. dérouler ensuite le même style sur l'accueil, la connexion Dexcom, la notice et les écrans juridiques
 
-## 7. Fichiers cles a relire en priorite
+Note utile à reprendre telle quelle dans le prochain échange :
 
-- [MainActivity.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/MainActivity.kt)
-- [activity_main.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/activity_main.xml)
+- Si tu veux, je peux maintenant passer au code et commencer par l'écran montre, puis dérouler le reste dans le même style.
+
+## 7. Fichiers clés à relire en priorité
+
 - [WatchSetupActivity.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/ui/WatchSetupActivity.kt)
 - [activity_watch_setup.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/activity_watch_setup.xml)
+- [WatchConnectionRepository.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/watch/WatchConnectionRepository.kt)
+- [MainActivity.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/MainActivity.kt)
+- [activity_main.xml](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/layout/activity_main.xml)
+- [DESIGN_SYSTEM.md](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/docs/DESIGN_SYSTEM.md)
 - [PhoneGlucoseSyncEngine.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/sync/PhoneGlucoseSyncEngine.kt)
 - [PhoneSyncStateStore.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/sync/PhoneSyncStateStore.kt)
 - [PhoneWearSyncService.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/sync/PhoneWearSyncService.kt)
-- [WatchConnectionRepository.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/java/com/widgetg7/mobile/watch/WatchConnectionRepository.kt)
 - [GlucoseCache.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/wear/src/main/java/com/widgetg7/wear/data/GlucoseCache.kt)
 - [GlucoseComplicationService.kt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/wear/src/main/java/com/widgetg7/wear/complication/GlucoseComplicationService.kt)
 - [notice_utilisateur.txt](C:/Users/Utilisateur/Desktop/THP/Projects/Widget%20G7/mobile/src/main/res/raw/notice_utilisateur.txt)

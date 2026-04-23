@@ -3,6 +3,7 @@ package com.widgetg7.wear.sync
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.BatteryManager
 import android.os.PowerManager
 import com.google.android.gms.wearable.PutDataMapRequest
@@ -55,6 +56,9 @@ class WatchSyncHealthMonitor(private val context: Context) {
             dataMap.putBoolean(GlucoseKeys.WATCH_SYNC_LIMITED, snapshot.syncLimited)
             dataMap.putString(GlucoseKeys.WATCH_STATUS_MESSAGE, snapshot.message)
             dataMap.putLong(GlucoseKeys.WATCH_STATUS_UPDATED_AT, snapshot.updatedAtEpochMs)
+            dataMap.putString(GlucoseKeys.WATCH_MANUFACTURER, Build.MANUFACTURER.orEmpty())
+            dataMap.putString(GlucoseKeys.WATCH_MODEL, Build.MODEL.orEmpty())
+            dataMap.putString(GlucoseKeys.WATCH_DEVICE, Build.DEVICE.orEmpty())
         }.asPutDataRequest().setUrgent()
         Wearable.getDataClient(context).putDataItem(request)
     }

@@ -43,6 +43,9 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
                 syncLimited = map.getBoolean(GlucoseKeys.WATCH_SYNC_LIMITED),
                 message = map.getString(GlucoseKeys.WATCH_STATUS_MESSAGE).orEmpty(),
                 updatedAtEpochMs = map.getLong(GlucoseKeys.WATCH_STATUS_UPDATED_AT),
+                manufacturer = map.getString(GlucoseKeys.WATCH_MANUFACTURER).orEmpty(),
+                model = map.getString(GlucoseKeys.WATCH_MODEL).orEmpty(),
+                device = map.getString(GlucoseKeys.WATCH_DEVICE).orEmpty(),
             )
             WatchSyncHealthRepository(this).save(status)
             Log.d(

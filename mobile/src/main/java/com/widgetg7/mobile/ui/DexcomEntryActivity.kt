@@ -48,7 +48,7 @@ class DexcomEntryActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, DexcomSettingsActivity::class.java).apply {
                     putExtra(DexcomSettingsActivity.EXTRA_FIRST_CONNECTION_FLOW, true)
-                }
+                },
             )
         }
     }
@@ -96,7 +96,7 @@ class DexcomEntryActivity : AppCompatActivity() {
                     startActivity(
                         Intent(this@DexcomEntryActivity, LegalDocumentActivity::class.java).apply {
                             putExtra(LegalDocumentActivity.EXTRA_DOCUMENT_TYPE, documentType)
-                        }
+                        },
                     )
                 }
             },

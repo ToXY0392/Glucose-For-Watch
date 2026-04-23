@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Widget.WidgetG7.SectionCard" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="cardBackgroundColor">@color/wg7_surface</item>
         <item name="strokeColor">@color/wg7_outline</item>
         <item name="strokeWidth">1dp</item>
-        <item name="cardCornerRadius">28dp</item>
+        <item name="cardCornerRadius">30dp</item>
         <item name="cardElevation">0dp</item>
         <item name="contentPadding">0dp</item>
     </style>
@@ -12,36 +12,40 @@
     <style name="Widget.WidgetG7.PrimaryButton" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/wg7_accent</item>
         <item name="android:textColor">@color/wg7_on_accent</item>
-        <item name="cornerRadius">18dp</item>
+        <item name="cornerRadius">20dp</item>
         <item name="android:minHeight">56dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Widget.WidgetG7.SecondaryButton" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="backgroundTint">@color/wg7_surface_alt</item>
         <item name="strokeColor">@color/wg7_outline</item>
         <item name="android:textColor">@color/wg7_text_primary</item>
-        <item name="cornerRadius">18dp</item>
+        <item name="cornerRadius">20dp</item>
         <item name="android:minHeight">56dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Widget.WidgetG7.TonalButton" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/wg7_accent_soft</item>
         <item name="android:textColor">@color/wg7_accent_dark</item>
-        <item name="cornerRadius">18dp</item>
+        <item name="cornerRadius">20dp</item>
         <item name="android:minHeight">56dp</item>
         <item name="iconTint">@color/wg7_accent_dark</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Widget.WidgetG7.InputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/wg7_surface_alt</item>
         <item name="boxStrokeColor">@color/wg7_outline</item>
         <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxStrokeWidthFocused">1dp</item>
         <item name="hintTextColor">@color/wg7_text_secondary</item>
         <item name="shapeAppearanceOverlay">@style/ShapeAppearance.WidgetG7.Input</item>
     </style>
 
     <style name="ShapeAppearance.WidgetG7.Input" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">20dp</item>
+        <item name="cornerSize">22dp</item>
     </style>
 </resources>

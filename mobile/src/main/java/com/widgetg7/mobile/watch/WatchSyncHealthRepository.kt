@@ -8,6 +8,9 @@ data class WatchSyncHealthStatus(
     val syncLimited: Boolean,
     val message: String,
     val updatedAtEpochMs: Long,
+    val manufacturer: String,
+    val model: String,
+    val device: String,
 ) {
     fun isFresh(nowEpochMs: Long = System.currentTimeMillis()): Boolean {
         if (updatedAtEpochMs <= 0L) return false
@@ -39,6 +42,9 @@ class WatchSyncHealthRepository(context: Context) {
             .putBoolean(KEY_SYNC_LIMITED, status.syncLimited)
             .putString(KEY_MESSAGE, status.message)
             .putLong(KEY_UPDATED_AT, status.updatedAtEpochMs)
+            .putString(KEY_MANUFACTURER, status.manufacturer)
+            .putString(KEY_MODEL, status.model)
+            .putString(KEY_DEVICE, status.device)
             .apply()
     }
 
@@ -50,6 +56,9 @@ class WatchSyncHealthRepository(context: Context) {
             syncLimited = prefs.getBoolean(KEY_SYNC_LIMITED, false),
             message = prefs.getString(KEY_MESSAGE, "").orEmpty(),
             updatedAtEpochMs = prefs.getLong(KEY_UPDATED_AT, 0L),
+            manufacturer = prefs.getString(KEY_MANUFACTURER, "").orEmpty(),
+            model = prefs.getString(KEY_MODEL, "").orEmpty(),
+            device = prefs.getString(KEY_DEVICE, "").orEmpty(),
         ).takeIf { it.isFresh() }
     }
 
@@ -60,5 +69,8 @@ class WatchSyncHealthRepository(context: Context) {
         private const val KEY_SYNC_LIMITED = "sync_limited"
         private const val KEY_MESSAGE = "message"
         private const val KEY_UPDATED_AT = "updated_at"
+        private const val KEY_MANUFACTURER = "manufacturer"
+        private const val KEY_MODEL = "model"
+        private const val KEY_DEVICE = "device"
     }
 }

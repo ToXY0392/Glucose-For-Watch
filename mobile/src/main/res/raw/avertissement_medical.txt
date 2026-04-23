@@ -1,33 +1,33 @@
-AVERTISSEMENT MEDICAL IMPORTANT
+AVERTISSEMENT MÉDICAL IMPORTANT
 
-Derniere mise a jour : 22 avril 2026
+Dernière mise à jour : 22 avril 2026
 
 GlucoWatch / Widget G7 Phone est une application d'affichage et de relais.
 
 Elle ne remplace pas :
 
 - l'application officielle Dexcom ;
-- un dispositif medical officiel ;
-- un lecteur ou recepteur officiel ;
-- un professionnel de sante ;
-- un avis medical, un diagnostic ou une decision therapeutique.
+- un dispositif médical officiel ;
+- un lecteur ou récepteur officiel ;
+- un professionnel de santé ;
+- un avis médical, un diagnostic ou une décision thérapeutique.
 
-Les informations affichees peuvent etre retardees, incompletes, indisponibles ou inexactes, notamment en raison :
+Les informations affichées peuvent être retardées, incomplètes, indisponibles ou inexactes, notamment en raison :
 
-- de la connectivite ;
+- de la connectivité ;
 - du Bluetooth ;
-- du telephone ;
+- du téléphone ;
 - de la montre ;
-- du systeme Android ou Wear OS ;
-- des limitations d'arriere-plan ;
+- du système Android ou Wear OS ;
+- des limitations d'arrière-plan ;
 - de services tiers ;
-- d'un decalage de synchronisation ;
+- d'un décalage de synchronisation ;
 - de l'absence de nouvelle mesure disponible.
 
-Ne prenez jamais une decision medicale, therapeutique ou d'urgence sur le seul fondement des informations affichees par l'application.
+Ne prenez jamais une décision médicale, thérapeutique ou d'urgence sur le seul fondement des informations affichées par l'application.
 
-En cas de doute, de symptome, d'alerte, d'hypoglycemie suspectee, d'hyperglycemie suspectee ou de situation d'urgence :
+En cas de doute, de symptôme, d'alerte, d'hypoglycémie suspectée, d'hyperglycémie suspectée ou de situation d'urgence :
 
-- verifiez la donnee via la solution officielle adaptee ;
-- suivez les consignes de votre professionnel de sante ;
-- contactez les secours si necessaire.
+- vérifiez la donnée via la solution officielle adaptée ;
+- suivez les consignes de votre professionnel de santé ;
+- contactez les secours si nécessaire.

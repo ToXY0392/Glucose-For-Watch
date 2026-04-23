@@ -145,7 +145,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
         accountSummaryText.text = SyncText.dexcomAccountSummary(settings, syncStatus)
 
         if (statusText.text.isNullOrBlank()) {
-            statusText.text = "Aucune vérification effectuée pour le moment."
+            statusText.text = "Aucune vérification n'a encore été effectuée."
         }
     }
 

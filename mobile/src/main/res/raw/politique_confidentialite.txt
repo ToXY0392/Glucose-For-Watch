@@ -1,61 +1,61 @@
-POLITIQUE DE CONFIDENTIALITE
+POLITIQUE DE CONFIDENTIALITÉ
 
-Derniere mise a jour : 22 avril 2026
+Dernière mise à jour : 22 avril 2026
 
 Important :
-Ce texte constitue une base de travail destinee a etre completee avant diffusion.
-Si l'application est distribuee a des tiers, une validation juridique et RGPD est fortement recommandee, en particulier en presence de donnees de sante.
+Ce texte constitue une base de travail destinée à être complétée avant diffusion.
+Si l'application est distribuée à des tiers, une validation juridique et RGPD est fortement recommandée, en particulier en présence de données de santé.
 
 1. Responsable du traitement
 
-- Nom / raison sociale : [A completer]
-- Adresse : [A completer]
-- E-mail de contact vie privee : [A completer]
+- Nom / raison sociale : [À compléter]
+- Adresse : [À compléter]
+- E-mail de contact vie privée : [À compléter]
 
-2. Donnees traitees
+2. Données traitées
 
-Selon les fonctionnalites utilisees, l'application peut traiter :
+Selon les fonctionnalités utilisées, l'application peut traiter :
 
 - des identifiants Dexcom Share saisis par l'utilisateur ;
-- des parametres de configuration ;
-- des donnees de glycemie affichees ou synchronisees ;
-- des informations d'etat de synchronisation ;
-- des informations techniques liees a la montre, au telephone ou a la connectivite.
+- des paramètres de configuration ;
+- des données de glycémie affichées ou synchronisées ;
+- des informations d'état de synchronisation ;
+- des informations techniques liées à la montre, au téléphone ou à la connectivité.
 
-3. Donnees de sante
+3. Données de santé
 
-Les donnees de glycemie sont susceptibles de relever de la categorie des donnees de sante.
+Les données de glycémie sont susceptibles de relever de la catégorie des données de santé.
 
-4. Finalites
+4. Finalités
 
-Les donnees sont traitees pour les finalites suivantes :
+Les données sont traitées pour les finalités suivantes :
 
-- permettre la connexion a un service tiers compatible ;
-- recuperer et afficher des donnees de glycemie ;
-- transmettre les donnees vers une montre compatible ;
+- permettre la connexion à un service tiers compatible ;
+- récupérer et afficher des données de glycémie ;
+- transmettre les données vers une montre compatible ;
 - assurer l'actualisation et le suivi de synchronisation ;
-- ameliorer la fiabilite technique et le support utilisateur.
+- améliorer la fiabilité technique et le support utilisateur.
 
 5. Stockage local
 
-Certaines donnees de configuration, y compris des elements necessaires a la connexion Dexcom, peuvent etre stockees localement sur l'appareil afin de permettre le fonctionnement de l'application.
+Certaines données de configuration, y compris des éléments nécessaires à la connexion Dexcom, peuvent être stockées localement sur l'appareil afin de permettre le fonctionnement de l'application.
 
-6. Securite
+6. Sécurité
 
-L'editeur met en oeuvre des mesures techniques et organisationnelles raisonnables destinees a proteger les donnees contre l'acces non autorise, l'alteration, la perte ou la divulgation.
+L'éditeur met en oeuvre des mesures techniques et organisationnelles raisonnables destinées à protéger les données contre l'accès non autorisé, l'altération, la perte ou la divulgation.
 
-Toutefois, aucun systeme n'offre une securite absolue.
+Toutefois, aucun système n'offre une sécurité absolue.
 
 7. Services tiers
 
-L'utilisation de l'application peut impliquer des services tiers, notamment Dexcom Share, Android, Wear OS, Google Play Services, le reseau mobile, le Wi-Fi ou le Bluetooth.
+L'utilisation de l'application peut impliquer des services tiers, notamment Dexcom Share, Android, Wear OS, Google Play Services, le réseau mobile, le Wi-Fi ou le Bluetooth.
 
 8. Droits des personnes
 
-Sous reserve de la reglementation applicable, l'utilisateur peut disposer de droits d'acces, de rectification, d'effacement, de limitation, d'opposition, de portabilite et de retrait du consentement lorsqu'il s'applique.
+Sous réserve de la réglementation applicable, l'utilisateur peut disposer de droits d'accès, de rectification, d'effacement, de limitation, d'opposition, de portabilité et de retrait du consentement lorsqu'il s'applique.
 
-9. Reclamation
+9. Réclamation
 
-Pour la France, l'autorite de controle competente est la CNIL :
+Pour la France, l'autorité de contrôle compétente est la CNIL :
 
 https://www.cnil.fr/

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:top="16dp"
+        android:bottom="16dp"
+        android:left="82dp"
+        android:right="82dp">
+        <shape android:shape="rectangle">
+            <corners android:radius="18dp" />
+            <gradient
+                android:angle="270"
+                android:startColor="#535456"
+                android:centerColor="#1F2023"
+                android:endColor="#4B4D50" />
+        </shape>
+    </item>
+
+    <item
+        android:top="54dp"
+        android:bottom="54dp"
+        android:left="38dp"
+        android:right="38dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="315"
+                android:startColor="#F7F6F2"
+                android:centerColor="#CAC7C0"
+                android:endColor="#8E8D89" />
+        </shape>
+    </item>
+
+    <item
+        android:top="68dp"
+        android:bottom="68dp"
+        android:left="52dp"
+        android:right="52dp">
+        <shape android:shape="oval">
+            <solid android:color="#090A0D" />
+        </shape>
+    </item>
+
+    <item
+        android:top="80dp"
+        android:bottom="80dp"
+        android:left="66dp"
+        android:right="66dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="315"
+                android:startColor="#0E0F12"
+                android:endColor="#202227" />
+        </shape>
+    </item>
+
+    <item
+        android:top="66dp"
+        android:bottom="66dp"
+        android:left="140dp"
+        android:right="18dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="0"
+                android:startColor="#F7F6F2"
+                android:endColor="#9F9D98" />
+        </shape>
+    </item>
+</layer-list>

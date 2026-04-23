@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.view.View as AndroidView
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.ScrollView
@@ -19,6 +20,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.settings.AppSettingsStore
+import com.widgetg7.mobile.settings.DexcomUserSettings
 import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.status.SyncErrorCategory
 import com.widgetg7.mobile.status.SyncStatusRepository
@@ -34,6 +36,7 @@ import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchConnectionStatus
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthStatus
+import com.widgetg7.mobile.watch.WatchVisualResolver
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
 
     private lateinit var watchSettingsButton: TextView
+    private lateinit var watchPreviewImage: ImageView
     private lateinit var watchModelText: TextView
     private lateinit var watchFaceStatusText: TextView
     private lateinit var watchRefreshButton: TextView
@@ -86,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         ViewCompat.requestApplyInsets(mainScrollView)
 
         watchSettingsButton = findViewById(R.id.watchSettingsButton)
+        watchPreviewImage = findViewById(R.id.watchPreviewImage)
         watchModelText = findViewById(R.id.watchModelText)
         watchFaceStatusText = findViewById(R.id.watchFaceStatusText)
         watchRefreshButton = findViewById(R.id.watchRefreshButton)
@@ -155,7 +160,8 @@ class MainActivity : AppCompatActivity() {
             "Paramètres > Applications > Widget G7 Phone > Batterie > Autoriser l'utilisation en arrière-plan."
 
         if (!dexcomSectionTouched) {
-            dexcomExpanded = shouldOpenDexcomSection(dexcomSettings.isConfigured(), syncStatus.lastErrorCategory)
+            dexcomExpanded =
+                shouldOpenDexcomSection(dexcomSettings.isConfigured(), syncStatus.lastErrorCategory)
         }
         if (!permissionsSectionTouched) {
             permissionsExpanded = false
@@ -163,12 +169,21 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val watchStatus = WatchConnectionRepository(this@MainActivity).loadStatus()
-            watchModelText.text = watchModelLabel(watchStatus)
-            watchFaceStatusText.text = watchSummary(watchStatus, watchHealth)
-            applyWatchStatusStyle(watchStatus, watchHealth)
+            applyWatchVisuals(watchStatus, watchHealth)
         }
 
         renderCardStates()
+    }
+
+    private fun applyWatchVisuals(
+        watchStatus: WatchConnectionStatus,
+        watchHealth: WatchSyncHealthStatus?,
+    ) {
+        val visual = WatchVisualResolver.resolve(watchStatus.displayName, watchHealth)
+        watchPreviewImage.setImageResource(visual.drawableResId)
+        watchFaceStatusText.text = watchSummary(watchStatus, watchHealth)
+        watchModelText.text = if (watchStatus.connected) visual.headline else "Wear OS"
+        applyWatchStatusStyle(watchStatus, watchHealth)
     }
 
     private fun handleDexcomAction() {
@@ -194,7 +209,10 @@ class MainActivity : AppCompatActivity() {
                 Log.d(logTag, "Manual sync completed with new reading source=${result.sourceName}")
 
             is SyncExecutionResult.SuccessNoNewReading ->
-                Log.d(logTag, "Manual sync completed without new reading source=${result.sourceName}")
+                Log.d(
+                    logTag,
+                    "Manual sync completed without new reading source=${result.sourceName}",
+                )
 
             is SyncExecutionResult.Failure ->
                 Log.d(logTag, "Manual sync failed message=${result.message}")
@@ -202,7 +220,7 @@ class MainActivity : AppCompatActivity() {
 
         refreshHome()
         watchRefreshButton.isEnabled = true
-        watchRefreshButton.text = "\u21bb"
+        watchRefreshButton.text = "Actualiser"
     }
 
     private fun showWatchSettingsMenu() {
@@ -241,7 +259,7 @@ class MainActivity : AppCompatActivity() {
             try {
                 startActivity(fallbackIntent)
             } catch (fallbackError: ActivityNotFoundException) {
-                Log.w(logTag, "Unable to open system settings", fallbackError)
+                Log.w(logTag, "Impossible d'ouvrir les paramètres système", fallbackError)
             }
         }
     }
@@ -254,7 +272,7 @@ class MainActivity : AppCompatActivity() {
         try {
             startActivity(appDetailsIntent)
         } catch (_: ActivityNotFoundException) {
-            Log.w(logTag, "Unable to open app details settings")
+            Log.w(logTag, "Impossible d'ouvrir les détails de l'application")
         }
     }
 
@@ -275,12 +293,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun dexcomSummary(
-        settings: com.widgetg7.mobile.settings.DexcomUserSettings,
+        settings: DexcomUserSettings,
         syncStatus: SyncStatusSnapshot,
     ): String {
         return when {
             !settings.isConfigured() -> "Non connecté"
-            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 -> "Reconnecter"
+            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH &&
+                syncStatus.authFailureCount >= 2 -> "Reconnecter"
             else -> "Connecté"
         }
     }
@@ -295,13 +314,6 @@ class MainActivity : AppCompatActivity() {
             else -> "Connectée"
         }
 
-    private fun watchModelLabel(watchStatus: WatchConnectionStatus): String =
-        if (watchStatus.connected && watchStatus.displayName.isNotBlank()) {
-            watchStatus.displayName
-        } else {
-            "Aucune montre"
-        }
-
     private fun applyWatchStatusStyle(
         watchStatus: WatchConnectionStatus,
         watchHealth: WatchSyncHealthStatus?,
@@ -309,7 +321,7 @@ class MainActivity : AppCompatActivity() {
         val color = when {
             !watchStatus.connected -> R.color.wg7_danger
             watchHealth?.syncLimited == true -> R.color.wg7_alert
-            else -> R.color.wg7_watch_green
+            else -> R.color.wg7_success
         }
         watchFaceStatusText.setTextColor(ContextCompat.getColor(this, color))
     }
