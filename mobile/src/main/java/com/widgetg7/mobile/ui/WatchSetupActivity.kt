@@ -6,9 +6,13 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ImageButton
+import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.data.PhoneGlucoseSourceFactory
@@ -23,7 +27,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeout
 
 class WatchSetupActivity : AppCompatActivity() {
+    private var baseScrollPaddingTop = 0
+
     private lateinit var refreshWatchStatusButton: Button
+    private lateinit var backToHomeButton: ImageButton
     private lateinit var watchStatusHeadlineText: TextView
     private lateinit var watchStatusSupportText: TextView
     private lateinit var watchStatusText: TextView
@@ -38,7 +45,22 @@ class WatchSetupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_watch_setup)
 
+        val scrollView = findViewById<ScrollView>(R.id.watchSetupScrollView)
+        baseScrollPaddingTop = scrollView.paddingTop
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { view, insets ->
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(
+                view.paddingLeft,
+                baseScrollPaddingTop + systemBarsInsets.top,
+                view.paddingRight,
+                view.paddingBottom,
+            )
+            insets
+        }
+        ViewCompat.requestApplyInsets(scrollView)
+
         refreshWatchStatusButton = findViewById(R.id.refreshWatchStatusButton)
+        backToHomeButton = findViewById(R.id.backToHomeButton)
         watchStatusHeadlineText = findViewById(R.id.watchStatusHeadlineText)
         watchStatusSupportText = findViewById(R.id.watchStatusSupportText)
         watchStatusText = findViewById(R.id.watchSetupStatusText)
@@ -49,6 +71,7 @@ class WatchSetupActivity : AppCompatActivity() {
         refreshWatchStatusButton.setOnClickListener {
             refreshWatchStatus()
         }
+        backToHomeButton.setOnClickListener { finish() }
 
         watchSelectorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

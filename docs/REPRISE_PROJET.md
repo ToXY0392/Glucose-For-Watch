@@ -174,6 +174,17 @@ Nouvelle direction validée :
   - notice
   - écrans juridiques
 
+### Accueil : état actuel
+
+- `Dexcom` et `Autorisations` ont été retirés de l'accueil principal
+- `Voir la notice` reste en bas de l'écran
+- le bouton `⚙` ouvre maintenant un menu custom opaque au lieu du menu Android brut
+- ce menu contient :
+  - `Paramètres montre`
+  - `Dexcom`
+  - `Autorisations`
+- le rendu visé est plus fluide, plus dense et plus premium que le `PopupMenu` système
+
 ### Image réelle du modèle de montre
 
 Décision produit / technique :
@@ -233,6 +244,11 @@ Le dernier step effectivement atteint est :
 - `Paramètres` et `Sync` ont maintenant la même taille
 - le hero a été reconstruit pour que le bloc `Connectée / modèle / boutons` soit centré sur le même axe que la montre
 - les boutons `Paramètres` et `Sync` sont maintenant placés sur une ligne commune sous le texte, comme un groupe visuel unique
+- `Dexcom` et `Autorisations` ont été sortis de l'accueil principal et passés dans un menu custom sous `⚙`
+- l'écran `Configuration de la montre` a été retouché :
+  - vrai inset système en haut pour éviter que le titre passe sous les infos du téléphone
+  - ajout d'un bouton retour en icône sous `Mise en route rapide`
+  - compaction globale de l'écran pour supprimer le scroll
 
 Le point de reprise produit juste après ce checkpoint est :
 
@@ -241,6 +257,8 @@ Le point de reprise produit juste après ce checkpoint est :
 - finaliser le centrage perçu du duo `Paramètres / Sync` sous le texte
 - affiner encore l'espacement vertical entre la montre, le statut, le modèle et les deux icônes
 - mieux organiser les menus autour d'elle au lieu de simples cartes empilées
+- vérifier visuellement que l'écran `Configuration de la montre` ne scrolle plus sur le Pixel 8a
+- si besoin, compacter encore légèrement la carte `État de connexion` ou la carte `Mise en route rapide`
 
 ## 7. Reprise conseillée
 
@@ -273,6 +291,9 @@ La demande explicite la plus récente est :
 - faire en sorte que `Paramètres` et `Sync` soient un duo d'icônes strictement symétrique
 - les placer comme un groupe unique sous `Connectée` et `Google Pixel Watch 2`
 - continuer à ajuster tant que le centrage perçu n'est pas parfait
+- garder `Voir la notice` hors du menu
+- utiliser un menu déroulant custom, opaque et fluide pour `Dexcom` et `Autorisations`
+- supprimer le scroll résiduel de l'écran `Configuration de la montre`
 
 ## 8. Fichiers clés à relire en priorité
 
