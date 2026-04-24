@@ -17,7 +17,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
 
-private const val RESOURCES_VERSION = "6"
+private const val RESOURCES_VERSION = "7"
 
 class GlucoseTileService : TileService() {
 
@@ -30,9 +30,14 @@ class GlucoseTileService : TileService() {
         val nowEpochMs = System.currentTimeMillis()
         healthMonitor.updateAndReport(nowEpochMs)
         val valueText = snapshot?.displayValueText() ?: "--"
+        val trendText = snapshot?.takeUnless { it.stale }?.trendArrow().orEmpty()
         val valueColor = snapshot?.semanticColorArgb() ?: 0xFFA7B0BA.toInt()
         val metadataColor = snapshot?.metadataColorArgb() ?: 0xFFA7B0BA.toInt()
-        val statusText = if (snapshot == null) "No data" else snapshot.trendOnlyLabel()
+        val statusText = when {
+            snapshot == null -> "No data"
+            snapshot.stale -> snapshot.trendOnlyLabel()
+            else -> ""
+        }
         val refreshAction = ActionBuilders.LaunchAction.Builder()
             .setAndroidActivity(
                 ActionBuilders.AndroidActivity.Builder()
@@ -42,12 +47,49 @@ class GlucoseTileService : TileService() {
             )
             .build()
 
-        val value = LayoutElementBuilders.Text.Builder()
-            .setText(valueText)
+        val value = LayoutElementBuilders.Row.Builder()
+            .addContent(
+                LayoutElementBuilders.Text.Builder()
+                    .setText(valueText)
+                    .setFontStyle(
+                        LayoutElementBuilders.FontStyle.Builder()
+                            .setSize(DimensionBuilders.sp(44f))
+                            .setColor(ColorBuilders.argb(valueColor))
+                            .build()
+                    )
+                    .setMaxLines(1)
+                    .build()
+            )
+            .addContent(
+                LayoutElementBuilders.Text.Builder()
+                    .setText(trendText)
+                    .setFontStyle(
+                        LayoutElementBuilders.FontStyle.Builder()
+                            .setSize(DimensionBuilders.sp(22f))
+                            .setColor(ColorBuilders.argb(metadataColor))
+                            .build()
+                    )
+                    .setMaxLines(1)
+                    .setModifiers(
+                        ModifiersBuilders.Modifiers.Builder()
+                            .setPadding(
+                                ModifiersBuilders.Padding.Builder()
+                                    .setStart(DimensionBuilders.dp(6f))
+                                    .setTop(DimensionBuilders.dp(4f))
+                                    .build()
+                            )
+                            .build()
+                    )
+                    .build()
+            )
+            .build()
+
+        val unit = LayoutElementBuilders.Text.Builder()
+            .setText("mg/dL")
             .setFontStyle(
                 LayoutElementBuilders.FontStyle.Builder()
-                    .setSize(DimensionBuilders.sp(44f))
-                    .setColor(ColorBuilders.argb(valueColor))
+                    .setSize(DimensionBuilders.sp(14f))
+                    .setColor(ColorBuilders.argb(metadataColor))
                     .build()
             )
             .setMaxLines(1)
@@ -57,7 +99,7 @@ class GlucoseTileService : TileService() {
             .setText(statusText)
             .setFontStyle(
                 LayoutElementBuilders.FontStyle.Builder()
-                    .setSize(DimensionBuilders.sp(14f))
+                    .setSize(DimensionBuilders.sp(13f))
                     .setColor(ColorBuilders.argb(metadataColor))
                     .build()
             )
@@ -66,7 +108,7 @@ class GlucoseTileService : TileService() {
                 ModifiersBuilders.Modifiers.Builder()
                     .setPadding(
                         ModifiersBuilders.Padding.Builder()
-                            .setTop(DimensionBuilders.dp(8f))
+                            .setTop(DimensionBuilders.dp(4f))
                             .build()
                     )
                     .build()
@@ -123,6 +165,7 @@ class GlucoseTileService : TileService() {
             .addContent(
                 LayoutElementBuilders.Column.Builder()
                     .addContent(value)
+                    .addContent(unit)
                     .addContent(metadata)
                     .addContent(refreshGlyph)
                     .build()

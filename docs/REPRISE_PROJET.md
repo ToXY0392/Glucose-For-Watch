@@ -1,6 +1,6 @@
 # Reprise Projet
 
-Dernière mise à jour : 23 avril 2026
+Dernière mise à jour : 24 avril 2026
 
 Ce document sert de point de reprise rapide pour continuer le projet sans relire tout l'historique du chat.
 
@@ -27,6 +27,8 @@ Ce document sert de point de reprise rapide pour continuer le projet sans relire
 - Cet écran est réservé à Dexcom
 - Le texte d'aide est `Utilisez vos identifiants Dexcom`
 - L'utilisateur doit accepter les textes juridiques avant de pouvoir se connecter
+- Un bouton retour en icône est maintenant affiché sous la card principale
+- L'APK mobile mise à jour a été réinstallée sur le `Pixel 8a` pour valider ce retour
 
 ### Parcours juridique
 
@@ -141,10 +143,15 @@ Pourquoi :
 - la montre reçoit bien les données du téléphone
 - les logs montrent `Received phone data`, `Requested complication refresh` et `Requested tile refresh`
 - la tile a été simplifiée pour retirer l'affichage de l'âge / du temps
+- la tile affiche maintenant la valeur glucose avec la flèche de tendance, puis `mg/dL` sous la valeur
+- la version de ressources de la tile a été incrémentée pour forcer Wear OS à recharger le rendu
+- l'APK Wear corrigé a été installé sur la `Pixel Watch 2` et le rendu a été validé
 - la complication a été raccourcie pour éviter les métadonnées trop longues
 
 Important :
 
+- la correction `mg/dL` sur la tile est validée
+- on ne touche plus à l'interface montre
 - si la complication n'apparaît toujours pas sur le cadran, ce n'est pas forcément une panne de source
 - il peut être nécessaire de reposer manuellement la complication sur le cadran
 
@@ -248,6 +255,7 @@ Le dernier step effectivement atteint est :
   - vrai inset système en haut pour éviter que le titre passe sous les infos du téléphone
   - ajout d'un bouton retour en icône sous `Mise en route rapide`
   - compaction globale de l'écran pour supprimer le scroll
+- l'écran `Connexion Dexcom` a maintenant lui aussi un bouton retour en icône sous la card
 
 Le point de reprise produit juste après ce checkpoint est :
 
@@ -284,6 +292,8 @@ La bonne intention validée est :
 
 La demande explicite la plus récente est :
 
+- ne plus toucher à l'interface montre
+- reprendre le travail côté téléphone uniquement
 - conserver le menu sans ombre
 - garder la carte du menu centrée sous les deux boutons
 - continuer à affiner l'équilibre global du hero montre

@@ -18,6 +18,13 @@ class LegalConsentStore(context: Context) {
             .apply()
     }
 
+    fun clearAcceptedVersion() {
+        prefs.edit()
+            .remove(KEY_ACCEPTED_VERSION)
+            .remove(KEY_ACCEPTED_AT_EPOCH_MS)
+            .apply()
+    }
+
     companion object {
         const val CURRENT_LEGAL_VERSION = "2026-04-22"
 

@@ -115,12 +115,14 @@ class DexcomSettingsActivity : AppCompatActivity() {
         disconnectDexcomButton.setOnClickListener {
             settingsStore.clearDexcomSettings()
             launchStateStore.resetDexcomEntry()
+            LegalConsentStore(this).clearAcceptedVersion()
             syncStatusRepository.clearSessionState()
-            usernameInput.setText("")
-            passwordInput.setText("")
-            serverInput.setText("Europe", false)
-            renderAccountSummary(settingsStore.loadDexcomSettings(), syncStatusRepository.load(), accountSummaryText, statusText)
-            statusText.text = "Compte Dexcom supprimé de l'application."
+            startActivity(
+                Intent(this, DexcomEntryActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                },
+            )
+            finish()
         }
     }
 
