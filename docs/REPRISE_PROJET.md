@@ -13,6 +13,15 @@ Ce document sert de point de reprise rapide pour continuer le projet sans relire
 - Le dépôt n'est pas propre : il y a des modifications locales non commit en cours
 - Dernier commit de référence connu avant cette série de modifications : `ed032cc`
 
+### Environnement de build local
+
+- Le warning Android `Unable to initialize metrics, ensure ...\.android is writable` ne vient pas du code applicatif
+- Le warning Kotlin daemon a été nettoyé
+- Le warning Android metrics disparaît en local si le build est lancé avec `JAVA_TOOL_OPTIONS` pointant `user.home` vers le workspace
+- Commande recommandée pour les builds locaux PowerShell :
+  - `$env:JAVA_TOOL_OPTIONS='-Duser.home="C:\\Users\\Utilisateur\\Desktop\\THP\\Projects\\Widget G7"'`
+- Cette variable n'a pas été injectée dans le projet ; elle sert seulement de contournement local documenté
+
 ## 2. Ce qui est déjà en place
 
 ### Lancement et entrée dans l'app
