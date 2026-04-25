@@ -15,6 +15,9 @@ class PhoneWearSyncService(private val context: Context) {
         val nodeClient = Wearable.getNodeClient(context)
         val connectedNodes = nodeClient.connectedNodes.await()
         Log.d(logTag, "Connected wear nodes=${connectedNodes.map { it.displayName + "/" + it.id }}")
+        if (connectedNodes.isEmpty()) {
+            throw IllegalStateException("Aucune montre connectee via Wear OS.")
+        }
 
         val request = PutDataMapRequest.create(GlucoseKeys.PATH_LATEST).apply {
             dataMap.putInt(GlucoseKeys.VALUE_MG_DL, reading.valueMgDl)

@@ -65,6 +65,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
     implementation("androidx.security:security-crypto:1.1.0")
     implementation("com.google.android.gms:play-services-wearable:19.0.0")
+    implementation("androidx.wear:wear-remote-interactions:1.2.0")
     implementation("androidx.work:work-runtime-ktx:2.11.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 }

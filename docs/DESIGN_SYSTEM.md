@@ -1,46 +1,51 @@
 # Design System
 
-Version de travail : 23 avril 2026
+Version de travail : 24 avril 2026
 
-Ce document formalise une charte graphique inspiree de l'univers Dexcom, mais suffisamment distincte pour rester propre a `GlucoWatch / Widget G7`.
+Ce document formalise la charte graphique cible de `GlucoWatch / Widget G7`.
+
+Reference visuelle actuelle :
+
+![Reference design configurer montre](reference_design_configurer_montre.png)
 
 ## 1. Direction visuelle
 
 - Univers : sante connectee, calme, fiable, lisible
-- Ton : rassurant, simple, moderne, non anxiogene
+- Ton : clinique, simple, moderne, non anxiogene
 - Priorite : lecture immediate de la donnee et des statuts
-- Signature : fond creme + menthe, accent vert profond, alertes tres lisibles
+- Signature : base blanche nette, surfaces legerement vert froid, accent vert profond, montre dominante
 
 Ce systeme doit privilegier :
 
 - la clarte avant l'effet visuel
 - des etats tres visibles
-- des cartes aeriennes et arrondies
+- des surfaces sobres, plates et peu ombrees
 - peu d'elements parasites
+- une composition centree autour de la montre sur l'accueil
 
 ## 2. Palette
 
 ### Fond
 
-- `wg7_bg_top` : `#F0E7D7`
-  - creme chaud, utilise en haut des ecrans
-- `wg7_bg_bottom` : `#CFE5DE`
-  - menthe pale, utilise en bas des ecrans
+- `wg7_bg_top` : `#FFFFFF`
+  - blanc net, utilise en haut des ecrans
+- `wg7_bg_bottom` : `#F7FBFA`
+  - voile vert froid tres leger, utilise en bas des ecrans
 
 ### Surfaces
 
-- `wg7_surface` : `#99FFFDFC`
-  - surface translucide legere pour les blocs sur fond degrade
-- `wg7_surface_alt` : `#FFFFFFFF`
-  - surface pleine pour les champs et contenus blancs
-- `wg7_outline` : `#8FA89D`
-  - contour principal des cartes et bordures
+- `wg7_surface` : `#FCFEFE`
+  - surface principale, presque blanche
+- `wg7_surface_alt` : `#F2F8F6`
+  - surface secondaire avec leger voile vert froid
+- `wg7_outline` : `#D8E5E1`
+  - contour discret des blocs et bordures
 
 ### Texte
 
 - `wg7_text_primary` : `#1F2A2A`
   - titre, chiffres, labels principaux
-- `wg7_text_secondary` : `#5D6C69`
+- `wg7_text_secondary` : `#6A7875`
   - aides, descriptions, statuts secondaires
 
 ### Accent principal
@@ -73,8 +78,8 @@ Ce systeme doit privilegier :
 
 ### Usage recommande
 
-- fond d'ecran : degrade `wg7_bg_top` -> `wg7_bg_bottom`
-- cartes : transparentes avec contour `wg7_outline`
+- fond d'ecran : base blanche `wg7_bg_top` avec leger bas `wg7_bg_bottom`
+- cartes : surfaces pleines, sobres, contour `wg7_outline`, pas d'ombre visible
 - texte principal : `wg7_text_primary`
 - texte secondaire : `wg7_text_secondary`
 - action principale : `wg7_accent`
@@ -110,15 +115,15 @@ Regles :
 Reference actuelle :
 
 - style : `Widget.WidgetG7.SectionCard`
-- rayon : `28dp`
+- rayon : `20dp` a `24dp`
 - contour : `1dp`
 - elevation : `0dp`
 
 Regles :
 
-- privilegier des cartes grandes et stables
+- privilegier des blocs sobres et stables
 - eviter les separations trop fines a l'interieur
-- garder beaucoup d'air entre les sections
+- garder une densite plus clinique, sans effet premium decoratif
 
 ### Boutons
 
@@ -188,14 +193,18 @@ Regles :
 
 Objectif :
 
-- donner un etat global clair
-- montrer la montre, Dexcom et les autorisations
+- faire de la montre l'element principal de l'ecran
+- donner l'etat de connexion de la montre immediatement
+- organiser les actions autour de la montre
 
 Regles :
 
-- la carte montre est la hero card
-- `DEXCOM` doit rester tres simple
-- `AUTORISATIONS` doit etre utilitaire, pas bavard
+- utiliser la montre de la reference comme repere visuel pour l'accueil
+- la montre doit etre grande, centree et nette
+- `Connectee` et le modele de montre doivent rester centres sous la montre
+- `Parametres / Sync` doivent rester groupes sous le hero
+- le menu secondaire doit rester opaque, sans ombre parasite, centre sous les boutons
+- `Dexcom` et `Autorisations` ne doivent pas redevenir des cartes principales sur l'accueil
 
 ### Connexion Dexcom
 
@@ -228,12 +237,14 @@ Regles :
 
 Objectif :
 
+- guider l'installation et l'activation des composants montre
 - verifier la liaison
-- guider la mise en route
 
 Regles :
 
-- texte de test concret
+- wording principal : `Configurer ma montre`
+- composants a presenter simplement : `Application montre`, `Tile glucose`, `Complication glucose`
+- texte de test concret et court
 - si plusieurs montres, afficher clairement la montre principale
 - le bouton principal doit decrire une action reelle
 

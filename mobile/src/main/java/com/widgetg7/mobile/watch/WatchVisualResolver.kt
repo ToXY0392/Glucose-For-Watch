@@ -21,21 +21,21 @@ object WatchVisualResolver {
         return when {
             signature.contains("pixel watch 2") ->
                 WatchVisual(
-                    drawableResId = R.drawable.watch_photo_transparent,
+                    drawableResId = R.drawable.watch_reference_hero,
                     headline = "Google Pixel Watch 2",
                     supportLabel = "Montre Google connectée",
                 )
 
             signature.contains("pixel watch 3") ->
                 WatchVisual(
-                    drawableResId = R.drawable.watch_photo_transparent,
+                    drawableResId = R.drawable.watch_reference_hero,
                     headline = "Google Pixel Watch 3",
                     supportLabel = "Montre Google connectée",
                 )
 
             signature.contains("pixel watch") ->
                 WatchVisual(
-                    drawableResId = R.drawable.watch_photo_transparent,
+                    drawableResId = R.drawable.watch_reference_hero,
                     headline = model.ifBlank { displayName.ifBlank { "Google Pixel Watch" } },
                     supportLabel = "Montre Google connectée",
                 )

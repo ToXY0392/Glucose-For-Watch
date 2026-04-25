@@ -70,12 +70,16 @@ class WearDataLayerListenerService : WearableListenerService() {
     }
 
     private fun requestSurfaceUpdates() {
-        ComplicationDataSourceUpdateRequester
-            .create(this, ComponentName(this, GlucoseComplicationService::class.java))
-            .requestUpdateAll()
-        Log.d(logTag, "Requested complication refresh")
-
         TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
         Log.d(logTag, "Requested tile refresh")
+
+        try {
+            ComplicationDataSourceUpdateRequester
+                .create(this, ComponentName(this, GlucoseComplicationService::class.java))
+                .requestUpdateAll()
+            Log.d(logTag, "Requested complication refresh")
+        } catch (error: Throwable) {
+            Log.w(logTag, "Unable to request complication refresh", error)
+        }
     }
 }

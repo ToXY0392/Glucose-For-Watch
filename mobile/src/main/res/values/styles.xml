@@ -4,7 +4,7 @@
         <item name="cardBackgroundColor">@color/wg7_surface</item>
         <item name="strokeColor">@color/wg7_outline</item>
         <item name="strokeWidth">1dp</item>
-        <item name="cardCornerRadius">30dp</item>
+        <item name="cardCornerRadius">24dp</item>
         <item name="cardElevation">0dp</item>
         <item name="contentPadding">0dp</item>
     </style>
