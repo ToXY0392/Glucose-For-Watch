@@ -40,6 +40,7 @@ import com.widgetg7.mobile.watch.WatchVisualResolver
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+    private val maxFreshReadingAgeMs = 2 * 60 * 1000L
     private val logTag = "WidgetG7Phone"
     private var baseScrollPaddingTop = 0
     private var baseScrollPaddingBottom = 0
@@ -174,7 +175,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun scheduleAutoSyncIfReady() {
         if (AppSettingsStore(this).loadDexcomSettings().isConfigured()) {
-            PhoneAutoSyncScheduler.schedule(this)
+            PhoneAutoSyncScheduler.schedule(this, delayMs = 5_000L)
         }
     }
 
@@ -205,7 +206,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val stale = syncStatus.lastReadingTimestampEpochMs > 0L &&
-            System.currentTimeMillis() - syncStatus.lastReadingTimestampEpochMs > 12 * 60 * 1000L
+            System.currentTimeMillis() - syncStatus.lastReadingTimestampEpochMs > maxFreshReadingAgeMs
         glucoseStatusBadge.text = when {
             !dexcomConfigured -> "Action requise"
             syncStatus.lastError.isNotBlank() -> "Erreur sync"

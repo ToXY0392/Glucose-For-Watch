@@ -203,7 +203,10 @@ class WatchSetupActivity : AppCompatActivity() {
                 PhoneGlucoseSourceFactory.create(this@WatchSetupActivity).latest()
             }
             withTimeout(VERIFY_TIMEOUT_MS) {
-                PhoneWearSyncService(this@WatchSetupActivity).pushLatest(reading)
+                val stateStore = com.widgetg7.mobile.sync.PhoneSyncStateStore(this@WatchSetupActivity)
+                val sequenceId = stateStore.nextSequenceId()
+                PhoneWearSyncService(this@WatchSetupActivity).pushLatest(reading, sequenceId)
+                stateStore.recordPushSuccess(reading.timestampEpochMs, sequenceId)
             }
 
             listOfNotNull(

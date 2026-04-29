@@ -74,11 +74,17 @@ Attention : ces textes doivent etre relus avant diffusion publique.
 ### Synchronisation telephone / montre
 
 - Rythme rapproche du fonctionnement reel du G7.
-- Fallback automatique a `5 min`.
+- Cycle automatique telephone resserre a `90 s`.
+- A l'ouverture/reprise de l'accueil, une sync est programmee rapidement apres environ `5 s`.
 - Comparaison du timestamp Dexcom avec la derniere mesure poussee.
 - Refresh manuel depuis telephone.
 - Refresh manuel depuis montre.
 - Repush possible de la derniere donnee connue meme sans nouvelle mesure Dexcom.
+- Chaque push porte maintenant un `sequenceId`.
+- La montre renvoie un ack sur `/glucose/watch/ack` apres reception de `/glucose/latest`.
+- Le telephone stocke le dernier ack recu avec node id, timestamp de lecture et sequence.
+- La montre marque defensivement une donnee comme ancienne apres 2 minutes.
+- La source Dexcom cote telephone marque aussi une lecture comme stale apres 2 minutes.
 - Cache montre utilise pour tile et complication.
 
 Fichiers importants :
@@ -122,11 +128,11 @@ Fichiers importants :
 
 Priorites :
 
-1. clarifier les etats `success`, `stale`, `offline`, `auth_error`, `source_error` ;
+1. verifier en conditions reelles que le cycle 90 s tient hors economie d'energie profonde ;
 2. rendre l'age de la donnee impossible a ignorer ;
-3. ajouter un ack optionnel montre -> telephone ;
-4. mieux gerer multi-montres et montre principale ;
-5. eviter toute boucle de retry agressive.
+3. mieux gerer multi-montres et montre principale ;
+4. eviter toute boucle de retry agressive ;
+5. documenter clairement que Dexcom G7 peut ne pas exposer une nouvelle mesure toutes les 2 minutes.
 
 ### Wear Collector avance
 

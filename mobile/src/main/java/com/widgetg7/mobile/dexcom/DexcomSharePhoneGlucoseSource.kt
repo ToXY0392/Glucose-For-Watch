@@ -167,7 +167,7 @@ class DexcomSharePhoneGlucoseSource(
     }
 
     companion object {
-        private const val STALE_AFTER_MS = 12 * 60 * 1000L
+        private const val STALE_AFTER_MS = 2 * 60 * 1000L
     }
 }
 

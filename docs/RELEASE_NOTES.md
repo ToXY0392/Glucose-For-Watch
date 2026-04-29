@@ -43,7 +43,7 @@ Ameliorations principales :
 - ajout des documents `CGU`, `Politique de confidentialite` et `Avertissement medical` ;
 - notice utilisateur mise a jour ;
 - synchronisation telephone / montre rapprochee du rythme reel du Dexcom G7 ;
-- fallback automatique telephone passe de `2 min` a `5 min` ;
+- fallback automatique telephone calibre au rythme G7, puis resserre ensuite pour contrainte forte de fraicheur ;
 - meilleur suivi local de la derniere mesure Dexcom recuperee et de la derniere mesure poussee a la montre ;
 - refresh manuel plus robuste : la derniere donnee connue peut etre repoussee a la montre meme sans nouvelle mesure Dexcom ;
 - ecran `Configuration de la montre` transforme en test de liaison utile ;
@@ -77,6 +77,43 @@ Decisions documentees :
 - Le mode direct `capteur G7 -> Wear OS` est une piste avancee de type Wear Collector.
 - Le Wear Collector doit rester experimental tant qu'un spike BLE Pixel Watch 2 n'a pas prouve la faisabilite.
 - Toute future implementation doit isoler les sources glucose derriere une abstraction.
+
+## Mise a jour sync solide - 30 avril 2026
+
+Ameliorations principales :
+
+- ajout d'un `sequenceId` sur chaque push telephone -> montre ;
+- ajout d'un accuse de reception montre -> telephone sur `/glucose/watch/ack` ;
+- stockage cote telephone du dernier ack recu avec timestamp, sequence et node id ;
+- detection defensive cote Wear des donnees trop anciennes meme si le telephone les avait envoyees comme non stale ;
+- le test d'envoi depuis l'ecran montre enregistre aussi le push dans l'etat local de sync.
+
+Impact :
+
+- la chaine d'envoi est maintenant tracable de bout en bout ;
+- le telephone peut savoir qu'une montre a bien recu une valeur ;
+- la montre evite d'afficher trop longtemps une valeur propre visuellement mais ancienne ;
+- les refresh manuels restent compatibles avec la derniere valeur connue.
+
+## Mise a jour contrainte 2 minutes - 30 avril 2026
+
+Changement de contrainte :
+
+- l'application ne doit plus laisser une sync ou une donnee paraitre fraiche au-dela de 2 minutes.
+
+Ameliorations :
+
+- cycle automatique telephone resserre a 90 secondes ;
+- lancement d'une sync rapide environ 5 secondes apres ouverture/reprise de l'accueil si Dexcom est configure ;
+- seuil stale Dexcom cote telephone ramene a 2 minutes ;
+- seuil stale cote Wear ramene a 2 minutes ;
+- diagnostic batterie/sync limitee cote Wear aligne sur 2 minutes.
+
+Note importante :
+
+- Dexcom G7 ne fournit pas forcement une nouvelle mesure toutes les 2 minutes.
+- L'app peut garantir qu'elle tente de synchroniser plus souvent et qu'elle signale une valeur trop ancienne.
+- Elle ne peut pas inventer une nouvelle mesure si Dexcom n'en expose pas encore.
 
 ## Etat actuel
 

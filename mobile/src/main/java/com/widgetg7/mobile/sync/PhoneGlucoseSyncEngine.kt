@@ -45,15 +45,16 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
             val hasNewReading = previousSyncState.lastPushedReadingTimestampEpochMs != reading.timestampEpochMs
             val shouldPushToWatch = hasNewReading || forcePushCurrentReading
             if (shouldPushToWatch) {
+                val sequenceId = syncStateStore.nextSequenceId()
                 val wearPushMs = measureTimeMillis {
                     withTimeout(WEAR_PUSH_TIMEOUT_MS) {
-                        PhoneWearSyncService(context).pushLatest(reading)
+                        PhoneWearSyncService(context).pushLatest(reading, sequenceId)
                     }
                 }
-                syncStateStore.recordPushSuccess(reading.timestampEpochMs)
+                syncStateStore.recordPushSuccess(reading.timestampEpochMs, sequenceId)
                 Log.d(
                     logTag,
-                    "Sync engine push completed wearPushMs=$wearPushMs source=${source.sourceName} hasNewReading=$hasNewReading",
+                    "Sync engine push completed wearPushMs=$wearPushMs source=${source.sourceName} hasNewReading=$hasNewReading sequenceId=$sequenceId",
                 )
             } else {
                 Log.d(

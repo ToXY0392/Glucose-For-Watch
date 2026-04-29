@@ -149,6 +149,17 @@ Le `sequenceId` doit permettre d'ignorer les anciens messages arrives en retard.
 9. Etats explicites : `idle`, `refreshing`, `success`, `stale`, `offline`, `auth_error`, `source_error`.
 10. Securite : stocker les secrets dans un stockage chiffre cote telephone, jamais dans le module Wear.
 
+Contrainte projet ajoutee le 30 avril 2026 :
+
+- viser une verification automatique toutes les 90 secondes ;
+- signaler toute donnee de plus de 2 minutes comme ancienne ;
+- ne jamais presenter une valeur de plus de 2 minutes comme parfaitement fraiche.
+
+Limite technique :
+
+- Dexcom G7 peut ne pas produire ou exposer une nouvelle lecture toutes les 2 minutes.
+- L'app doit donc garantir la frequence de tentative et la transparence de fraicheur, pas promettre une mesure nouvelle inexistante.
+
 ## Risques a surveiller
 
 - Dependances Dexcom cloud : indisponibilite reseau, expiration de session, changement d'API.

@@ -10,7 +10,7 @@ import kotlinx.coroutines.tasks.await
 class PhoneWearSyncService(private val context: Context) {
     private val logTag = "WidgetG7Phone"
 
-    suspend fun pushLatest(reading: GlucoseReading) {
+    suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long) {
         val dataClient = Wearable.getDataClient(context)
         val nodeClient = Wearable.getNodeClient(context)
         val connectedNodes = nodeClient.connectedNodes.await()
@@ -25,7 +25,8 @@ class PhoneWearSyncService(private val context: Context) {
             dataMap.putInt(GlucoseKeys.DELTA_MG_DL, reading.deltaMgDl)
             dataMap.putLong(GlucoseKeys.TIMESTAMP_EPOCH_MS, reading.timestampEpochMs)
             dataMap.putBoolean(GlucoseKeys.STALE, reading.stale)
-            dataMap.putLong(GlucoseKeys.PUSH_VERSION, System.currentTimeMillis())
+            dataMap.putLong(GlucoseKeys.SEQUENCE_ID, sequenceId)
+            dataMap.putLong(GlucoseKeys.PUSH_VERSION, sequenceId)
         }.asPutDataRequest().setUrgent()
 
         val item = dataClient.putDataItem(request).await()

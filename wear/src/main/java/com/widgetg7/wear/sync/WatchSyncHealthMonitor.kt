@@ -79,6 +79,6 @@ class WatchSyncHealthMonitor(private val context: Context) {
     companion object {
         private const val LOW_BATTERY_THRESHOLD = 20
         private const val REFRESH_TIMEOUT_MS = 15_000L
-        private const val STALE_WHILE_LOW_BATTERY_MS = 15 * 60 * 1000L
+        private const val STALE_WHILE_LOW_BATTERY_MS = 2 * 60 * 1000L
     }
 }

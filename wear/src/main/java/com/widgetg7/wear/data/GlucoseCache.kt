@@ -109,6 +109,7 @@ object GlucoseKeys {
     const val PATH_LATEST = "/glucose/latest"
     const val PATH_REFRESH_REQUEST = "/glucose/refresh/request"
     const val PATH_REFRESH_STATUS = "/glucose/refresh/status"
+    const val PATH_WATCH_ACK = "/glucose/watch/ack"
     const val PATH_WATCH_STATUS = "/watch/status"
 
     const val VALUE_MG_DL = "valueMgDl"
@@ -116,6 +117,7 @@ object GlucoseKeys {
     const val DELTA_MG_DL = "deltaMgDl"
     const val TIMESTAMP_EPOCH_MS = "timestampEpochMs"
     const val STALE = "stale"
+    const val SEQUENCE_ID = "sequenceId"
     const val HISTORY = "history"
     const val REFRESH_STATUS = "refreshStatus"
     const val REFRESH_MESSAGE = "refreshMessage"
@@ -131,6 +133,9 @@ object GlucoseKeys {
     const val WATCH_MANUFACTURER = "watchManufacturer"
     const val WATCH_MODEL = "watchModel"
     const val WATCH_DEVICE = "watchDevice"
+    const val ACK_READING_TIMESTAMP_EPOCH_MS = "ackReadingTimestampEpochMs"
+    const val ACK_SEQUENCE_ID = "ackSequenceId"
+    const val ACK_RECEIVED_AT = "ackReceivedAt"
 }
 
 data class RefreshStatusSnapshot(
@@ -207,13 +212,15 @@ class GlucoseCache(context: Context) {
 
     fun load(): GlucoseSnapshot? {
         if (!prefs.contains(GlucoseKeys.TIMESTAMP_EPOCH_MS)) return null
-
+        val timestampEpochMs = prefs.getLong(GlucoseKeys.TIMESTAMP_EPOCH_MS, 0L)
+        val ageMs = System.currentTimeMillis() - timestampEpochMs
+        val isTooOld = timestampEpochMs <= 0L || ageMs > STALE_AFTER_MS
         return GlucoseSnapshot(
             valueMgDl = prefs.getInt(GlucoseKeys.VALUE_MG_DL, 0),
             trend = prefs.getString(GlucoseKeys.TREND, "FLAT").orEmpty(),
             deltaMgDl = prefs.getInt(GlucoseKeys.DELTA_MG_DL, 0),
-            timestampEpochMs = prefs.getLong(GlucoseKeys.TIMESTAMP_EPOCH_MS, 0L),
-            stale = prefs.getBoolean(GlucoseKeys.STALE, true),
+            timestampEpochMs = timestampEpochMs,
+            stale = prefs.getBoolean(GlucoseKeys.STALE, true) || isTooOld,
         )
     }
 
@@ -310,6 +317,7 @@ class GlucoseCache(context: Context) {
 
     companion object {
         private const val HISTORY_LIMIT = 12
+        private const val STALE_AFTER_MS = 2 * 60 * 1000L
         private const val KEY_REFRESH_STATUS = "refresh_status"
         private const val KEY_REFRESH_MESSAGE = "refresh_message"
         private const val KEY_REFRESH_UPDATED_AT = "refresh_updated_at"

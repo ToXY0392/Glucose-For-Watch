@@ -7,6 +7,8 @@ import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUp
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
+import com.google.android.gms.wearable.PutDataMapRequest
+import com.google.android.gms.wearable.Wearable
 import com.google.android.gms.wearable.WearableListenerService
 import com.widgetg7.wear.complication.GlucoseComplicationService
 import com.widgetg7.wear.data.GlucoseCache
@@ -14,9 +16,14 @@ import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.data.GlucoseSnapshot
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
 import com.widgetg7.wear.tile.GlucoseTileService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class WearDataLayerListenerService : WearableListenerService() {
     private val logTag = "WidgetG7Wear"
+    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onDataChanged(dataEvents: DataEventBuffer) {
         val cache = GlucoseCache(this)
@@ -35,12 +42,14 @@ class WearDataLayerListenerService : WearableListenerService() {
                     timestampEpochMs = map.getLong(GlucoseKeys.TIMESTAMP_EPOCH_MS),
                     stale = map.getBoolean(GlucoseKeys.STALE),
                 )
+                val sequenceId = map.getLong(GlucoseKeys.SEQUENCE_ID)
                 Log.d(
                     logTag,
-                    "Received phone data value=${snapshot.valueMgDl} trend=${snapshot.trend} delta=${snapshot.deltaMgDl} stale=${snapshot.stale}",
+                    "Received phone data value=${snapshot.valueMgDl} trend=${snapshot.trend} delta=${snapshot.deltaMgDl} stale=${snapshot.stale} sequenceId=$sequenceId",
                 )
                 cache.save(snapshot)
                 cache.clearRefreshStatus()
+                sendAck(snapshot.timestampEpochMs, sequenceId)
                 requestSurfaceUpdates()
                 healthMonitor.updateAndReport()
                 continue
@@ -80,6 +89,23 @@ class WearDataLayerListenerService : WearableListenerService() {
             Log.d(logTag, "Requested complication refresh")
         } catch (error: Throwable) {
             Log.w(logTag, "Unable to request complication refresh", error)
+        }
+    }
+
+    private fun sendAck(readingTimestampEpochMs: Long, sequenceId: Long) {
+        serviceScope.launch {
+            runCatching {
+                val now = System.currentTimeMillis()
+                val request = PutDataMapRequest.create(GlucoseKeys.PATH_WATCH_ACK).apply {
+                    dataMap.putLong(GlucoseKeys.ACK_READING_TIMESTAMP_EPOCH_MS, readingTimestampEpochMs)
+                    dataMap.putLong(GlucoseKeys.ACK_SEQUENCE_ID, sequenceId)
+                    dataMap.putLong(GlucoseKeys.ACK_RECEIVED_AT, now)
+                    dataMap.putLong(GlucoseKeys.SEQUENCE_ID, now)
+                }.asPutDataRequest().setUrgent()
+                Wearable.getDataClient(this@WearDataLayerListenerService).putDataItem(request)
+            }.onFailure { error ->
+                Log.w(logTag, "Unable to send watch ack", error)
+            }
         }
     }
 }

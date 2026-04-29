@@ -37,6 +37,24 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
         for (event in dataEvents) {
             if (event.type != DataEvent.TYPE_CHANGED) continue
             val item = event.dataItem
+
+            if (item.uri.path == GlucoseKeys.PATH_WATCH_ACK) {
+                val map = DataMapItem.fromDataItem(item).dataMap
+                val readingTimestamp = map.getLong(GlucoseKeys.ACK_READING_TIMESTAMP_EPOCH_MS)
+                val sequenceId = map.getLong(GlucoseKeys.ACK_SEQUENCE_ID)
+                val nodeId = item.uri.host.orEmpty()
+                PhoneSyncStateStore(this).recordWatchAck(
+                    readingTimestampEpochMs = readingTimestamp,
+                    sequenceId = sequenceId,
+                    nodeId = nodeId,
+                )
+                Log.d(
+                    logTag,
+                    "Watch ack received node=$nodeId readingTimestamp=$readingTimestamp sequenceId=$sequenceId",
+                )
+                continue
+            }
+
             if (item.uri.path != GlucoseKeys.PATH_WATCH_STATUS) continue
 
             val map = DataMapItem.fromDataItem(item).dataMap
