@@ -21,6 +21,10 @@ import com.widgetg7.mobile.settings.DexcomUserSettings
 import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.status.SyncStatusRepository
+import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
+import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
+import com.widgetg7.mobile.sync.PhoneSyncStateStore
+import com.widgetg7.mobile.sync.SyncExecutionResult
 import com.widgetg7.mobile.sync.SyncText
 import kotlinx.coroutines.launch
 
@@ -91,9 +95,23 @@ class DexcomSettingsActivity : AppCompatActivity() {
                     settingsStore.saveDexcomSettings(settings)
                     launchStateStore.markDexcomEntryCompleted()
                     syncStatusRepository.saveSuccess("dexcom-share", reading)
+                    PhoneAutoSyncScheduler.schedule(this@DexcomSettingsActivity)
+                    val syncResult = PhoneGlucoseSyncEngine(this@DexcomSettingsActivity).run(
+                        triggeredFromWatch = false,
+                        forcePushCurrentReading = true,
+                    )
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                    statusText.text = "Connexion réussie."
-                    Snackbar.make(findViewById(android.R.id.content), "Connexion réussie", 1000).show()
+                    statusText.text = when (syncResult) {
+                        is SyncExecutionResult.SuccessNewReading ->
+                            "Connexion reussie. Glycemie envoyee a la montre."
+
+                        is SyncExecutionResult.SuccessNoNewReading ->
+                            "Connexion reussie. Derniere glycemie renvoyee a la montre."
+
+                        is SyncExecutionResult.Failure ->
+                            "Connexion Dexcom reussie, mais l'envoi montre a echoue : ${syncResult.message}"
+                    }
+                    Snackbar.make(findViewById(android.R.id.content), statusText.text, 2500).show()
                     if (firstConnectionFlow) {
                         startActivity(
                             Intent(this@DexcomSettingsActivity, MainActivity::class.java).apply {
@@ -117,6 +135,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
             launchStateStore.resetDexcomEntry()
             LegalConsentStore(this).clearAcceptedVersion()
             syncStatusRepository.clearSessionState()
+            PhoneSyncStateStore(this).clear()
             startActivity(
                 Intent(this, DexcomEntryActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -154,7 +173,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
     private fun setBusyState(isBusy: Boolean) {
         saveDexcomButton.isEnabled = !isBusy
         disconnectDexcomButton.isEnabled = !isBusy
-        saveDexcomButton.text = if (isBusy) "Enregistrement..." else "Enregistrer"
+        saveDexcomButton.text = if (isBusy) "Verification..." else "Verifier et connecter"
     }
 
     private fun toServerCode(label: String): String = if (label.equals("US", true)) "US" else "OUS"

@@ -10,10 +10,6 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        val relayBaseUrl =
-            ((project.findProperty("relayBaseUrl") as? String) ?: "https://example.com").replace("\"", "\\\"")
-        val relayBearerToken =
-            ((project.findProperty("relayBearerToken") as? String) ?: "").replace("\"", "\\\"")
         //noinspection SpellCheckingInspection
         val dexcomShareApplicationId =
             ((project.findProperty("dexcomShareApplicationId") as? String)
@@ -25,14 +21,13 @@ android {
         versionCode = 1
         versionName = "0.1.0"
 
-        buildConfigField("String", "RELAY_BASE_URL", "\"$relayBaseUrl\"")
-        buildConfigField("String", "RELAY_BEARER_TOKEN", "\"$relayBearerToken\"")
         buildConfigField("String", "DEXCOM_SHARE_APPLICATION_ID", "\"$dexcomShareApplicationId\"")
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

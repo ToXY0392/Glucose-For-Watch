@@ -1,7 +1,5 @@
 package com.widgetg7.mobile.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -15,7 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.wear.remote.interactions.RemoteActivityHelper
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.data.PhoneGlucoseSourceFactory
@@ -26,16 +23,12 @@ import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import com.widgetg7.mobile.watch.WatchVisualResolver
 import kotlinx.coroutines.TimeoutCancellationException
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
-import java.util.concurrent.Executors
 
 class WatchSetupActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
 
-    private lateinit var refreshWatchStatusButton: Button
     private lateinit var testWatchSyncButton: Button
     private lateinit var backToHomeButton: ImageButton
     private lateinit var watchStatusHeadlineText: TextView
@@ -66,7 +59,6 @@ class WatchSetupActivity : AppCompatActivity() {
         }
         ViewCompat.requestApplyInsets(scrollView)
 
-        refreshWatchStatusButton = findViewById(R.id.refreshWatchStatusButton)
         testWatchSyncButton = findViewById(R.id.testWatchSyncButton)
         backToHomeButton = findViewById(R.id.backToHomeButton)
         watchStatusHeadlineText = findViewById(R.id.watchStatusHeadlineText)
@@ -76,9 +68,6 @@ class WatchSetupActivity : AppCompatActivity() {
         watchSelectorSpinner = findViewById(R.id.watchSelectorSpinner)
         watchHeroImage = findViewById(R.id.watchHeroImage)
 
-        refreshWatchStatusButton.setOnClickListener {
-            openWatchInstallFlow()
-        }
         testWatchSyncButton.setOnClickListener {
             refreshWatchStatus()
         }
@@ -116,54 +105,10 @@ class WatchSetupActivity : AppCompatActivity() {
             refreshHeaderVisuals()
             watchStatusText.text = runWatchVerification()
             testWatchSyncButton.isEnabled = true
-            testWatchSyncButton.text = "Tester la synchronisation"
+            testWatchSyncButton.text = "Tester l'envoi"
         }
     }
 
-    private fun openWatchInstallFlow() {
-        refreshWatchStatusButton.isEnabled = false
-        refreshWatchStatusButton.text = "Ouverture sur la montre..."
-        watchStatusText.text = "Ouverture de l'installation sur la montre..."
-
-        lifecycleScope.launch(Dispatchers.Main) {
-            val status = WatchConnectionRepository(this@WatchSetupActivity).loadStatus()
-            if (!status.connected) {
-                watchStatusText.text = "Aucune montre détectée. Connectez la montre au téléphone, puis recommencez."
-                refreshWatchStatusButton.isEnabled = true
-                refreshWatchStatusButton.text = "Configurer ma montre"
-                return@launch
-            }
-
-            val installIntent = Intent(Intent.ACTION_VIEW)
-                .setData(Uri.parse("https://play.google.com/store/apps/details?id=$packageName"))
-                .addCategory(Intent.CATEGORY_BROWSABLE)
-
-            val helper = RemoteActivityHelper(
-                this@WatchSetupActivity,
-                Executors.newSingleThreadExecutor(),
-            )
-
-            try {
-                withContext(Dispatchers.IO) {
-                    helper.startRemoteActivity(installIntent, status.nodeId).get()
-                }
-                watchStatusText.text = listOf(
-                    "Installation ouverte sur la montre.",
-                    "Sur la montre, installez Widget G7 si demandé.",
-                    "Ajoutez ensuite la tile glucose et la complication depuis Wear OS.",
-                ).joinToString("\n")
-            } catch (_: Throwable) {
-                watchStatusText.text = listOf(
-                    "Impossible d'ouvrir l'installation automatiquement.",
-                    "Pour cette version debug, installez aussi l'APK Wear sur la montre.",
-                    "Ensuite, ajoutez la tile glucose et la complication depuis la montre.",
-                ).joinToString("\n")
-            } finally {
-                refreshWatchStatusButton.isEnabled = true
-                refreshWatchStatusButton.text = "Configurer ma montre"
-            }
-        }
-    }
 
     private suspend fun refreshWatchChoices() {
         val repository = WatchConnectionRepository(this)

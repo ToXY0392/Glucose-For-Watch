@@ -4,10 +4,14 @@
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:label="Widget G7 Wear"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+
+        <meta-data
+            android:name="com.google.android.wearable.standalone"
+            android:value="false" />
 
         <activity
             android:name=".tile.GlucoseRefreshActivity"
@@ -21,7 +25,18 @@
             android:name=".services.WearDataLayerListenerService"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.android.gms.wearable.BIND_LISTENER" />
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data
+                    android:host="*"
+                    android:path="/glucose/latest"
+                    android:scheme="wear" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data
+                    android:host="*"
+                    android:path="/glucose/refresh/status"
+                    android:scheme="wear" />
             </intent-filter>
         </service>
 
