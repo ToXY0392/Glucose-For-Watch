@@ -1,23 +1,39 @@
-# Notice Utilisateur
+# Notice utilisateur
 
-## 1. Première connexion Dexcom
+## Premiere configuration
 
-- Au premier lancement, l'écran `Connexion Dexcom` s'affiche
-- Utiliser vos identifiants Dexcom
-- Appuyer sur `Se connecter`
-- Entrer vos identifiants
-- Appuyer sur `Enregistrer`
+1. Installer l'application sur le telephone.
+2. Installer l'application Wear sur la montre.
+3. Ouvrir Widget G7 sur le telephone.
+4. Accepter les textes requis.
+5. Se connecter avec les identifiants Dexcom Share.
+6. Ouvrir les parametres montre.
+7. Appuyer sur `Tester l'envoi`.
+8. Ajouter la tile glucose ou la complication depuis Wear OS.
 
-## 2. Vérifier la montre
+## Utilisation quotidienne
 
-- Après la connexion, l'accueil s'ouvre
-- Vérifier que la montre est `Connectée`
+- L'accueil montre l'etat principal de la montre.
+- Le bouton `Sync` relance une actualisation depuis le telephone.
+- Le bouton de refresh sur la montre demande aussi une actualisation au telephone.
+- Si aucune nouvelle mesure Dexcom n'est disponible, l'application peut renvoyer la derniere valeur connue a la montre.
 
-## 3. Sur la montre
+## Ce que fait la montre
 
-- Ajouter le `Glucose Tile`
-- ou ajouter la complication `Glucose`
+La montre affiche les donnees recues depuis le telephone. En mode actuel, elle ne se connecte pas directement au capteur G7.
 
-## Si besoin
+## Si la valeur semble ancienne
 
-- Utiliser le bouton de rafraîchissement
+Verifier :
+
+- que la montre est connectee ;
+- que le telephone a du reseau ;
+- que Dexcom est encore connecte ;
+- que la batterie de la montre n'est pas trop basse ;
+- que la tile ou la complication est bien ajoutee sur la montre.
+
+Ensuite, utiliser `Sync` sur le telephone ou le refresh depuis la montre.
+
+## Mode direct capteur
+
+Un mode avance `capteur G7 -> Wear OS` est etudie, mais il n'est pas actif dans l'application actuelle. Il restera experimental tant qu'il n'est pas valide sur la stabilite Bluetooth, l'autonomie et la coherence des mesures.

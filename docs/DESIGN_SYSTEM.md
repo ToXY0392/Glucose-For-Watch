@@ -1,8 +1,14 @@
 # Design System
 
-Version de travail : 24 avril 2026
+Version de travail : 30 avril 2026
 
 Ce document formalise la charte graphique cible de `GlucoWatch / Widget G7`.
+
+Voir aussi :
+
+- [INDEX.md](INDEX.md)
+- [SYNC_G7_WEAR_RECHERCHE.md](SYNC_G7_WEAR_RECHERCHE.md)
+- [PLAN_WEAR_COLLECTOR_AVANCE.md](PLAN_WEAR_COLLECTOR_AVANCE.md)
 
 Reference visuelle actuelle :
 
@@ -248,6 +254,22 @@ Regles :
 - si plusieurs montres, afficher clairement la montre principale
 - le bouton principal doit decrire une action reelle
 
+### Mode direct capteur
+
+Objectif :
+
+- rester comprehensible et non anxiogene
+- signaler clairement le caractere experimental
+- ne jamais masquer l'age de la donnee
+
+Regles :
+
+- utiliser le libelle `Direct capteur`
+- afficher `Experimental` comme statut secondaire visible
+- eviter tout wording laissant croire a un mode officiel Dexcom
+- privilegier des diagnostics courts : `Recherche`, `Appairage`, `Connecte`, `Donnee ancienne`, `Capteur perdu`
+- proposer un retour simple vers `Sync telephone`
+
 ### Notice
 
 Objectif :
@@ -290,7 +312,8 @@ Les tokens deja en place sont principalement dans :
 
 Ordre conseille :
 
-1. stabiliser tous les textes visibles utilisateur
-2. harmoniser les ecrans sur cette palette
-3. reduire la verbosite de certaines cards
-4. ensuite seulement envisager une vraie passe design plus large
+1. stabiliser les etats de sync standard
+2. rendre l'age de la donnee toujours clair
+3. harmoniser les textes visibles utilisateur
+4. garder le mode direct capteur hors parcours principal tant qu'il reste experimental
+5. ensuite seulement envisager une vraie passe design plus large
