@@ -17,7 +17,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
 
-private const val RESOURCES_VERSION = "7"
+private const val RESOURCES_VERSION = "9"
 
 class GlucoseTileService : TileService() {
 
@@ -116,20 +116,41 @@ class GlucoseTileService : TileService() {
             .build()
 
         val refreshGlyph = LayoutElementBuilders.Text.Builder()
-            .setText("\u21BB")
+            .setText("SYNC")
             .setFontStyle(
                 LayoutElementBuilders.FontStyle.Builder()
-                    .setSize(DimensionBuilders.sp(18f))
-                    .setColor(ColorBuilders.argb(0xFFF5F7FA.toInt()))
+                    .setSize(DimensionBuilders.sp(10f))
+                    .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
+                    .setColor(ColorBuilders.argb(0xFF15936F.toInt()))
                     .build()
             )
             .setMaxLines(1)
+            .build()
+
+        val refreshButton = LayoutElementBuilders.Box.Builder()
+            .setWidth(DimensionBuilders.dp(50f))
+            .setHeight(DimensionBuilders.dp(26f))
+            .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+            .addContent(refreshGlyph)
             .setModifiers(
                 ModifiersBuilders.Modifiers.Builder()
+                    .setBackground(
+                        ModifiersBuilders.Background.Builder()
+                            .setColor(ColorBuilders.argb(0x2215936F))
+                            .setCorner(
+                                ModifiersBuilders.Corner.Builder()
+                                    .setRadius(DimensionBuilders.dp(13f))
+                                    .build()
+                            )
+                            .build()
+                    )
                     .setClickable(
                         ModifiersBuilders.Clickable.Builder()
                             .setId("refresh")
                             .setOnClick(refreshAction)
+                            .setMinimumClickableWidth(DimensionBuilders.dp(48f))
+                            .setMinimumClickableHeight(DimensionBuilders.dp(48f))
                             .setVisualFeedbackEnabled(false)
                             .build()
                     )
@@ -140,7 +161,7 @@ class GlucoseTileService : TileService() {
                     )
                     .setPadding(
                         ModifiersBuilders.Padding.Builder()
-                            .setTop(DimensionBuilders.dp(14f))
+                            .setTop(DimensionBuilders.dp(10f))
                             .build()
                     )
                     .build()
@@ -167,7 +188,7 @@ class GlucoseTileService : TileService() {
                     .addContent(value)
                     .addContent(unit)
                     .addContent(metadata)
-                    .addContent(refreshGlyph)
+                    .addContent(refreshButton)
                     .build()
             )
             .build()
