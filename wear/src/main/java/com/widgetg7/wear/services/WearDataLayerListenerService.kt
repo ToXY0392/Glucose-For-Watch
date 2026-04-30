@@ -3,6 +3,7 @@ package com.widgetg7.wear.services
 import android.content.ComponentName
 import androidx.wear.tiles.TileService
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
+import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -33,6 +34,7 @@ class WearDataLayerListenerService : WearableListenerService() {
 
             if (item.uri.path == GlucoseKeys.PATH_LATEST) {
                 val map = DataMapItem.fromDataItem(item).dataMap
+                if (!isForThisWatch(map.getString(GlucoseKeys.TARGET_NODE_ID).orEmpty())) continue
                 val snapshot = GlucoseSnapshot(
                     valueMgDl = map.getInt(GlucoseKeys.VALUE_MG_DL),
                     trend = map.getString(GlucoseKeys.TREND).orEmpty(),
@@ -51,6 +53,7 @@ class WearDataLayerListenerService : WearableListenerService() {
 
             if (item.uri.path == GlucoseKeys.PATH_REFRESH_STATUS) {
                 val map = DataMapItem.fromDataItem(item).dataMap
+                if (!isForThisWatch(map.getString(GlucoseKeys.TARGET_NODE_ID).orEmpty())) continue
                 val status = map.getString(GlucoseKeys.REFRESH_STATUS).orEmpty()
                 val message = map.getString(GlucoseKeys.REFRESH_MESSAGE).orEmpty()
                 when (status) {
@@ -96,5 +99,13 @@ class WearDataLayerListenerService : WearableListenerService() {
                 Wearable.getDataClient(this@WearDataLayerListenerService).putDataItem(request)
             }
         }
+    }
+
+    private fun isForThisWatch(targetNodeId: String): Boolean {
+        if (targetNodeId.isBlank()) return true
+        val localNodeId = runCatching {
+            Tasks.await(Wearable.getNodeClient(this).localNode).id
+        }.getOrDefault("")
+        return localNodeId.isBlank() || localNodeId == targetNodeId
     }
 }

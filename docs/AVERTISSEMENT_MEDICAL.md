@@ -1,34 +1,33 @@
-# Avertissement Médical Important
+# Avertissement medical
 
-Dernière mise à jour : 22 avril 2026
+Derniere mise a jour : 30 avril 2026
 
-`GlucoWatch` / `Widget G7 Phone` est une application d'affichage et de relais.
+Widget G7 est une application d'affichage et de relais.
 
 Elle ne remplace pas :
 
 - l'application officielle Dexcom ;
-- un dispositif médical officiel ;
-- un lecteur ou récepteur officiel ;
-- un professionnel de santé ;
-- un avis médical, un diagnostic ou une décision thérapeutique.
+- un dispositif medical officiel ;
+- un recepteur officiel ;
+- un professionnel de sante ;
+- un avis medical, un diagnostic ou une decision therapeutique.
 
-Les informations affichées peuvent être retardées, incomplètes, indisponibles ou inexactes en raison notamment :
+Les informations affichees peuvent etre retardees, incompletes, indisponibles ou inexactes a cause :
 
-- de la connectivité ;
+- du reseau ;
 - du Bluetooth ;
-- du téléphone ;
+- du telephone ;
 - de la montre ;
-- du système Android ou Wear OS ;
-- des limitations d'arrière-plan ;
-- de services tiers ;
-- d'un décalage de synchronisation ;
-- de l'absence de nouvelle mesure disponible.
+- d'Android ou Wear OS ;
+- des restrictions batterie ;
+- de Dexcom Share ou d'un autre service tiers ;
+- d'un decalage de synchronisation ;
+- de l'absence de nouvelle mesure.
 
-Ne prenez jamais une décision médicale, thérapeutique ou d'urgence sur le seul fondement des informations affichées par l'application.
+Ne prenez jamais une decision medicale ou d'urgence uniquement avec Widget G7.
 
-En cas de doute, de symptôme, d'alerte, d'hypoglycémie suspectée, d'hyperglycémie suspectée ou de situation d'urgence :
+En cas de doute, symptome, hypoglycemie suspectee, hyperglycemie suspectee ou urgence :
 
-- vérifiez la donnée via la solution officielle adaptée ;
-- suivez les consignes de votre professionnel de santé ;
-- contactez les secours si nécessaire.
-
+1. verifier la valeur dans la solution officielle adaptee ;
+2. suivre les consignes du professionnel de sante ;
+3. contacter les secours si necessaire.

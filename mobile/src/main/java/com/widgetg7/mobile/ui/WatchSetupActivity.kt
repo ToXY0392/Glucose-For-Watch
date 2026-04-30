@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.widgetg7.mobile.R
+import com.widgetg7.mobile.battery.BatteryOptimizationHelper
 import com.widgetg7.mobile.data.PhoneGlucoseSourceFactory
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.sync.PhoneWearSyncService
@@ -30,6 +31,7 @@ class WatchSetupActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
 
     private lateinit var testWatchSyncButton: Button
+    private lateinit var batteryOptimizationButton: Button
     private lateinit var backToHomeButton: ImageButton
     private lateinit var watchStatusHeadlineText: TextView
     private lateinit var watchStatusSupportText: TextView
@@ -60,6 +62,7 @@ class WatchSetupActivity : AppCompatActivity() {
         ViewCompat.requestApplyInsets(scrollView)
 
         testWatchSyncButton = findViewById(R.id.testWatchSyncButton)
+        batteryOptimizationButton = findViewById(R.id.batteryOptimizationButton)
         backToHomeButton = findViewById(R.id.backToHomeButton)
         watchStatusHeadlineText = findViewById(R.id.watchStatusHeadlineText)
         watchStatusSupportText = findViewById(R.id.watchStatusSupportText)
@@ -70,6 +73,11 @@ class WatchSetupActivity : AppCompatActivity() {
 
         testWatchSyncButton.setOnClickListener {
             refreshWatchStatus()
+        }
+        batteryOptimizationButton.setOnClickListener {
+            runCatching {
+                startActivity(BatteryOptimizationHelper(this).buildSettingsIntent())
+            }
         }
         backToHomeButton.setOnClickListener { finish() }
 
@@ -103,10 +111,21 @@ class WatchSetupActivity : AppCompatActivity() {
         lifecycleScope.launch {
             refreshWatchChoices()
             refreshHeaderVisuals()
+            refreshBatteryOptimizationStatus()
             watchStatusText.text = runWatchVerification()
             testWatchSyncButton.isEnabled = true
             testWatchSyncButton.text = "Tester l'envoi"
         }
+    }
+
+    private fun refreshBatteryOptimizationStatus() {
+        val status = BatteryOptimizationHelper(this).loadStatus()
+        batteryOptimizationButton.text = if (status.isProtectedFromOptimization) {
+            "Sync en veille autorisee"
+        } else {
+            "Autoriser la sync en veille"
+        }
+        batteryOptimizationButton.isEnabled = !status.isProtectedFromOptimization
     }
 
 

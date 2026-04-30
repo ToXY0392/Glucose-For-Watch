@@ -1,113 +1,170 @@
-# Widget G7
+<p align="center">
+  <img src="docs/assets/surveillez-votre-glycemie.png" alt="Widget G7" width="720">
+</p>
 
-Widget G7 est une application Android compagnon pour afficher une glycemie Dexcom G7 sur une montre Wear OS.
+<h3 align="center">🟢 Widget G7 garde la glycémie Dexcom G7 visible sur Wear OS.</h3>
 
-Le mode principal actuel est :
+<p align="center">
+  Le téléphone récupère · il synchronise · la montre affiche · l'utilisateur garde le contrôle
+</p>
 
-`Dexcom Share -> telephone Android -> Wear OS`
+<p align="center">
+  <img alt="Android" src="https://img.shields.io/badge/Android-mobile-3DDC84?style=for-the-badge&logo=android&logoColor=white">
+  <img alt="Wear OS" src="https://img.shields.io/badge/Wear%20OS-watch-4285F4?style=for-the-badge&logo=wearos&logoColor=white">
+  <img alt="Dexcom" src="https://img.shields.io/badge/Dexcom%20Share-source-00A86B?style=for-the-badge">
+  <img alt="Status" src="https://img.shields.io/badge/sync-active-22C55E?style=for-the-badge">
+</p>
 
-La montre affiche les donnees recues depuis le telephone via Wear Data Layer. Elle peut aussi demander un refresh manuel au telephone.
+<p align="center">
+  <a href="docs/NOTICE_UTILISATEUR.md">⚡ Notice rapide</a>
+  ·
+  <a href="docs/MODE_D_EMPLOI.md">📘 Mode d'emploi</a>
+  ·
+  <a href="docs/REPRISE_PROJET.md">🧭 Reprise projet</a>
+  ·
+  <a href="docs/SYNC_G7_WEAR_RECHERCHE.md">🔁 Sync</a>
+  ·
+  <a href="docs/INDEX.md">🗂️ Documentation</a>
+</p>
 
-## Statut du projet
+---
 
-- Application mobile Android : en place.
-- Application Wear OS : en place.
-- Tile Wear OS : en place.
-- Complication Wear OS : en place selon les cadrans compatibles.
-- Sync telephone -> montre : renforcee par surveillance active avec service foreground, ack montre et repush.
-- Mode direct capteur -> Wear OS : documente comme piste avancee, pas implemente.
+## 🟢 Console
 
-## Surfaces prises en charge
+```text
+╭────────────────────────────────────────╮
+│              WIDGET G7                 │
+├────────────────────────────────────────┤
+│  > connect Dexcom Share                │
+│  > read latest glucose                 │
+│  > push to Wear OS                     │
+│  > wait for watch ack                  │
+│  > repush if needed                    │
+│  > keep tile and complication fresh    │
+╰────────────────────────────────────────╯
+```
 
-- application Android telephone ;
-- application Wear OS ;
-- tile glucose Wear OS ;
-- complication glucose Wear OS.
+> 💚 **Widget G7 n'est pas un dispositif médical officiel.**
+>
+> Il relaie une donnée Dexcom vers Wear OS. Les décisions de traitement restent à confirmer dans l'application Dexcom G7, le récepteur Dexcom ou une solution officielle adaptée.
 
-## Prerequis
+---
 
-- un telephone Android compatible ;
-- une montre Wear OS connectee au telephone ;
-- un compte Dexcom Share ;
-- les APK `mobile` et `wear` installes sur les bons appareils.
+## ✨ Ce Que Widget G7 Apporte
+
+| 🧩 Surface | 🎯 Rôle |
+| --- | --- |
+| 📱 **App mobile** | Connexion Dexcom, état de sync, test montre |
+| ⌚ **App Wear** | Affichage rapide de la dernière valeur reçue |
+| 🧱 **Tile Wear OS** | Glycémie accessible depuis le carrousel Wear |
+| 🕘 **Complication** | Valeur visible sur les cadrans compatibles |
+| 🔁 **Sync active** | Service foreground, push urgent, ack et repush borné |
+| 🔋 **Veille** | Demande d'exemption batterie pour stabiliser la sync |
+| 🎯 **Multi-montres** | Choix d'une montre principale et ciblage défensif |
+
+```text
+Dexcom Share
+le téléphone récupère
+Wear OS reçoit
+la montre affiche
+```
+
+---
+
+## 🚀 Démarrage
+
+> ⚙️ **Installation APK**
+
+```text
+1. Installer l'APK mobile sur le téléphone
+2. Installer l'APK wear sur la montre
+3. Ouvrir Widget G7 sur le téléphone
+4. Accepter les textes requis
+5. Se connecter à Dexcom Share
+6. Tester l'envoi vers la montre
+7. Ajouter la tile ou la complication
+```
+
+> 🛠️ **Depuis le code source**
+
+```powershell
+.\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
+```
 
 Voir aussi : [COMPATIBILITY.md](COMPATIBILITY.md)
 
-## Installation
+---
 
-### Depuis un APK
+## 🔁 Synchronisation
 
-1. Installer l'APK `mobile` sur le telephone.
-2. Installer l'APK `wear` sur la montre.
-3. Ouvrir Widget G7 sur le telephone.
-4. Se connecter a Dexcom.
-5. Tester l'envoi vers la montre.
-6. Ajouter la tile ou la complication depuis Wear OS.
+| Étape | Action |
+| --- | --- |
+| 1 | Le téléphone interroge Dexcom Share |
+| 2 | Il garde la dernière valeur connue |
+| 3 | Il pousse la valeur vers Wear OS avec un `sequenceId` |
+| 4 | La montre met à jour son cache, sa tile et sa complication |
+| 5 | La montre renvoie un ack au téléphone |
+| 6 | Le téléphone repousse la valeur si l'ack attendu manque |
 
-### Depuis le code source
+```text
+╭─ Mode principal ───────────────────────╮
+│ Dexcom Share -> téléphone -> Wear OS   │
+╰────────────────────────────────────────╯
+```
 
-1. Ouvrir le projet dans Android Studio.
-2. Laisser Gradle Sync se terminer.
-3. Installer `mobile` sur le telephone.
-4. Installer `wear` sur la montre.
-5. Ouvrir l'application mobile.
+La montre peut demander un refresh, mais elle ne lit pas directement le capteur G7 dans la version actuelle.
 
-## Configuration
+---
 
-1. Ouvrir Widget G7 sur le telephone.
-2. Accepter les textes requis.
-3. Saisir les identifiants Dexcom Share.
-4. Choisir la region Dexcom.
-5. Revenir a l'accueil.
-6. Ouvrir les parametres montre.
-7. Appuyer sur `Tester l'envoi`.
-8. Ajouter la tile ou la complication sur la montre.
+## 🧭 Direction Technique
 
-## Synchronisation actuelle
+| Sujet | Décision |
+| --- | --- |
+| Mode principal | `Dexcom Share -> téléphone -> Wear OS` |
+| Sync | Service foreground, polling rapproché, ack montre |
+| Batterie | Exemption recommandée pour la veille longue |
+| Multi-montres | Montre principale ciblée via `targetNodeId` |
+| Direct capteur | Piste expérimentale, non implémentée |
 
-La chaine actuelle est :
+> 🧪 **Mode direct capteur**
+>
+> Le mode `capteur G7 -> Wear OS` ne doit pas entrer dans l'app principale avant un spike BLE concluant, une validation batterie et un audit sécurité.
 
-1. le telephone interroge Dexcom Share ;
-2. le telephone normalise et garde la derniere valeur connue ;
-3. le telephone pousse la valeur vers Wear OS avec un `sequenceId` ;
-4. la montre met a jour son cache, sa tile et sa complication ;
-5. la montre renvoie un ack au telephone ;
-6. le telephone repousse la derniere valeur si l'ack attendu n'arrive pas.
+---
 
-Quand Dexcom est configure, la sync active utilise un service foreground avec notification permanente. Le refresh manuel depuis la montre envoie une demande au telephone. La montre ne lit pas directement le capteur G7 dans le mode actuel.
+## 📚 Documentation
 
-## Strategie sync cible
+| Document | Usage |
+| --- | --- |
+| [Notice rapide](docs/NOTICE_UTILISATEUR.md) | Lire l'essentiel côté utilisateur |
+| [Mode d'emploi](docs/MODE_D_EMPLOI.md) | Installer, connecter Dexcom, configurer la montre |
+| [Reprise projet](docs/REPRISE_PROJET.md) | Reprendre le développement sans relire tout l'historique |
+| [Recherche sync](docs/SYNC_G7_WEAR_RECHERCHE.md) | Comprendre la décision téléphone -> Wear OS |
+| [Direct capteur](docs/DIRECT_PATCH_WEAR_SOLUTION.md) | Cadrer le futur mode expérimental |
+| [Index documentation](docs/INDEX.md) | Accéder à toute la doc |
 
-Le projet retient deux niveaux :
+---
 
-- mode standard : `telephone -> Wear OS`, deja renforce par sync active et a valider en veille longue ;
-- mode avance experimental : `capteur G7 -> Wear OS`, a prototyper uniquement apres validation BLE sur Pixel Watch 2.
+## 🔐 Données Sensibles
 
-Le mode standard reste prioritaire, car Dexcom ne documente officiellement le Direct to Watch que pour Apple Watch, pas pour Wear OS.
+```text
+Ne jamais publier :
+identifiants Dexcom
+tokens ou sessions
+données de glycémie réelles
+serials d'appareils
+codes capteur
+keystores et fichiers locaux privés
+```
 
-## Documentation principale
+Les exemples doivent rester fictifs, anonymisés ou génériques.
 
-- Index documentaire : [docs/INDEX.md](docs/INDEX.md)
-- Recherche sync G7 / Wear OS : [docs/SYNC_G7_WEAR_RECHERCHE.md](docs/SYNC_G7_WEAR_RECHERCHE.md)
-- Solution directe capteur -> Wear OS : [docs/DIRECT_PATCH_WEAR_SOLUTION.md](docs/DIRECT_PATCH_WEAR_SOLUTION.md)
-- Plan Wear Collector avance : [docs/PLAN_WEAR_COLLECTOR_AVANCE.md](docs/PLAN_WEAR_COLLECTOR_AVANCE.md)
-- Reprise projet : [docs/REPRISE_PROJET.md](docs/REPRISE_PROJET.md)
-- Mode d'emploi : [docs/MODE_D_EMPLOI.md](docs/MODE_D_EMPLOI.md)
-- Notice utilisateur : [docs/NOTICE_UTILISATEUR.md](docs/NOTICE_UTILISATEUR.md)
-- Notes de version : [docs/RELEASE_NOTES.md](docs/RELEASE_NOTES.md)
-- Design system : [docs/DESIGN_SYSTEM.md](docs/DESIGN_SYSTEM.md)
+---
 
-## Points d'attention
-
-- Widget G7 n'est pas un dispositif medical officiel.
-- Les decisions de traitement doivent rester confirmees dans l'application Dexcom G7 ou le recepteur Dexcom.
-- Les identifiants Dexcom doivent rester stockes localement et ne jamais etre commites.
-- Le mode direct capteur -> Wear OS est une piste experimentale non officielle.
-
-## Resume technique
-
-- Modules : `mobile`, `wear`.
-- Source principale actuelle : Dexcom Share cote telephone.
-- Transport montre : Wear Data Layer avec push urgent, ack et repush.
-- Affichage montre : cache local, tile, complication.
-- Direction technique : isoler les sources glucose derriere une abstraction avant tout prototype Wear Collector.
+```text
+╭────────────────────────────────────────╮
+│  > sync stays active                   │
+│  > watch stays readable                │
+│  > medical decisions stay official     │
+╰────────────────────────────────────────╯
+```

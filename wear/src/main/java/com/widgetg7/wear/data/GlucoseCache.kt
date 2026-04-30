@@ -97,6 +97,7 @@ object GlucoseKeys {
     const val TIMESTAMP_EPOCH_MS = "timestampEpochMs"
     const val STALE = "stale"
     const val SEQUENCE_ID = "sequenceId"
+    const val TARGET_NODE_ID = "targetNodeId"
     const val HISTORY = "history"
     const val REFRESH_STATUS = "refreshStatus"
     const val REFRESH_MESSAGE = "refreshMessage"

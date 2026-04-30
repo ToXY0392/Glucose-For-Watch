@@ -1,156 +1,111 @@
-# Conditions Générales d'Utilisation
+# Conditions generales d'utilisation
 
-Dernière mise à jour : 22 avril 2026
+Derniere mise a jour : 30 avril 2026
 
-Important :
-Le présent document constitue une base contractuelle de travail pour l'application `GlucoWatch` / `Widget G7 Phone`.
-Il doit être complété avant toute diffusion publique, notamment pour l'identité de l'éditeur, les coordonnées de contact et le droit applicable exact.
-Ce document ne remplace pas une validation par un professionnel du droit.
+Ce document est un modele de travail. Il doit etre complete et relu avant toute diffusion publique.
+
+Voir aussi : [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md)
 
 ## 1. Objet
 
-Les présentes Conditions Générales d'Utilisation définissent les conditions dans lesquelles l'utilisateur peut accéder à l'application `GlucoWatch` / `Widget G7 Phone` et l'utiliser.
+Les presentes CGU encadrent l'utilisation de Widget G7.
 
-L'application a pour objet de faciliter l'affichage et la retransmission sur téléphone et montre connectée de données de glycémie issues, directement ou indirectement, de services tiers compatibles.
+Widget G7 sert a afficher et relayer des donnees de glycemie issues de Dexcom Share ou d'une source compatible, depuis un telephone Android vers une montre Wear OS.
 
-## 2. Éditeur
+## 2. Editeur
 
-Éditeur de l'application :
-
-- Nom / raison sociale : `[A compléter]`
-- Forme juridique : `[A compléter]`
-- Adresse : `[A compléter]`
-- E-mail de contact : `[A compléter]`
-- Responsable de publication : `[A compléter]`
+- Nom / raison sociale : `[A completer]`
+- Forme juridique : `[A completer]`
+- Adresse : `[A completer]`
+- E-mail de contact : `[A completer]`
+- Responsable de publication : `[A completer]`
 
 ## 3. Acceptation
 
-L'utilisation de l'application implique l'acceptation pleine et entière des présentes CGU.
+L'utilisation de l'application implique l'acceptation des presentes CGU.
 
-Si l'utilisateur n'accepte pas les présentes CGU, il ne doit pas utiliser l'application.
+Si l'utilisateur n'accepte pas les CGU, il ne doit pas utiliser l'application.
 
-## 4. Description du service
+## 4. Service fourni
 
-L'application fournit un service d'affichage, de synchronisation et de relais de données de glycémie entre un téléphone Android et une montre compatible.
+Widget G7 peut :
 
-L'application peut notamment :
+- connecter un compte Dexcom Share ;
+- recuperer une valeur de glycemie ;
+- afficher cette valeur sur le telephone ;
+- transmettre cette valeur a une montre Wear OS ;
+- afficher la valeur sur l'app Wear, une tile ou une complication ;
+- relancer une actualisation manuelle ou automatique.
 
-- permettre à l'utilisateur de configurer ses identifiants Dexcom Share ;
-- récupérer des données de glycémie auprès d'un service tiers compatible ;
-- afficher ces données sur le téléphone ;
-- transmettre ces données à une montre compatible ;
-- permettre une actualisation manuelle ou automatique.
+## 5. Nature non medicale
 
-## 5. Nature du service
+Widget G7 est un outil de confort et d'affichage.
 
-L'application est un outil logiciel de confort et d'affichage.
+L'application ne remplace pas :
 
-Elle n'est pas conçue pour se substituer :
+- l'application officielle Dexcom ;
+- un dispositif medical officiel ;
+- un recepteur officiel ;
+- un professionnel de sante ;
+- un avis medical ou une decision therapeutique.
 
-- à l'application officielle Dexcom ;
-- à un dispositif médical officiel ;
-- à un lecteur ou récepteur officiel ;
-- à un professionnel de santé ;
-- à un avis médical, un diagnostic ou une décision thérapeutique.
+L'utilisateur ne doit jamais prendre une decision medicale ou d'urgence uniquement avec Widget G7.
 
-L'utilisateur reconnaît que l'application ne doit jamais constituer l'unique base d'une décision médicale, thérapeutique ou d'urgence.
+## 6. Conditions d'acces
 
-## 6. Conditions d'accès
+L'utilisation peut necessiter :
 
-L'accès à certaines fonctionnalités suppose :
+- un telephone Android compatible ;
+- une montre Wear OS compatible ;
+- une connexion reseau ;
+- Bluetooth et Wear OS fonctionnels ;
+- un compte Dexcom Share ;
+- les autorisations Android necessaires ;
+- une configuration batterie adaptee.
 
-- un téléphone compatible ;
-- une montre compatible ;
-- une connexion réseau pouvant être requise selon la source utilisée ;
-- le bon fonctionnement des services tiers utilisés ;
-- une configuration correcte des autorisations système, du Bluetooth, de la batterie et de la connectivité.
+L'editeur ne garantit pas la compatibilite avec tous les appareils, versions Android, versions Wear OS, cadrans ou services tiers.
 
-L'éditeur ne garantit pas la compatibilité universelle de l'application avec tous les appareils, versions Android, versions Wear OS, lanceurs, fabricants ou services tiers.
+## 7. Services tiers
 
-## 7. Compte Dexcom et services tiers
+Dexcom Share et les autres services tiers restent soumis a leurs propres conditions.
 
-L'application peut permettre l'utilisation d'identifiants Dexcom Share ou d'autres services tiers compatibles.
+L'utilisateur est responsable :
 
-L'utilisateur est seul responsable :
-
-- de la licéité de l'utilisation de ses identifiants ;
+- de l'utilisation de ses identifiants ;
 - de l'exactitude des informations saisies ;
-- du respect des conditions imposées par les services tiers ;
-- du maintien en bon état de ses accès, appareils et connexions.
+- du respect des conditions des services tiers ;
+- du maintien de ses appareils et connexions en bon etat.
 
-L'éditeur n'est ni affilié, ni mandaté, ni certifié par Dexcom, sauf mention expresse contraire.
+## 8. Limites de fonctionnement
 
-Les marques, services et plateformes tiers demeurent la propriété de leurs titulaires respectifs.
+Les donnees peuvent etre retardees, anciennes, indisponibles ou inexactes en raison notamment :
 
-## 8. Limites techniques et disponibilité
+- du reseau ;
+- de Dexcom Share ;
+- de Bluetooth ;
+- de Wear OS ;
+- de la batterie ;
+- des restrictions d'arriere-plan ;
+- d'une montre deconnectee ;
+- de l'absence de nouvelle mesure.
 
-L'utilisateur reconnaît que le service peut être affecté par des limites techniques, notamment :
+## 9. Responsabilite
 
-- délais de récupération des données ;
-- retards de synchronisation ;
-- latence réseau ;
-- indisponibilité temporaire de Dexcom Share ou d'autres services tiers ;
-- limitations Android, Wear OS, Bluetooth, batterie ou restrictions d'arrière-plan ;
-- erreurs d'affichage, d'arrondi, de cache ou de transmission ;
-- perte de liaison entre le téléphone et la montre ;
-- absence de donnée nouvelle au moment d'une actualisation.
+Dans les limites autorisees par la loi, l'editeur ne peut etre tenu responsable d'une decision prise uniquement a partir des donnees affichees par Widget G7.
 
-L'éditeur ne garantit ni disponibilité continue, ni absence d'erreur, ni mise à jour en temps réel absolue.
+L'utilisateur doit toujours confirmer les informations importantes avec une solution officielle adaptee.
 
-## 9. Obligations de l'utilisateur
+## 10. Donnees personnelles
 
-L'utilisateur s'engage à :
+Le traitement des donnees est decrit dans :
 
-- utiliser l'application de manière conforme à sa destination ;
-- vérifier toute information critique au moyen de la solution officielle et/ou appropriée ;
-- ne pas utiliser l'application comme unique support d'une décision médicale ;
-- maintenir à jour son téléphone, sa montre et les autorisations nécessaires ;
-- protéger ses identifiants et son appareil ;
-- ne pas détourner, perturber, surcharger ou compromettre le service.
+- [POLITIQUE_CONFIDENTIALITE.md](POLITIQUE_CONFIDENTIALITE.md)
 
-## 10. Avertissement médical
+## 11. Droit applicable
 
-En cas de doute, d'alerte, de symptôme, d'hypoglycémie suspectée, d'hyperglycémie suspectée ou de situation d'urgence, l'utilisateur doit se référer sans délai à la solution officielle adaptée, aux consignes de son professionnel de santé et, si nécessaire, aux services d'urgence.
+- Droit applicable : `[A completer]`
+- Juridictions competentes : `[A completer]`
 
-## 11. Responsabilité
+## 12. Contact
 
-Dans les limites permises par la loi applicable, l'éditeur ne pourra être tenu responsable :
-
-- d'une absence de synchronisation ;
-- d'une donnée inexacte, incomplète, ancienne ou indisponible ;
-- d'une interruption temporaire ou définitive du service ;
-- d'un dysfonctionnement lié à un service tiers ;
-- d'un problème de réseau, de téléphone, de montre, de batterie, de Bluetooth ou de système ;
-- d'un dommage résultant d'une utilisation non conforme des présentes CGU ;
-- d'une décision médicale, thérapeutique ou personnelle prise sur le seul fondement des informations affichées par l'application.
-
-L'utilisateur reste seul responsable de l'usage qu'il fait des informations affichées.
-
-## 12. Suspension, modification et arrêt du service
-
-L'éditeur peut, à tout moment et sans préavis, suspendre, limiter, modifier ou arrêter tout ou partie de l'application, notamment pour des raisons techniques, de sécurité, de maintenance, d'évolution fonctionnelle ou juridiques.
-
-L'éditeur peut également modifier les présentes CGU à tout moment.
-
-## 13. Propriété intellectuelle
-
-L'application, ses éléments graphiques, sa structure, ses textes, son code, ses bases documentaires et, plus généralement, tout élément protégé par la propriété intellectuelle, sont protégés par les droits applicables.
-
-Sauf autorisation écrite préalable, toute reproduction, représentation, adaptation, extraction, diffusion ou exploitation totale ou partielle est interdite.
-
-## 14. Données personnelles
-
-Le traitement des données personnelles est régi par la Politique de confidentialité de l'application.
-
-## 15. Droit applicable et juridiction compétente
-
-Les présentes CGU sont régies par le droit `[A compléter : par exemple français]`.
-
-Sous réserve des règles impératives applicables, tout litige relatif à l'utilisation de l'application relève de la compétence des juridictions `[A compléter]`.
-
-## 16. Contact
-
-Pour toute question relative aux présentes CGU :
-
-- Contact : `[A compléter]`
-
+- Contact : `[A completer]`

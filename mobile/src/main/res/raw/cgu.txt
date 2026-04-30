@@ -1,90 +1,85 @@
-CONDITIONS GÉNÉRALES D'UTILISATION
+CONDITIONS GENERALES D'UTILISATION
 
-Dernière mise à jour : 22 avril 2026
+Derniere mise a jour : 30 avril 2026
 
-Important :
-Ce texte constitue une base contractuelle de travail pour l'application GlucoWatch / Widget G7 Phone.
-Il doit être complété avant toute diffusion publique, notamment pour l'identité de l'éditeur, les coordonnées de contact et le droit applicable.
-Ce document ne remplace pas une validation par un professionnel du droit.
+Ce texte est un modele de travail. Il doit etre complete et relu avant toute diffusion publique.
 
 1. Objet
 
-Les présentes Conditions Générales d'Utilisation définissent les conditions dans lesquelles l'utilisateur peut accéder à l'application et l'utiliser.
+Widget G7 sert a afficher et relayer des donnees de glycemie issues de Dexcom Share ou d'une source compatible, depuis un telephone Android vers une montre Wear OS.
 
-L'application a pour objet de faciliter l'affichage et la retransmission, sur téléphone et montre connectée, de données de glycémie issues, directement ou indirectement, de services tiers compatibles.
+2. Editeur
 
-2. Éditeur
-
-Éditeur de l'application :
-
-- Nom / raison sociale : [À compléter]
-- Forme juridique : [À compléter]
-- Adresse : [À compléter]
-- E-mail de contact : [À compléter]
-- Responsable de publication : [À compléter]
+- Nom / raison sociale : [A completer]
+- Forme juridique : [A completer]
+- Adresse : [A completer]
+- E-mail de contact : [A completer]
+- Responsable de publication : [A completer]
 
 3. Acceptation
 
-L'utilisation de l'application implique l'acceptation pleine et entière des présentes CGU.
+L'utilisation de l'application implique l'acceptation des presentes CGU.
 
-Si l'utilisateur n'accepte pas les présentes CGU, il ne doit pas utiliser l'application.
+Si l'utilisateur n'accepte pas les CGU, il ne doit pas utiliser l'application.
 
-4. Description du service
+4. Service fourni
 
-L'application fournit un service d'affichage, de synchronisation et de relais de données de glycémie entre un téléphone Android et une montre compatible.
+Widget G7 peut :
 
-5. Nature du service
+- connecter un compte Dexcom Share ;
+- recuperer une valeur de glycemie ;
+- afficher cette valeur sur le telephone ;
+- transmettre cette valeur a une montre Wear OS ;
+- afficher la valeur sur l'app Wear, une tile ou une complication ;
+- relancer une actualisation manuelle ou automatique.
 
-L'application est un outil logiciel de confort et d'affichage.
+5. Nature non medicale
 
-Elle ne se substitue pas :
+Widget G7 est un outil de confort et d'affichage.
 
-- à l'application officielle Dexcom ;
-- à un dispositif médical officiel ;
-- à un lecteur ou récepteur officiel ;
-- à un professionnel de santé ;
-- à un avis médical, un diagnostic ou une décision thérapeutique.
+L'application ne remplace pas :
 
-L'utilisateur reconnaît que l'application ne doit jamais constituer l'unique base d'une décision médicale, thérapeutique ou d'urgence.
+- l'application officielle Dexcom ;
+- un dispositif medical officiel ;
+- un recepteur officiel ;
+- un professionnel de sante ;
+- un avis medical ou une decision therapeutique.
 
-6. Limites techniques
+L'utilisateur ne doit jamais prendre une decision medicale ou d'urgence uniquement avec Widget G7.
 
-L'utilisateur reconnaît que le service peut être affecté par des limites techniques, notamment :
+6. Conditions d'acces
 
-- des délais de récupération des données ;
-- des retards de synchronisation ;
-- une latence réseau ;
-- une indisponibilité temporaire de Dexcom Share ou d'autres services tiers ;
-- des limitations Android, Wear OS, Bluetooth, batterie ou des restrictions d'arrière-plan ;
-- des erreurs d'affichage, de cache ou de transmission ;
-- l'absence de donnée nouvelle au moment d'une actualisation.
+L'utilisation peut necessiter :
 
-L'éditeur ne garantit ni une disponibilité continue, ni l'absence d'erreur, ni une mise à jour en temps réel absolue.
+- un telephone Android compatible ;
+- une montre Wear OS compatible ;
+- une connexion reseau ;
+- Bluetooth et Wear OS fonctionnels ;
+- un compte Dexcom Share ;
+- les autorisations Android necessaires ;
+- une configuration batterie adaptee.
 
-7. Obligations de l'utilisateur
+7. Services tiers
 
-L'utilisateur s'engage à :
+Dexcom Share et les autres services tiers restent soumis a leurs propres conditions.
 
-- utiliser l'application conformément à sa destination ;
-- vérifier toute information critique au moyen de la solution officielle et/ou appropriée ;
-- ne pas utiliser l'application comme unique support d'une décision médicale ;
-- protéger ses identifiants et son appareil.
+8. Limites de fonctionnement
 
-8. Avertissement médical
+Les donnees peuvent etre retardees, anciennes, indisponibles ou inexactes en raison notamment du reseau, de Dexcom Share, de Bluetooth, de Wear OS, de la batterie, d'une montre deconnectee ou de l'absence de nouvelle mesure.
 
-En cas de doute, d'alerte, de symptôme, d'hypoglycémie suspectée, d'hyperglycémie suspectée ou de situation d'urgence, l'utilisateur doit se référer sans délai à la solution officielle adaptée, suivre les consignes de son professionnel de santé et, si nécessaire, contacter les services d'urgence.
+9. Responsabilite
 
-9. Responsabilité
+L'utilisateur doit toujours confirmer les informations importantes avec une solution officielle adaptee.
 
-Dans les limites permises par la loi applicable, l'éditeur ne pourra pas être tenu responsable :
+10. Donnees personnelles
 
-- d'une absence de synchronisation ;
-- d'une donnée inexacte, incomplète, ancienne ou indisponible ;
-- d'un dysfonctionnement lié à un service tiers ;
-- d'une décision médicale ou thérapeutique prise sur le seul fondement des informations affichées.
+Le traitement des donnees est decrit dans la politique de confidentialite.
 
-10. Droit applicable et juridiction
+11. Droit applicable
 
-Les présentes CGU sont régies par le droit [À compléter].
+- Droit applicable : [A completer]
+- Juridictions competentes : [A completer]
 
-Sous réserve des règles impératives applicables, tout litige relève de la compétence des juridictions [À compléter].
+12. Contact
+
+- Contact : [A completer]

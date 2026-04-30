@@ -1,129 +1,91 @@
-# Politique de Confidentialité
+# Politique de confidentialite
 
-Dernière mise à jour : 22 avril 2026
+Derniere mise a jour : 30 avril 2026
 
-Important :
-Le présent document constitue une base de travail destinée à être complétée avant diffusion.
-Si l'application est distribuée à des tiers, une validation juridique et RGPD est fortement recommandée, en particulier en présence de données de santé.
+Ce document est un modele de travail. Il doit etre complete et relu avant toute diffusion publique, surtout parce que l'application manipule des donnees pouvant relever de la sante.
+
+Voir aussi : [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md)
 
 ## 1. Responsable du traitement
 
-Responsable du traitement :
+- Nom / raison sociale : `[A completer]`
+- Adresse : `[A completer]`
+- E-mail vie privee : `[A completer]`
 
-- Nom / raison sociale : `[A compléter]`
-- Adresse : `[A compléter]`
-- E-mail de contact vie privée : `[A compléter]`
+## 2. Donnees traitees
 
-## 2. Données traitées
-
-Selon les fonctionnalités utilisées, l'application peut traiter les catégories de données suivantes :
+Selon la configuration, Widget G7 peut traiter :
 
 - identifiants Dexcom Share saisis par l'utilisateur ;
-- paramètres de configuration de l'application ;
-- données de glycémie affichées ou synchronisées ;
-- état de synchronisation ;
-- informations techniques liées à la montre, au téléphone ou à la connectivité ;
-- journaux techniques limités au fonctionnement de l'application.
+- parametres de configuration ;
+- valeurs de glycemie affichees ou synchronisees ;
+- etat de synchronisation ;
+- informations techniques sur le telephone, la montre et la connectivite ;
+- journaux techniques limites au fonctionnement.
 
-## 3. Données de santé
+## 3. Donnees de sante
 
-Les données de glycémie constituent des données susceptibles de relever de la catégorie des données de santé.
+Les valeurs de glycemie peuvent etre considerees comme des donnees de sante.
 
-Elles doivent être traitées avec un niveau de protection renforcé.
+Elles doivent etre protegees avec une attention particuliere.
 
-L'utilisateur reconnaît être informé de cette nature sensible.
+## 4. Finalites
 
-## 4. Finalités
+Les donnees sont utilisees pour :
 
-Les données sont traitées pour les finalités suivantes :
+- connecter l'utilisateur a Dexcom Share ou une source compatible ;
+- recuperer et afficher une glycemie ;
+- transmettre la valeur a une montre Wear OS ;
+- maintenir la sync active ;
+- diagnostiquer les erreurs techniques ;
+- ameliorer la fiabilite locale de l'application.
 
-- permettre la connexion à un service tiers compatible ;
-- récupérer et afficher des données de glycémie ;
-- transmettre les données vers une montre compatible ;
-- assurer l'actualisation et le suivi de synchronisation ;
-- améliorer la fiabilité technique et le support utilisateur ;
-- prévenir certains incidents de fonctionnement.
+## 5. Base legale
 
-## 5. Base légale
+La base legale depend du mode de diffusion et du contexte d'utilisation.
 
-La base légale du traitement dépend du mode de distribution et du contexte exact d'utilisation.
-
-En pratique, elle peut reposer notamment sur :
-
-- l'exécution du service demandé par l'utilisateur ;
-- le consentement explicite de l'utilisateur, lorsque requis ;
-- l'intérêt légitime de l'éditeur pour la sécurité et le bon fonctionnement technique, sous réserve du droit applicable.
-
-Ce point doit être validé juridiquement avant diffusion publique.
+Elle doit etre confirmee avant diffusion publique.
 
 ## 6. Destinataires
 
-Les données sont destinées :
+Les donnees sont destinees :
 
-- à l'application elle-même ;
-- à l'utilisateur sur ses appareils ;
-- aux services tiers explicitement utilisés par l'utilisateur, notamment Dexcom Share si configuré ;
-- aux prestataires techniques éventuellement mobilisés, uniquement si cela existe réellement `[A compléter]`.
+- a l'utilisateur ;
+- a l'application sur ses appareils ;
+- aux services tiers explicitement configures, notamment Dexcom Share ;
+- aux prestataires techniques reels, si certains existent : `[A completer]`.
 
-L'application ne doit pas prétendre à une absence totale de transfert tant que ce point n'a pas été vérifié de manière complète.
+## 7. Stockage
 
-## 7. Stockage local
+Certaines donnees peuvent etre stockees localement pour faire fonctionner l'application.
 
-À la date de rédaction du présent document, certaines données de configuration, y compris des éléments nécessaires à la connexion Dexcom, peuvent être stockées localement sur l'appareil de l'utilisateur afin de permettre le fonctionnement de l'application.
+Cela peut inclure :
 
-Lorsque cela est techniquement prévu, ce stockage est protégé par les mécanismes de sécurité du terminal et par les mécanismes applicatifs mis en place.
+- configuration Dexcom ;
+- dernier etat de sync ;
+- derniere valeur connue ;
+- preference de montre principale.
+
+Les secrets doivent rester sur le telephone et ne pas etre stockes dans le module Wear.
 
 ## 8. Conservation
 
-Les données sont conservées pendant la durée nécessaire au fonctionnement de l'application, sauf suppression par l'utilisateur, désinstallation de l'application ou obligation légale contraire.
+Les donnees sont conservees le temps necessaire au fonctionnement de l'application, sauf suppression par l'utilisateur, desinstallation ou obligation legale contraire.
 
-Les durées exactes de conservation doivent être précisées avant diffusion publique, notamment pour :
+Les durees exactes doivent etre confirmees avant diffusion publique.
 
-- les identifiants stockés localement ;
-- l'historique de synchronisation ;
-- les journaux techniques éventuels.
+## 9. Securite
 
-## 9. Sécurité
+L'application doit limiter les logs sensibles, proteger le stockage local et eviter d'exposer les identifiants Dexcom.
 
-L'éditeur met en oeuvre des mesures techniques et organisationnelles raisonnables destinées à protéger les données contre l'accès non autorisé, l'altération, la perte ou la divulgation.
+Aucun systeme n'offre une securite absolue.
 
-Toutefois, aucun système n'offre une sécurité absolue.
+## 10. Droits
 
-L'utilisateur est également responsable de la sécurité de son appareil, de ses mots de passe, de son verrouillage d'écran, de ses sauvegardes et de son environnement logiciel.
+Selon le droit applicable, l'utilisateur peut disposer de droits sur ses donnees : acces, rectification, suppression, limitation, opposition ou portabilite.
 
-## 10. Services tiers
+Modalites de contact : `[A completer]`
 
-L'utilisation de l'application peut impliquer des services tiers, notamment Dexcom Share, Android, Wear OS, Google Play Services, le réseau mobile, le Wi-Fi ou le Bluetooth.
+## 11. Autorite de controle
 
-Ces services tiers disposent de leurs propres politiques et conditions.
-
-L'éditeur n'est pas responsable des traitements réalisés par ces tiers en leur qualité propre.
-
-## 11. Droits des personnes
-
-Sous réserve de la réglementation applicable, l'utilisateur peut disposer de droits tels que :
-
-- droit d'accès ;
-- droit de rectification ;
-- droit à l'effacement ;
-- droit à la limitation ;
-- droit d'opposition ;
-- droit à la portabilité ;
-- droit de retirer son consentement lorsque le traitement repose sur celui-ci.
-
-Ces droits peuvent être exercés à l'adresse suivante :
-
-- `[A compléter]`
-
-## 12. Réclamation
-
-Si l'utilisateur estime que ses droits ne sont pas respectés, il peut saisir l'autorité de contrôle compétente.
-
-Pour la France, il s'agit de la CNIL :
-
-- https://www.cnil.fr/
-
-## 13. Mises à jour
-
-La présente Politique de confidentialité peut être modifiée à tout moment pour tenir compte des évolutions légales, réglementaires, techniques ou fonctionnelles de l'application.
-
+Autorite competente : `[A completer]`

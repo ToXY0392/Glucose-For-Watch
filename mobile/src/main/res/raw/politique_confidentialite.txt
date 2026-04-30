@@ -1,61 +1,67 @@
-POLITIQUE DE CONFIDENTIALITÉ
+POLITIQUE DE CONFIDENTIALITE
 
-Dernière mise à jour : 22 avril 2026
+Derniere mise a jour : 30 avril 2026
 
-Important :
-Ce texte constitue une base de travail destinée à être complétée avant diffusion.
-Si l'application est distribuée à des tiers, une validation juridique et RGPD est fortement recommandée, en particulier en présence de données de santé.
+Ce texte est un modele de travail. Il doit etre complete et relu avant toute diffusion publique, surtout parce que l'application manipule des donnees pouvant relever de la sante.
 
 1. Responsable du traitement
 
-- Nom / raison sociale : [À compléter]
-- Adresse : [À compléter]
-- E-mail de contact vie privée : [À compléter]
+- Nom / raison sociale : [A completer]
+- Adresse : [A completer]
+- E-mail vie privee : [A completer]
 
-2. Données traitées
+2. Donnees traitees
 
-Selon les fonctionnalités utilisées, l'application peut traiter :
+Selon la configuration, Widget G7 peut traiter :
 
-- des identifiants Dexcom Share saisis par l'utilisateur ;
-- des paramètres de configuration ;
-- des données de glycémie affichées ou synchronisées ;
-- des informations d'état de synchronisation ;
-- des informations techniques liées à la montre, au téléphone ou à la connectivité.
+- identifiants Dexcom Share saisis par l'utilisateur ;
+- parametres de configuration ;
+- valeurs de glycemie affichees ou synchronisees ;
+- etat de synchronisation ;
+- informations techniques sur le telephone, la montre et la connectivite ;
+- journaux techniques limites au fonctionnement.
 
-3. Données de santé
+3. Donnees de sante
 
-Les données de glycémie sont susceptibles de relever de la catégorie des données de santé.
+Les valeurs de glycemie peuvent etre considerees comme des donnees de sante.
 
-4. Finalités
+4. Finalites
 
-Les données sont traitées pour les finalités suivantes :
+Les donnees sont utilisees pour :
 
-- permettre la connexion à un service tiers compatible ;
-- récupérer et afficher des données de glycémie ;
-- transmettre les données vers une montre compatible ;
-- assurer l'actualisation et le suivi de synchronisation ;
-- améliorer la fiabilité technique et le support utilisateur.
+- connecter l'utilisateur a Dexcom Share ou une source compatible ;
+- recuperer et afficher une glycemie ;
+- transmettre la valeur a une montre Wear OS ;
+- maintenir la sync active ;
+- diagnostiquer les erreurs techniques ;
+- ameliorer la fiabilite locale de l'application.
 
-5. Stockage local
+5. Destinataires
 
-Certaines données de configuration, y compris des éléments nécessaires à la connexion Dexcom, peuvent être stockées localement sur l'appareil afin de permettre le fonctionnement de l'application.
+Les donnees sont destinees a l'utilisateur, a l'application sur ses appareils, aux services tiers explicitement configures et aux prestataires techniques reels s'il en existe.
 
-6. Sécurité
+Prestataires techniques : [A completer]
 
-L'éditeur met en oeuvre des mesures techniques et organisationnelles raisonnables destinées à protéger les données contre l'accès non autorisé, l'altération, la perte ou la divulgation.
+6. Stockage
 
-Toutefois, aucun système n'offre une sécurité absolue.
+Certaines donnees peuvent etre stockees localement pour faire fonctionner l'application : configuration Dexcom, dernier etat de sync, derniere valeur connue et preference de montre principale.
 
-7. Services tiers
+Les secrets doivent rester sur le telephone et ne pas etre stockes dans le module Wear.
 
-L'utilisation de l'application peut impliquer des services tiers, notamment Dexcom Share, Android, Wear OS, Google Play Services, le réseau mobile, le Wi-Fi ou le Bluetooth.
+7. Conservation
 
-8. Droits des personnes
+Les donnees sont conservees le temps necessaire au fonctionnement de l'application, sauf suppression par l'utilisateur, desinstallation ou obligation legale contraire.
 
-Sous réserve de la réglementation applicable, l'utilisateur peut disposer de droits d'accès, de rectification, d'effacement, de limitation, d'opposition, de portabilité et de retrait du consentement lorsqu'il s'applique.
+8. Securite
 
-9. Réclamation
+L'application doit limiter les logs sensibles, proteger le stockage local et eviter d'exposer les identifiants Dexcom.
 
-Pour la France, l'autorité de contrôle compétente est la CNIL :
+9. Droits
 
-https://www.cnil.fr/
+Selon le droit applicable, l'utilisateur peut disposer de droits sur ses donnees.
+
+Modalites de contact : [A completer]
+
+10. Autorite de controle
+
+Autorite competente : [A completer]

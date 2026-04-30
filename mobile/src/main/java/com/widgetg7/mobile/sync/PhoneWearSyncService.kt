@@ -4,14 +4,14 @@ import android.content.Context
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
 import com.widgetg7.mobile.data.GlucoseReading
+import com.widgetg7.mobile.watch.WatchConnectionRepository
 import kotlinx.coroutines.tasks.await
 
 class PhoneWearSyncService(private val context: Context) {
     suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long) {
         val dataClient = Wearable.getDataClient(context)
-        val nodeClient = Wearable.getNodeClient(context)
-        val connectedNodes = nodeClient.connectedNodes.await()
-        if (connectedNodes.isEmpty()) {
+        val watchStatus = WatchConnectionRepository(context).loadStatus()
+        if (!watchStatus.connected) {
             throw IllegalStateException("Aucune montre connectee via Wear OS.")
         }
 
@@ -22,6 +22,7 @@ class PhoneWearSyncService(private val context: Context) {
             dataMap.putLong(GlucoseKeys.TIMESTAMP_EPOCH_MS, reading.timestampEpochMs)
             dataMap.putBoolean(GlucoseKeys.STALE, reading.stale)
             dataMap.putLong(GlucoseKeys.SEQUENCE_ID, sequenceId)
+            dataMap.putString(GlucoseKeys.TARGET_NODE_ID, watchStatus.nodeId)
             dataMap.putLong(GlucoseKeys.PUSH_VERSION, sequenceId)
         }.asPutDataRequest().setUrgent()
 
