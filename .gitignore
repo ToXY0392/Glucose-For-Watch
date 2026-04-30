@@ -13,6 +13,10 @@ gradle.properties
 *.jks
 *.keystore
 
+# Legal documents kept local
+docs/CGU.md
+mobile/src/main/res/raw/cgu.txt
+
 # OS
 .DS_Store
 Thumbs.db
