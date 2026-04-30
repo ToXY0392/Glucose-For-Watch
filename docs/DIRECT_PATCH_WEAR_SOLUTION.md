@@ -1,115 +1,101 @@
-# Direct capteur G7 -> Wear OS
+<h1 align="center">🧪 Direct Capteur G7 -> Wear OS</h1>
 
-## Verdict
+<p align="center">
+  Intéressant · risqué · expérimental · jamais prioritaire sur la sync téléphone
+</p>
 
-Ne pas remplacer le mode actuel par une connexion directe au capteur.
+---
 
-La meilleure solution produit est :
+## 🟠 Verdict
 
-1. garder `telephone -> Wear OS` comme mode principal ;
-2. renforcer ce mode en conditions reelles ;
-3. etudier le direct capteur seulement comme mode experimental separe.
+```text
+╭─ Décision ─────────────────────────────╮
+│ Ne pas remplacer le mode téléphone.    │
+│ Étudier le direct comme mode séparé.   │
+╰────────────────────────────────────────╯
+```
 
-## Pourquoi
+La meilleure solution produit :
 
-Dexcom documente Direct to Watch pour Apple Watch. Aucun support officiel equivalent Wear OS n'a ete trouve.
+1. garder `téléphone -> Wear OS` comme mode principal ;
+2. renforcer ce mode en conditions réelles ;
+3. étudier le direct capteur seulement comme expérimentation.
 
-Sources Dexcom consultees :
+---
+
+## 📌 Pourquoi
+
+| Point | État |
+| --- | --- |
+| Direct to Watch | Support officiel Apple Watch |
+| Wear OS direct | Pas de support officiel trouvé |
+| Mode fiable Android | Capteur -> Dexcom / téléphone -> Widget G7 -> Wear |
+
+Sources Dexcom :
 
 - https://www.dexcom.com/en-us/m/faqs/what-is-direct-to-watch
 - https://www.dexcom.com/en-us/faqs/what-smartwatches-have-direct-to-watch-compatibility
 - https://www.dexcom.com/en-us/faqs/if-i-use-direct-to-watch-can-i-still-connect-to-aid-system
 
-Cote Android/Wear OS, le fonctionnement fiable reste donc :
+---
 
-`capteur G7 -> Dexcom / telephone -> Widget G7 mobile -> Widget G7 Wear`
+## 🧩 Options
 
-## Options
+| Option | Avantage | Limite |
+| --- | --- | --- |
+| `Sync téléphone` | Stable, simple, compatible Dexcom Share | Dépend du téléphone |
+| `Wear Collector` | Usage possible sans téléphone | Batterie, BLE, support non officiel |
+| `Source xDrip` | Utile pour prototype avancé | Dépendance tierce, parcours complexe |
 
-### Option A - Mode telephone
+---
 
-Mode actuel.
+## 🎯 Décision Produit
 
-Avantages :
+| Mode | Statut |
+| --- | --- |
+| `Sync téléphone` | Principal |
+| `Direct capteur` | Expérimental, caché ou avancé |
 
-- stable ;
-- compatible avec Dexcom Share ;
-- pas de conflit Bluetooth direct avec le capteur ;
-- secrets Dexcom conserves cote telephone ;
-- consommation montre limitee.
+> Le direct ne doit jamais casser le mode téléphone.
 
-Limite :
+---
 
-- la montre depend du telephone.
+## 🏗️ Architecture Minimale
 
-### Option B - Wear Collector experimental
+| Composant | Rôle |
+| --- | --- |
+| `SourceRouter` | Choisir téléphone ou source directe |
+| `G7BleScanner` | Détecter les capteurs proches |
+| `G7PairingManager` | Gérer l'association |
+| `G7CollectorService` | Maintenir la collecte |
+| `DirectReadingRepository` | Exposer la valeur locale |
+| `DirectModeHealthCheck` | Surveiller batterie, fraîcheur, erreurs |
 
-La montre scannerait et lirait le capteur en BLE.
+---
 
-Avantages possibles :
+## 🛡️ Règles Obligatoires
 
-- usage ponctuel sans telephone ;
-- interessant pour sport ou sorties courtes.
+```text
+pas de code capteur en clair dans les logs
+pas de secret Dexcom dans Wear
+donnée toujours horodatée
+état ancien visible
+retour simple vers Sync téléphone
+suppression complète des données directes
+```
 
-Risques :
+---
 
-- pas de support officiel Dexcom Wear OS ;
-- compatibilite variable selon montre et version Wear OS ;
-- consommation batterie elevee ;
-- conflit possible avec l'app Dexcom ou un autre recepteur ;
-- maintenance technique importante.
+## ✅ Validation Avant Intégration
 
-### Option C - Source externe xDrip
-
-Widget G7 pourrait consommer une source deja collectee par xDrip.
-
-Avantage :
-
-- utile pour prototype ou utilisateurs avances.
-
-Limites :
-
-- dependance a une app tierce ;
-- parcours utilisateur plus complexe ;
-- pas adapte comme mode principal.
-
-## Decision produit
-
-Le produit doit afficher deux modes seulement si le direct devient viable :
-
-- `Sync telephone` : mode principal ;
-- `Direct capteur` : mode experimental, cache ou reserve aux utilisateurs avances.
-
-Le direct ne doit jamais casser le mode telephone.
-
-## Architecture minimale si le direct est lance
-
-- `SourceRouter` : choisit entre telephone et source directe.
-- `G7BleScanner` : detecte les capteurs proches.
-- `G7PairingManager` : gere l'association.
-- `G7CollectorService` : maintient la collecte.
-- `DirectReadingRepository` : expose une valeur locale a l'app, la tile et la complication.
-- `DirectModeHealthCheck` : surveille batterie, fraicheur, erreurs et reconnexion.
-
-## Regles obligatoires
-
-- Aucun code capteur en clair dans les logs.
-- Aucun secret Dexcom dans le module Wear.
-- Donnee toujours horodatee.
-- Etat ancien visible si aucune lecture recente.
-- Retour simple vers `Sync telephone`.
-- Suppression complete des donnees du mode direct.
-
-## Validation avant integration
-
-Avant tout code produit, faire le spike :
+Avant tout code produit :
 
 - [SPIKE_BLE_WEAR_COLLECTOR.md](SPIKE_BLE_WEAR_COLLECTOR.md)
 
-Le mode direct peut avancer seulement si :
-
-1. la Pixel Watch 2 voit le capteur ;
-2. le scan BLE reste stable ;
-3. la batterie reste acceptable ;
-4. l'app Dexcom officielle n'est pas perturbee ;
-5. les donnees restent coherentes.
+| Critère | Attendu |
+| --- | --- |
+| Détection | Pixel Watch 2 voit le capteur |
+| BLE | Scan stable |
+| Batterie | Impact acceptable |
+| Dexcom officiel | Non perturbé |
+| Données | Cohérentes |

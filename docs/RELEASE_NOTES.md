@@ -1,119 +1,137 @@
-# Release notes
+<h1 align="center">🧾 Release Notes</h1>
+
+<p align="center">
+  Historique court des décisions et validations importantes
+</p>
+
+---
+
+## 🟢 Console
+
+```text
+╭─ Timeline ─────────────────────────────╮
+│  V1                  base publiable    │
+│  Dexcom sessions     auth plus claire  │
+│  Avril 2026          UX + sync         │
+│  30 avril            sync active       │
+│  30 avril            batterie + docs   │
+╰────────────────────────────────────────╯
+```
+
+---
 
 ## V1
 
-Commit : `3b1b53b`
+| Champ | Détail |
+| --- | --- |
+| Commit | `3b1b53b` |
+| Scope | Première version publiable |
 
-Premiere version publiable :
+Inclus :
 
-- application Android telephone ;
-- application Wear OS ;
-- synchronisation Dexcom Share vers Wear OS ;
+- app Android téléphone ;
+- app Wear OS ;
+- sync Dexcom Share vers Wear OS ;
 - tile glucose ;
 - complication selon cadran compatible ;
 - configuration Dexcom ;
 - aide de configuration montre.
 
-## Dexcom session handling
+---
 
-Commit : `bc434ef`
+## Dexcom Session Handling
+
+| Champ | Détail |
+| --- | --- |
+| Commit | `bc434ef` |
+| Objectif | Session Dexcom plus robuste |
 
 Changements :
 
-- session Dexcom mieux geree ;
-- distinction entre erreur reseau et erreur d'identifiants ;
+- distinction erreur réseau / erreur identifiants ;
 - messages utilisateur plus clairs ;
-- bouton de deconnexion ;
-- persistance de session plus robuste.
+- bouton de déconnexion ;
+- persistance de session améliorée.
 
-## Mise a jour avril 2026
+---
 
-Commit de reference : `ed032cc`
+## Mise À Jour Avril 2026
 
-Changements principaux :
-
-- splash simplifie ;
-- ecran dedie `Connexion Dexcom` ;
-- textes juridiques acceptes avant connexion Dexcom ;
-- documents CGU, confidentialite et avertissement medical ;
-- sync telephone -> montre rapprochee du rythme G7 ;
-- refresh manuel plus robuste ;
-- ecran montre transforme en test de liaison ;
-- UI multi-montres avec choix d'une montre principale ;
-- accueil telephone centre sur la montre ;
-- menu `Parametres / Sync` simplifie ;
-- palette blanche clinique avec vert en accent ;
-- bouton refresh Wear corrige.
+| Sujet | Changement |
+| --- | --- |
+| UX | Splash simplifié, accueil centré sur la montre |
+| Dexcom | Écran `Connexion Dexcom` |
+| Juridique | Textes acceptés avant connexion |
+| Sync | Rythme rapproché du G7 |
+| Montre | Test de liaison, multi-montres |
+| Wear | Refresh visuellement corrigé |
 
 Validation connue :
 
-- APK mobile debug compile et installe sur Pixel 8a ;
-- APK Wear debug compile et installe sur Pixel Watch 2 ;
-- tile glucose validee avec `mg/dL`.
+- APK mobile debug installé sur Pixel 8a ;
+- APK Wear debug installé sur Pixel Watch 2 ;
+- tile glucose validée avec `mg/dL`.
 
-## Documentation sync - 30 avril 2026
+---
 
-Documents ajoutes :
+## Documentation Sync - 30 Avril 2026
 
-- [SYNC_G7_WEAR_RECHERCHE.md](SYNC_G7_WEAR_RECHERCHE.md)
-- [DIRECT_PATCH_WEAR_SOLUTION.md](DIRECT_PATCH_WEAR_SOLUTION.md)
-- [PLAN_WEAR_COLLECTOR_AVANCE.md](PLAN_WEAR_COLLECTOR_AVANCE.md)
-- [SPIKE_BLE_WEAR_COLLECTOR.md](SPIKE_BLE_WEAR_COLLECTOR.md)
+| Document | Rôle |
+| --- | --- |
+| [SYNC_G7_WEAR_RECHERCHE.md](SYNC_G7_WEAR_RECHERCHE.md) | Décision téléphone -> Wear OS |
+| [DIRECT_PATCH_WEAR_SOLUTION.md](DIRECT_PATCH_WEAR_SOLUTION.md) | Cadre du mode direct |
+| [PLAN_WEAR_COLLECTOR_AVANCE.md](PLAN_WEAR_COLLECTOR_AVANCE.md) | Plan si le direct devient viable |
+| [SPIKE_BLE_WEAR_COLLECTOR.md](SPIKE_BLE_WEAR_COLLECTOR.md) | Protocole BLE |
 
-Decision :
+Décision :
 
-- le mode fiable reste `telephone -> Wear OS` ;
-- Dexcom documente Direct to Watch pour Apple Watch, pas pour Wear OS ;
-- le mode direct Wear OS reste experimental ;
-- un spike BLE Pixel Watch 2 est obligatoire avant toute suite.
+```text
+mode fiable = téléphone -> Wear OS
+mode direct = expérimental
+```
 
-## Sync solide - 30 avril 2026
+---
 
-Changements :
+## Sync Solide - 30 Avril 2026
 
-- `sequenceId` sur chaque push telephone -> montre ;
-- ack montre -> telephone sur `/glucose/watch/ack` ;
-- stockage du dernier ack cote telephone ;
-- repush borne si ack manquant ;
-- detection defensive des donnees anciennes cote Wear ;
-- service foreground actif avec polling environ `45 s` ;
-- refresh manuel et refresh montre branches sur le meme moteur ;
-- `AlarmManager` / `WorkManager` gardes comme filet de secours ;
-- logs sensibles retires.
-
-Validation :
-
-- APK mobile debug compile et installe ;
-- APK Wear debug compile et installe ;
-- service foreground confirme par `dumpsys` ;
-- reception montre et ack confirmes.
+| Changement | Effet |
+| --- | --- |
+| `sequenceId` | Trace chaque push |
+| Ack montre | Confirme la livraison |
+| Repush borné | Répare un ack manquant |
+| Service foreground | Maintient la sync active |
+| Fallback WorkManager / AlarmManager | Filet de secours |
+| Logs nettoyés | Moins de données sensibles |
 
 Limites :
 
-- Dexcom Share peut publier une mesure avec retard ;
+- Dexcom Share peut publier avec retard ;
 - Android peut limiter l'app sans exemption batterie ;
-- une validation en veille longue reste necessaire.
+- la veille longue reste à valider.
 
-## Reprise 1-5 - 30 avril 2026
+---
 
-Changements :
+## Reprise 1-5 - 30 Avril 2026
 
-- permission Android pour demander l'exemption batterie ;
-- bouton `Autoriser la sync en veille` dans l'ecran montre ;
-- ciblage defensif de la montre principale via `targetNodeId` ;
-- filtrage cote Wear des paquets non destines a la montre locale ;
-- checklist juridique avant diffusion publique.
+| Sujet | Résultat |
+| --- | --- |
+| Batterie | Permission + bouton `Autoriser la sync en veille` |
+| Multi-montres | Ciblage `targetNodeId` |
+| Wear | Filtrage des paquets non destinés à la montre locale |
+| Juridique | Checklist avant diffusion |
+| Docs | Simplification et nouvelle structure |
 
 Validation :
 
 - build debug mobile + wear OK ;
-- APK installes sur Pixel 8a et Pixel Watch 2 ;
-- `ActiveGlucoseSyncService` confirme en foreground ;
-- app ajoutee a la whitelist batterie via ADB ;
-- dernier push et ack confirmes dans les preferences debug.
+- APK installés sur appareils de test ;
+- `ActiveGlucoseSyncService` confirmé en foreground ;
+- dernier push et ack confirmés.
 
-Restes a faire :
+Restes à faire :
 
-- test veille longue ;
-- test avec deux montres connectees ;
-- champs juridiques `[A completer]` a renseigner.
+```text
+test veille longue
+test avec deux montres
+champs juridiques à compléter
+```

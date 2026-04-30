@@ -1,50 +1,59 @@
-# Spike BLE Wear Collector
+<h1 align="center">🧪 Spike BLE Wear Collector</h1>
 
-Date : 30 avril 2026
+<p align="center">
+  Voir si la Pixel Watch 2 voit le capteur, sans toucher au mode principal
+</p>
 
-Ce document cadre le premier test du mode direct `capteur G7 -> Wear OS`.
+---
 
-## Objectif
+## 🎯 Objectif
 
-Verifier sur Pixel Watch 2 si la montre voit le capteur Dexcom G7 en BLE, sans modifier le parcours principal `telephone -> Wear OS`.
+```text
+╭─ Spike ────────────────────────────────╮
+│  scanner court                         │
+│  aucune lecture produit                │
+│  aucun stockage capteur                │
+│  aucun secret dans les logs            │
+╰────────────────────────────────────────╯
+```
 
-## Regles
+Vérifier si la montre voit le capteur Dexcom G7 en BLE, sans modifier le parcours `téléphone -> Wear OS`.
 
-- pas de code BLE dans le parcours principal ;
-- pas de lecture capteur active hors ecran experimental ;
-- pas de code capteur, identifiant BLE ou secret dans les logs ;
-- pas de stockage de code capteur pendant le spike ;
-- retour complet au mode telephone a tout moment.
+---
 
-## Criteres go
+## 🛡️ Règles
 
-Le spike passe seulement si :
+| Règle | Pourquoi |
+| --- | --- |
+| Pas de BLE dans le parcours principal | Protéger le mode fiable |
+| Pas de lecture capteur hors écran expérimental | Éviter une activation implicite |
+| Pas de code capteur dans les logs | Donnée sensible |
+| Pas de stockage capteur pendant le spike | Réduire le risque |
+| Retour au mode téléphone | Garder une sortie simple |
 
-1. la Pixel Watch 2 detecte le capteur plusieurs fois ;
-2. les permissions BLE sont claires et limitees au spike ;
-3. le scan court ne degrade pas fortement la batterie ;
-4. l'app Dexcom officielle et le telephone ne sont pas perturbes ;
-5. les resultats sont documentes.
+---
 
-## Criteres stop
+## ✅ Go / Stop
 
-Arreter si :
+| Go | Stop |
+| --- | --- |
+| Capteur détecté plusieurs fois | Capteur invisible |
+| Permissions BLE claires | Dexcom perturbé |
+| Batterie stable en scan court | Batterie qui chute |
+| App Dexcom non perturbée | Reconnexion instable |
+| Résultats documentés | Donnée sensible dans les logs |
 
-- le capteur n'est pas visible ;
-- Dexcom ou un autre recepteur est perturbe ;
-- la batterie chute anormalement ;
-- la reconnexion est instable ;
-- une donnee sensible apparait dans les logs.
+---
 
-## Rapport attendu
+## 🧾 Rapport
 
-Renseigner apres test :
-
-- montre :
-- version Wear OS :
-- version capteur :
-- duree du scan :
-- batterie avant :
-- batterie apres :
-- resultat BLE :
-- decision : `go`, `retry`, ou `stop`
+```text
+montre :
+version Wear OS :
+version capteur :
+durée du scan :
+batterie avant :
+batterie après :
+résultat BLE :
+décision : go / retry / stop
+```

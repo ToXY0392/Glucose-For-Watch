@@ -1,111 +1,125 @@
-# Conditions generales d'utilisation
+<h1 align="center">📜 Conditions Générales D'utilisation</h1>
 
-Derniere mise a jour : 30 avril 2026
+<p align="center">
+  Modèle de travail · à compléter avant diffusion publique
+</p>
 
-Ce document est un modele de travail. Il doit etre complete et relu avant toute diffusion publique.
+---
 
-Voir aussi : [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md)
+## 🛑 Statut
+
+```text
+╭─ CGU ──────────────────────────────────╮
+│  publication publique : non prête      │
+│  champs à compléter  : oui             │
+│  validation juridique : recommandée    │
+╰────────────────────────────────────────╯
+```
+
+Voir : [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md)
+
+---
 
 ## 1. Objet
 
-Les presentes CGU encadrent l'utilisation de Widget G7.
+Widget G7 sert à afficher et relayer des données de glycémie issues de Dexcom Share ou d'une source compatible, depuis un téléphone Android vers une montre Wear OS.
 
-Widget G7 sert a afficher et relayer des donnees de glycemie issues de Dexcom Share ou d'une source compatible, depuis un telephone Android vers une montre Wear OS.
+---
 
-## 2. Editeur
+## 2. Éditeur
 
-- Nom / raison sociale : `[A completer]`
-- Forme juridique : `[A completer]`
-- Adresse : `[A completer]`
-- E-mail de contact : `[A completer]`
-- Responsable de publication : `[A completer]`
+| Champ | Valeur |
+| --- | --- |
+| Nom / raison sociale | `[A completer]` |
+| Forme juridique | `[A completer]` |
+| Adresse | `[A completer]` |
+| E-mail de contact | `[A completer]` |
+| Responsable de publication | `[A completer]` |
+
+---
 
 ## 3. Acceptation
 
-L'utilisation de l'application implique l'acceptation des presentes CGU.
+L'utilisation de l'application implique l'acceptation des présentes CGU.
 
 Si l'utilisateur n'accepte pas les CGU, il ne doit pas utiliser l'application.
 
-## 4. Service fourni
+---
 
-Widget G7 peut :
+## 4. Service Fourni
 
-- connecter un compte Dexcom Share ;
-- recuperer une valeur de glycemie ;
-- afficher cette valeur sur le telephone ;
-- transmettre cette valeur a une montre Wear OS ;
-- afficher la valeur sur l'app Wear, une tile ou une complication ;
-- relancer une actualisation manuelle ou automatique.
+| Fonction | Description |
+| --- | --- |
+| Connexion Dexcom | Configurer Dexcom Share |
+| Lecture | Récupérer une valeur de glycémie |
+| Affichage mobile | Montrer l'état côté téléphone |
+| Sync Wear | Transmettre la valeur à la montre |
+| Surfaces Wear | App, tile et complication |
+| Actualisation | Manuelle ou automatique |
 
-## 5. Nature non medicale
+---
+
+## 5. Nature Non Médicale
 
 Widget G7 est un outil de confort et d'affichage.
 
-L'application ne remplace pas :
+Il ne remplace pas :
 
 - l'application officielle Dexcom ;
-- un dispositif medical officiel ;
-- un recepteur officiel ;
-- un professionnel de sante ;
-- un avis medical ou une decision therapeutique.
+- un dispositif médical officiel ;
+- un récepteur officiel ;
+- un professionnel de santé ;
+- un avis médical ou une décision thérapeutique.
 
-L'utilisateur ne doit jamais prendre une decision medicale ou d'urgence uniquement avec Widget G7.
+---
 
-## 6. Conditions d'acces
+## 6. Conditions D'accès
 
-L'utilisation peut necessiter :
+| Besoin | Exemple |
+| --- | --- |
+| Téléphone Android | App mobile |
+| Montre Wear OS | App Wear, tile, complication |
+| Réseau | Accès Dexcom Share |
+| Bluetooth / Wear OS | Liaison téléphone-montre |
+| Compte Dexcom Share | Source de données |
+| Autorisations Android | Notification, service, batterie |
 
-- un telephone Android compatible ;
-- une montre Wear OS compatible ;
-- une connexion reseau ;
-- Bluetooth et Wear OS fonctionnels ;
-- un compte Dexcom Share ;
-- les autorisations Android necessaires ;
-- une configuration batterie adaptee.
+---
 
-L'editeur ne garantit pas la compatibilite avec tous les appareils, versions Android, versions Wear OS, cadrans ou services tiers.
+## 7. Services Tiers
 
-## 7. Services tiers
+Dexcom Share et les autres services tiers restent soumis à leurs propres conditions.
 
-Dexcom Share et les autres services tiers restent soumis a leurs propres conditions.
+L'utilisateur reste responsable de ses identifiants, de ses appareils et du respect des conditions des services tiers.
 
-L'utilisateur est responsable :
+---
 
-- de l'utilisation de ses identifiants ;
-- de l'exactitude des informations saisies ;
-- du respect des conditions des services tiers ;
-- du maintien de ses appareils et connexions en bon etat.
+## 8. Limites
 
-## 8. Limites de fonctionnement
+Les données peuvent être retardées, anciennes, indisponibles ou inexactes à cause du réseau, de Dexcom Share, de Bluetooth, de Wear OS, de la batterie, d'une montre déconnectée ou de l'absence de nouvelle mesure.
 
-Les donnees peuvent etre retardees, anciennes, indisponibles ou inexactes en raison notamment :
+---
 
-- du reseau ;
-- de Dexcom Share ;
-- de Bluetooth ;
-- de Wear OS ;
-- de la batterie ;
-- des restrictions d'arriere-plan ;
-- d'une montre deconnectee ;
-- de l'absence de nouvelle mesure.
+## 9. Responsabilité
 
-## 9. Responsabilite
+L'utilisateur doit toujours confirmer les informations importantes avec une solution officielle adaptée.
 
-Dans les limites autorisees par la loi, l'editeur ne peut etre tenu responsable d'une decision prise uniquement a partir des donnees affichees par Widget G7.
+Widget G7 ne doit jamais être l'unique base d'une décision médicale ou d'urgence.
 
-L'utilisateur doit toujours confirmer les informations importantes avec une solution officielle adaptee.
+---
 
-## 10. Donnees personnelles
+## 10. Données Personnelles
 
-Le traitement des donnees est decrit dans :
+Le traitement des données est décrit dans :
 
 - [POLITIQUE_CONFIDENTIALITE.md](POLITIQUE_CONFIDENTIALITE.md)
 
-## 11. Droit applicable
+---
 
-- Droit applicable : `[A completer]`
-- Juridictions competentes : `[A completer]`
+## 11. Droit Applicable Et Contact
 
-## 12. Contact
-
-- Contact : `[A completer]`
+| Champ | Valeur |
+| --- | --- |
+| Droit applicable | `[A completer]` |
+| Juridictions compétentes | `[A completer]` |
+| Contact | `[A completer]` |

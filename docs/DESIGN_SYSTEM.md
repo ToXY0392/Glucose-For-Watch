@@ -1,141 +1,117 @@
-# Design system
+<h1 align="center">🎨 Design System Widget G7</h1>
 
-## Direction
+<p align="center">
+  Clair · médical · calme · lisible vite
+</p>
 
-Widget G7 doit paraitre :
+---
 
-- medical sans etre froid ;
-- simple ;
-- fiable ;
-- lisible vite ;
-- centre sur la montre et la derniere valeur.
+## 🟢 Direction
 
-L'interface ne doit pas ressembler a une landing page. Elle doit aider l'utilisateur a verifier la sync et a lire l'etat courant.
+```text
+╭─ Intention UI ─────────────────────────╮
+│  médical sans froideur                 │
+│  simple sans pauvreté                  │
+│  fiable sans bruit                     │
+│  centré sur la montre et la valeur     │
+╰────────────────────────────────────────╯
+```
 
-## Palette
+Widget G7 ne doit pas ressembler à une landing page. L'interface sert à vérifier la sync et lire l'état courant.
 
-Fond :
+---
 
-- blanc clinique ;
-- gris tres clair pour les zones secondaires.
+## 🎨 Palette
 
-Accent :
+| Usage | Couleur |
+| --- | --- |
+| Fond | Blanc clinique |
+| Secondaire | Gris très clair |
+| Sync OK | Vert |
+| Attention | Orange |
+| Erreur | Rouge |
+| Indisponible | Gris |
 
-- vert pour la sync active et les etats corrects ;
-- orange pour attention ;
-- rouge pour erreur ou risque ;
-- gris pour indisponible ou ancien.
+> Le vert reste un accent. Il ne doit pas envahir tout l'écran.
 
-Regle : le vert doit rester un accent, pas envahir tout l'ecran.
+---
 
-## Typographie
+## 🔤 Typographie
 
-- titres courts ;
-- peu de texte ;
-- valeur glucose tres lisible ;
-- statuts courts et explicites ;
-- pas de paragraphes longs dans l'app.
+| Élément | Règle |
+| --- | --- |
+| Titres | Courts |
+| Texte | Minimal |
+| Glycémie | Très lisible |
+| Statuts | Courts et explicites |
+| Wear | Encore plus dense |
 
-## Composants
+---
 
-### Cards
+## 🧩 Composants
 
-Utiliser les cards pour :
+| Composant | Usage |
+| --- | --- |
+| Card statut | État principal |
+| Card Dexcom | Connexion et région |
+| Card montre | Choix et test |
+| Bouton plein | Action principale |
+| Bouton contour | Action secondaire |
+| Icône | Navigation ou outil simple |
 
-- statut principal ;
-- choix de montre ;
-- bloc Dexcom ;
-- actions utilisateur.
+Éviter les cards imbriquées.
 
-Eviter les cards imbriquees.
+---
 
-### Boutons
+## 🟢 Statuts
 
-- action principale : bouton plein ;
-- action secondaire : bouton contour ;
-- icones pour navigation et outils simples ;
-- libelles courts.
+| Statut | Sens |
+| --- | --- |
+| `Sync active` | Le service tourne |
+| `Montre vérifiée` | Ack reçu |
+| `Aucune nouvelle mesure` | Dexcom n'a pas publié plus récent |
+| `Vérifier Dexcom` | Auth ou réseau à contrôler |
+| `Donnée ancienne` | Fraîcheur insuffisante |
 
-### Statuts
+---
 
-Les statuts doivent dire ce qui se passe, pas seulement afficher une couleur.
+## 📱 Écrans
 
-Exemples :
+| Écran | Objectif | Contenu |
+| --- | --- | --- |
+| Accueil | Voir l'état montre | Montre, statut, `Synchroniser` |
+| Connexion Dexcom | Configurer Dexcom Share | Identifiants, région, juridique |
+| Montre | Vérifier la liaison | Détection, montre principale, test, batterie |
+| Wear | Lire vite | Valeur, tendance, fraîcheur, refresh |
+| Notice | Rassurer et guider | Texte court, avertissement clair |
 
-- `Sync active`
-- `Montre verifiee`
-- `Aucune nouvelle mesure`
-- `Verifier Dexcom`
-- `Donnee ancienne`
+---
 
-## Ecrans
-
-### Accueil
-
-Objectif : voir l'etat montre et relancer une sync.
-
-Contenu :
-
-- grande presence montre ;
-- statut de sync ;
-- bouton `Synchroniser` ;
-- acces parametres.
-
-### Connexion Dexcom
-
-Objectif : configurer Dexcom Share.
-
-Contenu :
-
-- identifiants ;
-- region ;
-- acceptation juridique ;
-- messages d'erreur simples.
-
-### Montre
-
-Objectif : verifier la liaison.
-
-Contenu :
-
-- montre detectee ;
-- choix de montre principale si besoin ;
-- bouton `Tester l'envoi` ;
-- bouton `Autoriser la sync en veille` si necessaire ;
-- etat batterie/sync si disponible.
-
-### Wear
-
-Objectif : lire vite.
-
-Contenu :
-
-- valeur ;
-- tendance ;
-- fraicheur ;
-- refresh manuel.
-
-Le texte doit rester minimal sur la montre.
-
-### Mode direct capteur
+## 🧪 Mode Direct Capteur
 
 Si ce mode existe un jour :
 
-- le marquer `experimental` ;
-- afficher les risques ;
-- montrer l'age de la donnee ;
-- offrir un retour simple vers `Sync telephone`.
+```text
+Direct capteur = experimental
+risques visibles
+âge de donnée visible
+retour simple vers Sync téléphone
+```
 
-## A eviter
+---
 
-- ecrans trop bavards ;
-- decoration gratuite ;
+## 🚫 À Éviter
+
+- écrans trop bavards ;
+- décoration gratuite ;
 - gradients dominants ;
-- texte qui repete les docs ;
-- cacher l'age d'une donnee ;
-- presenter le mode direct comme officiel.
+- texte qui répète les docs ;
+- âge de donnée caché ;
+- mode direct présenté comme officiel.
 
-## References visuelles
+---
+
+## 🖼️ Références
 
 - [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png)
 - [reference_design_configurer_montre.png](reference_design_configurer_montre.png)

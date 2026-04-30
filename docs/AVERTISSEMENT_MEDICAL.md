@@ -1,33 +1,53 @@
-# Avertissement medical
+<h1 align="center">⚠️ Avertissement Médical</h1>
 
-Derniere mise a jour : 30 avril 2026
+<p align="center">
+  Widget G7 affiche et relaie · il ne remplace jamais une solution officielle
+</p>
 
-Widget G7 est une application d'affichage et de relais.
+---
 
-Elle ne remplace pas :
+## 🛑 Message Court
 
-- l'application officielle Dexcom ;
-- un dispositif medical officiel ;
-- un recepteur officiel ;
-- un professionnel de sante ;
-- un avis medical, un diagnostic ou une decision therapeutique.
+```text
+╭─ Important ────────────────────────────╮
+│ Widget G7 n'est pas un dispositif      │
+│ médical officiel.                      │
+╰────────────────────────────────────────╯
+```
 
-Les informations affichees peuvent etre retardees, incompletes, indisponibles ou inexactes a cause :
+Ne prenez jamais une décision médicale ou d'urgence uniquement avec Widget G7.
 
-- du reseau ;
-- du Bluetooth ;
-- du telephone ;
-- de la montre ;
-- d'Android ou Wear OS ;
-- des restrictions batterie ;
-- de Dexcom Share ou d'un autre service tiers ;
-- d'un decalage de synchronisation ;
-- de l'absence de nouvelle mesure.
+---
 
-Ne prenez jamais une decision medicale ou d'urgence uniquement avec Widget G7.
+## ❌ Ce Que Widget G7 Ne Remplace Pas
 
-En cas de doute, symptome, hypoglycemie suspectee, hyperglycemie suspectee ou urgence :
+| Ne remplace pas | Pourquoi |
+| --- | --- |
+| Application officielle Dexcom | Source officielle |
+| Récepteur officiel | Validation médicale |
+| Dispositif médical officiel | Sécurité réglementaire |
+| Professionnel de santé | Avis médical |
+| Diagnostic ou décision thérapeutique | Responsabilité médicale |
 
-1. verifier la valeur dans la solution officielle adaptee ;
-2. suivre les consignes du professionnel de sante ;
-3. contacter les secours si necessaire.
+---
+
+## ⚡ Données Possiblement Retardées
+
+Les informations affichées peuvent être retardées, incomplètes, indisponibles ou inexactes à cause :
+
+| Cause | Exemple |
+| --- | --- |
+| Réseau | Téléphone hors ligne |
+| Bluetooth | Montre déconnectée |
+| Batterie | Restrictions Android |
+| Wear OS | Service ralenti |
+| Dexcom Share | Mesure publiée avec retard |
+| Sync | Décalage téléphone -> montre |
+
+---
+
+## 🚨 En Cas De Doute
+
+1. Vérifier la valeur dans la solution officielle adaptée.
+2. Suivre les consignes du professionnel de santé.
+3. Contacter les secours si nécessaire.
