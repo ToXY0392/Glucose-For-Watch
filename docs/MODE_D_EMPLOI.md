@@ -1,4 +1,4 @@
-<h1 align="center">📘 Mode D'emploi Widget G7</h1>
+<h1 align="center">📘 Mode d'emploi Widget G7</h1>
 
 <p align="center">
   Du téléphone à la montre, sans lecture directe du capteur
@@ -44,7 +44,7 @@ Ouvrir ensuite Widget G7 sur le téléphone.
 
 ---
 
-## 3. Configurer La Montre
+## 3. Configurer la montre
 
 | Étape | Action |
 | --- | --- |
@@ -57,7 +57,7 @@ Ouvrir ensuite Widget G7 sur le téléphone.
 
 ---
 
-## 4. Comprendre Les Statuts
+## 4. Comprendre les statuts
 
 | Statut | Sens |
 | --- | --- |
@@ -69,7 +69,7 @@ Ouvrir ensuite Widget G7 sur le téléphone.
 
 ---
 
-## 🔋 Sync Stable
+## 🔋 Sync stable
 
 ```text
 Téléphone en ligne
@@ -81,7 +81,7 @@ Batterie montre suffisante
 
 ---
 
-## 🧪 Mode Direct Capteur
+## 🧪 Mode direct capteur
 
 Le mode `capteur G7 -> Wear OS` n'est pas disponible dans l'app actuelle.
 

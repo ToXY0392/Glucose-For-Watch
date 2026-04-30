@@ -87,7 +87,7 @@ Widget G7 ne doit pas ressembler à une landing page. L'interface sert à vérif
 
 ---
 
-## 🧪 Mode Direct Capteur
+## 🧪 Mode direct capteur
 
 Si ce mode existe un jour :
 
@@ -100,7 +100,7 @@ retour simple vers Sync téléphone
 
 ---
 
-## 🚫 À Éviter
+## 🚫 À éviter
 
 - écrans trop bavards ;
 - décoration gratuite ;

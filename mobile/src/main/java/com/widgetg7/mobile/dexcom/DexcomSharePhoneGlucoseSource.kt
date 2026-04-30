@@ -170,7 +170,7 @@ class DexcomSharePhoneGlucoseSource(
                 DexcomShareException(DexcomShareErrorKind.AUTH, "Identifiants Dexcom invalides.")
 
             normalized.contains("sessionidnotfound") ->
-                DexcomShareException(DexcomShareErrorKind.SESSION, "Session Dexcom a renouveler.")
+                DexcomShareException(DexcomShareErrorKind.SESSION, "Session Dexcom à renouveler.")
 
             code in 500..599 ->
                 DexcomShareException(DexcomShareErrorKind.NETWORK, "Dexcom est temporairement indisponible.")

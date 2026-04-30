@@ -6,7 +6,7 @@
 
 ---
 
-## 🟢 État Actuel
+## 🟢 État actuel
 
 ```text
 ╭─ Widget G7 ────────────────────────────╮
@@ -28,9 +28,9 @@
 
 ---
 
-## 🔁 Décisions À Garder
+## 🔁 Décisions à garder
 
-### Sync Standard
+### Sync standard
 
 ```text
 Dexcom Share -> Widget G7 mobile -> Widget G7 Wear
@@ -47,7 +47,7 @@ Dexcom Share -> Widget G7 mobile -> Widget G7 Wear
 
 La montre reste un affichage et un déclencheur de refresh. Elle ne collecte pas directement le capteur.
 
-### Direct Capteur
+### Direct capteur
 
 | Point | Décision |
 | --- | --- |
@@ -65,7 +65,7 @@ Docs utiles :
 
 ---
 
-## 🧩 Fonctionnel En Place
+## 🧩 Fonctionnel en place
 
 | Bloc | Détail |
 | --- | --- |
@@ -77,7 +77,7 @@ Docs utiles :
 
 ---
 
-## 🗂️ Fichiers Importants
+## 🗂️ Fichiers importants
 
 | Fichier | Rôle |
 | --- | --- |
@@ -91,7 +91,7 @@ Docs utiles :
 
 ---
 
-## ✅ Points Ouverts
+## ✅ Points ouverts
 
 | Priorité | Travail |
 | --- | --- |
@@ -104,7 +104,7 @@ Docs utiles :
 
 ---
 
-## ⚙️ Commandes Utiles
+## ⚙️ Commandes utiles
 
 > PowerShell local
 
@@ -129,7 +129,7 @@ $env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe devices
 
 ---
 
-## 🚦 Reprise Conseillée
+## 🚦 Reprise conseillée
 
 ```text
 ╭─ Prochaine session ────────────────────╮

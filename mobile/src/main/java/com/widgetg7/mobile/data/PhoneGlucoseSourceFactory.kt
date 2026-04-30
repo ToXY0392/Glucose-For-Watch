@@ -16,7 +16,7 @@ object PhoneGlucoseSourceFactory {
         return if (dexcomShareConfig.isConfigured()) {
             DexcomSharePhoneGlucoseSource(dexcomShareConfig)
         } else {
-            throw IllegalStateException("Aucune source glucose configuree.")
+            throw IllegalStateException("Aucune source glucose configurée.")
         }
     }
 }

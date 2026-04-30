@@ -25,7 +25,7 @@ class GlucoseRefreshActivity : Activity() {
             .addOnSuccessListener { nodes ->
                 val node = nodes.firstOrNull()
                 if (node == null) {
-                    cache.markRefreshFailed("Telephone indisponible")
+                    cache.markRefreshFailed("Téléphone indisponible")
                     healthMonitor.updateAndReport()
                     requestSurfaceUpdates()
                     finish()
@@ -45,7 +45,7 @@ class GlucoseRefreshActivity : Activity() {
                     }
             }
             .addOnFailureListener {
-                cache.markRefreshFailed("Telephone indisponible")
+                cache.markRefreshFailed("Téléphone indisponible")
                 healthMonitor.updateAndReport()
                 requestSurfaceUpdates()
                 finish()

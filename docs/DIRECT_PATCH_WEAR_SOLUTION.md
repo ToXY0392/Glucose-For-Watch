@@ -1,4 +1,4 @@
-<h1 align="center">🧪 Direct Capteur G7 -> Wear OS</h1>
+<h1 align="center">🧪 Direct capteur G7 -> Wear OS</h1>
 
 <p align="center">
   Intéressant · risqué · expérimental · jamais prioritaire sur la sync téléphone
@@ -49,7 +49,7 @@ Sources Dexcom :
 
 ---
 
-## 🎯 Décision Produit
+## 🎯 Décision produit
 
 | Mode | Statut |
 | --- | --- |
@@ -60,7 +60,7 @@ Sources Dexcom :
 
 ---
 
-## 🏗️ Architecture Minimale
+## 🏗️ Architecture minimale
 
 | Composant | Rôle |
 | --- | --- |
@@ -73,7 +73,7 @@ Sources Dexcom :
 
 ---
 
-## 🛡️ Règles Obligatoires
+## 🛡️ Règles obligatoires
 
 ```text
 pas de code capteur en clair dans les logs
@@ -86,7 +86,7 @@ suppression complète des données directes
 
 ---
 
-## ✅ Validation Avant Intégration
+## ✅ Validation avant intégration
 
 Avant tout code produit :
 

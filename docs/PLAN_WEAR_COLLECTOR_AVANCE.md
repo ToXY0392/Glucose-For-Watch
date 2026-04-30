@@ -46,7 +46,7 @@ Le mode doit rester :
 
 ---
 
-## 🏗️ Architecture Cible
+## 🏗️ Architecture cible
 
 | Composant | Rôle |
 | --- | --- |
@@ -60,7 +60,7 @@ Le mode doit rester :
 
 ---
 
-## 🔐 Permissions Probables
+## 🔐 Permissions probables
 
 ```text
 BLUETOOTH_SCAN
@@ -74,7 +74,7 @@ Les permissions ne doivent être demandées que dans le parcours expérimental.
 
 ---
 
-## 🧭 Parcours Utilisateur
+## 🧭 Parcours utilisateur
 
 | Activation | Désactivation |
 | --- | --- |
@@ -100,7 +100,7 @@ Les permissions ne doivent être demandées que dans le parcours expérimental.
 
 ---
 
-## 🧪 Lots De Construction
+## 🧪 Lots de construction
 
 | Lot | Objectif |
 | --- | --- |

@@ -23,7 +23,7 @@ class NotificationHelper(private val context: Context) {
         val notification = NotificationCompat.Builder(context, CHANNEL_SYNC_STATUS)
             .setSmallIcon(android.R.drawable.stat_notify_error)
             .setContentTitle("Reconnectez votre compte Dexcom")
-            .setContentText("La synchronisation ne peut plus se faire tant que vos identifiants Dexcom n'ont pas ete verifies.")
+            .setContentText("La synchronisation ne peut plus se faire tant que vos identifiants Dexcom n'ont pas été vérifiés.")
             .setAutoCancel(true)
             .build()
         NotificationManagerCompat.from(context).notify(ID_DEXCOM_AUTH, notification)
@@ -69,8 +69,8 @@ class NotificationHelper(private val context: Context) {
 
         return NotificationCompat.Builder(context, CHANNEL_ACTIVE_SYNC)
             .setSmallIcon(android.R.drawable.stat_notify_sync)
-            .setContentTitle("Widget G7 synchronise la glycemie")
-            .setContentText("Surveillance active telephone vers montre en cours.")
+            .setContentTitle("Widget G7 synchronise la glycémie")
+            .setContentText("Surveillance active téléphone vers montre en cours.")
             .setContentIntent(openIntent)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
@@ -103,7 +103,7 @@ class NotificationHelper(private val context: Context) {
 
         val channel = NotificationChannel(
             CHANNEL_ACTIVE_SYNC,
-            "Surveillance glycemie",
+            "Surveillance glycémie",
             NotificationManager.IMPORTANCE_LOW,
         ).apply {
             description = "Notification permanente utilisee pour garder la synchronisation active."

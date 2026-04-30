@@ -39,7 +39,7 @@
 
 ---
 
-## ⚡ À Lire En Premier
+## ⚡ À lire en premier
 
 | Document | Pourquoi |
 | --- | --- |
@@ -50,7 +50,7 @@
 
 ---
 
-## 🔁 Sync Et Mode Direct
+## 🔁 Sync et mode direct
 
 | Document | Contenu |
 | --- | --- |
@@ -66,7 +66,7 @@ tant que le spike BLE Pixel Watch 2 n'est pas concluant.
 
 ---
 
-## 🎨 Produit Et Design
+## 🎨 Produit et design
 
 | Document | Contenu |
 | --- | --- |
@@ -86,11 +86,11 @@ tant que le spike BLE Pixel Watch 2 n'est pas concluant.
 | [POLITIQUE_CONFIDENTIALITE.md](POLITIQUE_CONFIDENTIALITE.md) | Modèle à compléter |
 | [AVERTISSEMENT_MEDICAL.md](AVERTISSEMENT_MEDICAL.md) | Avertissement utilisateur |
 
-> ⚠️ Les textes juridiques ne sont pas prêts pour une diffusion publique tant que les champs `[A completer]` ne sont pas renseignés et relus.
+> ⚠️ Les textes juridiques ne sont pas prêts pour une diffusion publique tant que les champs `[À compléter]` ne sont pas renseignés et relus.
 
 ---
 
-## ✅ Décision Actuelle
+## ✅ Décision actuelle
 
 1. Garder `Dexcom Share -> téléphone -> Wear OS` comme mode principal.
 2. Valider la sync active en veille longue.

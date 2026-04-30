@@ -34,7 +34,7 @@ Sources :
 
 ---
 
-## 🧭 Implications Produit
+## 🧭 Implications produit
 
 | Règle | Pourquoi |
 | --- | --- |
@@ -46,7 +46,7 @@ Sources :
 
 ---
 
-## 🏗️ Architecture Recommandée
+## 🏗️ Architecture recommandée
 
 ### Téléphone
 
@@ -84,7 +84,7 @@ Sources :
 
 ---
 
-## 🛡️ Règles De Robustesse
+## 🛡️ Règles de robustesse
 
 ```text
 ne pas effacer une valeur sur erreur
@@ -98,7 +98,7 @@ cibler la montre principale si besoin
 
 ---
 
-## 🧪 Plan De Test
+## 🧪 Plan de test
 
 | Cas | À vérifier |
 | --- | --- |
@@ -115,7 +115,7 @@ cibler la montre principale si besoin
 
 ---
 
-## ✅ Décision Projet
+## ✅ Décision projet
 
 Le mode standard `téléphone -> Wear OS` reste prioritaire.
 

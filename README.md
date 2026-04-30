@@ -50,7 +50,7 @@
 
 ---
 
-## ✨ Ce Que Widget G7 Apporte
+## ✨ Ce que Widget G7 apporte
 
 | 🧩 Surface | 🎯 Rôle |
 | --- | --- |
@@ -116,7 +116,7 @@ La montre peut demander un refresh, mais elle ne lit pas directement le capteur 
 
 ---
 
-## 🧭 Direction Technique
+## 🧭 Direction technique
 
 | Sujet | Décision |
 | --- | --- |
@@ -145,7 +145,7 @@ La montre peut demander un refresh, mais elle ne lit pas directement le capteur 
 
 ---
 
-## 🔐 Données Sensibles
+## 🔐 Données sensibles
 
 ```text
 Ne jamais publier :

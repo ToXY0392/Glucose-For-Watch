@@ -1,4 +1,4 @@
-<h1 align="center">🔐 Checklist Juridique Avant Diffusion</h1>
+<h1 align="center">🔐 Checklist juridique avant diffusion</h1>
 
 <p align="center">
   Tant que ce n'est pas complet, l'APK reste en test privé
@@ -26,14 +26,14 @@ Document : [CGU.md](CGU.md)
 
 | Champ | Statut |
 | --- | --- |
-| Nom ou raison sociale | `[A completer]` |
-| Forme juridique | `[A completer]` |
-| Adresse | `[A completer]` |
-| E-mail de contact | `[A completer]` |
-| Responsable de publication | `[A completer]` |
-| Droit applicable | `[A completer]` |
-| Juridictions compétentes | `[A completer]` |
-| Contact final | `[A completer]` |
+| Nom ou raison sociale | `[À compléter]` |
+| Forme juridique | `[À compléter]` |
+| Adresse | `[À compléter]` |
+| E-mail de contact | `[À compléter]` |
+| Responsable de publication | `[À compléter]` |
+| Droit applicable | `[À compléter]` |
+| Juridictions compétentes | `[À compléter]` |
+| Contact final | `[À compléter]` |
 
 ---
 
@@ -43,15 +43,15 @@ Document : [POLITIQUE_CONFIDENTIALITE.md](POLITIQUE_CONFIDENTIALITE.md)
 
 | Champ | Statut |
 | --- | --- |
-| Responsable de traitement | `[A completer]` |
-| Adresse | `[A completer]` |
-| E-mail vie privée | `[A completer]` |
-| Prestataires techniques | `[A completer]` |
-| Autorité de contrôle | `[A completer]` |
+| Responsable de traitement | `[À compléter]` |
+| Adresse | `[À compléter]` |
+| E-mail vie privée | `[À compléter]` |
+| Prestataires techniques | `[À compléter]` |
+| Autorité de contrôle | `[À compléter]` |
 
 ---
 
-## 📱 Textes Embarqués
+## 📱 Textes embarqués
 
 Les mêmes informations doivent être reportées dans l'app :
 
@@ -62,7 +62,7 @@ Les mêmes informations doivent être reportées dans l'app :
 
 ---
 
-## ✅ Sortie De Checklist
+## ✅ Sortie de checklist
 
 ```text
 tous les champs remplis

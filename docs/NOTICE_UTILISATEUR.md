@@ -6,7 +6,7 @@
 
 ---
 
-## 🟢 Démarrage Rapide
+## 🟢 Démarrage rapide
 
 ```text
 ╭─ Première configuration ───────────────╮
@@ -39,7 +39,7 @@ La montre ne se connecte pas directement au capteur G7 dans cette version.
 
 ---
 
-## 🧪 En Cas De Problème
+## 🧪 En cas de problème
 
 Vérifier :
 

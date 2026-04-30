@@ -55,7 +55,7 @@ Changements :
 
 ---
 
-## Mise À Jour Avril 2026
+## Mise à jour avril 2026
 
 | Sujet | Changement |
 | --- | --- |
@@ -74,7 +74,7 @@ Validation connue :
 
 ---
 
-## Documentation Sync - 30 Avril 2026
+## Documentation sync - 30 avril 2026
 
 | Document | Rôle |
 | --- | --- |
@@ -92,7 +92,7 @@ mode direct = expérimental
 
 ---
 
-## Sync Solide - 30 Avril 2026
+## Sync solide - 30 avril 2026
 
 | Changement | Effet |
 | --- | --- |
@@ -111,7 +111,7 @@ Limites :
 
 ---
 
-## Reprise 1-5 - 30 Avril 2026
+## Reprise 1-5 - 30 avril 2026
 
 | Sujet | Résultat |
 | --- | --- |

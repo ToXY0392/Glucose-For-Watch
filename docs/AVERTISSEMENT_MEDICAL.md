@@ -1,4 +1,4 @@
-<h1 align="center">⚠️ Avertissement Médical</h1>
+<h1 align="center">⚠️ Avertissement médical</h1>
 
 <p align="center">
   Widget G7 affiche et relaie · il ne remplace jamais une solution officielle
@@ -6,7 +6,7 @@
 
 ---
 
-## 🛑 Message Court
+## 🛑 Message court
 
 ```text
 ╭─ Important ────────────────────────────╮
@@ -19,7 +19,7 @@ Ne prenez jamais une décision médicale ou d'urgence uniquement avec Widget G7.
 
 ---
 
-## ❌ Ce Que Widget G7 Ne Remplace Pas
+## ❌ Ce que Widget G7 ne remplace pas
 
 | Ne remplace pas | Pourquoi |
 | --- | --- |
@@ -31,7 +31,7 @@ Ne prenez jamais une décision médicale ou d'urgence uniquement avec Widget G7.
 
 ---
 
-## ⚡ Données Possiblement Retardées
+## ⚡ Données possiblement retardées
 
 Les informations affichées peuvent être retardées, incomplètes, indisponibles ou inexactes à cause :
 
@@ -46,7 +46,7 @@ Les informations affichées peuvent être retardées, incomplètes, indisponible
 
 ---
 
-## 🚨 En Cas De Doute
+## 🚨 En cas de doute
 
 1. Vérifier la valeur dans la solution officielle adaptée.
 2. Suivre les consignes du professionnel de santé.

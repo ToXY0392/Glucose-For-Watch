@@ -12,7 +12,7 @@ class PhoneWearSyncService(private val context: Context) {
         val dataClient = Wearable.getDataClient(context)
         val watchStatus = WatchConnectionRepository(context).loadStatus()
         if (!watchStatus.connected) {
-            throw IllegalStateException("Aucune montre connectee via Wear OS.")
+            throw IllegalStateException("Aucune montre connectée via Wear OS.")
         }
 
         val request = PutDataMapRequest.create(GlucoseKeys.PATH_LATEST).apply {

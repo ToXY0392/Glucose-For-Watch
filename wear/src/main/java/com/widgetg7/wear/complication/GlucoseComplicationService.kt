@@ -62,7 +62,7 @@ class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
     private fun buildShortTextData(text: String, title: String): ShortTextComplicationData {
         return ShortTextComplicationData.Builder(
             text = PlainComplicationText.Builder(text).build(),
-            contentDescription = PlainComplicationText.Builder("Current glucose").build(),
+            contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setTitle(PlainComplicationText.Builder(title).build())
             .setTapAction(buildTapAction())
             .build()
@@ -71,7 +71,7 @@ class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
     private fun buildLongTextData(text: String, title: String): LongTextComplicationData {
         return LongTextComplicationData.Builder(
             text = PlainComplicationText.Builder("$text $title").build(),
-            contentDescription = PlainComplicationText.Builder("Current glucose").build(),
+            contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setTitle(PlainComplicationText.Builder(text).build())
             .setTapAction(buildTapAction())
             .build()
@@ -86,7 +86,7 @@ class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
             value = valueMgDl.coerceIn(RANGED_MIN_MG_DL, RANGED_MAX_MG_DL).toFloat(),
             min = RANGED_MIN_MG_DL.toFloat(),
             max = RANGED_MAX_MG_DL.toFloat(),
-            contentDescription = PlainComplicationText.Builder("Current glucose").build(),
+            contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setText(PlainComplicationText.Builder(displayText).build())
             .setTitle(PlainComplicationText.Builder(title).build())
             .setTapAction(buildTapAction())

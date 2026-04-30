@@ -1,4 +1,4 @@
-<h1 align="center">📜 Conditions Générales D'utilisation</h1>
+<h1 align="center">📜 Conditions générales d'utilisation</h1>
 
 <p align="center">
   Modèle de travail · à compléter avant diffusion publique
@@ -30,11 +30,11 @@ Widget G7 sert à afficher et relayer des données de glycémie issues de Dexcom
 
 | Champ | Valeur |
 | --- | --- |
-| Nom / raison sociale | `[A completer]` |
-| Forme juridique | `[A completer]` |
-| Adresse | `[A completer]` |
-| E-mail de contact | `[A completer]` |
-| Responsable de publication | `[A completer]` |
+| Nom / raison sociale | `[À compléter]` |
+| Forme juridique | `[À compléter]` |
+| Adresse | `[À compléter]` |
+| E-mail de contact | `[À compléter]` |
+| Responsable de publication | `[À compléter]` |
 
 ---
 
@@ -46,7 +46,7 @@ Si l'utilisateur n'accepte pas les CGU, il ne doit pas utiliser l'application.
 
 ---
 
-## 4. Service Fourni
+## 4. Service fourni
 
 | Fonction | Description |
 | --- | --- |
@@ -59,7 +59,7 @@ Si l'utilisateur n'accepte pas les CGU, il ne doit pas utiliser l'application.
 
 ---
 
-## 5. Nature Non Médicale
+## 5. Nature non médicale
 
 Widget G7 est un outil de confort et d'affichage.
 
@@ -73,7 +73,7 @@ Il ne remplace pas :
 
 ---
 
-## 6. Conditions D'accès
+## 6. Conditions d'accès
 
 | Besoin | Exemple |
 | --- | --- |
@@ -86,7 +86,7 @@ Il ne remplace pas :
 
 ---
 
-## 7. Services Tiers
+## 7. Services tiers
 
 Dexcom Share et les autres services tiers restent soumis à leurs propres conditions.
 
@@ -108,7 +108,7 @@ Widget G7 ne doit jamais être l'unique base d'une décision médicale ou d'urge
 
 ---
 
-## 10. Données Personnelles
+## 10. Données personnelles
 
 Le traitement des données est décrit dans :
 
@@ -116,10 +116,10 @@ Le traitement des données est décrit dans :
 
 ---
 
-## 11. Droit Applicable Et Contact
+## 11. Droit applicable et contact
 
 | Champ | Valeur |
 | --- | --- |
-| Droit applicable | `[A completer]` |
-| Juridictions compétentes | `[A completer]` |
-| Contact | `[A completer]` |
+| Droit applicable | `[À compléter]` |
+| Juridictions compétentes | `[À compléter]` |
+| Contact | `[À compléter]` |

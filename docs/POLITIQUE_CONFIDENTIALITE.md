@@ -1,4 +1,4 @@
-<h1 align="center">🔒 Politique De Confidentialité</h1>
+<h1 align="center">🔒 Politique de confidentialité</h1>
 
 <p align="center">
   Modèle de travail · données sensibles · à compléter avant diffusion
@@ -20,17 +20,17 @@ Voir : [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md)
 
 ---
 
-## 1. Responsable Du Traitement
+## 1. Responsable du traitement
 
 | Champ | Valeur |
 | --- | --- |
-| Nom / raison sociale | `[A completer]` |
-| Adresse | `[A completer]` |
-| E-mail vie privée | `[A completer]` |
+| Nom / raison sociale | `[À compléter]` |
+| Adresse | `[À compléter]` |
+| E-mail vie privée | `[À compléter]` |
 
 ---
 
-## 2. Données Traitées
+## 2. Données traitées
 
 | Donnée | Exemple |
 | --- | --- |
@@ -43,7 +43,7 @@ Voir : [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md)
 
 ---
 
-## 3. Données De Santé
+## 3. Données de santé
 
 Les valeurs de glycémie peuvent être considérées comme des données de santé.
 
@@ -64,7 +64,7 @@ Elles doivent être protégées avec une attention particulière.
 
 ---
 
-## 5. Base Légale
+## 5. Base légale
 
 La base légale dépend du mode de diffusion et du contexte d'utilisation.
 
@@ -79,7 +79,7 @@ Elle doit être confirmée avant diffusion publique.
 | Utilisateur | Toujours |
 | Application locale | Fonctionnement |
 | Dexcom Share | Si configuré |
-| Prestataires techniques | `[A completer]` |
+| Prestataires techniques | `[À compléter]` |
 
 ---
 
@@ -96,7 +96,7 @@ Peuvent être stockés localement :
 
 ---
 
-## 8. Conservation Et Sécurité
+## 8. Conservation et sécurité
 
 | Sujet | Règle |
 | --- | --- |
@@ -108,11 +108,11 @@ Peuvent être stockés localement :
 
 ---
 
-## 9. Droits Et Contact
+## 9. Droits et contact
 
 Selon le droit applicable, l'utilisateur peut disposer de droits sur ses données : accès, rectification, suppression, limitation, opposition ou portabilité.
 
 | Champ | Valeur |
 | --- | --- |
-| Modalités de contact | `[A completer]` |
-| Autorité compétente | `[A completer]` |
+| Modalités de contact | `[À compléter]` |
+| Autorité compétente | `[À compléter]` |

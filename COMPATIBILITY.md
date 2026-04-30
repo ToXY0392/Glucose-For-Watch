@@ -1,13 +1,13 @@
 # Android Compatibility
 
-Cette note resume les versions Android compatibles avec le projet `Widget G7`.
+Cette note résume les versions Android compatibles avec le projet `Widget G7`.
 
-## Resume
+## Résumé
 
 - `mobile` : Android `9` et plus
 - `wear` : Android `11` et plus
 
-## Detail par module
+## Détail par module
 
 ### Mobile
 
@@ -18,10 +18,10 @@ Cette note resume les versions Android compatibles avec le projet `Widget G7`.
 
 Conclusion :
 
-- compatible a partir de `Android 9`
-- non compatible avec `Android 8.1` et versions anterieures
+- compatible à partir de `Android 9`
+- non compatible avec `Android 8.1` et versions antérieures
 
-Reference :
+Référence :
 
 - [mobile/build.gradle.kts](<C:/Users/Utilisateur/Desktop/THP/Projects/Widget G7/mobile/build.gradle.kts:1>)
 
@@ -34,10 +34,10 @@ Reference :
 
 Conclusion :
 
-- compatible a partir de `Android 11`
-- pour les montres, cela vise un environnement Wear OS moderne base sur Android `11+`
+- compatible à partir de `Android 11`
+- pour les montres, cela vise un environnement Wear OS moderne basé sur Android `11+`
 
-Reference :
+Référence :
 
 - [wear/build.gradle.kts](<C:/Users/Utilisateur/Desktop/THP/Projects/Widget G7/wear/build.gradle.kts:1>)
 
@@ -51,7 +51,7 @@ Reference :
 ## Montres compatibles
 
 Cette liste couvre les montres Wear OS modernes les plus directement compatibles avec le projet.
-Elle est volontairement pratique plutot qu'exhaustive : elle recense les familles/modeles confirmes comme Wear OS, donc adaptes au module `wear`.
+Elle est volontairement pratique plutôt qu'exhaustive : elle recense les familles/modèles confirmés comme Wear OS, donc adaptés au module `wear`.
 
 ### Google Pixel Watch
 
@@ -60,7 +60,7 @@ Elle est volontairement pratique plutot qu'exhaustive : elle recense les famille
 - Pixel Watch 3
 - Pixel Watch 4
 
-Reference :
+Référence :
 
 - https://support.google.com/googlepixelwatch/answer/12652073?hl=en
 
@@ -75,7 +75,7 @@ Reference :
 - Galaxy Watch7
 - Galaxy Watch Ultra
 
-Reference :
+Référence :
 
 - https://www.samsung.com/us/support/answer/ANS10003348/
 
@@ -84,7 +84,7 @@ Reference :
 - OnePlus Watch 2
 - OnePlus Watch 2R
 
-References :
+Références :
 
 - https://www.oneplus.com/es/press/press-release/introducing-oneplus-watch-2
 - https://www.oneplus.com/us/oneplus-watch-2r/specs
@@ -93,7 +93,7 @@ References :
 
 - OPPO Watch X2
 
-Reference :
+Référence :
 
 - https://www.oppo.com/en/newsroom/press/oppo-unveils-oppo-watch-x-2/
 
@@ -103,24 +103,24 @@ Reference :
 - TicWatch Pro 5 Enduro
 - TicWatch Atlas
 
-References :
+Références :
 
 - https://www.mobvoi.com/us/pages/ticwatchpro5
 - https://www.mobvoi.com/pages/ticwatchpro5enduro
 - https://www.mobvoi.com/in/pages/ticwatchatlas
 
-## Regle pratique
+## Règle pratique
 
 Si une montre :
 
-- tourne sous Wear OS moderne
-- est au moins au niveau Android 11 / Wear OS 3+
-- supporte les complications Wear OS et l'installation d'apps Wear
+- tourne sous Wear OS moderne ;
+- est au moins au niveau Android 11 / Wear OS 3+ ;
+- supporte les complications Wear OS et l'installation d'apps Wear ;
 
 alors elle est un bon candidat pour le module `wear`.
 
 ## Notes
 
-- La compatibilite reelle d'une montre depend aussi de la version de Wear OS et du cadran utilise pour afficher la complication.
-- Le projet est actuellement calibre pour la Pixel Watch 2, mais la borne minimale cote code reste celle definie par `minSdk`.
-- La liste des modeles ci-dessus est une liste de compatibilite pratique et confirmee a partir de sources constructeurs, pas un catalogue complet de toutes les montres Wear OS du marche.
+- La compatibilité réelle d'une montre dépend aussi de la version de Wear OS et du cadran utilisé pour afficher la complication.
+- Le projet est actuellement calibré pour la Pixel Watch 2, mais la borne minimale côté code reste celle définie par `minSdk`.
+- La liste des modèles ci-dessus est une liste de compatibilité pratique et confirmée à partir de sources constructeurs, pas un catalogue complet de toutes les montres Wear OS du marché.

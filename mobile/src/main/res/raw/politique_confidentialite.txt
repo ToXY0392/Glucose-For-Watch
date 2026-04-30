@@ -1,67 +1,67 @@
-POLITIQUE DE CONFIDENTIALITE
+POLITIQUE DE CONFIDENTIALITÉ
 
-Derniere mise a jour : 30 avril 2026
+Dernière mise à jour : 30 avril 2026
 
-Ce texte est un modele de travail. Il doit etre complete et relu avant toute diffusion publique, surtout parce que l'application manipule des donnees pouvant relever de la sante.
+Ce texte est un modèle de travail. Il doit être complété et relu avant toute diffusion publique, surtout parce que l'application manipule des données pouvant relever de la santé.
 
 1. Responsable du traitement
 
-- Nom / raison sociale : [A completer]
-- Adresse : [A completer]
-- E-mail vie privee : [A completer]
+- Nom / raison sociale : [À compléter]
+- Adresse : [À compléter]
+- E-mail vie privée : [À compléter]
 
-2. Donnees traitees
+2. Données traitées
 
 Selon la configuration, Widget G7 peut traiter :
 
 - identifiants Dexcom Share saisis par l'utilisateur ;
-- parametres de configuration ;
-- valeurs de glycemie affichees ou synchronisees ;
-- etat de synchronisation ;
-- informations techniques sur le telephone, la montre et la connectivite ;
-- journaux techniques limites au fonctionnement.
+- paramètres de configuration ;
+- valeurs de glycémie affichées ou synchronisées ;
+- état de synchronisation ;
+- informations techniques sur le téléphone, la montre et la connectivité ;
+- journaux techniques limités au fonctionnement.
 
-3. Donnees de sante
+3. Données de santé
 
-Les valeurs de glycemie peuvent etre considerees comme des donnees de sante.
+Les valeurs de glycémie peuvent être considérées comme des données de santé.
 
-4. Finalites
+4. Finalités
 
-Les donnees sont utilisees pour :
+Les données sont utilisées pour :
 
-- connecter l'utilisateur a Dexcom Share ou une source compatible ;
-- recuperer et afficher une glycemie ;
-- transmettre la valeur a une montre Wear OS ;
+- connecter l'utilisateur à Dexcom Share ou une source compatible ;
+- récupérer et afficher une glycémie ;
+- transmettre la valeur à une montre Wear OS ;
 - maintenir la sync active ;
 - diagnostiquer les erreurs techniques ;
-- ameliorer la fiabilite locale de l'application.
+- améliorer la fiabilité locale de l'application.
 
 5. Destinataires
 
-Les donnees sont destinees a l'utilisateur, a l'application sur ses appareils, aux services tiers explicitement configures et aux prestataires techniques reels s'il en existe.
+Les données sont destinées à l'utilisateur, à l'application sur ses appareils, aux services tiers explicitement configurés et aux prestataires techniques réels s'il en existe.
 
-Prestataires techniques : [A completer]
+Prestataires techniques : [À compléter]
 
 6. Stockage
 
-Certaines donnees peuvent etre stockees localement pour faire fonctionner l'application : configuration Dexcom, dernier etat de sync, derniere valeur connue et preference de montre principale.
+Certaines données peuvent être stockées localement pour faire fonctionner l'application : configuration Dexcom, dernier état de sync, dernière valeur connue et préférence de montre principale.
 
-Les secrets doivent rester sur le telephone et ne pas etre stockes dans le module Wear.
+Les secrets doivent rester sur le téléphone et ne pas être stockés dans le module Wear.
 
 7. Conservation
 
-Les donnees sont conservees le temps necessaire au fonctionnement de l'application, sauf suppression par l'utilisateur, desinstallation ou obligation legale contraire.
+Les données sont conservées le temps nécessaire au fonctionnement de l'application, sauf suppression par l'utilisateur, désinstallation ou obligation légale contraire.
 
-8. Securite
+8. Sécurité
 
-L'application doit limiter les logs sensibles, proteger le stockage local et eviter d'exposer les identifiants Dexcom.
+L'application doit limiter les logs sensibles, protéger le stockage local et éviter d'exposer les identifiants Dexcom.
 
 9. Droits
 
-Selon le droit applicable, l'utilisateur peut disposer de droits sur ses donnees.
+Selon le droit applicable, l'utilisateur peut disposer de droits sur ses données.
 
-Modalites de contact : [A completer]
+Modalités de contact : [À compléter]
 
-10. Autorite de controle
+10. Autorité de contrôle
 
-Autorite competente : [A completer]
+Autorité compétente : [À compléter]

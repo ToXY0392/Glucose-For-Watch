@@ -141,7 +141,7 @@ data class RefreshStatusSnapshot(
         return message.ifBlank {
             when (status) {
                 GlucoseKeys.REFRESH_IN_PROGRESS -> "Actualisation..."
-                GlucoseKeys.REFRESH_COMPLETED -> "A jour"
+                GlucoseKeys.REFRESH_COMPLETED -> "À jour"
                 GlucoseKeys.REFRESH_FAILED -> "Echec de synchro"
                 else -> ""
             }
@@ -240,7 +240,7 @@ class GlucoseCache(context: Context) {
             .apply()
     }
 
-    fun markRefreshCompleted(message: String = "A jour") {
+    fun markRefreshCompleted(message: String = "À jour") {
         prefs.edit()
             .putString(KEY_REFRESH_STATUS, GlucoseKeys.REFRESH_COMPLETED)
             .putString(KEY_REFRESH_MESSAGE, message)

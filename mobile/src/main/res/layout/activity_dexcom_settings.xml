@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:text="Connectez votre compte Dexcom Share pour synchroniser votre glycemie."
+            android:text="Connectez votre compte Dexcom Share pour synchroniser votre glycémie."
             android:textColor="@color/wg7_text_secondary"
             android:textSize="15sp" />
 
@@ -52,7 +52,7 @@
                     android:id="@+id/dexcomAccountSummaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Compte Dexcom non configure"
+                    android:text="Compte Dexcom non configuré"
                     android:textColor="@color/wg7_text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
-                    android:text="Aucune verification n'a encore ete effectuee."
+                    android:text="Aucune vérification n'a encore été effectuée."
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="14sp" />
 
@@ -115,7 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
-                    android:text="Identifiants chiffres sur ce telephone."
+                    android:text="Identifiants chiffrés sur ce téléphone."
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="13sp" />
 
@@ -125,7 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
-                    android:text="Verifier et connecter" />
+                    android:text="Vérifier et connecter" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/disconnectDexcomButton"
@@ -133,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Deconnecter" />
+                    android:text="Déconnecter" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

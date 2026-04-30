@@ -35,7 +35,7 @@ class WatchSyncHealthMonitor(private val context: Context) {
         val staleWhileLowBattery = lowBattery && staleAgeMs > STALE_WHILE_LOW_BATTERY_MS
         val syncLimited = (lowPowerMode || lowBattery) && (refreshTimedOut || staleWhileLowBattery)
         val message = when {
-            syncLimited -> "Batterie faible, sync limitee"
+            syncLimited -> "Batterie faible, sync limitée"
             lowBattery -> "Batterie faible"
             lowPowerMode -> "Mode economie d'energie actif"
             else -> "RAS"

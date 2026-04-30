@@ -24,8 +24,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.settings.AppSettingsStore
-import com.widgetg7.mobile.status.SyncStatusSnapshot
 import com.widgetg7.mobile.status.SyncStatusRepository
+import com.widgetg7.mobile.status.SyncStatusSnapshot
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.ui.DexcomEntryActivity
@@ -134,11 +134,11 @@ class MainActivity : AppCompatActivity() {
     private suspend fun runManualSync() {
         watchRefreshButton.isEnabled = false
         watchRefreshButton.alpha = 0.45f
-        watchRefreshButton.text = "Sync demandee..."
+        watchRefreshButton.text = "Sync demandée..."
         watchRefreshButton.contentDescription = "Actualisation en cours"
 
         ActiveGlucoseSyncController.syncNow(this)
-        val message = "Sync active demandee : le telephone pousse vers la montre puis verifie l'accuse."
+        val message = "Sync active demandée : le téléphone pousse vers la montre puis vérifie l'accusé."
 
         refreshHome()
         watchRefreshButton.isEnabled = true
@@ -163,18 +163,18 @@ class MainActivity : AppCompatActivity() {
         syncStatus: SyncStatusSnapshot,
     ): String =
         when {
-            !dexcomConfigured -> "Dexcom : \u00e0 configurer"
+            !dexcomConfigured -> "Dexcom : à configurer"
             syncStatus.lastError.isNotBlank() -> "Sync : ${syncStatus.lastError}"
             syncStatus.hasSuccessfulSync() -> {
                 val state = com.widgetg7.mobile.sync.PhoneSyncStateStore(this).load()
                 val ack = if (state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L) {
-                    " - montre confirmee"
+                    " - montre confirmée"
                 } else {
                     " - livraison montre en cours"
                 }
-                "Dexcom connect\u00e9 - sync ${ageLabel(syncStatus.lastSyncEpochMs)}$ack"
+                "Dexcom connecté - sync ${ageLabel(syncStatus.lastSyncEpochMs)}$ack"
             }
-            else -> "Derni\u00e8re sync : aucune pour le moment"
+            else -> "Dernière sync : aucune pour le moment"
         }
 
     private fun applyGlucoseStatus(
@@ -188,9 +188,9 @@ class MainActivity : AppCompatActivity() {
             !dexcomConfigured -> "Connectez Dexcom pour afficher une mesure."
             syncStatus.lastError.isNotBlank() -> syncStatus.lastError
             AppSettingsStore(this).isActiveSyncEnabled() && syncStatus.hasSuccessfulSync() ->
-                "Surveillance active - montre verifiee"
+                "Surveillance active - montre vérifiée"
             syncStatus.hasSuccessfulSync() ->
-                "Synchronise ${ageLabel(syncStatus.lastSyncEpochMs)}"
+                "Synchronisé ${ageLabel(syncStatus.lastSyncEpochMs)}"
             else -> "Aucune mesure pour le moment"
         }
 
@@ -198,7 +198,7 @@ class MainActivity : AppCompatActivity() {
             !dexcomConfigured -> "Action requise"
             syncStatus.lastError.isNotBlank() -> "Erreur sync"
             AppSettingsStore(this).isActiveSyncEnabled() -> "Sync active"
-            syncStatus.hasSuccessfulSync() -> "A jour"
+            syncStatus.hasSuccessfulSync() -> "À jour"
             else -> "En attente"
         }
         val color = when {
@@ -221,7 +221,7 @@ class MainActivity : AppCompatActivity() {
     private fun ageLabel(epochMs: Long): String {
         val minutes = ((System.currentTimeMillis() - epochMs).coerceAtLeast(0L) / 60_000L)
         return when (minutes) {
-            0L -> "\u00e0 l'instant"
+            0L -> "à l'instant"
             1L -> "il y a 1 min"
             else -> "il y a $minutes min"
         }

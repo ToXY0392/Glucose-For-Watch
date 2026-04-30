@@ -106,13 +106,13 @@ class DexcomSettingsActivity : AppCompatActivity() {
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
                     statusText.text = when (syncResult) {
                         is SyncExecutionResult.SuccessNewReading ->
-                            "Connexion reussie. Glycemie envoyee a la montre."
+                            "Connexion réussie. Glycémie envoyée à la montre."
 
                         is SyncExecutionResult.SuccessNoNewReading ->
-                            "Connexion reussie. Derniere glycemie renvoyee a la montre."
+                            "Connexion réussie. Dernière glycémie renvoyée à la montre."
 
                         is SyncExecutionResult.Failure ->
-                            "Connexion Dexcom reussie, mais l'envoi montre a echoue : ${syncResult.message}"
+                            "Connexion Dexcom réussie, mais l'envoi montre a échoué : ${syncResult.message}"
                     }
                     Snackbar.make(findViewById(android.R.id.content), statusText.text, 2500).show()
                     if (firstConnectionFlow) {
@@ -177,7 +177,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
     private fun setBusyState(isBusy: Boolean) {
         saveDexcomButton.isEnabled = !isBusy
         disconnectDexcomButton.isEnabled = !isBusy
-        saveDexcomButton.text = if (isBusy) "Verification..." else "Verifier et connecter"
+        saveDexcomButton.text = if (isBusy) "Vérification..." else "Vérifier et connecter"
     }
 
     private fun toServerCode(label: String): String = if (label.equals("US", true)) "US" else "OUS"
