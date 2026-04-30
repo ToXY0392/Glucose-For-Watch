@@ -1,14 +1,11 @@
 package com.widgetg7.mobile.sync
 
 import android.content.Context
-import android.util.Log
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.tasks.await
 
 class PhoneWearRefreshStatusService(private val context: Context) {
-    private val logTag = "WidgetG7Phone"
-
     suspend fun pushInProgress() {
         pushStatus(
             status = GlucoseKeys.REFRESH_IN_PROGRESS,
@@ -38,7 +35,6 @@ class PhoneWearRefreshStatusService(private val context: Context) {
             dataMap.putLong(GlucoseKeys.PUSH_VERSION, System.currentTimeMillis())
         }.asPutDataRequest().setUrgent()
 
-        val item = Wearable.getDataClient(context).putDataItem(request).await()
-        Log.d(logTag, "Put refresh status success uri=${item.uri} status=$status")
+        Wearable.getDataClient(context).putDataItem(request).await()
     }
 }

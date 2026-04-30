@@ -1,7 +1,6 @@
 package com.widgetg7.mobile.sync
 
 import android.content.Context
-import android.util.Log
 import com.widgetg7.mobile.data.GlucoseReading
 import com.widgetg7.mobile.data.PhoneGlucoseSourceFactory
 import com.widgetg7.mobile.notifications.NotificationHelper
@@ -12,55 +11,43 @@ import kotlinx.coroutines.withTimeout
 import kotlin.system.measureTimeMillis
 
 class PhoneGlucoseSyncEngine(private val context: Context) {
-    private val logTag = "WidgetG7Phone"
-
     suspend fun run(
         triggeredFromWatch: Boolean,
         forcePushCurrentReading: Boolean = false,
     ): SyncExecutionResult {
         return try {
-            Log.d(
-                logTag,
-                "Sync engine started triggeredFromWatch=$triggeredFromWatch forcePushCurrentReading=$forcePushCurrentReading",
-            )
             val source = PhoneGlucoseSourceFactory.create(context)
             val syncStatusRepository = SyncStatusRepository(context)
             val syncStateStore = PhoneSyncStateStore(context)
             val previousSyncState = syncStateStore.load()
             syncStateStore.recordFetchAttempt()
-            var readingFetchMs = 0L
             val reading = withTimeout(FETCH_TIMEOUT_MS) {
                 lateinit var latestReading: GlucoseReading
-                readingFetchMs = measureTimeMillis {
+                measureTimeMillis {
                     latestReading = source.latest()
                 }
                 latestReading
             }
-            Log.d(
-                logTag,
-                "Sync engine fetched value=${reading.valueMgDl} trend=${reading.trend} delta=${reading.deltaMgDl} stale=${reading.stale} fetchMs=$readingFetchMs",
-            )
             syncStateStore.recordFetchedReading(reading.timestampEpochMs)
 
             val hasNewReading = previousSyncState.lastPushedReadingTimestampEpochMs != reading.timestampEpochMs
             val shouldPushToWatch = hasNewReading || forcePushCurrentReading
             if (shouldPushToWatch) {
                 val sequenceId = syncStateStore.nextSequenceId()
-                val wearPushMs = measureTimeMillis {
+                measureTimeMillis {
                     withTimeout(WEAR_PUSH_TIMEOUT_MS) {
                         PhoneWearSyncService(context).pushLatest(reading, sequenceId)
                     }
                 }
-                syncStateStore.recordPushSuccess(reading.timestampEpochMs, sequenceId)
-                Log.d(
-                    logTag,
-                    "Sync engine push completed wearPushMs=$wearPushMs source=${source.sourceName} hasNewReading=$hasNewReading sequenceId=$sequenceId",
+                syncStateStore.recordPushSuccess(
+                    timestampEpochMs = reading.timestampEpochMs,
+                    sequenceId = sequenceId,
+                    valueMgDl = reading.valueMgDl,
+                    trend = reading.trend,
+                    deltaMgDl = reading.deltaMgDl,
+                    stale = reading.stale,
                 )
             } else {
-                Log.d(
-                    logTag,
-                    "Sync engine skipped wear push because reading timestamp is unchanged timestamp=${reading.timestampEpochMs}",
-                )
                 if (triggeredFromWatch) {
                     PhoneWearRefreshStatusService(context).pushCompleted("Aucune nouvelle mesure")
                 }
@@ -95,7 +82,6 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
         if (triggeredFromWatch) {
             PhoneWearRefreshStatusService(context).pushFailure(message)
         }
-        Log.e(logTag, "Sync engine failed triggeredFromWatch=$triggeredFromWatch message=$message", error)
         return SyncExecutionResult.Failure(message)
     }
 

@@ -25,6 +25,7 @@ object SyncText {
         if (t is DexcomShareException) {
             return when (t.kind) {
                 DexcomShareErrorKind.AUTH -> SyncErrorCategory.AUTH
+                DexcomShareErrorKind.SESSION -> SyncErrorCategory.NETWORK
                 DexcomShareErrorKind.NETWORK -> SyncErrorCategory.NETWORK
                 DexcomShareErrorKind.NO_DATA -> SyncErrorCategory.OTHER
                 DexcomShareErrorKind.UNKNOWN -> SyncErrorCategory.OTHER

@@ -2,7 +2,6 @@ package com.widgetg7.wear.complication
 
 import android.app.PendingIntent
 import android.content.Intent
-import android.util.Log
 import androidx.wear.watchface.complications.data.ComplicationData
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.data.LongTextComplicationData
@@ -14,8 +13,6 @@ import androidx.wear.watchface.complications.datasource.SuspendingComplicationDa
 import com.widgetg7.wear.data.GlucoseCache
 
 class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
-    private val logTag = "WidgetG7Wear"
-
     private fun secondaryMetadata(metadata: String): String =
         if (metadata.isBlank()) "mg/dL" else "mg/dL $metadata"
 
@@ -40,11 +37,6 @@ class GlucoseComplicationService : SuspendingComplicationDataSourceService() {
 
     override suspend fun onComplicationRequest(request: ComplicationRequest): ComplicationData? {
         val snapshot = GlucoseCache(this).load()
-        val nowEpochMs = System.currentTimeMillis()
-        Log.d(
-            logTag,
-            "Complication request type=${request.complicationType} hasSnapshot=${snapshot != null}",
-        )
 
         val text = if (snapshot == null) "--" else snapshot.displayValueText()
         val title =

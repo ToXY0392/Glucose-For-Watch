@@ -13,6 +13,12 @@ class PhoneBootReceiver : BroadcastReceiver() {
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED -> {
                 PhoneAutoSyncScheduler.schedule(context)
+                if (
+                    com.widgetg7.mobile.settings.AppSettingsStore(context).isActiveSyncEnabled() &&
+                    com.widgetg7.mobile.settings.AppSettingsStore(context).loadDexcomSettings().isConfigured()
+                ) {
+                    ActiveGlucoseSyncController.start(context)
+                }
             }
 
             else -> Unit

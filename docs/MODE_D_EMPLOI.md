@@ -16,7 +16,7 @@ Ce mode d'emploi decrit le parcours utile de Widget G7.
 - Choisir la region.
 - Enregistrer.
 
-Apres une connexion reussie, l'application peut tenter d'envoyer la derniere glycemie vers la montre.
+Apres une connexion reussie, l'application active la surveillance telephone -> montre. Une notification permanente indique que Widget G7 synchronise la glycemie.
 
 ## 3. Configurer la montre
 
@@ -28,18 +28,20 @@ Apres une connexion reussie, l'application peut tenter d'envoyer la derniere gly
 
 ## 4. Actualiser
 
-- Depuis l'accueil telephone, utiliser `Sync`.
+- Depuis l'accueil telephone, utiliser `Synchroniser`.
 - Depuis la montre, utiliser le bouton refresh de la tile.
 
-Le refresh montre demande au telephone de relancer la synchronisation. En mode actuel, la montre ne lit pas directement le capteur.
+Le refresh montre demande au telephone de relancer la synchronisation active. En mode actuel, la montre ne lit pas directement le capteur.
 
 ## 5. Comprendre les statuts
 
 - `Connectee` : la montre est visible par le telephone.
-- `Derniere sync` : une donnee a ete envoyee recemment.
+- `Sync active` : le telephone maintient la surveillance avec service foreground.
+- `Surveillance active - montre verifiee` : la derniere livraison vers la montre a ete confirmee par ack.
 - `Aucune nouvelle mesure` : Dexcom n'a pas encore fourni de valeur plus recente.
-- `Donnee ancienne` : la derniere valeur connue existe, mais elle doit etre consideree comme stale.
 - `Erreur` : Dexcom, le reseau ou la liaison montre demande une verification.
+
+Pour une stabilite maximale en veille, il est recommande d'autoriser les notifications et de desactiver l'optimisation batterie pour Widget G7.
 
 ## 6. Mode direct capteur
 

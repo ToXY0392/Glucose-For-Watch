@@ -9,7 +9,7 @@ Ce document sert de point de reprise rapide pour continuer le projet sans relire
 - Projet Android multi-module : `mobile` et `wear`.
 - Application mobile installee et testee sur Pixel 8a.
 - Application Wear installee et testee sur Pixel Watch 2.
-- Sync actuelle : `Dexcom Share -> telephone -> Wear OS`.
+- Sync actuelle : `Dexcom Share -> telephone en surveillance active -> Wear OS`.
 - Mode direct `capteur G7 -> Wear OS` : documente comme piste avancee, pas code.
 - Le depot contient des modifications locales non commit.
 
@@ -17,11 +17,21 @@ Ce document sert de point de reprise rapide pour continuer le projet sans relire
 
 ### Sync
 
-La strategie retenue est de rendre le mode standard tres solide :
+La strategie retenue est de rendre le mode standard tres solide et prioritaire :
 
 `Dexcom/telephone -> Widget G7 mobile -> Widget G7 Wear`
 
 La montre reste un client d'affichage et un declencheur de refresh. Elle ne collecte pas directement le capteur dans l'app actuelle.
+
+La sync standard utilise maintenant une surveillance active cote telephone :
+
+- service foreground Android avec notification permanente ;
+- polling Dexcom rapproche, cible environ `45 s` ;
+- session Dexcom Share reutilisee en memoire, avec relogin seulement si necessaire ;
+- push Wear OS urgent avec `sequenceId` ;
+- ack montre -> telephone sur `/glucose/watch/ack` ;
+- repush automatique de la derniere valeur si l'ack attendu manque ;
+- `AlarmManager` / `WorkManager` conserves comme filet de secours, pas comme moteur principal.
 
 ### Direct capteur
 
@@ -73,9 +83,9 @@ Attention : ces textes doivent etre relus avant diffusion publique.
 
 ### Synchronisation telephone / montre
 
-- Rythme rapproche du fonctionnement reel du G7.
-- Cycle automatique telephone resserre a `90 s`.
-- A l'ouverture/reprise de l'accueil, une sync est programmee rapidement apres environ `5 s`.
+- Rythme rapproche du fonctionnement reel du G7 via service foreground.
+- Boucle active telephone a environ `45 s`.
+- A l'ouverture/reprise de l'accueil, le service actif est relance si Dexcom est configure.
 - Comparaison du timestamp Dexcom avec la derniere mesure poussee.
 - Refresh manuel depuis telephone.
 - Refresh manuel depuis montre.
@@ -83,12 +93,15 @@ Attention : ces textes doivent etre relus avant diffusion publique.
 - Chaque push porte maintenant un `sequenceId`.
 - La montre renvoie un ack sur `/glucose/watch/ack` apres reception de `/glucose/latest`.
 - Le telephone stocke le dernier ack recu avec node id, timestamp de lecture et sequence.
-- La montre marque defensivement une donnee comme ancienne apres 2 minutes.
-- La source Dexcom cote telephone marque aussi une lecture comme stale apres 2 minutes.
+- La montre conserve une detection defensive interne de fraicheur, mais l'UI reste centree sur `Sync active` et la livraison confirmee.
+- La source Dexcom cote telephone marque toujours techniquement une lecture comme stale apres 2 minutes pour les decisions internes.
 - Cache montre utilise pour tile et complication.
+- Les logs bavards et sensibles ont ete retires de l'APK : plus de logs de valeur, timestamp, node id ou sequence.
 
 Fichiers importants :
 
+- [ActiveGlucoseSyncService.kt](../mobile/src/main/java/com/widgetg7/mobile/sync/ActiveGlucoseSyncService.kt)
+- [ActiveGlucoseSyncController.kt](../mobile/src/main/java/com/widgetg7/mobile/sync/ActiveGlucoseSyncController.kt)
 - [PhoneGlucoseSyncEngine.kt](../mobile/src/main/java/com/widgetg7/mobile/sync/PhoneGlucoseSyncEngine.kt)
 - [PhoneSyncStateStore.kt](../mobile/src/main/java/com/widgetg7/mobile/sync/PhoneSyncStateStore.kt)
 - [PhoneWearSyncService.kt](../mobile/src/main/java/com/widgetg7/mobile/sync/PhoneWearSyncService.kt)
@@ -124,15 +137,15 @@ Fichiers importants :
 
 ## 5. Points ouverts
 
-### Sync standard a renforcer
+### Sync standard a valider
 
 Priorites :
 
-1. verifier en conditions reelles que le cycle 90 s tient hors economie d'energie profonde ;
-2. rendre l'age de la donnee impossible a ignorer ;
-3. mieux gerer multi-montres et montre principale ;
-4. eviter toute boucle de retry agressive ;
-5. documenter clairement que Dexcom G7 peut ne pas exposer une nouvelle mesure toutes les 2 minutes.
+1. verifier en conditions reelles que le service foreground tient en veille longue ;
+2. demander/verifier l'exemption d'optimisation batterie pour maximiser la stabilite ;
+3. mieux gerer multi-montres et montre principale au niveau transport ;
+4. surveiller que le repush ack reste borne et ne devienne jamais agressif ;
+5. documenter clairement que Dexcom Share peut publier une mesure avec retard.
 
 ### Wear Collector avance
 
@@ -191,7 +204,7 @@ Appareils connus :
 Ordre de travail recommande :
 
 1. finir la solidification du mode standard telephone -> Wear ;
-2. corriger les etats stale/offline et l'affichage de fraicheur ;
-3. mieux cibler la montre principale ;
+2. valider la sync active en veille longue telephone + montre ;
+3. mieux cibler la montre principale au niveau Data Layer ;
 4. seulement ensuite lancer le spike BLE Wear Collector ;
 5. garder le mode direct capteur isole tant qu'il n'est pas prouve.

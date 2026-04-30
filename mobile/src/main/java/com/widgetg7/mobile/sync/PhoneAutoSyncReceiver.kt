@@ -16,7 +16,13 @@ class PhoneAutoSyncReceiver : BroadcastReceiver() {
             return
         }
 
+        val settingsStore = AppSettingsStore(context)
         PhoneAutoSyncScheduler.schedule(context)
+        if (settingsStore.isActiveSyncEnabled()) {
+            ActiveGlucoseSyncController.start(context)
+            return
+        }
+
         val work = OneTimeWorkRequestBuilder<PhoneGlucoseSyncWorker>().build()
         WorkManager.getInstance(context).enqueueUniqueWork(
             "phone-glucose-sync-immediate",

@@ -16,6 +16,7 @@ import kotlin.math.roundToInt
 
 enum class DexcomShareErrorKind {
     AUTH,
+    SESSION,
     NETWORK,
     NO_DATA,
     UNKNOWN,
@@ -35,9 +36,7 @@ class DexcomSharePhoneGlucoseSource(
     override suspend fun latest(): GlucoseReading = withContext(Dispatchers.IO) {
         require(config.isConfigured()) { "Dexcom Share config is not valid" }
 
-        val accountId = authenticate()
-        val sessionId = login(accountId)
-        val values = readLatestValues(sessionId)
+        val values = readLatestValuesWithSession()
         if (values.length() == 0) {
             throw DexcomShareException(DexcomShareErrorKind.NO_DATA, "Aucune mesure Dexcom disponible.")
         }
@@ -62,6 +61,34 @@ class DexcomSharePhoneGlucoseSource(
             timestampEpochMs = timestampMs,
             stale = stale,
         )
+    }
+
+    private fun readLatestValuesWithSession(): JSONArray {
+        val cacheKey = config.cacheKey()
+        DexcomShareSessionCache.sessionFor(cacheKey)?.let { cachedSession ->
+            try {
+                return readLatestValues(cachedSession)
+            } catch (error: DexcomShareException) {
+                if (error.kind != DexcomShareErrorKind.SESSION) throw error
+                DexcomShareSessionCache.clear(cacheKey)
+            }
+        }
+
+        val sessionId = createSession()
+        DexcomShareSessionCache.save(cacheKey, sessionId)
+        return try {
+            readLatestValues(sessionId)
+        } catch (error: DexcomShareException) {
+            if (error.kind == DexcomShareErrorKind.SESSION) {
+                DexcomShareSessionCache.clear(cacheKey)
+            }
+            throw error
+        }
+    }
+
+    private fun createSession(): String {
+        val accountId = authenticate()
+        return login(accountId)
     }
 
     private fun authenticate(): String {
@@ -143,7 +170,7 @@ class DexcomSharePhoneGlucoseSource(
                 DexcomShareException(DexcomShareErrorKind.AUTH, "Identifiants Dexcom invalides.")
 
             normalized.contains("sessionidnotfound") ->
-                DexcomShareException(DexcomShareErrorKind.AUTH, "Session Dexcom a renouveler.")
+                DexcomShareException(DexcomShareErrorKind.SESSION, "Session Dexcom a renouveler.")
 
             code in 500..599 ->
                 DexcomShareException(DexcomShareErrorKind.NETWORK, "Dexcom est temporairement indisponible.")
@@ -170,6 +197,37 @@ class DexcomSharePhoneGlucoseSource(
         private const val STALE_AFTER_MS = 2 * 60 * 1000L
     }
 }
+
+private object DexcomShareSessionCache {
+    private val sessions = mutableMapOf<String, CachedSession>()
+
+    @Synchronized
+    fun sessionFor(cacheKey: String): String? {
+        val session = sessions[cacheKey] ?: return null
+        val ageMs = System.currentTimeMillis() - session.createdAtEpochMs
+        return session.sessionId.takeIf { ageMs < SESSION_TTL_MS }
+    }
+
+    @Synchronized
+    fun save(cacheKey: String, sessionId: String) {
+        sessions[cacheKey] = CachedSession(sessionId, System.currentTimeMillis())
+    }
+
+    @Synchronized
+    fun clear(cacheKey: String) {
+        sessions.remove(cacheKey)
+    }
+
+    private data class CachedSession(
+        val sessionId: String,
+        val createdAtEpochMs: Long,
+    )
+
+    private const val SESSION_TTL_MS = 30 * 60 * 1000L
+}
+
+private fun DexcomShareConfig.cacheKey(): String =
+    "${server.trim().uppercase()}|${username.trim().lowercase()}|${applicationId.trim()}"
 
 private fun JSONObject.readInt(vararg keys: String): Int? {
     for (key in keys) {

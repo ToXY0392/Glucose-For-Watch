@@ -40,6 +40,16 @@ class AppSettingsStore(context: Context) {
             .remove(KEY_DEXCOM_USERNAME)
             .remove(KEY_DEXCOM_PASSWORD)
             .remove(KEY_DEXCOM_SERVER)
+            .putBoolean(KEY_ACTIVE_SYNC_ENABLED, false)
+            .apply()
+    }
+
+    fun isActiveSyncEnabled(): Boolean =
+        prefs.getBoolean(KEY_ACTIVE_SYNC_ENABLED, loadDexcomSettings().isConfigured())
+
+    fun setActiveSyncEnabled(enabled: Boolean) {
+        prefs.edit()
+            .putBoolean(KEY_ACTIVE_SYNC_ENABLED, enabled)
             .apply()
     }
 
@@ -72,6 +82,7 @@ class AppSettingsStore(context: Context) {
         private const val KEY_DEXCOM_USERNAME = "dexcom_username"
         private const val KEY_DEXCOM_PASSWORD = "dexcom_password"
         private const val KEY_DEXCOM_SERVER = "dexcom_server"
+        private const val KEY_ACTIVE_SYNC_ENABLED = "active_sync_enabled"
         private const val DEFAULT_SERVER = "OUS"
     }
 }

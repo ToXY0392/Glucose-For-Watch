@@ -1,7 +1,6 @@
 package com.widgetg7.wear.services
 
 import android.content.ComponentName
-import android.util.Log
 import androidx.wear.tiles.TileService
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.google.android.gms.wearable.DataEvent
@@ -22,7 +21,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class WearDataLayerListenerService : WearableListenerService() {
-    private val logTag = "WidgetG7Wear"
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onDataChanged(dataEvents: DataEventBuffer) {
@@ -43,10 +41,6 @@ class WearDataLayerListenerService : WearableListenerService() {
                     stale = map.getBoolean(GlucoseKeys.STALE),
                 )
                 val sequenceId = map.getLong(GlucoseKeys.SEQUENCE_ID)
-                Log.d(
-                    logTag,
-                    "Received phone data value=${snapshot.valueMgDl} trend=${snapshot.trend} delta=${snapshot.deltaMgDl} stale=${snapshot.stale} sequenceId=$sequenceId",
-                )
                 cache.save(snapshot)
                 cache.clearRefreshStatus()
                 sendAck(snapshot.timestampEpochMs, sequenceId)
@@ -70,7 +64,6 @@ class WearDataLayerListenerService : WearableListenerService() {
                     GlucoseKeys.REFRESH_FAILED -> cache.markRefreshFailed(message)
                 }
                 requestSurfaceUpdates()
-                Log.d(logTag, "Received refresh status=$status message=$message")
                 healthMonitor.updateAndReport()
             }
         }
@@ -80,15 +73,13 @@ class WearDataLayerListenerService : WearableListenerService() {
 
     private fun requestSurfaceUpdates() {
         TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
-        Log.d(logTag, "Requested tile refresh")
 
         try {
             ComplicationDataSourceUpdateRequester
                 .create(this, ComponentName(this, GlucoseComplicationService::class.java))
                 .requestUpdateAll()
-            Log.d(logTag, "Requested complication refresh")
-        } catch (error: Throwable) {
-            Log.w(logTag, "Unable to request complication refresh", error)
+        } catch (_: Throwable) {
+            // Some watch faces reject complication update requests.
         }
     }
 
@@ -103,8 +94,6 @@ class WearDataLayerListenerService : WearableListenerService() {
                     dataMap.putLong(GlucoseKeys.SEQUENCE_ID, now)
                 }.asPutDataRequest().setUrgent()
                 Wearable.getDataClient(this@WearDataLayerListenerService).putDataItem(request)
-            }.onFailure { error ->
-                Log.w(logTag, "Unable to send watch ack", error)
             }
         }
     }

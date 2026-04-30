@@ -14,25 +14,28 @@
 ## Utilisation quotidienne
 
 - L'accueil montre l'etat principal de la montre.
-- Le bouton `Sync` relance une actualisation depuis le telephone.
+- La sync active reste lancee sur le telephone avec une notification permanente.
+- Le bouton `Synchroniser` relance une actualisation depuis le telephone.
 - Le bouton de refresh sur la montre demande aussi une actualisation au telephone.
-- Si aucune nouvelle mesure Dexcom n'est disponible, l'application peut renvoyer la derniere valeur connue a la montre.
+- Si aucune nouvelle mesure Dexcom n'est disponible, l'application continue de verifier Dexcom Share et peut renvoyer la derniere valeur connue a la montre.
 
 ## Ce que fait la montre
 
 La montre affiche les donnees recues depuis le telephone. En mode actuel, elle ne se connecte pas directement au capteur G7.
 
-## Si la valeur semble ancienne
+## Pour une sync stable
 
 Verifier :
 
 - que la montre est connectee ;
 - que le telephone a du reseau ;
 - que Dexcom est encore connecte ;
+- que la notification permanente Widget G7 est active ;
+- que l'optimisation batterie est desactivee pour Widget G7 si possible ;
 - que la batterie de la montre n'est pas trop basse ;
 - que la tile ou la complication est bien ajoutee sur la montre.
 
-Ensuite, utiliser `Sync` sur le telephone ou le refresh depuis la montre.
+Ensuite, utiliser `Synchroniser` sur le telephone ou le refresh depuis la montre.
 
 ## Mode direct capteur
 

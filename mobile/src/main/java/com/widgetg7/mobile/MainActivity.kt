@@ -7,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +26,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.status.SyncStatusSnapshot
 import com.widgetg7.mobile.status.SyncStatusRepository
+import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
-import com.widgetg7.mobile.sync.SyncExecutionResult
 import com.widgetg7.mobile.ui.DexcomEntryActivity
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
@@ -40,8 +39,6 @@ import com.widgetg7.mobile.watch.WatchVisualResolver
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    private val maxFreshReadingAgeMs = 2 * 60 * 1000L
-    private val logTag = "WidgetG7Phone"
     private var baseScrollPaddingTop = 0
     private var baseScrollPaddingBottom = 0
 
@@ -137,33 +134,11 @@ class MainActivity : AppCompatActivity() {
     private suspend fun runManualSync() {
         watchRefreshButton.isEnabled = false
         watchRefreshButton.alpha = 0.45f
-        watchRefreshButton.text = "Synchronisation..."
+        watchRefreshButton.text = "Sync demandee..."
         watchRefreshButton.contentDescription = "Actualisation en cours"
 
-        val message = when (
-            val result = com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine(this).run(
-                triggeredFromWatch = false,
-                forcePushCurrentReading = true,
-            )
-        ) {
-            is SyncExecutionResult.SuccessNewReading -> {
-                Log.d(logTag, "Manual sync completed with new reading source=${result.sourceName}")
-                "Sync terminee : nouvelle mesure envoyee"
-            }
-
-            is SyncExecutionResult.SuccessNoNewReading -> {
-                Log.d(
-                    logTag,
-                    "Manual sync completed without new reading source=${result.sourceName}",
-                )
-                "Sync terminee : mesure actuelle renvoyee"
-            }
-
-            is SyncExecutionResult.Failure -> {
-                Log.d(logTag, "Manual sync failed message=${result.message}")
-                "Sync echouee : ${result.message}"
-            }
-        }
+        ActiveGlucoseSyncController.syncNow(this)
+        val message = "Sync active demandee : le telephone pousse vers la montre puis verifie l'accuse."
 
         refreshHome()
         watchRefreshButton.isEnabled = true
@@ -174,7 +149,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun scheduleAutoSyncIfReady() {
-        if (AppSettingsStore(this).loadDexcomSettings().isConfigured()) {
+        val settingsStore = AppSettingsStore(this)
+        if (settingsStore.loadDexcomSettings().isConfigured()) {
+            if (settingsStore.isActiveSyncEnabled()) {
+                ActiveGlucoseSyncController.start(this)
+            }
             PhoneAutoSyncScheduler.schedule(this, delayMs = 5_000L)
         }
     }
@@ -186,7 +165,15 @@ class MainActivity : AppCompatActivity() {
         when {
             !dexcomConfigured -> "Dexcom : \u00e0 configurer"
             syncStatus.lastError.isNotBlank() -> "Sync : ${syncStatus.lastError}"
-            syncStatus.hasSuccessfulSync() -> "Dexcom connect\u00e9 - sync ${ageLabel(syncStatus.lastSyncEpochMs)}"
+            syncStatus.hasSuccessfulSync() -> {
+                val state = com.widgetg7.mobile.sync.PhoneSyncStateStore(this).load()
+                val ack = if (state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L) {
+                    " - montre confirmee"
+                } else {
+                    " - livraison montre en cours"
+                }
+                "Dexcom connect\u00e9 - sync ${ageLabel(syncStatus.lastSyncEpochMs)}$ack"
+            }
             else -> "Derni\u00e8re sync : aucune pour le moment"
         }
 
@@ -200,23 +187,22 @@ class MainActivity : AppCompatActivity() {
         glucoseAgeText.text = when {
             !dexcomConfigured -> "Connectez Dexcom pour afficher une mesure."
             syncStatus.lastError.isNotBlank() -> syncStatus.lastError
-            syncStatus.lastReadingTimestampEpochMs > 0L ->
-                "Mesure ${ageLabel(syncStatus.lastReadingTimestampEpochMs)}"
+            AppSettingsStore(this).isActiveSyncEnabled() && syncStatus.hasSuccessfulSync() ->
+                "Surveillance active - montre verifiee"
+            syncStatus.hasSuccessfulSync() ->
+                "Synchronise ${ageLabel(syncStatus.lastSyncEpochMs)}"
             else -> "Aucune mesure pour le moment"
         }
 
-        val stale = syncStatus.lastReadingTimestampEpochMs > 0L &&
-            System.currentTimeMillis() - syncStatus.lastReadingTimestampEpochMs > maxFreshReadingAgeMs
         glucoseStatusBadge.text = when {
             !dexcomConfigured -> "Action requise"
             syncStatus.lastError.isNotBlank() -> "Erreur sync"
-            stale -> "Mesure ancienne"
+            AppSettingsStore(this).isActiveSyncEnabled() -> "Sync active"
             syncStatus.hasSuccessfulSync() -> "A jour"
             else -> "En attente"
         }
         val color = when {
             !dexcomConfigured || syncStatus.lastError.isNotBlank() -> R.color.wg7_danger
-            stale -> R.color.wg7_alert
             else -> R.color.wg7_accent_dark
         }
         glucoseStatusBadge.setTextColor(ContextCompat.getColor(this, color))
@@ -298,7 +284,7 @@ class MainActivity : AppCompatActivity() {
         try {
             startActivity(appDetailsIntent)
         } catch (_: ActivityNotFoundException) {
-            Log.w(logTag, "Impossible d'ouvrir les détails de l'application")
+            // No settings activity available on this device.
         }
     }
 

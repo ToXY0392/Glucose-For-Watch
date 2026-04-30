@@ -3,7 +3,6 @@ package com.widgetg7.wear.tile
 import android.app.Activity
 import android.content.ComponentName
 import android.os.Bundle
-import android.util.Log
 import androidx.wear.tiles.TileService
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.google.android.gms.wearable.Wearable
@@ -13,8 +12,6 @@ import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
 
 class GlucoseRefreshActivity : Activity() {
-    private val logTag = "WidgetG7Wear"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,19 +35,16 @@ class GlucoseRefreshActivity : Activity() {
                 Wearable.getMessageClient(this)
                     .sendMessage(node.id, GlucoseKeys.PATH_REFRESH_REQUEST, ByteArray(0))
                     .addOnSuccessListener {
-                        Log.d(logTag, "Refresh request sent to node=${node.displayName}/${node.id}")
                         finish()
                     }
-                    .addOnFailureListener { error ->
-                        Log.e(logTag, "Refresh request failed", error)
+                    .addOnFailureListener {
                         cache.markRefreshFailed("Echec de synchro")
                         healthMonitor.updateAndReport()
                         requestSurfaceUpdates()
                         finish()
                     }
             }
-            .addOnFailureListener { error ->
-                Log.e(logTag, "Unable to resolve phone node", error)
+            .addOnFailureListener {
                 cache.markRefreshFailed("Telephone indisponible")
                 healthMonitor.updateAndReport()
                 requestSurfaceUpdates()

@@ -1,6 +1,5 @@
 package com.widgetg7.mobile.sync
 
-import android.util.Log
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -14,7 +13,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 class PhoneWearRefreshRequestService : WearableListenerService() {
-    private val logTag = "WidgetG7Phone"
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onMessageReceived(messageEvent: MessageEvent) {
@@ -23,13 +21,9 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
             return
         }
 
-        Log.d(logTag, "Watch refresh requested from node=${messageEvent.sourceNodeId}")
         serviceScope.launch {
             PhoneWearRefreshStatusService(this@PhoneWearRefreshRequestService).pushInProgress()
-            PhoneGlucoseSyncEngine(this@PhoneWearRefreshRequestService).run(
-                triggeredFromWatch = true,
-                forcePushCurrentReading = true,
-            )
+            ActiveGlucoseSyncController.syncNow(this@PhoneWearRefreshRequestService)
         }
     }
 
@@ -48,10 +42,6 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
                     sequenceId = sequenceId,
                     nodeId = nodeId,
                 )
-                Log.d(
-                    logTag,
-                    "Watch ack received node=$nodeId readingTimestamp=$readingTimestamp sequenceId=$sequenceId",
-                )
                 continue
             }
 
@@ -69,10 +59,6 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
                 device = map.getString(GlucoseKeys.WATCH_DEVICE).orEmpty(),
             )
             WatchSyncHealthRepository(this).save(status)
-            Log.d(
-                logTag,
-                "Watch health updated battery=${status.batteryLevel} lowPower=${status.lowPowerMode} syncLimited=${status.syncLimited} message=${status.message}",
-            )
         }
         super.onDataChanged(dataEvents)
     }

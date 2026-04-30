@@ -115,6 +115,40 @@ Note importante :
 - L'app peut garantir qu'elle tente de synchroniser plus souvent et qu'elle signale une valeur trop ancienne.
 - Elle ne peut pas inventer une nouvelle mesure si Dexcom n'en expose pas encore.
 
+## Mise a jour sync active stable - 30 avril 2026
+
+Objectif :
+
+- remplacer la dependance principale au cycle `AlarmManager` / `WorkManager` par une surveillance active telephone -> montre.
+
+Ameliorations principales :
+
+- ajout d'un `ActiveGlucoseSyncService` foreground avec notification permanente ;
+- boucle de sync active autour de `45 s` quand Dexcom est configure ;
+- session Dexcom Share reutilisee en memoire, avec relogin seulement si la session expire ou est refusee ;
+- bouton manuel et refresh montre branches sur le meme moteur de sync active ;
+- conservation de `AlarmManager` / `WorkManager` comme filet de secours ;
+- repush automatique de la derniere valeur si le dernier `sequenceId` pousse n'est pas ack par la montre ;
+- activation automatique de la sync active pour les comptes Dexcom deja configures ;
+- retrait des logs bavards ou sensibles dans les APK ;
+- labels APK simplifies en `Widget G7` ;
+- retrait des messages utilisateur `Mesure ancienne`, `Donnee agee` et `Mesure il y a ...` sur les surfaces principales.
+
+Validation locale :
+
+- APK mobile debug compile et installe sur Pixel 8a ;
+- APK Wear debug compile et installe sur Pixel Watch 2 ;
+- service foreground confirme par `dumpsys` avec notification `Widget G7 synchronise la glycemie` ;
+- reception montre et ack confirmes ;
+- une nouvelle valeur Dexcom a ete captee, poussee vers la montre et ackee.
+
+Limites restantes :
+
+- Dexcom Share peut publier les mesures avec retard ;
+- Android peut encore limiter l'app sans exemption batterie ;
+- le transport Wear Data Layer reste global si plusieurs montres sont connectees ;
+- une validation en veille longue sur plusieurs heures reste necessaire.
+
 ## Etat actuel
 
 Le produit permet aujourd'hui :
@@ -123,6 +157,7 @@ Le produit permet aujourd'hui :
 - de configurer Dexcom Share ;
 - d'accepter les textes juridiques avant la connexion Dexcom ;
 - de synchroniser la glycemie vers une montre Wear OS ;
+- de maintenir une surveillance active telephone -> montre avec notification permanente ;
 - de relancer manuellement une synchronisation vers la montre ;
 - d'utiliser une tile glucose sur la montre ;
 - de choisir une montre principale dans l'interface telephone lorsque plusieurs montres sont detectees.
@@ -131,5 +166,6 @@ Points d'attention :
 
 - la complication depend toujours du cadran choisi et du type de slot disponible ;
 - la montre principale est prise en compte par l'UI et le test de liaison, mais le transport Wear Data Layer reste encore global ;
+- la sync active est plus stable que le cycle 90 s precedent, mais doit encore etre testee en veille longue ;
 - les textes juridiques contiennent encore des champs `[A completer]` ;
 - le mode direct capteur -> Wear OS n'est pas implemente.

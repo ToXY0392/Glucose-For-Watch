@@ -206,7 +206,14 @@ class WatchSetupActivity : AppCompatActivity() {
                 val stateStore = com.widgetg7.mobile.sync.PhoneSyncStateStore(this@WatchSetupActivity)
                 val sequenceId = stateStore.nextSequenceId()
                 PhoneWearSyncService(this@WatchSetupActivity).pushLatest(reading, sequenceId)
-                stateStore.recordPushSuccess(reading.timestampEpochMs, sequenceId)
+                stateStore.recordPushSuccess(
+                    timestampEpochMs = reading.timestampEpochMs,
+                    sequenceId = sequenceId,
+                    valueMgDl = reading.valueMgDl,
+                    trend = reading.trend,
+                    deltaMgDl = reading.deltaMgDl,
+                    stale = reading.stale,
+                )
             }
 
             listOfNotNull(

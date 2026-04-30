@@ -34,7 +34,6 @@ data class GlucoseSnapshot(
     fun signedDelta(): String = if (deltaMgDl >= 0) "+$deltaMgDl" else deltaMgDl.toString()
 
     fun semanticLevel(): GlucoseSemanticLevel {
-        if (stale) return GlucoseSemanticLevel.STALE
         return when {
             valueMgDl < 70 || valueMgDl > 250 -> GlucoseSemanticLevel.ALERT
             valueMgDl in 70..79 || valueMgDl in 181..250 -> GlucoseSemanticLevel.ATTENTION
@@ -58,37 +57,17 @@ data class GlucoseSnapshot(
 
     fun secondaryLabel(nowEpochMs: Long): String {
         val ageLabel = ageLabel(nowEpochMs)
-        return if (stale) {
-            "Donnee agee - $ageLabel"
-        } else {
-            "${trendArrow()} - $ageLabel"
-        }
+        return "${trendArrow()} - $ageLabel"
     }
 
-    fun trendOnlyLabel(): String {
-        return if (stale) {
-            "Donnee agee"
-        } else {
-            trendArrow()
-        }
-    }
+    fun trendOnlyLabel(): String = trendArrow()
 
     fun compactSecondaryLabel(nowEpochMs: Long): String {
         val ageLabel = ageLabel(nowEpochMs)
-        return if (stale) {
-            "Agee - $ageLabel"
-        } else {
-            "${trendArrow()} - $ageLabel"
-        }
+        return "${trendArrow()} - $ageLabel"
     }
 
-    fun compactTrendOnlyLabel(): String {
-        return if (stale) {
-            "Agee"
-        } else {
-            trendArrow()
-        }
-    }
+    fun compactTrendOnlyLabel(): String = trendArrow()
 
     private fun ageLabel(nowEpochMs: Long): String {
         val ageMinutes = ((nowEpochMs - timestampEpochMs).coerceAtLeast(0L) / 60_000L)

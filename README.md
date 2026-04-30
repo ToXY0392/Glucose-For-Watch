@@ -14,7 +14,7 @@ La montre affiche les donnees recues depuis le telephone via Wear Data Layer. El
 - Application Wear OS : en place.
 - Tile Wear OS : en place.
 - Complication Wear OS : en place selon les cadrans compatibles.
-- Sync telephone -> montre : fonctionnelle, mais encore a renforcer.
+- Sync telephone -> montre : renforcee par surveillance active avec service foreground, ack montre et repush.
 - Mode direct capteur -> Wear OS : documente comme piste avancee, pas implemente.
 
 ## Surfaces prises en charge
@@ -69,16 +69,18 @@ La chaine actuelle est :
 
 1. le telephone interroge Dexcom Share ;
 2. le telephone normalise et garde la derniere valeur connue ;
-3. le telephone pousse la valeur vers Wear OS ;
-4. la montre met a jour son cache, sa tile et sa complication.
+3. le telephone pousse la valeur vers Wear OS avec un `sequenceId` ;
+4. la montre met a jour son cache, sa tile et sa complication ;
+5. la montre renvoie un ack au telephone ;
+6. le telephone repousse la derniere valeur si l'ack attendu n'arrive pas.
 
-Le refresh manuel depuis la montre envoie une demande au telephone. La montre ne lit pas directement le capteur G7 dans le mode actuel.
+Quand Dexcom est configure, la sync active utilise un service foreground avec notification permanente. Le refresh manuel depuis la montre envoie une demande au telephone. La montre ne lit pas directement le capteur G7 dans le mode actuel.
 
 ## Strategie sync cible
 
 Le projet retient deux niveaux :
 
-- mode standard : `telephone -> Wear OS`, a rendre tres solide ;
+- mode standard : `telephone -> Wear OS`, deja renforce par sync active et a valider en veille longue ;
 - mode avance experimental : `capteur G7 -> Wear OS`, a prototyper uniquement apres validation BLE sur Pixel Watch 2.
 
 Le mode standard reste prioritaire, car Dexcom ne documente officiellement le Direct to Watch que pour Apple Watch, pas pour Wear OS.
@@ -106,6 +108,6 @@ Le mode standard reste prioritaire, car Dexcom ne documente officiellement le Di
 
 - Modules : `mobile`, `wear`.
 - Source principale actuelle : Dexcom Share cote telephone.
-- Transport montre : Wear Data Layer.
+- Transport montre : Wear Data Layer avec push urgent, ack et repush.
 - Affichage montre : cache local, tile, complication.
 - Direction technique : isoler les sources glucose derriere une abstraction avant tout prototype Wear Collector.

@@ -21,6 +21,7 @@ import com.widgetg7.mobile.settings.DexcomUserSettings
 import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.status.SyncStatusRepository
+import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
@@ -93,8 +94,10 @@ class DexcomSettingsActivity : AppCompatActivity() {
                     )
                     val reading = DexcomSharePhoneGlucoseSource(config).latest()
                     settingsStore.saveDexcomSettings(settings)
+                    settingsStore.setActiveSyncEnabled(true)
                     launchStateStore.markDexcomEntryCompleted()
                     syncStatusRepository.saveSuccess("dexcom-share", reading)
+                    ActiveGlucoseSyncController.start(this@DexcomSettingsActivity)
                     PhoneAutoSyncScheduler.schedule(this@DexcomSettingsActivity)
                     val syncResult = PhoneGlucoseSyncEngine(this@DexcomSettingsActivity).run(
                         triggeredFromWatch = false,
@@ -132,6 +135,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
 
         disconnectDexcomButton.setOnClickListener {
             settingsStore.clearDexcomSettings()
+            ActiveGlucoseSyncController.stop(this)
             launchStateStore.resetDexcomEntry()
             LegalConsentStore(this).clearAcceptedVersion()
             syncStatusRepository.clearSessionState()
