@@ -11,6 +11,11 @@ data class WatchSyncHealthStatus(
     val manufacturer: String,
     val model: String,
     val device: String,
+    val appInstalled: Boolean,
+    val appVersionName: String,
+    val appVersionCode: Long,
+    val supportsTile: Boolean,
+    val supportsComplication: Boolean,
 ) {
     fun isFresh(nowEpochMs: Long = System.currentTimeMillis()): Boolean {
         if (updatedAtEpochMs <= 0L) return false
@@ -20,6 +25,8 @@ data class WatchSyncHealthStatus(
     fun summary(): String? {
         if (!isFresh()) return null
         return when {
+            appInstalled && appVersionName.isNotBlank() -> "Montre: Widget G7 Wear $appVersionName installe"
+            appInstalled -> "Montre: Widget G7 Wear installe"
             syncLimited && batteryLevel in 0..100 -> "Montre: $message ($batteryLevel%)"
             syncLimited -> "Montre: $message"
             batteryLevel in 0..20 -> "Montre: batterie faible ($batteryLevel%)"
@@ -45,6 +52,11 @@ class WatchSyncHealthRepository(context: Context) {
             .putString(KEY_MANUFACTURER, status.manufacturer)
             .putString(KEY_MODEL, status.model)
             .putString(KEY_DEVICE, status.device)
+            .putBoolean(KEY_APP_INSTALLED, status.appInstalled)
+            .putString(KEY_APP_VERSION_NAME, status.appVersionName)
+            .putLong(KEY_APP_VERSION_CODE, status.appVersionCode)
+            .putBoolean(KEY_SUPPORTS_TILE, status.supportsTile)
+            .putBoolean(KEY_SUPPORTS_COMPLICATION, status.supportsComplication)
             .apply()
     }
 
@@ -59,6 +71,11 @@ class WatchSyncHealthRepository(context: Context) {
             manufacturer = prefs.getString(KEY_MANUFACTURER, "").orEmpty(),
             model = prefs.getString(KEY_MODEL, "").orEmpty(),
             device = prefs.getString(KEY_DEVICE, "").orEmpty(),
+            appInstalled = prefs.getBoolean(KEY_APP_INSTALLED, false),
+            appVersionName = prefs.getString(KEY_APP_VERSION_NAME, "").orEmpty(),
+            appVersionCode = prefs.getLong(KEY_APP_VERSION_CODE, 0L),
+            supportsTile = prefs.getBoolean(KEY_SUPPORTS_TILE, false),
+            supportsComplication = prefs.getBoolean(KEY_SUPPORTS_COMPLICATION, false),
         ).takeIf { it.isFresh() }
     }
 
@@ -72,5 +89,10 @@ class WatchSyncHealthRepository(context: Context) {
         private const val KEY_MANUFACTURER = "manufacturer"
         private const val KEY_MODEL = "model"
         private const val KEY_DEVICE = "device"
+        private const val KEY_APP_INSTALLED = "app_installed"
+        private const val KEY_APP_VERSION_NAME = "app_version_name"
+        private const val KEY_APP_VERSION_CODE = "app_version_code"
+        private const val KEY_SUPPORTS_TILE = "supports_tile"
+        private const val KEY_SUPPORTS_COMPLICATION = "supports_complication"
     }
 }

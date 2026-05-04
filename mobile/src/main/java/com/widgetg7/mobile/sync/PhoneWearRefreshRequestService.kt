@@ -57,6 +57,11 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
                 manufacturer = map.getString(GlucoseKeys.WATCH_MANUFACTURER).orEmpty(),
                 model = map.getString(GlucoseKeys.WATCH_MODEL).orEmpty(),
                 device = map.getString(GlucoseKeys.WATCH_DEVICE).orEmpty(),
+                appInstalled = map.getBoolean(GlucoseKeys.WATCH_APP_INSTALLED),
+                appVersionName = map.getString(GlucoseKeys.WATCH_APP_VERSION_NAME).orEmpty(),
+                appVersionCode = map.getLong(GlucoseKeys.WATCH_APP_VERSION_CODE),
+                supportsTile = map.getBoolean(GlucoseKeys.WATCH_SUPPORTS_TILE),
+                supportsComplication = map.getBoolean(GlucoseKeys.WATCH_SUPPORTS_COMPLICATION),
             )
             WatchSyncHealthRepository(this).save(status)
         }

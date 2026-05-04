@@ -152,3 +152,11 @@ Priorité :
 Toute nouvelle image ou interface doit reprendre ce logo officiel.
 Si le logo doit être modifié, créer une nouvelle décision explicite dans cette doc.
 ```
+
+Pour l'APK mobile, le logo affiche est verrouille dans :
+
+- [DESIGN_MOBILE_VERROUILLE.md](DESIGN_MOBILE_VERROUILLE.md)
+- `mobile/src/main/res/drawable-nodpi/logo_widget_g7_official.png`
+
+Ce fichier est extrait de `docs/assets/presentation-apk-widget-g7.png`.
+Il ne doit pas etre redessine.

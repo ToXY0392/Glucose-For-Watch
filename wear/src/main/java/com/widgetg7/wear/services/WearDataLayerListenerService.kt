@@ -51,6 +51,13 @@ class WearDataLayerListenerService : WearableListenerService() {
                 continue
             }
 
+            if (item.uri.path == GlucoseKeys.PATH_WATCH_STATUS_REQUEST) {
+                val map = DataMapItem.fromDataItem(item).dataMap
+                if (!isForThisWatch(map.getString(GlucoseKeys.TARGET_NODE_ID).orEmpty())) continue
+                healthMonitor.updateAndReport()
+                continue
+            }
+
             if (item.uri.path == GlucoseKeys.PATH_REFRESH_STATUS) {
                 val map = DataMapItem.fromDataItem(item).dataMap
                 if (!isForThisWatch(map.getString(GlucoseKeys.TARGET_NODE_ID).orEmpty())) continue

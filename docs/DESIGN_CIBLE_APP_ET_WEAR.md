@@ -19,6 +19,9 @@ Référence :
 
 - [presentation-apk-widget-g7.png](assets/presentation-apk-widget-g7.png)
 - [LOGO_WIDGET_G7.md](LOGO_WIDGET_G7.md)
+- [DESIGN_MOBILE_VERROUILLE.md](DESIGN_MOBILE_VERROUILLE.md)
+
+Pour l'APK mobile, `DESIGN_MOBILE_VERROUILLE.md` est prioritaire.
 
 ---
 

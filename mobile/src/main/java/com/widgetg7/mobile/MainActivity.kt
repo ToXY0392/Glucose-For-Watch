@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.ScrollView
@@ -28,6 +27,7 @@ import com.widgetg7.mobile.status.SyncStatusRepository
 import com.widgetg7.mobile.status.SyncStatusSnapshot
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
+import com.widgetg7.mobile.sync.PhoneSyncStateStore
 import com.widgetg7.mobile.ui.DexcomEntryActivity
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
@@ -35,7 +35,6 @@ import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchConnectionStatus
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthStatus
-import com.widgetg7.mobile.watch.WatchVisualResolver
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -43,19 +42,15 @@ class MainActivity : AppCompatActivity() {
     private var baseScrollPaddingBottom = 0
 
     private lateinit var watchSettingsButton: ImageButton
-    private lateinit var watchPreviewImage: ImageView
-    private lateinit var watchModelText: TextView
-    private lateinit var watchFaceStatusText: TextView
-    private lateinit var syncDiagnosticText: TextView
-    private lateinit var glucoseStatusBadge: TextView
-    private lateinit var glucoseValueText: TextView
-    private lateinit var glucoseTrendText: TextView
-    private lateinit var glucoseAgeText: TextView
+    private lateinit var homeHeadlineText: TextView
+    private lateinit var homeSupportText: TextView
+    private lateinit var installCardStatus: TextView
+    private lateinit var syncCardStatus: TextView
+    private lateinit var ackCardStatus: TextView
     private lateinit var watchRefreshButton: MaterialButton
     private lateinit var openNoticeButton: TextView
     private lateinit var watchActionRow: LinearLayout
 
-    private var dexcomConnected = false
     private var homeMenuPopup: PopupWindow? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,14 +73,11 @@ class MainActivity : AppCompatActivity() {
         ViewCompat.requestApplyInsets(mainScrollView)
 
         watchSettingsButton = findViewById(R.id.watchSettingsButton)
-        watchPreviewImage = findViewById(R.id.watchPreviewImage)
-        watchModelText = findViewById(R.id.watchModelText)
-        watchFaceStatusText = findViewById(R.id.watchFaceStatusText)
-        syncDiagnosticText = findViewById(R.id.syncDiagnosticText)
-        glucoseStatusBadge = findViewById(R.id.glucoseStatusBadge)
-        glucoseValueText = findViewById(R.id.glucoseValueText)
-        glucoseTrendText = findViewById(R.id.glucoseTrendText)
-        glucoseAgeText = findViewById(R.id.glucoseAgeText)
+        homeHeadlineText = findViewById(R.id.homeHeadlineText)
+        homeSupportText = findViewById(R.id.homeSupportText)
+        installCardStatus = findViewById(R.id.installCardStatus)
+        syncCardStatus = findViewById(R.id.syncCardStatus)
+        ackCardStatus = findViewById(R.id.ackCardStatus)
         watchRefreshButton = findViewById(R.id.watchRefreshButton)
         openNoticeButton = findViewById(R.id.openNoticeButton)
         watchActionRow = findViewById(R.id.watchActionRow)
@@ -107,45 +99,64 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshHome() {
-        val dexcomSettings = AppSettingsStore(this).loadDexcomSettings()
-        dexcomConnected = dexcomSettings.isConfigured()
+        val dexcomConfigured = AppSettingsStore(this).loadDexcomSettings().isConfigured()
         val watchHealth = WatchSyncHealthRepository(this).load()
         val syncStatus = SyncStatusRepository(this).load()
-        syncDiagnosticText.text = syncDiagnostic(dexcomConnected, syncStatus)
-        applyGlucoseStatus(dexcomConnected, syncStatus)
+
+        applySyncStatus(dexcomConfigured, syncStatus)
 
         lifecycleScope.launch {
             val watchStatus = WatchConnectionRepository(this@MainActivity).loadStatus()
-            applyWatchVisuals(watchStatus, watchHealth)
+            applyWatchStatus(watchStatus, watchHealth, syncStatus)
         }
     }
 
-    private fun applyWatchVisuals(
+    private fun applyWatchStatus(
         watchStatus: WatchConnectionStatus,
         watchHealth: WatchSyncHealthStatus?,
+        syncStatus: SyncStatusSnapshot,
     ) {
-        val visual = WatchVisualResolver.resolve(watchStatus.displayName, watchHealth)
-        watchPreviewImage.setImageResource(visual.drawableResId)
-        watchFaceStatusText.text = watchSummary(watchStatus, watchHealth)
-        watchModelText.text = if (watchStatus.connected) visual.headline else "Wear OS"
-        applyWatchStatusStyle(watchStatus, watchHealth)
+        homeHeadlineText.text = "Widget G7"
+        homeSupportText.text = when {
+            watchHealth?.appInstalled == true ->
+                "Widget G7 Wear repond. Tile et complication peuvent etre configurees."
+            watchStatus.connected ->
+                "La montre est connectee. Installez Widget G7 Wear pour activer tile et complication."
+            else ->
+                "Connectez une montre Wear OS pour installer Widget G7 Wear."
+        }
+
+        installCardStatus.text = when {
+            !watchStatus.connected -> "Aucune montre Wear OS detectee"
+            watchHealth?.appInstalled == true && watchHealth.supportsTile && watchHealth.supportsComplication ->
+                "Installe - tile et complication disponibles"
+            watchHealth?.appInstalled == true -> "Installe - verification des surfaces en cours"
+            else -> "App montre absente ou pas encore verifiee"
+        }
+        installCardStatus.setTextColor(statusColor(watchHealth?.appInstalled == true && !watchHealth.syncLimited))
+
+        ackCardStatus.text = ackSummary(syncStatus)
+        ackCardStatus.setTextColor(statusColor(hasWatchAck()))
     }
 
     private suspend fun runManualSync() {
         watchRefreshButton.isEnabled = false
         watchRefreshButton.alpha = 0.45f
-        watchRefreshButton.text = "Sync demandée..."
+        watchRefreshButton.text = "Sync..."
         watchRefreshButton.contentDescription = "Actualisation en cours"
 
         ActiveGlucoseSyncController.syncNow(this)
-        val message = "Sync active demandée : le téléphone pousse vers la montre puis vérifie l'accusé."
 
         refreshHome()
         watchRefreshButton.isEnabled = true
         watchRefreshButton.alpha = 1f
         watchRefreshButton.text = "Synchroniser"
         watchRefreshButton.contentDescription = "Actualiser"
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            "Sync demandee : le telephone pousse vers la montre puis verifie l'ack.",
+            Snackbar.LENGTH_LONG,
+        ).show()
     }
 
     private fun scheduleAutoSyncIfReady() {
@@ -158,70 +169,36 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun syncDiagnostic(
-        dexcomConfigured: Boolean,
-        syncStatus: SyncStatusSnapshot,
-    ): String =
-        when {
-            !dexcomConfigured -> "Dexcom : à configurer"
-            syncStatus.lastError.isNotBlank() -> "Sync : ${syncStatus.lastError}"
-            syncStatus.hasSuccessfulSync() -> {
-                val state = com.widgetg7.mobile.sync.PhoneSyncStateStore(this).load()
-                val ack = if (state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L) {
-                    " - montre confirmée"
-                } else {
-                    " - livraison montre en cours"
-                }
-                "Dexcom connecté - sync ${ageLabel(syncStatus.lastSyncEpochMs)}$ack"
-            }
-            else -> "Dernière sync : aucune pour le moment"
-        }
-
-    private fun applyGlucoseStatus(
+    private fun applySyncStatus(
         dexcomConfigured: Boolean,
         syncStatus: SyncStatusSnapshot,
     ) {
-        val value = syncStatus.lastValueMgDl
-        glucoseValueText.text = value?.toString() ?: "--"
-        glucoseTrendText.text = trendArrow(syncStatus.lastTrend)
-        glucoseAgeText.text = when {
-            !dexcomConfigured -> "Connectez Dexcom pour afficher une mesure."
+        syncCardStatus.text = when {
+            !dexcomConfigured -> "Dexcom a configurer"
             syncStatus.lastError.isNotBlank() -> syncStatus.lastError
-            AppSettingsStore(this).isActiveSyncEnabled() && syncStatus.hasSuccessfulSync() ->
-                "Surveillance active - montre vérifiée"
-            syncStatus.hasSuccessfulSync() ->
-                "Synchronisé ${ageLabel(syncStatus.lastSyncEpochMs)}"
-            else -> "Aucune mesure pour le moment"
-        }
-
-        glucoseStatusBadge.text = when {
-            !dexcomConfigured -> "Action requise"
-            syncStatus.lastError.isNotBlank() -> "Erreur sync"
+            syncStatus.hasSuccessfulSync() -> "Dernier envoi ${ageLabel(syncStatus.lastSyncEpochMs)}"
             AppSettingsStore(this).isActiveSyncEnabled() -> "Sync active"
-            syncStatus.hasSuccessfulSync() -> "À jour"
-            else -> "En attente"
+            else -> "Pret a synchroniser"
         }
-        val color = when {
-            !dexcomConfigured || syncStatus.lastError.isNotBlank() -> R.color.wg7_danger
-            else -> R.color.wg7_accent_dark
-        }
-        glucoseStatusBadge.setTextColor(ContextCompat.getColor(this, color))
+        syncCardStatus.setTextColor(statusColor(dexcomConfigured && syncStatus.lastError.isBlank()))
     }
 
-    private fun trendArrow(trend: String): String =
-        when (trend) {
-            "UP" -> "↑"
-            "UP_RIGHT" -> "↗"
-            "FLAT" -> "→"
-            "DOWN_RIGHT" -> "↘"
-            "DOWN" -> "↓"
-            else -> "→"
+    private fun ackSummary(syncStatus: SyncStatusSnapshot): String =
+        when {
+            hasWatchAck() -> "Montre confirmee"
+            syncStatus.hasSuccessfulSync() -> "Livraison montre en cours"
+            else -> "Aucun ack pour le moment"
         }
+
+    private fun hasWatchAck(): Boolean {
+        val state = PhoneSyncStateStore(this).load()
+        return state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L
+    }
 
     private fun ageLabel(epochMs: Long): String {
         val minutes = ((System.currentTimeMillis() - epochMs).coerceAtLeast(0L) / 60_000L)
         return when (minutes) {
-            0L -> "à l'instant"
+            0L -> "a l'instant"
             1L -> "il y a 1 min"
             else -> "il y a $minutes min"
         }
@@ -288,27 +265,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun watchSummary(
-        watchStatus: WatchConnectionStatus,
-        watchHealth: WatchSyncHealthStatus?,
-    ): String =
-        when {
-            !watchStatus.connected -> "Non connectée"
-            watchHealth?.syncLimited == true -> "Sync limitée"
-            else -> "Connectée"
-        }
-
-    private fun applyWatchStatusStyle(
-        watchStatus: WatchConnectionStatus,
-        watchHealth: WatchSyncHealthStatus?,
-    ) {
-        val color = when {
-            !watchStatus.connected -> R.color.wg7_danger
-            watchHealth?.syncLimited == true -> R.color.wg7_alert
-            else -> R.color.wg7_success
-        }
-        watchFaceStatusText.setTextColor(ContextCompat.getColor(this, color))
-    }
+    private fun statusColor(ok: Boolean): Int =
+        ContextCompat.getColor(this, if (ok) R.color.wg7_accent_dark else R.color.wg7_text_secondary)
 
     override fun onDestroy() {
         homeMenuPopup?.dismiss()

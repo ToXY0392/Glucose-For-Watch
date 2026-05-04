@@ -22,6 +22,7 @@ import com.widgetg7.mobile.sync.PhoneWearSyncService
 import com.widgetg7.mobile.watch.ConnectedWatchNode
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
+import com.widgetg7.mobile.watch.WatchStatusVerifier
 import com.widgetg7.mobile.watch.WatchVisualResolver
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.launch
@@ -201,6 +202,19 @@ class WatchSetupActivity : AppCompatActivity() {
             ).joinToString("\n")
         }
 
+        val wearStatus = runCatching {
+            WatchStatusVerifier(this).requestStatus(status.nodeId)
+        }.getOrNull()
+        val wearInstallSummary = when {
+            wearStatus?.appInstalled == true && wearStatus.supportsTile && wearStatus.supportsComplication ->
+                "Widget G7 Wear est installe : app, tile et complication disponibles."
+            wearStatus?.appInstalled == true ->
+                "Widget G7 Wear est installe."
+            else ->
+                "Widget G7 Wear n'a pas encore repondu. Installez l'app montre pour activer tile et complication."
+        }
+        val latestHealthSummary = wearStatus?.summary() ?: healthSummary
+
         val preferredNote = if (status.connectedWatches.size > 1) {
             "Montre sélectionnée : ${status.displayName}."
         } else {
@@ -211,9 +225,10 @@ class WatchSetupActivity : AppCompatActivity() {
             return listOfNotNull(
                 status.label(),
                 preferredNote,
+                wearInstallSummary,
                 "La liaison téléphone - montre est opérationnelle.",
                 "Le test complet nécessite une connexion Dexcom active.",
-                healthSummary,
+                latestHealthSummary,
             ).joinToString("\n")
         }
 
@@ -238,25 +253,28 @@ class WatchSetupActivity : AppCompatActivity() {
             listOfNotNull(
                 status.label(),
                 preferredNote,
+                wearInstallSummary,
                 "Test complet réussi : la dernière glycémie a été envoyée à la montre.",
                 "Valeur testée : ${reading.valueMgDl} mg/dL ${reading.trend}.",
-                healthSummary,
+                latestHealthSummary,
             ).joinToString("\n")
         } catch (_: TimeoutCancellationException) {
             listOfNotNull(
                 status.label(),
                 preferredNote,
+                wearInstallSummary,
                 "La liaison est détectée, mais le test complet a expiré.",
                 "Vérifiez Dexcom, le Bluetooth et la montre, puis recommencez.",
-                healthSummary,
+                latestHealthSummary,
             ).joinToString("\n")
         } catch (error: Throwable) {
             listOfNotNull(
                 status.label(),
                 preferredNote,
+                wearInstallSummary,
                 "La liaison est détectée, mais l'envoi de la glycémie a échoué.",
                 error.message?.takeIf { it.isNotBlank() },
-                healthSummary,
+                latestHealthSummary,
             ).joinToString("\n")
         }
     }

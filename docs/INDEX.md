@@ -67,6 +67,7 @@
 | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Parcours complet : mobile, Wear OS, Dexcom, statuts |
 | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | APK mobile unique vers Wear natif par installation distante |
 | [PLAN_INSTALLATION_DISTANTE_WEAR.md](PLAN_INSTALLATION_DISTANTE_WEAR.md) | Plan de lots pour rendre l'installation distante viable |
+| [PLAN_MIGRATION_NOUVELLE_VERSION_APK.md](PLAN_MIGRATION_NOUVELLE_VERSION_APK.md) | Plan pour appliquer le nouveau design sans casser CGU, Dexcom et sync |
 | [AVERTISSEMENT_MEDICAL.md](AVERTISSEMENT_MEDICAL.md) | Limites médicales à afficher et conserver |
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | Historique court des changements et validations |
 
@@ -106,6 +107,7 @@ tant que le spike BLE Pixel Watch 2 n'est pas concluant.
 | --- | --- |
 | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Direction visuelle, composants, messages |
 | [LOGO_WIDGET_G7.md](LOGO_WIDGET_G7.md) | Logo officiel et règles d'usage |
+| [DESIGN_MOBILE_VERROUILLE.md](DESIGN_MOBILE_VERROUILLE.md) | Design verrouille de l'APK mobile |
 | [DESIGN_CIBLE_APP_ET_WEAR.md](DESIGN_CIBLE_APP_ET_WEAR.md) | Spécification du design cible mobile, Wear, tile et complication |
 | [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png) | Référence visuelle récente |
 

@@ -3,6 +3,7 @@ package com.widgetg7.wear.sync
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageInfo
 import android.os.Build
 import android.os.BatteryManager
 import android.os.PowerManager
@@ -59,8 +60,26 @@ class WatchSyncHealthMonitor(private val context: Context) {
             dataMap.putString(GlucoseKeys.WATCH_MANUFACTURER, Build.MANUFACTURER.orEmpty())
             dataMap.putString(GlucoseKeys.WATCH_MODEL, Build.MODEL.orEmpty())
             dataMap.putString(GlucoseKeys.WATCH_DEVICE, Build.DEVICE.orEmpty())
+            dataMap.putBoolean(GlucoseKeys.WATCH_APP_INSTALLED, true)
+            dataMap.putString(GlucoseKeys.WATCH_APP_VERSION_NAME, packageInfo().versionName.orEmpty())
+            dataMap.putLong(GlucoseKeys.WATCH_APP_VERSION_CODE, packageVersionCode())
+            dataMap.putBoolean(GlucoseKeys.WATCH_SUPPORTS_TILE, true)
+            dataMap.putBoolean(GlucoseKeys.WATCH_SUPPORTS_COMPLICATION, true)
         }.asPutDataRequest().setUrgent()
         Wearable.getDataClient(context).putDataItem(request)
+    }
+
+    private fun packageInfo(): PackageInfo =
+        context.packageManager.getPackageInfo(context.packageName, 0)
+
+    private fun packageVersionCode(): Long {
+        val info = packageInfo()
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            info.longVersionCode
+        } else {
+            @Suppress("DEPRECATION")
+            info.versionCode.toLong()
+        }
     }
 
     private fun currentBatteryLevel(): Int {
