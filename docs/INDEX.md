@@ -18,46 +18,73 @@
 
 ---
 
-## 🟢 Vue Rapide
+## 🟢 Carte Rapide
 
 ```text
-╭─ Widget G7 ────────────────────────────╮
+╭─ Widget G7 ───────────────────────────╮
 │ Mode fiable : téléphone -> Wear OS     │
 │ Mode direct : expérimental, hors app   │
 │ Priorité   : sync active stable        │
+│ Diffusion  : test privé uniquement     │
 │ Risque     : données médicales         │
 ╰────────────────────────────────────────╯
 ```
 
-| Panneau | Signal |
-| --- | --- |
-| 📱 **Produit** | Installation, usage, reprise |
-| 🔁 **Sync** | Dexcom Share, téléphone, Wear OS |
-| 🧪 **Direct capteur** | Recherche, décision, spike BLE |
-| 🎨 **Design** | UI claire, médicale, peu bavarde |
-| 🔐 **Juridique** | Textes à compléter avant diffusion |
+| Zone | Source de vérité | Statut |
+| --- | --- | --- |
+| Produit | [README projet](../README.md) | Présentation |
+| Utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Court |
+| Installation | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Opérationnel |
+| Reprise dev | [REPRISE_PROJET.md](REPRISE_PROJET.md) | Prioritaire |
+| Technique Wear OS | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Décidé / expérimental |
+| Publication | [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md) | Bloquant |
 
 ---
 
-## ⚡ À lire en premier
+## ⚡ Parcours De Lecture
 
-| Document | Pourquoi |
+| Besoin | Lire |
 | --- | --- |
-| [README projet](../README.md) | Présentation, architecture, démarrage |
-| [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Version courte pour l'utilisateur |
-| [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Parcours complet d'installation |
-| [REPRISE_PROJET.md](REPRISE_PROJET.md) | État actuel et prochaines priorités |
+| Comprendre le projet | [README projet](../README.md) |
+| Installer et tester | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) |
+| Donner une version courte à un utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) |
+| Reprendre le développement | [REPRISE_PROJET.md](REPRISE_PROJET.md) |
+| Comprendre la sync, Dexcom et le direct capteur | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) |
+| Préparer une diffusion | [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md) |
 
 ---
 
-## 🔁 Sync et mode direct
+## 📱 Produit Et Usage
 
-| Document | Contenu |
+| Document | Rôle |
 | --- | --- |
-| [SYNC_G7_WEAR_RECHERCHE.md](SYNC_G7_WEAR_RECHERCHE.md) | Pourquoi le téléphone reste la source principale |
-| [DIRECT_PATCH_WEAR_SOLUTION.md](DIRECT_PATCH_WEAR_SOLUTION.md) | Options et décision pour le direct capteur |
-| [PLAN_WEAR_COLLECTOR_AVANCE.md](PLAN_WEAR_COLLECTOR_AVANCE.md) | Plan si le direct devient viable |
-| [SPIKE_BLE_WEAR_COLLECTOR.md](SPIKE_BLE_WEAR_COLLECTOR.md) | Protocole du premier test BLE |
+| [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Résumé utilisateur : installer, connecter, tester |
+| [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Parcours complet : mobile, Wear OS, Dexcom, statuts |
+| [AVERTISSEMENT_MEDICAL.md](AVERTISSEMENT_MEDICAL.md) | Limites médicales à afficher et conserver |
+| [RELEASE_NOTES.md](RELEASE_NOTES.md) | Historique court des changements et validations |
+
+---
+
+## 🔁 Sync Et Architecture
+
+| Document | Rôle |
+| --- | --- |
+| [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync principale, audit Dexcom, direct capteur et spike BLE |
+| [REPRISE_PROJET.md](REPRISE_PROJET.md) | État actuel, fichiers clés, prochaines vérifications |
+| [../COMPATIBILITY.md](../COMPATIBILITY.md) | Compatibilité Android et montres Wear OS |
+
+```text
+Le téléphone reste la source principale.
+La montre affiche, confirme et peut demander un refresh.
+```
+
+---
+
+## 🧪 Direct Capteur
+
+| Document | Rôle |
+| --- | --- |
+| [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Décision produit, architecture possible et protocole de test BLE |
 
 ```text
 Ne pas coder le direct capteur dans l'app principale
@@ -66,18 +93,16 @@ tant que le spike BLE Pixel Watch 2 n'est pas concluant.
 
 ---
 
-## 🎨 Produit et design
+## 🎨 Produit Et Design
 
-| Document | Contenu |
+| Document | Rôle |
 | --- | --- |
-| [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Direction visuelle et composants |
-| [RELEASE_NOTES.md](RELEASE_NOTES.md) | Historique des changements |
+| [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Direction visuelle, composants, messages |
 | [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png) | Référence visuelle récente |
-| [reference_design_configurer_montre.png](reference_design_configurer_montre.png) | Ancienne référence montre |
 
 ---
 
-## 🔐 Juridique
+## 🔐 Juridique Et Publication
 
 | Document | Statut |
 | --- | --- |
@@ -90,12 +115,14 @@ tant que le spike BLE Pixel Watch 2 n'est pas concluant.
 
 ---
 
-## ✅ Décision actuelle
+## ✅ Décisions À Garder
 
 1. Garder `Dexcom Share -> téléphone -> Wear OS` comme mode principal.
-2. Valider la sync active en veille longue.
-3. Garder le direct capteur comme expérimental.
-4. Ne jamais publier de secrets, serials, valeurs réelles ou logs sensibles.
+2. Documenter Widget G7 comme app compagnon, pas comme remplacement Dexcom.
+3. Valider la sync active en veille longue avant d'élargir les tests.
+4. Garder le direct capteur comme expérimental et séparé.
+5. Ne jamais publier de secrets, serials, valeurs réelles ou logs sensibles.
+6. Ne pas diffuser publiquement tant que la checklist juridique n'est pas complète.
 
 ```text
 ╭────────────────────────────────────────╮

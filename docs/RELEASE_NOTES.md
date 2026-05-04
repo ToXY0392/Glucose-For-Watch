@@ -78,10 +78,7 @@ Validation connue :
 
 | Document | Rôle |
 | --- | --- |
-| [SYNC_G7_WEAR_RECHERCHE.md](SYNC_G7_WEAR_RECHERCHE.md) | Décision téléphone -> Wear OS |
-| [DIRECT_PATCH_WEAR_SOLUTION.md](DIRECT_PATCH_WEAR_SOLUTION.md) | Cadre du mode direct |
-| [PLAN_WEAR_COLLECTOR_AVANCE.md](PLAN_WEAR_COLLECTOR_AVANCE.md) | Plan si le direct devient viable |
-| [SPIKE_BLE_WEAR_COLLECTOR.md](SPIKE_BLE_WEAR_COLLECTOR.md) | Protocole BLE |
+| [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Décision téléphone -> Wear OS, audit Dexcom, direct capteur et protocole BLE |
 
 Décision :
 

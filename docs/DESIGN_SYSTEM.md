@@ -114,4 +114,3 @@ retour simple vers Sync téléphone
 ## 🖼️ Références
 
 - [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png)
-- [reference_design_configurer_montre.png](reference_design_configurer_montre.png)

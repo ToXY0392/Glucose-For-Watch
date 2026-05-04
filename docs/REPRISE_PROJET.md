@@ -58,10 +58,7 @@ La montre reste un affichage et un déclencheur de refresh. Elle ne collecte pas
 
 Docs utiles :
 
-- [SYNC_G7_WEAR_RECHERCHE.md](SYNC_G7_WEAR_RECHERCHE.md)
-- [DIRECT_PATCH_WEAR_SOLUTION.md](DIRECT_PATCH_WEAR_SOLUTION.md)
-- [PLAN_WEAR_COLLECTOR_AVANCE.md](PLAN_WEAR_COLLECTOR_AVANCE.md)
-- [SPIKE_BLE_WEAR_COLLECTOR.md](SPIKE_BLE_WEAR_COLLECTOR.md)
+- [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)
 
 ---
 

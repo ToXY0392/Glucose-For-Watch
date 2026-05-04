@@ -22,7 +22,7 @@
   ·
   <a href="docs/REPRISE_PROJET.md">🧭 Reprise projet</a>
   ·
-  <a href="docs/SYNC_G7_WEAR_RECHERCHE.md">🔁 Sync</a>
+  <a href="docs/TECHNIQUE_WEAR_OS.md">🔁 Technique Wear OS</a>
   ·
   <a href="docs/INDEX.md">🗂️ Documentation</a>
 </p>
@@ -136,12 +136,11 @@ La montre peut demander un refresh, mais elle ne lit pas directement le capteur 
 
 | Document | Usage |
 | --- | --- |
+| [Index documentation](docs/INDEX.md) | Choisir le bon document selon le besoin |
 | [Notice rapide](docs/NOTICE_UTILISATEUR.md) | Lire l'essentiel côté utilisateur |
 | [Mode d'emploi](docs/MODE_D_EMPLOI.md) | Installer, connecter Dexcom, configurer la montre |
 | [Reprise projet](docs/REPRISE_PROJET.md) | Reprendre le développement sans relire tout l'historique |
-| [Recherche sync](docs/SYNC_G7_WEAR_RECHERCHE.md) | Comprendre la décision téléphone -> Wear OS |
-| [Direct capteur](docs/DIRECT_PATCH_WEAR_SOLUTION.md) | Cadrer le futur mode expérimental |
-| [Index documentation](docs/INDEX.md) | Accéder à toute la doc |
+| [Technique Wear OS](docs/TECHNIQUE_WEAR_OS.md) | Sync, audit Dexcom, direct capteur et spike BLE |
 
 ---
 
