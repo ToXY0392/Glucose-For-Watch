@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/surveillez-votre-glycemie.png" alt="Widget G7" width="720">
+  <img src="docs/assets/presentation-apk-widget-g7.png" alt="Widget G7" width="960">
 </p>
 
 <h3 align="center">🟢 Widget G7 garde la glycémie Dexcom G7 visible sur Wear OS.</h3>
@@ -137,9 +137,10 @@ La montre peut demander un refresh, mais elle ne lit pas directement le capteur 
 | Document | Usage |
 | --- | --- |
 | [Index documentation](docs/INDEX.md) | Choisir le bon document selon le besoin |
+| [Présentation APK](docs/PRESENTATION_APK.md) | Support visuel pour expliquer l'application |
 | [Notice rapide](docs/NOTICE_UTILISATEUR.md) | Lire l'essentiel côté utilisateur |
 | [Mode d'emploi](docs/MODE_D_EMPLOI.md) | Installer, connecter Dexcom, configurer la montre |
-| [Installation montre guidée](docs/INSTALLATION_MONTRE_GUIDEE.md) | Parcours sans Store : notification montre, Wear natif en option avancée |
+| [Installation montre guidée](docs/INSTALLATION_MONTRE_GUIDEE.md) | Parcours sans Store vers Wear natif par installation distante |
 | [Reprise projet](docs/REPRISE_PROJET.md) | Reprendre le développement sans relire tout l'historique |
 | [Technique Wear OS](docs/TECHNIQUE_WEAR_OS.md) | Sync, audit Dexcom, direct capteur et spike BLE |
 

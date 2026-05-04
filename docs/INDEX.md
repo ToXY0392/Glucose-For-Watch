@@ -33,6 +33,7 @@
 | Zone | Source de vérité | Statut |
 | --- | --- | --- |
 | Produit | [README projet](../README.md) | Présentation |
+| Présentation APK | [PRESENTATION_APK.md](PRESENTATION_APK.md) | Visuel |
 | Utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Court |
 | Installation | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Opérationnel |
 | Installation montre | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | Sans Store |
@@ -47,6 +48,7 @@
 | Besoin | Lire |
 | --- | --- |
 | Comprendre le projet | [README projet](../README.md) |
+| Présenter l'APK visuellement | [PRESENTATION_APK.md](PRESENTATION_APK.md) |
 | Installer et tester | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) |
 | Concevoir le parcours montre sans Store | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) |
 | Donner une version courte à un utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) |
@@ -60,9 +62,10 @@
 
 | Document | Rôle |
 | --- | --- |
+| [PRESENTATION_APK.md](PRESENTATION_APK.md) | Support visuel de présentation de l'APK |
 | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Résumé utilisateur : installer, connecter, tester |
 | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Parcours complet : mobile, Wear OS, Dexcom, statuts |
-| [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | APK mobile unique, notification montre et Wear natif en option avancée |
+| [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | APK mobile unique vers Wear natif par installation distante |
 | [PLAN_INSTALLATION_DISTANTE_WEAR.md](PLAN_INSTALLATION_DISTANTE_WEAR.md) | Plan de lots pour rendre l'installation distante viable |
 | [AVERTISSEMENT_MEDICAL.md](AVERTISSEMENT_MEDICAL.md) | Limites médicales à afficher et conserver |
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | Historique court des changements et validations |
@@ -102,6 +105,8 @@ tant que le spike BLE Pixel Watch 2 n'est pas concluant.
 | Document | Rôle |
 | --- | --- |
 | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Direction visuelle, composants, messages |
+| [LOGO_WIDGET_G7.md](LOGO_WIDGET_G7.md) | Logo officiel et règles d'usage |
+| [DESIGN_CIBLE_APP_ET_WEAR.md](DESIGN_CIBLE_APP_ET_WEAR.md) | Spécification du design cible mobile, Wear, tile et complication |
 | [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png) | Référence visuelle récente |
 
 ---

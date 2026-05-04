@@ -19,6 +19,8 @@
 
 Widget G7 ne doit pas ressembler à une landing page. L'interface sert à vérifier la sync et lire l'état courant.
 
+Le logo est verrouillé : goutte vert dégradé avec `G7` au centre + texte `Widget G7` vert profond. Ne pas le réinterpréter dans les écrans ou visuels.
+
 ---
 
 ## 🎨 Palette
@@ -113,4 +115,7 @@ retour simple vers Sync téléphone
 
 ## 🖼️ Références
 
+- [LOGO_WIDGET_G7.md](LOGO_WIDGET_G7.md)
+- [DESIGN_CIBLE_APP_ET_WEAR.md](DESIGN_CIBLE_APP_ET_WEAR.md)
+- [presentation-apk-widget-g7.png](assets/presentation-apk-widget-g7.png)
 - [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png)
