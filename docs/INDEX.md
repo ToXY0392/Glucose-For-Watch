@@ -35,6 +35,7 @@
 | Produit | [README projet](../README.md) | Présentation |
 | Utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Court |
 | Installation | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Opérationnel |
+| Installation montre | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | Sans Store |
 | Reprise dev | [REPRISE_PROJET.md](REPRISE_PROJET.md) | Prioritaire |
 | Technique Wear OS | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Décidé / expérimental |
 | Publication | [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md) | Bloquant |
@@ -47,6 +48,7 @@
 | --- | --- |
 | Comprendre le projet | [README projet](../README.md) |
 | Installer et tester | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) |
+| Concevoir le parcours montre sans Store | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) |
 | Donner une version courte à un utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) |
 | Reprendre le développement | [REPRISE_PROJET.md](REPRISE_PROJET.md) |
 | Comprendre la sync, Dexcom et le direct capteur | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) |
@@ -60,6 +62,8 @@
 | --- | --- |
 | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Résumé utilisateur : installer, connecter, tester |
 | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Parcours complet : mobile, Wear OS, Dexcom, statuts |
+| [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | APK mobile unique, notification montre et Wear natif en option avancée |
+| [PLAN_INSTALLATION_DISTANTE_WEAR.md](PLAN_INSTALLATION_DISTANTE_WEAR.md) | Plan de lots pour rendre l'installation distante viable |
 | [AVERTISSEMENT_MEDICAL.md](AVERTISSEMENT_MEDICAL.md) | Limites médicales à afficher et conserver |
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | Historique court des changements et validations |
 
