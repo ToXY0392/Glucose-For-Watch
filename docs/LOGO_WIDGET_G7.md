@@ -121,28 +121,27 @@ le logo ne doit pas prendre la place de la glycémie, de l'unité ou du bouton s
 | Blanc interne | `#FFFFFF` |
 | Fond | `#FFFFFF` / `#F7FBFA` |
 
-Ces valeurs sont indicatives tant que le fichier source officiel du logo n'est pas extrait.
+Ces valeurs sont indicatives ; le rendu de référence reste le PNG officiel (`logo_widget_g7_official.png`).
 
 ---
 
-## Besoin Asset
+## Assets
 
-À produire et stocker :
+Stockage documentaire :
 
 ```text
 docs/assets/logo-widget-g7.png
-docs/assets/logo-widget-g7.svg
-mobile/src/main/res/drawable/logo_widget_g7.*
-mobile/src/main/res/mipmap-*/ic_launcher.*
 ```
 
-Priorité :
+Ce fichier est une copie de `mobile/src/main/res/drawable-nodpi/logo_widget_g7_official.png` (même source que la présentation).
 
-1. extraire ou recréer proprement le logo officiel ;
-2. générer une version PNG haute résolution ;
-3. générer une version vectorielle si possible ;
-4. remplacer les variantes anciennes dans l'app ;
-5. vérifier mobile, splash, doc et icône launcher.
+Encore optionnel :
+
+```text
+docs/assets/logo-widget-g7.svg
+```
+
+Aligner les `ic_launcher` sur le symbole officiel reste une passe produit séparée si souhaité.
 
 ---
 

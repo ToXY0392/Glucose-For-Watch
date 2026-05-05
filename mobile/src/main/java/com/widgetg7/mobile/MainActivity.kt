@@ -2,6 +2,7 @@ package com.widgetg7.mobile
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.ScrollView
@@ -42,11 +44,10 @@ class MainActivity : AppCompatActivity() {
     private var baseScrollPaddingBottom = 0
 
     private lateinit var watchSettingsButton: ImageButton
-    private lateinit var homeHeadlineText: TextView
-    private lateinit var homeSupportText: TextView
-    private lateinit var installCardStatus: TextView
-    private lateinit var syncCardStatus: TextView
-    private lateinit var ackCardStatus: TextView
+    private lateinit var homeStatusPill: TextView
+    private lateinit var installChevron: ImageView
+    private lateinit var syncChevron: ImageView
+    private lateinit var ackChevron: ImageView
     private lateinit var watchRefreshButton: MaterialButton
     private lateinit var openNoticeButton: TextView
     private lateinit var watchActionRow: LinearLayout
@@ -73,11 +74,10 @@ class MainActivity : AppCompatActivity() {
         ViewCompat.requestApplyInsets(mainScrollView)
 
         watchSettingsButton = findViewById(R.id.watchSettingsButton)
-        homeHeadlineText = findViewById(R.id.homeHeadlineText)
-        homeSupportText = findViewById(R.id.homeSupportText)
-        installCardStatus = findViewById(R.id.installCardStatus)
-        syncCardStatus = findViewById(R.id.syncCardStatus)
-        ackCardStatus = findViewById(R.id.ackCardStatus)
+        homeStatusPill = findViewById(R.id.homeStatusPill)
+        installChevron = findViewById(R.id.installChevron)
+        syncChevron = findViewById(R.id.syncChevron)
+        ackChevron = findViewById(R.id.ackChevron)
         watchRefreshButton = findViewById(R.id.watchRefreshButton)
         openNoticeButton = findViewById(R.id.openNoticeButton)
         watchActionRow = findViewById(R.id.watchActionRow)
@@ -103,40 +103,60 @@ class MainActivity : AppCompatActivity() {
         val watchHealth = WatchSyncHealthRepository(this).load()
         val syncStatus = SyncStatusRepository(this).load()
 
-        applySyncStatus(dexcomConfigured, syncStatus)
-
         lifecycleScope.launch {
             val watchStatus = WatchConnectionRepository(this@MainActivity).loadStatus()
-            applyWatchStatus(watchStatus, watchHealth, syncStatus)
+            updateHomeStatusPill(dexcomConfigured, syncStatus, watchStatus, watchHealth)
+            updateStepChevrons(dexcomConfigured, syncStatus, watchStatus, watchHealth)
         }
     }
 
-    private fun applyWatchStatus(
+    private fun updateHomeStatusPill(
+        dexcomConfigured: Boolean,
+        syncStatus: SyncStatusSnapshot,
         watchStatus: WatchConnectionStatus,
         watchHealth: WatchSyncHealthStatus?,
-        syncStatus: SyncStatusSnapshot,
     ) {
-        homeHeadlineText.text = "Widget G7"
-        homeSupportText.text = when {
-            watchHealth?.appInstalled == true ->
-                "Widget G7 Wear repond. Tile et complication peuvent etre configurees."
-            watchStatus.connected ->
-                "La montre est connectee. Installez Widget G7 Wear pour activer tile et complication."
-            else ->
-                "Connectez une montre Wear OS pour installer Widget G7 Wear."
-        }
+        val activeSync = AppSettingsStore(this).isActiveSyncEnabled()
+        val watchReady = watchHealth?.appInstalled == true && !(watchHealth.syncLimited)
+        val pillText =
+            when {
+                !dexcomConfigured -> "Dexcom · menu"
+                !watchStatus.connected -> "Pas de montre"
+                !watchReady -> "Installer app Wear"
+                syncStatus.lastError.isNotBlank() ->
+                    "Sync · ${truncateForStatusPill(syncStatus.lastError)}"
+                hasWatchAck() && activeSync -> "OK · confirmé"
+                activeSync && syncStatus.hasSuccessfulSync() -> "Sync active"
+                else -> "Prêt · sync"
+            }
+        homeStatusPill.text = pillText
+    }
 
-        installCardStatus.text = when {
-            !watchStatus.connected -> "Aucune montre Wear OS detectee"
-            watchHealth?.appInstalled == true && watchHealth.supportsTile && watchHealth.supportsComplication ->
-                "Installe - tile et complication disponibles"
-            watchHealth?.appInstalled == true -> "Installe - verification des surfaces en cours"
-            else -> "App montre absente ou pas encore verifiee"
-        }
-        installCardStatus.setTextColor(statusColor(watchHealth?.appInstalled == true && !watchHealth.syncLimited))
+    private fun truncateForStatusPill(raw: String, maxLen: Int = 30): String {
+        val t = raw.trim()
+        if (t.length <= maxLen) return t
+        return t.take(maxLen - 1).trimEnd { !it.isLetterOrDigit() } + "…"
+    }
 
-        ackCardStatus.text = ackSummary(syncStatus)
-        ackCardStatus.setTextColor(statusColor(hasWatchAck()))
+    private fun updateStepChevrons(
+        dexcomConfigured: Boolean,
+        syncStatus: SyncStatusSnapshot,
+        watchStatus: WatchConnectionStatus,
+        watchHealth: WatchSyncHealthStatus?,
+    ) {
+        fun tintChevron(view: ImageView, ok: Boolean) {
+            view.imageTintList =
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        this,
+                        if (ok) R.color.wg7_accent else R.color.wg7_text_secondary,
+                    ),
+                )
+        }
+        val installOk = watchHealth?.appInstalled == true && !watchHealth.syncLimited
+        tintChevron(installChevron, installOk)
+        tintChevron(syncChevron, dexcomConfigured && syncStatus.lastError.isBlank())
+        tintChevron(ackChevron, hasWatchAck())
     }
 
     private suspend fun runManualSync() {
@@ -169,39 +189,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun applySyncStatus(
-        dexcomConfigured: Boolean,
-        syncStatus: SyncStatusSnapshot,
-    ) {
-        syncCardStatus.text = when {
-            !dexcomConfigured -> "Dexcom a configurer"
-            syncStatus.lastError.isNotBlank() -> syncStatus.lastError
-            syncStatus.hasSuccessfulSync() -> "Dernier envoi ${ageLabel(syncStatus.lastSyncEpochMs)}"
-            AppSettingsStore(this).isActiveSyncEnabled() -> "Sync active"
-            else -> "Pret a synchroniser"
-        }
-        syncCardStatus.setTextColor(statusColor(dexcomConfigured && syncStatus.lastError.isBlank()))
-    }
-
-    private fun ackSummary(syncStatus: SyncStatusSnapshot): String =
-        when {
-            hasWatchAck() -> "Montre confirmee"
-            syncStatus.hasSuccessfulSync() -> "Livraison montre en cours"
-            else -> "Aucun ack pour le moment"
-        }
-
     private fun hasWatchAck(): Boolean {
         val state = PhoneSyncStateStore(this).load()
         return state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L
-    }
-
-    private fun ageLabel(epochMs: Long): String {
-        val minutes = ((System.currentTimeMillis() - epochMs).coerceAtLeast(0L) / 60_000L)
-        return when (minutes) {
-            0L -> "a l'instant"
-            1L -> "il y a 1 min"
-            else -> "il y a $minutes min"
-        }
     }
 
     private fun showHomeMenu() {
@@ -264,9 +254,6 @@ class MainActivity : AppCompatActivity() {
             // No settings activity available on this device.
         }
     }
-
-    private fun statusColor(ok: Boolean): Int =
-        ContextCompat.getColor(this, if (ok) R.color.wg7_accent_dark else R.color.wg7_text_secondary)
 
     override fun onDestroy() {
         homeMenuPopup?.dismiss()

@@ -17,9 +17,19 @@
         android:paddingEnd="20dp"
         android:paddingBottom="22dp">
 
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="98dp"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:contentDescription="Widget G7"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_widget_g7_official" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:text="Dexcom"
             android:textColor="@color/wg7_text_primary"
             android:textSize="30sp"
@@ -95,20 +105,36 @@
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:labelFor="@id/dexcomServerInput"
+                    android:text="Région"
+                    android:textColor="@color/wg7_text_secondary"
+                    android:textSize="14sp" />
+
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.WidgetG7.InputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Region"
-                    app:endIconMode="dropdown_menu">
+                    android:layout_marginTop="6dp"
+                    app:endIconMode="dropdown_menu"
+                    app:hintEnabled="false">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/dexcomServerInput"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
                         android:inputType="none"
-                        android:paddingStart="12dp" />
+                        android:minHeight="56dp"
+                        android:paddingStart="16dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="8dp"
+                        android:textColor="@color/wg7_text_primary"
+                        android:textSize="16sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView

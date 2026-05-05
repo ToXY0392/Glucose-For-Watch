@@ -11,10 +11,20 @@
     android:paddingEnd="20dp"
     android:paddingBottom="24dp">
 
+    <ImageView
+        android:layout_width="140dp"
+        android:layout_height="98dp"
+        android:layout_gravity="center_horizontal"
+        android:adjustViewBounds="true"
+        android:contentDescription="Widget G7"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo_widget_g7_official" />
+
     <com.google.android.material.card.MaterialCardView
         style="@style/Widget.WidgetG7.SectionCard"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="14dp"
         android:layout_weight="1">
 
         <ScrollView

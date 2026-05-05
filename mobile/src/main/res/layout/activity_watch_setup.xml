@@ -16,9 +16,19 @@
         android:paddingEnd="20dp"
         android:paddingBottom="22dp">
 
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="98dp"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:contentDescription="Widget G7"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_widget_g7_official" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:text="Montre"
             android:textColor="@color/wg7_text_primary"
             android:textSize="30sp"

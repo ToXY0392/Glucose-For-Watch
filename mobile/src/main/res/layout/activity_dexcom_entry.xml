@@ -16,9 +16,18 @@
         android:paddingEnd="22dp"
         android:paddingBottom="24dp">
 
+        <ImageView
+            android:layout_width="140dp"
+            android:layout_height="98dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="Widget G7"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo_widget_g7_official" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:gravity="center"
             android:text="Connexion Dexcom"
             android:textColor="@color/wg7_text_primary"

@@ -18,10 +18,13 @@ La montre est la surface de lecture : app Wear, tile, complication.
 Référence :
 
 - [presentation-apk-widget-g7.png](assets/presentation-apk-widget-g7.png)
+- [logo-widget-g7.png](assets/logo-widget-g7.png)
 - [LOGO_WIDGET_G7.md](LOGO_WIDGET_G7.md)
 - [DESIGN_MOBILE_VERROUILLE.md](DESIGN_MOBILE_VERROUILLE.md)
+- [DESIGN_TILE_WEAR_VERROUILLE.md](DESIGN_TILE_WEAR_VERROUILLE.md)
 
 Pour l'APK mobile, `DESIGN_MOBILE_VERROUILLE.md` est prioritaire.
+Pour la tile Wear OS, `DESIGN_TILE_WEAR_VERROUILLE.md` est prioritaire.
 
 ---
 
@@ -109,9 +112,10 @@ Palette cible :
 | `wg7_accent` | `#198C6C` | actions |
 | `wg7_accent_dark` | `#0B4A3D` | titres / icônes fortes |
 | `wg7_accent_soft` | `#DDF3EC` | pastilles |
-| `wg7_watch_bg` | `#062A24` | fond Wear |
-| `wg7_watch_ring` | `#61E692` | anneau Wear |
+| `wg7_watch_bg` | `#062A24` | fond app Wear (lecture) |
+| `wg7_watch_ring` | `#61E692` | anneau **app Wear** si present ; **pas** sur la tile |
 | `wg7_watch_text` | `#FFFFFF` | valeur Wear |
+| (tile) | `#0A1A16` / `#F7FBFA` / `#35E995` | voir `DESIGN_TILE_WEAR_VERROUILLE.md` |
 
 ---
 
@@ -211,7 +215,7 @@ Couleurs :
 
 ## Tile Wear OS
 
-La tile doit être la surface prioritaire.
+La tile est **verrouillee** : la spec execution est [DESIGN_TILE_WEAR_VERROUILLE.md](DESIGN_TILE_WEAR_VERROUILLE.md) (prioritaire sur ce paragraphe).
 
 Objectif :
 
@@ -219,15 +223,15 @@ Objectif :
 Lire la valeur en moins d'une seconde.
 ```
 
-Design cible :
+Design retenu (simple, pas de ring) :
 
 ```text
-fond vert sombre
-valeur très grande
-unité juste dessous
-anneau ou arc vert autour si possible
-status court en bas
-bouton icône sync discret mais visible
+fond plein sombre (#0A1A16)
+valeur tres grande centree
+ligne mg/dL + fleche tendance en dessous
+icone refresh seule (zone tactile invisible, sans bulle)
+pas d'anneau ni arc autour de la valeur
+pas de status long en bas
 aucun logo
 ```
 
@@ -236,36 +240,33 @@ Contenu :
 | Priorité | Élément |
 | --- | --- |
 | 1 | Valeur |
-| 2 | Unité |
-| 3 | Tendance |
-| 4 | Fraîcheur |
-| 5 | Bouton icône sync manuel |
+| 2 | Unité + tendance (meme ligne) |
+| 3 | Bouton icône sync (secondaire) |
 
 Bouton sync :
 
 | Élément | Règle |
 | --- | --- |
-| Forme | rond ou pastille ronde |
-| Icône | flèche circulaire / refresh |
-| Position | bas de tile, sous la valeur |
-| Taille | visuel compact 28-32dp, zone tactile 40dp si possible |
-| Couleur | vert doux sur fond sombre |
-| Action | déclenche `/glucose/refresh/request` |
-| Texte | aucun texte si l'icône est claire |
+| Forme | icone seule |
+| Icône | refresh (asset `ic_tile_refresh_reference`) |
+| Position | sous la ligne unite/tendance |
+| Taille | icone ~24dp, zone tactile elargie sans feedback visuel |
+| Couleur | alignee `#35E995` |
+| Action | message Data Layer refresh |
+| Texte | aucun (pas de mot SYNC) |
 | Hiérarchie | toujours secondaire face à la valeur |
 
-À modifier dans :
+Implementation :
 
 - `wear/src/main/java/com/widgetg7/wear/tile/GlucoseTileService.kt`
 
 Règles :
 
 ```text
-remplacer le style clair actuel par un style sombre Wear
-supprimer les textes longs
-garder une seule action : bouton icône sync
-augmenter la valeur autour de 48sp si l'espace le permet
-le bouton sync ne doit jamais rivaliser avec la valeur
+style sombre Wear simple
+pas d'anneau vert autour de la valeur
+pas de texte long ni phrase de statut
+une seule action visible : icone refresh
 ne pas afficher le logo Widget G7 dans la tile
 ```
 
@@ -318,8 +319,8 @@ donnée ancienne explicite mais courte
 | `WearGlucoseValueBlock` | valeur + unité |
 | `WearStatusLine` | fraîcheur / tendance |
 | `WearRefreshAction` | tap refresh |
-| `WearSyncIconButton` | bouton manuel sync sur la tile |
-| `WearRingFrame` | anneau autour de la valeur |
+| `WearSyncIconButton` | bouton manuel sync sur la tile (icone seule) |
+| `WearRingFrame` | **app Wear uniquement** ; pas sur la tile verrouillee |
 
 ---
 
@@ -332,7 +333,7 @@ donnée ancienne explicite mais courte
 | Mobile | Aucune bulle vert clair derrière les icônes |
 | Wear app | La valeur est le centre absolu |
 | Tile | Lisible en un coup d'œil |
-| Tile | Bouton sync manuel visible et touchable |
+| Tile | Icône refresh presente, zone tactile fiable, sans decor bulle/anneau |
 | Complication | Lisible sur cadran sombre ou clair |
 | Ensemble | Même vert, mêmes arrondis, même calme visuel que la présentation |
 
@@ -340,12 +341,14 @@ donnée ancienne explicite mais courte
 
 ## Ordre D'Implémentation Design
 
-1. Refaire l'écran `WatchSetupActivity` en assistant à trois cartes.
-2. Ajouter l'écran `WearInstallerActivity` avec le même style.
-3. Refaire la tile en thème sombre vert.
-4. Ajuster les complications pour être plus compactes.
-5. Ajouter un écran Wear app si nécessaire autour du même bloc valeur.
-6. Tester sur téléphone et montre réelle.
+Etat actuel (a maintenir et valider sur appareils) :
+
+1. Accueil mobile verrouille : trois cartes + logo officiel (`DESIGN_MOBILE_VERROUILLE.md`).
+2. Splash + ecrans secondaires mobile : logo officiel en entete et sur le theme lanceur.
+3. Tile Wear : version simple verrouillee sans anneau (`DESIGN_TILE_WEAR_VERROUILLE.md`).
+4. Complication : minimaliste, pas de logo.
+5. App Wear : coherence sombre avec la valeur prioritaire ; anneau seulement si l'app l'expose encore, jamais sur la tile.
+6. Tester sur telephone et montre reelle ; mettre a jour la presentation si le visuel diverge.
 
 ---
 

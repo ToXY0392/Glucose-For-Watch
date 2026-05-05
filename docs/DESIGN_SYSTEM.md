@@ -79,13 +79,17 @@ Le logo est verrouillé : goutte vert dégradé avec `G7` au centre + texte `Wid
 
 ## 📱 Écrans
 
+Regles detaillees : [DESIGN_MOBILE_VERROUILLE.md](DESIGN_MOBILE_VERROUILLE.md) (mobile), [DESIGN_TILE_WEAR_VERROUILLE.md](DESIGN_TILE_WEAR_VERROUILLE.md) (tile).
+
 | Écran | Objectif | Contenu |
 | --- | --- | --- |
-| Accueil | Voir l'état montre | Montre, statut, `Synchroniser` |
-| Connexion Dexcom | Configurer Dexcom Share | Identifiants, région, juridique |
-| Montre | Vérifier la liaison | Détection, montre principale, test, batterie |
+| Splash | Lancer l'app | Fond clair + logo officiel centre |
+| Accueil | Voir l'état montre | Logo + trois cartes (Installer / Sync / Ack) |
+| Connexion Dexcom | Configurer Dexcom Share | Logo entete, identifiants, région, juridique |
+| Montre | Vérifier la liaison | Logo entete, détection, test, batterie |
 | Wear | Lire vite | Valeur, tendance, fraîcheur, refresh |
-| Notice | Rassurer et guider | Texte court, avertissement clair |
+| Notice | Rassurer et guider | Logo entete, texte court, avertissement clair |
+| Juridique | Lire un document | Logo entete + contenu scrollable |
 
 ---
 
@@ -116,6 +120,9 @@ retour simple vers Sync téléphone
 ## 🖼️ Références
 
 - [LOGO_WIDGET_G7.md](LOGO_WIDGET_G7.md)
+- [DESIGN_MOBILE_VERROUILLE.md](DESIGN_MOBILE_VERROUILLE.md)
+- [DESIGN_TILE_WEAR_VERROUILLE.md](DESIGN_TILE_WEAR_VERROUILLE.md)
 - [DESIGN_CIBLE_APP_ET_WEAR.md](DESIGN_CIBLE_APP_ET_WEAR.md)
 - [presentation-apk-widget-g7.png](assets/presentation-apk-widget-g7.png)
+- [logo-widget-g7.png](assets/logo-widget-g7.png)
 - [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png)

@@ -108,7 +108,9 @@ tant que le spike BLE Pixel Watch 2 n'est pas concluant.
 | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Direction visuelle, composants, messages |
 | [LOGO_WIDGET_G7.md](LOGO_WIDGET_G7.md) | Logo officiel et règles d'usage |
 | [DESIGN_MOBILE_VERROUILLE.md](DESIGN_MOBILE_VERROUILLE.md) | Design verrouille de l'APK mobile |
+| [DESIGN_TILE_WEAR_VERROUILLE.md](DESIGN_TILE_WEAR_VERROUILLE.md) | Design verrouille de la tile Wear OS |
 | [DESIGN_CIBLE_APP_ET_WEAR.md](DESIGN_CIBLE_APP_ET_WEAR.md) | Spécification du design cible mobile, Wear, tile et complication |
+| [assets/logo-widget-g7.png](assets/logo-widget-g7.png) | PNG officiel (copie doc, aligné sur l'APK) |
 | [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png) | Référence visuelle récente |
 
 ---
