@@ -212,7 +212,7 @@ décision : go / retry / stop
 
 ## Assistant installation montre (APK mobile)
 
-Le téléphone propose un assistant pour installer l’app Wear sans Play Store : jumelage **ADB Wi‑Fi** (bibliothèque Kadb), puis envoi de l’APK Wear **embarqué** dans l’APK mobile ; un partage de fichier reste possible en secours.
+Le téléphone propose un assistant pour installer l’app Wear sans Play Store : jumelage **ADB Wi‑Fi** (bibliothèque Kadb), puis envoi de l’APK Wear **embarqué** dans l’APK mobile (pas de parcours « envoyer un fichier » depuis l’assistant). L’interface vise un **parcours lisible** (gros texte, champs empilés, libellés rassurants, vocabulaire simple pour public senior ou aidé).
 
 | Élément | Détail |
 | --- | --- |

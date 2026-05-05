@@ -1,7 +1,6 @@
 package com.widgetg7.mobile.ui
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -20,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.watch.install.WearDirectAdbInstaller
@@ -33,17 +31,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/**
- * Aide à installer l’app montre : installation directe (ADB Wi‑Fi via Kadb),
- * ou partage du fichier embarqué en secours.
- */
+/** Aide à installer l’app montre : installation directe (ADB Wi‑Fi via Kadb). */
 class WearInstallerActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
 
     private lateinit var installerScroll: ScrollView
     private lateinit var directSection: View
     private lateinit var embeddedRepo: WearEmbeddedApkRepository
-    private lateinit var shareButton: MaterialButton
+    private lateinit var embeddedInfo: TextView
     private lateinit var pairButton: MaterialButton
     private lateinit var installDirectButton: MaterialButton
     private lateinit var ocrButton: MaterialButton
@@ -104,8 +99,7 @@ class WearInstallerActivity : AppCompatActivity() {
 
         findViewById<ImageButton>(R.id.wearInstallerBack).setOnClickListener { finish() }
 
-        val infoText = findViewById<TextView>(R.id.wearInstallerApkInfo)
-        shareButton = findViewById(R.id.wearInstallerShareApk)
+        embeddedInfo = findViewById(R.id.wearInstallerEmbeddedInfo)
 
         ipInput = findViewById(R.id.wearInstallerDirectIpInput)
         pairPortInput = findViewById(R.id.wearInstallerDirectPairPortInput)
@@ -122,15 +116,12 @@ class WearInstallerActivity : AppCompatActivity() {
         ocrButton.setOnClickListener { showWearOcrSourceDialog() }
 
         if (embeddedRepo.embeddedApkAvailable()) {
-            val size = embeddedRepo.embeddedFileSizeBytes()?.let(WearEmbeddedApkRepository::formatSize) ?: "—"
-            infoText.text = getString(R.string.wear_install_apk_info_simple, size)
-            shareButton.visibility = View.VISIBLE
-            shareButton.setOnClickListener { shareEmbeddedApk() }
+            embeddedInfo.visibility = View.GONE
             installDirectButton.isEnabled = true
             installDirectButton.alpha = 1f
         } else {
-            infoText.text = getString(R.string.wear_install_apk_missing)
-            shareButton.visibility = View.GONE
+            embeddedInfo.text = getString(R.string.wear_install_apk_missing)
+            embeddedInfo.visibility = View.VISIBLE
             installDirectButton.isEnabled = false
             installDirectButton.alpha = 0.5f
         }
@@ -198,7 +189,6 @@ class WearInstallerActivity : AppCompatActivity() {
         pairButton.isEnabled = !busy
         ocrButton.isEnabled = !busy
         installDirectButton.isEnabled = !busy && embeddedRepo.embeddedApkAvailable()
-        shareButton.isEnabled = !busy && embeddedRepo.embeddedApkAvailable()
         directProgress.visibility = if (busy) View.VISIBLE else View.GONE
     }
 
@@ -345,30 +335,5 @@ class WearInstallerActivity : AppCompatActivity() {
                 if (error) R.color.wg7_danger else R.color.wg7_accent_dark,
             ),
         )
-    }
-
-    private fun shareEmbeddedApk() {
-        val file = embeddedRepo.copyToCacheForShare()
-        if (file == null || !file.exists()) {
-            Snackbar.make(
-                findViewById(android.R.id.content),
-                getString(R.string.wear_install_share_error),
-                Snackbar.LENGTH_LONG,
-            ).show()
-            return
-        }
-        val uri =
-            FileProvider.getUriForFile(
-                this,
-                "${packageName}.fileprovider",
-                file,
-            )
-        val send = Intent(Intent.ACTION_SEND).apply {
-            type = "application/vnd.android.package-archive"
-            putExtra(Intent.EXTRA_STREAM, uri)
-            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            putExtra(Intent.EXTRA_SUBJECT, getString(R.string.wear_install_share_subject))
-        }
-        startActivity(Intent.createChooser(send, getString(R.string.wear_install_share_chooser)))
     }
 }
