@@ -1,27 +1,34 @@
-# Android/Gradle
+# Android / Gradle
 .gradle/
 build/
-*/build/
+**/build/
+
+# Secrets et machine locale — ne pas commiter (SDK, séries adb, surcharge locale)
 local.properties
-gradle.properties
 
 # IDE
 .idea/
 *.iml
 
-# Keystore / secrets
+# Keystore
 *.jks
 *.keystore
 
-# Legal documents kept local
+# Legal / contenu gardé hors dépôt (voir docs)
 docs/CGU.md
 mobile/src/main/res/raw/cgu.txt
+
+# Cache compilateur Kotlin (bruit IDE, régénéré)
+.kotlin/
+
+# Métadonnées tooling Android sous la racine du projet
+.android/
 
 # OS
 .DS_Store
 Thumbs.db
 
-# Local tooling caches used in this workspace
+# Outils locaux hors repo
 .android-home/
 .g2/
 .gradle-user/

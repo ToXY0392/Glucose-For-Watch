@@ -32,6 +32,7 @@
 
 | Zone | Source de vérité | Statut |
 | --- | --- | --- |
+| Arborescence code / doc | [STRUCTURE_REPO.md](STRUCTURE_REPO.md) | Référence rapide |
 | Produit | [README projet](../README.md) | Présentation |
 | Présentation APK | [PRESENTATION_APK.md](PRESENTATION_APK.md) | Visuel |
 | Utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Court |
@@ -39,7 +40,7 @@
 | Installation montre | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | Sans Store |
 | Reprise dev | [REPRISE_PROJET.md](REPRISE_PROJET.md) | Prioritaire |
 | Retours APK mobile (cases à cocher) | [MOBILE_APK_RETOURS.md](MOBILE_APK_RETOURS.md) | Feedback rapide |
-| Technique Wear OS | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync, assistant install (ADB ; OCR en pause), expérimental = direct capteur |
+| Technique Wear OS | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync, assistant install (ADB + OCR photo à valider en conditions réelles), expérimental = direct capteur |
 | Publication | [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md) | Bloquant |
 
 ---
@@ -48,6 +49,7 @@
 
 | Besoin | Lire |
 | --- | --- |
+| Voir où est quoi dans le repo | [STRUCTURE_REPO.md](STRUCTURE_REPO.md) |
 | Comprendre le projet | [README projet](../README.md) |
 | Présenter l'APK visuellement | [PRESENTATION_APK.md](PRESENTATION_APK.md) |
 | Installer et tester | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) |
@@ -55,7 +57,7 @@
 | Donner une version courte à un utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) |
 | Reprendre le développement | [REPRISE_PROJET.md](REPRISE_PROJET.md) |
 | Signaler ce qui ne va pas sur l’APK mobile | [MOBILE_APK_RETOURS.md](MOBILE_APK_RETOURS.md) |
-| Comprendre la sync, Dexcom, l'assistant install montre (et l'OCR en pause), le direct capteur | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) |
+| Comprendre la sync, Dexcom, l'assistant install montre (ADB + OCR), le direct capteur | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) |
 | Préparer une diffusion | [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md) |
 
 ---
@@ -79,7 +81,7 @@
 
 | Document | Rôle |
 | --- | --- |
-| [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync principale, assistant installation montre (ADB ; OCR photo en pause), direct capteur et spike BLE |
+| [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync principale, assistant installation montre (ADB ; OCR photo + parseur ligne par ligne — toujours vérifier les champs), direct capteur et spike BLE |
 | [REPRISE_PROJET.md](REPRISE_PROJET.md) | État actuel, fichiers clés, prochaines vérifications |
 | [../COMPATIBILITY.md](../COMPATIBILITY.md) | Compatibilité Android et montres Wear OS |
 

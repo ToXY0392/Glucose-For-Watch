@@ -15,6 +15,8 @@
 | Constat | Remplissage automatique **insuffisamment fiable** sur captures réelles |
 | Attendu | Saisie manuelle depuis l’écran montre ; piste OCR à reprendre si besoin (cf. [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)) |
 
+*(Suite mai 2026)* : parseur OCR renforcé ligne par ligne + prétraitement IP ; doc alignée ([STRUCTURE_REPO.md](STRUCTURE_REPO.md), hygiène `.kotlin/` ignoré). Toujours vérifier les champs après photo.
+
 ---
 
 ## 🟢 Console

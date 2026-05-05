@@ -218,7 +218,7 @@ Le téléphone propose un assistant pour installer l’app Wear sans Play Store 
 | --- | --- |
 | Jumelage / install | `WearDirectAdbInstaller` (pair + `install`) |
 | APK embarqué | Copié en assets au build debug (`WearEmbeddedApkRepository`) |
-| **OCR photo** | Bouton « Remplir depuis une photo » : reconnaissance de texte (**ML Kit**) pour préremplir IP, ports et code. **Développement mis en pause (mai 2026)** : en pratique le remplissage automatique reste **peu fiable** (qualité de capture, mise en page écran montre, ambiguïtés sur les ports). **Tant que ce n’est pas repris** : traiter le bouton comme une aide optionnelle et privilégier la **saisie manuelle** depuis l’écran de la montre. |
+| **OCR photo** | Bouton « Remplir depuis une photo » : **ML Kit** + parseur (lignes IP / port jumelage / code, repérage des libellés « IP & port » et débogage Wi‑Fi). Toujours **contrôler visuellement** IP et les deux ports (inversion encore possible selon la capture). Priorité produit : lisibilité de l’écran montre et saisie manuelle en secours. |
 
 Fichiers utiles :
 
@@ -230,7 +230,7 @@ mobile/src/main/java/com/widgetg7/mobile/watch/install/WearInstallOcr.kt
 mobile/src/main/java/com/widgetg7/mobile/watch/install/WearInstallOcrParser.kt
 ```
 
-Si reprise plus tard : collecter des captures réelles des écrans Wear OS (jumelage + « adresse IP et port »), affiner le parseur ou envisager recadrage / autre pipeline OCR.
+Amélioration continue : jeu de captures Wear OS réelles pour ajuster encore le parseur ou un pré-recadrage.
 
 ---
 

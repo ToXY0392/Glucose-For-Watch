@@ -91,7 +91,7 @@ la montre affiche
 .\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
 ```
 
-Voir aussi : [COMPATIBILITY.md](COMPATIBILITY.md)
+Voir aussi : [COMPATIBILITY.md](COMPATIBILITY.md) · **[Structure du dépôt](docs/STRUCTURE_REPO.md)** (où vit le code, la doc et les modules).
 
 ---
 
@@ -136,6 +136,7 @@ La montre peut demander un refresh, mais elle ne lit pas directement le capteur 
 
 | Document | Usage |
 | --- | --- |
+| [Structure du dépôt](docs/STRUCTURE_REPO.md) | Arborescence `mobile/` / `wear/` / sync / doc |
 | [Index documentation](docs/INDEX.md) | Choisir le bon document selon le besoin |
 | [Présentation APK](docs/PRESENTATION_APK.md) | Support visuel pour expliquer l'application |
 | [Notice rapide](docs/NOTICE_UTILISATEUR.md) | Lire l'essentiel côté utilisateur |
