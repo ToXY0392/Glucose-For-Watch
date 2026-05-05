@@ -1,1 +1,1 @@
-﻿
+﻿-keep class * extends androidx.wear.tiles.TileService { *; }

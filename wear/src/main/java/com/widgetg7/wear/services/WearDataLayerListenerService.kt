@@ -15,7 +15,7 @@ import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.data.GlucoseSnapshot
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
-import com.widgetg7.wear.tile.GlucoseTileService
+import com.widgetg7.wear.tile.GlucoseSimpleTileService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -82,7 +82,7 @@ class WearDataLayerListenerService : WearableListenerService() {
     }
 
     private fun requestSurfaceUpdates() {
-        TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+        TileService.getUpdater(this).requestUpdate(GlucoseSimpleTileService::class.java)
 
         try {
             ComplicationDataSourceUpdateRequester

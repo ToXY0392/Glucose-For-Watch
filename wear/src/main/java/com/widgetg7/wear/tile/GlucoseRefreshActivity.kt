@@ -14,6 +14,8 @@ import com.widgetg7.wear.sync.WatchSyncHealthMonitor
 class GlucoseRefreshActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        @Suppress("DEPRECATION")
+        overridePendingTransition(0, 0)
 
         val cache = GlucoseCache(this)
         val healthMonitor = WatchSyncHealthMonitor(this)
@@ -28,32 +30,38 @@ class GlucoseRefreshActivity : Activity() {
                     cache.markRefreshFailed("Téléphone indisponible")
                     healthMonitor.updateAndReport()
                     requestSurfaceUpdates()
-                    finish()
+                    finishNoAnim()
                     return@addOnSuccessListener
                 }
 
                 Wearable.getMessageClient(this)
                     .sendMessage(node.id, GlucoseKeys.PATH_REFRESH_REQUEST, ByteArray(0))
                     .addOnSuccessListener {
-                        finish()
+                        finishNoAnim()
                     }
                     .addOnFailureListener {
                         cache.markRefreshFailed("Echec de synchro")
                         healthMonitor.updateAndReport()
                         requestSurfaceUpdates()
-                        finish()
+                        finishNoAnim()
                     }
             }
             .addOnFailureListener {
                 cache.markRefreshFailed("Téléphone indisponible")
                 healthMonitor.updateAndReport()
                 requestSurfaceUpdates()
-                finish()
+                finishNoAnim()
             }
     }
 
+    private fun finishNoAnim() {
+        finish()
+        @Suppress("DEPRECATION")
+        overridePendingTransition(0, 0)
+    }
+
     private fun requestSurfaceUpdates() {
-        TileService.getUpdater(this).requestUpdate(GlucoseTileService::class.java)
+        TileService.getUpdater(this).requestUpdate(GlucoseSimpleTileService::class.java)
         ComplicationDataSourceUpdateRequester
             .create(this, ComponentName(this, GlucoseComplicationService::class.java))
             .requestUpdateAll()

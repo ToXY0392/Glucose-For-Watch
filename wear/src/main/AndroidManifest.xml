@@ -5,13 +5,26 @@
 
     <application
         android:allowBackup="false"
-        android:label="Widget G7"
+        android:icon="@drawable/tile_glucose_preview"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/tile_glucose_preview"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault">
+        android:theme="@style/Theme.WidgetG7.Wear">
 
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="false" />
+
+        <activity
+            android:name=".WearMainActivity"
+            android:exported="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.WidgetG7.Wear">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".tile.GlucoseRefreshActivity"
@@ -71,13 +84,18 @@
         </service>
 
         <service
-            android:name=".tile.GlucoseTileService"
+            android:name=".tile.GlucoseSimpleTileService"
+            android:description="@string/tile_glucose_simple_description"
             android:exported="true"
-            android:label="Glucose Tile"
+            android:icon="@drawable/tile_glucose_preview"
+            android:label="@string/tile_glucose_simple_label"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
+            <meta-data
+                android:name="androidx.wear.tiles.PREVIEW"
+                android:resource="@drawable/tile_glucose_preview" />
         </service>
 
     </application>

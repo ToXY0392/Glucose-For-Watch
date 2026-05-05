@@ -35,16 +35,18 @@ wear/src/main/java/com/widgetg7/wear/tile/GlucoseTileService.kt
 Version de ressources verrouillee au moment de cette decision :
 
 ```text
-RESOURCES_VERSION = "18-maquette-flat-bg"
+RESOURCES_VERSION = "21-primary-layout-safe-zones"
 ```
 
-Icone refresh (bitmap embarque dans la tile, pas decoratif) :
+Structure : [PrimaryLayout](https://developer.android.com/reference/kotlin/androidx/wear/protolayout/material/layouts/PrimaryLayout) avec `deviceConfiguration` de la requête, `setResponsiveContentInsetEnabled(true)` (marges / cadrage écran rond). Contenu : colonne valeur + `mg/dL` + tendance. Bas : pseudo chip (Boîte + `↻`) avec `launchAction` → `GlucoseRefreshActivity`. Fond plein : `Box` racine avec la couleur tile.
+
+Si `deviceConfiguration` est absent : tile de repli (colonne + spacers `expand` comme avant).
+
+Référence PNG historique (non utilisée dans la timeline tile actuelle) :
 
 ```text
 wear/src/main/res/drawable-nodpi/ic_tile_refresh_reference.png
 ```
-
-Mappee dans `onTileResourcesRequest` sous l'id logique `tile_refresh_reference`.
 
 ---
 
@@ -113,7 +115,9 @@ ne pas transformer la tile en dashboard
 
 Un carre noir peut apparaitre pendant l'ouverture/slide de la tile.
 
-Hypothese actuelle :
+Correctif code (a valider sur montre) : clic refresh via `launchAction` + glyphe texte, sans `LoadAction` ni bitmap dans le ProtoLayout.
+
+Hypothese complementaire :
 
 ```text
 le bug vient de la transition/animation Wear OS ou du rendu de surface tile,

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Widget G7</string>
+    <string name="wear_open_on_phone_hint">Utilisez Widget G7 sur le téléphone.</string>
+    <string name="tile_glucose_simple_label">Glycémie</string>
+    <string name="tile_glucose_simple_description">Taux, unité et tendance</string>
+</resources>

@@ -1,0 +1,18 @@
+---
+description: Rebuild and reinstall mobile + wear debug APKs after code changes
+globs: mobile/**/*,wear/**/*
+alwaysApply: false
+---
+
+# Déploiement Widget G7 après modification
+
+Quand tu **modifies** du code ou des ressources sous `mobile/` ou `wear/` (fichiers concernés par les globs ci‑dessus), à la fin d’une modification qui compile :
+
+1. Vérifie que la compilation passe (`assembleDebug` ou équivalent).
+2. Exécute le déploiement local :
+   - **Windows** : `.\gradlew.bat installWidgetG7Debug`
+   - **Unix** : `./gradlew installWidgetG7Debug`
+
+Cette tâche enchaîne `:mobile:assembleDebug`, `:wear:assembleDebug`, puis `adb install` sur les appareils définis dans `local.properties` (`widgetg7.adb.phone.serial` et `widgetg7.adb.watch.serial`). Si les id change, l’utilisateur les met à jour (voir `adb devices -l`).
+
+Ne lance pas cette tâche plusieurs fois de suite sans raison ; une fois après un lot de changements suffit.
