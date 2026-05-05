@@ -15,24 +15,30 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupWindow
-import android.widget.ScrollView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.NestedScrollView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.settings.AppSettingsStore
+import com.widgetg7.mobile.settings.DexcomUserSettings
+import com.widgetg7.mobile.settings.LaunchStateStore
+import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.status.SyncStatusRepository
 import com.widgetg7.mobile.status.SyncStatusSnapshot
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
 import com.widgetg7.mobile.ui.DexcomEntryActivity
+import com.widgetg7.mobile.ui.DexcomSettingsActivity
+import com.widgetg7.mobile.ui.GlucoseDisplayFormatter
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
+import com.widgetg7.mobile.ui.WearInstallerActivity
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchConnectionStatus
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
@@ -43,12 +49,17 @@ class MainActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
     private var baseScrollPaddingBottom = 0
 
+    private lateinit var syncNowButton: ImageButton
     private lateinit var watchSettingsButton: ImageButton
-    private lateinit var homeStatusPill: TextView
+    private lateinit var homeReadingPrimary: TextView
+    private lateinit var homeReadingSubtitle: TextView
+    private lateinit var homeStatusText: TextView
+    private lateinit var dexcomCardStatus: TextView
+    private lateinit var dexcomDisconnectLabel: TextView
+    private lateinit var dexcomCardChevron: ImageView
     private lateinit var installChevron: ImageView
-    private lateinit var syncChevron: ImageView
+    private lateinit var wearAssistantChevron: ImageView
     private lateinit var ackChevron: ImageView
-    private lateinit var watchRefreshButton: MaterialButton
     private lateinit var openNoticeButton: TextView
     private lateinit var watchActionRow: LinearLayout
 
@@ -58,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val mainScrollView = findViewById<ScrollView>(R.id.mainScrollView)
+        val mainScrollView = findViewById<NestedScrollView>(R.id.mainScrollView)
         baseScrollPaddingTop = mainScrollView.paddingTop
         baseScrollPaddingBottom = mainScrollView.paddingBottom
         ViewCompat.setOnApplyWindowInsetsListener(mainScrollView) { view, insets ->
@@ -73,19 +84,49 @@ class MainActivity : AppCompatActivity() {
         }
         ViewCompat.requestApplyInsets(mainScrollView)
 
+        syncNowButton = findViewById(R.id.syncNowButton)
         watchSettingsButton = findViewById(R.id.watchSettingsButton)
-        homeStatusPill = findViewById(R.id.homeStatusPill)
+        findViewById<View>(R.id.installCard).setOnClickListener {
+            startActivity(Intent(this, WatchSetupActivity::class.java))
+        }
+        findViewById<View>(R.id.wearAssistantCard).setOnClickListener {
+            startActivity(Intent(this, WearInstallerActivity::class.java))
+        }
+        findViewById<View>(R.id.ackCard).setOnClickListener {
+            startActivity(Intent(this, WatchSetupActivity::class.java))
+        }
+
+        val dexcomCard = findViewById<View>(R.id.dexcomCard)
+        dexcomCard.setOnClickListener {
+            val settings = AppSettingsStore(this).loadDexcomSettings()
+            if (settings.isConfigured()) {
+                startActivity(Intent(this, DexcomSettingsActivity::class.java))
+            } else {
+                startActivity(Intent(this, DexcomEntryActivity::class.java))
+            }
+        }
+
+        homeReadingPrimary = findViewById(R.id.homeReadingPrimary)
+        homeReadingSubtitle = findViewById(R.id.homeReadingSubtitle)
+        homeStatusText = findViewById(R.id.homeStatusText)
+        dexcomCardStatus = findViewById(R.id.dexcomCardStatus)
+        dexcomDisconnectLabel = findViewById(R.id.dexcomDisconnectLabel)
+        dexcomCardChevron = findViewById(R.id.dexcomCardChevron)
         installChevron = findViewById(R.id.installChevron)
-        syncChevron = findViewById(R.id.syncChevron)
+        wearAssistantChevron = findViewById(R.id.wearAssistantChevron)
         ackChevron = findViewById(R.id.ackChevron)
-        watchRefreshButton = findViewById(R.id.watchRefreshButton)
         openNoticeButton = findViewById(R.id.openNoticeButton)
         watchActionRow = findViewById(R.id.watchActionRow)
 
-        watchSettingsButton.setOnClickListener { showHomeMenu() }
-        watchRefreshButton.setOnClickListener {
+        dexcomDisconnectLabel.setOnClickListener {
+            showDexcomDisconnectConfirmation()
+        }
+
+        syncNowButton.setOnClickListener {
             lifecycleScope.launch { runManualSync() }
         }
+
+        watchSettingsButton.setOnClickListener { showHomeMenu() }
         openNoticeButton.setOnClickListener { startActivity(Intent(this, NoticeActivity::class.java)) }
 
         scheduleAutoSyncIfReady()
@@ -99,18 +140,39 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun refreshHome() {
-        val dexcomConfigured = AppSettingsStore(this).loadDexcomSettings().isConfigured()
+        val settings = AppSettingsStore(this).loadDexcomSettings()
+        val dexcomConfigured = settings.isConfigured()
+        updateDexcomCard(settings)
         val watchHealth = WatchSyncHealthRepository(this).load()
         val syncStatus = SyncStatusRepository(this).load()
+        updateSyncButtonTint(dexcomConfigured, syncStatus)
 
         lifecycleScope.launch {
             val watchStatus = WatchConnectionRepository(this@MainActivity).loadStatus()
-            updateHomeStatusPill(dexcomConfigured, syncStatus, watchStatus, watchHealth)
+            updateHomeHero(dexcomConfigured, syncStatus, watchStatus, watchHealth)
             updateStepChevrons(dexcomConfigured, syncStatus, watchStatus, watchHealth)
         }
     }
 
-    private fun updateHomeStatusPill(
+    private fun updateDexcomCard(settings: DexcomUserSettings) {
+        if (settings.isConfigured()) {
+            val username = settings.username.trim()
+            dexcomCardStatus.text =
+                if (username.isNotEmpty()) {
+                    "${getString(R.string.home_dexcom_status_on)} · ${getString(R.string.home_dexcom_user_mask, username.take(3))}"
+                } else {
+                    getString(R.string.home_dexcom_status_on)
+                }
+            dexcomDisconnectLabel.visibility = View.VISIBLE
+            dexcomCardChevron.visibility = View.GONE
+        } else {
+            dexcomCardStatus.text = getString(R.string.home_dexcom_status_off)
+            dexcomDisconnectLabel.visibility = View.GONE
+            dexcomCardChevron.visibility = View.VISIBLE
+        }
+    }
+
+    private fun updateHomeHero(
         dexcomConfigured: Boolean,
         syncStatus: SyncStatusSnapshot,
         watchStatus: WatchConnectionStatus,
@@ -118,18 +180,46 @@ class MainActivity : AppCompatActivity() {
     ) {
         val activeSync = AppSettingsStore(this).isActiveSyncEnabled()
         val watchReady = watchHealth?.appInstalled == true && !(watchHealth.syncLimited)
-        val pillText =
-            when {
-                !dexcomConfigured -> "Dexcom · menu"
-                !watchStatus.connected -> "Pas de montre"
-                !watchReady -> "Installer app Wear"
-                syncStatus.lastError.isNotBlank() ->
-                    "Sync · ${truncateForStatusPill(syncStatus.lastError)}"
-                hasWatchAck() && activeSync -> "OK · confirmé"
-                activeSync && syncStatus.hasSuccessfulSync() -> "Sync active"
-                else -> "Prêt · sync"
+        val primary = GlucoseDisplayFormatter.homeValuePrimary(syncStatus)
+        val subtitle = GlucoseDisplayFormatter.homeValueSubtitle(syncStatus)
+
+        when {
+            primary != null -> {
+                homeReadingPrimary.text = primary
+                homeReadingPrimary.setTextColor(ContextCompat.getColor(this, R.color.wg7_text_primary))
+                if (!subtitle.isNullOrBlank()) {
+                    homeReadingSubtitle.text = subtitle
+                    homeReadingSubtitle.visibility = android.view.View.VISIBLE
+                } else {
+                    homeReadingSubtitle.text = ""
+                    homeReadingSubtitle.visibility = android.view.View.GONE
+                }
             }
-        homeStatusPill.text = pillText
+            !dexcomConfigured -> {
+                homeReadingPrimary.text = getString(R.string.home_hero_connect)
+                homeReadingPrimary.setTextColor(ContextCompat.getColor(this, R.color.wg7_text_primary))
+                homeReadingSubtitle.text = getString(R.string.home_hero_connect_hint)
+                homeReadingSubtitle.visibility = android.view.View.VISIBLE
+            }
+            else -> {
+                homeReadingPrimary.text = getString(R.string.home_hero_waiting)
+                homeReadingPrimary.setTextColor(ContextCompat.getColor(this, R.color.wg7_text_secondary))
+                homeReadingSubtitle.visibility = android.view.View.GONE
+            }
+        }
+
+        val statusLine =
+            when {
+                !dexcomConfigured -> "Dexcom : non connecté"
+                !watchStatus.connected -> "Montre : non associée (facultatif)"
+                !watchReady -> "Installez Widget G7 sur la montre"
+                syncStatus.lastError.isNotBlank() ->
+                    "Sync : ${truncateForStatusPill(syncStatus.lastError)}"
+                hasWatchAck() && activeSync -> "Liaison montre confirmée"
+                activeSync && syncStatus.hasSuccessfulSync() -> "Synchronisation active"
+                else -> "Prêt"
+            }
+        homeStatusText.text = statusLine
     }
 
     private fun truncateForStatusPill(raw: String, maxLen: Int = 30): String {
@@ -155,28 +245,52 @@ class MainActivity : AppCompatActivity() {
         }
         val installOk = watchHealth?.appInstalled == true && !watchHealth.syncLimited
         tintChevron(installChevron, installOk)
-        tintChevron(syncChevron, dexcomConfigured && syncStatus.lastError.isBlank())
+        tintChevron(wearAssistantChevron, installOk)
         tintChevron(ackChevron, hasWatchAck())
     }
 
+    private fun updateSyncButtonTint(dexcomConfigured: Boolean, syncStatus: SyncStatusSnapshot) {
+        val ready = dexcomConfigured && syncStatus.lastError.isBlank()
+        syncNowButton.imageTintList =
+            ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    this,
+                    if (ready) R.color.wg7_accent_dark else R.color.wg7_text_secondary,
+                ),
+            )
+    }
+
     private suspend fun runManualSync() {
-        watchRefreshButton.isEnabled = false
-        watchRefreshButton.alpha = 0.45f
-        watchRefreshButton.text = "Sync..."
-        watchRefreshButton.contentDescription = "Actualisation en cours"
+        syncNowButton.isEnabled = false
+        syncNowButton.alpha = 0.45f
 
         ActiveGlucoseSyncController.syncNow(this)
 
         refreshHome()
-        watchRefreshButton.isEnabled = true
-        watchRefreshButton.alpha = 1f
-        watchRefreshButton.text = "Synchroniser"
-        watchRefreshButton.contentDescription = "Actualiser"
+        syncNowButton.isEnabled = true
+        syncNowButton.alpha = 1f
         Snackbar.make(
             findViewById(android.R.id.content),
             "Sync demandee : le telephone pousse vers la montre puis verifie l'ack.",
             Snackbar.LENGTH_LONG,
         ).show()
+    }
+
+    private fun showDexcomDisconnectConfirmation() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.home_dexcom_disconnect_title)
+            .setMessage(R.string.home_dexcom_disconnect_message)
+            .setNegativeButton(android.R.string.cancel, null)
+            .setPositiveButton(R.string.home_dexcom_disconnect) { _, _ ->
+                AppSettingsStore(this).clearDexcomSettings()
+                ActiveGlucoseSyncController.stop(this)
+                LaunchStateStore(this).resetDexcomEntry()
+                LegalConsentStore(this).clearAcceptedVersion()
+                SyncStatusRepository(this).clearSessionState()
+                PhoneSyncStateStore(this).clear()
+                refreshHome()
+            }
+            .show()
     }
 
     private fun scheduleAutoSyncIfReady() {

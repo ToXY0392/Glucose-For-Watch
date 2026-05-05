@@ -1,5 +1,6 @@
 package com.widgetg7.mobile.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -9,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ImageButton
 import android.widget.ScrollView
 import android.widget.Spinner
+import com.google.android.material.button.MaterialButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -63,6 +65,9 @@ class WatchSetupActivity : AppCompatActivity() {
         ViewCompat.requestApplyInsets(scrollView)
 
         testWatchSyncButton = findViewById(R.id.testWatchSyncButton)
+        findViewById<MaterialButton>(R.id.openWearInstallerButton).setOnClickListener {
+            startActivity(Intent(this, WearInstallerActivity::class.java))
+        }
         batteryOptimizationButton = findViewById(R.id.batteryOptimizationButton)
         backToHomeButton = findViewById(R.id.backToHomeButton)
         watchStatusHeadlineText = findViewById(R.id.watchStatusHeadlineText)
@@ -236,25 +241,34 @@ class WatchSetupActivity : AppCompatActivity() {
             val reading = withTimeout(VERIFY_TIMEOUT_MS) {
                 PhoneGlucoseSourceFactory.create(this@WatchSetupActivity).latest()
             }
-            withTimeout(VERIFY_TIMEOUT_MS) {
-                val stateStore = com.widgetg7.mobile.sync.PhoneSyncStateStore(this@WatchSetupActivity)
-                val sequenceId = stateStore.nextSequenceId()
-                PhoneWearSyncService(this@WatchSetupActivity).pushLatest(reading, sequenceId)
-                stateStore.recordPushSuccess(
-                    timestampEpochMs = reading.timestampEpochMs,
-                    sequenceId = sequenceId,
-                    valueMgDl = reading.valueMgDl,
-                    trend = reading.trend,
-                    deltaMgDl = reading.deltaMgDl,
-                    stale = reading.stale,
-                )
-            }
+            val sendOk =
+                withTimeout(VERIFY_TIMEOUT_MS) {
+                    val stateStore = com.widgetg7.mobile.sync.PhoneSyncStateStore(this@WatchSetupActivity)
+                    val sequenceId = stateStore.nextSequenceId()
+                    val ok =
+                        PhoneWearSyncService(this@WatchSetupActivity).pushLatest(reading, sequenceId)
+                    if (ok) {
+                        stateStore.recordPushSuccess(
+                            timestampEpochMs = reading.timestampEpochMs,
+                            sequenceId = sequenceId,
+                            valueMgDl = reading.valueMgDl,
+                            trend = reading.trend,
+                            deltaMgDl = reading.deltaMgDl,
+                            stale = reading.stale,
+                        )
+                    }
+                    ok
+                }
 
             listOfNotNull(
                 status.label(),
                 preferredNote,
                 wearInstallSummary,
-                "Test complet réussi : la dernière glycémie a été envoyée à la montre.",
+                if (sendOk) {
+                    "Test complet réussi : la dernière glycémie a été envoyée à la montre."
+                } else {
+                    "Dexcom OK, mais la montre n’a pas reçu la donnée (vérifiez Bluetooth / Wear OS puis recommencez)."
+                },
                 "Valeur testée : ${reading.valueMgDl} mg/dL ${reading.trend}.",
                 latestHealthSummary,
             ).joinToString("\n")

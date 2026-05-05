@@ -122,7 +122,7 @@ class ActiveGlucoseSyncService : Service() {
             val nextRepushCount = delayedState.unackedRepushCount + 1
             val sequenceId = PhoneSyncStateStore(this).nextSequenceId()
             runCatching {
-                PhoneWearSyncService(this).pushLatest(reading, sequenceId)
+                if (!PhoneWearSyncService(this).pushLatest(reading, sequenceId)) return
                 PhoneSyncStateStore(this).recordPushSuccess(
                     timestampEpochMs = reading.timestampEpochMs,
                     sequenceId = sequenceId,

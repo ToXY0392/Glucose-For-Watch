@@ -12,7 +12,7 @@
         <item name="colorOnPrimary">@color/wg7_on_accent</item>
         <item name="colorSecondary">@color/wg7_alert</item>
         <item name="colorOnSecondary">@color/wg7_on_accent</item>
-        <item name="android:windowBackground">@drawable/bg_mobile_backdrop</item>
+        <item name="android:windowBackground">@drawable/bg_premium_canvas</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/wg7_bg_bottom</item>
         <item name="materialButtonStyle">@style/Widget.WidgetG7.PrimaryButton</item>

@@ -2,6 +2,8 @@
 <resources>
     <color name="wg7_bg_top">#FFFFFF</color>
     <color name="wg7_bg_bottom">#F7FBFA</color>
+    <color name="wg7_canvas_start">#F5FAF8</color>
+    <color name="wg7_canvas_end">#EEF6F3</color>
     <color name="wg7_surface">#FCFEFE</color>
     <color name="wg7_surface_alt">#F2F8F6</color>
     <color name="wg7_outline">#D8E5E1</color>

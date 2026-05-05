@@ -38,7 +38,8 @@
 | Installation | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Opérationnel |
 | Installation montre | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | Sans Store |
 | Reprise dev | [REPRISE_PROJET.md](REPRISE_PROJET.md) | Prioritaire |
-| Technique Wear OS | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Décidé / expérimental |
+| Retours APK mobile (cases à cocher) | [MOBILE_APK_RETOURS.md](MOBILE_APK_RETOURS.md) | Feedback rapide |
+| Technique Wear OS | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync, assistant install (ADB ; OCR en pause), expérimental = direct capteur |
 | Publication | [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md) | Bloquant |
 
 ---
@@ -53,7 +54,8 @@
 | Concevoir le parcours montre sans Store | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) |
 | Donner une version courte à un utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) |
 | Reprendre le développement | [REPRISE_PROJET.md](REPRISE_PROJET.md) |
-| Comprendre la sync, Dexcom et le direct capteur | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) |
+| Signaler ce qui ne va pas sur l’APK mobile | [MOBILE_APK_RETOURS.md](MOBILE_APK_RETOURS.md) |
+| Comprendre la sync, Dexcom, l'assistant install montre (et l'OCR en pause), le direct capteur | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) |
 | Préparer une diffusion | [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md) |
 
 ---
@@ -77,7 +79,7 @@
 
 | Document | Rôle |
 | --- | --- |
-| [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync principale, audit Dexcom, direct capteur et spike BLE |
+| [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync principale, assistant installation montre (ADB ; OCR photo en pause), direct capteur et spike BLE |
 | [REPRISE_PROJET.md](REPRISE_PROJET.md) | État actuel, fichiers clés, prochaines vérifications |
 | [../COMPATIBILITY.md](../COMPATIBILITY.md) | Compatibilité Android et montres Wear OS |
 

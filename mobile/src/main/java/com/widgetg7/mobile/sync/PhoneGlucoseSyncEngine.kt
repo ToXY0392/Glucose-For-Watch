@@ -8,7 +8,6 @@ import com.widgetg7.mobile.status.SyncErrorCategory
 import com.widgetg7.mobile.status.SyncStatusRepository
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
-import kotlin.system.measureTimeMillis
 
 class PhoneGlucoseSyncEngine(private val context: Context) {
     suspend fun run(
@@ -21,32 +20,35 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
             val syncStateStore = PhoneSyncStateStore(context)
             val previousSyncState = syncStateStore.load()
             syncStateStore.recordFetchAttempt()
-            val reading = withTimeout(FETCH_TIMEOUT_MS) {
-                lateinit var latestReading: GlucoseReading
-                measureTimeMillis {
-                    latestReading = source.latest()
+            val reading =
+                withTimeout(FETCH_TIMEOUT_MS) {
+                    source.latest()
                 }
-                latestReading
-            }
             syncStateStore.recordFetchedReading(reading.timestampEpochMs)
 
             val hasNewReading = previousSyncState.lastPushedReadingTimestampEpochMs != reading.timestampEpochMs
             val shouldPushToWatch = hasNewReading || forcePushCurrentReading
             if (shouldPushToWatch) {
                 val sequenceId = syncStateStore.nextSequenceId()
-                measureTimeMillis {
+                val pushed =
                     withTimeout(WEAR_PUSH_TIMEOUT_MS) {
                         PhoneWearSyncService(context).pushLatest(reading, sequenceId)
                     }
+                if (pushed) {
+                    syncStateStore.recordPushSuccess(
+                        timestampEpochMs = reading.timestampEpochMs,
+                        sequenceId = sequenceId,
+                        valueMgDl = reading.valueMgDl,
+                        trend = reading.trend,
+                        deltaMgDl = reading.deltaMgDl,
+                        stale = reading.stale,
+                    )
+                } else {
+                    if (triggeredFromWatch) {
+                        PhoneWearRefreshStatusService(context)
+                            .pushCompleted("Téléphone à jour ; liaison montre indisponible pour l’envoi.")
+                    }
                 }
-                syncStateStore.recordPushSuccess(
-                    timestampEpochMs = reading.timestampEpochMs,
-                    sequenceId = sequenceId,
-                    valueMgDl = reading.valueMgDl,
-                    trend = reading.trend,
-                    deltaMgDl = reading.deltaMgDl,
-                    stale = reading.stale,
-                )
             } else {
                 if (triggeredFromWatch) {
                     PhoneWearRefreshStatusService(context).pushCompleted("Aucune nouvelle mesure")

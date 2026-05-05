@@ -71,6 +71,7 @@ Docs utiles :
 | Montre | Test d'envoi, choix montre principale, sync en veille |
 | Wear | App, tile, complication |
 | Sync | Ack, repush, cache Wear, logs sensibles retirés |
+| Install montre | Assistant `WearInstallerActivity` : ADB Wi‑Fi (Kadb) + APK embarqué ; OCR photo ML Kit **en pause** (remplissage auto non fiable → saisie manuelle recommandée) |
 
 ---
 
@@ -85,6 +86,9 @@ Docs utiles :
 | [WatchConnectionRepository.kt](../mobile/src/main/java/com/widgetg7/mobile/watch/WatchConnectionRepository.kt) | Montre principale |
 | [WearDataLayerListenerService.kt](../wear/src/main/java/com/widgetg7/wear/services/WearDataLayerListenerService.kt) | Réception Wear |
 | [GlucoseCache.kt](../wear/src/main/java/com/widgetg7/wear/data/GlucoseCache.kt) | Cache local Wear |
+| [WearInstallerActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/ui/WearInstallerActivity.kt) | Assistant installation montre (ADB Wi‑Fi, OCR photo optionnel) |
+| [WearDirectAdbInstaller.kt](../mobile/src/main/java/com/widgetg7/mobile/watch/install/WearDirectAdbInstaller.kt) | Pair / install Kadb |
+| [WearInstallOcr.kt](../mobile/src/main/java/com/widgetg7/mobile/watch/install/WearInstallOcr.kt) | ML Kit — expérimentation OCR **en pause** |
 
 ---
 
@@ -98,6 +102,7 @@ Docs utiles :
 | 4 | Surveiller que le repush reste borné |
 | 5 | Documenter les retards possibles de Dexcom Share |
 | 6 | Compléter les champs juridiques avant diffusion |
+| — | **OCR assistant installation montre** : mise en pause ; ne pas compter sur le préremplissage photo tant que la piste n’est pas reprise (cf. [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)) |
 
 ---
 

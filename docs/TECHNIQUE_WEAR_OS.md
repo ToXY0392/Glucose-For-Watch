@@ -71,6 +71,21 @@ Différence avec Widget G7 :
 | Vérifier | Recevoir l'ack montre |
 | Réparer | Repush borné si ack manquant |
 
+### Interface téléphone — ouvrir dans Cursor
+
+Liens relatifs au dépôt : **Ctrl+clic** (ou Cmd+clic) sur le fichier pour l’ouvrir à côté de cette page.
+
+| Écran | Code | Mise en page |
+| --- | --- | --- |
+| Accueil, état sync | [MainActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/MainActivity.kt) | [activity_main.xml](../mobile/src/main/res/layout/activity_main.xml) |
+| Première connexion Dexcom | [DexcomEntryActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/ui/DexcomEntryActivity.kt) | [activity_dexcom_entry.xml](../mobile/src/main/res/layout/activity_dexcom_entry.xml) |
+| Réglages Dexcom | [DexcomSettingsActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/ui/DexcomSettingsActivity.kt) | [activity_dexcom_settings.xml](../mobile/src/main/res/layout/activity_dexcom_settings.xml) |
+| Configuration montre | [WatchSetupActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/ui/WatchSetupActivity.kt) | [activity_watch_setup.xml](../mobile/src/main/res/layout/activity_watch_setup.xml) |
+| Assistant install montre (ADB) | [WearInstallerActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/ui/WearInstallerActivity.kt) | [activity_wear_installer.xml](../mobile/src/main/res/layout/activity_wear_installer.xml) |
+| Notice | [NoticeActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/ui/NoticeActivity.kt) | [activity_notice.xml](../mobile/src/main/res/layout/activity_notice.xml) |
+| Document légal | [LegalDocumentActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/ui/LegalDocumentActivity.kt) | [activity_legal_document.xml](../mobile/src/main/res/layout/activity_legal_document.xml) |
+| Routing démarrage (sans layout) | [SplashActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/SplashActivity.kt) | — |
+
 ### Wear OS
 
 | Action | Détail |
@@ -192,6 +207,30 @@ batterie après :
 résultat BLE :
 décision : go / retry / stop
 ```
+
+---
+
+## Assistant installation montre (APK mobile)
+
+Le téléphone propose un assistant pour installer l’app Wear sans Play Store : jumelage **ADB Wi‑Fi** (bibliothèque Kadb), puis envoi de l’APK Wear **embarqué** dans l’APK mobile ; un partage de fichier reste possible en secours.
+
+| Élément | Détail |
+| --- | --- |
+| Jumelage / install | `WearDirectAdbInstaller` (pair + `install`) |
+| APK embarqué | Copié en assets au build debug (`WearEmbeddedApkRepository`) |
+| **OCR photo** | Bouton « Remplir depuis une photo » : reconnaissance de texte (**ML Kit**) pour préremplir IP, ports et code. **Développement mis en pause (mai 2026)** : en pratique le remplissage automatique reste **peu fiable** (qualité de capture, mise en page écran montre, ambiguïtés sur les ports). **Tant que ce n’est pas repris** : traiter le bouton comme une aide optionnelle et privilégier la **saisie manuelle** depuis l’écran de la montre. |
+
+Fichiers utiles :
+
+```text
+mobile/src/main/java/com/widgetg7/mobile/ui/WearInstallerActivity.kt
+mobile/src/main/java/com/widgetg7/mobile/watch/install/WearDirectAdbInstaller.kt
+mobile/src/main/java/com/widgetg7/mobile/watch/install/WearEmbeddedApkRepository.kt
+mobile/src/main/java/com/widgetg7/mobile/watch/install/WearInstallOcr.kt
+mobile/src/main/java/com/widgetg7/mobile/watch/install/WearInstallOcrParser.kt
+```
+
+Si reprise plus tard : collecter des captures réelles des écrans Wear OS (jumelage + « adresse IP et port »), affiner le parseur ou envisager recadrage / autre pipeline OCR.
 
 ---
 

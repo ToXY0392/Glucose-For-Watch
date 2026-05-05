@@ -6,6 +6,17 @@
 
 ---
 
+## Mai 2026 — OCR assistant installation montre
+
+| Champ | Détail |
+| --- | --- |
+| Statut | **Mise en pause** côté produit / doc |
+| Contexte | Bouton « Remplir depuis une photo » (ML Kit) pour préremplir IP, ports, code jumelage |
+| Constat | Remplissage automatique **insuffisamment fiable** sur captures réelles |
+| Attendu | Saisie manuelle depuis l’écran montre ; piste OCR à reprendre si besoin (cf. [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)) |
+
+---
+
 ## 🟢 Console
 
 ```text

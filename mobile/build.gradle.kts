@@ -9,6 +9,12 @@ android {
     namespace = "com.widgetg7.mobile"
     compileSdk = 36
 
+    sourceSets {
+        getByName("main") {
+            assets.srcDirs("src/main/assets", layout.buildDirectory.dir("embeddedWearApk"))
+        }
+    }
+
     defaultConfig {
         //noinspection SpellCheckingInspection
         val dexcomShareApplicationId =
@@ -52,10 +58,27 @@ kotlin {
     }
 }
 
+val prepareWearApkForDebugAssets by tasks.registering(Copy::class) {
+    description = "Copie wear-debug.apk → assets packagés (clé wear/widget-g7-wear.apk)."
+    group = "widget g7"
+    dependsOn(":wear:assembleDebug")
+    from(rootProject.layout.projectDirectory.file("wear/build/outputs/apk/debug/wear-debug.apk"))
+    into(layout.buildDirectory.dir("embeddedWearApk/wear"))
+    rename { "widget-g7-wear.apk" }
+}
+
+afterEvaluate {
+    tasks.named("mergeDebugAssets").configure { dependsOn(prepareWearApkForDebugAssets) }
+}
+
 dependencies {
+    implementation("com.google.mlkit:text-recognition:16.0.1")
+    implementation("androidx.exifinterface:exifinterface:1.4.1")
+    implementation("com.flyfishxu:kadb:2.1.1")
     implementation("androidx.core:core-ktx:1.18.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("com.google.android.material:material:1.13.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
     implementation("androidx.security:security-crypto:1.1.0")

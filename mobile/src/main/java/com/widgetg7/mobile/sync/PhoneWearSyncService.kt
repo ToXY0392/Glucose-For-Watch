@@ -8,11 +8,15 @@ import com.widgetg7.mobile.watch.WatchConnectionRepository
 import kotlinx.coroutines.tasks.await
 
 class PhoneWearSyncService(private val context: Context) {
-    suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long) {
+    /**
+     * Envoie la donnée vers la montre sélectionnée via Data Layer.
+     * @return false si aucune montre Wear n’est joignable (pas d’exception : la sync téléphone peut continuer).
+     */
+    suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean {
         val dataClient = Wearable.getDataClient(context)
         val watchStatus = WatchConnectionRepository(context).loadStatus()
-        if (!watchStatus.connected) {
-            throw IllegalStateException("Aucune montre connectée via Wear OS.")
+        if (!watchStatus.connected || watchStatus.nodeId.isBlank()) {
+            return false
         }
 
         val request = PutDataMapRequest.create(GlucoseKeys.PATH_LATEST).apply {
@@ -27,5 +31,6 @@ class PhoneWearSyncService(private val context: Context) {
         }.asPutDataRequest().setUrgent()
 
         dataClient.putDataItem(request).await()
+        return true
     }
 }
