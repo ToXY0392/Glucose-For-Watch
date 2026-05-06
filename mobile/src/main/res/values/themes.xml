@@ -12,9 +12,15 @@
         <item name="colorOnPrimary">@color/wg7_on_accent</item>
         <item name="colorSecondary">@color/wg7_alert</item>
         <item name="colorOnSecondary">@color/wg7_on_accent</item>
+        <item name="colorSurface">@color/wg7_surface</item>
+        <item name="colorOnSurface">@color/wg7_text_primary</item>
+        <item name="colorSurfaceVariant">@color/wg7_surface_alt</item>
+        <item name="colorOnSurfaceVariant">@color/wg7_text_secondary</item>
         <item name="android:windowBackground">@drawable/bg_premium_canvas</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/wg7_bg_bottom</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
         <item name="materialButtonStyle">@style/Widget.WidgetG7.PrimaryButton</item>
         <item name="materialCardViewStyle">@style/Widget.WidgetG7.SectionCard</item>
         <item name="textInputStyle">@style/Widget.WidgetG7.InputLayout</item>
@@ -27,7 +33,7 @@
     </style>
 
     <style name="Theme.WidgetG7.Phone.Launcher" parent="Theme.WidgetG7.Phone.NoAnimation">
-        <item name="android:windowBackground">@drawable/bg_splash_screen</item>
-        <item name="android:navigationBarColor">@color/wg7_bg_top</item>
+        <item name="android:windowBackground">@drawable/bg_premium_canvas</item>
+        <item name="android:navigationBarColor">@color/wg7_canvas_end</item>
     </style>
 </resources>

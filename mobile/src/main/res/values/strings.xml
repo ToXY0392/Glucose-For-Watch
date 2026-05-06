@@ -14,7 +14,11 @@
     <string name="home_dexcom_user_mask">%1$s…</string>
     <string name="home_dexcom_disconnect_title">Déconnecter Dexcom</string>
     <string name="home_dexcom_disconnect_message">Supprimer le compte Dexcom de ce téléphone ?</string>
-    <string name="home_wear_assistant_subtitle">Aide simple pour mettre l’app sur la montre</string>
+    <string name="home_wear_assistant_subtitle">Guide pas à pas pour installer l’app sur la montre</string>
+    <string name="home_watch_card_title">Montre</string>
+    <string name="home_watch_card_subtitle">État, synchronisation et vérification de la liaison</string>
+    <string name="watch_setup_title">Montre</string>
+    <string name="watch_setup_lead">Vérifiez que la montre reçoit bien les données.</string>
     <string name="wear_install_title">Installer Widget G7 sur la montre</string>
     <string name="wear_install_reassurance">Prenez votre temps. Les noms des menus peuvent faire peur : ce sont des réglages prévus par Google. Vous pouvez vous faire aider par un proche pour les chiffres.</string>
     <string name="wear_install_intro">Quatre grandes étapes : deux sur la montre (réglages), une sur ce téléphone (recopier les numéros et toucher « Lier » puis « Installer »), puis une dernière pour vérifier la liaison depuis l’écran Montre de l’app.</string>

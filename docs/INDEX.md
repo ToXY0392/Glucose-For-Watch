@@ -34,7 +34,6 @@
 | --- | --- | --- |
 | Arborescence code / doc | [STRUCTURE_REPO.md](STRUCTURE_REPO.md) | Référence rapide |
 | Produit | [README projet](../README.md) | Présentation |
-| Présentation APK | [PRESENTATION_APK.md](PRESENTATION_APK.md) | Visuel |
 | Utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Court |
 | Installation | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Opérationnel |
 | Installation montre | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | Sans Store |
@@ -51,7 +50,6 @@
 | --- | --- |
 | Voir où est quoi dans le repo | [STRUCTURE_REPO.md](STRUCTURE_REPO.md) |
 | Comprendre le projet | [README projet](../README.md) |
-| Présenter l'APK visuellement | [PRESENTATION_APK.md](PRESENTATION_APK.md) |
 | Installer et tester | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) |
 | Concevoir le parcours montre sans Store | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) |
 | Donner une version courte à un utilisateur | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) |
@@ -66,12 +64,11 @@
 
 | Document | Rôle |
 | --- | --- |
-| [PRESENTATION_APK.md](PRESENTATION_APK.md) | Support visuel de présentation de l'APK |
 | [NOTICE_UTILISATEUR.md](NOTICE_UTILISATEUR.md) | Résumé utilisateur : installer, connecter, tester |
 | [MODE_D_EMPLOI.md](MODE_D_EMPLOI.md) | Parcours complet : mobile, Wear OS, Dexcom, statuts |
 | [INSTALLATION_MONTRE_GUIDEE.md](INSTALLATION_MONTRE_GUIDEE.md) | APK mobile unique vers Wear natif par installation distante |
 | [PLAN_INSTALLATION_DISTANTE_WEAR.md](PLAN_INSTALLATION_DISTANTE_WEAR.md) | Plan de lots pour rendre l'installation distante viable |
-| [PLAN_MIGRATION_NOUVELLE_VERSION_APK.md](PLAN_MIGRATION_NOUVELLE_VERSION_APK.md) | Plan pour appliquer le nouveau design sans casser CGU, Dexcom et sync |
+| [PLAN_MIGRATION_NOUVELLE_VERSION_APK.md](PLAN_MIGRATION_NOUVELLE_VERSION_APK.md) | Plan de migration UI / produit sans casser CGU, Dexcom et sync |
 | [AVERTISSEMENT_MEDICAL.md](AVERTISSEMENT_MEDICAL.md) | Limites médicales à afficher et conserver |
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | Historique court des changements et validations |
 
@@ -102,20 +99,6 @@ La montre affiche, confirme et peut demander un refresh.
 Ne pas coder le direct capteur dans l'app principale
 tant que le spike BLE Pixel Watch 2 n'est pas concluant.
 ```
-
----
-
-## 🎨 Produit Et Design
-
-| Document | Rôle |
-| --- | --- |
-| [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) | Direction visuelle, composants, messages |
-| [LOGO_WIDGET_G7.md](LOGO_WIDGET_G7.md) | Logo officiel et règles d'usage |
-| [DESIGN_MOBILE_VERROUILLE.md](DESIGN_MOBILE_VERROUILLE.md) | Design verrouille de l'APK mobile |
-| [DESIGN_TILE_WEAR_VERROUILLE.md](DESIGN_TILE_WEAR_VERROUILLE.md) | Design verrouille de la tile Wear OS |
-| [DESIGN_CIBLE_APP_ET_WEAR.md](DESIGN_CIBLE_APP_ET_WEAR.md) | Spécification du design cible mobile, Wear, tile et complication |
-| [assets/logo-widget-g7.png](assets/logo-widget-g7.png) | PNG officiel (copie doc, aligné sur l'APK) |
-| [design-widget-g7-cockpit.png](design-widget-g7-cockpit.png) | Référence visuelle récente |
 
 ---
 

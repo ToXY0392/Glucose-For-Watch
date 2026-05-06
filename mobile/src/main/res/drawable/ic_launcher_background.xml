@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Pastille blanche sous la photo-texture de la goutte officielle. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="#F6F1E7" />
+    <solid android:color="#FFFFFF" />
 </shape>

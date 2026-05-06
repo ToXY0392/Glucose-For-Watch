@@ -59,7 +59,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dexcomCardChevron: ImageView
     private lateinit var installChevron: ImageView
     private lateinit var wearAssistantChevron: ImageView
-    private lateinit var ackChevron: ImageView
     private lateinit var openNoticeButton: TextView
     private lateinit var watchActionRow: LinearLayout
 
@@ -92,9 +91,6 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.wearAssistantCard).setOnClickListener {
             startActivity(Intent(this, WearInstallerActivity::class.java))
         }
-        findViewById<View>(R.id.ackCard).setOnClickListener {
-            startActivity(Intent(this, WatchSetupActivity::class.java))
-        }
 
         val dexcomCard = findViewById<View>(R.id.dexcomCard)
         dexcomCard.setOnClickListener {
@@ -114,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         dexcomCardChevron = findViewById(R.id.dexcomCardChevron)
         installChevron = findViewById(R.id.installChevron)
         wearAssistantChevron = findViewById(R.id.wearAssistantChevron)
-        ackChevron = findViewById(R.id.ackChevron)
         openNoticeButton = findViewById(R.id.openNoticeButton)
         watchActionRow = findViewById(R.id.watchActionRow)
 
@@ -244,9 +239,9 @@ class MainActivity : AppCompatActivity() {
                 )
         }
         val installOk = watchHealth?.appInstalled == true && !watchHealth.syncLimited
-        tintChevron(installChevron, installOk)
+        val montreChevronOk = installOk && hasWatchAck()
+        tintChevron(installChevron, montreChevronOk)
         tintChevron(wearAssistantChevron, installOk)
-        tintChevron(ackChevron, hasWatchAck())
     }
 
     private fun updateSyncButtonTint(dexcomConfigured: Boolean, syncStatus: SyncStatusSnapshot) {

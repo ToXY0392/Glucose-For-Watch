@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="wg7_bg_top">#FFFFFF</color>
-    <color name="wg7_bg_bottom">#F7FBFA</color>
-    <color name="wg7_canvas_start">#F5FAF8</color>
-    <color name="wg7_canvas_end">#EEF6F3</color>
-    <color name="wg7_surface">#FCFEFE</color>
-    <color name="wg7_surface_alt">#F2F8F6</color>
-    <color name="wg7_outline">#D8E5E1</color>
-    <color name="wg7_text_primary">#1E2A28</color>
-    <color name="wg7_text_secondary">#6A7875</color>
-    <color name="wg7_accent">#198C6C</color>
-    <color name="wg7_accent_dark">#126E55</color>
-    <color name="wg7_accent_soft">#DDF3EC</color>
-    <color name="wg7_success">#2E7D32</color>
+    <!-- Fond système & barres -->
+    <color name="wg7_bg_top">#FAFCFB</color>
+    <color name="wg7_bg_bottom">#E8F0EC</color>
+    <!-- Toile dégradée (accueil, assistant) -->
+    <color name="wg7_canvas_start">#F4F9F6</color>
+    <color name="wg7_canvas_end">#DFE8E2</color>
+    <!-- Surfaces cartes -->
+    <color name="wg7_surface">#FFFFFF</color>
+    <color name="wg7_surface_alt">#EDF4F0</color>
+    <color name="wg7_outline">#C2D0C8</color>
+    <!-- Texte : contraste élevé pour tout public -->
+    <color name="wg7_text_primary">#0A1412</color>
+    <color name="wg7_text_secondary">#4A5E58</color>
+    <color name="wg7_text_tertiary">#6B7F78</color>
+    <!-- Accent teal « premium » -->
+    <color name="wg7_accent">#0F7665</color>
+    <color name="wg7_accent_dark">#0A5348</color>
+    <color name="wg7_accent_soft">#D0EBE4</color>
+    <color name="wg7_success">#1B5E20</color>
     <color name="wg7_success_soft">#E3F2E5</color>
     <color name="wg7_watch_green">#66FF57</color>
     <color name="wg7_watch_ring">#D8CCB8</color>
-    <color name="wg7_danger">#C7352C</color>
-    <color name="wg7_danger_soft">#F9E0DE</color>
-    <color name="wg7_alert">#C96A2B</color>
-    <color name="wg7_alert_soft">#FAE7D9</color>
-    <color name="wg7_on_accent">#FFFDF9</color>
+    <color name="wg7_danger">#B91C1C</color>
+    <color name="wg7_danger_soft">#FEE2E2</color>
+    <color name="wg7_alert">#B45309</color>
+    <color name="wg7_alert_soft">#FFEDD5</color>
+    <color name="wg7_on_accent">#FFFFFF</color>
     <color name="text_primary">@color/wg7_text_primary</color>
     <color name="text_secondary">@color/wg7_text_secondary</color>
     <color name="state_success">@color/wg7_success</color>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Aligné sur la toile premium (écrans secondaires = même univers visuel) -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:angle="270"
-        android:endColor="@color/wg7_bg_bottom"
-        android:startColor="@color/wg7_bg_top" />
+        android:angle="152"
+        android:endColor="@color/wg7_canvas_end"
+        android:startColor="@color/wg7_canvas_start"
+        android:type="linear" />
 </shape>
