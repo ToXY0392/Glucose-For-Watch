@@ -16,15 +16,11 @@
         android:paddingEnd="@dimen/wg7_screen_pad_h"
         android:paddingBottom="@dimen/wg7_screen_pad_v">
 
-        <ImageView
-            android:layout_width="132dp"
+        <include
+            layout="@layout/include_brand_header"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/app_name"
-            android:maxHeight="96dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/logo_widget_g7_official" />
+            android:layout_gravity="center_horizontal" />
 
         <TextView
             android:layout_width="match_parent"

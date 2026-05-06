@@ -1,1 +1,4 @@
 ﻿-keep class * extends androidx.wear.tiles.TileService { *; }
+-keep class * extends androidx.wear.watchface.complications.datasource.ComplicationDataSourceService { *; }
+-keep class * extends androidx.wear.watchface.complications.datasource.SuspendingComplicationDataSourceService { *; }
+-keep class com.widgetg7.wear.complication.GlucoseComplicationService { *; }

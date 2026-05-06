@@ -4,6 +4,8 @@ import android.app.Activity
 import android.os.Bundle
 import android.view.Gravity
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import com.widgetg7.wear.complication.ComplicationUpdateNotifier
 
 /** Écran minimal pour que l’app apparaisse dans le tiroir montre (découverte des tuiles / complications). */
 class WearMainActivity : Activity() {
@@ -14,7 +16,15 @@ class WearMainActivity : Activity() {
                 text = getString(R.string.wear_open_on_phone_hint)
                 gravity = Gravity.CENTER
                 setPadding(32, 32, 32, 32)
+                setBackgroundColor(ContextCompat.getColor(this@WearMainActivity, R.color.wg7_tile_bg))
+                setTextColor(ContextCompat.getColor(this@WearMainActivity, R.color.wg7_text_primary))
             }
         setContentView(tv)
+        ComplicationUpdateNotifier.requestUpdateAll(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ComplicationUpdateNotifier.requestUpdateAll(this)
     }
 }

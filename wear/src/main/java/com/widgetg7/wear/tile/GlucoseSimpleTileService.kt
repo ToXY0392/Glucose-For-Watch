@@ -1,5 +1,6 @@
 package com.widgetg7.wear.tile
 
+import android.os.SystemClock
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.LayoutElementBuilders
@@ -13,6 +14,7 @@ import androidx.wear.tiles.TileService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import com.widgetg7.wear.data.GlucoseCache
+import com.widgetg7.wear.complication.ComplicationUpdateNotifier
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
 
 /** Tuile glycémie minimaliste : valeur, mg/dL, flèche de tendance (sans libellé « Tendance »). */
@@ -21,6 +23,8 @@ class GlucoseSimpleTileService : TileService() {
     override fun onTileRequest(
         requestParams: RequestBuilders.TileRequest,
     ): ListenableFuture<TileBuilders.Tile> {
+        requestComplicationsRefreshThrottled()
+
         val cache = GlucoseCache(this)
         val healthMonitor = WatchSyncHealthMonitor(this)
         val snapshot = cache.load()
@@ -154,11 +158,24 @@ class GlucoseSimpleTileService : TileService() {
             .build()
     }
 
+    private fun requestComplicationsRefreshThrottled() {
+        val now = SystemClock.elapsedRealtime()
+        synchronized(tileComplicationRefreshLock) {
+            if (now - lastTileComplicationRefreshElapsedMs < TILE_COMPLICATION_REFRESH_INTERVAL_MS) return
+            lastTileComplicationRefreshElapsedMs = now
+        }
+        ComplicationUpdateNotifier.requestUpdateAll(this)
+    }
+
     private companion object {
-        private const val RESOURCES_VERSION = "simple-tile-v4-classic-fleche-only"
-        private const val TILE_BG = 0xFF000000.toInt()
-        private const val TILE_TEXT = 0xFFF7FBFA.toInt()
-        private const val TILE_ACCENT = 0xFF35E995.toInt()
-        private const val TILE_TREND_STALE = 0xFFA7B0BA.toInt()
+        private val tileComplicationRefreshLock = Any()
+        private var lastTileComplicationRefreshElapsedMs = 0L
+        private const val TILE_COMPLICATION_REFRESH_INTERVAL_MS = 45_000L
+
+        private const val RESOURCES_VERSION = "simple-tile-v5-nocturne-pro"
+        private const val TILE_BG = 0xFF0D1117.toInt()
+        private const val TILE_TEXT = 0xFFF8FAFC.toInt()
+        private const val TILE_ACCENT = 0xFF34D399.toInt()
+        private const val TILE_TREND_STALE = 0xFF64748B.toInt()
     }
 }

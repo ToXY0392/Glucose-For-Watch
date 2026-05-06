@@ -1,16 +1,14 @@
 package com.widgetg7.wear.services
 
-import android.content.ComponentName
 import android.util.Log
 import androidx.wear.tiles.TileService
-import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
 import com.google.android.gms.wearable.WearableListenerService
-import com.widgetg7.wear.complication.GlucoseComplicationService
+import com.widgetg7.wear.complication.ComplicationUpdateNotifier
 import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.data.GlucoseSnapshot
@@ -29,6 +27,7 @@ class WearDataLayerListenerService : WearableListenerService() {
 
     override fun onCreate() {
         super.onCreate()
+        ComplicationUpdateNotifier.requestUpdateAll(this)
         serviceScope.launch {
             localNodeIdCache = runCatching {
                 Wearable.getNodeClient(this@WearDataLayerListenerService).localNode.await().id
@@ -97,13 +96,7 @@ class WearDataLayerListenerService : WearableListenerService() {
     private fun requestSurfaceUpdates() {
         TileService.getUpdater(this).requestUpdate(GlucoseSimpleTileService::class.java)
 
-        try {
-            ComplicationDataSourceUpdateRequester
-                .create(this, ComponentName(this, GlucoseComplicationService::class.java))
-                .requestUpdateAll()
-        } catch (_: Throwable) {
-            // Some watch faces reject complication update requests.
-        }
+        ComplicationUpdateNotifier.requestUpdateAll(this)
     }
 
     private fun sendAck(readingTimestampEpochMs: Long, sequenceId: Long) {
