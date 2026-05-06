@@ -24,8 +24,8 @@ android {
         applicationId = "com.widgetg7.mobile"
         minSdk = 28
         targetSdk = 36
-        versionCode = 9
-        versionName = "0.1.8"
+        versionCode = 22
+        versionName = "0.3.1"
 
         buildConfigField("String", "DEXCOM_SHARE_APPLICATION_ID", "\"$dexcomShareApplicationId\"")
     }
