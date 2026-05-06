@@ -1,4 +1,4 @@
-<h1 id="wg7-doc-index">Documentation Widget G7</h1>
+# Documentation Widget G7
 
 Documentation de travail et d'exploitation du projet.
 

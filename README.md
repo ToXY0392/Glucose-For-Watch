@@ -1,3 +1,5 @@
+<span class="wg7-skip-markdown-theme" hidden aria-hidden="true"></span>
+
 <h3 align="center">🟢 Widget G7 garde la glycémie Dexcom G7 visible sur Wear OS.</h3>
 
 <p align="center">
