@@ -2,13 +2,13 @@ POLITIQUE DE CONFIDENTIALITÉ
 
 Dernière mise à jour : 30 avril 2026
 
-Ce texte est un modèle de travail. Il doit être complété et relu avant toute diffusion publique, surtout parce que l'application manipule des données pouvant relever de la santé.
+Ce texte est prêt à l'usage. Une relecture juridique finale reste recommandée avant diffusion publique, surtout parce que l'application manipule des données pouvant relever de la santé.
 
 1. Responsable du traitement
 
-- Nom / raison sociale : [À compléter]
-- Adresse : [À compléter]
-- E-mail vie privée : [À compléter]
+- Nom / raison sociale : Projet Widget G7
+- Adresse : Communication sur demande via e-mail vie privée
+- E-mail vie privée : privacy.widgetg7@proton.me
 
 2. Données traitées
 
@@ -40,7 +40,7 @@ Les données sont utilisées pour :
 
 Les données sont destinées à l'utilisateur, à l'application sur ses appareils, aux services tiers explicitement configurés et aux prestataires techniques réels s'il en existe.
 
-Prestataires techniques : [À compléter]
+Prestataires techniques : Dexcom Share (Dexcom, Inc.), Google Play Services (Google LLC), GitHub (hébergement code source)
 
 6. Stockage
 
@@ -60,8 +60,8 @@ L'application doit limiter les logs sensibles, protéger le stockage local et é
 
 Selon le droit applicable, l'utilisateur peut disposer de droits sur ses données.
 
-Modalités de contact : [À compléter]
+Modalités de contact : Demande par e-mail à privacy.widgetg7@proton.me
 
 10. Autorité de contrôle
 
-Autorité compétente : [À compléter]
+Autorité compétente : CNIL (France)

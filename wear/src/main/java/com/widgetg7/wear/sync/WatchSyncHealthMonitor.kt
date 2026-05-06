@@ -25,6 +25,7 @@ class WatchSyncHealthMonitor(private val context: Context) {
 
     private fun evaluate(nowEpochMs: Long): WatchSyncHealthSnapshot {
         val batteryLevel = currentBatteryLevel()
+        val isCharging = currentBatteryCharging()
         val lowPowerMode = currentLowPowerMode()
         val refreshStatus = cache.loadRefreshStatusRaw()
         val glucose = cache.load()
@@ -33,16 +34,18 @@ class WatchSyncHealthMonitor(private val context: Context) {
                 nowEpochMs - refreshStatus.updatedAtEpochMs > REFRESH_TIMEOUT_MS
         val staleAgeMs = glucose?.let { nowEpochMs - it.timestampEpochMs } ?: Long.MAX_VALUE
         val lowBattery = batteryLevel in 0..LOW_BATTERY_THRESHOLD
-        val staleWhileLowBattery = lowBattery && staleAgeMs > STALE_WHILE_LOW_BATTERY_MS
-        val syncLimited = (lowPowerMode || lowBattery) && (refreshTimedOut || staleWhileLowBattery)
+        val staleWhileLowBattery = lowBattery && !isCharging && staleAgeMs > STALE_WHILE_LOW_BATTERY_MS
+        val syncLimited = (lowPowerMode || (lowBattery && !isCharging)) && (refreshTimedOut || staleWhileLowBattery)
         val message = when {
             syncLimited -> "Batterie faible, sync limitée"
-            lowBattery -> "Batterie faible"
+            lowBattery && !isCharging -> "Batterie faible"
+            lowBattery && isCharging -> "Batterie faible (en charge)"
             lowPowerMode -> "Mode economie d'energie actif"
             else -> "RAS"
         }
         return WatchSyncHealthSnapshot(
             batteryLevel = batteryLevel,
+            isCharging = isCharging,
             lowPowerMode = lowPowerMode,
             syncLimited = syncLimited,
             message = message,
@@ -53,6 +56,7 @@ class WatchSyncHealthMonitor(private val context: Context) {
     private fun report(snapshot: WatchSyncHealthSnapshot) {
         val request = PutDataMapRequest.create(GlucoseKeys.PATH_WATCH_STATUS).apply {
             dataMap.putInt(GlucoseKeys.WATCH_BATTERY_LEVEL, snapshot.batteryLevel)
+            dataMap.putBoolean(GlucoseKeys.WATCH_IS_CHARGING, snapshot.isCharging)
             dataMap.putBoolean(GlucoseKeys.WATCH_LOW_POWER, snapshot.lowPowerMode)
             dataMap.putBoolean(GlucoseKeys.WATCH_SYNC_LIMITED, snapshot.syncLimited)
             dataMap.putString(GlucoseKeys.WATCH_STATUS_MESSAGE, snapshot.message)
@@ -93,6 +97,13 @@ class WatchSyncHealthMonitor(private val context: Context) {
     private fun currentLowPowerMode(): Boolean {
         val powerManager = context.getSystemService(Context.POWER_SERVICE) as PowerManager
         return powerManager.isPowerSaveMode
+    }
+
+    private fun currentBatteryCharging(): Boolean {
+        val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        val status = batteryIntent?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
+        return status == BatteryManager.BATTERY_STATUS_CHARGING ||
+            status == BatteryManager.BATTERY_STATUS_FULL
     }
 
     companion object {

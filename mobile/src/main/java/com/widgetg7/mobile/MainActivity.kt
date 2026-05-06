@@ -24,12 +24,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.widgetg7.core.model.SyncStatusSnapshot
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.settings.DexcomUserSettings
 import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.settings.LegalConsentStore
-import com.widgetg7.mobile.status.SyncStatusRepository
-import com.widgetg7.mobile.status.SyncStatusSnapshot
+import com.widgetg7.feature.sync.SyncStatusRepository
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneSyncStateStore

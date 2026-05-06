@@ -213,6 +213,8 @@ class WatchSetupActivity : AppCompatActivity() {
         val wearInstallSummary = when {
             wearStatus?.appInstalled == true && wearStatus.supportsTile && wearStatus.supportsComplication ->
                 "Widget G7 Wear est installe : app, tile et complication disponibles."
+            wearStatus?.appInstalled == true && (!wearStatus.supportsTile || !wearStatus.supportsComplication) ->
+                "Widget G7 Wear est installe, mais re-ajoutez la tile et la complication depuis la montre apres reinstallation."
             wearStatus?.appInstalled == true ->
                 "Widget G7 Wear est installe."
             else ->

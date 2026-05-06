@@ -224,10 +224,10 @@ Fichiers utiles :
 
 ```text
 mobile/src/main/java/com/widgetg7/mobile/ui/WearInstallerActivity.kt
-mobile/src/main/java/com/widgetg7/mobile/watch/install/WearDirectAdbInstaller.kt
-mobile/src/main/java/com/widgetg7/mobile/watch/install/WearEmbeddedApkRepository.kt
-mobile/src/main/java/com/widgetg7/mobile/watch/install/WearInstallOcr.kt
-mobile/src/main/java/com/widgetg7/mobile/watch/install/WearInstallOcrParser.kt
+feature/watch-install/src/main/java/com/widgetg7/feature/watchinstall/WearDirectAdbInstaller.kt
+feature/watch-install/src/main/java/com/widgetg7/feature/watchinstall/WearEmbeddedApkRepository.kt
+feature/watch-install/src/main/java/com/widgetg7/feature/watchinstall/WearInstallOcr.kt
+feature/watch-install/src/main/java/com/widgetg7/feature/watchinstall/WearInstallOcrParser.kt
 ```
 
 Amélioration continue : jeu de captures Wear OS réelles pour ajuster encore le parseur ou un pré-recadrage.

@@ -11,22 +11,25 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.widgetg7.core.model.SyncStatusSnapshot
+import com.widgetg7.feature.dexcomshare.DexcomShareClient
+import com.widgetg7.feature.dexcomshare.DexcomShareConfig
+import com.widgetg7.feature.sync.SyncExecutionResult
+import com.widgetg7.feature.sync.SyncServerLabelFormatter
+import com.widgetg7.feature.sync.SyncStatusRepository
+import com.widgetg7.feature.sync.SyncStatusTextFormatter
 import com.widgetg7.mobile.BuildConfig
 import com.widgetg7.mobile.MainActivity
 import com.widgetg7.mobile.R
-import com.widgetg7.mobile.dexcom.DexcomShareConfig
-import com.widgetg7.mobile.dexcom.DexcomSharePhoneGlucoseSource
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.settings.DexcomUserSettings
 import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.settings.LegalConsentStore
-import com.widgetg7.mobile.status.SyncStatusRepository
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
+import com.widgetg7.mobile.sync.SyncErrorAdapter
 import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
-import com.widgetg7.mobile.sync.SyncExecutionResult
-import com.widgetg7.mobile.sync.SyncText
 import kotlinx.coroutines.launch
 
 class DexcomSettingsActivity : AppCompatActivity() {
@@ -72,7 +75,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
                 listOf("Europe", "US"),
             ),
         )
-        serverInput.setText(SyncText.displayServer(currentSettings.server), false)
+        serverInput.setText(SyncServerLabelFormatter.displayServer(currentSettings.server), false)
 
         renderAccountSummary(currentSettings, syncStatusRepository.load(), accountSummaryText, statusText)
 
@@ -92,7 +95,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
                         server = settings.server,
                         applicationId = BuildConfig.DEXCOM_SHARE_APPLICATION_ID.trim(),
                     )
-                    val reading = DexcomSharePhoneGlucoseSource(config).latest()
+                    val reading = DexcomShareClient(config).latest()
                     settingsStore.saveDexcomSettings(settings)
                     settingsStore.setActiveSyncEnabled(true)
                     launchStateStore.markDexcomEntryCompleted()
@@ -124,9 +127,9 @@ class DexcomSettingsActivity : AppCompatActivity() {
                         finish()
                     }
                 } catch (t: Throwable) {
-                    syncStatusRepository.saveError(SyncText.toUserMessage(t), SyncText.toCategory(t))
+                    syncStatusRepository.saveError(SyncErrorAdapter.toUserMessage(t), SyncErrorAdapter.toCategory(t))
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                    statusText.text = "Connexion échouée : ${SyncText.toUserMessage(t)}"
+                    statusText.text = "Connexion échouée : ${SyncErrorAdapter.toUserMessage(t)}"
                 }
 
                 setBusyState(false)
@@ -163,11 +166,15 @@ class DexcomSettingsActivity : AppCompatActivity() {
 
     private fun renderAccountSummary(
         settings: DexcomUserSettings,
-        syncStatus: com.widgetg7.mobile.status.SyncStatusSnapshot,
+        syncStatus: SyncStatusSnapshot,
         accountSummaryText: TextView,
         statusText: TextView,
     ) {
-        accountSummaryText.text = SyncText.dexcomAccountSummary(settings, syncStatus)
+        accountSummaryText.text = SyncStatusTextFormatter.dexcomAccountSummary(
+            dexcomConfigured = settings.isConfigured(),
+            serverLabel = SyncServerLabelFormatter.displayServer(settings.server),
+            syncStatus = syncStatus,
+        )
 
         if (statusText.text.isNullOrBlank()) {
             statusText.text = "Aucune vérification n'a encore été effectuée."

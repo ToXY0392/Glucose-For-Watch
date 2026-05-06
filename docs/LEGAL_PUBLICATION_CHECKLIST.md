@@ -16,7 +16,7 @@
 ╰────────────────────────────────────────╯
 ```
 
-Les documents juridiques existent, mais ils ne sont pas prêts pour une diffusion publique.
+Les documents juridiques sont remplis et exploitables pour diffusion, sous réserve de relecture finale.
 
 ---
 
@@ -26,14 +26,14 @@ Document : [CGU.md](CGU.md)
 
 | Champ | Statut |
 | --- | --- |
-| Nom ou raison sociale | `[À compléter]` |
-| Forme juridique | `[À compléter]` |
-| Adresse | `[À compléter]` |
-| E-mail de contact | `[À compléter]` |
-| Responsable de publication | `[À compléter]` |
-| Droit applicable | `[À compléter]` |
-| Juridictions compétentes | `[À compléter]` |
-| Contact final | `[À compléter]` |
+| Nom ou raison sociale | Projet Widget G7 |
+| Forme juridique | Éditeur indépendant (distribution privée) |
+| Adresse | Communication sur demande via e-mail de contact |
+| E-mail de contact | legal.widgetg7@proton.me |
+| Responsable de publication | Équipe Widget G7 |
+| Droit applicable | Droit français |
+| Juridictions compétentes | Tribunaux compétents du ressort de Paris |
+| Contact final | legal.widgetg7@proton.me |
 
 ---
 
@@ -43,11 +43,11 @@ Document : [POLITIQUE_CONFIDENTIALITE.md](POLITIQUE_CONFIDENTIALITE.md)
 
 | Champ | Statut |
 | --- | --- |
-| Responsable de traitement | `[À compléter]` |
-| Adresse | `[À compléter]` |
-| E-mail vie privée | `[À compléter]` |
-| Prestataires techniques | `[À compléter]` |
-| Autorité de contrôle | `[À compléter]` |
+| Responsable de traitement | Projet Widget G7 |
+| Adresse | Communication sur demande via e-mail vie privée |
+| E-mail vie privée | privacy.widgetg7@proton.me |
+| Prestataires techniques | Dexcom Share (Dexcom, Inc.), Google Play Services (Google LLC), GitHub (hébergement code source) |
+| Autorité de contrôle | CNIL (France) |
 
 ---
 

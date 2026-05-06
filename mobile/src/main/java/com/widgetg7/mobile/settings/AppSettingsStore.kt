@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
-import com.widgetg7.mobile.dexcom.DexcomShareConfig
+import com.widgetg7.feature.dexcomshare.DexcomShareConfig
 
 data class DexcomUserSettings(
     val username: String,

@@ -80,6 +80,13 @@
 | --- | --- |
 | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync principale, assistant installation montre (ADB ; OCR photo + parseur ligne par ligne — toujours vérifier les champs), direct capteur et spike BLE |
 | [REPRISE_PROJET.md](REPRISE_PROJET.md) | État actuel, fichiers clés, prochaines vérifications |
+| [architecture/DECISIONS_SYNC_WEAR_RELIABILITY_2026-05-06.md](architecture/DECISIONS_SYNC_WEAR_RELIABILITY_2026-05-06.md) | Trace des décisions de fiabilité sync/watch (mode dégradé, retries, listener non bloquant) |
+| [operations/MATRICE_TEST_BATTERIE_MONTRE_SYNC.md](operations/MATRICE_TEST_BATTERIE_MONTRE_SYNC.md) | Matrice de validation batterie montre (25/20/15/10, chargeur oui/non) |
+| [operations/BILAN_EXTRACTION_MODULAIRE_2026-05-06.md](operations/BILAN_EXTRACTION_MODULAIRE_2026-05-06.md) | État consolidé de la phase d'extraction modulaire (core/feature + boundaries) |
+| [operations/BILAN_FINAL_PLAN_REFONTE_2026-05-06.md](operations/BILAN_FINAL_PLAN_REFONTE_2026-05-06.md) | Bilan final d'exécution du plan (done vs bloquants + séquence go/no-go) |
+| [operations/RUNBOOK_RELEASE_2026-05-06.md](operations/RUNBOOK_RELEASE_2026-05-06.md) | Procédure exécutable de dry-run release (build, artefacts, blocage juridique) |
+| [operations/MATRICE_OBSERVABILITE_SUPPORT_SYNC_2026-05-06.md](operations/MATRICE_OBSERVABILITE_SUPPORT_SYNC_2026-05-06.md) | Matrice support/QA pour diagnostics incidents sync |
+| [operations/CAMPAGNE_E2E_PHASE5_2026-05-06.md](operations/CAMPAGNE_E2E_PHASE5_2026-05-06.md) | Plan de campagne E2E finale (veille longue, multi-montres, reinstall, dry-run) |
 | [../COMPATIBILITY.md](../COMPATIBILITY.md) | Compatibilité Android et montres Wear OS |
 
 ```text

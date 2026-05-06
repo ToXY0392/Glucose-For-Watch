@@ -20,12 +20,12 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
+import com.widgetg7.feature.watchinstall.WearDirectAdbInstaller
+import com.widgetg7.feature.watchinstall.WearEmbeddedApkRepository
+import com.widgetg7.feature.watchinstall.WearInstallOcr
+import com.widgetg7.feature.watchinstall.WearInstallOcrParsed
+import com.widgetg7.feature.watchinstall.WearInstallOcrParser
 import com.widgetg7.mobile.R
-import com.widgetg7.mobile.watch.install.WearDirectAdbInstaller
-import com.widgetg7.mobile.watch.install.WearEmbeddedApkRepository
-import com.widgetg7.mobile.watch.install.WearInstallOcr
-import com.widgetg7.mobile.watch.install.WearInstallOcrParsed
-import com.widgetg7.mobile.watch.install.WearInstallOcrParser
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

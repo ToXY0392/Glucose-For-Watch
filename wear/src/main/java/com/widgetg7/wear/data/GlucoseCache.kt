@@ -1,6 +1,7 @@
 package com.widgetg7.wear.data
 
 import android.content.Context
+import com.widgetg7.core.datalayer.GlucoseDataLayerContract
 
 enum class GlucoseSemanticLevel {
     NORMAL,
@@ -85,43 +86,44 @@ data class GlucoseSnapshot(
 }
 
 object GlucoseKeys {
-    const val PATH_LATEST = "/glucose/latest"
-    const val PATH_REFRESH_REQUEST = "/glucose/refresh/request"
-    const val PATH_REFRESH_STATUS = "/glucose/refresh/status"
-    const val PATH_WATCH_ACK = "/glucose/watch/ack"
-    const val PATH_WATCH_STATUS_REQUEST = "/watch/status/request"
-    const val PATH_WATCH_STATUS = "/watch/status"
+    const val PATH_LATEST = GlucoseDataLayerContract.PATH_LATEST
+    const val PATH_REFRESH_REQUEST = GlucoseDataLayerContract.PATH_REFRESH_REQUEST
+    const val PATH_REFRESH_STATUS = GlucoseDataLayerContract.PATH_REFRESH_STATUS
+    const val PATH_WATCH_ACK = GlucoseDataLayerContract.PATH_WATCH_ACK
+    const val PATH_WATCH_STATUS_REQUEST = GlucoseDataLayerContract.PATH_WATCH_STATUS_REQUEST
+    const val PATH_WATCH_STATUS = GlucoseDataLayerContract.PATH_WATCH_STATUS
 
-    const val VALUE_MG_DL = "valueMgDl"
-    const val TREND = "trend"
-    const val DELTA_MG_DL = "deltaMgDl"
-    const val TIMESTAMP_EPOCH_MS = "timestampEpochMs"
-    const val STALE = "stale"
-    const val SEQUENCE_ID = "sequenceId"
-    const val TARGET_NODE_ID = "targetNodeId"
+    const val VALUE_MG_DL = GlucoseDataLayerContract.VALUE_MG_DL
+    const val TREND = GlucoseDataLayerContract.TREND
+    const val DELTA_MG_DL = GlucoseDataLayerContract.DELTA_MG_DL
+    const val TIMESTAMP_EPOCH_MS = GlucoseDataLayerContract.TIMESTAMP_EPOCH_MS
+    const val STALE = GlucoseDataLayerContract.STALE
+    const val SEQUENCE_ID = GlucoseDataLayerContract.SEQUENCE_ID
+    const val TARGET_NODE_ID = GlucoseDataLayerContract.TARGET_NODE_ID
     const val HISTORY = "history"
-    const val REFRESH_STATUS = "refreshStatus"
-    const val REFRESH_MESSAGE = "refreshMessage"
-    const val REFRESH_UPDATED_AT = "refreshUpdatedAt"
-    const val REFRESH_IN_PROGRESS = "in_progress"
-    const val REFRESH_COMPLETED = "completed"
-    const val REFRESH_FAILED = "failed"
-    const val WATCH_BATTERY_LEVEL = "watchBatteryLevel"
-    const val WATCH_LOW_POWER = "watchLowPower"
-    const val WATCH_SYNC_LIMITED = "watchSyncLimited"
-    const val WATCH_STATUS_MESSAGE = "watchStatusMessage"
-    const val WATCH_STATUS_UPDATED_AT = "watchStatusUpdatedAt"
-    const val WATCH_MANUFACTURER = "watchManufacturer"
-    const val WATCH_MODEL = "watchModel"
-    const val WATCH_DEVICE = "watchDevice"
-    const val WATCH_APP_INSTALLED = "watchAppInstalled"
-    const val WATCH_APP_VERSION_NAME = "watchAppVersionName"
-    const val WATCH_APP_VERSION_CODE = "watchAppVersionCode"
-    const val WATCH_SUPPORTS_TILE = "watchSupportsTile"
-    const val WATCH_SUPPORTS_COMPLICATION = "watchSupportsComplication"
-    const val ACK_READING_TIMESTAMP_EPOCH_MS = "ackReadingTimestampEpochMs"
-    const val ACK_SEQUENCE_ID = "ackSequenceId"
-    const val ACK_RECEIVED_AT = "ackReceivedAt"
+    const val REFRESH_STATUS = GlucoseDataLayerContract.REFRESH_STATUS
+    const val REFRESH_MESSAGE = GlucoseDataLayerContract.REFRESH_MESSAGE
+    const val REFRESH_UPDATED_AT = GlucoseDataLayerContract.REFRESH_UPDATED_AT
+    const val REFRESH_IN_PROGRESS = GlucoseDataLayerContract.REFRESH_IN_PROGRESS
+    const val REFRESH_COMPLETED = GlucoseDataLayerContract.REFRESH_COMPLETED
+    const val REFRESH_FAILED = GlucoseDataLayerContract.REFRESH_FAILED
+    const val WATCH_BATTERY_LEVEL = GlucoseDataLayerContract.WATCH_BATTERY_LEVEL
+    const val WATCH_IS_CHARGING = GlucoseDataLayerContract.WATCH_IS_CHARGING
+    const val WATCH_LOW_POWER = GlucoseDataLayerContract.WATCH_LOW_POWER
+    const val WATCH_SYNC_LIMITED = GlucoseDataLayerContract.WATCH_SYNC_LIMITED
+    const val WATCH_STATUS_MESSAGE = GlucoseDataLayerContract.WATCH_STATUS_MESSAGE
+    const val WATCH_STATUS_UPDATED_AT = GlucoseDataLayerContract.WATCH_STATUS_UPDATED_AT
+    const val WATCH_MANUFACTURER = GlucoseDataLayerContract.WATCH_MANUFACTURER
+    const val WATCH_MODEL = GlucoseDataLayerContract.WATCH_MODEL
+    const val WATCH_DEVICE = GlucoseDataLayerContract.WATCH_DEVICE
+    const val WATCH_APP_INSTALLED = GlucoseDataLayerContract.WATCH_APP_INSTALLED
+    const val WATCH_APP_VERSION_NAME = GlucoseDataLayerContract.WATCH_APP_VERSION_NAME
+    const val WATCH_APP_VERSION_CODE = GlucoseDataLayerContract.WATCH_APP_VERSION_CODE
+    const val WATCH_SUPPORTS_TILE = GlucoseDataLayerContract.WATCH_SUPPORTS_TILE
+    const val WATCH_SUPPORTS_COMPLICATION = GlucoseDataLayerContract.WATCH_SUPPORTS_COMPLICATION
+    const val ACK_READING_TIMESTAMP_EPOCH_MS = GlucoseDataLayerContract.ACK_READING_TIMESTAMP_EPOCH_MS
+    const val ACK_SEQUENCE_ID = GlucoseDataLayerContract.ACK_SEQUENCE_ID
+    const val ACK_RECEIVED_AT = GlucoseDataLayerContract.ACK_RECEIVED_AT
 }
 
 data class RefreshStatusSnapshot(
@@ -164,6 +166,7 @@ data class RefreshStatusSnapshot(
 
 data class WatchSyncHealthSnapshot(
     val batteryLevel: Int,
+    val isCharging: Boolean,
     val lowPowerMode: Boolean,
     val syncLimited: Boolean,
     val message: String,
@@ -265,6 +268,7 @@ class GlucoseCache(context: Context) {
     fun saveWatchSyncHealth(snapshot: WatchSyncHealthSnapshot) {
         prefs.edit()
             .putInt(KEY_WATCH_BATTERY_LEVEL, snapshot.batteryLevel)
+            .putBoolean(KEY_WATCH_IS_CHARGING, snapshot.isCharging)
             .putBoolean(KEY_WATCH_LOW_POWER, snapshot.lowPowerMode)
             .putBoolean(KEY_WATCH_SYNC_LIMITED, snapshot.syncLimited)
             .putString(KEY_WATCH_STATUS_MESSAGE, snapshot.message)
@@ -276,6 +280,7 @@ class GlucoseCache(context: Context) {
         if (!prefs.contains(KEY_WATCH_STATUS_UPDATED_AT)) return null
         val snapshot = WatchSyncHealthSnapshot(
             batteryLevel = prefs.getInt(KEY_WATCH_BATTERY_LEVEL, -1),
+            isCharging = prefs.getBoolean(KEY_WATCH_IS_CHARGING, false),
             lowPowerMode = prefs.getBoolean(KEY_WATCH_LOW_POWER, false),
             syncLimited = prefs.getBoolean(KEY_WATCH_SYNC_LIMITED, false),
             message = prefs.getString(KEY_WATCH_STATUS_MESSAGE, "").orEmpty(),
@@ -309,6 +314,7 @@ class GlucoseCache(context: Context) {
         private const val KEY_REFRESH_UPDATED_AT = "refresh_updated_at"
         private const val KEY_LAST_PHONE_UPDATE_RECEIVED_AT = "last_phone_update_received_at"
         private const val KEY_WATCH_BATTERY_LEVEL = "watch_battery_level"
+        private const val KEY_WATCH_IS_CHARGING = "watch_is_charging"
         private const val KEY_WATCH_LOW_POWER = "watch_low_power"
         private const val KEY_WATCH_SYNC_LIMITED = "watch_sync_limited"
         private const val KEY_WATCH_STATUS_MESSAGE = "watch_status_message"

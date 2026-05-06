@@ -13,11 +13,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
+import com.widgetg7.feature.sync.SyncStatusRepository
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.settings.LaunchStateStore
-import com.widgetg7.mobile.status.SyncStatusRepository
 
 class DexcomEntryActivity : AppCompatActivity() {
     private lateinit var openDexcomLoginButton: MaterialButton

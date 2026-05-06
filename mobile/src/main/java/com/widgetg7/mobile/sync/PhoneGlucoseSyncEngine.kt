@@ -1,11 +1,21 @@
 package com.widgetg7.mobile.sync
 
 import android.content.Context
-import com.widgetg7.mobile.data.GlucoseReading
+import android.util.Log
+import com.widgetg7.core.model.GlucoseReading
+import com.widgetg7.feature.sync.GlucoseSourcePort
+import com.widgetg7.feature.sync.GlucoseSyncEngine
+import com.widgetg7.feature.sync.RefreshStatusPort
+import com.widgetg7.feature.sync.SyncMessageCatalog
+import com.widgetg7.feature.sync.SyncNotificationAction
+import com.widgetg7.feature.sync.SyncExecutionResult
+import com.widgetg7.feature.sync.SyncStatePort
+import com.widgetg7.feature.sync.SyncStateSnapshot
+import com.widgetg7.feature.sync.SyncStatusRepository
+import com.widgetg7.feature.sync.WearSyncPort
 import com.widgetg7.mobile.data.PhoneGlucoseSourceFactory
 import com.widgetg7.mobile.notifications.NotificationHelper
-import com.widgetg7.mobile.status.SyncErrorCategory
-import com.widgetg7.mobile.status.SyncStatusRepository
+import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
 
@@ -18,54 +28,69 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
             val source = PhoneGlucoseSourceFactory.create(context)
             val syncStatusRepository = SyncStatusRepository(context)
             val syncStateStore = PhoneSyncStateStore(context)
-            val previousSyncState = syncStateStore.load()
-            syncStateStore.recordFetchAttempt()
-            val reading =
-                withTimeout(FETCH_TIMEOUT_MS) {
-                    source.latest()
-                }
-            syncStateStore.recordFetchedReading(reading.timestampEpochMs)
-
-            val hasNewReading = previousSyncState.lastPushedReadingTimestampEpochMs != reading.timestampEpochMs
-            val shouldPushToWatch = hasNewReading || forcePushCurrentReading
-            if (shouldPushToWatch) {
-                val sequenceId = syncStateStore.nextSequenceId()
-                val pushed =
-                    withTimeout(WEAR_PUSH_TIMEOUT_MS) {
-                        PhoneWearSyncService(context).pushLatest(reading, sequenceId)
+            var latestReading: GlucoseReading? = null
+            val result = GlucoseSyncEngine(
+                source = object : GlucoseSourcePort {
+                    override val sourceName: String = source.sourceName
+                    override suspend fun latest(): GlucoseReading = withTimeout(FETCH_TIMEOUT_MS) {
+                        source.latest().also { latestReading = it }
                     }
-                if (pushed) {
-                    syncStateStore.recordPushSuccess(
-                        timestampEpochMs = reading.timestampEpochMs,
-                        sequenceId = sequenceId,
-                        valueMgDl = reading.valueMgDl,
-                        trend = reading.trend,
-                        deltaMgDl = reading.deltaMgDl,
-                        stale = reading.stale,
-                    )
-                } else {
-                    if (triggeredFromWatch) {
+                },
+                syncState = object : SyncStatePort {
+                    override fun load(): SyncStateSnapshot =
+                        SyncStateSnapshot(
+                            lastPushedReadingTimestampEpochMs = syncStateStore.load().lastPushedReadingTimestampEpochMs,
+                        )
+
+                    override fun recordFetchAttempt() = syncStateStore.recordFetchAttempt()
+
+                    override fun recordFetchedReading(timestampEpochMs: Long) =
+                        syncStateStore.recordFetchedReading(timestampEpochMs)
+
+                    override fun nextSequenceId(): Long = syncStateStore.nextSequenceId()
+
+                    override fun recordPushSuccess(reading: GlucoseReading, sequenceId: Long) {
+                        syncStateStore.recordPushSuccess(
+                            timestampEpochMs = reading.timestampEpochMs,
+                            sequenceId = sequenceId,
+                            valueMgDl = reading.valueMgDl,
+                            trend = reading.trend,
+                            deltaMgDl = reading.deltaMgDl,
+                            stale = reading.stale,
+                        )
+                    }
+                },
+                wearSync = object : WearSyncPort {
+                    override suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean =
+                        withTimeout(WEAR_PUSH_TIMEOUT_MS) {
+                            PhoneWearSyncService(context).pushLatest(reading, sequenceId)
+                        }
+                },
+                refreshStatus = object : RefreshStatusPort {
+                    override suspend fun pushCompletedPhoneUpToDateWatchUnavailable() {
                         PhoneWearRefreshStatusService(context)
-                            .pushCompleted("Téléphone à jour ; liaison montre indisponible pour l’envoi.")
+                            .pushCompleted(degradedWatchMessage(SyncMessageCatalog.REFRESH_PHONE_UP_TO_DATE_WATCH_UNAVAILABLE))
                     }
-                }
-            } else {
-                if (triggeredFromWatch) {
-                    PhoneWearRefreshStatusService(context).pushCompleted("Aucune nouvelle mesure")
-                }
-            }
 
-            syncStatusRepository.saveSuccess(source.sourceName, reading)
-            NotificationHelper(context).cancelSyncAlerts()
-            if (hasNewReading) {
-                SyncExecutionResult.SuccessNewReading(source.sourceName)
-            } else {
-                SyncExecutionResult.SuccessNoNewReading(source.sourceName)
+                    override suspend fun pushCompletedNoNewReading() {
+                        PhoneWearRefreshStatusService(context).pushCompleted(degradedWatchMessage(SyncMessageCatalog.REFRESH_NO_NEW_READING))
+                    }
+                },
+            ).run(
+                triggeredFromWatch = triggeredFromWatch,
+                forcePushCurrentReading = forcePushCurrentReading,
+            )
+
+            Log.i(TAG, "sync_result fromWatch=$triggeredFromWatch forcePush=$forcePushCurrentReading result=${result::class.simpleName}")
+            latestReading?.let { reading ->
+                syncStatusRepository.saveSuccess(source.sourceName, reading)
             }
+            NotificationHelper(context).cancelSyncAlerts()
+            result
         } catch (t: TimeoutCancellationException) {
             handleFailure(
                 triggeredFromWatch = triggeredFromWatch,
-                error = IllegalStateException("Delai depasse pendant la synchronisation.", t),
+                error = IllegalStateException(SyncMessageCatalog.SYNC_TIMEOUT, t),
             )
         } catch (t: Throwable) {
             handleFailure(triggeredFromWatch, t)
@@ -73,39 +98,44 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
     }
 
     private suspend fun handleFailure(triggeredFromWatch: Boolean, error: Throwable): SyncExecutionResult.Failure {
-        val message = SyncText.toUserMessage(error)
         val syncStatusRepository = SyncStatusRepository(context)
-        PhoneSyncStateStore(context).recordPushFailure(message)
+        val outcome = PhoneSyncFailureHandler.evaluate(error, syncStatusRepository.load())
+        Log.e(TAG, "sync_failure triggeredFromWatch=$triggeredFromWatch message=${outcome.message}", error)
+        PhoneSyncStateStore(context).recordPushFailure(outcome.message)
         syncStatusRepository.saveError(
-            message = message,
-            category = SyncText.toCategory(error),
+            message = outcome.message,
+            category = outcome.category,
         )
-        notifyIfNeeded(syncStatusRepository.load())
+        notifyIfNeeded(outcome.notificationAction, syncStatusRepository.load().lastError)
         if (triggeredFromWatch) {
-            PhoneWearRefreshStatusService(context).pushFailure(message)
+            PhoneWearRefreshStatusService(context).pushFailure(outcome.message)
         }
-        return SyncExecutionResult.Failure(message)
+        return SyncExecutionResult.Failure(outcome.message)
     }
 
-    private fun notifyIfNeeded(syncStatus: com.widgetg7.mobile.status.SyncStatusSnapshot) {
+    private fun notifyIfNeeded(notificationAction: SyncNotificationAction?, lastError: String) {
         val notificationHelper = NotificationHelper(context)
-        when {
-            syncStatus.lastErrorCategory == SyncErrorCategory.AUTH && syncStatus.authFailureCount >= 2 ->
+        when (notificationAction) {
+            SyncNotificationAction.DEXCOM_RECONNECT_REQUIRED ->
                 notificationHelper.notifyDexcomReconnectRequired()
 
-            syncStatus.consecutiveFailureCount >= 3 ->
-                notificationHelper.notifySyncInterrupted(syncStatus.lastError.ifBlank { "La synchronisation a besoin de votre attention." })
+            SyncNotificationAction.SYNC_INTERRUPTED ->
+                notificationHelper.notifySyncInterrupted(
+                    lastError.ifBlank { SyncMessageCatalog.SYNC_NEEDS_ATTENTION },
+                )
+
+            null -> Unit
         }
+    }
+
+    private fun degradedWatchMessage(base: String): String {
+        val health = WatchSyncHealthRepository(context).load()
+        return WatchBatteryPolicy.withDegradedSuffix(base, health)
     }
 
     companion object {
+        private const val TAG = "WG7.PhoneSyncEngine"
         private const val FETCH_TIMEOUT_MS = 12_000L
         private const val WEAR_PUSH_TIMEOUT_MS = 8_000L
     }
-}
-
-sealed interface SyncExecutionResult {
-    data class SuccessNewReading(val sourceName: String) : SyncExecutionResult
-    data class SuccessNoNewReading(val sourceName: String) : SyncExecutionResult
-    data class Failure(val message: String) : SyncExecutionResult
 }

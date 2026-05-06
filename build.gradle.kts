@@ -5,18 +5,21 @@ import java.util.Properties
 
 plugins {
     id("com.android.application") version "8.13.2" apply false
+    id("com.android.library") version "8.13.2" apply false
     id("org.jetbrains.kotlin.android") version "2.3.20" apply false
 }
 
 /**
- * Déploiement debug local (voir local.properties) :
+ * Déploiement debug local (Linux/Unix prioritaire, Windows compatible) :
  *
  *   widgetg7.adb.phone.serial=<id adb du téléphone>
  *   widgetg7.adb.watch.serial=<id adb de la montre>
  *
- * Ou variables d'environnement : WIDGETG7_PHONE_SERIAL, WIDGETG7_WATCH_SERIAL
+ * Variables d'environnement supportées :
+ *   WIDGETG7_PHONE_SERIAL, WIDGETG7_WATCH_SERIAL
+ *   ANDROID_SDK_ROOT (ou ANDROID_HOME) si sdk.dir absent de local.properties
  *
- * Commande : ./gradlew installWidgetG7Debug   (Windows : gradlew.bat installWidgetG7Debug)
+ * Commande : ./gradlew installWidgetG7Debug   (Windows : .\gradlew.bat installWidgetG7Debug)
  */
 tasks.register("installWidgetG7Debug") {
     group = "widget g7"
@@ -30,8 +33,13 @@ tasks.register("installWidgetG7Debug") {
                 if (f.isFile) f.inputStream().use { load(it) }
             }
         val sdkDir =
-            props.getProperty("sdk.dir")?.trim()
-                ?: error("sdk.dir manquant dans local.properties")
+            props.getProperty("sdk.dir")?.trim()?.takeIf { it.isNotBlank() }
+                ?: System.getenv("ANDROID_SDK_ROOT")?.trim()?.takeIf { it.isNotBlank() }
+                ?: System.getenv("ANDROID_HOME")?.trim()?.takeIf { it.isNotBlank() }
+                ?: error(
+                    "SDK Android introuvable: renseignez sdk.dir dans local.properties " +
+                        "ou ANDROID_SDK_ROOT/ANDROID_HOME dans l'environnement.",
+                )
         val sdkRoot = File(sdkDir)
         val adbName =
             if (System.getProperty("os.name").orEmpty().contains("windows", ignoreCase = true)) {

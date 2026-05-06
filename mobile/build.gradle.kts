@@ -72,6 +72,11 @@ afterEvaluate {
 }
 
 dependencies {
+    implementation(project(":core:datalayer-contract"))
+    implementation(project(":core:model"))
+    implementation(project(":feature:sync"))
+    implementation(project(":feature:dexcom-share"))
+    implementation(project(":feature:watch-install"))
     implementation("com.google.mlkit:text-recognition:16.0.1")
     implementation("androidx.exifinterface:exifinterface:1.4.1")
     implementation("com.flyfishxu:kadb:2.1.1")
@@ -86,4 +91,7 @@ dependencies {
     implementation("androidx.wear:wear-remote-interactions:1.2.0")
     implementation("androidx.work:work-runtime-ktx:2.11.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+
+    testImplementation(project(":core:testing"))
+    testImplementation("junit:junit:4.13.2")
 }

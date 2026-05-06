@@ -4,9 +4,11 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import com.widgetg7.mobile.data.GlucoseReading
+import android.util.Log
+import com.widgetg7.core.model.GlucoseReading
 import com.widgetg7.mobile.notifications.NotificationHelper
 import com.widgetg7.mobile.settings.AppSettingsStore
+import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,6 +36,7 @@ class ActiveGlucoseSyncService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when (intent?.action ?: ACTION_START) {
             ACTION_START -> {
+                Log.i(TAG, "service_action_start")
                 AppSettingsStore(this).setActiveSyncEnabled(true)
                 if (startLoop()) {
                     requestImmediateSync()
@@ -41,11 +44,13 @@ class ActiveGlucoseSyncService : Service() {
             }
 
             ACTION_SYNC_NOW -> {
+                Log.i(TAG, "service_action_sync_now")
                 startLoop()
                 requestImmediateSync()
             }
 
             ACTION_STOP -> {
+                Log.i(TAG, "service_action_stop")
                 stopActiveSync()
                 return START_NOT_STICKY
             }
@@ -74,7 +79,7 @@ class ActiveGlucoseSyncService : Service() {
         loopJob = serviceScope.launch {
             while (isActive) {
                 runSyncPass(triggeredFromWatch = false, forcePushCurrentReading = false)
-                delay(POLL_INTERVAL_MS)
+                delay(nextPollIntervalMs())
             }
         }
         return true
@@ -101,13 +106,21 @@ class ActiveGlucoseSyncService : Service() {
                 triggeredFromWatch = triggeredFromWatch,
                 forcePushCurrentReading = forcePushCurrentReading,
             )
+            Log.i(
+                TAG,
+                "sync_pass_result triggeredFromWatch=$triggeredFromWatch forcePush=$forcePushCurrentReading result=${result::class.simpleName}",
+            )
             repairUnackedDelivery()
             PhoneSyncStateStore(this).recordActiveServiceState("running")
         }
     }
 
     private suspend fun repairUnackedDelivery() {
-        val delays = longArrayOf(10_000L, 20_000L, 30_000L)
+        val delays = if (isWatchInDegradedBatteryMode()) {
+            longArrayOf(20_000L, 45_000L)
+        } else {
+            longArrayOf(10_000L, 20_000L, 30_000L)
+        }
         for (delayMs in delays) {
             val state = PhoneSyncStateStore(this).load()
             if (state.lastPushSequenceId <= 0L || state.lastAckSequenceId == state.lastPushSequenceId) {
@@ -132,11 +145,30 @@ class ActiveGlucoseSyncService : Service() {
                     stale = reading.stale,
                 )
                 PhoneSyncStateStore(this).recordRepushAttempt(nextRepushCount)
+                Log.i(
+                    TAG,
+                    "repush_success sequenceId=$sequenceId repushCount=$nextRepushCount readingTs=${reading.timestampEpochMs}",
+                )
             }.onFailure { error ->
                 PhoneSyncStateStore(this).recordPushFailure(error.message.orEmpty())
+                Log.w(TAG, "repush_failed error=${error.message}", error)
                 return
             }
         }
+    }
+
+    private fun nextPollIntervalMs(): Long {
+        val health = WatchSyncHealthRepository(this).load()
+        val intervalMs = WatchBatteryPolicy.pollIntervalMs(health)
+        if (intervalMs == WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS) {
+            Log.i(TAG, "poll_interval_degraded intervalMs=$POLL_INTERVAL_DEGRADED_MS")
+        }
+        return intervalMs
+    }
+
+    private fun isWatchInDegradedBatteryMode(): Boolean {
+        val health = WatchSyncHealthRepository(this).load()
+        return WatchBatteryPolicy.isDegraded(health)
     }
 
     private fun PhoneSyncStateSnapshot.toLastPushedReading(): GlucoseReading? {
@@ -160,10 +192,11 @@ class ActiveGlucoseSyncService : Service() {
     }
 
     companion object {
+        private const val TAG = "WG7.ActiveSyncService"
         private const val ACTION_START = "com.widgetg7.mobile.sync.action.START_ACTIVE_SYNC"
         private const val ACTION_SYNC_NOW = "com.widgetg7.mobile.sync.action.SYNC_NOW"
         private const val ACTION_STOP = "com.widgetg7.mobile.sync.action.STOP_ACTIVE_SYNC"
-        private const val POLL_INTERVAL_MS = 45_000L
+        private const val POLL_INTERVAL_DEGRADED_MS = WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS
         private const val FALLBACK_RESTART_MS = 30_000L
 
         fun startIntent(context: Context): Intent =

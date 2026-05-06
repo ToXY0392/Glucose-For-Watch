@@ -18,3 +18,9 @@ dependencyResolutionManagement {
 rootProject.name = "WidgetG7"
 include(":mobile")
 include(":wear")
+include(":core:datalayer-contract")
+include(":core:model")
+include(":core:testing")
+include(":feature:sync")
+include(":feature:dexcom-share")
+include(":feature:watch-install")

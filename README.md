@@ -81,11 +81,13 @@ la montre affiche
 7. Ajouter la tile ou la complication
 ```
 
-> 🛠️ **Depuis le code source**
+> 🛠️ **Depuis le code source** (Linux/Unix)
 
-```powershell
-.\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
+```bash
+./gradlew :mobile:assembleDebug :wear:assembleDebug
 ```
+
+Sous Windows: `.\gradlew.bat :mobile:assembleDebug :wear:assembleDebug`
 
 Voir aussi : [COMPATIBILITY.md](COMPATIBILITY.md) · **[Structure du dépôt](docs/STRUCTURE_REPO.md)** (où vit le code, la doc et les modules).
 

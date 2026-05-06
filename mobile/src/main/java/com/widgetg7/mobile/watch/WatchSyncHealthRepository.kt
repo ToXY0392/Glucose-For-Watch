@@ -4,6 +4,7 @@ import android.content.Context
 
 data class WatchSyncHealthStatus(
     val batteryLevel: Int,
+    val isCharging: Boolean,
     val lowPowerMode: Boolean,
     val syncLimited: Boolean,
     val message: String,
@@ -45,6 +46,7 @@ class WatchSyncHealthRepository(context: Context) {
     fun save(status: WatchSyncHealthStatus) {
         prefs.edit()
             .putInt(KEY_BATTERY_LEVEL, status.batteryLevel)
+            .putBoolean(KEY_IS_CHARGING, status.isCharging)
             .putBoolean(KEY_LOW_POWER, status.lowPowerMode)
             .putBoolean(KEY_SYNC_LIMITED, status.syncLimited)
             .putString(KEY_MESSAGE, status.message)
@@ -64,6 +66,7 @@ class WatchSyncHealthRepository(context: Context) {
         if (!prefs.contains(KEY_UPDATED_AT)) return null
         return WatchSyncHealthStatus(
             batteryLevel = prefs.getInt(KEY_BATTERY_LEVEL, -1),
+            isCharging = prefs.getBoolean(KEY_IS_CHARGING, false),
             lowPowerMode = prefs.getBoolean(KEY_LOW_POWER, false),
             syncLimited = prefs.getBoolean(KEY_SYNC_LIMITED, false),
             message = prefs.getString(KEY_MESSAGE, "").orEmpty(),
@@ -82,6 +85,7 @@ class WatchSyncHealthRepository(context: Context) {
     companion object {
         private const val PREFS_NAME = "widget_g7_watch_health"
         private const val KEY_BATTERY_LEVEL = "battery_level"
+        private const val KEY_IS_CHARGING = "is_charging"
         private const val KEY_LOW_POWER = "low_power"
         private const val KEY_SYNC_LIMITED = "sync_limited"
         private const val KEY_MESSAGE = "message"
