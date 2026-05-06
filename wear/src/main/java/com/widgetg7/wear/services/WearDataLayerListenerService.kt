@@ -1,7 +1,7 @@
 package com.widgetg7.wear.services
 
-import android.util.Log
 import androidx.wear.tiles.TileService
+import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -18,22 +18,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 
 class WearDataLayerListenerService : WearableListenerService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    @Volatile
-    private var localNodeIdCache: String? = null
 
     override fun onCreate() {
         super.onCreate()
         ComplicationUpdateNotifier.requestUpdateAll(this)
-        serviceScope.launch {
-            localNodeIdCache = runCatching {
-                Wearable.getNodeClient(this@WearDataLayerListenerService).localNode.await().id
-            }.getOrNull()
-            Log.i(TAG, "local_node_cache_ready cached=${!localNodeIdCache.isNullOrBlank()}")
-        }
     }
 
     override fun onDataChanged(dataEvents: DataEventBuffer) {
@@ -116,11 +107,9 @@ class WearDataLayerListenerService : WearableListenerService() {
 
     private fun isForThisWatch(targetNodeId: String): Boolean {
         if (targetNodeId.isBlank()) return true
-        val localNodeId = localNodeIdCache.orEmpty()
+        val localNodeId = runCatching {
+            Tasks.await(Wearable.getNodeClient(this).localNode).id
+        }.getOrDefault("")
         return localNodeId.isBlank() || localNodeId == targetNodeId
-    }
-
-    companion object {
-        private const val TAG = "WG7.WearListener"
     }
 }
