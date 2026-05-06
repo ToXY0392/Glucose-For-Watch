@@ -155,10 +155,10 @@ class GlucoseSimpleTileService : TileService() {
     }
 
     private companion object {
-        private const val RESOURCES_VERSION = "simple-tile-v4-classic-fleche-only"
-        private const val TILE_BG = 0xFF000000.toInt()
-        private const val TILE_TEXT = 0xFFF7FBFA.toInt()
-        private const val TILE_ACCENT = 0xFF35E995.toInt()
-        private const val TILE_TREND_STALE = 0xFFA7B0BA.toInt()
+        private const val RESOURCES_VERSION = "simple-tile-v5-nocturne-pro"
+        private const val TILE_BG = 0xFF0D1117.toInt()
+        private const val TILE_TEXT = 0xFFF8FAFC.toInt()
+        private const val TILE_ACCENT = 0xFF34D399.toInt()
+        private const val TILE_TREND_STALE = 0xFF64748B.toInt()
     }
 }

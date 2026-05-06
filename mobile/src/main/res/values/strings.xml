@@ -4,6 +4,9 @@
     <string name="home_hero_connect">Configurer Dexcom</string>
     <string name="home_hero_connect_hint">Utilisez la carte Dexcom ci‑dessous</string>
     <string name="home_hero_waiting">En attente de données</string>
+    <string name="home_brand_tagline">Glycémie au poignet · Wear OS</string>
+    <string name="home_section_pilotage">Pilotage express</string>
+    <string name="home_section_data">Flux &amp; données</string>
     <string name="home_status_heading">État</string>
     <string name="menu_content_description">Menu</string>
     <string name="home_sync_content_description">Synchroniser avec la montre</string>

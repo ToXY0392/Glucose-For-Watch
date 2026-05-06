@@ -9,9 +9,9 @@
             <corners android:radius="18dp" />
             <gradient
                 android:angle="270"
-                android:startColor="#60646A"
-                android:centerColor="#22242A"
-                android:endColor="#565A62" />
+                android:startColor="@color/wg7_watch_ring"
+                android:centerColor="@color/wg7_surface_alt"
+                android:endColor="@color/wg7_outline" />
         </shape>
     </item>
 
@@ -23,9 +23,9 @@
         <shape android:shape="oval">
             <gradient
                 android:angle="315"
-                android:startColor="#EFEDE8"
-                android:centerColor="#C7C4BD"
-                android:endColor="#888883" />
+                android:startColor="@color/wg7_text_secondary"
+                android:centerColor="@color/wg7_text_tertiary"
+                android:endColor="@color/wg7_watch_ring" />
         </shape>
     </item>
 
@@ -35,7 +35,7 @@
         android:left="56dp"
         android:right="56dp">
         <shape android:shape="oval">
-            <solid android:color="#0B0C10" />
+            <solid android:color="@color/wg7_bg_top" />
         </shape>
     </item>
 </layer-list>

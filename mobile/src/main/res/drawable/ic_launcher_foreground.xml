@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Zone utile adaptive icon ~ centre 72dp ; teinte Nocturne Pro -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:pivotX="54"
+        android:pivotY="54">
+        <!-- Plan surface -->
+        <path
+            android:fillColor="@color/wg7_surface_alt"
+            android:pathData="M54,26 L76,37 L76,61 L54,74 L32,61 L32,37 Z" />
+        <!-- Accent principal -->
+        <path
+            android:fillColor="@color/wg7_accent"
+            android:pathData="M54,34 L71,43 L71,56 L54,66 L37,56 L37,43 Z" />
+        <!-- Découpe “7” / signal -->
+        <path
+            android:fillColor="@color/wg7_bg_top"
+            android:pathData="M58,54 L71,61 L61,63 Z" />
+    </group>
+</vector>

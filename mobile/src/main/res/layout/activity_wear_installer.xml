@@ -17,16 +17,12 @@
         android:paddingEnd="20dp"
         android:paddingBottom="40dp">
 
-        <ImageView
-            android:layout_width="132dp"
+        <include
+            layout="@layout/include_brand_header"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/app_name"
-            android:maxHeight="92dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/logo_widget_g7_official" />
+            android:layout_marginTop="8dp" />
 
         <TextView
             android:layout_width="match_parent"

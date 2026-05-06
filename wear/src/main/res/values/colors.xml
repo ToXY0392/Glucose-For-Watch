@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="wg7_tile_bg">#FF000000</color>
+    <color name="wg7_tile_bg">#0D1117</color>
+    <color name="wg7_text_primary">#F8FAFC</color>
 </resources>
