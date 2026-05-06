@@ -1,0 +1,34 @@
+/*
+  Aperçu Markdown VS Code / Cursor : uniquement docs/INDEX.md
+  (h1#wg7-doc-index + intro + ## …).
+*/
+.markdown-preview-view h1#wg7-doc-index,
+body h1#wg7-doc-index {
+  font-size: 1.65rem !important;
+  line-height: 1.25 !important;
+  margin: 0 0 0.25rem 0 !important;
+}
+
+/* Texte courant : intro, listes, paragraphes entre sections */
+.markdown-preview-view h1#wg7-doc-index ~ p,
+body h1#wg7-doc-index ~ p,
+.markdown-preview-view h1#wg7-doc-index ~ ul,
+body h1#wg7-doc-index ~ ul,
+.markdown-preview-view h1#wg7-doc-index ~ ol,
+body h1#wg7-doc-index ~ ol {
+  font-size: 0.9rem !important;
+  line-height: 1.45 !important;
+}
+
+.markdown-preview-view h1#wg7-doc-index + p + h2,
+.markdown-preview-view h1#wg7-doc-index + p + h2 ~ h2,
+body h1#wg7-doc-index + p + h2,
+body h1#wg7-doc-index + p + h2 ~ h2 {
+  color: #ffa500 !important;
+  font-size: 1.85rem !important; /* ~30px */
+  font-weight: bold !important;
+  line-height: 1.2 !important;
+  margin: 1rem 0 0.45rem 0 !important;
+  padding-bottom: 0 !important;
+  border-bottom: none !important;
+}

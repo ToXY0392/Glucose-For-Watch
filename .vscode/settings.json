@@ -1,4 +1,5 @@
 {
+  "markdown.styles": ["docs/markdown-preview-wg7.css"],
   "java.jdt.ls.java.home": "C:\\Program Files\\Android\\Android Studio\\jbr",
   "java.import.gradle.java.home": "C:\\Program Files\\Android\\Android Studio\\jbr",
   "java.configuration.runtimes": [
