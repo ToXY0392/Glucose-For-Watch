@@ -13,9 +13,9 @@
 | Statut | **Mise en pause** côté produit / doc |
 | Contexte | Bouton « Remplir depuis une photo » (ML Kit) pour préremplir IP, ports, code jumelage |
 | Constat | Remplissage automatique **insuffisamment fiable** sur captures réelles |
-| Attendu | Saisie manuelle depuis l’écran montre ; piste OCR à reprendre si besoin (cf. [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)) |
+| Attendu | Saisie manuelle depuis l’écran montre ; piste OCR à reprendre si besoin (cf. [technical-wear-os-sync.md](technical-wear-os-sync.md)) |
 
-*(Suite mai 2026)* : parseur OCR renforcé ligne par ligne + prétraitement IP ; doc alignée ([STRUCTURE_REPO.md](STRUCTURE_REPO.md), hygiène `.kotlin/` ignoré). Toujours vérifier les champs après photo.
+*(Suite mai 2026)* : parseur OCR renforcé ligne par ligne + prétraitement IP ; doc alignée ([structure-repository.md](structure-repository.md), hygiène `.kotlin/` ignoré). Toujours vérifier les champs après photo.
 
 ---
 
@@ -91,7 +91,7 @@ Validation connue :
 
 | Document | Rôle |
 | --- | --- |
-| [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Décision téléphone -> Wear OS, audit Dexcom, direct capteur et protocole BLE |
+| [technical-wear-os-sync.md](technical-wear-os-sync.md) | Décision téléphone -> Wear OS, audit Dexcom, direct capteur et protocole BLE |
 
 Décision :
 

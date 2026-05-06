@@ -1,0 +1,310 @@
+# Registre structuré — documentation officielle des outils Widget G7
+# Maintenir en parallèle avec : build.gradle.kts (racine), mobile/build.gradle.kts, wear/build.gradle.kts
+# Schéma implicite v1 ; les champs sont extensibles (notes, deprecated, …)
+
+meta:
+  registry_version: 1
+  project: WidgetG7
+  updated: "2026-05-06"
+  human_index: README.md
+  flat_table: dependency-registry.md
+
+build_toolchain:
+  jdk:
+    version: "17"
+    docs:
+      - url: https://developer.android.com/build/jdks
+        label: JDK Android Gradle
+  android_gradle_plugin:
+    version: "8.13.2"
+    docs:
+      - url: https://developer.android.com/build/releases/gradle-plugin
+        label: Notes de version AGP
+  kotlin_android_plugin:
+    version: "2.3.20"
+    docs:
+      - url: https://kotlinlang.org/docs/gradle-configure-project.html
+        label: Kotlin avec Gradle
+  gradle_wrapper_distribution:
+    version: "8.13"
+    file: gradle/wrapper/gradle-wrapper.properties
+    docs:
+      - url: https://docs.gradle.org/current/userguide/userguide.html
+        label: Manuel utilisateur Gradle
+  android_sdk_compile:
+    compile_sdk: 36
+    docs:
+      - url: https://developer.android.com/guide/topics/manifest/uses-sdk-element
+        label: uses-sdk et niveaux API
+      - url: https://developer.android.com/reference/android/os/Build.VERSION_CODES
+        label: Codes version Android
+
+repositories:
+  - id: google-maven
+    url: https://maven.google.com
+    docs:
+      - url: https://developer.android.com/studio/build#repositories-plugin
+        label: Dépôts Gradle Android
+  - id: maven-central
+    url: https://repo1.maven.org/maven2/
+    docs:
+      - url: https://central.sonatype.org/
+        label: Maven Central (hébergement)
+  - id: jitpack
+    url: https://jitpack.io
+    docs:
+      - url: https://docs.jitpack.io/
+        label: Documentation JitPack
+    note: Déclaré dans settings.gradle.kts ; usage effectif selon dépendances.
+
+gradle_modules_included:
+  - ":mobile"
+  - ":wear"
+
+# Outils sans coordonnées Maven (protocoles, plugins seuls)
+vendor_systems:
+  - id: dexcom-share-http
+    kind: vendor_http_api
+    official_public_spec: false
+    markdown: dexcom-share.md
+    code:
+      - mobile/src/main/java/com/widgetg7/mobile/dexcom/DexcomSharePhoneGlucoseSource.kt
+      - mobile/src/main/java/com/widgetg7/mobile/dexcom/DexcomShareConfig.kt
+    hosts:
+      - share2.dexcom.com
+      - shareous1.dexcom.com
+    path_prefix: /ShareWebServices/Services/
+    related_official_docs:
+      - url: https://developer.dexcom.com/
+        label: Dexcom Developer (API OAuth v3 distincte du Share HTTP)
+      - url: https://developer.dexcom.com/docs/dexcomv3/endpoint-overview
+        label: Endpoints API v3
+      - url: https://developer.dexcom.com/docs/dexcom/authentication
+        label: Authentification API Dexcom
+
+# Plugins Gradle (racine)
+gradle_plugins:
+  - id: com.android.application
+    version: "8.13.2"
+    markdown: kotlin-gradle-build.md
+    docs:
+      - url: https://developer.android.com/build
+        label: Android build system
+  - id: org.jetbrains.kotlin.android
+    version: "2.3.20"
+    markdown: kotlin-gradle-build.md
+    docs:
+      - url: https://kotlinlang.org/docs/home.html
+        label: Documentation Kotlin
+
+# Dépendances runtime (implementation)
+dependencies:
+  - id: mlkit-text-recognition
+    coordinate: com.google.mlkit:text-recognition:16.0.1
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developers.google.com/ml-kit/vision/text-recognition
+        label: ML Kit Text Recognition
+
+  - id: androidx-exifinterface
+    coordinate: androidx.exifinterface:exifinterface:1.4.1
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/exifinterface
+        label: AndroidX ExifInterface
+
+  - id: kadb
+    coordinate: com.flyfishxu:kadb:2.1.1
+    modules: [":mobile"]
+    vendor: third_party
+    markdown: kotlin-gradle-build.md
+    docs:
+      - url: https://github.com/flyfishxu/kadb
+        label: Dépôt kadb (README)
+
+  - id: androidx-core-ktx
+    coordinate: androidx.core:core-ktx:1.18.0
+    modules: [":mobile", ":wear"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/core
+        label: AndroidX Core
+
+  - id: androidx-core-splashscreen
+    coordinate: androidx.core:core-splashscreen:1.0.1
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developer.android.com/develop/ui/views/launch/splash-screen
+        label: SplashScreen API
+      - url: https://developer.android.com/jetpack/androidx/releases/core
+        label: AndroidX Core (artefact splashscreen)
+
+  - id: androidx-appcompat
+    coordinate: androidx.appcompat:appcompat:1.7.1
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/appcompat
+        label: AndroidX AppCompat
+
+  - id: androidx-constraintlayout
+    coordinate: androidx.constraintlayout:constraintlayout:2.2.1
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/constraintlayout
+        label: ConstraintLayout
+
+  - id: material-components
+    coordinate: com.google.android.material:material:1.13.0
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://github.com/material-components/material-components-android
+        label: Material Components Android (dépôt)
+      - url: https://m3.material.io/
+        label: Material Design 3
+
+  - id: androidx-lifecycle-runtime-ktx
+    coordinate: androidx.lifecycle:lifecycle-runtime-ktx:2.10.0
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/lifecycle
+        label: AndroidX Lifecycle
+      - url: https://developer.android.com/topic/libraries/architecture/lifecycle
+        label: Guide Lifecycle
+
+  - id: androidx-security-crypto
+    coordinate: androidx.security:security-crypto:1.1.0
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/security
+        label: AndroidX Security
+
+  - id: play-services-wearable
+    coordinate: com.google.android.gms:play-services-wearable:19.0.0
+    modules: [":mobile", ":wear"]
+    vendor: google
+    markdown: google-wear-os.md
+    docs:
+      - url: https://developers.google.com/android/guides
+        label: Google Play services Android
+      - url: https://developers.google.com/android/reference/com/google/android/gms/wearable/package-summary
+        label: Référence Wearable API
+      - url: https://developer.android.com/training/wearables/data/events
+        label: Guide Data Layer
+
+  - id: androidx-wear-remote-interactions
+    coordinate: androidx.wear:wear-remote-interactions:1.2.0
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-wear-os.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/wear-remote-interactions
+        label: AndroidX Wear Remote Interactions
+
+  - id: androidx-work-runtime-ktx
+    coordinate: androidx.work:work-runtime-ktx:2.11.2
+    modules: [":mobile"]
+    vendor: google
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://developer.android.com/topic/libraries/architecture/workmanager
+        label: WorkManager
+      - url: https://developer.android.com/jetpack/androidx/releases/work
+        label: AndroidX Work
+
+  - id: kotlinx-coroutines-play-services
+    coordinate: org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2
+    modules: [":mobile"]
+    vendor: jetbrains
+    markdown: google-android-jetpack.md
+    docs:
+      - url: https://kotlinlang.org/docs/coroutines-guide.html
+        label: Guide Coroutines Kotlin
+      - url: https://github.com/Kotlin/kotlinx.coroutines/tree/master/integration/kotlinx-coroutines-play-services
+        label: Module play-services (sources / README)
+
+  - id: androidx-wear
+    coordinate: androidx.wear:wear:1.3.0
+    modules: [":wear"]
+    vendor: google
+    markdown: google-wear-os.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/wear
+        label: AndroidX Wear
+      - url: https://developer.android.com/training/wearables
+        label: Formation Wear OS
+
+  - id: androidx-wear-watchface-complications
+    coordinate: androidx.wear.watchface:watchface-complications-data-source-ktx:1.2.1
+    modules: [":wear"]
+    vendor: google
+    markdown: google-wear-os.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/wear-watchface
+        label: AndroidX Watch Face
+      - url: https://developer.android.com/training/wearables/user-interface/complications
+        label: Complications
+
+  - id: androidx-wear-tiles
+    coordinate: androidx.wear.tiles:tiles:1.5.0
+    modules: [":wear"]
+    vendor: google
+    markdown: google-wear-os.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/wear-tiles
+        label: AndroidX Tiles
+      - url: https://developer.android.com/training/wearables/tiles
+        label: Guide Tiles
+
+  - id: androidx-wear-tiles-material
+    coordinate: androidx.wear.tiles:tiles-material:1.5.0
+    modules: [":wear"]
+    vendor: google
+    markdown: google-wear-os.md
+    docs:
+      - url: https://developer.android.com/jetpack/androidx/releases/wear-tiles
+        label: AndroidX Tiles Material (même artefact release)
+
+  - id: guava-android
+    coordinate: com.google.guava:guava:33.2.1-android
+    modules: [":wear"]
+    vendor: google
+    markdown: kotlin-gradle-build.md
+    docs:
+      - url: https://github.com/google/guava/wiki
+        label: Wiki Guava
+
+# Outils build implicites (fichiers projet)
+implicit_build_tools:
+  - id: proguard-r8
+    config_files:
+      - mobile/proguard-rules.pro
+      - wear/proguard-rules.pro
+    docs:
+      - url: https://developer.android.com/build/shrink-code
+        label: Réduire, obfusquer et optimiser (R8)
+  - id: android-adb
+    used_by:
+      - script installWidgetG7Debug dans build.gradle.kts racine
+      - déploiement local
+    docs:
+      - url: https://developer.android.com/tools/adb
+        label: Android Debug Bridge (adb)
+    related_code:
+      - com.flyfishxu:kadb sur mobile pour ADB depuis l’app

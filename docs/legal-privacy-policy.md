@@ -1,7 +1,7 @@
 <h1 align="center">🔒 Politique de confidentialité</h1>
 
 <p align="center">
-  Version opérationnelle · données sensibles · relecture juridique recommandée
+  Modèle de travail · données sensibles · à compléter avant diffusion
 </p>
 
 ---
@@ -10,13 +10,13 @@
 
 ```text
 ╭─ Confidentialité ──────────────────────╮
-│  publication publique : prête           │
+│  publication publique : non prête      │
 │  données de santé    : possibles       │
 │  validation RGPD     : recommandée     │
 ╰────────────────────────────────────────╯
 ```
 
-Voir : [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md)
+Voir : [legal-publication-checklist.md](legal-publication-checklist.md)
 
 ---
 
@@ -24,9 +24,9 @@ Voir : [LEGAL_PUBLICATION_CHECKLIST.md](LEGAL_PUBLICATION_CHECKLIST.md)
 
 | Champ | Valeur |
 | --- | --- |
-| Nom / raison sociale | Projet Widget G7 |
-| Adresse | Communication sur demande via e-mail vie privée |
-| E-mail vie privée | privacy.widgetg7@proton.me |
+| Nom / raison sociale | `[À compléter]` |
+| Adresse | `[À compléter]` |
+| E-mail vie privée | `[À compléter]` |
 
 ---
 
@@ -79,7 +79,7 @@ Elle doit être confirmée avant diffusion publique.
 | Utilisateur | Toujours |
 | Application locale | Fonctionnement |
 | Dexcom Share | Si configuré |
-| Prestataires techniques | Dexcom Share (Dexcom, Inc.), Google Play Services (Google LLC), GitHub (hébergement code source) |
+| Prestataires techniques | `[À compléter]` |
 
 ---
 
@@ -114,5 +114,5 @@ Selon le droit applicable, l'utilisateur peut disposer de droits sur ses donnée
 
 | Champ | Valeur |
 | --- | --- |
-| Modalités de contact | Demande par e-mail à privacy.widgetg7@proton.me |
-| Autorité compétente | CNIL (France) |
+| Modalités de contact | `[À compléter]` |
+| Autorité compétente | `[À compléter]` |

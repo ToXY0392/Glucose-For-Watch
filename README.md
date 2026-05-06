@@ -14,15 +14,15 @@
 </p>
 
 <p align="center">
-  <a href="docs/NOTICE_UTILISATEUR.md">⚡ Notice rapide</a>
+  <a href="docs/user-quick-notice.md">⚡ Notice rapide</a>
   ·
-  <a href="docs/MODE_D_EMPLOI.md">📘 Mode d'emploi</a>
+  <a href="docs/user-manual.md">📘 Mode d'emploi</a>
   ·
-  <a href="docs/REPRISE_PROJET.md">🧭 Reprise projet</a>
+  <a href="docs/developer-handoff.md">🧭 Reprise projet</a>
   ·
-  <a href="docs/TECHNIQUE_WEAR_OS.md">🔁 Technique Wear OS</a>
+  <a href="docs/technical-wear-os-sync.md">🔁 Technique Wear OS</a>
   ·
-  <a href="docs/INDEX.md">🗂️ Documentation</a>
+  <a href="docs/index.md">🗂️ Documentation</a>
 </p>
 
 ---
@@ -91,7 +91,7 @@ la montre affiche
 
 Sous Windows: `.\gradlew.bat :mobile:assembleDebug :wear:assembleDebug`
 
-Voir aussi : [COMPATIBILITY.md](COMPATIBILITY.md) · **[Structure du dépôt](docs/STRUCTURE_REPO.md)** (où vit le code, la doc et les modules).
+Voir aussi : [COMPATIBILITY.md](COMPATIBILITY.md) · **[Structure du dépôt](docs/structure-repository.md)** (où vit le code, la doc et les modules).
 
 ---
 
@@ -136,13 +136,13 @@ La montre peut demander un refresh, mais elle ne lit pas directement le capteur 
 
 | Document | Usage |
 | --- | --- |
-| [Structure du dépôt](docs/STRUCTURE_REPO.md) | Arborescence `mobile/` / `wear/` / sync / doc |
-| [Index documentation](docs/INDEX.md) | Choisir le bon document selon le besoin |
-| [Notice rapide](docs/NOTICE_UTILISATEUR.md) | Lire l'essentiel côté utilisateur |
-| [Mode d'emploi](docs/MODE_D_EMPLOI.md) | Installer, connecter Dexcom, configurer la montre |
-| [Installation montre guidée](docs/INSTALLATION_MONTRE_GUIDEE.md) | Parcours sans Store vers Wear natif par installation distante |
-| [Reprise projet](docs/REPRISE_PROJET.md) | Reprendre le développement sans relire tout l'historique |
-| [Technique Wear OS](docs/TECHNIQUE_WEAR_OS.md) | Sync, audit Dexcom, direct capteur et spike BLE |
+| [Structure du dépôt](docs/structure-repository.md) | Arborescence `mobile/` / `wear/` / sync / doc |
+| [Index documentation](docs/index.md) | Choisir le bon document selon le besoin |
+| [Notice rapide](docs/user-quick-notice.md) | Lire l'essentiel côté utilisateur |
+| [Mode d'emploi](docs/user-manual.md) | Installer, connecter Dexcom, configurer la montre |
+| [Wear — assistant installation (ADB)](docs/technical-wear-os-sync.md) | Sync, installer l’APK Wear depuis le téléphone sans Store |
+| [Reprise projet](docs/developer-handoff.md) | Reprendre le développement sans relire tout l'historique |
+| [Technique Wear OS](docs/technical-wear-os-sync.md) | Sync, audit Dexcom, direct capteur et spike BLE |
 
 ---
 

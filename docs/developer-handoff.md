@@ -1,8 +1,6 @@
-<h1 align="center">Reprise Projet</h1>
+# Reprise du développement
 
-<p align="center">
-  Où on en est · ce qui est décidé · quoi vérifier ensuite
-</p>
+État du dépôt, décisions techniques et suite à vérifier après une pause.
 
 ---
 
@@ -38,7 +36,7 @@
 | Gradle wrapper | **8.13** obligatoire (pas Gradle 9 : casse souvent la sync Android Studio). Voir `gradle/wrapper/gradle-wrapper.properties`. |
 | Logs IDE | `gradle.properties` : `org.gradle.console=plain`, Kotlin `in-process` pour limiter erreurs daemon / Build vide |
 | Builds verbeux | Fichier `build-last.log` à la racine du repo si tu as besoin de voir tout le détail hors panneau Build |
-| Install dev phone + montre | Tâche `installWidgetG7Debug` dans `build.gradle.kts` racine : nécessite `widgetg7.adb.phone.serial`, `widgetg7.adb.watch.serial` dans `local.properties` et SDK via `sdk.dir` **ou** `ANDROID_SDK_ROOT`/`ANDROID_HOME` |
+| Install dev phone + montre | Tâche `installWidgetG7Debug` dans `build.gradle.kts` racine : nécessite `sdk.dir`, `widgetg7.adb.phone.serial`, `widgetg7.adb.watch.serial` dans `local.properties` |
 
 ---
 
@@ -95,7 +93,7 @@ La montre reste un affichage et un déclencheur de refresh. Elle ne collecte pas
 | Piste technique | `Wear Collector` expérimental |
 | Règle | Pas d'intégration sans spike BLE concluant |
 
-Documentation : [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)
+Documentation : [technical-wear-os-sync.md](technical-wear-os-sync.md)
 
 ---
 
@@ -124,21 +122,17 @@ Documentation : [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)
 | [WearDataLayerListenerService.kt](../wear/src/main/java/com/widgetg7/wear/services/WearDataLayerListenerService.kt) | Réception Wear |
 | [GlucoseCache.kt](../wear/src/main/java/com/widgetg7/wear/data/GlucoseCache.kt) | Cache local Wear |
 | [WearInstallerActivity.kt](../mobile/src/main/java/com/widgetg7/mobile/ui/WearInstallerActivity.kt) | Assistant installation montre |
-| [WearDirectAdbInstaller.kt](../feature/watch-install/src/main/java/com/widgetg7/feature/watchinstall/WearDirectAdbInstaller.kt) | Pair / install Kadb |
-| [WearInstallOcr.kt](../feature/watch-install/src/main/java/com/widgetg7/feature/watchinstall/WearInstallOcr.kt) | ML Kit — lecture image |
+| [WearDirectAdbInstaller.kt](../mobile/src/main/java/com/widgetg7/mobile/watch/install/WearDirectAdbInstaller.kt) | Pair / install Kadb |
+| [WearInstallOcr.kt](../mobile/src/main/java/com/widgetg7/mobile/watch/install/WearInstallOcr.kt) | ML Kit — lecture image |
 | [generate_launcher_icon_assets.py](../tools/generate_launcher_icon_assets.py) | Régénération PNG lanceur (radius fraction) |
 
 ---
 
-## Audits et suite documentaire récents
+## Anciens audits / plans datés
 
-| Document | Contenu |
-| --- | --- |
-| [AUDIT_TECHNIQUE_2026-05-06.md](AUDIT_TECHNIQUE_2026-05-06.md) | Risques produit/sync, backlog priorisé, plan par phases |
-| [AUDIT_STRUCTURE_GLOBALE_2026-05-06.md](AUDIT_STRUCTURE_GLOBALE_2026-05-06.md) | Structure cible, modularisation progressive, conventions |
-| [operations/BILAN_FINAL_PLAN_REFONTE_2026-05-06.md](operations/BILAN_FINAL_PLAN_REFONTE_2026-05-06.md) | Clôture d'exécution du plan (done/pending bloquants + go/no-go) |
+Les fichiers « audit » et « plan de refonte » du **2026-05-06** ainsi que le **plan installation distante Wear** (long rapport) ont été retirés : le contenu utile pour le produit vivant est repris dans [technical-wear-os-sync.md](technical-wear-os-sync.md), [developer-handoff.md](developer-handoff.md) et [plan-apk-upgrade-migration.md](plan-apk-upgrade-migration.md). Révision complète des versions supprimées : historique Git.
 
-Indexer aussi : [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md), [STRUCTURE_REPO.md](STRUCTURE_REPO.md)
+Indexer aussi : [index.md](index.md), [structure-repository.md](structure-repository.md), [ref/README.md](ref/README.md) (documentation fournisseurs).
 
 ---
 
@@ -152,83 +146,45 @@ Indexer aussi : [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md), [STRUCTURE_REP
 | 4 | Surveiller que le repush reste borné |
 | 5 | Documenter les retards possibles de Dexcom Share |
 | 6 | Compléter les champs juridiques avant diffusion |
-| — | OCR assistant montre : valider sur vraies captures ; revue humaine IP / ports (cf. [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)) |
+| — | OCR assistant montre : valider sur vraies captures ; revue humaine IP / ports (cf. [technical-wear-os-sync.md](technical-wear-os-sync.md)) |
 | — | Aligner versioning **wear vs mobile** (aujourd'hui codes différents malgré même `applicationId`) pour le support utilisateur |
 
 ---
 
 ## Commandes utiles
 
-> Linux / Unix local (JDK)
+> PowerShell local (JDK)
 
-```bash
-export JAVA_HOME="/path/to/android-studio/jbr"
-export PATH="$JAVA_HOME/bin:$PATH"
+```powershell
+$env:JAVA_HOME='C:\Program Files\Android\Android Studio\jbr'
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
 ```
 
 > Builds
 
-```bash
-./gradlew :mobile:assembleDebug :wear:assembleDebug
-./gradlew :mobile:assembleRelease :wear:assembleRelease
+```powershell
+.\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
+.\gradlew.bat :mobile:assembleRelease :wear:assembleRelease
 ```
 
 > Déploiement debug (avec `local.properties` rempli)
 
-```bash
-./gradlew installWidgetG7Debug
-```
-
-> Gate CI locale (Linux/Unix)
-
-```bash
-./scripts/dev/verify_ci.sh
-```
-
-> Collecte diagnostics support sync (optionnel)
-
-```bash
-WIDGETG7_PHONE_SERIAL="<serial_phone>" WIDGETG7_WATCH_SERIAL="<serial_watch>" bash ./scripts/dev/collect_sync_diagnostics.sh
-```
-
-> Gate artefacts release (Linux/Unix)
-
-```bash
-./scripts/release/verify_release_artifacts.sh
-```
-
-> Dry-run release complet (technique + juridique)
-
-```bash
-./scripts/release/release_dry_run.sh
-```
-
-> Campagne E2E phase 5 (template)
->
-> Voir `docs/operations/CAMPAGNE_E2E_PHASE5_2026-05-06.md`.
-
-> Preparation du pack de preuves E2E
-
-```bash
-bash ./scripts/dev/prepare_e2e_evidence_pack.sh
+```powershell
+.\gradlew.bat installWidgetG7Debug
 ```
 
 > Icône lanceur
 
-```bash
-python3 ./tools/generate_launcher_icon_assets.py --radius-frac 0.56
-./gradlew :mobile:assembleDebug
+```powershell
+py -3 .\tools\generate_launcher_icon_assets.py --radius-frac 0.56
+.\gradlew.bat :mobile:assembleDebug
 ```
 
 > ADB
 
-```bash
-adb devices -l
+```powershell
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" devices -l
 ```
-
-> Windows équivalent rapide
->
-> `.\gradlew.bat ...`, `py -3 .\tools\generate_launcher_icon_assets.py ...`, et `adb.exe devices -l`.
 
 ---
 

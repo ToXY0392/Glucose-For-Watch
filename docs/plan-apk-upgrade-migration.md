@@ -163,13 +163,11 @@ Le mobile sait distinguer :
 
 ---
 
-## Lot 3 - Installation Distante Wear
+## Lot 3 - Installation Wear (parcours utilisateur actuel)
 
-Objectif : seulement après stabilisation UI / sync.
+Objectif : évolutions **après** stabilisation UI / sync (priorité Lots 0–2).
 
-Source :
-
-- [PLAN_INSTALLATION_DISTANTE_WEAR.md](PLAN_INSTALLATION_DISTANTE_WEAR.md)
+Référence fonctionnelle : assistant ADB depuis le mobile décrit dans [technical-wear-os-sync.md](technical-wear-os-sync.md).
 
 Règle :
 

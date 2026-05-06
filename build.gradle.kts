@@ -1,7 +1,7 @@
 ﻿import java.io.File
 import java.util.Properties
 
-// Arborescence modules + paquets : docs/STRUCTURE_REPO.md
+// Arborescence modules + paquets : docs/structure-repository.md
 
 plugins {
     id("com.android.application") version "8.13.2" apply false
