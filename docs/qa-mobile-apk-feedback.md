@@ -46,6 +46,14 @@ Tâche Gradle utile : `:mobile:assembleDebug` (enchaîne aussi la copie Wear →
 
 ---
 
+## Validations récentes (positives)
+
+| Date       | Contexte | Retour |
+| ---------- | -------- | ------ |
+| 2026-05-06 | `phase/test` — build après alignement Wear (`WearDataLayerListenerService` + manifest) | **Montre : RAS.** Sync téléphone ↔ montre **stable depuis l’install**, rien à signaler côté montre. |
+
+---
+
 ## Notes libres (une ligne ou plus)
 
 Écris ici ce que les cases ne couvrent pas :
