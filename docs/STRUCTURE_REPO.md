@@ -38,7 +38,7 @@ Référence courte pour retrouver vite le code et la documentation.
 
 | Fichier | Usage |
 | --- | --- |
-| [INDEX.md](INDEX.md) | Plan de tous les documents. |
+| [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md) | Plan de tous les documents. |
 | [REPRISE_PROJET.md](REPRISE_PROJET.md) | État projet, fichiers critiques, vérifs. |
 | [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md) | Sync, chemins Data Layer, install montre (ADB / photo OCR). |
 | `product/README.md` | Point d'ancrage pour la doc produit cible. |

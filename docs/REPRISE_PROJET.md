@@ -138,7 +138,7 @@ Documentation : [TECHNIQUE_WEAR_OS.md](TECHNIQUE_WEAR_OS.md)
 | [AUDIT_STRUCTURE_GLOBALE_2026-05-06.md](AUDIT_STRUCTURE_GLOBALE_2026-05-06.md) | Structure cible, modularisation progressive, conventions |
 | [operations/BILAN_FINAL_PLAN_REFONTE_2026-05-06.md](operations/BILAN_FINAL_PLAN_REFONTE_2026-05-06.md) | Clôture d'exécution du plan (done/pending bloquants + go/no-go) |
 
-Indexer aussi : [INDEX.md](INDEX.md), [STRUCTURE_REPO.md](STRUCTURE_REPO.md)
+Indexer aussi : [DOCUMENTATION_INDEX.md](DOCUMENTATION_INDEX.md), [STRUCTURE_REPO.md](STRUCTURE_REPO.md)
 
 ---
 

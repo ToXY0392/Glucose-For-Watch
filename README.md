@@ -22,7 +22,7 @@
   ·
   <a href="docs/TECHNIQUE_WEAR_OS.md">🔁 Technique Wear OS</a>
   ·
-  <a href="docs/INDEX.md">🗂️ Documentation</a>
+  <a href="docs/DOCUMENTATION_INDEX.md">🗂️ Documentation</a>
 </p>
 
 ---
@@ -137,7 +137,7 @@ La montre peut demander un refresh, mais elle ne lit pas directement le capteur 
 | Document | Usage |
 | --- | --- |
 | [Structure du dépôt](docs/STRUCTURE_REPO.md) | Arborescence `mobile/` / `wear/` / sync / doc |
-| [Index documentation](docs/INDEX.md) | Choisir le bon document selon le besoin |
+| [Index documentation](docs/DOCUMENTATION_INDEX.md) | Choisir le bon document selon le besoin |
 | [Notice rapide](docs/NOTICE_UTILISATEUR.md) | Lire l'essentiel côté utilisateur |
 | [Mode d'emploi](docs/MODE_D_EMPLOI.md) | Installer, connecter Dexcom, configurer la montre |
 | [Installation montre guidée](docs/INSTALLATION_MONTRE_GUIDEE.md) | Parcours sans Store vers Wear natif par installation distante |

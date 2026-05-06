@@ -511,7 +511,7 @@ Actions:
   - les checkpoints Linux/CI actifs,
   - les ecarts restants par rapport a la cible complete du plan.
 - Index documentation mis a jour pour pointer le bilan:
-  - `docs/INDEX.md`.
+  - `docs/DOCUMENTATION_INDEX.md`.
 
 Validation:
 - Validation globale compile/tests relancee apres mise a jour doc + extraction OCR finale:
@@ -802,7 +802,7 @@ Actions:
 - Documentation opérationnelle créée:
   - `docs/operations/RUNBOOK_RELEASE_2026-05-06.md`.
 - Index/doc reprise/structure mis à jour:
-  - `docs/INDEX.md`,
+  - `docs/DOCUMENTATION_INDEX.md`,
   - `docs/REPRISE_PROJET.md`,
   - `docs/STRUCTURE_REPO.md`.
 - CI enrichie:
@@ -840,7 +840,7 @@ Actions:
   - `docs/operations/MATRICE_OBSERVABILITE_SUPPORT_SYNC_2026-05-06.md`,
   - `docs/operations/CAMPAGNE_E2E_PHASE5_2026-05-06.md`.
 - Documentation centralisée mise à jour:
-  - `docs/INDEX.md`,
+  - `docs/DOCUMENTATION_INDEX.md`,
   - `docs/REPRISE_PROJET.md`.
 - Fix portabilité script legal:
   - `check_legal_placeholders.sh` utilise `grep` (plus robuste en bash standard) au lieu de `rg`.
@@ -875,7 +875,7 @@ Actions:
   - les bloquants reels restants (juridique + validation terrain),
   - la sequence go/no-go operationnelle.
 - Documentation centrale alignee:
-  - `docs/INDEX.md`,
+  - `docs/DOCUMENTATION_INDEX.md`,
   - `docs/REPRISE_PROJET.md`.
 
 Validation:
@@ -904,7 +904,7 @@ Actions:
   - `docs/operations/CAMPAGNE_E2E_PHASE5_2026-05-06.md`
   - ajout de la commande de preparation du pack et references vers templates.
 - Documentation centralisee maintenue:
-  - `docs/INDEX.md` (coherence liens operations).
+  - `docs/DOCUMENTATION_INDEX.md` (coherence liens operations).
 
 Validation:
 - Generation du pack de preuves testee en local (`bash ./scripts/dev/prepare_e2e_evidence_pack.sh`).

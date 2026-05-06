@@ -3,7 +3,7 @@
   S’applique à tous les fichiers prévisualisés sauf README.md à la racine du dépôt,
   marqué par un élément .wg7-skip-markdown-theme (voir README.md racine).
 
-  Rendu voisin de docs/INDEX.md : titre principal plus léger, ## en orange,
+  Rendu voisin de docs/DOCUMENTATION_INDEX.md : titre principal plus léger, ## en orange,
   texte et listes légèrement réduits, pas de ligne sous les h2.
 
   Sélecteur : :has() nécessite un moteur récent (Chromium utilisé par Cursor/VS Code).
