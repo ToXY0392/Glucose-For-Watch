@@ -24,25 +24,35 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="12dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/bg_icon_square_ripple"
                 android:contentDescription="@string/menu_content_description"
                 android:padding="12dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/ic_settings_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/wg7_text_secondary" />
 
-            <ImageView
-                android:id="@+id/brandMarkImage"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+            <FrameLayout
+                android:id="@+id/brandMarkFrame"
+                android:layout_width="@dimen/wg7_icon_tonal_size"
+                android:layout_height="@dimen/wg7_icon_tonal_size"
                 android:layout_marginStart="@dimen/wg7_screen_pad_h"
-                android:layout_marginTop="28dp"
-                android:contentDescription="@null"
-                android:scaleType="fitCenter"
-                android:src="@drawable/ic_brand_wg7_mark"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/bg_home_icon_tonal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/brandMarkImage"
+                    android:layout_width="@dimen/wg7_icon_square_inner"
+                    android:layout_height="@dimen/wg7_icon_square_inner"
+                    android:layout_gravity="center"
+                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_brand_wg7_mark" />
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/brandTextColumn"
@@ -51,10 +61,10 @@
                 android:layout_marginStart="14dp"
                 android:layout_marginEnd="@dimen/wg7_screen_pad_h"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/brandMarkImage"
+                app:layout_constraintBottom_toBottomOf="@id/brandMarkFrame"
                 app:layout_constraintEnd_toStartOf="@id/watchSettingsButton"
-                app:layout_constraintStart_toEndOf="@id/brandMarkImage"
-                app:layout_constraintTop_toTopOf="@id/brandMarkImage">
+                app:layout_constraintStart_toEndOf="@id/brandMarkFrame"
+                app:layout_constraintTop_toTopOf="@id/brandMarkFrame">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -85,7 +95,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
-                app:constraint_referenced_ids="brandMarkImage,brandTextColumn" />
+                app:constraint_referenced_ids="brandMarkFrame,brandTextColumn" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/heroCard"
@@ -116,7 +126,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="top"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
 
                         <TextView
@@ -125,6 +135,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="sans-serif-black"
+                            android:gravity="center_vertical"
                             android:letterSpacing="-0.04"
                             android:lineSpacingExtra="2dp"
                             android:textColor="@color/wg7_text_primary"
@@ -133,10 +144,10 @@
 
                         <ImageButton
                             android:id="@+id/syncNowButton"
-                            android:layout_width="@dimen/wg7_touch_min"
-                            android:layout_height="@dimen/wg7_touch_min"
-                            android:layout_marginStart="4dp"
-                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="8dp"
+                            android:background="@drawable/bg_icon_square_ripple"
                             android:contentDescription="@string/home_sync_content_description"
                             android:padding="12dp"
                             android:scaleType="centerInside"
@@ -237,10 +248,10 @@
                         android:background="@drawable/bg_home_icon_tonal">
 
                         <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="@dimen/wg7_icon_square_inner"
+                            android:layout_height="@dimen/wg7_icon_square_inner"
+                            android:layout_gravity="center"
                             android:contentDescription="@null"
-                            android:padding="10dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_brand_wg7_mark" />
                     </FrameLayout>
@@ -354,13 +365,20 @@
                         android:paddingEnd="38dp"
                         android:paddingBottom="20dp">
 
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:contentDescription="@null"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_watch_install"
-                            app:tint="@color/wg7_accent" />
+                        <FrameLayout
+                            android:layout_width="@dimen/wg7_icon_tile_frame"
+                            android:layout_height="@dimen/wg7_icon_tile_frame"
+                            android:background="@drawable/bg_home_icon_tonal">
+
+                            <ImageView
+                                android:layout_width="@dimen/wg7_icon_square_inner_tile"
+                                android:layout_height="@dimen/wg7_icon_square_inner_tile"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_watch_install"
+                                app:tint="@color/wg7_accent" />
+                        </FrameLayout>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -431,14 +449,20 @@
                         android:paddingEnd="14dp"
                         android:paddingBottom="20dp">
 
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:contentDescription="@null"
-                            android:padding="2dp"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_share_24"
-                            app:tint="@color/wg7_accent" />
+                        <FrameLayout
+                            android:layout_width="@dimen/wg7_icon_tile_frame"
+                            android:layout_height="@dimen/wg7_icon_tile_frame"
+                            android:background="@drawable/bg_home_icon_tonal">
+
+                            <ImageView
+                                android:layout_width="@dimen/wg7_icon_square_inner_tile"
+                                android:layout_height="@dimen/wg7_icon_square_inner_tile"
+                                android:layout_gravity="center"
+                                android:contentDescription="@null"
+                                android:scaleType="fitCenter"
+                                android:src="@drawable/ic_share_24"
+                                app:tint="@color/wg7_accent" />
+                        </FrameLayout>
 
                         <TextView
                             android:layout_width="match_parent"

@@ -63,7 +63,8 @@
         <service
             android:name=".complication.GlucoseComplicationService"
             android:exported="true"
-            android:label="Glucose"
+            android:icon="@drawable/ic_complication_provider"
+            android:label="@string/complication_provider_label"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
             <intent-filter>
                 <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
@@ -74,13 +75,13 @@
                 android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
             <meta-data
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
-                android:value="300" />
+                android:value="120" />
             <meta-data
                 android:name="androidx.wear.watchface.complications.datasource.SUPPORTED_TYPES"
                 android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
             <meta-data
                 android:name="androidx.wear.watchface.complications.datasource.UPDATE_PERIOD_SECONDS"
-                android:value="300" />
+                android:value="120" />
         </service>
 
         <service

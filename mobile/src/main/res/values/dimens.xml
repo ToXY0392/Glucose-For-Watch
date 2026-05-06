@@ -5,7 +5,11 @@
     <dimen name="wg7_card_radius_hero">28dp</dimen>
     <dimen name="wg7_card_radius_list">22dp</dimen>
     <dimen name="wg7_card_stroke">1dp</dimen>
-    <dimen name="wg7_icon_tonal_size">48dp</dimen>
+    <!-- Cadre picto carré (icône centrée à l’intérieur) -->
+    <dimen name="wg7_icon_tonal_size">56dp</dimen>
+    <dimen name="wg7_icon_square_inner">32dp</dimen>
+    <dimen name="wg7_icon_square_inner_tile">28dp</dimen>
+    <dimen name="wg7_icon_tile_frame">52dp</dimen>
     <dimen name="wg7_icon_tonal_padding">9dp</dimen>
     <dimen name="wg7_touch_min">48dp</dimen>
 </resources>

@@ -1,12 +1,10 @@
 package com.widgetg7.wear.tile
 
 import android.app.Activity
-import android.content.ComponentName
 import android.os.Bundle
 import androidx.wear.tiles.TileService
-import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.google.android.gms.wearable.Wearable
-import com.widgetg7.wear.complication.GlucoseComplicationService
+import com.widgetg7.wear.complication.ComplicationUpdateNotifier
 import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
@@ -62,8 +60,6 @@ class GlucoseRefreshActivity : Activity() {
 
     private fun requestSurfaceUpdates() {
         TileService.getUpdater(this).requestUpdate(GlucoseSimpleTileService::class.java)
-        ComplicationDataSourceUpdateRequester
-            .create(this, ComponentName(this, GlucoseComplicationService::class.java))
-            .requestUpdateAll()
+        ComplicationUpdateNotifier.requestUpdateAll(this)
     }
 }
