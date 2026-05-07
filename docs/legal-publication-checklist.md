@@ -1,73 +1,8 @@
-<h1 align="center">🔐 Checklist juridique avant diffusion</h1>
+# Checklist publication
 
-<p align="center">
-  Tant que ce n'est pas complet, l'APK reste en test privé
-</p>
-
----
-
-## 🛑 Décision
-
-```text
-╭─ Publication ──────────────────────────╮
-│  APK public : non                      │
-│  Test privé : oui                      │
-│  Condition  : champs juridiques relus  │
-╰────────────────────────────────────────╯
-```
-
-Les documents juridiques existent, mais ils ne sont pas prêts pour une diffusion publique.
-
----
-
-## 📜 CGU
-
-Document : [legal-terms.md](legal-terms.md)
-
-| Champ | Statut |
-| --- | --- |
-| Nom ou raison sociale | `[À compléter]` |
-| Forme juridique | `[À compléter]` |
-| Adresse | `[À compléter]` |
-| E-mail de contact | `[À compléter]` |
-| Responsable de publication | `[À compléter]` |
-| Droit applicable | `[À compléter]` |
-| Juridictions compétentes | `[À compléter]` |
-| Contact final | `[À compléter]` |
-
----
-
-## 🔒 Confidentialité
-
-Document : [legal-privacy-policy.md](legal-privacy-policy.md)
-
-| Champ | Statut |
-| --- | --- |
-| Responsable de traitement | `[À compléter]` |
-| Adresse | `[À compléter]` |
-| E-mail vie privée | `[À compléter]` |
-| Prestataires techniques | `[À compléter]` |
-| Autorité de contrôle | `[À compléter]` |
-
----
-
-## 📱 Textes embarqués
-
-Les mêmes informations doivent être reportées dans l'app :
-
-| Fichier | Rôle |
-| --- | --- |
-| [cgu.txt](../mobile/src/main/res/raw/cgu.txt) | CGU affichées dans l'app |
-| [politique_confidentialite.txt](../mobile/src/main/res/raw/politique_confidentialite.txt) | Confidentialité affichée dans l'app |
-
----
-
-## ✅ Sortie de checklist
-
-```text
-tous les champs remplis
-textes relus
-textes embarqués alignés
-aucune donnée personnelle non voulue
-validation juridique si diffusion publique
-```
+- [ ] Disclaimer médical présent
+- [ ] Politique de confidentialité présente
+- [ ] Aucun secret dans le dépôt
+- [ ] Aucun log sensible dans les captures
+- [ ] APK mobile et wear testés
+- [ ] Sync validée sur durée

@@ -1,118 +1,18 @@
-<h1 align="center">🔒 Politique de confidentialité</h1>
+# Politique de confidentialité
 
-<p align="center">
-  Modèle de travail · données sensibles · à compléter avant diffusion
-</p>
+## Données traitées
 
----
+- Identifiants Dexcom (local)
+- Données de glycémie (local)
+- État de sync téléphone/montre
 
-## 🛑 Statut
+## Principes
 
-```text
-╭─ Confidentialité ──────────────────────╮
-│  publication publique : non prête      │
-│  données de santé    : possibles       │
-│  validation RGPD     : recommandée     │
-╰────────────────────────────────────────╯
-```
+- Pas de partage public volontaire des données de santé.
+- Limiter les logs sensibles.
+- Protéger les accès appareil et sauvegardes.
 
-Voir : [legal-publication-checklist.md](legal-publication-checklist.md)
+## Bonnes pratiques
 
----
-
-## 1. Responsable du traitement
-
-| Champ | Valeur |
-| --- | --- |
-| Nom / raison sociale | `[À compléter]` |
-| Adresse | `[À compléter]` |
-| E-mail vie privée | `[À compléter]` |
-
----
-
-## 2. Données traitées
-
-| Donnée | Exemple |
-| --- | --- |
-| Identifiants Dexcom Share | Saisie utilisateur |
-| Paramètres app | Région, préférences |
-| Glycémie | Valeur affichée ou synchronisée |
-| État de sync | Dernier push, ack, statut |
-| Infos techniques | Téléphone, montre, connectivité |
-| Journaux techniques | Limités au fonctionnement |
-
----
-
-## 3. Données de santé
-
-Les valeurs de glycémie peuvent être considérées comme des données de santé.
-
-Elles doivent être protégées avec une attention particulière.
-
----
-
-## 4. Finalités
-
-| Finalité | Rôle |
-| --- | --- |
-| Connexion | Accéder à Dexcom Share |
-| Affichage | Montrer la glycémie |
-| Transmission | Envoyer vers Wear OS |
-| Sync active | Maintenir la donnée disponible |
-| Diagnostic | Comprendre une erreur technique |
-| Fiabilité | Améliorer le fonctionnement local |
-
----
-
-## 5. Base légale
-
-La base légale dépend du mode de diffusion et du contexte d'utilisation.
-
-Elle doit être confirmée avant diffusion publique.
-
----
-
-## 6. Destinataires
-
-| Destinataire | Condition |
-| --- | --- |
-| Utilisateur | Toujours |
-| Application locale | Fonctionnement |
-| Dexcom Share | Si configuré |
-| Prestataires techniques | `[À compléter]` |
-
----
-
-## 7. Stockage
-
-Peuvent être stockés localement :
-
-- configuration Dexcom ;
-- dernier état de sync ;
-- dernière valeur connue ;
-- préférence de montre principale.
-
-> Les secrets doivent rester sur le téléphone et ne pas être stockés dans le module Wear.
-
----
-
-## 8. Conservation et sécurité
-
-| Sujet | Règle |
-| --- | --- |
-| Conservation | Temps nécessaire au fonctionnement |
-| Suppression | Désinstallation ou action utilisateur |
-| Logs | Limiter les données sensibles |
-| Secrets | Ne pas exposer les identifiants Dexcom |
-| Sécurité | Aucun système n'est absolu |
-
----
-
-## 9. Droits et contact
-
-Selon le droit applicable, l'utilisateur peut disposer de droits sur ses données : accès, rectification, suppression, limitation, opposition ou portabilité.
-
-| Champ | Valeur |
-| --- | --- |
-| Modalités de contact | `[À compléter]` |
-| Autorité compétente | `[À compléter]` |
+- Ne pas committer de secrets.
+- Ne pas publier de captures contenant des données réelles.
