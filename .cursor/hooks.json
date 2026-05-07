@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .cursor/hooks/start_usb_monitor.ps1",
+        "timeout": 20
+      },
+      {
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .cursor/hooks/usb_detach_handoff.ps1",
+        "timeout": 20
+      },
+      {
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .cursor/hooks/session_start_quick_check.ps1",
+        "timeout": 20
+      },
+      {
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .cursor/hooks/session_start_deferred_maintenance.ps1",
+        "timeout": 20
+      }
+    ]
+  }
+}

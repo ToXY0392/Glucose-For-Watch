@@ -166,6 +166,7 @@ Comparer régulièrement:
 
 - `docs/android-studio.md` — ouvrir Widget G7 sous **Android Studio**, Gradle, déploiement tél/montre, liens doc Google
 - `docs/developpement-double-ide-cursor-studio.md` — même dépôt WSL depuis **Cursor** et **Android Studio** (`\\wsl$\…`)
+- `docs/cursor-skills-automation.md` — skills Cursor projet pour automatisation récurrente (session start, veille, sécurité, documentation)
 - `docs/index.md`
 - `docs/user-quick-notice.md`
 - `docs/user-manual.md`

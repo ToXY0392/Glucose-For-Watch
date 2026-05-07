@@ -27,3 +27,11 @@
 2. Build debug mobile + wear.
 3. Vérifier tuile + complication.
 4. Vérifier sync après veille.
+
+## Automatisation Cursor
+
+- Les skills projet sont documentés dans `docs/cursor-skills-automation.md`.
+- Emplacement skills : `.cursor/skills/`.
+- Hooks d'ouverture de session : `.cursor/hooks.json` + scripts `.cursor/hooks/`.
+- Les deconnexions USB detectees peuvent alimenter automatiquement la table `Incidents recents`.
+- Un monitor USB periodique tourne pendant la session (verification toutes les 5 minutes).
