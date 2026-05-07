@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -8,12 +7,6 @@ plugins {
 android {
     namespace = "com.widgetg7.mobile"
     compileSdk = 36
-
-    sourceSets {
-        getByName("main") {
-            assets.srcDirs("src/main/assets", layout.buildDirectory.dir("embeddedWearApk"))
-        }
-    }
 
     defaultConfig {
         //noinspection SpellCheckingInspection
@@ -58,19 +51,30 @@ kotlin {
     }
 }
 
+val embeddedWearAssetOutputDir =
+    objects.directoryProperty().apply {
+        set(layout.buildDirectory.dir("embeddedWearApk/wear"))
+    }
+
 val prepareWearApkForDebugAssets by tasks.registering(Copy::class) {
     description = "Copie wear-debug.apk → assets packagés (clé wear/widget-g7-wear.apk)."
     group = "widget g7"
     dependsOn(":wear:assembleDebug")
     from(rootProject.layout.projectDirectory.file("wear/build/outputs/apk/debug/wear-debug.apk"))
-    into(layout.buildDirectory.dir("embeddedWearApk/wear"))
+    into(embeddedWearAssetOutputDir)
     rename { "widget-g7-wear.apk" }
 }
 
-afterEvaluate {
-    tasks.named("mergeDebugAssets").configure { dependsOn(prepareWearApkForDebugAssets) }
+// AGP 9+ : assets générés — SourceSet API interdit les Provider ; Variant API relie la tâche au variant debug.
+androidComponents {
+    onVariants(selector().withBuildType("debug")) { variant ->
+        variant.sources.assets?.addGeneratedSourceDirectory(
+            prepareWearApkForDebugAssets,
+        ) {
+            embeddedWearAssetOutputDir
+        }
+    }
 }
-
 dependencies {
     implementation(project(":core:datalayer-contract"))
     implementation(project(":core:model"))
