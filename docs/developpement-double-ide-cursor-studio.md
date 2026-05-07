@@ -1,5 +1,7 @@
 # Cursor + Android Studio sur le même dépôt (WSL)
 
+Pour le guide **Android Studio** dédié Widget G7 (Gradle, installs, docs Google officielles) : **`android-studio.md`**.
+
 ## Principe
 
 **Une seule copie Git** sous Linux : tous les fichiers sources vivent sous WSL.  

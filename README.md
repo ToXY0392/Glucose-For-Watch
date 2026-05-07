@@ -55,7 +55,7 @@ Flux principal:
 
 ## Prérequis
 
-- Android Studio récent.
+- Android Studio récent (voir **`docs/android-studio.md`**).
 - Gradle wrapper du repo: `8.13`.
 - JDK Gradle: `jbr-21` (Android Studio JBR).
 - SDK Android installé (`local.properties` avec `sdk.dir`).
@@ -164,6 +164,7 @@ Comparer régulièrement:
 
 ## Documentation
 
+- `docs/android-studio.md` — ouvrir Widget G7 sous **Android Studio**, Gradle, déploiement tél/montre, liens doc Google
 - `docs/developpement-double-ide-cursor-studio.md` — même dépôt WSL depuis **Cursor** et **Android Studio** (`\\wsl$\…`)
 - `docs/index.md`
 - `docs/user-quick-notice.md`
