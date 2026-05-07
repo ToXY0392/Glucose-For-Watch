@@ -5,7 +5,7 @@ Widget G7 synchronise la glycémie Dexcom G7 vers Wear OS pour un affichage rapi
 <p align="center">
   <img alt="Android" src="https://img.shields.io/badge/Android-Mobile-3DDC84?style=for-the-badge&logo=android&logoColor=white">
   <img alt="Wear OS" src="https://img.shields.io/badge/Wear%20OS-Watch-4285F4?style=for-the-badge&logo=wearos&logoColor=white">
-  <img alt="Gradle" src="https://img.shields.io/badge/Gradle-8.13-02303A?style=for-the-badge&logo=gradle&logoColor=white">
+  <img alt="Gradle" src="https://img.shields.io/badge/Gradle-9.4.1-02303A?style=for-the-badge&logo=gradle&logoColor=white">
   <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-2.x-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
   <img alt="Sync" src="https://img.shields.io/badge/Sync-Validated%2030min-22C55E?style=for-the-badge">
 </p>
@@ -56,7 +56,7 @@ Flux principal:
 ## Prérequis
 
 - Android Studio récent (voir **`docs/android-studio.md`**).
-- Gradle wrapper du repo: `8.13`.
+- Gradle wrapper du repo: `9.4.1` (Android Gradle Plugin `9.2.1`, voir `docs/android-studio.md`).
 - JDK Gradle: `jbr-21` (Android Studio JBR).
 - SDK Android installé (`local.properties` avec `sdk.dir`).
 - 1 téléphone Android + 1 montre Wear OS pour tests réels.

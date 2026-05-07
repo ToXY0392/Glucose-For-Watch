@@ -5,7 +5,7 @@
 meta:
   registry_version: 1
   project: WidgetG7
-  updated: "2026-05-06"
+  updated: "2026-05-07"
   human_index: README.md
   flat_table: dependency-registry.md
 
@@ -16,7 +16,7 @@ build_toolchain:
       - url: https://developer.android.com/build/jdks
         label: JDK Android Gradle
   android_gradle_plugin:
-    version: "8.13.2"
+    version: "9.2.1"
     docs:
       - url: https://developer.android.com/build/releases/gradle-plugin
         label: Notes de version AGP
@@ -26,7 +26,7 @@ build_toolchain:
       - url: https://kotlinlang.org/docs/gradle-configure-project.html
         label: Kotlin avec Gradle
   gradle_wrapper_distribution:
-    version: "8.13"
+    version: "9.4.1"
     file: gradle/wrapper/gradle-wrapper.properties
     docs:
       - url: https://docs.gradle.org/current/userguide/userguide.html
@@ -85,7 +85,7 @@ vendor_systems:
 # Plugins Gradle (racine)
 gradle_plugins:
   - id: com.android.application
-    version: "8.13.2"
+    version: "9.2.1"
     markdown: kotlin-gradle-build.md
     docs:
       - url: https://developer.android.com/build

@@ -27,12 +27,48 @@ Plate-forme IntelliJ (options IDE communes, VCS…) : https://www.jetbrains.co
 
 Définies dans le repo (ne pas changer sans raison forte) :
 
-- **Android Gradle Plugin** **8.13.2**
-- **Gradle** wrapper **8.13** (`gradle/wrapper/gradle-wrapper.properties`)
+- **Android Gradle Plugin** **9.2.1** (`build.gradle.kts` racine, plugins `com.android.application` / `com.android.library`)
+- **Gradle** wrapper **9.4.1** (`gradle/wrapper/gradle-wrapper.properties`)
 - **Kotlin Android** plugin **2.3.20** (`build.gradle.kts` racine)
 - **`compileSdk`** / **`targetSdk`** **36** (modules `mobile` et `wear`)
 
+Couplage officiel AGP ↔ Gradle : [Android Gradle plugin releases](https://developer.android.com/build/releases/gradle-plugin).
+
 Installe ou mets à jour le **SDK Platform 36** et les **Android SDK Build-Tools** compatibles depuis le **SDK Manager** dans Studio.
+
+---
+
+## Mise à jour Android Studio → AGP 9 (Upgrade Assistant)
+
+Après une mise à jour d’**Android Studio**, l’**Upgrade Assistant** peut proposer de passer le projet en **AGP 9.x** (ex. **9.2.1**). Une fois la migration faite, le **Gradle Sync** doit passer sans erreur.
+
+### Erreur « You cannot add Provider instances to the Android SourceSet API »
+
+À partir d’**AGP 9**, il n’est plus permis d’enregistrer un **`Provider<Directory>`** (ex. `layout.buildDirectory.dir(...)`) dans `android { sourceSets { ... } }`. Le plugin ne peut pas distinguer dossiers **générés** vs **statiques** pour l’IDE.
+
+**Ce dépôt :** le module **`mobile`** embarquait l’APK wear de debug dans les assets via un répertoire sous `build/`. L’ancienne forme :
+
+- `assets.srcDirs(..., layout.buildDirectory.dir("embeddedWearApk"))`
+
+provoquait cette erreur à la sync.
+
+**Correction appliquée** dans `mobile/build.gradle.kts` :
+
+1. Un **`DirectoryProperty`** unique (`embeddedWearAssetOutputDir`) pointe vers `build/.../embeddedWearApk/wear`.
+2. La tâche **`prepareWearApkForDebugAssets`** (`Copy`) écrit dans cette propriété (`into(embeddedWearAssetOutputDir)`).
+3. Un bloc **`androidComponents { ... }`** enregistre ce dossier comme **source d’assets générés** pour le variant **`debug`** uniquement, via **`addGeneratedSourceDirectory`**, ce qui relie correctement la tâche au graphe Gradle.
+
+Conséquence dans l’arborescence **Android** de Studio : l’apparition de dossiers **`assets (generated)`** (et équivalents pour d’autres sources générées) est **normale** ; ce sont les chemins exposés par la nouvelle API.
+
+### Contournement non recommandé
+
+Le message d’erreur peut mentionner une propriété du type **`android.sourceset.disallowProvider=false`** (ou une variante selon la version d’AGP) dans **`gradle.properties`**. Cela réactive un comportement tolérant mais **sans garantie** sur les dépendances de tâches. **Préférer** la solution **`androidComponents` + `addGeneratedSourceDirectory`** ci‑dessus.
+
+### Après upgrade
+
+- Lancer **Sync Project with Gradle Files**.
+- Vérifier l’**Upgrade Assistant** : état du type **« Up-to-date for Android Gradle Plugin version 9.2.1 »** lorsque la version cible est atteinte.
+- En cas d’avertissements AGP 10 / nouveau DSL / Kotlin intégré : suivre la doc Google progressivement (`gradle.properties` du projet contient encore des options de transition ; migration possible plus tard).
 
 ---
 
@@ -145,6 +181,7 @@ Si le projet est **uniquement** sous Linux pur (pas `\\wsl$` depuis Windows Stud
 |----------|--------|
 | « Write Permissions » ou import bloqué (Windows) | `COMPATIBILITY.md`, scripts **`scripts/windows/*.ps1`**, dossier projet hors Desktop/OneDrive si possible |
 | Sync OK en terminal mais pas dans l’IDE | Gradle JDK ≠ JBR, ou cache daemon : `./gradlew --stop` puis resync |
+| « Provider instances » / **SourceSet API** après passage **AGP 9** | Section **Mise à jour Android Studio → AGP 9** ci‑dessus ; vérifier `mobile/build.gradle.kts` (`androidComponents`, pas de `Provider` dans `sourceSets`) |
 | SDK introuvable | `sdk.dir` dans `local.properties` + même OS que Gradle |
 | Build OK, pas de device | Câbles, mode USB, liste `adb devices` |
 

@@ -3,7 +3,7 @@
 ## Environnement recommandé
 
 - Android Studio : récent
-- Gradle wrapper : `8.13`
+- Gradle wrapper : `9.4.1` (AGP `9.2.1`)
 - JDK Gradle : JBR Android Studio (`jbr-21`)
 - Android : mobile + Wear OS
 
