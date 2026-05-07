@@ -164,6 +164,7 @@ Comparer régulièrement:
 
 ## Documentation
 
+- `docs/developpement-double-ide-cursor-studio.md` — même dépôt WSL depuis **Cursor** et **Android Studio** (`\\wsl$\…`)
 - `docs/index.md`
 - `docs/user-quick-notice.md`
 - `docs/user-manual.md`

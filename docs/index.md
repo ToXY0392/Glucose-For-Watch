@@ -8,6 +8,7 @@
 ## Développeur
 
 - `developer-handoff.md` : état projet, incidents, reprise.
+- `developpement-double-ide-cursor-studio.md` : une seule copie WSL, Cursor + Android Studio (`\\wsl$\`).
 - `technical-wear-os-sync.md` : fonctionnement sync mobile -> wear.
 - `structure-repository.md` : arborescence.
 - `release-notes.md` : historique des changements.

@@ -23,7 +23,11 @@ if (-not (Test-Path -LiteralPath $ProjectPath)) {
     exit 1
 }
 
-$p = (Resolve-Path -LiteralPath $ProjectPath).Path
+# Resolve-Path echoue sur certains UNC \\wsl$\... ; conserver literal
+$p = $ProjectPath
+if (-not $p.StartsWith('\\')) {
+    $p = (Resolve-Path -LiteralPath $ProjectPath).Path
+}
 Write-Host "Lancement: $studio -> $p"
 # Lancement: chemin projet en UNIQUE argument avec guillemets si espaces internes.
 Start-Process -FilePath $studio -ArgumentList "`"$p`""
