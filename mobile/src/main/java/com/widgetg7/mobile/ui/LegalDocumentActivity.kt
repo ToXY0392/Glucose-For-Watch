@@ -40,7 +40,7 @@ class LegalDocumentActivity : AppCompatActivity() {
             else ->
                 LegalDocumentConfig(
                     title = "CGU",
-                    rawResId = R.raw.cgu,
+                    rawResId = R.raw.notice_utilisateur,
                 )
         }
     }
