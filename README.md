@@ -10,6 +10,10 @@ Widget G7 synchronise la glycémie Dexcom G7 vers Wear OS pour un affichage rapi
   <img alt="Sync" src="https://img.shields.io/badge/Sync-Validated%2030min-22C55E?style=for-the-badge">
 </p>
 
+<p align="center">
+  <img alt="Widget G7 — Flux de synchronisation glycémie : Dexcom Share → Mobile → Wear OS" src="docs/assets/widget-g7-architecture.png" width="780">
+</p>
+
 ## Sommaire
 
 - [Aperçu](#aperçu)
@@ -52,6 +56,8 @@ Flux principal:
 - `core/` : modèles partagés.
 - `feature/` : logique métier de sync.
 - `docs/` : guides utilisateur/dev/légal.
+
+Schéma de synchronisation (Dexcom Share → Mobile → Wear OS) : `docs/assets/widget-g7-architecture.png`.
 
 ## Prérequis
 
@@ -164,6 +170,7 @@ Comparer régulièrement:
 
 ## Documentation
 
+- `docs/assets/widget-g7-architecture.png` — schéma de flux Dexcom Share → Mobile → Wear OS (tuile + complication)
 - `docs/android-studio.md` — ouvrir Widget G7 sous **Android Studio**, Gradle, déploiement tél/montre, liens doc Google
 - `docs/developpement-double-ide-cursor-studio.md` — même dépôt WSL depuis **Cursor** et **Android Studio** (`\\wsl$\…`)
 - `docs/cursor-skills-automation.md` — skills Cursor projet pour automatisation récurrente (session start, veille, sécurité, documentation)
