@@ -1,5 +1,15 @@
 # Export tools
 
+## export-figma-tokens.py
+
+Generates **Tokens Studio** JSON (two sets: chrome + medical) for Figma import.
+
+```bash
+py -3 toxy-ux-kit/tools/export-figma-tokens.py
+```
+
+Output: `figma/tokens-studio/` — see [FIGMA-HANDOFF.md](../figma/FIGMA-HANDOFF.md).
+
 ## export-android-colors.py
 
 Generates Android `colors.xml` fragments from JSON tokens.

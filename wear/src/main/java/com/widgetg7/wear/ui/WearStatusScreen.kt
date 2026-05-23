@@ -88,7 +88,7 @@ fun WearStatusScreen(
                 color =
                     when {
                         model.syncStatusIsError -> MaterialTheme.colorScheme.error
-                        model.stale -> Color(0xFFFB923C)
+                        model.stale -> MaterialTheme.colorScheme.tertiary
                         else -> MaterialTheme.colorScheme.onSurfaceVariant
                     },
                 textAlign = TextAlign.Center,

@@ -47,10 +47,10 @@ Copy hex values from:
 - `tokens/toxy.color.json` → **ToXY Chrome** variables
 - `tokens/agp.glucose.json` → **AGP Medical** variables
 
-**B — Plugin (recommended v0.2+)**  
-Use [Tokens Studio for Figma](https://tokens.studio/) or Figma Variables import from JSON.
+**B — Tokens Studio (recommended)**  
+Run `py -3 toxy-ux-kit/tools/export-figma-tokens.py`, then sync `figma/tokens-studio/` in [Tokens Studio for Figma](https://tokens.studio/).
 
-See [token-import.md](token-import.md).
+See [token-import.md](token-import.md) and **[FIGMA-HANDOFF.md](FIGMA-HANDOFF.md)** (Phase 3.1 checklist).
 
 ### 4. Reference mocks
 

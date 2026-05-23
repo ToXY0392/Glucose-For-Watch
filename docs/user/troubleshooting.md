@@ -26,7 +26,7 @@ This message appears when the watch cannot find a connected phone node. Common c
 - Phone app killed by battery optimizer
 - Watch out of range
 
-**Fix:** Open Widget G7 on the phone, disable battery optimization, tap Sync.
+**Fix:** Open ToXY on the phone, disable battery optimization, tap Sync.
 
 ## Sync button on phone does nothing
 
@@ -39,7 +39,7 @@ This message appears when the watch cannot find a connected phone node. Common c
 
 - Verify Share is enabled in the official Dexcom app.
 - Confirm US vs OUS server selection.
-- Password recently changed → update in Widget G7 settings.
+- Password recently changed → update in ToXY settings.
 
 ## Gradle / developer issues
 

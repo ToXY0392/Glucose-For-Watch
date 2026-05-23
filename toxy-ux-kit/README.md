@@ -35,7 +35,7 @@ mobile/  wear/        ← app consumes tokens (generated or hand-synced)
 ### Designers
 
 1. Read [spec/00-principles.md](spec/00-principles.md)
-2. Import tokens into Figma — [figma/README.md](figma/README.md)
+2. Follow [figma/FIGMA-HANDOFF.md](figma/FIGMA-HANDOFF.md) — import tokens via Tokens Studio
 3. Use reference mocks in [assets/references/](assets/references/)
 
 ### Android developers
@@ -44,6 +44,7 @@ mobile/  wear/        ← app consumes tokens (generated or hand-synced)
 2. Export to app:
 
    ```bash
+   py -3 toxy-ux-kit/tools/export-figma-tokens.py   # Figma / Tokens Studio
    python toxy-ux-kit/tools/export-android-colors.py
    ```
 

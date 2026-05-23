@@ -36,6 +36,12 @@
   },
   "documentation": {
     "hub": "README.md",
+    "figmaHandoff": "figma/FIGMA-HANDOFF.md",
+    "figmaUrl": null,
     "appDocsSymlink": "../docs/design/README.md"
+  },
+  "exports": {
+    "androidColors": "tools/export-android-colors.py",
+    "figmaTokensStudio": "tools/export-figma-tokens.py"
   }
 }
