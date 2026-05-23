@@ -1,30 +1,42 @@
 # Documentation
 
-## Utilisateur
+> Hub for Widget G7. **Design specs live in [`toxy-ux-kit/`](../toxy-ux-kit/README.md)** — not duplicated here.
 
-- `user-quick-notice.md` : installation express.
-- `user-manual.md` : installation et usage détaillés.
+## Start here
 
-## Développeur
+| Role | Document |
+|------|----------|
+| **Suivi plan (live)** | **[PROGRESS.md](plan/PROGRESS.md)** |
+| User | [Quick start](user/quick-start.md) · [Manual](user/manual.md) · [Troubleshooting](user/troubleshooting.md) |
+| Developer | [Getting started](development/getting-started.md) · [Handoff](development/developer-handoff.md) |
+| Refactor plan | [MASTER-REFACTOR-PLAN.md](plan/MASTER-REFACTOR-PLAN.md) |
 
-- `developer-handoff.md` : état projet, incidents, reprise.
-- `android-studio.md` : guide Android Studio pour ce dépôt (SDK, Gradle, run, installs ADB, liens Google).
-- `developpement-double-ide-cursor-studio.md` : une seule copie WSL, Cursor + Android Studio (`\\wsl$\`).
-- `cursor-skills-automation.md` : skills Cursor projet (session start, veille fournisseur, sécurité, doc drift, compat).
-- `technical-wear-os-sync.md` : fonctionnement sync mobile -> wear.
-- `structure-repository.md` : arborescence.
-- `release-notes.md` : historique des changements.
+## Architecture
 
-## Légal
+- [Overview](architecture/overview.md)
+- [Sync pipeline](architecture/sync-pipeline.md)
+- [Repository structure](architecture/repository-structure.md)
+- [Data Layer contract](architecture/data-layer-contract.md)
 
-- `legal-medical-disclaimer.md`
-- `legal-privacy-policy.md`
-- `legal-publication-checklist.md`
+## Development
 
-## Références externes
+- [Android Studio](development/android-studio.md)
+- [Dual IDE (Cursor + Studio)](development/dual-ide-setup.md)
+- [Cursor automation](development/cursor-automation.md)
 
-- `ref/dependency-registry.md`
-- `ref/dexcom-share.md`
-- `ref/google-android-jetpack.md`
-- `ref/google-wear-os.md`
-- `ref/kotlin-gradle-build.md`
+## Design (external kit)
+
+- [**ToXY UX Kit**](../toxy-ux-kit/README.md) — tokens, AGP colors, component specs, Figma
+
+## Compatibility & legal
+
+- [Environment](compatibility/environment.md)
+- [Dexcom G6/G7](compatibility/dexcom-g6-g7.md)
+- [Medical disclaimer](legal/medical-disclaimer.md)
+- [Privacy policy](legal/privacy-policy.md)
+
+## References
+
+- [Dependency registry](ref/dependency-registry.md)
+- [Dexcom Share notes](ref/dexcom-share.md)
+- [Release notes](release-notes.md)

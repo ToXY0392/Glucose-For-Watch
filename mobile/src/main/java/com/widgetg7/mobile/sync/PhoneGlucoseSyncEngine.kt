@@ -19,6 +19,7 @@ import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
 
+/** Phone-side glucose sync: Dexcom Share fetch, watch push, and push-failure tracking. */
 class PhoneGlucoseSyncEngine(private val context: Context) {
     suspend fun run(
         triggeredFromWatch: Boolean,
@@ -28,6 +29,7 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
             val source = PhoneGlucoseSourceFactory.create(context)
             val syncStatusRepository = SyncStatusRepository(context)
             val syncStateStore = PhoneSyncStateStore(context)
+            val pendingPushQueue = PendingPushQueue(context)
             var latestReading: GlucoseReading? = null
             val result = GlucoseSyncEngine(
                 source = object : GlucoseSourcePort {
@@ -61,10 +63,18 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
                     }
                 },
                 wearSync = object : WearSyncPort {
-                    override suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean =
-                        withTimeout(WEAR_PUSH_TIMEOUT_MS) {
-                            PhoneWearSyncService(context).pushLatest(reading, sequenceId)
+                    override suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean {
+                        val pushed =
+                            withTimeout(WEAR_PUSH_TIMEOUT_MS) {
+                                PhoneWearSyncService(context).pushLatest(reading, sequenceId)
+                            }
+                        if (pushed) {
+                            syncStateStore.recordWearPushDelivered()
+                        } else {
+                            syncStateStore.recordWearPushUndelivered()
                         }
+                        return pushed
+                    }
                 },
                 refreshStatus = object : RefreshStatusPort {
                     override suspend fun pushCompletedPhoneUpToDateWatchUnavailable() {
@@ -76,6 +86,7 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
                         PhoneWearRefreshStatusService(context).pushCompleted(degradedWatchMessage(SyncMessageCatalog.REFRESH_NO_NEW_READING))
                     }
                 },
+                pendingPush = pendingPushQueue,
             ).run(
                 triggeredFromWatch = triggeredFromWatch,
                 forcePushCurrentReading = forcePushCurrentReading,

@@ -1,197 +1,118 @@
-# Widget G7
+# ToXY
 
-Widget G7 synchronise la glycémie Dexcom G7 vers Wear OS pour un affichage rapide sur montre (app, tuile, complication).
+ToXY syncs Dexcom glucose data to Wear OS for fast at-a-glance display on your watch (app, tile, and complication). The app uses the **ToXY** design system with **AGP-standard medical colors** for all glucose values.
+
+> Repository folder remains `Widget G7` for compatibility; Gradle task `installWidgetG7Debug` unchanged.
 
 <p align="center">
   <img alt="Android" src="https://img.shields.io/badge/Android-Mobile-3DDC84?style=for-the-badge&logo=android&logoColor=white">
   <img alt="Wear OS" src="https://img.shields.io/badge/Wear%20OS-Watch-4285F4?style=for-the-badge&logo=wearos&logoColor=white">
   <img alt="Gradle" src="https://img.shields.io/badge/Gradle-9.4.1-02303A?style=for-the-badge&logo=gradle&logoColor=white">
-  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-2.x-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
-  <img alt="Sync" src="https://img.shields.io/badge/Sync-Validated%2030min-22C55E?style=for-the-badge">
+  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-2.3.20-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
 </p>
 
 <p align="center">
-  <img alt="Widget G7 — Flux de synchronisation glycémie : Dexcom Share → Mobile → Wear OS" src="docs/assets/widget-g7-architecture.png" width="780">
+  <img alt="Widget G7 sync flow: Dexcom Share → Mobile → Wear OS" src="docs/assets/widget-g7-architecture.png" width="780">
 </p>
 
-## Sommaire
+## Overview
 
-- [Aperçu](#aperçu)
-- [Highlights](#highlights)
-- [Architecture](#architecture)
-- [Prérequis](#prérequis)
-- [Quick Start](#quick-start)
-- [Build et APK](#build-et-apk)
-- [ADB (optionnel)](#adb-optionnel)
-- [Dépannage](#dépannage)
-- [FAQ](#faq)
-- [Documentation](#documentation)
-- [Sécurité](#sécurité)
-- [Avertissement médical](#avertissement-médical)
+This project:
 
-## Aperçu
+- Fetches the latest glucose reading via **Dexcom Share** on the phone
+- Pushes data to the watch through the **Wear Data Layer**
+- Updates the **tile** and **complication**
+- Tracks sync health (ack, timestamp, stale state) for diagnostics
 
-Ce projet:
-
-- lit la dernière glycémie via Dexcom Share (mobile),
-- pousse la donnée vers la montre via Wear Data Layer,
-- met à jour la tuile et la complication,
-- conserve un état de sync (ack, timestamp, stale) pour diagnostic.
-
-Flux principal:
-
-`Dexcom Share -> Mobile -> Wear OS`
+**Supported sensors:** Dexcom **G6** and **G7** when Dexcom Share is enabled on the account (same Share API — see [compatibility doc](docs/compatibility/dexcom-g6-g7.md)).
 
 ## Highlights
 
-- Sync téléphone -> montre validée en conditions réelles (monitoring 30 min).
-- Tuile et complication mises à jour via cache local Wear + ack Data Layer.
-- Diagnostic facilité par état de sync persistant (timestamps, stale, dernier ack).
-- Build mobile et wear séparés, installation ADB directe.
+- Modular sync engine with hexagonal ports (`GlucoseSyncEngine`)
+- Ack-based delivery verification between phone and watch
+- AGP / Time-in-Range color coding for glucose values (medical standard)
+- Separate mobile and wear APKs with embedded wear install flow (debug)
 
 ## Architecture
 
-- `mobile/` : récupération Dexcom, orchestration sync, état local.
-- `wear/` : cache montre, tile, complication, ack.
-- `core/` : modèles partagés.
-- `feature/` : logique métier de sync.
-- `docs/` : guides utilisateur/dev/légal.
+| Module | Role |
+|--------|------|
+| `mobile/` | Dexcom fetch, sync orchestration, phone UI |
+| `wear/` | Watch cache, tile, complication, Data Layer listener |
+| `core/` | Shared models and Data Layer contract |
+| `feature/` | Sync engine, Dexcom Share client, watch install |
 
-Schéma de synchronisation (Dexcom Share → Mobile → Wear OS) : `docs/assets/widget-g7-architecture.png`.
+See [Architecture overview](docs/architecture/overview.md) and [Sync pipeline](docs/architecture/sync-pipeline.md).
 
-## Prérequis
+## Prerequisites
 
-- Android Studio récent (voir **`docs/android-studio.md`**).
-- Gradle wrapper du repo: `9.4.1` (Android Gradle Plugin `9.2.1`, voir `docs/android-studio.md`).
-- JDK Gradle: `jbr-21` (Android Studio JBR).
-- SDK Android installé (`local.properties` avec `sdk.dir`).
-- 1 téléphone Android + 1 montre Wear OS pour tests réels.
+- Android Studio (recent) — see [Android Studio guide](docs/development/android-studio.md)
+- Gradle wrapper **9.4.1** (AGP **9.2.1**, Kotlin **2.3.20**)
+- JDK **JBR 21** (Android Studio bundled)
+- Android SDK with `compileSdk 36` (`local.properties` → `sdk.dir`)
+- One Android phone + one Wear OS watch for real-device testing
 
-## Quick Start
+## Quick start
 
-1. Installer `mobile-debug.apk` sur le téléphone.
-2. Installer `wear-debug.apk` sur la montre.
-3. Ouvrir Widget G7 sur le téléphone.
-4. Accepter les écrans requis.
-5. Connecter Dexcom Share.
-6. Lancer un test de sync.
-7. Ajouter la tuile ou la complication Widget G7.
+1. Install `mobile-debug.apk` on the phone.
+2. Install `wear-debug.apk` on the watch.
+3. Open ToXY on the phone.
+4. Accept legal screens.
+5. Connect Dexcom Share credentials.
+6. Run a sync test from the phone home screen.
+7. Add the ToXY tile or complication on the watch.
 
-## Build et APK
+Detailed steps: [User quick start](docs/user/quick-start.md).
+
+## Build
 
 ```powershell
 .\gradlew.bat help
 .\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
 ```
 
-Sorties:
+Output APKs:
 
 - `mobile/build/outputs/apk/debug/mobile-debug.apk`
 - `wear/build/outputs/apk/debug/wear-debug.apk`
 
-Vérification rapide:
+Install both (requires `local.properties` serials):
 
 ```powershell
-.\gradlew.bat :mobile:assembleDebug :wear:assembleDebug --stacktrace
+.\gradlew.bat installWidgetG7Debug
 ```
 
-## ADB (optionnel)
+## Troubleshooting
 
-Lister les appareils:
-
-```powershell
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" devices -l
-```
-
-Installer les APK:
-
-```powershell
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" -s <PHONE_SERIAL> install -r "mobile\build\outputs\apk\debug\mobile-debug.apk"
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" -s <WATCH_SERIAL> install -r "wear\build\outputs\apk\debug\wear-debug.apk"
-```
-
-Désinstaller puis réinstaller proprement:
-
-```powershell
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" -s <PHONE_SERIAL> uninstall com.widgetg7.mobile
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" -s <WATCH_SERIAL> uninstall com.widgetg7.mobile
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" -s <PHONE_SERIAL> install -r "mobile\build\outputs\apk\debug\mobile-debug.apk"
-& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" -s <WATCH_SERIAL> install -r "wear\build\outputs\apk\debug\wear-debug.apk"
-```
-
-## Dépannage
-
-### Sync Gradle IDE instable
-
-Vérifier `gradle.properties`:
-
-- `org.gradle.java.home=C:/Program Files/Android/Android Studio/jbr`
-- `kotlin.compiler.execution.strategy=in-process`
-
-Puis relancer:
-
-```powershell
-.\gradlew.bat --stop
-.\gradlew.bat help
-```
-
-### Valeur figée sur montre
-
-- Vérifier la valeur côté app mobile.
-- Forcer un refresh montre.
-- Si seule la complication est figée: retirer/remettre la complication.
-- En dernier recours: réinstaller mobile + wear.
-
-### Validation d'une sync saine
-
-- valeur identique téléphone/montre,
-- timestamp de lecture identique,
-- `stale=false` lorsque la donnée est fraîche.
-
-## FAQ
-
-### La tuile est correcte mais la complication affiche une ancienne valeur
-
-Retirer puis remettre la complication du cadran.  
-La source sync est généralement bonne, c'est la surface UI qui reste en cache.
-
-### La sync Gradle IDE échoue alors que `gradlew` passe en terminal
-
-C'est souvent la config JDK/daemon IDE.  
-Vérifier JBR + `kotlin.compiler.execution.strategy=in-process`, puis redémarrer la sync.
-
-### Comment savoir si la sync tient dans le temps
-
-Comparer régulièrement:
-
-- valeur téléphone vs montre,
-- timestamp lecture téléphone vs montre,
-- état `stale` côté montre.
+| Symptom | Action |
+|---------|--------|
+| Gradle IDE sync fails but terminal works | Check JBR path in `gradle.properties`; see [environment](docs/compatibility/environment.md) |
+| Watch value frozen | Force sync from phone; see [troubleshooting](docs/user/troubleshooting.md) |
+| Complication shows old value | Remove and re-add complication on watch face |
+| Watch was offline | Data catches up on reconnect; keep phone app running |
 
 ## Documentation
 
-- `docs/assets/widget-g7-architecture.png` — schéma de flux Dexcom Share → Mobile → Wear OS (tuile + complication)
-- `docs/android-studio.md` — ouvrir Widget G7 sous **Android Studio**, Gradle, déploiement tél/montre, liens doc Google
-- `docs/developpement-double-ide-cursor-studio.md` — même dépôt WSL depuis **Cursor** et **Android Studio** (`\\wsl$\…`)
-- `docs/cursor-skills-automation.md` — skills Cursor projet pour automatisation récurrente (session start, veille, sécurité, documentation)
-- `docs/index.md`
-- `docs/user-quick-notice.md`
-- `docs/user-manual.md`
-- `docs/developer-handoff.md`
-- `docs/technical-wear-os-sync.md`
-- `docs/release-notes.md`
+**[docs/index.md](docs/index.md)** · **Suivi plan : [docs/plan/PROGRESS.md](docs/plan/PROGRESS.md)** · [Plan maître](docs/plan/MASTER-REFACTOR-PLAN.md) · Design : [toxy-ux-kit/](toxy-ux-kit/README.md)
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Every sync-related PR must include a manual phone↔watch test note.
+
+## Security
+
+- Never commit Dexcom credentials or real glucose data
+- Never commit `local.properties`, keystores, or secrets
+- Use `gradle.properties.example` as template only
+
+## Medical disclaimer
+
+Widget G7 is **not** a certified medical device. Displayed data is informational only. All treatment decisions must be confirmed using an official Dexcom solution. See [medical disclaimer](docs/legal/medical-disclaimer.md).
+
+## License
+
+See repository license file (if applicable).
 
 ---
 
-Développé pour garder la glycémie visible sur Wear OS avec un flux simple, traçable et robuste.
-
-## Sécurité
-
-- Ne jamais committer d'identifiants Dexcom.
-- Ne jamais publier de glycémies réelles.
-- Ne pas partager secrets, keystore, `local.properties`.
-
-## Avertissement médical
-
-Widget G7 n'est pas un dispositif médical certifié.  
-Toute décision thérapeutique doit être confirmée via une solution Dexcom officielle.
+Developed to keep glucose visible on Wear OS with a simple, traceable, and robust sync flow.

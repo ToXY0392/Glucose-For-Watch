@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Widget G7</string>
+    <string name="app_name">ToXY</string>
     <string name="home_hero_connect">Configurer Dexcom</string>
     <string name="home_hero_connect_hint">Utilisez la carte Dexcom ci‑dessous</string>
     <string name="home_hero_waiting">En attente de données</string>
@@ -8,6 +8,15 @@
     <string name="home_section_pilotage">Pilotage express</string>
     <string name="home_section_data">Flux &amp; données</string>
     <string name="home_status_heading">État</string>
+    <string name="home_status_dexcom_off">Dexcom : non connecté</string>
+    <string name="home_status_watch_not_paired">Montre : non associée (facultatif)</string>
+    <string name="home_status_watch_install">Installez ToXY sur la montre</string>
+    <string name="home_status_watch_unreachable">Montre : hors portée ou indisponible</string>
+    <string name="home_status_watch_pending">Montre : synchronisation en attente</string>
+    <string name="home_status_watch_confirmed">Liaison montre confirmée</string>
+    <string name="home_status_sync_active">Synchronisation active</string>
+    <string name="home_status_sync_error">Sync : %1$s</string>
+    <string name="home_status_ready">Prêt</string>
     <string name="menu_content_description">Menu</string>
     <string name="home_sync_content_description">Synchroniser avec la montre</string>
     <string name="home_dexcom_card_title">Dexcom</string>
@@ -22,7 +31,7 @@
     <string name="home_watch_card_subtitle">État, synchronisation et vérification de la liaison</string>
     <string name="watch_setup_title">Montre</string>
     <string name="watch_setup_lead">Vérifiez que la montre reçoit bien les données.</string>
-    <string name="wear_install_title">Installer Widget G7 sur la montre</string>
+    <string name="wear_install_title">Installer ToXY sur la montre</string>
     <string name="wear_install_reassurance">Prenez votre temps. Les noms des menus peuvent faire peur : ce sont des réglages prévus par Google. Vous pouvez vous faire aider par un proche pour les chiffres.</string>
     <string name="wear_install_intro">Quatre grandes étapes : deux sur la montre (réglages), une sur ce téléphone (recopier les numéros et toucher « Lier » puis « Installer »), puis une dernière pour vérifier la liaison depuis l’écran Montre de l’app.</string>
     <string name="wear_install_checklist_title">Avant de commencer, vérifiez</string>
@@ -69,11 +78,11 @@
     <string name="wear_install_direct_err_generic">Échec : %1$s</string>
     <string name="wear_install_direct_err_fill">Il manque des numéros. Vérifiez les trois champs du haut, puis le port d’installation.</string>
     <string name="wear_install_direct_err_pair_fields">Remplissez le premier port et le code à six chiffres comme sur la montre.</string>
-    <string name="wear_install_after">Quand c’est fini, vous pourrez désactiver « Débogage Wi‑Fi » sur la montre pour plus de calme. Widget G7 n’est pas un remplacement de l’application Dexcom officielle.</string>
-    <string name="wear_install_apk_missing">Le fichier pour la montre est absent dans cette application. Réinstallez Widget G7 depuis une copie complète.</string>
+    <string name="wear_install_after">Quand c’est fini, vous pourrez désactiver « Débogage Wi‑Fi » sur la montre pour plus de calme. ToXY n’est pas un remplacement de l’application Dexcom officielle.</string>
+    <string name="wear_install_apk_missing">Le fichier pour la montre est absent dans cette application. Réinstallez ToXY depuis une copie complète.</string>
     <string name="wear_install_finish_label">Étape 4 sur 4</string>
     <string name="wear_install_finish_title">Tout fonctionne ?</string>
-    <string name="wear_install_finish_body">Sur ce téléphone, ouvrez Widget G7 → écran Montre. Vous devriez voir que la liaison est bien faite.</string>
+    <string name="wear_install_finish_body">Sur ce téléphone, ouvrez ToXY → écran Montre. Vous devriez voir que la liaison est bien faite.</string>
     <string name="wear_install_back">Retour à l’écran précédent</string>
     <string name="wear_setup_install_assistant">Aide installation montre</string>
 </resources>

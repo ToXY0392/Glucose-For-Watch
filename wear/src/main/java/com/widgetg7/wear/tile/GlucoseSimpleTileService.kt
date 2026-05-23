@@ -1,6 +1,7 @@
 package com.widgetg7.wear.tile
 
 import android.os.SystemClock
+import androidx.wear.protolayout.ActionBuilders
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.LayoutElementBuilders
@@ -13,11 +14,13 @@ import androidx.wear.tiles.TileBuilders
 import androidx.wear.tiles.TileService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
-import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.complication.ComplicationUpdateNotifier
+import com.widgetg7.wear.data.GlucoseCache
+import com.widgetg7.wear.data.GlucoseSnapshot
+import com.widgetg7.wear.display.WearGlucoseSurfaceModelFactory
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
 
-/** Tuile glycémie minimaliste : valeur, mg/dL, flèche de tendance (sans libellé « Tendance »). */
+/** Glucose tile: AGP-colored value, unit, trend, and sync action. */
 class GlucoseSimpleTileService : TileService() {
 
     override fun onTileRequest(
@@ -30,30 +33,20 @@ class GlucoseSimpleTileService : TileService() {
         val snapshot = cache.load()
         healthMonitor.updateAndReport(System.currentTimeMillis())
 
-        val valueText = snapshot?.displayValueText() ?: "--"
-        val trendArrow = snapshot?.trendArrow().orEmpty()
-        val showTrend = snapshot != null && trendArrow.isNotEmpty()
-        val trendStale = snapshot?.stale == true
-
-        val root =
-            buildRoot(
-                valueText = valueText,
-                trendArrow = trendArrow,
-                showTrend = showTrend,
-                trendStale = trendStale,
-            )
+        val root = buildRoot(snapshot)
 
         val tile =
             TileBuilders.Tile.Builder()
-                .setResourcesVersion(RESOURCES_VERSION)
+                .setResourcesVersion(ToxyTileTheme.RESOURCES_VERSION)
+                .setFreshnessIntervalMillis(ToxyTileTheme.FRESHNESS_INTERVAL_MS)
                 .setTileTimeline(
                     TimelineBuilders.Timeline.Builder()
                         .addTimelineEntry(
                             TimelineBuilders.TimelineEntry.Builder()
                                 .setLayout(Layout.Builder().setRoot(root).build())
-                                .build()
+                                .build(),
                         )
-                        .build()
+                        .build(),
                 )
                 .build()
 
@@ -65,18 +58,18 @@ class GlucoseSimpleTileService : TileService() {
     ): ListenableFuture<ResourceBuilders.Resources> {
         return Futures.immediateFuture(
             ResourceBuilders.Resources.Builder()
-                .setVersion(RESOURCES_VERSION)
+                .setVersion(ToxyTileTheme.RESOURCES_VERSION)
                 .build(),
         )
     }
 
-    private fun buildRoot(
-        valueText: String,
-        trendArrow: String,
-        showTrend: Boolean,
-        trendStale: Boolean,
-    ): LayoutElementBuilders.LayoutElement {
-        val trendColor = if (trendStale) TILE_TREND_STALE else TILE_ACCENT
+    private fun buildRoot(snapshot: GlucoseSnapshot?): LayoutElementBuilders.LayoutElement {
+        val display = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+        val valueText = display.valueText
+        val trendArrow = display.trendArrow
+        val showTrend = display.showTrend
+        val valueColor = display.valueColorArgb
+        val trendColor = display.trendColorArgb
 
         val value =
             LayoutElementBuilders.Text.Builder()
@@ -85,8 +78,8 @@ class GlucoseSimpleTileService : TileService() {
                     LayoutElementBuilders.FontStyle.Builder()
                         .setSize(DimensionBuilders.sp(56f))
                         .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
-                        .setColor(ColorBuilders.argb(TILE_TEXT))
-                        .build()
+                        .setColor(ColorBuilders.argb(valueColor))
+                        .build(),
                 )
                 .setMaxLines(1)
                 .build()
@@ -98,8 +91,8 @@ class GlucoseSimpleTileService : TileService() {
                     LayoutElementBuilders.FontStyle.Builder()
                         .setSize(DimensionBuilders.sp(18f))
                         .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
-                        .setColor(ColorBuilders.argb(TILE_ACCENT))
-                        .build()
+                        .setColor(ColorBuilders.argb(ToxyTileTheme.UNIT_TEXT))
+                        .build(),
                 )
                 .setMaxLines(1)
                 .build()
@@ -110,7 +103,7 @@ class GlucoseSimpleTileService : TileService() {
             metaRow.addContent(
                 LayoutElementBuilders.Spacer.Builder()
                     .setWidth(DimensionBuilders.dp(14f))
-                    .build()
+                    .build(),
             )
             metaRow.addContent(
                 LayoutElementBuilders.Text.Builder()
@@ -120,14 +113,14 @@ class GlucoseSimpleTileService : TileService() {
                             .setSize(DimensionBuilders.sp(32f))
                             .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
                             .setColor(ColorBuilders.argb(trendColor))
-                            .build()
+                            .build(),
                     )
                     .setMaxLines(1)
-                    .build()
+                    .build(),
             )
         }
 
-        val column =
+        val readingColumn =
             LayoutElementBuilders.Column.Builder()
                 .setWidth(DimensionBuilders.expand())
                 .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
@@ -135,33 +128,109 @@ class GlucoseSimpleTileService : TileService() {
                 .addContent(
                     LayoutElementBuilders.Spacer.Builder()
                         .setHeight(DimensionBuilders.dp(10f))
-                        .build()
+                        .build(),
                 )
                 .addContent(metaRow.build())
+                .build()
+
+        val syncButton = buildSyncButton()
+
+        val contentColumn =
+            LayoutElementBuilders.Column.Builder()
+                .setWidth(DimensionBuilders.expand())
+                .setHeight(DimensionBuilders.expand())
+                .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+                .addContent(
+                    LayoutElementBuilders.Spacer.Builder()
+                        .setHeight(DimensionBuilders.dp(8f))
+                        .build(),
+                )
+                .addContent(readingColumn)
+                .addContent(
+                    LayoutElementBuilders.Spacer.Builder()
+                        .setHeight(DimensionBuilders.expand())
+                        .build(),
+                )
+                .addContent(syncButton)
+                .addContent(
+                    LayoutElementBuilders.Spacer.Builder()
+                        .setHeight(DimensionBuilders.dp(12f))
+                        .build(),
+                )
                 .build()
 
         return LayoutElementBuilders.Box.Builder()
             .setWidth(DimensionBuilders.expand())
             .setHeight(DimensionBuilders.expand())
+            .setModifiers(
+                ModifiersBuilders.Modifiers.Builder()
+                    .setBackground(
+                        ModifiersBuilders.Background.Builder()
+                            .setColor(ColorBuilders.argb(ToxyTileTheme.BACKGROUND))
+                            .build(),
+                    )
+                    .build(),
+            )
+            .addContent(contentColumn)
+            .build()
+    }
+
+    private fun buildSyncButton(): LayoutElementBuilders.LayoutElement {
+        val syncLabel =
+            LayoutElementBuilders.Text.Builder()
+                .setText("\u21BB Sync")
+                .setFontStyle(
+                    LayoutElementBuilders.FontStyle.Builder()
+                        .setSize(DimensionBuilders.sp(16f))
+                        .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
+                        .setColor(ColorBuilders.argb(ToxyTileTheme.SYNC_ACCENT))
+                        .build(),
+                )
+                .setMaxLines(1)
+                .build()
+
+        return LayoutElementBuilders.Box.Builder()
+            .setWidth(DimensionBuilders.expand())
+            .setHeight(DimensionBuilders.dp(48f))
             .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
             .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
             .setModifiers(
                 ModifiersBuilders.Modifiers.Builder()
                     .setBackground(
                         ModifiersBuilders.Background.Builder()
-                            .setColor(ColorBuilders.argb(TILE_BG))
-                            .build()
+                            .setColor(ColorBuilders.argb(ToxyTileTheme.SYNC_BG))
+                            .setCorner(
+                                ModifiersBuilders.Corner.Builder()
+                                    .setRadius(DimensionBuilders.dp(24f))
+                                    .build(),
+                            )
+                            .build(),
                     )
-                    .build()
+                    .setClickable(
+                        ModifiersBuilders.Clickable.Builder()
+                            .setId(ToxyTileTheme.SYNC_CLICK_ID)
+                            .setOnClick(
+                                ActionBuilders.LaunchAction.Builder()
+                                    .setAndroidActivity(
+                                        ActionBuilders.AndroidActivity.Builder()
+                                            .setClassName(GlucoseRefreshActivity::class.java.name)
+                                            .setPackageName(packageName)
+                                            .build(),
+                                    )
+                                    .build(),
+                            )
+                            .build(),
+                    )
+                    .build(),
             )
-            .addContent(column)
+            .addContent(syncLabel)
             .build()
     }
 
     private fun requestComplicationsRefreshThrottled() {
         val now = SystemClock.elapsedRealtime()
         synchronized(tileComplicationRefreshLock) {
-            if (now - lastTileComplicationRefreshElapsedMs < TILE_COMPLICATION_REFRESH_INTERVAL_MS) return
+            if (now - lastTileComplicationRefreshElapsedMs < ToxyTileTheme.COMPLICATION_REFRESH_INTERVAL_MS) return
             lastTileComplicationRefreshElapsedMs = now
         }
         ComplicationUpdateNotifier.requestUpdateAll(this)
@@ -170,12 +239,5 @@ class GlucoseSimpleTileService : TileService() {
     private companion object {
         private val tileComplicationRefreshLock = Any()
         private var lastTileComplicationRefreshElapsedMs = 0L
-        private const val TILE_COMPLICATION_REFRESH_INTERVAL_MS = 45_000L
-
-        private const val RESOURCES_VERSION = "simple-tile-v5-nocturne-pro"
-        private const val TILE_BG = 0xFF0D1117.toInt()
-        private const val TILE_TEXT = 0xFFF8FAFC.toInt()
-        private const val TILE_ACCENT = 0xFF34D399.toInt()
-        private const val TILE_TREND_STALE = 0xFF64748B.toInt()
     }
 }

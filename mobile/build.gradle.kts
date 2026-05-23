@@ -17,8 +17,8 @@ android {
         applicationId = "com.widgetg7.mobile"
         minSdk = 28
         targetSdk = 36
-        versionCode = 22
-        versionName = "0.3.1"
+        versionCode = 23
+        versionName = "0.4.0"
 
         buildConfigField("String", "DEXCOM_SHARE_APPLICATION_ID", "\"$dexcomShareApplicationId\"")
     }
@@ -41,6 +41,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
     }
 
 }
@@ -98,4 +102,6 @@ dependencies {
 
     testImplementation(project(":core:testing"))
     testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.test:core:1.6.1")
+    testImplementation("org.robolectric:robolectric:4.14.1")
 }

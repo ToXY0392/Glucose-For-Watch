@@ -53,12 +53,43 @@ class GlucoseSyncEngineTest {
         assertEquals(0, refresh.watchUnavailableCount)
     }
 
+    @Test
+    fun push_failure_enqueues_pending_reading() = runBlocking {
+        val source = FakeSource(reading(timestampEpochMs = 2000L))
+        val state = FakeSyncState(lastPushedReadingTimestampEpochMs = 1000L)
+        val wear = FakeWearSync(pushResult = false)
+        val refresh = FakeRefreshStatus()
+        val pending = FakePendingPush()
+
+        engine(source, state, wear, refresh, pending).run(triggeredFromWatch = false)
+
+        assertEquals(1, pending.enqueueCount)
+        assertEquals(0, state.pushSuccessCalls)
+    }
+
+    @Test
+    fun pending_push_retries_when_timestamp_unchanged() = runBlocking {
+        val source = FakeSource(reading(timestampEpochMs = 1000L))
+        val state = FakeSyncState(lastPushedReadingTimestampEpochMs = 1000L)
+        val wear = FakeWearSync(pushResult = true)
+        val refresh = FakeRefreshStatus()
+        val pending = FakePendingPush(initiallyPending = true)
+
+        val result = engine(source, state, wear, refresh, pending).run(triggeredFromWatch = false)
+
+        assertTrue(result is SyncExecutionResult.SuccessNoNewReading)
+        assertEquals(1, wear.pushCalls)
+        assertEquals(1, state.pushSuccessCalls)
+        assertEquals(1, pending.clearCount)
+    }
+
     private fun engine(
         source: FakeSource,
         syncState: FakeSyncState,
         wearSync: FakeWearSync,
         refresh: FakeRefreshStatus,
-    ): GlucoseSyncEngine = GlucoseSyncEngine(source, syncState, wearSync, refresh)
+        pending: FakePendingPush? = null,
+    ): GlucoseSyncEngine = GlucoseSyncEngine(source, syncState, wearSync, refresh, pending)
 
     private class FakeSource(private val reading: GlucoseReading) : GlucoseSourcePort {
         override val sourceName: String = "fake-source"
@@ -83,7 +114,35 @@ class GlucoseSyncEngineTest {
     }
 
     private class FakeWearSync(private val pushResult: Boolean) : WearSyncPort {
-        override suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean = pushResult
+        var pushCalls: Int = 0
+            private set
+
+        override suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean {
+            pushCalls++
+            return pushResult
+        }
+    }
+
+    private class FakePendingPush(
+        private val initiallyPending: Boolean = false,
+    ) : PendingPushPort {
+        var enqueueCount: Int = 0
+            private set
+        var clearCount: Int = 0
+            private set
+        private var pending = initiallyPending
+
+        override fun hasPending(): Boolean = pending
+
+        override fun enqueue(reading: GlucoseReading) {
+            enqueueCount++
+            pending = true
+        }
+
+        override fun clear() {
+            clearCount++
+            pending = false
+        }
     }
 
     private class FakeRefreshStatus : RefreshStatusPort {

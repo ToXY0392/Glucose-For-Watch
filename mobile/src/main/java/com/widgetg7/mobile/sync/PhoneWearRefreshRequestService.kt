@@ -5,6 +5,7 @@ import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.MessageEvent
+import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.WearableListenerService
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthStatus
@@ -15,6 +16,17 @@ import kotlinx.coroutines.launch
 
 class PhoneWearRefreshRequestService : WearableListenerService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    override fun onPeerConnected(node: Node) {
+        super.onPeerConnected(node)
+        if (!PendingPushQueue(this).hasPending()) return
+        Log.i(TAG, "peer_connected_pending_flush nodeId=${node.id}")
+        serviceScope.launch {
+            if (!PendingPushFlusher.flush(this@PhoneWearRefreshRequestService)) {
+                ActiveGlucoseSyncController.syncNow(this@PhoneWearRefreshRequestService)
+            }
+        }
+    }
 
     override fun onMessageReceived(messageEvent: MessageEvent) {
         if (messageEvent.path != GlucoseKeys.PATH_REFRESH_REQUEST) {

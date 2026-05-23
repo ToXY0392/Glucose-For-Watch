@@ -1,9 +1,36 @@
 # Release notes
 
-## 2026-05-07
+> See also [CHANGELOG.md](../CHANGELOG.md) at repository root.
 
-- Stabilisation de la sync Gradle (JBR forcé).
-- Réinstallation propre mobile + wear.
-- Fix incident affichage figé montre.
-- Monitoring sync 30 minutes validé.
-- Chaîne de build : **Android Gradle Plugin 9.2.1**, **Gradle 9.4.1** ; module **`mobile`** : assets wear embarqués (debug) via **`androidComponents`** / **`addGeneratedSourceDirectory`** pour compatibilité AGP 9 (plus de `Provider` dans `sourceSets`). Détail : `docs/android-studio.md` (section mise à jour Studio / AGP 9).
+---
+
+## 2026-05-23 — v0.4.0 ToXY release
+
+- User-facing rebrand: launcher name **ToXY** on phone and watch
+- Wear status screen (Compose M3) with AGP hero and sync button
+- Robust offline sync: pending push queue, reconnect flush, WorkManager catch-up
+- ToXY chrome + AGP medical colors integrated across tile, phone, complication
+- CI GitHub Actions, PR/issue templates, expanded unit test suite
+
+---
+
+## 2026-05-23 — Documentation & refactor planning
+
+- Master refactor plan published ([plan/MASTER-REFACTOR-PLAN.md](plan/MASTER-REFACTOR-PLAN.md))
+- Full documentation rewrite in English (structured `docs/` tree)
+- AGP medical color standard documented
+- ToXY design system specification added
+- Dexcom G6/G7 compatibility documented
+
+---
+
+## 2026-05-07 — v0.3.1 stabilization
+
+- Gradle IDE sync stabilized (JBR forced)
+- Clean mobile + wear reinstall
+- Fixed watch display frozen incident
+- 30-minute sync monitoring validated
+- Build chain: AGP **9.2.1**, Gradle **9.4.1**
+- Mobile module: embedded wear APK (debug) via `androidComponents` / `addGeneratedSourceDirectory` for AGP 9 compatibility
+
+Details: [Android Studio guide](development/android-studio.md#agp-9-upgrade-note)

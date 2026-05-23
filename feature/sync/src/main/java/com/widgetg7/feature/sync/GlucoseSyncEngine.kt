@@ -33,6 +33,7 @@ class GlucoseSyncEngine(
     private val syncState: SyncStatePort,
     private val wearSync: WearSyncPort,
     private val refreshStatus: RefreshStatusPort,
+    private val pendingPush: PendingPushPort? = null,
 ) {
     suspend fun run(
         triggeredFromWatch: Boolean,
@@ -44,15 +45,20 @@ class GlucoseSyncEngine(
         syncState.recordFetchedReading(reading.timestampEpochMs)
 
         val hasNewReading = previous.lastPushedReadingTimestampEpochMs != reading.timestampEpochMs
-        val shouldPushToWatch = hasNewReading || forcePushCurrentReading
+        val hasPendingPush = pendingPush?.hasPending() == true
+        val shouldPushToWatch = hasNewReading || forcePushCurrentReading || hasPendingPush
 
         if (shouldPushToWatch) {
             val sequenceId = syncState.nextSequenceId()
             val pushed = wearSync.pushLatest(reading, sequenceId)
             if (pushed) {
                 syncState.recordPushSuccess(reading, sequenceId)
-            } else if (triggeredFromWatch) {
-                refreshStatus.pushCompletedPhoneUpToDateWatchUnavailable()
+                pendingPush?.clear()
+            } else {
+                pendingPush?.enqueue(reading)
+                if (triggeredFromWatch) {
+                    refreshStatus.pushCompletedPhoneUpToDateWatchUnavailable()
+                }
             }
         } else if (triggeredFromWatch) {
             refreshStatus.pushCompletedNoNewReading()

@@ -2,6 +2,8 @@ package com.widgetg7.wear.data
 
 import android.content.Context
 import com.widgetg7.core.datalayer.GlucoseDataLayerContract
+import com.widgetg7.core.model.AgpGlucoseColors
+import com.widgetg7.core.model.GlucoseRangeResolver
 
 enum class GlucoseSemanticLevel {
     NORMAL,
@@ -42,19 +44,13 @@ data class GlucoseSnapshot(
         }
     }
 
-    fun semanticColorArgb(): Int = when (semanticLevel()) {
-        GlucoseSemanticLevel.NORMAL -> 0xFFF5F7FA.toInt()
-        GlucoseSemanticLevel.ATTENTION -> 0xFFF4B942.toInt()
-        GlucoseSemanticLevel.ALERT -> 0xFFFF5A5F.toInt()
-        GlucoseSemanticLevel.STALE -> 0xFFA7B0BA.toInt()
-    }
+    /** AGP color for the primary glucose value (never ToXY mint). */
+    fun semanticColorArgb(): Int =
+        GlucoseRangeResolver.resolveColorForReading(valueMgDl, stale)
 
-    fun metadataColorArgb(): Int = when (semanticLevel()) {
-        GlucoseSemanticLevel.NORMAL -> 0xFF7FDBB6.toInt()
-        GlucoseSemanticLevel.ATTENTION -> 0xFFF4B942.toInt()
-        GlucoseSemanticLevel.ALERT -> 0xFFFF8A8F.toInt()
-        GlucoseSemanticLevel.STALE -> 0xFFA7B0BA.toInt()
-    }
+    /** AGP color for trend/metadata; muted when stale. */
+    fun metadataColorArgb(): Int =
+        if (stale) AgpGlucoseColors.UNKNOWN else GlucoseRangeResolver.resolveColor(valueMgDl)
 
     fun secondaryLabel(nowEpochMs: Long): String {
         val ageLabel = ageLabel(nowEpochMs)

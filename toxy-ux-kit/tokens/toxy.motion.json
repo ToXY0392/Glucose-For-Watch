@@ -1,0 +1,16 @@
+{
+  "toxy": {
+    "motion": {
+      "duration": {
+        "instant": { "$value": "0ms", "$type": "duration", "$description": "Refresh proxy activity" },
+        "fast": { "$value": "150ms", "$type": "duration" },
+        "normal": { "$value": "300ms", "$type": "duration" }
+      },
+      "tile": {
+        "freshnessIntervalMs": { "$value": "45000", "$type": "duration", "$description": "Aligned with phone poll" },
+        "refreshPendingVisibleMs": { "$value": "45000", "$type": "duration" },
+        "refreshFailedVisibleMs": { "$value": "90000", "$type": "duration" }
+      }
+    }
+  }
+}

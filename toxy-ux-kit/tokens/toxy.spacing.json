@@ -1,0 +1,13 @@
+{
+  "toxy": {
+    "spacing": {
+      "screenPadH": { "$value": "22dp", "$type": "dimension" },
+      "screenPadV": { "$value": "24dp", "$type": "dimension" },
+      "touchMin": { "$value": "48dp", "$type": "dimension", "$description": "Minimum touch target — Wear tile sync button" },
+      "iconTonalSize": { "$value": "56dp", "$type": "dimension" },
+      "iconSquareInner": { "$value": "32dp", "$type": "dimension" },
+      "tileMetaGap": { "$value": "14dp", "$type": "dimension", "$description": "Gap between mg/dL and trend on tile" },
+      "tileValueMetaGap": { "$value": "10dp", "$type": "dimension" }
+    }
+  }
+}

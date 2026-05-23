@@ -24,6 +24,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.widgetg7.core.model.GlucoseRangeResolver
 import com.widgetg7.core.model.SyncStatusSnapshot
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.settings.DexcomUserSettings
@@ -32,6 +33,7 @@ import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.feature.sync.SyncStatusRepository
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
+import com.widgetg7.mobile.sync.PhoneSyncStateSnapshot
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
 import com.widgetg7.mobile.ui.DexcomEntryActivity
 import com.widgetg7.mobile.ui.DexcomSettingsActivity
@@ -181,7 +183,7 @@ class MainActivity : AppCompatActivity() {
         when {
             primary != null -> {
                 homeReadingPrimary.text = primary
-                homeReadingPrimary.setTextColor(ContextCompat.getColor(this, R.color.wg7_text_primary))
+                applyHeroReadingColor(syncStatus)
                 if (!subtitle.isNullOrBlank()) {
                     homeReadingSubtitle.text = subtitle
                     homeReadingSubtitle.visibility = android.view.View.VISIBLE
@@ -203,18 +205,37 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        val syncState = PhoneSyncStateStore(this).load()
         val statusLine =
             when {
-                !dexcomConfigured -> "Dexcom : non connecté"
-                !watchStatus.connected -> "Montre : non associée (facultatif)"
-                !watchReady -> "Installez Widget G7 sur la montre"
+                !dexcomConfigured -> getString(R.string.home_status_dexcom_off)
+                watchStatus.connected &&
+                    syncState.consecutiveWearPushFailures >= WATCH_PUSH_FAILURE_THRESHOLD ->
+                    getString(R.string.home_status_watch_unreachable)
+                watchStatus.connected &&
+                    syncState.lastPushSequenceId > 0L &&
+                    !hasWatchAck(syncState) ->
+                    getString(R.string.home_status_watch_pending)
+                !watchStatus.connected -> getString(R.string.home_status_watch_not_paired)
+                !watchReady -> getString(R.string.home_status_watch_install)
                 syncStatus.lastError.isNotBlank() ->
-                    "Sync : ${truncateForStatusPill(syncStatus.lastError)}"
-                hasWatchAck() && activeSync -> "Liaison montre confirmée"
-                activeSync && syncStatus.hasSuccessfulSync() -> "Synchronisation active"
-                else -> "Prêt"
+                    getString(R.string.home_status_sync_error, truncateForStatusPill(syncStatus.lastError))
+                hasWatchAck(syncState) && activeSync -> getString(R.string.home_status_watch_confirmed)
+                activeSync && syncStatus.hasSuccessfulSync() -> getString(R.string.home_status_sync_active)
+                else -> getString(R.string.home_status_ready)
             }
         homeStatusText.text = statusLine
+    }
+
+    private fun applyHeroReadingColor(snapshot: SyncStatusSnapshot) {
+        val value = snapshot.lastValueMgDl
+        val color =
+            if (value != null) {
+                GlucoseRangeResolver.resolveColor(value)
+            } else {
+                ContextCompat.getColor(this, R.color.wg7_text_primary)
+            }
+        homeReadingPrimary.setTextColor(color)
     }
 
     private fun truncateForStatusPill(raw: String, maxLen: Int = 30): String {
@@ -239,7 +260,7 @@ class MainActivity : AppCompatActivity() {
                 )
         }
         val installOk = watchHealth?.appInstalled == true && !watchHealth.syncLimited
-        val montreChevronOk = installOk && hasWatchAck()
+        val montreChevronOk = installOk && hasWatchAck(PhoneSyncStateStore(this).load())
         tintChevron(installChevron, montreChevronOk)
         tintChevron(wearAssistantChevron, installOk)
     }
@@ -298,9 +319,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun hasWatchAck(): Boolean {
-        val state = PhoneSyncStateStore(this).load()
-        return state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L
+    private fun hasWatchAck(state: PhoneSyncStateSnapshot = PhoneSyncStateStore(this).load()): Boolean =
+        state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L
+
+    companion object {
+        private const val WATCH_PUSH_FAILURE_THRESHOLD = 3
     }
 
     private fun showHomeMenu() {

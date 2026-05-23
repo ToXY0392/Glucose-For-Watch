@@ -68,8 +68,8 @@ vendor_systems:
     official_public_spec: false
     markdown: dexcom-share.md
     code:
-      - mobile/src/main/java/com/widgetg7/mobile/dexcom/DexcomSharePhoneGlucoseSource.kt
-      - mobile/src/main/java/com/widgetg7/mobile/dexcom/DexcomShareConfig.kt
+      - feature/dexcom-share/src/main/java/com/widgetg7/feature/dexcomshare/DexcomShareClient.kt
+      - mobile/src/main/java/com/widgetg7/mobile/data/PhoneGlucoseSourceFactory.kt
     hosts:
       - share2.dexcom.com
       - shareous1.dexcom.com
