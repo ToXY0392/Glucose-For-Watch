@@ -1,18 +1,18 @@
-# Quick start
+# Quick start — Glucose For Watch
 
-> **Last updated:** 2026-05-23
+> **Last updated:** 2026-05-24
 
-Install ToXY and see your glucose on your Wear OS watch in a few minutes.
+Install Glucose For Watch and see your glucose on your Wear OS watch in a few minutes.
 
 ## Steps
 
 1. **Install** the phone app (`mobile-debug.apk`) on your Android phone.
 2. **Install** the watch app (`wear-debug.apk`) on your Wear OS watch.
-3. **Open** ToXY on the phone.
+3. **Open** Glucose For Watch on the phone.
 4. **Accept** the legal notices.
 5. **Connect** Dexcom Share (username, password, US or OUS region).
 6. **Tap Sync** on the phone home screen to test.
-7. **Add** the ToXY tile or complication on your watch.
+7. **Add** the Glucose For Watch tile or complication on your watch.
 
 ## Dexcom requirements
 

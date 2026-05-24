@@ -10,6 +10,7 @@ import kotlinx.coroutines.tasks.await
 class WearSyncPublisher(
     private val context: Context,
     private val resolveTargetNodeId: suspend () -> String?,
+    private val resolveSourceNodeId: suspend () -> String? = { null },
 ) {
     suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean {
         val nodeId = resolveTargetNodeId().orEmpty()
@@ -26,6 +27,9 @@ class WearSyncPublisher(
             dataMap.putLong(GlucoseDataLayerContract.SEQUENCE_ID, sequenceId)
             dataMap.putString(GlucoseDataLayerContract.TARGET_NODE_ID, nodeId)
             dataMap.putLong(GlucoseDataLayerContract.PUSH_VERSION, sequenceId)
+            resolveSourceNodeId()?.takeIf { it.isNotBlank() }?.let { sourceNodeId ->
+                dataMap.putString(GlucoseDataLayerContract.SOURCE_PHONE_NODE_ID, sourceNodeId)
+            }
         }.asPutDataRequest().setUrgent()
 
         Wearable.getDataClient(context).putDataItem(request).await()

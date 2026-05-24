@@ -17,6 +17,7 @@ data class SyncStatusSnapshot(
     val lastErrorCategory: SyncErrorCategory,
     val authFailureCount: Int,
     val consecutiveFailureCount: Int,
+    val watchPushPending: Boolean = false,
 ) {
     fun hasSuccessfulSync(): Boolean = lastValueMgDl != null && lastSyncEpochMs > 0L
 }

@@ -1,4 +1,4 @@
-# Ouvre les aperçus ToXY sans émulateur
+# Ouvre les aperçus Glucose For Watch sans émulateur
 # Usage: .\scripts\qa\open-previews.ps1
 
 $Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent

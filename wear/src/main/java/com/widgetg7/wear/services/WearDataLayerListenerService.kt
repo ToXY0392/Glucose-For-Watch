@@ -1,6 +1,6 @@
 package com.widgetg7.wear.services
 
-import androidx.wear.tiles.TileService
+import android.util.Log
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
@@ -13,19 +13,18 @@ import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.data.GlucoseSnapshot
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
-import com.widgetg7.wear.tile.GlucoseSimpleTileService
+import com.widgetg7.wear.sync.WearAckSender
+import com.widgetg7.wear.tile.GlucoseSyncCoordinator
+import com.widgetg7.wear.tile.GlucoseTileUpdateRequester
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class WearDataLayerListenerService : WearableListenerService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    override fun onCreate() {
-        super.onCreate()
-        ComplicationUpdateNotifier.requestUpdateAll(this)
-    }
 
     override fun onDataChanged(dataEvents: DataEventBuffer) {
         val cache = GlucoseCache(this)
@@ -46,10 +45,17 @@ class WearDataLayerListenerService : WearableListenerService() {
                     stale = map.getBoolean(GlucoseKeys.STALE),
                 )
                 val sequenceId = map.getLong(GlucoseKeys.SEQUENCE_ID)
+                val sourcePhoneNodeId = map.getString(GlucoseKeys.SOURCE_PHONE_NODE_ID).orEmpty()
+                    .ifBlank { item.uri.host.orEmpty() }
+                if (sourcePhoneNodeId.isNotBlank()) {
+                    cache.recordLastPhoneNodeId(sourcePhoneNodeId)
+                }
                 cache.save(snapshot)
                 cache.clearRefreshStatus()
-                sendAck(snapshot.timestampEpochMs, sequenceId)
-                requestSurfaceUpdates()
+                GlucoseSyncCoordinator.endSync()
+                sendAck(cache, healthMonitor, snapshot.timestampEpochMs, sequenceId)
+                requestTileUpdateImmediate()
+                notifyComplicationReading(snapshot, sequenceId)
                 healthMonitor.updateAndReport()
                 continue
             }
@@ -67,7 +73,10 @@ class WearDataLayerListenerService : WearableListenerService() {
                 val status = map.getString(GlucoseKeys.REFRESH_STATUS).orEmpty()
                 val message = map.getString(GlucoseKeys.REFRESH_MESSAGE).orEmpty()
                 when (status) {
-                    GlucoseKeys.REFRESH_IN_PROGRESS -> cache.markRefreshPending(message)
+                    GlucoseKeys.REFRESH_IN_PROGRESS -> {
+                        cache.markRefreshPending(message)
+                        healthMonitor.updateAndReport()
+                    }
                     GlucoseKeys.REFRESH_COMPLETED ->
                         if (message.isBlank()) {
                             cache.clearRefreshStatus()
@@ -76,23 +85,42 @@ class WearDataLayerListenerService : WearableListenerService() {
                         }
                     GlucoseKeys.REFRESH_FAILED -> cache.markRefreshFailed(message)
                 }
-                requestSurfaceUpdates()
-                healthMonitor.updateAndReport()
+                if (status != GlucoseKeys.REFRESH_IN_PROGRESS) {
+                    GlucoseSyncCoordinator.endSync()
+                    requestTileUpdateImmediate()
+                    healthMonitor.updateAndReport()
+                }
             }
         }
 
         super.onDataChanged(dataEvents)
     }
 
-    private fun requestSurfaceUpdates() {
-        TileService.getUpdater(this).requestUpdate(GlucoseSimpleTileService::class.java)
-
-        ComplicationUpdateNotifier.requestUpdateAll(this)
+    private fun requestTileUpdate() {
+        GlucoseTileUpdateRequester.requestUpdate(this)
     }
 
-    private fun sendAck(readingTimestampEpochMs: Long, sequenceId: Long) {
+    private fun requestTileUpdateImmediate() {
+        GlucoseTileUpdateRequester.requestUpdateImmediate(this)
+    }
+
+    private fun notifyComplicationReading(snapshot: GlucoseSnapshot, sequenceId: Long) {
+        ComplicationUpdateNotifier.notifyReadingChanged(
+            context = this,
+            sequenceId = sequenceId,
+            readingTimestampEpochMs = snapshot.timestampEpochMs,
+        )
+    }
+
+    private fun sendAck(
+        cache: GlucoseCache,
+        healthMonitor: WatchSyncHealthMonitor,
+        readingTimestampEpochMs: Long,
+        sequenceId: Long,
+    ) {
         serviceScope.launch {
-            runCatching {
+            val sender = WearAckSender()
+            val sent = sender.send {
                 val now = System.currentTimeMillis()
                 val request = PutDataMapRequest.create(GlucoseKeys.PATH_WATCH_ACK).apply {
                     dataMap.putLong(GlucoseKeys.ACK_READING_TIMESTAMP_EPOCH_MS, readingTimestampEpochMs)
@@ -100,8 +128,15 @@ class WearDataLayerListenerService : WearableListenerService() {
                     dataMap.putLong(GlucoseKeys.ACK_RECEIVED_AT, now)
                     dataMap.putLong(GlucoseKeys.SEQUENCE_ID, now)
                 }.asPutDataRequest().setUrgent()
-                Wearable.getDataClient(this@WearDataLayerListenerService).putDataItem(request)
+                Wearable.getDataClient(this@WearDataLayerListenerService).putDataItem(request).await()
             }
+            if (sent) {
+                return@launch
+            }
+
+            Log.w(TAG, "ack_failed sequenceId=$sequenceId attempts=${WearAckSender.MAX_ACK_ATTEMPTS}")
+            cache.recordAckFailed(sequenceId)
+            healthMonitor.recordAckFailure()
         }
     }
 
@@ -111,5 +146,9 @@ class WearDataLayerListenerService : WearableListenerService() {
             Tasks.await(Wearable.getNodeClient(this).localNode).id
         }.getOrDefault("")
         return localNodeId.isBlank() || localNodeId == targetNodeId
+    }
+
+    companion object {
+        private const val TAG = "WG7.WearDataLayer"
     }
 }

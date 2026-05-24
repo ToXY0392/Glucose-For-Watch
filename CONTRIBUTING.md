@@ -1,4 +1,4 @@
-# Contributing to Widget G7
+# Contributing to Glucose For Watch
 
 Thank you for contributing. This project syncs real health data — extra care is required.
 
@@ -49,7 +49,7 @@ For significant sync changes: **30 min regression** recommended.
 ### Design changes
 
 - Glucose values → AGP colors only ([spec](docs/design/glucose-color-standard.md))
-- UI chrome → ToXY tokens ([spec](docs/design/toxy-design-system.md))
+- UI chrome → UX kit tokens ([spec](docs/design/toxy-design-system.md))
 - Wear tile → ≥ 48 dp touch targets ([tile spec](docs/design/wear-tile-spec.md))
 
 ### Documentation

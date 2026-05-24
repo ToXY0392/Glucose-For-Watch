@@ -37,7 +37,7 @@
 | Item | Status |
 |------|--------|
 | Complication text AGP tint | RANGED_VALUE 40–400 OK; text color = watch face (API 1.2.x) |
-| Package id `com.widgetg7.*` | Unchanged — display name is **ToXY** |
+| Package id `com.widgetg7.*` | Unchanged — display name is **Glucose For Watch** |
 
 ## Session resume checklist
 

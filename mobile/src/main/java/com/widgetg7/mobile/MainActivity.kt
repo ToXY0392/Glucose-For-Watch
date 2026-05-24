@@ -32,12 +32,15 @@ import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.feature.sync.SyncStatusRepository
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
+import com.widgetg7.mobile.sync.PendingPushQueue
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneSyncStateSnapshot
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
 import com.widgetg7.mobile.ui.DexcomEntryActivity
 import com.widgetg7.mobile.ui.DexcomSettingsActivity
 import com.widgetg7.mobile.ui.GlucoseDisplayFormatter
+import com.widgetg7.mobile.ui.HomeSyncPillLabels
+import com.widgetg7.mobile.ui.HomeSyncPillResolver
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.ui.WearInstallerActivity
@@ -206,26 +209,33 @@ class MainActivity : AppCompatActivity() {
         }
 
         val syncState = PhoneSyncStateStore(this).load()
-        val statusLine =
-            when {
-                !dexcomConfigured -> getString(R.string.home_status_dexcom_off)
-                watchStatus.connected &&
-                    syncState.consecutiveWearPushFailures >= WATCH_PUSH_FAILURE_THRESHOLD ->
-                    getString(R.string.home_status_watch_unreachable)
-                watchStatus.connected &&
-                    syncState.lastPushSequenceId > 0L &&
-                    !hasWatchAck(syncState) ->
-                    getString(R.string.home_status_watch_pending)
-                !watchStatus.connected -> getString(R.string.home_status_watch_not_paired)
-                !watchReady -> getString(R.string.home_status_watch_install)
-                syncStatus.lastError.isNotBlank() ->
-                    getString(R.string.home_status_sync_error, truncateForStatusPill(syncStatus.lastError))
-                hasWatchAck(syncState) && activeSync -> getString(R.string.home_status_watch_confirmed)
-                activeSync && syncStatus.hasSuccessfulSync() -> getString(R.string.home_status_sync_active)
-                else -> getString(R.string.home_status_ready)
-            }
-        homeStatusText.text = statusLine
+        val watchPushPending = syncStatus.watchPushPending || PendingPushQueue(this).hasPending()
+        homeStatusText.text =
+            HomeSyncPillResolver.resolve(
+                dexcomConfigured = dexcomConfigured,
+                activeSync = activeSync,
+                syncStatus = syncStatus,
+                watchStatus = watchStatus,
+                watchReady = watchReady,
+                syncState = syncState,
+                watchPushPending = watchPushPending,
+                labels = homeSyncPillLabels(),
+            )
     }
+
+    private fun homeSyncPillLabels(): HomeSyncPillLabels =
+        HomeSyncPillLabels(
+            dexcomOff = getString(R.string.home_status_dexcom_off),
+            watchUnreachable = getString(R.string.home_status_watch_unreachable),
+            watchPushPending = getString(R.string.home_status_watch_push_pending),
+            watchPending = getString(R.string.home_status_watch_pending),
+            watchNotPaired = getString(R.string.home_status_watch_not_paired),
+            watchInstall = getString(R.string.home_status_watch_install),
+            syncError = { error -> getString(R.string.home_status_sync_error, error) },
+            watchConfirmed = getString(R.string.home_status_watch_confirmed),
+            syncActive = getString(R.string.home_status_sync_active),
+            ready = getString(R.string.home_status_ready),
+        )
 
     private fun applyHeroReadingColor(snapshot: SyncStatusSnapshot) {
         val value = snapshot.lastValueMgDl
@@ -238,11 +248,8 @@ class MainActivity : AppCompatActivity() {
         homeReadingPrimary.setTextColor(color)
     }
 
-    private fun truncateForStatusPill(raw: String, maxLen: Int = 30): String {
-        val t = raw.trim()
-        if (t.length <= maxLen) return t
-        return t.take(maxLen - 1).trimEnd { !it.isLetterOrDigit() } + "…"
-    }
+    private fun truncateForStatusPill(raw: String, maxLen: Int = 30): String =
+        HomeSyncPillResolver.truncateForStatusPill(raw, maxLen)
 
     private fun updateStepChevrons(
         dexcomConfigured: Boolean,
@@ -260,20 +267,22 @@ class MainActivity : AppCompatActivity() {
                 )
         }
         val installOk = watchHealth?.appInstalled == true && !watchHealth.syncLimited
-        val montreChevronOk = installOk && hasWatchAck(PhoneSyncStateStore(this).load())
+        val montreChevronOk = installOk && HomeSyncPillResolver.hasWatchAck(PhoneSyncStateStore(this).load())
         tintChevron(installChevron, montreChevronOk)
         tintChevron(wearAssistantChevron, installOk)
     }
 
     private fun updateSyncButtonTint(dexcomConfigured: Boolean, syncStatus: SyncStatusSnapshot) {
-        val ready = dexcomConfigured && syncStatus.lastError.isBlank()
+        val watchPushPending = syncStatus.watchPushPending || PendingPushQueue(this).hasPending()
+        val tintColor =
+            when {
+                !dexcomConfigured || syncStatus.lastError.isNotBlank() ->
+                    R.color.wg7_text_secondary
+                watchPushPending -> R.color.wg7_accent
+                else -> R.color.wg7_accent_dark
+            }
         syncNowButton.imageTintList =
-            ColorStateList.valueOf(
-                ContextCompat.getColor(
-                    this,
-                    if (ready) R.color.wg7_accent_dark else R.color.wg7_text_secondary,
-                ),
-            )
+            ColorStateList.valueOf(ContextCompat.getColor(this, tintColor))
     }
 
     private suspend fun runManualSync() {
@@ -320,11 +329,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun hasWatchAck(state: PhoneSyncStateSnapshot = PhoneSyncStateStore(this).load()): Boolean =
-        state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L
-
-    companion object {
-        private const val WATCH_PUSH_FAILURE_THRESHOLD = 3
-    }
+        HomeSyncPillResolver.hasWatchAck(state)
 
     private fun showHomeMenu() {
         homeMenuPopup?.let { existing ->

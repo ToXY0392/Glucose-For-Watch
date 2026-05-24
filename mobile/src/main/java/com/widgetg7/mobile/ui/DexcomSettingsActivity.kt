@@ -18,6 +18,7 @@ import com.widgetg7.feature.sync.SyncExecutionResult
 import com.widgetg7.feature.sync.SyncServerLabelFormatter
 import com.widgetg7.feature.sync.SyncStatusRepository
 import com.widgetg7.feature.sync.SyncStatusTextFormatter
+import com.widgetg7.feature.sync.WatchDeliveryStatus
 import com.widgetg7.mobile.BuildConfig
 import com.widgetg7.mobile.MainActivity
 import com.widgetg7.mobile.R
@@ -99,7 +100,7 @@ class DexcomSettingsActivity : AppCompatActivity() {
                     settingsStore.saveDexcomSettings(settings)
                     settingsStore.setActiveSyncEnabled(true)
                     launchStateStore.markDexcomEntryCompleted()
-                    syncStatusRepository.saveSuccess("dexcom-share", reading)
+                    syncStatusRepository.saveFetchedReading("dexcom-share", reading)
                     ActiveGlucoseSyncController.start(this@DexcomSettingsActivity)
                     PhoneAutoSyncScheduler.schedule(this@DexcomSettingsActivity)
                     val syncResult = PhoneGlucoseSyncEngine(this@DexcomSettingsActivity).run(
@@ -107,16 +108,31 @@ class DexcomSettingsActivity : AppCompatActivity() {
                         forcePushCurrentReading = true,
                     )
                     renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                    statusText.text = when (syncResult) {
-                        is SyncExecutionResult.SuccessNewReading ->
-                            "Connexion réussie. Glycémie envoyée à la montre."
+                    statusText.text =
+                        when (syncResult) {
+                            is SyncExecutionResult.Failure ->
+                                "Connexion Dexcom réussie, mais l'envoi montre a échoué : ${syncResult.message}"
 
-                        is SyncExecutionResult.SuccessNoNewReading ->
-                            "Connexion réussie. Dernière glycémie renvoyée à la montre."
+                            is SyncExecutionResult.SuccessNewReading,
+                            is SyncExecutionResult.SuccessNoNewReading,
+                            ->
+                                when (syncResult.watchDelivery) {
+                                    WatchDeliveryStatus.DELIVERED ->
+                                        if (syncResult is SyncExecutionResult.SuccessNewReading) {
+                                            "Connexion réussie. Glycémie envoyée à la montre."
+                                        } else {
+                                            "Connexion réussie. Dernière glycémie renvoyée à la montre."
+                                        }
 
-                        is SyncExecutionResult.Failure ->
-                            "Connexion Dexcom réussie, mais l'envoi montre a échoué : ${syncResult.message}"
-                    }
+                                    WatchDeliveryStatus.QUEUED,
+                                    WatchDeliveryStatus.WATCH_UNAVAILABLE,
+                                    ->
+                                        "Connexion Dexcom réussie. Envoi montre en attente (montre hors portée)."
+
+                                    WatchDeliveryStatus.NOT_APPLICABLE ->
+                                        "Connexion Dexcom réussie."
+                                }
+                        }
                     Snackbar.make(findViewById(android.R.id.content), statusText.text, 2500).show()
                     if (firstConnectionFlow) {
                         startActivity(

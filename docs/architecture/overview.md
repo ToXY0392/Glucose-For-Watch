@@ -2,7 +2,7 @@
 
 > **Last updated:** 2026-05-23
 
-Widget G7 is a multi-module Android project that syncs Dexcom Share glucose data from a phone to a Wear OS companion app.
+Glucose For Watch is a multi-module Android project that syncs Dexcom Share glucose data from a phone to a Wear OS companion app.
 
 ## System context
 
@@ -57,9 +57,9 @@ See [Sync pipeline](sync-pipeline.md) for the full flow.
 | Layer | Standard | Scope |
 |-------|----------|-------|
 | Medical (glucose values) | AGP / TIR colors | Tile, complication, phone hero |
-| Chrome (ToXY) | Material 3 dark theme | Backgrounds, buttons, navigation |
+| Chrome (UX kit) | Material 3 dark theme | Backgrounds, buttons, navigation |
 
-See [Glucose color standard](../design/glucose-color-standard.md) and [ToXY design system](../design/toxy-design-system.md).
+See [Glucose color standard](../design/glucose-color-standard.md) and [UX kit design system](../design/toxy-design-system.md).
 
 ## Key design decisions
 

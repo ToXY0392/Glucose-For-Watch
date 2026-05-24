@@ -94,7 +94,7 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
 
             Log.i(TAG, "sync_result fromWatch=$triggeredFromWatch forcePush=$forcePushCurrentReading result=${result::class.simpleName}")
             latestReading?.let { reading ->
-                syncStatusRepository.saveSuccess(source.sourceName, reading)
+                PhoneSyncStatusPersister.persist(syncStatusRepository, result, reading)
             }
             NotificationHelper(context).cancelSyncAlerts()
             result

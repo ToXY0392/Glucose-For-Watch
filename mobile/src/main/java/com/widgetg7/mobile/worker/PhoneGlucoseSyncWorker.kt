@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.widgetg7.feature.sync.SyncExecutionResult
+import com.widgetg7.feature.sync.WatchDeliveryStatus
 import com.widgetg7.mobile.sync.GlucoseKeys
 import com.widgetg7.mobile.sync.PendingPushFlusher
 import com.widgetg7.mobile.sync.PendingPushQueue
@@ -25,14 +26,26 @@ class PhoneGlucoseSyncWorker(
             PendingPushFlusher.flush(applicationContext)
         }
 
-        return when (
+        val result =
             PhoneGlucoseSyncEngine(applicationContext).run(
                 triggeredFromWatch = triggeredFromWatch,
                 forcePushCurrentReading = pendingQueue.hasPending(),
             )
-        ) {
-            is SyncExecutionResult.SuccessNewReading, is SyncExecutionResult.SuccessNoNewReading -> Result.success()
+        return when (result) {
             is SyncExecutionResult.Failure -> Result.retry()
+            is SyncExecutionResult.SuccessNewReading,
+            is SyncExecutionResult.SuccessNoNewReading,
+            -> {
+                when (result.watchDelivery) {
+                    WatchDeliveryStatus.DELIVERED,
+                    WatchDeliveryStatus.NOT_APPLICABLE,
+                    -> Result.success()
+
+                    WatchDeliveryStatus.QUEUED,
+                    WatchDeliveryStatus.WATCH_UNAVAILABLE,
+                    -> Result.retry()
+                }
+            }
         }
     }
 

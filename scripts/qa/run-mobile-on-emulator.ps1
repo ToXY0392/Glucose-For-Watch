@@ -21,7 +21,7 @@ while ((Get-Date) -lt $deadline) {
     Start-Sleep -Seconds 5
 }
 if (-not $serial) {
-    Write-Error "Aucun emulateur pret. Lancez: .\scripts\qa\start-emulators.ps1 ou Device Manager > Play sur Toxy_Phone_API36"
+    Write-Error "Aucun emulateur pret. Lancez: .\scripts\qa\start-emulators.ps1 ou Device Manager > Play sur Gfw_Phone_API36"
 }
 
 $env:ANDROID_SERIAL = $serial
@@ -33,4 +33,4 @@ Write-Host "Build + install :mobile..." -ForegroundColor Cyan
 Write-Host "Lancement SplashActivity..." -ForegroundColor Cyan
 & $adb -s $serial shell am start -n com.widgetg7.mobile/.SplashActivity
 
-Write-Host "`n[OK] ToXY lance sur $serial" -ForegroundColor Green
+Write-Host "`n[OK] Glucose For Watch lance sur $serial" -ForegroundColor Green

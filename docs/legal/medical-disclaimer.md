@@ -1,6 +1,6 @@
 # Medical disclaimer
 
-Widget G7 is **not** a certified medical device.
+Glucose For Watch is **not** a certified medical device.
 
 Data displayed by this application is **informational only** and must not be used as the sole basis for treatment decisions.
 

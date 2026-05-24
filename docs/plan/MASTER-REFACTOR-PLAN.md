@@ -1,6 +1,6 @@
-# Plan maître — Widget G7 → ToXY
+# Plan maître — Glucose For Watch
 
-> **v3.3** · 2026-05-23 · **Phase 4 🔄** · AGP lint CI  
+> **v3.4** · 2026-05-24 · **Phase 5 🔄** · QA hardware + rebrand  
 > **Suivi live :** [PROGRESS.md](PROGRESS.md)
 
 ---
@@ -13,7 +13,7 @@
 | **Approche** | Refonte incrémentale ; `GlucoseSyncEngine` conservé |
 | **Kit UX** | [`toxy-ux-kit/`](../../toxy-ux-kit/README.md) séparé de l’app |
 | **Doc** | [`docs/index.md`](../index.md) — sans doublons design |
-| **App** | **ToXY** v0.4.0 (tag `v0.4.0`) |
+| **App** | **Glucose For Watch** v0.4.0 (tag `v0.4.0`) |
 
 ### Jalons
 
@@ -88,7 +88,9 @@ R1–R8 : voir [`CONTRIBUTING.md`](../../CONTRIBUTING.md)
 
 ## 8. Prochaine action
 
-**QA hardware** quand dispo — refonte **terminée** (design: `toxy-ux-kit/design-reference/index.html`)
+**Phase 5 — Post-audit** : voir **[AUDIT-ACTION-PLAN.md](AUDIT-ACTION-PLAN.md)** (P0 sync → QA → release Play Store v0.5.0).
+
+Refonte phases −1→4 : **terminée** (code). QA hardware et release publique : **en cours**.
 
 ---
 

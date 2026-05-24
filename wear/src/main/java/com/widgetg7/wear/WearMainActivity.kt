@@ -7,7 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
-import com.widgetg7.wear.complication.ComplicationUpdateNotifier
+import android.util.Log
+import com.widgetg7.wear.complication.ComplicationInstanceRegistry
 import com.widgetg7.wear.tile.GlucoseRefreshActivity
 import com.widgetg7.wear.ui.WearStatusScreen
 import com.widgetg7.wear.ui.theme.WidgetG7WearTheme
@@ -31,6 +32,14 @@ class WearMainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         refreshKey++
-        ComplicationUpdateNotifier.requestUpdateAll(this)
+        val instanceIds = ComplicationInstanceRegistry.activeInstanceIds(this)
+        Log.i(
+            TAG,
+            "complication_linked=${instanceIds.isNotEmpty()} instances=${instanceIds.toList()}",
+        )
+    }
+
+    private companion object {
+        private const val TAG = "WG7.Complication"
     }
 }

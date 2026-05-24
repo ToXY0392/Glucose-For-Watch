@@ -1,6 +1,6 @@
-# Documentation
+# Documentation — Glucose For Watch
 
-> Hub for Widget G7. **Design specs live in [`toxy-ux-kit/`](../toxy-ux-kit/README.md)** — not duplicated here.
+> Hub for **Glucose For Watch** (repo folder `Widget G7`). **Design specs live in [`toxy-ux-kit/`](../toxy-ux-kit/README.md)** — not duplicated here.
 
 ## Start here
 

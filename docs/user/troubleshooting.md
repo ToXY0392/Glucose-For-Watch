@@ -16,7 +16,6 @@
 - The phone continues reading Dexcom while you are away from the watch.
 - When the watch reconnects, data should sync within 1–2 minutes if the phone app is running.
 - If not: open the phone app and tap **Sync**.
-- A future update (Phase 2) improves automatic catch-up with a persistent push queue.
 
 ## "Phone unavailable" on watch
 
@@ -26,7 +25,7 @@ This message appears when the watch cannot find a connected phone node. Common c
 - Phone app killed by battery optimizer
 - Watch out of range
 
-**Fix:** Open ToXY on the phone, disable battery optimization, tap Sync.
+**Fix:** Open Glucose For Watch on the phone, disable battery optimization, tap Sync.
 
 ## Sync button on phone does nothing
 
@@ -39,7 +38,7 @@ This message appears when the watch cannot find a connected phone node. Common c
 
 - Verify Share is enabled in the official Dexcom app.
 - Confirm US vs OUS server selection.
-- Password recently changed → update in ToXY settings.
+- Password recently changed → update in Glucose For Watch settings.
 
 ## Gradle / developer issues
 

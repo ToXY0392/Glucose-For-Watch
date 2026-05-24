@@ -184,7 +184,7 @@ class WatchSetupActivity : AppCompatActivity() {
                 if (status.preferredNodeMissing) {
                     add("La montre principale précédente n'est plus détectée.")
                 }
-                health?.summary()?.let {
+                health?.summary(this@WatchSetupActivity)?.let {
                     add(
                         it.removePrefix("Montre: ").replaceFirstChar { char ->
                             if (char.isLowerCase()) char.titlecase() else char.toString()
@@ -198,7 +198,7 @@ class WatchSetupActivity : AppCompatActivity() {
     private suspend fun runWatchVerification(): String {
         val status = WatchConnectionRepository(this).loadStatus()
         val watchHealth = WatchSyncHealthRepository(this).load()
-        val healthSummary = watchHealth?.summary()
+        val healthSummary = watchHealth?.summary(this)
 
         if (!status.connected) {
             return listOfNotNull(
@@ -212,15 +212,15 @@ class WatchSetupActivity : AppCompatActivity() {
         }.getOrNull()
         val wearInstallSummary = when {
             wearStatus?.appInstalled == true && wearStatus.supportsTile && wearStatus.supportsComplication ->
-                "Widget G7 Wear est installe : app, tile et complication disponibles."
+                getString(R.string.watch_setup_wear_ready_all)
             wearStatus?.appInstalled == true && (!wearStatus.supportsTile || !wearStatus.supportsComplication) ->
-                "Widget G7 Wear est installe, mais re-ajoutez la tile et la complication depuis la montre apres reinstallation."
+                getString(R.string.watch_setup_wear_ready_partial)
             wearStatus?.appInstalled == true ->
-                "Widget G7 Wear est installe."
+                getString(R.string.watch_setup_wear_ready_app)
             else ->
-                "Widget G7 Wear n'a pas encore repondu. Installez l'app montre pour activer tile et complication."
+                getString(R.string.watch_setup_wear_not_ready)
         }
-        val latestHealthSummary = wearStatus?.summary() ?: healthSummary
+        val latestHealthSummary = wearStatus?.summary(this) ?: healthSummary
 
         val preferredNote = if (status.connectedWatches.size > 1) {
             "Montre sélectionnée : ${status.displayName}."

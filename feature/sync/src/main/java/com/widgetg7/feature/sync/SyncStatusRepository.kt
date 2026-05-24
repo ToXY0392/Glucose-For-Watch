@@ -1,6 +1,7 @@
 package com.widgetg7.feature.sync
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.widgetg7.core.model.GlucoseReading
 import com.widgetg7.core.model.SyncErrorCategory
 import com.widgetg7.core.model.SyncStatusSnapshot
@@ -22,20 +23,36 @@ class SyncStatusRepository(context: Context) {
                 ?: SyncErrorCategory.NONE,
             authFailureCount = prefs.getInt(KEY_AUTH_FAILURE_COUNT, 0),
             consecutiveFailureCount = prefs.getInt(KEY_CONSECUTIVE_FAILURE_COUNT, 0),
+            watchPushPending = prefs.getBoolean(KEY_WATCH_PUSH_PENDING, false),
         )
     }
 
+    /** Dexcom fetch succeeded; updates hero only (does not reset watch push failure state). */
+    fun saveFetchedReading(sourceName: String, reading: GlucoseReading) {
+        prefs.edit()
+            .applyReadingFields(sourceName, reading)
+            .apply()
+    }
+
+    /** Dexcom fetch succeeded but the watch did not receive the reading yet. */
+    fun saveWatchDeliveryPending(sourceName: String, reading: GlucoseReading) {
+        prefs.edit()
+            .applyReadingFields(sourceName, reading)
+            .putString(KEY_LAST_ERROR, "")
+            .putString(KEY_LAST_ERROR_CATEGORY, SyncErrorCategory.NONE.name)
+            .putBoolean(KEY_WATCH_PUSH_PENDING, true)
+            .apply()
+    }
+
+    /** Fetch and watch delivery both succeeded. */
     fun saveSuccess(sourceName: String, reading: GlucoseReading) {
         prefs.edit()
-            .putInt(KEY_LAST_VALUE, reading.valueMgDl)
-            .putString(KEY_LAST_TREND, reading.trend)
-            .putString(KEY_LAST_SOURCE, sourceName)
-            .putLong(KEY_LAST_SYNC_AT, System.currentTimeMillis())
-            .putLong(KEY_LAST_READING_TIMESTAMP, reading.timestampEpochMs)
+            .applyReadingFields(sourceName, reading)
             .putString(KEY_LAST_ERROR, "")
             .putString(KEY_LAST_ERROR_CATEGORY, SyncErrorCategory.NONE.name)
             .putInt(KEY_AUTH_FAILURE_COUNT, 0)
             .putInt(KEY_CONSECUTIVE_FAILURE_COUNT, 0)
+            .putBoolean(KEY_WATCH_PUSH_PENDING, false)
             .apply()
     }
 
@@ -67,8 +84,19 @@ class SyncStatusRepository(context: Context) {
             .remove(KEY_LAST_ERROR_CATEGORY)
             .remove(KEY_AUTH_FAILURE_COUNT)
             .remove(KEY_CONSECUTIVE_FAILURE_COUNT)
+            .remove(KEY_WATCH_PUSH_PENDING)
             .apply()
     }
+
+    private fun SharedPreferences.Editor.applyReadingFields(
+        sourceName: String,
+        reading: GlucoseReading,
+    ): SharedPreferences.Editor = this
+        .putInt(KEY_LAST_VALUE, reading.valueMgDl)
+        .putString(KEY_LAST_TREND, reading.trend)
+        .putString(KEY_LAST_SOURCE, sourceName)
+        .putLong(KEY_LAST_SYNC_AT, System.currentTimeMillis())
+        .putLong(KEY_LAST_READING_TIMESTAMP, reading.timestampEpochMs)
 
     companion object {
         private const val PREFS_NAME = "widget_g7_sync_status"
@@ -81,5 +109,6 @@ class SyncStatusRepository(context: Context) {
         private const val KEY_LAST_ERROR_CATEGORY = "last_error_category"
         private const val KEY_AUTH_FAILURE_COUNT = "auth_failure_count"
         private const val KEY_CONSECUTIVE_FAILURE_COUNT = "consecutive_failure_count"
+        private const val KEY_WATCH_PUSH_PENDING = "watch_push_pending"
     }
 }

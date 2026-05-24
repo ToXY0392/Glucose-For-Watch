@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Glucose For Watch — adaptive icon foreground (108dp) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Cadran -->
     <path
         android:fillColor="@color/wg7_surface_alt"
-        android:pathData="M54,30 A24,24 0 1,1 53.99,30 Z" />
-    <!-- Anneau montre -->
+        android:pathData="M29,24 H67 Q75,24 75,32 V68 Q75,76 67,76 H29 Q21,76 21,68 V32 Q21,24 29,24 Z"
+        android:strokeColor="@color/gfw_brand_bezel"
+        android:strokeWidth="3.2" />
     <path
-        android:fillColor="@color/wg7_text_secondary"
-        android:fillType="evenOdd"
-        android:pathData="M54,22 A32,32 0 1,1 53.99,22 M54,32 A22,22 0 1,0 54.01,32 Z" />
-    <!-- Repère 12h -->
-    <path
-        android:fillColor="@color/wg7_text_primary"
-        android:pathData="M50,24 H58 V30 H50 Z" />
-    <!-- Courbe glycémie -->
+        android:fillColor="@color/gfw_brand_bezel"
+        android:pathData="M78,44 Q84,44 84,50 Q84,56 78,56 H75 V44 Z" />
     <path
         android:fillColor="@android:color/transparent"
-        android:pathData="M32,68 C40,68 44,54 54,46 C64,38 72,32 82,26"
-        android:strokeColor="@color/wg7_accent"
+        android:pathData="M30,68 C38,68 44,56 54,48 C62,41 68,38 74,34"
+        android:strokeColor="@color/gfw_brand_glucose"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:strokeWidth="4.5" />
-    <!-- Point de lecture -->
+        android:strokeWidth="4.2" />
     <path
-        android:fillColor="@color/wg7_accent"
-        android:pathData="M82,26 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0 Z" />
+        android:fillColor="@color/gfw_brand_glucose"
+        android:pathData="M74,34 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0 Z" />
 </vector>

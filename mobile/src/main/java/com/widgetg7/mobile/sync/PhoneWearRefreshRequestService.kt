@@ -81,10 +81,11 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
                 appVersionCode = map.getLong(GlucoseKeys.WATCH_APP_VERSION_CODE),
                 supportsTile = map.getBoolean(GlucoseKeys.WATCH_SUPPORTS_TILE),
                 supportsComplication = map.getBoolean(GlucoseKeys.WATCH_SUPPORTS_COMPLICATION),
+                ackFailureCount = map.getInt(GlucoseKeys.WATCH_ACK_FAILURE_COUNT, 0),
             )
             Log.i(
                 TAG,
-                "watch_status battery=${status.batteryLevel} lowPower=${status.lowPowerMode} syncLimited=${status.syncLimited} message=${status.message}",
+                "watch_status battery=${status.batteryLevel} lowPower=${status.lowPowerMode} syncLimited=${status.syncLimited} ackFailures=${status.ackFailureCount} message=${status.message}",
             )
             WatchSyncHealthRepository(this).save(status)
         }

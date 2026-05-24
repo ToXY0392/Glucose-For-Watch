@@ -1,6 +1,6 @@
 # Publication checklist
 
-Pre-release legal and safety review for Widget G7 / ToXY.
+Pre-release legal and safety review for Glucose For Watch.
 
 ## Medical
 

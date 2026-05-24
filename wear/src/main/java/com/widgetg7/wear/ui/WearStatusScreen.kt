@@ -25,11 +25,12 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.Text
 import com.widgetg7.wear.R
+import com.widgetg7.wear.complication.ComplicationInstanceRegistry
 
 /**
  * Wear status screen: AGP glucose hero, sync state, battery — mirrors tile semantics.
  *
- * Chrome uses ToXY mint; glucose value color is AGP-only ([WearStatusUiModel.valueColorArgb]).
+ * Chrome uses UX kit blue accent; glucose value color is AGP-only ([WearStatusUiModel.valueColorArgb]).
  */
 @Composable
 fun WearStatusScreen(
@@ -38,19 +39,28 @@ fun WearStatusScreen(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val complicationLinked =
+        remember(refreshKey) {
+            ComplicationInstanceRegistry.activeInstanceIds(context).isNotEmpty()
+        }
     val model =
         remember(refreshKey) {
             WearStatusUiModelFactory.load(context)
         }
 
     ScreenScaffold(modifier = modifier) {
-        WearStatusScreenBody(model = model, onSyncClick = onSyncClick)
+        WearStatusScreenBody(
+            model = model,
+            complicationLinked = complicationLinked,
+            onSyncClick = onSyncClick,
+        )
     }
 }
 
 @Composable
 internal fun WearStatusScreenBody(
     model: WearStatusUiModel,
+    complicationLinked: Boolean,
     onSyncClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -121,6 +131,23 @@ internal fun WearStatusScreenBody(
                     text = battery,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+
+            if (!complicationLinked) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.wear_complication_not_linked),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.tertiary,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    text = stringResource(R.string.wear_complication_setup_hint),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    maxLines = 3,
                 )
             }
 

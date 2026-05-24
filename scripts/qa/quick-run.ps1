@@ -1,4 +1,4 @@
-# Chemin le plus court pour voir ToXY sur appareil ou apercu PNG
+# Chemin le plus court pour voir Glucose For Watch sur appareil ou apercu PNG
 # Usage: .\scripts\qa\quick-run.ps1
 
 $ErrorActionPreference = "Stop"

@@ -4,6 +4,7 @@
     <uses-feature android:name="android.hardware.type.watch" />
 
     <application
+        android:name=".WidgetG7WearApplication"
         android:allowBackup="false"
         android:icon="@drawable/ic_wear_launcher"
         android:label="@string/app_name"
@@ -31,6 +32,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:launchMode="singleTop"
+            android:noHistory="true"
             android:taskAffinity=""
             android:theme="@style/Theme.WidgetG7.RefreshProxy" />
 
@@ -75,13 +77,13 @@
                 android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
             <meta-data
                 android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
-                android:value="120" />
+                android:value="300" />
             <meta-data
                 android:name="androidx.wear.watchface.complications.datasource.SUPPORTED_TYPES"
                 android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
             <meta-data
                 android:name="androidx.wear.watchface.complications.datasource.UPDATE_PERIOD_SECONDS"
-                android:value="120" />
+                android:value="300" />
         </service>
 
         <service

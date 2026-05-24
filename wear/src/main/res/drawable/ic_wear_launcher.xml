@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Glucose For Watch — icône launcher montre -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
     <path
-        android:fillColor="#111827"
+        android:fillColor="#0F1419"
         android:pathData="M0,0 H108 V108 H0 Z" />
     <path
-        android:fillColor="#1E293B"
-        android:pathData="M54,30 A24,24 0 1,1 53.99,30 Z" />
+        android:fillColor="#1F2937"
+        android:pathData="M29,24 H67 Q75,24 75,32 V68 Q75,76 67,76 H29 Q21,76 21,68 V32 Q21,24 29,24 Z"
+        android:strokeColor="#D6D3D1"
+        android:strokeWidth="3.2" />
     <path
-        android:fillColor="#94A3B8"
-        android:fillType="evenOdd"
-        android:pathData="M54,22 A32,32 0 1,1 53.99,22 M54,32 A22,22 0 1,0 54.01,32 Z" />
-    <path
-        android:fillColor="#F8FAFC"
-        android:pathData="M50,24 H58 V30 H50 Z" />
+        android:fillColor="#D6D3D1"
+        android:pathData="M78,44 Q84,44 84,50 Q84,56 78,56 H75 V44 Z" />
     <path
         android:fillColor="@android:color/transparent"
-        android:pathData="M32,68 C40,68 44,54 54,46 C64,38 72,32 82,26"
-        android:strokeColor="#34D399"
+        android:pathData="M30,68 C38,68 44,56 54,48 C62,41 68,38 74,34"
+        android:strokeColor="#008000"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:strokeWidth="4.5" />
+        android:strokeWidth="4.2" />
     <path
-        android:fillColor="#34D399"
-        android:pathData="M82,26 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0 Z" />
+        android:fillColor="#008000"
+        android:pathData="M74,34 m-3.5,0 a3.5,3.5 0 1,0 7,0 a3.5,3.5 0 1,0 -7,0 Z" />
 </vector>

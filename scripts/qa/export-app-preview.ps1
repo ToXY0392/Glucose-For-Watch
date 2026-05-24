@@ -1,4 +1,4 @@
-# Apercu reel de l'app ToXY (capture MainActivity via Robolectric)
+# Apercu reel de l'app Glucose For Watch (capture MainActivity via Robolectric)
 # Usage: .\scripts\qa\export-app-preview.ps1
 
 $ErrorActionPreference = "Stop"

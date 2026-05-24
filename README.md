@@ -1,6 +1,6 @@
-# ToXY
+# Glucose For Watch
 
-ToXY syncs Dexcom glucose data to Wear OS for fast at-a-glance display on your watch (app, tile, and complication). The app uses the **ToXY** design system with **AGP-standard medical colors** for all glucose values.
+Glucose For Watch syncs Dexcom glucose data to Wear OS for fast at-a-glance display on your watch (app, tile, and complication). The app uses the **ToXY UX kit** design tokens with **AGP-standard medical colors** for all glucose values.
 
 > Repository folder remains `Widget G7` for compatibility; Gradle task `installWidgetG7Debug` unchanged.
 
@@ -12,7 +12,7 @@ ToXY syncs Dexcom glucose data to Wear OS for fast at-a-glance display on your w
 </p>
 
 <p align="center">
-  <img alt="Widget G7 sync flow: Dexcom Share → Mobile → Wear OS" src="docs/assets/widget-g7-architecture.png" width="780">
+  <img alt="Glucose For Watch sync flow: Dexcom Share → Mobile → Wear OS" src="docs/assets/widget-g7-architecture.png" width="780">
 </p>
 
 ## Overview
@@ -56,11 +56,11 @@ See [Architecture overview](docs/architecture/overview.md) and [Sync pipeline](d
 
 1. Install `mobile-debug.apk` on the phone.
 2. Install `wear-debug.apk` on the watch.
-3. Open ToXY on the phone.
+3. Open **Glucose For Watch** on the phone.
 4. Accept legal screens.
 5. Connect Dexcom Share credentials.
 6. Run a sync test from the phone home screen.
-7. Add the ToXY tile or complication on the watch.
+7. Add the Glucose For Watch tile or complication on the watch.
 
 Detailed steps: [User quick start](docs/user/quick-start.md).
 
@@ -107,7 +107,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Every sync-related PR must include a man
 
 ## Medical disclaimer
 
-Widget G7 is **not** a certified medical device. Displayed data is informational only. All treatment decisions must be confirmed using an official Dexcom solution. See [medical disclaimer](docs/legal/medical-disclaimer.md).
+Glucose For Watch is **not** a certified medical device. Displayed data is informational only. All treatment decisions must be confirmed using an official Dexcom solution. See [medical disclaimer](docs/legal/medical-disclaimer.md).
 
 ## License
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Boîtier montre (carré arrondi) + courbe glycémie AGP -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:fillColor="@color/wg7_surface_alt"
+        android:pathData="M13,9 H31 Q35,9 35,13 V31 Q35,35 31,35 H13 Q9,35 9,31 V13 Q9,9 13,9 Z"
+        android:strokeColor="@color/gfw_brand_bezel"
+        android:strokeWidth="1.8" />
+    <path
+        android:fillColor="@color/gfw_brand_bezel"
+        android:pathData="M36,20 Q39,20 39,24 Q39,28 36,28 H35 V20 Z" />
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M14,30 C17,30 19.5,25 24,22 C28,19.5 30.5,18 33,16"
+        android:strokeColor="@color/gfw_brand_glucose"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.4" />
+    <path
+        android:fillColor="@color/gfw_brand_glucose"
+        android:pathData="M33,16 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0 Z" />
+</vector>

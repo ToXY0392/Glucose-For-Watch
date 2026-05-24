@@ -4,7 +4,7 @@
     <string name="home_hero_connect">Configurer Dexcom</string>
     <string name="home_hero_connect_hint">Utilisez la carte Dexcom ci‑dessous</string>
     <string name="home_hero_waiting">En attente de données</string>
-    <string name="home_brand_tagline">Glycémie au poignet · Wear OS</string>
+    <string name="home_brand_tagline">Glycémie · montre connectée</string>
     <string name="home_section_pilotage">Pilotage express</string>
     <string name="home_section_data">Flux &amp; données</string>
     <string name="home_status_heading">État</string>
@@ -13,6 +13,7 @@
     <string name="home_status_watch_install">Installez Glucose For Watch sur la montre</string>
     <string name="home_status_watch_unreachable">Montre : hors portée ou indisponible</string>
     <string name="home_status_watch_pending">Montre : synchronisation en attente</string>
+    <string name="home_status_watch_push_pending">Montre : envoi en attente</string>
     <string name="home_status_watch_confirmed">Liaison montre confirmée</string>
     <string name="home_status_sync_active">Synchronisation active</string>
     <string name="home_status_sync_error">Sync : %1$s</string>
@@ -85,4 +86,12 @@
     <string name="wear_install_finish_body">Sur ce téléphone, ouvrez Glucose For Watch → écran Montre. Vous devriez voir que la liaison est bien faite.</string>
     <string name="wear_install_back">Retour à l’écran précédent</string>
     <string name="wear_setup_install_assistant">Aide installation montre</string>
+    <string name="notification_sync_title">Glucose For Watch synchronise la glycémie</string>
+    <string name="notification_sync_text">Surveillance active téléphone vers montre en cours.</string>
+    <string name="watch_setup_wear_ready_all">Glucose For Watch est installé sur la montre : app, tile et complication disponibles.</string>
+    <string name="watch_setup_wear_ready_partial">Glucose For Watch est installé, mais réajoutez la tile et la complication depuis la montre après réinstallation.</string>
+    <string name="watch_setup_wear_ready_app">Glucose For Watch est installé sur la montre.</string>
+    <string name="watch_setup_wear_not_ready">Glucose For Watch n\'a pas encore répondu. Installez l\'app montre pour activer tile et complication.</string>
+    <string name="watch_health_installed_version">Montre : Glucose For Watch %1$s installé</string>
+    <string name="watch_health_installed">Montre : Glucose For Watch installé</string>
 </resources>

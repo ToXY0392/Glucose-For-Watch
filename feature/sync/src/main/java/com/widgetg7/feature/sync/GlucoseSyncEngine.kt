@@ -48,14 +48,23 @@ class GlucoseSyncEngine(
         val hasPendingPush = pendingPush?.hasPending() == true
         val shouldPushToWatch = hasNewReading || forcePushCurrentReading || hasPendingPush
 
+        var watchDelivery = WatchDeliveryStatus.NOT_APPLICABLE
+
         if (shouldPushToWatch) {
             val sequenceId = syncState.nextSequenceId()
             val pushed = wearSync.pushLatest(reading, sequenceId)
             if (pushed) {
                 syncState.recordPushSuccess(reading, sequenceId)
                 pendingPush?.clear()
+                watchDelivery = WatchDeliveryStatus.DELIVERED
             } else {
-                pendingPush?.enqueue(reading)
+                watchDelivery =
+                    if (pendingPush != null) {
+                        pendingPush.enqueue(reading)
+                        WatchDeliveryStatus.QUEUED
+                    } else {
+                        WatchDeliveryStatus.WATCH_UNAVAILABLE
+                    }
                 if (triggeredFromWatch) {
                     refreshStatus.pushCompletedPhoneUpToDateWatchUnavailable()
                 }
@@ -65,9 +74,9 @@ class GlucoseSyncEngine(
         }
 
         return if (hasNewReading) {
-            SyncExecutionResult.SuccessNewReading(source.sourceName)
+            SyncExecutionResult.SuccessNewReading(source.sourceName, watchDelivery)
         } else {
-            SyncExecutionResult.SuccessNoNewReading(source.sourceName)
+            SyncExecutionResult.SuccessNoNewReading(source.sourceName, watchDelivery)
         }
     }
 }

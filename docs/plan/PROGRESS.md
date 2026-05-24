@@ -1,8 +1,8 @@
-# Suivi du plan — Widget G7 → ToXY
+# Suivi du plan — Glucose For Watch
 
-> **Dernière MAJ :** 2026-05-23  
-> **Phase en cours :** **clôture** — refonte terminée · QA hardware en attente  
-> **Plan détaillé :** [MASTER-REFACTOR-PLAN.md](MASTER-REFACTOR-PLAN.md)
+> **Dernière MAJ :** 2026-05-24  
+> **Phase en cours :** **Phase 5 — Post-audit** (fiabilité sync · QA hardware · rebrand)  
+> **Plan détaillé :** [MASTER-REFACTOR-PLAN.md](MASTER-REFACTOR-PLAN.md) · **Actions audit :** [AUDIT-ACTION-PLAN.md](AUDIT-ACTION-PLAN.md)
 
 ---
 
@@ -23,8 +23,8 @@ Total     ████████████████████  100%  (3
 |------------|--------|
 | App | v0.4.0 |
 | Kit UX | v0.2.0 |
-| Prochaine tâche | QA hardware quand dispo ([script](../../scripts/qa/install-and-verify.ps1)) |
-| Jalon cible | **M2** QA · **M3** 2026-07-19 |
+| Prochaine tâche | **PR #5** matrice QA hardware (G7 **4/7** + S1–S3 ✅ · [session](../qa/2026-05-24-hardware-session.md)) · **PR #6** rebrand docs 🔄 |
+| Jalon cible | **M4** sync fiable · **M7** Play Store v0.5.0 |
 
 ---
 
@@ -121,7 +121,14 @@ Total     ████████████████████  100%  (3
 
 ### Matrice QA G6/G7 (Phase 3.3)
 
-Procédures détaillées : **[QA-MATRIX-G6-G7.md](QA-MATRIX-G6-G7.md)** · install : `.\scripts\qa\install-and-verify.ps1`
+Procédures détaillées : **[QA-MATRIX-G6-G7.md](QA-MATRIX-G6-G7.md)**
+
+```powershell
+.\scripts\qa\install-and-verify.ps1    # install + verif packages
+.\scripts\qa\hardware-smoke.ps1        # checks auto phone + Data Layer watch
+.\scripts\qa\tail-sync-logs.ps1        # pendant tap sync tile (B.1.5)
+.\scripts\qa\connect-watch-adb.ps1     # adb montre (debug sans fil)
+```
 
 | Cas | G6 | G7 |
 |-----|----|----|
@@ -177,6 +184,21 @@ Procédures détaillées : **[QA-MATRIX-G6-G7.md](QA-MATRIX-G6-G7.md)** · insta
 - [ ] Offline 2 h → auto catch-up (⏸ QA hardware reportée)
 - [ ] Matrice G6/G7 signée (⏸ reportée)
 - [x] CI green · v0.4.0 taguée
+
+---
+
+## Phase 5 — Post-audit 🔄
+
+> Plan complet : **[AUDIT-ACTION-PLAN.md](AUDIT-ACTION-PLAN.md)**
+
+| Bloc | Priorité | Statut | Réf. plan |
+|------|----------|--------|-----------|
+| A — Sync P0 (A.1–A.4, PR #1–#4) | P0 | ✅ | [§3](AUDIT-ACTION-PLAN.md#3-sprint-1--sync-p0) |
+| B — QA hardware + CI preview | P1 | 🔄 G7 4/7 · S1–S3 ✅ | [§4](AUDIT-ACTION-PLAN.md#4-sprint-2--tests--qa) |
+| C — Rebrand + logo + a11y | P1 | 🔄 docs ✅ · legacy cleanup ✅ | [§5](AUDIT-ACTION-PLAN.md#5-sprint-3--produit--ui) |
+| D — Sécurité / legal Play | P2 | ☐ | [§6](AUDIT-ACTION-PLAN.md#6-sprint-4--legal--release) |
+| E — Tests E.1–E.6 | P1 | ✅ | [§4](AUDIT-ACTION-PLAN.md#tâche-e--catalogue-tests-à-ajouter) |
+| F — Release Play v0.5.0 | P2 | ☐ | [§6 F](AUDIT-ACTION-PLAN.md#tâche-f--release-play-store-v050-playbook) |
 
 ---
 

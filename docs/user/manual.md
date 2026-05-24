@@ -1,6 +1,6 @@
-# User manual
+# User manual — Glucose For Watch
 
-> **Last updated:** 2026-05-23
+> **Last updated:** 2026-05-24
 
 ## Installation
 
@@ -13,7 +13,7 @@ Install via ADB or the in-app wear installer (debug builds).
 
 ## First-time setup
 
-1. Open ToXY on the phone.
+1. Open **Glucose For Watch** on the phone.
 2. Read and accept legal documents.
 3. Enter Dexcom Share credentials:
    - Username (follower account)
@@ -22,7 +22,7 @@ Install via ADB or the in-app wear installer (debug builds).
 4. Confirm the phone shows a glucose reading.
 5. Verify the watch is paired (Bluetooth + Wear OS companion app).
 6. Tap **Sync** on the phone.
-7. Add the ToXY **tile** or **complication** on the watch.
+7. Add the **Glucose For Watch** tile or complication on the watch.
 
 ## Daily use
 
@@ -58,7 +58,7 @@ If the complication shows an old value while the tile is correct, remove and re-
 
 ## Background operation
 
-For reliable sync, allow ToXY to run in the background on the phone:
+For reliable sync, allow Glucose For Watch to run in the background on the phone:
 
 - Disable battery optimization for the app (manufacturer-dependent)
 - Keep the active sync notification if shown

@@ -4,9 +4,9 @@
 
 ---
 
-## 2026-05-23 — v0.4.0 ToXY release
+## 2026-05-23 — v0.4.0 Glucose For Watch release
 
-- User-facing rebrand: launcher name **ToXY** on phone and watch
+- Launcher name **Glucose For Watch** on phone and watch (`strings.xml`)
 - Wear status screen (Compose M3) with AGP hero and sync button
 - Robust offline sync: pending push queue, reconnect flush, WorkManager catch-up
 - ToXY chrome + AGP medical colors integrated across tile, phone, complication

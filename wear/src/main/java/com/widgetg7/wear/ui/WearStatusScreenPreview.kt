@@ -44,6 +44,7 @@ private fun WearStatusPreviewInRange() {
         ScreenScaffold {
             WearStatusScreenBody(
                 model = previewModel("120", AgpGlucoseColors.IN_RANGE),
+                complicationLinked = true,
                 onSyncClick = {},
             )
         }
@@ -62,6 +63,7 @@ private fun WearStatusPreviewHigh() {
         ScreenScaffold {
             WearStatusScreenBody(
                 model = previewModel("200", AgpGlucoseColors.HIGH, trend = "→"),
+                complicationLinked = true,
                 onSyncClick = {},
             )
         }
@@ -87,6 +89,7 @@ private fun WearStatusPreviewStale() {
                         syncLine = "Donnée périmée",
                         syncError = true,
                     ),
+                complicationLinked = true,
                 onSyncClick = {},
             )
         }
@@ -112,6 +115,7 @@ private fun WearStatusPreviewEmpty() {
                         syncLine = "Configurez Dexcom Share sur le téléphone.",
                         battery = null,
                     ),
+                complicationLinked = true,
                 onSyncClick = {},
             )
         }

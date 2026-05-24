@@ -96,6 +96,7 @@ object GlucoseKeys {
     const val STALE = GlucoseDataLayerContract.STALE
     const val SEQUENCE_ID = GlucoseDataLayerContract.SEQUENCE_ID
     const val TARGET_NODE_ID = GlucoseDataLayerContract.TARGET_NODE_ID
+    const val SOURCE_PHONE_NODE_ID = GlucoseDataLayerContract.SOURCE_PHONE_NODE_ID
     const val HISTORY = "history"
     const val REFRESH_STATUS = GlucoseDataLayerContract.REFRESH_STATUS
     const val REFRESH_MESSAGE = GlucoseDataLayerContract.REFRESH_MESSAGE
@@ -117,6 +118,7 @@ object GlucoseKeys {
     const val WATCH_APP_VERSION_CODE = GlucoseDataLayerContract.WATCH_APP_VERSION_CODE
     const val WATCH_SUPPORTS_TILE = GlucoseDataLayerContract.WATCH_SUPPORTS_TILE
     const val WATCH_SUPPORTS_COMPLICATION = GlucoseDataLayerContract.WATCH_SUPPORTS_COMPLICATION
+    const val WATCH_ACK_FAILURE_COUNT = GlucoseDataLayerContract.WATCH_ACK_FAILURE_COUNT
     const val ACK_READING_TIMESTAMP_EPOCH_MS = GlucoseDataLayerContract.ACK_READING_TIMESTAMP_EPOCH_MS
     const val ACK_SEQUENCE_ID = GlucoseDataLayerContract.ACK_SEQUENCE_ID
     const val ACK_RECEIVED_AT = GlucoseDataLayerContract.ACK_RECEIVED_AT
@@ -167,6 +169,7 @@ data class WatchSyncHealthSnapshot(
     val syncLimited: Boolean,
     val message: String,
     val updatedAtEpochMs: Long,
+    val ackFailureCount: Int = 0,
 ) {
     fun shouldDisplay(nowEpochMs: Long): Boolean {
         if (updatedAtEpochMs <= 0L) return false
@@ -294,6 +297,25 @@ class GlucoseCache(context: Context) {
             .takeLast(HISTORY_LIMIT)
     }
 
+    fun recordLastPhoneNodeId(nodeId: String) {
+        if (nodeId.isBlank()) return
+        prefs.edit()
+            .putString(KEY_LAST_PHONE_NODE_ID, nodeId)
+            .apply()
+    }
+
+    fun lastPhoneNodeId(): String? =
+        prefs.getString(KEY_LAST_PHONE_NODE_ID, null)?.takeIf { it.isNotBlank() }
+
+    fun recordAckFailed(sequenceId: Long) {
+        prefs.edit()
+            .putLong(KEY_LAST_FAILED_ACK_SEQUENCE_ID, sequenceId)
+            .putInt(KEY_ACK_FAILURE_COUNT, prefs.getInt(KEY_ACK_FAILURE_COUNT, 0) + 1)
+            .apply()
+    }
+
+    fun ackFailureCount(): Int = prefs.getInt(KEY_ACK_FAILURE_COUNT, 0)
+
     private fun updatedHistory(snapshot: GlucoseSnapshot): List<Int> {
         val existing = loadHistory().toMutableList()
         if (existing.lastOrNull() != snapshot.valueMgDl) {
@@ -315,5 +337,8 @@ class GlucoseCache(context: Context) {
         private const val KEY_WATCH_SYNC_LIMITED = "watch_sync_limited"
         private const val KEY_WATCH_STATUS_MESSAGE = "watch_status_message"
         private const val KEY_WATCH_STATUS_UPDATED_AT = "watch_status_updated_at"
+        private const val KEY_LAST_PHONE_NODE_ID = "last_phone_node_id"
+        private const val KEY_ACK_FAILURE_COUNT = "ack_failure_count"
+        private const val KEY_LAST_FAILED_ACK_SEQUENCE_ID = "last_failed_ack_sequence_id"
     }
 }

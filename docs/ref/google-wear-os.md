@@ -1,6 +1,6 @@
 # Référence Wear OS
 
-Sujets clés pour Widget G7 :
+Sujets clés pour Glucose For Watch :
 
 - Data Layer téléphone <-> montre
 - Tile

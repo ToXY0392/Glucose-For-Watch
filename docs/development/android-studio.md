@@ -3,7 +3,7 @@
 > **Last updated:** 2026-05-23  
 > **Related:** [Dual IDE setup](dual-ide-setup.md) · [Environment](../compatibility/environment.md)
 
-Guide for working on Widget G7 from **Android Studio** (Windows or WSL folder via `\\wsl$\…`).
+Guide for working on **Glucose For Watch** from **Android Studio** (Windows or WSL folder via `\\wsl$\…`).
 
 ---
 

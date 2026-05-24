@@ -10,7 +10,7 @@
     <style name="Theme.WidgetG7.Phone" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/wg7_accent</item>
         <item name="colorOnPrimary">@color/wg7_on_accent</item>
-        <item name="colorSecondary">@color/wg7_alert</item>
+        <item name="colorSecondary">@color/wg7_accent_dark</item>
         <item name="colorOnSecondary">@color/wg7_on_accent</item>
         <item name="colorSurface">@color/wg7_surface</item>
         <item name="colorOnSurface">@color/wg7_text_primary</item>

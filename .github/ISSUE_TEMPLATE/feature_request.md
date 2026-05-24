@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an improvement for Widget G7 / ToXY
+about: Suggest an improvement for Glucose For Watch
 title: "[feature] "
 labels: enhancement
 ---

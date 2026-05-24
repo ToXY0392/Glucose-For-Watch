@@ -1,4 +1,4 @@
-# Demarre les AVD ToXY (phone + wear optionnel)
+# Demarre les AVD Glucose For Watch (phone + wear optionnel)
 # Usage:
 #   .\scripts\qa\start-emulators.ps1           # phone seulement
 #   .\scripts\qa\start-emulators.ps1 -Wear    # phone + montre
@@ -16,10 +16,18 @@ if (-not (Test-Path $emu)) {
     Write-Error "Emulateur introuvable: $emu"
 }
 
+function Resolve-AvdName {
+    param([string[]]$Candidates)
+    $available = @(& $emu -list-avds 2>$null)
+    foreach ($name in $Candidates) {
+        if ($available -contains $name) { return $name }
+    }
+    return $null
+}
+
 function Start-Avd([string]$Name) {
-    $running = & $emu -list-avds 2>$null
-    if ($running -notcontains $Name) {
-        Write-Error "AVD '$Name' introuvable. Creez-le via Device Manager ou scripts/qa/setup-avds.ps1"
+    if (-not $Name) {
+        Write-Error "AVD introuvable. Creez-le via scripts/qa/setup-avds.ps1 (Gfw_Phone_API36 / Gfw_Wear_API36)"
     }
     Write-Host "Demarrage $Name ..." -ForegroundColor Cyan
     Start-Process -FilePath $emu -ArgumentList @(
@@ -28,10 +36,13 @@ function Start-Avd([string]$Name) {
     )
 }
 
-Start-Avd "Toxy_Phone_API36"
+$phoneAvd = Resolve-AvdName @("Gfw_Phone_API36", "Toxy_Phone_API36")
+$wearAvd = Resolve-AvdName @("Gfw_Wear_API36", "Toxy_Wear_API36")
+
+Start-Avd $phoneAvd
 if ($Wear) {
     Start-Sleep -Seconds 5
-    Start-Avd "Toxy_Wear_API36"
+    Start-Avd $wearAvd
 }
 
 Write-Host @"

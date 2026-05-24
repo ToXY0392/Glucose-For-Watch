@@ -6,7 +6,7 @@
 
 ## Summary
 
-Widget G7 reads glucose through the **Dexcom Share HTTP API**. This protocol returns glucose values regardless of whether the underlying sensor is **G6** or **G7**, as long as **Dexcom Share is enabled** on the account.
+Glucose For Watch reads glucose through the **Dexcom Share HTTP API**. This protocol returns glucose values regardless of whether the underlying sensor is **G6** or **G7**, as long as **Dexcom Share is enabled** on the account.
 
 There is **no sensor-type branching** in the app code today — compatibility is at the Share protocol level.
 
@@ -69,7 +69,7 @@ Default application ID: `d89443d2-327c-4a6f-89e5-496bbb0317db`
 
 ## Medical note
 
-Widget G7 is not a certified medical device. Always confirm readings and treatment decisions with official Dexcom applications and your healthcare provider.
+Glucose For Watch is not a certified medical device. Always confirm readings and treatment decisions with official Dexcom applications and your healthcare provider.
 
 See [Medical disclaimer](../legal/medical-disclaimer.md).
 

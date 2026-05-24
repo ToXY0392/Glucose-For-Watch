@@ -69,8 +69,8 @@ class NotificationHelper(private val context: Context) {
 
         return NotificationCompat.Builder(context, CHANNEL_ACTIVE_SYNC)
             .setSmallIcon(android.R.drawable.stat_notify_sync)
-            .setContentTitle("Widget G7 synchronise la glycémie")
-            .setContentText("Surveillance active téléphone vers montre en cours.")
+            .setContentTitle(context.getString(R.string.notification_sync_title))
+            .setContentText(context.getString(R.string.notification_sync_text))
             .setContentIntent(openIntent)
             .setOngoing(true)
             .setOnlyAlertOnce(true)

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- ToXY chrome (see toxy-ux-kit/tokens/toxy.color.json) -->
-    <color name="toxy_background">#0D1117</color>
-    <color name="toxy_text_primary">#F8FAFC</color>
-    <color name="toxy_text_secondary">#94A3B8</color>
-    <color name="toxy_accent">#34D399</color>
+    <color name="toxy_background">#0F1419</color>
+    <color name="toxy_text_primary">#F3F4F6</color>
+    <color name="toxy_text_secondary">#9CA3AF</color>
+    <color name="toxy_accent">#6EB5FF</color>
     <color name="toxy_accent_on">#0F172A</color>
     <color name="toxy_sync_warn">#FB923C</color>
     <color name="toxy_sync_error">#F87171</color>
-    <!-- Legacy aliases -->
     <color name="wg7_tile_bg">@color/toxy_background</color>
     <color name="wg7_text_primary">@color/toxy_text_primary</color>
 </resources>

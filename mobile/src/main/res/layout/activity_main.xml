@@ -51,7 +51,7 @@
                     android:contentDescription="@null"
                     android:importantForAccessibility="no"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_brand_wg7_mark" />
+                    android:src="@drawable/ic_brand_mark" />
             </FrameLayout>
 
             <LinearLayout
@@ -85,7 +85,7 @@
                     android:letterSpacing="0.1"
                     android:text="@string/home_brand_tagline"
                     android:textAllCaps="true"
-                    android:textColor="@color/wg7_accent"
+                    android:textColor="@color/wg7_text_secondary"
                     android:textSize="10sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -170,7 +170,7 @@
                         android:layout_height="2dp"
                         android:layout_marginTop="20dp"
                         android:alpha="0.35"
-                        android:background="@color/wg7_accent" />
+                        android:background="@color/wg7_outline" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -190,7 +190,7 @@
                         android:layout_marginTop="8dp"
                         android:letterSpacing="-0.01"
                         android:lineSpacingMultiplier="1.22"
-                        android:textColor="@color/wg7_accent"
+                        android:textColor="@color/wg7_success"
                         android:textSize="15sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -253,7 +253,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@null"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/ic_brand_wg7_mark" />
+                            android:src="@drawable/ic_sensor_glucose" />
                     </FrameLayout>
 
                     <LinearLayout

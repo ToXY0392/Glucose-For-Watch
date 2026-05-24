@@ -1,4 +1,4 @@
-# Installe images systeme + cree AVD ToXY (phone + wear)
+# Installe images systeme + cree AVD Glucose For Watch (phone + wear)
 # Usage: .\scripts\qa\setup-avds.ps1
 
 $ErrorActionPreference = "Stop"
@@ -22,10 +22,10 @@ Write-Host "Installation images (plusieurs minutes)..." -ForegroundColor Cyan
 & $sm --sdk_root=$sdk --install $phoneImg $wearImg "emulator" "platform-tools"
 
 Write-Host "Creation AVD phone..." -ForegroundColor Cyan
-"no" | & $avd create avd -n Toxy_Phone_API36 -k $phoneImg -d pixel_8 -f
+"no" | & $avd create avd -n Gfw_Phone_API36 -k $phoneImg -d pixel_8 -f
 
 Write-Host "Creation AVD wear..." -ForegroundColor Cyan
-"no" | & $avd create avd -n Toxy_Wear_API36 -k $wearImg -d wearos_small_round -f
+"no" | & $avd create avd -n Gfw_Wear_API36 -k $wearImg -d wearos_small_round -f
 
 Write-Host "`n[OK] AVD:" -ForegroundColor Green
 & (Join-Path $sdk "emulator\emulator.exe") -list-avds

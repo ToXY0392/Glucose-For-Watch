@@ -29,6 +29,7 @@ object SyncTestFixtures {
         lastErrorCategory: SyncErrorCategory = SyncErrorCategory.NONE,
         authFailureCount: Int = 0,
         consecutiveFailureCount: Int = 0,
+        watchPushPending: Boolean = false,
     ): SyncStatusSnapshot = SyncStatusSnapshot(
         lastValueMgDl = lastValueMgDl,
         lastTrend = lastTrend,
@@ -39,5 +40,6 @@ object SyncTestFixtures {
         lastErrorCategory = lastErrorCategory,
         authFailureCount = authFailureCount,
         consecutiveFailureCount = consecutiveFailureCount,
+        watchPushPending = watchPushPending,
     )
 }

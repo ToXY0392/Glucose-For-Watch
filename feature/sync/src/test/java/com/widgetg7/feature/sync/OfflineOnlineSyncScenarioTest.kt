@@ -11,20 +11,38 @@ import org.junit.Test
 /** Simulates watch offline → online transitions through [WearSyncPort]. */
 class OfflineOnlineSyncScenarioTest {
     @Test
+    fun E6_queued_push_becomes_delivered_on_retry() = runBlocking {
+        val reading = SyncTestFixtures.glucoseReading(timestampEpochMs = 5_000L, valueMgDl = 142)
+        val wear = SequentialWearSync(listOf(false, true))
+        val state = FakeSyncState(lastPushedReadingTimestampEpochMs = 4_000L)
+        val pending = FakePendingPush()
+
+        val queuedResult = engine(wear, state, pending, reading).run(triggeredFromWatch = false)
+        assertEquals(WatchDeliveryStatus.QUEUED, queuedResult.watchDelivery)
+        assertTrue(pending.hasPending())
+
+        val deliveredResult = engine(wear, state, pending, reading).run(triggeredFromWatch = false)
+        assertEquals(WatchDeliveryStatus.DELIVERED, deliveredResult.watchDelivery)
+        assertFalse(pending.hasPending())
+    }
+
+    @Test
     fun offline_enqueue_then_online_push_clears_pending() = runBlocking {
         val reading = SyncTestFixtures.glucoseReading(timestampEpochMs = 5_000L, valueMgDl = 142)
         val wear = SequentialWearSync(listOf(false, true))
         val state = FakeSyncState(lastPushedReadingTimestampEpochMs = 4_000L)
         val pending = FakePendingPush()
 
-        engine(wear, state, pending, reading).run(triggeredFromWatch = false)
+        val firstResult = engine(wear, state, pending, reading).run(triggeredFromWatch = false)
         assertTrue(pending.hasPending())
         assertEquals(0, state.pushSuccessCalls)
+        assertEquals(WatchDeliveryStatus.QUEUED, firstResult.watchDelivery)
 
-        engine(wear, state, pending, reading).run(triggeredFromWatch = false)
+        val secondResult = engine(wear, state, pending, reading).run(triggeredFromWatch = false)
         assertFalse(pending.hasPending())
         assertEquals(1, state.pushSuccessCalls)
         assertEquals(2, wear.pushCalls)
+        assertEquals(WatchDeliveryStatus.DELIVERED, secondResult.watchDelivery)
     }
 
     @Test
@@ -47,17 +65,19 @@ class OfflineOnlineSyncScenarioTest {
         assertTrue(pending.hasPending())
 
         source.update(freshReading)
-        GlucoseSyncEngine(
-            source = source,
-            syncState = state,
-            wearSync = wear,
-            refreshStatus = FakeRefreshStatus(),
-            pendingPush = pending,
-        ).run(triggeredFromWatch = false)
+        val result =
+            GlucoseSyncEngine(
+                source = source,
+                syncState = state,
+                wearSync = wear,
+                refreshStatus = FakeRefreshStatus(),
+                pendingPush = pending,
+            ).run(triggeredFromWatch = false)
 
         assertFalse(pending.hasPending())
         assertEquals(1, state.pushSuccessCalls)
         assertEquals(155, state.lastPushedValue)
+        assertEquals(WatchDeliveryStatus.DELIVERED, result.watchDelivery)
     }
 
     private fun engine(

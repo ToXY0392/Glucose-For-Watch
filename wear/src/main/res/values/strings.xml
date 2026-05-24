@@ -15,4 +15,6 @@
     <string name="tile_glucose_simple_label">Glycémie</string>
     <string name="tile_glucose_simple_description">Taux, unité et tendance</string>
     <string name="complication_provider_label">Glycémie</string>
+    <string name="wear_complication_not_linked">Complication non liée au cadran</string>
+    <string name="wear_complication_setup_hint">Cadran → Personnaliser → slot → Glycémie (Glucose For Watch)</string>
 </resources>
