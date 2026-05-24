@@ -44,14 +44,24 @@ fun WearStatusScreen(
         }
 
     ScreenScaffold(modifier = modifier) {
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 12.dp, vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
-        ) {
+        WearStatusScreenBody(model = model, onSyncClick = onSyncClick)
+    }
+}
+
+@Composable
+internal fun WearStatusScreenBody(
+    model: WearStatusUiModel,
+    onSyncClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 12.dp, vertical = 8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
             Text(
                 text = model.valueText,
                 color = Color(model.valueColorArgb),
@@ -123,5 +133,4 @@ fun WearStatusScreen(
                 Text(text = stringResource(R.string.wear_status_sync_now))
             }
         }
-    }
 }

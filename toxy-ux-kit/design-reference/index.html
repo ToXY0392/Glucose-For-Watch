@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ToXY UX Kit — Design Reference v0.2.0</title>
+  <style>
+    :root {
+      --bg-top: #0D1117;
+      --bg-bottom: #0F172A;
+      --surface: #111827;
+      --surface-alt: #1E293B;
+      --text: #F8FAFC;
+      --text-sec: #94A3B8;
+      --accent: #34D399;
+      --accent-on: #0F172A;
+      --accent-soft: #163D34;
+      --agp-in: #008000;
+      --agp-high: #FFCC00;
+      --agp-low: #E00000;
+      --sync-ok-soft: #14532D;
+      --sync-warn-soft: #422006;
+      --sync-err-soft: #3F1818;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    header { margin-bottom: 2rem; }
+    header h1 { font-size: 1.75rem; font-weight: 700; }
+    header p { color: var(--text-sec); margin-top: 0.5rem; max-width: 52rem; }
+    .rule {
+      background: #3F1818;
+      border: 1px solid #F87171;
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0 2rem;
+      font-size: 0.9rem;
+    }
+    .rule strong { color: #F87171; }
+    h2 { font-size: 1.15rem; margin: 2rem 0 1rem; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.06em; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
+    .panel {
+      background: var(--surface);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      padding: 1.25rem;
+    }
+    .swatch { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.65rem; }
+    .swatch-color { width: 40px; height: 40px; border-radius: 8px; border: 1px solid #334155; flex-shrink: 0; }
+    .swatch-meta { font-size: 0.8rem; }
+    .swatch-meta strong { display: block; color: var(--text); }
+    .swatch-meta span { color: var(--text-sec); }
+    .previews { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+    .watch {
+      width: 220px; height: 220px; border-radius: 50%;
+      background: var(--bg-top);
+      border: 3px solid #334155;
+      margin: 0 auto;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 1rem;
+    }
+    .watch .value { font-size: 2.5rem; font-weight: 800; color: var(--agp-in); line-height: 1; }
+    .watch .meta { color: var(--text-sec); font-size: 0.85rem; margin-top: 0.25rem; }
+    .watch .sync {
+      margin-top: 0.75rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border: none;
+      border-radius: 999px;
+      padding: 0.5rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      min-height: 48px;
+      min-width: 48px;
+    }
+    .phone {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 1.25rem;
+      border: 1px solid #334155;
+    }
+    .hero-value { font-size: 3rem; font-weight: 800; color: var(--agp-in); }
+    .hero-sub { color: var(--text-sec); font-size: 0.9rem; margin-top: 0.25rem; }
+    .pill {
+      display: inline-block;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      margin: 0.25rem 0.25rem 0 0;
+      border: 1px solid transparent;
+    }
+    .pill-ok { background: var(--sync-ok-soft); color: #4ADE80; border-color: #334ADE80; }
+    .pill-warn { background: var(--sync-warn-soft); color: #FB923C; }
+    .pill-err { background: var(--sync-err-soft); color: #F87171; }
+    .refs { margin-top: 2rem; font-size: 0.85rem; color: var(--text-sec); }
+    .refs a { color: var(--accent); }
+    footer { margin-top: 3rem; font-size: 0.75rem; color: var(--text-sec); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>ToXY UX Kit — Design Reference</h1>
+      <p>Generated from <code>toxy-ux-kit/tokens/</code> v0.2.0. Standalone handoff — Figma optional.
+         Chrome (ToXY) and medical (AGP) layers are separate by design.</p>
+    </header>
+
+    <div class="rule">
+      <strong>Medical rule:</strong> Never use mint <code>#34D399</code> (toxy.accent) on glucose numeric values.
+      Use <code>agp.glucose.*</code> only.
+    </div>
+
+    <div class="grid-2">
+      <section class="panel">
+        <h2>ToXY Chrome</h2>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#0D1117"></div>
+          <div class="swatch-meta"><strong>toxy.color.background.top</strong><span>#0D1117 · Canvas</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#111827"></div>
+          <div class="swatch-meta"><strong>toxy.color.surface.default</strong><span>#111827 · Cards</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F8FAFC"></div>
+          <div class="swatch-meta"><strong>toxy.color.text.primary</strong><span>#F8FAFC · Primary text</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#94A3B8"></div>
+          <div class="swatch-meta"><strong>toxy.color.text.secondary</strong><span>#94A3B8 · Secondary text</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#34D399"></div>
+          <div class="swatch-meta"><strong>toxy.color.accent.default</strong><span>#34D399 · Brand / sync chrome</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#4ADE80"></div>
+          <div class="swatch-meta"><strong>toxy.color.sync.ok</strong><span>#4ADE80 · Sync OK</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FB923C"></div>
+          <div class="swatch-meta"><strong>toxy.color.sync.warn</strong><span>#FB923C · Sync warn</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#F87171"></div>
+          <div class="swatch-meta"><strong>toxy.color.sync.error</strong><span>#F87171 · Sync error</span></div>
+        </div>
+      </section>
+      <section class="panel">
+        <h2>AGP Medical</h2>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#9C0000"></div>
+          <div class="swatch-meta"><strong>agp.glucose.veryLow</strong><span>#9C0000 · < 54 mg/dL</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#E00000"></div>
+          <div class="swatch-meta"><strong>agp.glucose.low</strong><span>#E00000 · 54–69</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#008000"></div>
+          <div class="swatch-meta"><strong>agp.glucose.inRange</strong><span>#008000 · 70–180</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FFCC00"></div>
+          <div class="swatch-meta"><strong>agp.glucose.high</strong><span>#FFCC00 · 181–250</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#FF9900"></div>
+          <div class="swatch-meta"><strong>agp.glucose.veryHigh</strong><span>#FF9900 · > 250</span></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#64748B"></div>
+          <div class="swatch-meta"><strong>agp.glucose.unknown</strong><span>#64748B · stale / no data</span></div>
+        </div>
+      </section>
+    </div>
+
+    <h2>Component previews</h2>
+    <div class="previews">
+      <div class="panel">
+        <p style="color:var(--text-sec);font-size:0.8rem;margin-bottom:0.75rem">Wear tile · 450×450 ref</p>
+        <div class="watch">
+          <div class="value">120</div>
+          <div class="meta">mg/dL ↗</div>
+          <button type="button" class="sync">↻ Sync</button>
+        </div>
+      </div>
+      <div class="panel">
+        <p style="color:var(--text-sec);font-size:0.8rem;margin-bottom:0.75rem">Wear status · AGP hero</p>
+        <div class="watch">
+          <div class="value" style="color:var(--agp-high)">200</div>
+          <div class="meta">mg/dL → · À jour</div>
+          <button type="button" class="sync">↻ Sync</button>
+        </div>
+      </div>
+      <div class="panel phone">
+        <p style="color:var(--text-sec);font-size:0.8rem;margin-bottom:0.75rem">Mobile home hero</p>
+        <div class="hero-value">120</div>
+        <div class="hero-sub">mg/dL ↗ · sync il y a 2 min</div>
+        <div style="margin-top:1rem">
+          <span class="pill pill-ok">Montre confirmée</span>
+          <span class="pill pill-warn">Sync en attente</span>
+          <span class="pill pill-err">Dexcom erreur</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="refs">
+      <p>PNG references: <a href="../assets/references/tile_dial_reference.png">tile</a> ·
+         <a href="../assets/references/tile_reading_preview.png">reading</a> ·
+         <a href="../assets/references/ic_tile_refresh_button_reference.png">sync button</a></p>
+      <p>Specs: <code>spec/components/</code> · Regenerate: <code>py -3 tools/export-design-reference.py</code></p>
+    </div>
+
+    <footer>Auto-generated — do not edit by hand. Source: toxy-ux-kit/tools/export-design-reference.py</footer>
+  </div>
+</body>
+</html>

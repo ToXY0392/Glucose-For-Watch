@@ -8,6 +8,7 @@
     <color name="wg7_surface">@color/toxy_surface_default</color>
     <color name="wg7_surface_alt">@color/toxy_surface_alt</color>
     <color name="wg7_outline">@color/toxy_outline</color>
+    <color name="wg7_card_highlight">@color/wg7_alert</color>
     <color name="wg7_text_primary">@color/toxy_text_primary</color>
     <color name="wg7_text_secondary">@color/toxy_text_secondary</color>
     <color name="wg7_text_tertiary">@color/toxy_text_tertiary</color>
@@ -23,15 +24,14 @@
     <color name="wg7_glow_start">@color/toxy_overlay_glowStart</color>
     <color name="wg7_glow_center">@color/toxy_overlay_glowCenter</color>
     <color name="wg7_glow_end">@color/toxy_overlay_glowEnd</color>
-    <!-- Mobile-only surfaces (not yet in kit tokens) -->
-    <color name="wg7_success">#4ADE80</color>
-    <color name="wg7_success_soft">#14532D</color>
-    <color name="wg7_danger_soft">#3F1818</color>
-    <color name="wg7_alert_soft">#422006</color>
-    <color name="wg7_success_soft_stroke">#334ADE80</color>
-    <color name="wg7_aurora_start">#4022C55E</color>
-    <color name="wg7_aurora_center">#1834D399</color>
-    <color name="wg7_aurora_end">#000D1117</color>
+    <color name="wg7_success">@color/toxy_sync_ok</color>
+    <color name="wg7_success_soft">@color/toxy_sync_okSoft</color>
+    <color name="wg7_danger_soft">@color/toxy_sync_errorSoft</color>
+    <color name="wg7_alert_soft">@color/toxy_sync_warnSoft</color>
+    <color name="wg7_success_soft_stroke">@color/toxy_sync_okStroke</color>
+    <color name="wg7_aurora_start">@color/toxy_overlay_auroraStart</color>
+    <color name="wg7_aurora_center">@color/toxy_overlay_auroraCenter</color>
+    <color name="wg7_aurora_end">@color/toxy_overlay_auroraEnd</color>
     <color name="text_primary">@color/wg7_text_primary</color>
     <color name="text_secondary">@color/wg7_text_secondary</color>
     <color name="state_success">@color/wg7_success</color>

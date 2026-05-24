@@ -28,15 +28,22 @@
       },
       "sync": {
         "ok": { "$value": "#4ADE80", "$type": "color", "$description": "Watch ack confirmed" },
+        "okSoft": { "$value": "#14532D", "$type": "color", "$description": "Success status pill background" },
+        "okStroke": { "$value": "#334ADE80", "$type": "color", "$description": "Success status pill border" },
         "warn": { "$value": "#FB923C", "$type": "color", "$description": "Stale / degraded" },
+        "warnSoft": { "$value": "#422006", "$type": "color", "$description": "Warn status pill background" },
         "error": { "$value": "#F87171", "$type": "color", "$description": "Auth / push failure" },
+        "errorSoft": { "$value": "#3F1818", "$type": "color", "$description": "Error status pill background" },
         "ring": { "$value": "#475569", "$type": "color", "$description": "Watch hero ring" }
       },
       "overlay": {
         "accentScrim": { "$value": "#3334D399", "$type": "color" },
         "glowStart": { "$value": "#4034D399", "$type": "color" },
         "glowCenter": { "$value": "#2234D399", "$type": "color" },
-        "glowEnd": { "$value": "#00000000", "$type": "color" }
+        "glowEnd": { "$value": "#00000000", "$type": "color" },
+        "auroraStart": { "$value": "#4022C55E", "$type": "color", "$description": "Wear installer hero gradient start" },
+        "auroraCenter": { "$value": "#1834D399", "$type": "color", "$description": "Wear installer hero gradient center" },
+        "auroraEnd": { "$value": "#000D1117", "$type": "color", "$description": "Wear installer hero gradient end" }
       }
     }
   }

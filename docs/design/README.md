@@ -10,7 +10,8 @@ All design documentation is in the standalone kit:
 | ToXY chrome | `toxy-ux-kit/spec/02-toxy-chrome-layer.md` |
 | Wear tile | `toxy-ux-kit/spec/components/wear-tile.md` |
 | Wear status screen | `toxy-ux-kit/spec/components/wear-status-screen.md` |
-| Figma handoff | `toxy-ux-kit/figma/FIGMA-HANDOFF.md` |
+| Figma handoff | `toxy-ux-kit/figma/` (optional) |
+| **Design reference (HTML)** | **`toxy-ux-kit/design-reference/index.html`** |
 | Tokens JSON | `toxy-ux-kit/tokens/` |
 
 Do not duplicate specs in `docs/` — update the kit first, then export to the app.

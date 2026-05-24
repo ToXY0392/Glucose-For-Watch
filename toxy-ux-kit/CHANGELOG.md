@@ -2,6 +2,21 @@
 
 Independent from Widget G7 app releases.
 
+## [0.2.0] — 2026-05-23
+
+### Added
+
+- Status pill soft backgrounds: `sync.okSoft`, `warnSoft`, `errorSoft`, `okStroke`
+- Wear installer aurora gradient: `overlay.auroraStart/Center/End`
+- Standalone HTML design reference (`design-reference/index.html`) — Figma optional
+- AGP color lint + token validation scripts for CI
+
+### Changed
+
+- Mobile `wg7_*` pill/aurora colors now alias kit tokens (no hardcoded hex)
+
+---
+
 ## [0.1.0] — 2026-05-23
 
 ### Added

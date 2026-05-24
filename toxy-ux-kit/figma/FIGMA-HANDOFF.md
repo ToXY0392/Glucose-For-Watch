@@ -1,6 +1,9 @@
-# Figma handoff — ToXY UX Kit v0.1
+# Figma handoff — ToXY UX Kit (optional)
 
-Complete this checklist to close Phase **3.1**. Repo deliverables are ready; the `.fig` file lives in Figma (add URL when done).
+> **Figma is optional.** The canonical visual handoff is [`../design-reference/index.html`](../design-reference/index.html)  
+> (regenerate: `py -3 toxy-ux-kit/tools/export-design-reference.py`).
+
+Use this checklist only if you want a `.fig` file for collaborative design.
 
 ---
 

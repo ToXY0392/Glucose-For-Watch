@@ -12,8 +12,8 @@
 | Build | Debug validated · `./gradlew test` green |
 | Refactor plan | [MASTER-REFACTOR-PLAN.md](../plan/MASTER-REFACTOR-PLAN.md) |
 | **Progress tracker** | **[PROGRESS.md](../plan/PROGRESS.md)** |
-| UX kit (standalone) | [toxy-ux-kit/](../../toxy-ux-kit/README.md) v0.1.0 |
-| **Current phase** | **3 — release polish** (hardware QA deferred) |
+| UX kit (standalone) | [toxy-ux-kit/](../../toxy-ux-kit/README.md) v0.2.0 |
+| **Current phase** | **4 ✅** — refonte code close · Figma URL / QA en attente |
 
 ## Essential commands
 
@@ -30,7 +30,7 @@
 |------|-------|------|
 | QA 30 min + offline 1–2 h | 0.7 | Run when phone + watch available |
 | Matrice G6/G7 | 3.3 | [QA-MATRIX-G6-G7.md](../plan/QA-MATRIX-G6-G7.md) |
-| Figma ToXY file URL | 3.1 | [FIGMA-HANDOFF.md](../../toxy-ux-kit/figma/FIGMA-HANDOFF.md) — tokens export ready |
+| Figma ToXY file URL | 3.1 | Optionnel — voir [design-reference/index.html](../../toxy-ux-kit/design-reference/index.html) |
 
 ## Known limitations
 

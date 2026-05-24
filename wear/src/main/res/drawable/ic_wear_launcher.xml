@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Glucose For Watch — adaptive icon foreground (108dp) -->
+<!-- Glucose For Watch — icône launcher montre -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Cadran -->
     <path
-        android:fillColor="@color/wg7_surface_alt"
+        android:fillColor="#111827"
+        android:pathData="M0,0 H108 V108 H0 Z" />
+    <path
+        android:fillColor="#1E293B"
         android:pathData="M54,30 A24,24 0 1,1 53.99,30 Z" />
-    <!-- Anneau montre -->
     <path
-        android:fillColor="@color/wg7_text_secondary"
+        android:fillColor="#94A3B8"
         android:fillType="evenOdd"
         android:pathData="M54,22 A32,32 0 1,1 53.99,22 M54,32 A22,22 0 1,0 54.01,32 Z" />
-    <!-- Repère 12h -->
     <path
-        android:fillColor="@color/wg7_text_primary"
+        android:fillColor="#F8FAFC"
         android:pathData="M50,24 H58 V30 H50 Z" />
-    <!-- Courbe glycémie -->
     <path
         android:fillColor="@android:color/transparent"
         android:pathData="M32,68 C40,68 44,54 54,46 C64,38 72,32 82,26"
-        android:strokeColor="@color/wg7_accent"
+        android:strokeColor="#34D399"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:strokeWidth="4.5" />
-    <!-- Point de lecture -->
     <path
-        android:fillColor="@color/wg7_accent"
+        android:fillColor="#34D399"
         android:pathData="M82,26 m-4,0 a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0 Z" />
 </vector>

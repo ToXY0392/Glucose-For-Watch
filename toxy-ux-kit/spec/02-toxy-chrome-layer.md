@@ -21,8 +21,11 @@ Everything that is **not** a glucose numeric reading or clinical trend color.
 | Text secondary | `toxy.color.text.secondary` | `#94A3B8` |
 | Brand accent | `toxy.color.accent.default` | `#34D399` |
 | Sync OK | `toxy.color.sync.ok` | `#4ADE80` |
+| Sync OK pill | `toxy.color.sync.okSoft` / `okStroke` | `#14532D` / `#334ADE80` |
 | Sync warn | `toxy.color.sync.warn` | `#FB923C` |
+| Sync warn pill | `toxy.color.sync.warnSoft` | `#422006` |
 | Sync error | `toxy.color.sync.error` | `#F87171` |
+| Sync error pill | `toxy.color.sync.errorSoft` | `#3F1818` |
 
 ---
 

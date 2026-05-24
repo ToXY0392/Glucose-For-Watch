@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ToXY</string>
+    <string name="app_name">Glucose For Watch</string>
     <string name="wear_status_title">Glycémie</string>
     <string name="wear_status_no_data">--</string>
     <string name="wear_status_unit">mg/dL</string>
@@ -11,7 +11,7 @@
     <string name="wear_status_refresh_ok">À jour</string>
     <string name="wear_status_refresh_failed">Échec de synchro</string>
     <string name="wear_status_battery">Batterie %1$d%%</string>
-    <string name="wear_open_on_phone_hint">Utilisez ToXY sur le téléphone.</string>
+    <string name="wear_open_on_phone_hint">Utilisez Glucose For Watch sur le téléphone.</string>
     <string name="tile_glucose_simple_label">Glycémie</string>
     <string name="tile_glucose_simple_description">Taux, unité et tendance</string>
     <string name="complication_provider_label">Glycémie</string>

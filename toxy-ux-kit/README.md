@@ -35,8 +35,8 @@ mobile/  wear/        ← app consumes tokens (generated or hand-synced)
 ### Designers
 
 1. Read [spec/00-principles.md](spec/00-principles.md)
-2. Follow [figma/FIGMA-HANDOFF.md](figma/FIGMA-HANDOFF.md) — import tokens via Tokens Studio
-3. Use reference mocks in [assets/references/](assets/references/)
+2. Open [design-reference/index.html](design-reference/index.html) in a browser (or run `py -3 tools/export-design-reference.py`)
+3. Optional Figma: [figma/FIGMA-HANDOFF.md](figma/FIGMA-HANDOFF.md)
 
 ### Android developers
 

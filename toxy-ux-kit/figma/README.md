@@ -1,6 +1,7 @@
-# Figma — ToXY UX Kit
+# Figma — ToXY UX Kit (optional)
 
-> v0.1.0 · Standalone from Android app modules
+> **Not required.** Visual handoff lives in [`../design-reference/`](../design-reference/) (HTML generated from tokens).  
+> Use Figma only if you want collaborative editing with designers.
 
 ## Recommended setup
 

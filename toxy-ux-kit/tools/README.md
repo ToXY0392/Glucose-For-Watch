@@ -1,5 +1,15 @@
 # Export tools
 
+## export-design-reference.py
+
+Generates standalone HTML visual handoff (replaces optional Figma).
+
+```bash
+py -3 toxy-ux-kit/tools/export-design-reference.py
+```
+
+Output: `design-reference/index.html`
+
 ## export-figma-tokens.py
 
 Generates **Tokens Studio** JSON (two sets: chrome + medical) for Figma import.
@@ -35,10 +45,11 @@ tools/export/output/
 
 **The app does not auto-sync** — human review required.
 
+| `lint-agp-colors.py` | Fail CI if glucose UI uses ToXY mint |
+| `tokens-validate.py` | JSON token structure check |
+
 ## Future tools (backlog)
 
 | Tool | Purpose |
 |------|---------|
 | `export-wear-tile-theme.kt` | Protolayout constants from tokens |
-| `lint-agp-colors.py` | Fail CI if glucose TextView uses `wg7_accent` |
-| `tokens-validate.py` | JSON schema validation |

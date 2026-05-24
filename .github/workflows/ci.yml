@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - rebuild
   pull_request:
   workflow_dispatch:
 

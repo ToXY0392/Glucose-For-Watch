@@ -1,6 +1,6 @@
 # Plan maître — Widget G7 → ToXY
 
-> **v3.2** · 2026-05-23 · **Phase 3 🔄** · v0.4.0 taguée · QA hardware reportée  
+> **v3.3** · 2026-05-23 · **Phase 4 🔄** · AGP lint CI  
 > **Suivi live :** [PROGRESS.md](PROGRESS.md)
 
 ---
@@ -55,7 +55,7 @@ Voir [PROGRESS.md](PROGRESS.md) pour le détail. Code complet ; tests unitaires 
 
 | ID | Tâche | Statut |
 |----|-------|--------|
-| 3.1 | Figma ToXY | 🔄 handoff repo · URL pending |
+| 3.1 | Design reference HTML (Figma optionnel) | ✅ |
 | 3.2 | Wear status Compose M3 + `ToxyWearColorScheme` | ✅ |
 | 3.3 | QA matrice G6/G7 | ⏸ reportée |
 | 3.4 | CI GitHub Actions | ✅ |
@@ -75,9 +75,20 @@ R1–R8 : voir [`CONTRIBUTING.md`](../../CONTRIBUTING.md)
 
 ---
 
-## 7. Prochaine action
+## 7. Phase 4 — Maintenance
 
-**3.1** Publier fichier Figma + URL dans `kit.manifest.json` · QA hardware quand dispo
+| ID | Tâche | Statut |
+|----|-------|--------|
+| 4.1 | AGP color lint + CI | ✅ |
+| 4.2 | Token JSON validate + CI | ✅ |
+| 4.3 | CI sur branche `rebuild` | ✅ |
+| 4.4 | Pill semantic colors → kit v0.2 | ✅ |
+
+---
+
+## 8. Prochaine action
+
+**QA hardware** quand dispo — refonte **terminée** (design: `toxy-ux-kit/design-reference/index.html`)
 
 ---
 

@@ -16,6 +16,9 @@ Create **two** collections — never merge medical and chrome.
 | text/secondary | Color | `toxy.color.text.secondary` |
 | accent/default | Color | `toxy.color.accent.default` |
 | sync/ok | Color | `toxy.color.sync.ok` |
+| sync/okSoft | Color | `toxy.color.sync.okSoft` |
+| sync/warnSoft | Color | `toxy.color.sync.warnSoft` |
+| sync/errorSoft | Color | `toxy.color.sync.errorSoft` |
 | sync/warn | Color | `toxy.color.sync.warn` |
 | sync/error | Color | `toxy.color.sync.error` |
 

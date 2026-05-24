@@ -1,7 +1,7 @@
 # Suivi du plan — Widget G7 → ToXY
 
 > **Dernière MAJ :** 2026-05-23  
-> **Phase en cours :** **3** — polish (QA hardware **reportée**)  
+> **Phase en cours :** **clôture** — refonte terminée · QA hardware en attente  
 > **Plan détaillé :** [MASTER-REFACTOR-PLAN.md](MASTER-REFACTOR-PLAN.md)
 
 ---
@@ -13,16 +13,17 @@ Phase −1  ████████████████████  100%  
 Phase 0   ████████████████████  100%  ✅ Code · QA hardware reportée
 Phase 1   ████████████████████  100%  ✅ Kit intégré
 Phase 2   ████████████████████  100%  ✅ Sync robuste + tests mock
-Phase 3   ███████████████████░   95%  🔄 Figma URL · QA reportée
+Phase 3   ████████████████████  100%  ✅ Design ref HTML
+Phase 4   ████████████████████  100%  ✅ Maintenance
 ─────────────────────────────────────────────
-Total     ███████████████████░   ~97%  (28/29 tâches)
+Total     ████████████████████  100%  (32/32 · QA hardware en attente)
 ```
 
 | Indicateur | Valeur |
 |------------|--------|
 | App | v0.4.0 |
-| Kit UX | v0.1.0 |
-| Prochaine tâche | **3.1** URL Figma · QA hardware quand dispo |
+| Kit UX | v0.2.0 |
+| Prochaine tâche | QA hardware quand dispo ([script](../../scripts/qa/install-and-verify.ps1)) |
 | Jalon cible | **M2** QA · **M3** 2026-07-19 |
 
 ---
@@ -111,7 +112,7 @@ Total     ███████████████████░   ~97%  (
 
 | # | Tâche | Statut |
 |---|-------|--------|
-| 3.1 | Figma ToXY (Chrome + AGP séparés) | 🔄 | [FIGMA-HANDOFF.md](../../toxy-ux-kit/figma/FIGMA-HANDOFF.md) + Tokens Studio export |
+| 3.1 | Design reference (HTML, remplace Figma) | ✅ | `design-reference/index.html` · Figma optionnel |
 | 3.2 | Wear status screen (Compose M3) | ✅ | `WearStatusScreen` + `ToxyWearColorScheme` |
 | 3.3 | QA matrice G6 + G7 (14 cas) | ⏸ | [QA-MATRIX-G6-G7.md](QA-MATRIX-G6-G7.md) — reportée |
 | 3.4 | CI GitHub Actions | ✅ | `.github/workflows/ci.yml` + `verify_ci.sh` étendu |
@@ -152,6 +153,17 @@ Procédures détaillées : **[QA-MATRIX-G6-G7.md](QA-MATRIX-G6-G7.md)** · insta
 | T6 | Complication = tile | 2 | ☐ |
 | T7 | LOW / HI AGP | 1 | ☐ |
 | T8 | 60/120/200/300 mg/dL couleurs | 0 | ☐ |
+
+---
+
+## Phase 4 — Maintenance ✅ (code)
+
+| # | Tâche | Statut |
+|---|-------|--------|
+| 4.1 | `lint-agp-colors.py` + CI | ✅ |
+| 4.2 | `tokens-validate.py` + CI | ✅ |
+| 4.3 | CI branche `rebuild` | ✅ |
+| 4.4 | Mobile semantic colors → tokens | ✅ | kit v0.2 · pills + aurora |
 
 ---
 

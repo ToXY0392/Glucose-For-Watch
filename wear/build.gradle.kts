@@ -12,7 +12,7 @@ android {
         applicationId = "com.widgetg7.mobile"
         minSdk = 30
         targetSdk = 36
-        versionCode = 3
+        versionCode = 23
         versionName = "0.4.0"
     }
 
@@ -63,4 +63,7 @@ dependencies {
     implementation("com.google.guava:guava:33.2.1-android")
 
     testImplementation("junit:junit:4.13.2")
+
+    debugImplementation("androidx.compose.ui:ui-tooling")
+    debugImplementation("androidx.wear.compose:compose-ui-tooling:1.5.6")
 }
