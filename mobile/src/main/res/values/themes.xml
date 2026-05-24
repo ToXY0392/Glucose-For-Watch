@@ -16,6 +16,11 @@
         <item name="colorOnSurface">@color/wg7_text_primary</item>
         <item name="colorSurfaceVariant">@color/wg7_surface_alt</item>
         <item name="colorOnSurfaceVariant">@color/wg7_text_secondary</item>
+        <item name="android:colorBackground">@color/gfw_canvas_end</item>
+        <item name="colorSurfaceContainer">@color/wg7_surface</item>
+        <item name="colorSurfaceContainerLow">@color/gfw_canvas_end</item>
+        <item name="colorPrimaryContainer">@color/wg7_surface_alt</item>
+        <item name="colorSecondaryContainer">@color/wg7_surface_alt</item>
         <item name="android:windowBackground">@drawable/bg_premium_canvas</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/wg7_bg_bottom</item>

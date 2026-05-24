@@ -6,7 +6,7 @@
     <!-- Chrome UI — ToXY emerald (jamais sur la valeur glycémie) -->
     <color name="gfw_chrome_accent">#34D399</color>
     <color name="gfw_chrome_accent_dark">#059669</color>
-    <color name="gfw_chrome_accent_soft">#163D34</color>
+    <color name="gfw_chrome_accent_soft">#1E293B</color>
     <color name="gfw_chrome_on_accent">#0F172A</color>
     <!-- Fond canvas ToXY -->
     <color name="gfw_canvas_start">#0D1117</color>

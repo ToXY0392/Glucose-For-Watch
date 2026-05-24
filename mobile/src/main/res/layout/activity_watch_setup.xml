@@ -28,19 +28,10 @@
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="-0.02"
-            android:text="@string/watch_setup_title"
+            android:text="@string/watch_setup_options_title"
             android:textColor="@color/wg7_text_primary"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:lineSpacingMultiplier="1.28"
-            android:text="@string/watch_setup_lead"
-            android:textColor="@color/wg7_text_secondary"
-            android:textSize="17sp" />
 
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.WidgetG7.SectionCard"
@@ -57,66 +48,11 @@
                 android:paddingEnd="20dp"
                 android:paddingBottom="20dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/watchHeroImage"
-                        android:layout_width="82dp"
-                        android:layout_height="82dp"
-                        android:adjustViewBounds="true"
-                        android:contentDescription="Montre connectée"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/watch_reference_hero" />
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="14dp"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/watchStatusHeadlineText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="Aucune montre connectée"
-                            android:textColor="@color/wg7_text_primary"
-                            android:textSize="19sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/watchStatusSupportText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:lineSpacingMultiplier="1.22"
-                            android:text="Connectez une montre Wear OS."
-                            android:textColor="@color/wg7_text_secondary"
-                            android:textSize="15sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/watchSetupStatusText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:lineSpacingMultiplier="1.25"
-                    android:text="Vérification de la liaison montre..."
-                    android:textColor="@color/wg7_text_secondary"
-                    android:textSize="15sp" />
-
                 <TextView
                     android:id="@+id/watchSelectorLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:text="Montre principale"
+                    android:text="@string/watch_setup_primary_watch"
                     android:textColor="@color/wg7_text_secondary"
                     android:textSize="14sp"
                     android:textStyle="bold"
@@ -135,20 +71,12 @@
                     android:visibility="gone" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/testWatchSyncButton"
-                    style="@style/Widget.WidgetG7.PrimaryButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Tester l'envoi" />
-
-                <com.google.android.material.button.MaterialButton
                     android:id="@+id/batteryOptimizationButton"
                     style="@style/Widget.WidgetG7.SecondaryButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Autoriser la sync en veille" />
+                    android:layout_marginTop="4dp"
+                    android:text="@string/watch_setup_battery_prompt" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -23,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.core.model.GlucoseRangeResolver
 import com.widgetg7.core.model.SyncStatusSnapshot
@@ -46,8 +46,11 @@ import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchConnectionStatus
+import com.widgetg7.mobile.watch.WatchHomeCardSummary
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthStatus
+import com.widgetg7.mobile.watch.WatchSyncVerifier
+import com.widgetg7.mobile.watch.WatchVisualResolver
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -64,9 +67,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dexcomCardChevron: ImageView
     private lateinit var dexcomStatusButton: View
     private lateinit var dexcomStatusDot: View
-    private lateinit var installChevron: ImageView
+    private lateinit var watchCardStatus: TextView
+    private lateinit var watchVisualFrame: View
+    private lateinit var watchCardImage: ImageView
+    private lateinit var watchStatusDot: View
+    private lateinit var watchTestButton: MaterialButton
     private lateinit var openNoticeButton: TextView
-    private lateinit var watchActionRow: LinearLayout
 
     private var homeMenuPopup: PopupWindow? = null
 
@@ -91,7 +97,7 @@ class MainActivity : AppCompatActivity() {
 
         syncNowButton = findViewById(R.id.syncNowButton)
         watchSettingsButton = findViewById(R.id.watchSettingsButton)
-        findViewById<View>(R.id.installCard).setOnClickListener {
+        findViewById<View>(R.id.watchCardBody).setOnClickListener {
             startActivity(Intent(this, WatchSetupActivity::class.java))
         }
 
@@ -113,9 +119,16 @@ class MainActivity : AppCompatActivity() {
         dexcomCardChevron = findViewById(R.id.dexcomCardChevron)
         dexcomStatusButton = findViewById(R.id.dexcomStatusButton)
         dexcomStatusDot = findViewById(R.id.dexcomStatusDot)
-        installChevron = findViewById(R.id.installChevron)
+        watchCardStatus = findViewById(R.id.watchCardStatus)
+        watchVisualFrame = findViewById(R.id.watchVisualFrame)
+        watchCardImage = findViewById(R.id.watchCardImage)
+        watchStatusDot = findViewById(R.id.watchStatusDot)
+        watchTestButton = findViewById(R.id.watchTestButton)
         openNoticeButton = findViewById(R.id.openNoticeButton)
-        watchActionRow = findViewById(R.id.watchActionRow)
+
+        watchTestButton.setOnClickListener {
+            lifecycleScope.launch { runWatchTest() }
+        }
 
         dexcomDisconnectLabel.setOnClickListener {
             showDexcomDisconnectConfirmation()
@@ -147,10 +160,17 @@ class MainActivity : AppCompatActivity() {
         updateSyncButtonTint(dexcomConfigured, syncStatus)
 
         lifecycleScope.launch {
+            refreshWatchCardAsync()
             val watchStatus = WatchConnectionRepository(this@MainActivity).loadStatus()
             updateHomeHero(dexcomConfigured, syncStatus, watchStatus, watchHealth)
-            updateStepChevrons(dexcomConfigured, syncStatus, watchStatus, watchHealth)
         }
+    }
+
+    private suspend fun refreshWatchCardAsync() {
+        val watchStatus = WatchConnectionRepository(this).loadStatus()
+        val watchHealth = WatchSyncHealthRepository(this).load()
+        val syncState = PhoneSyncStateStore(this).load()
+        updateWatchCard(watchStatus, watchHealth, syncState)
     }
 
     private fun updateDexcomCard(settings: DexcomUserSettings) {
@@ -193,6 +213,66 @@ class MainActivity : AppCompatActivity() {
             dexcomDisconnectLabel.visibility = View.GONE
             dexcomCardChevron.visibility = View.VISIBLE
         }
+    }
+
+    private fun updateWatchCard(
+        watchStatus: WatchConnectionStatus,
+        watchHealth: WatchSyncHealthStatus?,
+        syncState: PhoneSyncStateSnapshot,
+    ) {
+        val cardState =
+            WatchHomeCardSummary.resolve(
+                context = this,
+                watchStatus = watchStatus,
+                watchHealth = watchHealth,
+                syncState = syncState,
+            )
+        watchCardStatus.text = cardState.subtitle
+        val visual = WatchVisualResolver.resolve(watchStatus.displayName, watchHealth)
+        watchCardImage.setImageResource(visual.drawableResId)
+        watchStatusDot.setBackgroundResource(
+            if (cardState.linked) {
+                R.drawable.bg_status_dot_connected
+            } else {
+                R.drawable.bg_status_dot_disconnected
+            },
+        )
+        watchVisualFrame.contentDescription =
+            getString(
+                if (cardState.linked) {
+                    R.string.home_watch_status_linked_desc
+                } else {
+                    R.string.home_watch_status_unlinked_desc
+                },
+            )
+        watchTestButton.isEnabled = watchStatus.connected
+    }
+
+    private suspend fun runWatchTest() {
+        watchTestButton.isEnabled = false
+        watchTestButton.text = getString(R.string.home_watch_test_running)
+
+        val result = WatchSyncVerifier(this).runTest()
+        val message =
+            when (result) {
+                WatchSyncVerifier.Result.NoWatch -> getString(R.string.home_watch_test_no_watch)
+                WatchSyncVerifier.Result.NoDexcom -> getString(R.string.home_watch_test_no_dexcom)
+                WatchSyncVerifier.Result.Timeout -> getString(R.string.home_watch_test_timeout)
+                WatchSyncVerifier.Result.SendFailed -> getString(R.string.home_watch_test_failed)
+                is WatchSyncVerifier.Result.Error ->
+                    result.message?.takeIf { it.isNotBlank() }
+                        ?: getString(R.string.home_watch_test_failed)
+                is WatchSyncVerifier.Result.Sent ->
+                    getString(R.string.home_watch_test_sent, result.valueMgDl)
+            }
+
+        refreshWatchCardAsync()
+        if (result is WatchSyncVerifier.Result.Sent) {
+            watchCardStatus.text = message
+        }
+
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show()
+        watchTestButton.text = getString(R.string.home_watch_test)
     }
 
     private fun updateHomeHero(
@@ -296,26 +376,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun truncateForStatusPill(raw: String, maxLen: Int = 30): String =
         HomeSyncPillResolver.truncateForStatusPill(raw, maxLen)
-
-    private fun updateStepChevrons(
-        dexcomConfigured: Boolean,
-        syncStatus: SyncStatusSnapshot,
-        watchStatus: WatchConnectionStatus,
-        watchHealth: WatchSyncHealthStatus?,
-    ) {
-        fun tintChevron(view: ImageView, ok: Boolean) {
-            view.imageTintList =
-                ColorStateList.valueOf(
-                    ContextCompat.getColor(
-                        this,
-                        if (ok) R.color.wg7_text_primary else R.color.wg7_text_tertiary,
-                    ),
-                )
-        }
-        val installOk = watchHealth?.appInstalled == true && !watchHealth.syncLimited
-        val montreChevronOk = installOk && HomeSyncPillResolver.hasWatchAck(PhoneSyncStateStore(this).load())
-        tintChevron(installChevron, montreChevronOk)
-    }
 
     private fun updateSyncButtonTint(dexcomConfigured: Boolean, syncStatus: SyncStatusSnapshot) {
         val watchPushPending = syncStatus.watchPushPending || PendingPushQueue(this).hasPending()

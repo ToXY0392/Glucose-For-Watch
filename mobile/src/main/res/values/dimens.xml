@@ -3,6 +3,7 @@
     <dimen name="wg7_screen_pad_h">22dp</dimen>
     <dimen name="wg7_screen_pad_v">24dp</dimen>
     <dimen name="wg7_card_stroke">1dp</dimen>
+    <dimen name="wg7_accent_stroke">2dp</dimen>
     <!-- Cadre picto carré (icône centrée à l’intérieur) -->
     <dimen name="wg7_icon_tonal_size">56dp</dimen>
     <dimen name="wg7_icon_square_inner">32dp</dimen>
@@ -10,4 +11,7 @@
     <dimen name="wg7_icon_tile_frame">52dp</dimen>
     <dimen name="wg7_icon_tonal_padding">9dp</dimen>
     <dimen name="wg7_touch_min">48dp</dimen>
+    <!-- Carte Montre (accueil) -->
+    <dimen name="wg7_watch_card_image_size">96dp</dimen>
+    <dimen name="wg7_watch_card_pad">22dp</dimen>
 </resources>

@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.test.core.app.ApplicationProvider
 import com.widgetg7.core.model.AgpGlucoseColors
@@ -52,13 +53,22 @@ class AppPreviewExporterTest {
             text = "mg/dL ↗ · il y a 2 min"
             visibility = View.VISIBLE
         }
-        root.findViewById<TextView>(R.id.homeStatusText).text =
-            context.getString(R.string.home_status_sync_active)
+        root.findViewById<TextView>(R.id.homeStatusText).apply {
+            text = context.getString(R.string.home_status_sync_active)
+            setBackgroundResource(R.drawable.bg_status_pill_ok)
+            setTextColor(AgpGlucoseColors.IN_RANGE)
+        }
         root.findViewById<TextView>(R.id.dexcomCardStatus).text =
             context.getString(R.string.home_dexcom_status_on)
         root.findViewById<View>(R.id.dexcomStatusButton)
             .setBackgroundResource(R.drawable.bg_dexcom_status_connected)
         root.findViewById<View>(R.id.dexcomStatusDot)
+            .setBackgroundResource(R.drawable.bg_status_dot_connected)
+        root.findViewById<TextView>(R.id.watchCardStatus).text =
+            context.getString(R.string.home_watch_status_ok, "Pixel Watch 2")
+        root.findViewById<ImageView>(R.id.watchCardImage)
+            .setImageResource(R.drawable.watch_reference_hero)
+        root.findViewById<View>(R.id.watchStatusDot)
             .setBackgroundResource(R.drawable.bg_status_dot_connected)
     }
 
