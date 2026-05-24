@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.ImageButton
 import android.widget.ScrollView
 import android.widget.Spinner
-import com.google.android.material.button.MaterialButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -65,9 +64,6 @@ class WatchSetupActivity : AppCompatActivity() {
         ViewCompat.requestApplyInsets(scrollView)
 
         testWatchSyncButton = findViewById(R.id.testWatchSyncButton)
-        findViewById<MaterialButton>(R.id.openWearInstallerButton).setOnClickListener {
-            startActivity(Intent(this, WearInstallerActivity::class.java))
-        }
         batteryOptimizationButton = findViewById(R.id.batteryOptimizationButton)
         backToHomeButton = findViewById(R.id.backToHomeButton)
         watchStatusHeadlineText = findViewById(R.id.watchStatusHeadlineText)

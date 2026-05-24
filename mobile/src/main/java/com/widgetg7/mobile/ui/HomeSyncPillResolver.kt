@@ -17,6 +17,13 @@ data class HomeSyncPillLabels(
     val ready: String,
 )
 
+enum class HomeSyncPillTone {
+    OK,
+    WARN,
+    ERROR,
+    NEUTRAL,
+}
+
 object HomeSyncPillResolver {
     const val WATCH_PUSH_FAILURE_THRESHOLD = 3
 
@@ -48,6 +55,34 @@ object HomeSyncPillResolver {
             activeSync && syncStatus.hasSuccessfulSync() && !watchPushPending ->
                 labels.syncActive
             else -> labels.ready
+        }
+
+    fun resolveTone(
+        dexcomConfigured: Boolean,
+        activeSync: Boolean,
+        syncStatus: SyncStatusSnapshot,
+        watchStatus: WatchConnectionStatus,
+        watchReady: Boolean,
+        syncState: PhoneSyncStateSnapshot,
+        watchPushPending: Boolean,
+    ): HomeSyncPillTone =
+        when {
+            !dexcomConfigured -> HomeSyncPillTone.NEUTRAL
+            watchStatus.connected &&
+                syncState.consecutiveWearPushFailures >= WATCH_PUSH_FAILURE_THRESHOLD ->
+                HomeSyncPillTone.ERROR
+            watchStatus.connected && watchPushPending -> HomeSyncPillTone.WARN
+            watchStatus.connected &&
+                syncState.lastPushSequenceId > 0L &&
+                !hasWatchAck(syncState) ->
+                HomeSyncPillTone.WARN
+            !watchStatus.connected -> HomeSyncPillTone.NEUTRAL
+            !watchReady -> HomeSyncPillTone.WARN
+            syncStatus.lastError.isNotBlank() -> HomeSyncPillTone.ERROR
+            hasWatchAck(syncState) && activeSync -> HomeSyncPillTone.OK
+            activeSync && syncStatus.hasSuccessfulSync() && !watchPushPending ->
+                HomeSyncPillTone.OK
+            else -> HomeSyncPillTone.NEUTRAL
         }
 
     fun hasWatchAck(state: PhoneSyncStateSnapshot): Boolean =

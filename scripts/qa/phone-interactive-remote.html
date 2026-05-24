@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glucose For Watch — remote phone</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0d1117;
+      color: #94a3b8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+      user-select: none;
+    }
+    header {
+      width: min(420px, 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+    h1 { font-size: 13px; color: #f8fafc; font-weight: 600; }
+    .meta { font-size: 11px; }
+    .toolbar {
+      width: min(420px, 100%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    button {
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #f8fafc;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    button:hover { border-color: #34d399; color: #34d399; }
+    button.primary { background: #163d34; border-color: #34d399; }
+    .frame {
+      width: min(420px, 100%);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #111827;
+      touch-action: none;
+    }
+    #screen {
+      display: block;
+      width: 100%;
+      height: auto;
+      cursor: crosshair;
+    }
+    .hint {
+      margin-top: 10px;
+      max-width: 420px;
+      font-size: 11px;
+      line-height: 1.45;
+      text-align: center;
+    }
+    .status { color: #64748b; font-size: 11px; }
+    .status.err { color: #f87171; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Glucose For Watch · remote</h1>
+    <span class="meta" id="deviceMeta">…</span>
+  </header>
+
+  <div class="toolbar">
+    <button type="button" data-key="BACK">Retour</button>
+    <button type="button" data-key="HOME">Accueil</button>
+    <button type="button" data-key="RECENTS">Récents</button>
+    <button type="button" id="launchBtn" class="primary">Ouvrir app</button>
+    <button type="button" id="pauseBtn">Pause</button>
+  </div>
+
+  <div class="frame">
+    <img id="screen" alt="Ecran telephone" draggable="false" />
+  </div>
+
+  <p class="hint">
+    Clic = tap · glisser = swipe · rafraîchissement ~450 ms<br />
+    Ouvrir dans <strong>Cursor Simple Browser</strong> pour manipuler l’app ici.
+  </p>
+  <p class="status" id="status">Connexion…</p>
+
+  <script>
+    const screenEl = document.getElementById('screen');
+    const statusEl = document.getElementById('status');
+    const deviceMeta = document.getElementById('deviceMeta');
+    const pauseBtn = document.getElementById('pauseBtn');
+    let paused = false;
+    let dragStart = null;
+
+    async function api(path, options) {
+      const res = await fetch(path, options);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || res.statusText);
+      }
+      if (res.headers.get('content-type')?.includes('application/json')) {
+        return res.json();
+      }
+      return res;
+    }
+
+    function toDeviceCoords(clientX, clientY) {
+      const rect = screenEl.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width;
+      const y = (clientY - rect.top) / rect.height;
+      const px = Math.round(x * screenEl.naturalWidth);
+      const py = Math.round(y * screenEl.naturalHeight);
+      return {
+        x: Math.max(0, Math.min(screenEl.naturalWidth - 1, px)),
+        y: Math.max(0, Math.min(screenEl.naturalHeight - 1, py)),
+      };
+    }
+
+    async function refreshScreen() {
+      if (paused) return;
+      try {
+        const res = await api('/api/screen');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        const prev = screenEl.src;
+        screenEl.onload = () => {
+          if (prev.startsWith('blob:')) URL.revokeObjectURL(prev);
+          URL.revokeObjectURL(url);
+        };
+        screenEl.src = url;
+        statusEl.textContent = 'Live · ' + new Date().toLocaleTimeString('fr-FR');
+        statusEl.classList.remove('err');
+      } catch (e) {
+        statusEl.textContent = 'Erreur: ' + e.message;
+        statusEl.classList.add('err');
+      }
+    }
+
+    async function sendTap(x, y) {
+      await api('/api/tap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ x, y }),
+      });
+      setTimeout(refreshScreen, 120);
+    }
+
+    async function sendSwipe(x1, y1, x2, y2) {
+      await api('/api/swipe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ x1, y1, x2, y2, durationMs: 280 }),
+      });
+      setTimeout(refreshScreen, 150);
+    }
+
+    screenEl.addEventListener('pointerdown', (e) => {
+      screenEl.setPointerCapture(e.pointerId);
+      dragStart = { x: e.clientX, y: e.clientY };
+    });
+
+    screenEl.addEventListener('pointerup', async (e) => {
+      if (!dragStart) return;
+      const dx = e.clientX - dragStart.x;
+      const dy = e.clientY - dragStart.y;
+      const dist = Math.hypot(dx, dy);
+      try {
+        if (dist < 8) {
+          const p = toDeviceCoords(e.clientX, e.clientY);
+          statusEl.textContent = 'Tap ' + p.x + ',' + p.y;
+          await sendTap(p.x, p.y);
+        } else {
+          const a = toDeviceCoords(dragStart.x, dragStart.y);
+          const b = toDeviceCoords(e.clientX, e.clientY);
+          statusEl.textContent = 'Swipe';
+          await sendSwipe(a.x, a.y, b.x, b.y);
+        }
+      } catch (err) {
+        statusEl.textContent = 'Erreur: ' + err.message;
+        statusEl.classList.add('err');
+      }
+      dragStart = null;
+    });
+
+    document.querySelectorAll('[data-key]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        try {
+          await api('/api/key', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ key: btn.dataset.key }),
+          });
+          setTimeout(refreshScreen, 150);
+        } catch (err) {
+          statusEl.textContent = 'Erreur: ' + err.message;
+          statusEl.classList.add('err');
+        }
+      });
+    });
+
+    document.getElementById('launchBtn').addEventListener('click', async () => {
+      try {
+        await api('/api/launch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+        setTimeout(refreshScreen, 600);
+      } catch (err) {
+        statusEl.textContent = 'Erreur: ' + err.message;
+        statusEl.classList.add('err');
+      }
+    });
+
+    pauseBtn.addEventListener('click', () => {
+      paused = !paused;
+      pauseBtn.textContent = paused ? 'Reprendre' : 'Pause';
+      if (!paused) refreshScreen();
+    });
+
+    (async () => {
+      try {
+        const info = await api('/api/info');
+        deviceMeta.textContent = info.serial + ' · ' + info.width + '×' + info.height;
+      } catch (e) {
+        deviceMeta.textContent = 'hors ligne';
+      }
+      refreshScreen();
+      setInterval(refreshScreen, 450);
+    })();
+  </script>
+</body>
+</html>

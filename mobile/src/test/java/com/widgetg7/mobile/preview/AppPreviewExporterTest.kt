@@ -56,6 +56,10 @@ class AppPreviewExporterTest {
             context.getString(R.string.home_status_sync_active)
         root.findViewById<TextView>(R.id.dexcomCardStatus).text =
             context.getString(R.string.home_dexcom_status_on)
+        root.findViewById<View>(R.id.dexcomStatusButton)
+            .setBackgroundResource(R.drawable.bg_dexcom_status_connected)
+        root.findViewById<View>(R.id.dexcomStatusDot)
+            .setBackgroundResource(R.drawable.bg_status_dot_connected)
     }
 
     private fun captureView(view: View): Bitmap {

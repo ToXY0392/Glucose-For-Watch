@@ -9,7 +9,8 @@
 | Phone | `mobile-debug.apk` |
 | Watch | `wear-debug.apk` |
 
-Install via ADB or the in-app wear installer (debug builds).
+Install via ADB or the QA script (`scripts/qa/install-and-verify.ps1`).  
+An in-app wear install assistant existed for debug builds; it is **hidden from the UI** but preserved in code — see [watch install assistant (deferred)](deferred/watch-install-assistant.md).
 
 ## First-time setup
 

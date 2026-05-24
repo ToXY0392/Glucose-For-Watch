@@ -31,7 +31,7 @@
                 android:src="@drawable/ic_settings_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/wg7_text_secondary" />
+                app:tint="@color/wg7_text_primary" />
 
             <FrameLayout
                 android:id="@+id/brandMarkFrame"
@@ -39,7 +39,7 @@
                 android:layout_height="@dimen/wg7_icon_tonal_size"
                 android:layout_marginStart="@dimen/wg7_screen_pad_h"
                 android:layout_marginTop="26dp"
-                android:background="@drawable/bg_home_icon_tonal"
+                android:background="@drawable/bg_brand_mark_frame"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -78,16 +78,14 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:includeFontPadding="false"
-                    android:letterSpacing="0.1"
+                    android:letterSpacing="0.04"
                     android:text="@string/home_brand_tagline"
-                    android:textAllCaps="true"
-                    android:textColor="@color/wg7_text_secondary"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
+                    android:textColor="@color/wg7_text_tertiary"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <androidx.constraintlayout.widget.Barrier
@@ -99,16 +97,12 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/heroCard"
+                style="@style/Widget.WidgetG7.SectionCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/wg7_screen_pad_h"
                 android:layout_marginTop="22dp"
                 android:layout_marginEnd="@dimen/wg7_screen_pad_h"
-                app:cardBackgroundColor="@color/wg7_surface"
-                app:cardElevation="10dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.WidgetG7.HeroAsymmetric"
-                app:strokeColor="@color/wg7_card_highlight"
-                app:strokeWidth="@dimen/wg7_card_stroke"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/headerBarrier">
@@ -116,10 +110,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_home_hero_fade"
+                    android:background="@drawable/bg_hero_aurora"
                     android:orientation="vertical"
                     android:paddingStart="24dp"
-                    android:paddingTop="22dp"
+                    android:paddingTop="24dp"
                     android:paddingEnd="22dp"
                     android:paddingBottom="22dp">
 
@@ -136,62 +130,49 @@
                             android:layout_weight="1"
                             android:fontFamily="sans-serif-black"
                             android:gravity="center_vertical"
-                            android:letterSpacing="-0.04"
-                            android:lineSpacingExtra="2dp"
+                            android:letterSpacing="-0.05"
+                            android:lineSpacingExtra="0dp"
                             android:textColor="@color/wg7_text_primary"
-                            android:textSize="52sp"
+                            android:textSize="56sp"
                             android:textStyle="bold" />
 
                         <ImageButton
                             android:id="@+id/syncNowButton"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_marginStart="8dp"
-                            android:background="@drawable/bg_icon_square_ripple"
+                            android:layout_width="52dp"
+                            android:layout_height="52dp"
+                            android:layout_marginStart="10dp"
+                            android:background="@drawable/bg_sync_button_tonal"
                             android:contentDescription="@string/home_sync_content_description"
-                            android:padding="12dp"
+                            android:padding="13dp"
                             android:scaleType="centerInside"
                             android:src="@drawable/ic_refresh_24"
-                            app:tint="@color/wg7_accent" />
+                            app:tint="@color/wg7_text_primary" />
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/homeReadingSubtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="4dp"
                         android:letterSpacing="-0.01"
                         android:lineSpacingMultiplier="1.25"
                         android:textColor="@color/wg7_text_secondary"
-                        android:textSize="16sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginTop="20dp"
-                        android:alpha="0.35"
-                        android:background="@color/wg7_outline" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:letterSpacing="0.12"
-                        android:text="@string/home_status_heading"
-                        android:textAllCaps="true"
-                        android:textColor="@color/wg7_text_tertiary"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/homeStatusText"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="18dp"
+                        android:background="@drawable/bg_status_pill_neutral"
                         android:letterSpacing="-0.01"
-                        android:lineSpacingMultiplier="1.22"
-                        android:textColor="@color/wg7_success"
-                        android:textSize="15sp"
+                        android:lineSpacingMultiplier="1.15"
+                        android:paddingStart="12dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="8dp"
+                        android:textColor="@color/wg7_text_secondary"
+                        android:textSize="13sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -201,31 +182,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/wg7_screen_pad_h"
-                android:layout_marginTop="26dp"
-                android:letterSpacing="0.12"
+                android:layout_marginTop="28dp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="-0.01"
                 android:text="@string/home_section_data"
-                android:textAllCaps="true"
                 android:textColor="@color/wg7_text_tertiary"
-                android:textSize="11sp"
-                android:textStyle="bold"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/heroCard" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/dexcomCard"
+                style="@style/Widget.WidgetG7.SectionCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/wg7_screen_pad_h"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="@dimen/wg7_screen_pad_h"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/wg7_surface_alt"
-                app:cardElevation="6dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.WidgetG7.DexcomStrip"
-                app:strokeColor="@color/wg7_card_highlight"
-                app:strokeWidth="@dimen/wg7_card_stroke"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/homeSectionDataLabel">
@@ -243,17 +220,20 @@
                     android:paddingBottom="18dp">
 
                     <FrameLayout
+                        android:id="@+id/dexcomStatusButton"
                         android:layout_width="@dimen/wg7_icon_tonal_size"
                         android:layout_height="@dimen/wg7_icon_tonal_size"
-                        android:background="@drawable/bg_home_icon_tonal">
+                        android:background="@drawable/bg_dexcom_status_disconnected"
+                        android:contentDescription="@string/home_dexcom_status_disconnected_desc"
+                        android:importantForAccessibility="yes">
 
-                        <ImageView
-                            android:layout_width="@dimen/wg7_icon_square_inner"
-                            android:layout_height="@dimen/wg7_icon_square_inner"
+                        <View
+                            android:id="@+id/dexcomStatusDot"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
                             android:layout_gravity="center"
-                            android:contentDescription="@null"
-                            android:scaleType="fitCenter"
-                            android:src="@drawable/ic_sensor_glucose" />
+                            android:background="@drawable/bg_status_dot_disconnected"
+                            android:importantForAccessibility="no" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -306,7 +286,7 @@
                         android:layout_height="24dp"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_chevron_forward_24"
-                        app:tint="@color/wg7_accent" />
+                        app:tint="@color/wg7_text_tertiary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -315,190 +295,93 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/wg7_screen_pad_h"
-                android:layout_marginTop="26dp"
-                android:letterSpacing="0.12"
+                android:layout_marginTop="28dp"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="-0.01"
                 android:text="@string/home_section_pilotage"
-                android:textAllCaps="true"
                 android:textColor="@color/wg7_text_tertiary"
-                android:textSize="11sp"
-                android:textStyle="bold"
+                android:textSize="13sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/dexcomCard" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/tileMidGuide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.5" />
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/installCard"
+                style="@style/Widget.WidgetG7.SectionCard"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/wg7_screen_pad_h"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="8dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="@color/wg7_surface"
-                app:cardElevation="4dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.WidgetG7.TileSlashWest"
-                app:strokeColor="@color/wg7_card_highlight"
-                app:strokeWidth="@dimen/wg7_card_stroke"
-                app:layout_constraintEnd_toStartOf="@id/tileMidGuide"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/homeSectionPilotLabel">
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:paddingStart="14dp"
-                        android:paddingTop="20dp"
-                        android:paddingEnd="38dp"
-                        android:paddingBottom="20dp">
-
-                        <FrameLayout
-                            android:layout_width="@dimen/wg7_icon_tile_frame"
-                            android:layout_height="@dimen/wg7_icon_tile_frame"
-                            android:background="@drawable/bg_home_icon_tonal">
-
-                            <ImageView
-                                android:layout_width="@dimen/wg7_icon_square_inner_tile"
-                                android:layout_height="@dimen/wg7_icon_square_inner_tile"
-                                android:layout_gravity="center"
-                                android:contentDescription="@null"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/ic_watch_install"
-                                app:tint="@color/wg7_accent" />
-                        </FrameLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:fontFamily="sans-serif-medium"
-                            android:gravity="center"
-                            android:letterSpacing="-0.02"
-                            android:text="@string/home_watch_card_title"
-                            android:textColor="@color/wg7_text_primary"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:gravity="center"
-                            android:lineSpacingMultiplier="1.15"
-                            android:maxLines="4"
-                            android:text="@string/home_watch_card_subtitle"
-                            android:textColor="@color/wg7_text_tertiary"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <ImageView
-                        android:id="@+id/installChevron"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="end|top"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginEnd="14dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/ic_chevron_forward_24"
-                        app:tint="@color/wg7_accent_dark" />
-                </FrameLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/wearAssistantCard"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="@dimen/wg7_screen_pad_h"
                 android:clickable="true"
                 android:focusable="true"
                 android:foreground="?attr/selectableItemBackground"
                 app:cardBackgroundColor="@color/wg7_surface_alt"
-                app:cardElevation="4dp"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.WidgetG7.TileSlashEast"
-                app:strokeColor="@color/wg7_card_highlight"
-                app:strokeWidth="@dimen/wg7_card_stroke"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tileMidGuide"
-                app:layout_constraintTop_toTopOf="@id/installCard">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeSectionPilotLabel">
 
-                <FrameLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:minHeight="88dp"
+                    android:orientation="horizontal"
+                    android:paddingStart="18dp"
+                    android:paddingTop="18dp"
+                    android:paddingEnd="12dp"
+                    android:paddingBottom="18dp">
+
+                    <FrameLayout
+                        android:layout_width="@dimen/wg7_icon_tonal_size"
+                        android:layout_height="@dimen/wg7_icon_tonal_size"
+                        android:background="@drawable/bg_home_icon_tonal">
+
+                        <ImageView
+                            android:layout_width="@dimen/wg7_icon_square_inner"
+                            android:layout_height="@dimen/wg7_icon_square_inner"
+                            android:layout_gravity="center"
+                            android:contentDescription="@null"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_watch_install"
+                            app:tint="@color/wg7_text_primary" />
+                    </FrameLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:orientation="vertical"
-                        android:paddingStart="38dp"
-                        android:paddingTop="20dp"
-                        android:paddingEnd="14dp"
-                        android:paddingBottom="20dp">
-
-                        <FrameLayout
-                            android:layout_width="@dimen/wg7_icon_tile_frame"
-                            android:layout_height="@dimen/wg7_icon_tile_frame"
-                            android:background="@drawable/bg_home_icon_tonal">
-
-                            <ImageView
-                                android:layout_width="@dimen/wg7_icon_square_inner_tile"
-                                android:layout_height="@dimen/wg7_icon_square_inner_tile"
-                                android:layout_gravity="center"
-                                android:contentDescription="@null"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/ic_share_24"
-                                app:tint="@color/wg7_accent" />
-                        </FrameLayout>
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
                             android:fontFamily="sans-serif-medium"
-                            android:gravity="center"
                             android:letterSpacing="-0.02"
-                            android:text="@string/wear_setup_install_assistant"
+                            android:text="@string/home_watch_card_title"
                             android:textColor="@color/wg7_text_primary"
-                            android:textSize="15sp"
+                            android:textSize="17sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="6dp"
-                            android:gravity="center"
-                            android:lineSpacingMultiplier="1.15"
-                            android:maxLines="4"
-                            android:text="@string/home_wear_assistant_subtitle"
-                            android:textColor="@color/wg7_text_tertiary"
-                            android:textSize="12sp" />
+                            android:lineSpacingMultiplier="1.2"
+                            android:text="@string/home_watch_card_subtitle"
+                            android:textColor="@color/wg7_text_secondary"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <ImageView
-                        android:id="@+id/wearAssistantChevron"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="end|top"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginEnd="14dp"
+                        android:id="@+id/installChevron"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
                         android:contentDescription="@null"
                         android:src="@drawable/ic_chevron_forward_24"
-                        app:tint="@color/wg7_accent_dark" />
-                </FrameLayout>
+                        app:tint="@color/wg7_text_tertiary" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

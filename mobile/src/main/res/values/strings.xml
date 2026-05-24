@@ -27,7 +27,8 @@
     <string name="home_dexcom_user_mask">%1$s…</string>
     <string name="home_dexcom_disconnect_title">Déconnecter Dexcom</string>
     <string name="home_dexcom_disconnect_message">Supprimer le compte Dexcom de ce téléphone ?</string>
-    <string name="home_wear_assistant_subtitle">Guide pas à pas pour installer l’app sur la montre</string>
+    <string name="home_dexcom_status_connected_desc">Dexcom connecté</string>
+    <string name="home_dexcom_status_disconnected_desc">Dexcom non connecté</string>
     <string name="home_watch_card_title">Montre</string>
     <string name="home_watch_card_subtitle">État, synchronisation et vérification de la liaison</string>
     <string name="watch_setup_title">Montre</string>
@@ -85,7 +86,6 @@
     <string name="wear_install_finish_title">Tout fonctionne ?</string>
     <string name="wear_install_finish_body">Sur ce téléphone, ouvrez Glucose For Watch → écran Montre. Vous devriez voir que la liaison est bien faite.</string>
     <string name="wear_install_back">Retour à l’écran précédent</string>
-    <string name="wear_setup_install_assistant">Aide installation montre</string>
     <string name="notification_sync_title">Glucose For Watch synchronise la glycémie</string>
     <string name="notification_sync_text">Surveillance active téléphone vers montre en cours.</string>
     <string name="watch_setup_wear_ready_all">Glucose For Watch est installé sur la montre : app, tile et complication disponibles.</string>

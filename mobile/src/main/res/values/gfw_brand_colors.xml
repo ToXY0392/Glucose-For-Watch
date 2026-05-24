@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Logo : boîtier montre + signal glycémie vert AGP -->
+    <!-- Logo : goutte de sang minimaliste (blanc) -->
     <color name="gfw_brand_bezel">#D6D3D1</color>
     <color name="gfw_brand_glucose">@color/agp_inRange</color>
-    <!-- Chrome UI : bleu discret (pas d'orange) -->
-    <color name="gfw_chrome_accent">#6EB5FF</color>
-    <color name="gfw_chrome_accent_dark">#3B82F6</color>
-    <color name="gfw_chrome_accent_soft">#1E293B</color>
-    <color name="gfw_chrome_on_accent">#F8FAFC</color>
-    <!-- Fond neutre froid -->
-    <color name="gfw_canvas_start">#0F1419</color>
-    <color name="gfw_canvas_end">#151B26</color>
+    <!-- Chrome UI — ToXY emerald (jamais sur la valeur glycémie) -->
+    <color name="gfw_chrome_accent">#34D399</color>
+    <color name="gfw_chrome_accent_dark">#059669</color>
+    <color name="gfw_chrome_accent_soft">#163D34</color>
+    <color name="gfw_chrome_on_accent">#0F172A</color>
+    <!-- Fond canvas ToXY -->
+    <color name="gfw_canvas_start">#0D1117</color>
+    <color name="gfw_canvas_end">#0F172A</color>
 </resources>

@@ -40,3 +40,9 @@
 - [Dependency registry](ref/dependency-registry.md)
 - [Dexcom Share notes](ref/dexcom-share.md)
 - [Release notes](release-notes.md)
+
+## Deferred features
+
+Features removed from the UI but kept in code for later:
+
+- [Watch install assistant](deferred/watch-install-assistant.md) — ADB Wi‑Fi pairing + direct wear APK install
