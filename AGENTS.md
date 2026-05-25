@@ -33,6 +33,7 @@ Entry point for Cursor agents working on this repository.
 
 | Task | Skill |
 |------|-------|
+| Draft complete documented PR | `widget-g7-pr-author` |
 | Before merge PR | `widget-g7-pr-gatekeeper` |
 | Git / secrets hygiene | `widget-g7-repo-hygiene` |
 | Project + PROGRESS sync | `widget-g7-github-project-sync` |
