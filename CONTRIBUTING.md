@@ -4,8 +4,8 @@ Thank you for contributing. This project syncs real health data — extra care i
 
 ## Before you start
 
-1. Read [dev.md](docs/dev.md)
-2. Read [architecture.md](docs/architecture.md)
+1. Read [dev/setup.md](docs/dev/setup.md)
+2. Read [dev/architecture.md](docs/dev/architecture.md)
 3. Read [AGP medical layer](toxy-ux-kit/spec/01-agp-medical-layer.md) — **never use brand colors on glucose values**
 
 ## Development setup
@@ -15,9 +15,12 @@ Thank you for contributing. This project syncs real health data — extra care i
 .\gradlew.bat test
 ```
 
-Dual IDE: [dev.md](docs/dev.md#dual-ide-cursor--android-studio)
+Build, install, and QA scripts: [dev/setup.md](docs/dev/setup.md).  
+Dual IDE (WSL + Studio): [dev/setup.md#dual-ide-cursor--android-studio](docs/dev/setup.md#dual-ide-cursor--android-studio).
 
 ## Pull request guidelines
+
+Copy the full checklist into every PR: **[docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)**.
 
 ### Scope
 
@@ -31,19 +34,11 @@ Dual IDE: [dev.md](docs/dev.md#dual-ide-cursor--android-studio)
 .\gradlew.bat test
 ```
 
+Stability gate and hardware smoke (when touching sync): see [dev/setup.md](docs/dev/setup.md#qa-and-stability-gates).
+
 ### Sync-related changes
 
-If you modify anything under `mobile/.../sync/`, `wear/.../tile/`, `feature/sync/`, or Data Layer contract:
-
-**Include in PR description:**
-
-- [ ] Built mobile + wear debug APKs successfully
-- [ ] Manual 5 min phone ↔ watch sync test
-- [ ] Phone value matches watch value after sync
-- [ ] Ack chevron / connection state correct
-- [ ] If tile changed: sync button tested on watch
-
-For significant sync changes: **30 min regression** recommended.
+If you modify anything under `mobile/.../sync/`, `wear/.../tile/`, `feature/sync/`, or Data Layer contract, complete the **Hardware** and **Gate bloc** sections in [PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md). For significant sync changes, run a **30 min regression** on hardware.
 
 ### Design changes
 

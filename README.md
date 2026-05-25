@@ -17,87 +17,53 @@ Glucose For Watch syncs Dexcom glucose data to Wear OS for fast at-a-glance disp
 
 ## Overview
 
-This project:
+Phone fetches **Dexcom Share**, pushes to the watch via the **Wear Data Layer**, and updates the tile and complication with ack-based sync health.
 
-- Fetches the latest glucose reading via **Dexcom Share** on the phone
-- Pushes data to the watch through the **Wear Data Layer**
-- Updates the **tile** and **complication**
-- Tracks sync health (ack, timestamp, stale state) for diagnostics
-
-**Supported sensors:** Dexcom **G6** and **G7** when Dexcom Share is enabled on the account (same Share API — see [dexcom.md](docs/dexcom.md)).
+**Supported sensors:** Dexcom **G6** and **G7** — see [guide/dexcom.md](docs/guide/dexcom.md).
 
 ## Highlights
 
-- Modular sync engine with hexagonal ports (`GlucoseSyncEngine`)
-- Ack-based delivery verification between phone and watch
-- AGP / Time-in-Range color coding for glucose values (medical standard)
-- Separate mobile and wear APKs with embedded wear install flow (debug)
+- Modular sync engine (`GlucoseSyncEngine`) with ack-based delivery
+- AGP / Time-in-Range colors on glucose values
+- Separate mobile and wear APKs (embedded wear install in debug)
 
-## Architecture
-
-| Module | Role |
-|--------|------|
-| `mobile/` | Dexcom fetch, sync orchestration, phone UI |
-| `wear/` | Watch cache, tile, complication, Data Layer listener |
-| `core/` | Shared models and Data Layer contract |
-| `feature/` | Sync engine, Dexcom Share client, watch install |
-
-See [architecture.md](docs/architecture.md).
+**Architecture:** modules, sync flow, Data Layer contract — [dev/architecture.md](docs/dev/architecture.md).
 
 ## Prerequisites
 
-- Android Studio (recent) — see [dev.md](docs/dev.md)
-- Gradle wrapper **9.4.1** (AGP **9.2.1**, Kotlin **2.3.20**)
-- JDK **JBR 21** (Android Studio bundled)
-- Android SDK with `compileSdk 36` (`local.properties` → `sdk.dir`)
-- One Android phone + one Wear OS watch for real-device testing
+Android Studio, JDK **JBR 21**, Gradle **9.4.1**, `compileSdk 36`, phone + Wear OS watch for testing. Details: [dev/setup.md](docs/dev/setup.md).
 
 ## Quick start
 
-1. Install `mobile-debug.apk` on the phone.
-2. Install `wear-debug.apk` on the watch.
-3. Open **Glucose For Watch** on the phone.
-4. Accept legal screens.
-5. Connect Dexcom Share credentials.
-6. Run a sync test from the phone home screen.
-7. Add the Glucose For Watch tile or complication on the watch.
+1. Install debug APKs on phone and watch (`installWidgetG7Debug`).
+2. Open the app, accept legal screens, connect Dexcom Share, tap **Sync**.
+3. Add the tile or complication on the watch.
 
-Detailed steps: [user.md](docs/user.md).
+Full steps: [guide/user.md](docs/guide/user.md).
 
 ## Build
 
 ```powershell
-.\gradlew.bat help
 .\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
-```
-
-Output APKs:
-
-- `mobile/build/outputs/apk/debug/mobile-debug.apk`
-- `wear/build/outputs/apk/debug/wear-debug.apk`
-
-Install both (requires `local.properties` serials):
-
-```powershell
 .\gradlew.bat installWidgetG7Debug
 ```
+
+APK paths, QA scripts, and troubleshooting: [dev/setup.md](docs/dev/setup.md).
 
 ## Troubleshooting
 
 | Symptom | Action |
 |---------|--------|
-| Gradle IDE sync fails but terminal works | Check JBR path in `gradle.properties`; see [dev.md](docs/dev.md) |
-| Watch value frozen | Force sync from phone; see [user.md](docs/user.md) |
-| Complication shows old value | Remove and re-add complication on watch face |
-| Watch was offline | Data catches up on reconnect; keep phone app running |
+| Gradle IDE sync fails but terminal works | [dev/setup.md](docs/dev/setup.md) — Environment troubleshooting |
+| Watch value frozen, sync issues | [guide/user.md](docs/guide/user.md) — Troubleshooting |
 
 ## Documentation
 
-**[docs/index.md](docs/index.md)** · Design : [toxy-ux-kit/](toxy-ux-kit/README.md)
+**[docs/index.md](docs/index.md)** · Design: [toxy-ux-kit/](toxy-ux-kit/README.md)
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). Every sync-related PR must include a manual phone↔watch test note.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Sync-related PRs: use [plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md).
 
 ## Security
 
@@ -107,7 +73,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Every sync-related PR must include a man
 
 ## Medical disclaimer
 
-Glucose For Watch is **not** a certified medical device. Displayed data is informational only. All treatment decisions must be confirmed using an official Dexcom solution. See [medical disclaimer](docs/legal/medical-disclaimer.md).
+Glucose For Watch is **not** a certified medical device. See [medical disclaimer](docs/legal/medical-disclaimer.md).
 
 ## License
 

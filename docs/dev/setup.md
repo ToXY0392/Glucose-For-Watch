@@ -82,7 +82,7 @@ Before merging any PR that touches sync or phone lifecycle:
 
 After a crash: `.\scripts\qa\capture-crash-log.ps1`
 
-Criteria: [docs/plan/STABILITY-GATES.md](plan/STABILITY-GATES.md) · progress: [docs/plan/PROGRESS.md](plan/PROGRESS.md)
+Criteria: [STABILITY-GATES.md](../plan/STABILITY-GATES.md) · progress: [PROGRESS.md](../plan/PROGRESS.md)
 
 ### UI preview export (Bloc M)
 
@@ -178,6 +178,7 @@ Widget G7/
 ## Next steps
 
 - [architecture.md](architecture.md) — sync flow and Data Layer contract
-- [dexcom.md](dexcom.md) — G6/G7 compatibility
-- [toxy-ux-kit/](../toxy-ux-kit/README.md) — AGP colors and UI specs
-- [CONTRIBUTING.md](../CONTRIBUTING.md)
+- [dexcom.md](../guide/dexcom.md) — G6/G7 compatibility
+- [user.md](../guide/user.md) — end-user sideload guide
+- [toxy-ux-kit/](../../toxy-ux-kit/README.md) — AGP colors and UI specs
+- [CONTRIBUTING.md](../../CONTRIBUTING.md)

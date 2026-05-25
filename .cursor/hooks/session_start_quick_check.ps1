@@ -54,7 +54,7 @@ if (-not $shouldRun) {
 
 $trackedFiles = @(
     "README.md",
-    "docs/dev.md",
+    "docs/dev/setup.md",
     "CHANGELOG.md"
 )
 

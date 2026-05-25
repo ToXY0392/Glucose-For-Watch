@@ -115,7 +115,7 @@ Livrable : `docs/qa/YYYY-MM-DD-stability-signoff.md` + captures + extrait logcat
 | 1 | G-C ✅ (dont C.7 soak) |
 | 2 | Tests `DexcomShareClient` verts |
 | 3 | `install-and-verify.ps1` + checks push/ack auto |
-| 4 | `stability-gate.ps1` documenté dans dev.md |
+| 4 | `stability-gate.ps1` documenté dans dev/setup.md |
 
 ---
 

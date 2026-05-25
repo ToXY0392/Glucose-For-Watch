@@ -101,7 +101,7 @@ See [CHANGELOG.md](CHANGELOG.md). Kit version is **independent** from app `versi
 ## Related app documentation
 
 - [docs/index.md](../docs/index.md)
-- [docs/architecture.md](../docs/architecture.md)
+- [docs/dev/architecture.md](../docs/dev/architecture.md)
 
 ---
 

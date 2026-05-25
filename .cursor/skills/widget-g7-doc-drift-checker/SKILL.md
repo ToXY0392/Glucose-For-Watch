@@ -12,8 +12,8 @@ Maintenir la documentation du projet alignee avec les recommandations fournisseu
 ## Portee
 - `README.md`
 - `docs/index.md`
-- `docs/dev.md`
-- `docs/architecture.md`
+- `docs/dev/setup.md`
+- `docs/dev/architecture.md`
 - `CHANGELOG.md`
 
 ## Workflow
@@ -35,4 +35,4 @@ Maintenir la documentation du projet alignee avec les recommandations fournisseu
 ## Regles
 - Ne pas inventer de version ni de recommandation.
 - Ne modifier que la documentation dans cette skill.
-- Respecter les contraintes du projet Windows/WSL decrites dans `docs/dev.md`.
+- Respecter les contraintes du projet Windows/WSL decrites dans `docs/dev/setup.md`.

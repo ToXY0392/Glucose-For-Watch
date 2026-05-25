@@ -2,7 +2,9 @@
 
 Glucose For Watch syncs Dexcom Share glucose from a phone to a Wear OS companion via the Wear Data Layer.
 
-![Sync architecture](assets/widget-g7-architecture.png)
+![Sync architecture](../assets/widget-g7-architecture.png)
+
+> Source (editable): [widget-g7-architecture.svg](../assets/widget-g7-architecture.svg) — regenerate PNG: `.\scripts\assets\export-architecture-diagram.ps1`
 
 ## Modules
 
@@ -106,7 +108,7 @@ Source: `core/datalayer-contract/.../GlucoseDataLayerContract.kt`
 | Medical (glucose values) | AGP / TIR colors | Tile, complication, phone hero |
 | Chrome | ToXY kit (Material 3 dark) | Backgrounds, buttons, navigation |
 
-Spec: [toxy-ux-kit/spec/01-agp-medical-layer.md](../toxy-ux-kit/spec/01-agp-medical-layer.md)
+Spec: [toxy-ux-kit/spec/01-agp-medical-layer.md](../../toxy-ux-kit/spec/01-agp-medical-layer.md)
 
 ## Design decisions
 

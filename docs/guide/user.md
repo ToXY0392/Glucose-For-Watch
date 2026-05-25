@@ -86,4 +86,4 @@ Verify Share is enabled in the official Dexcom app, confirm US vs OUS server, up
 
 Report issues with phone/watch model and steps to reproduce. **Do not include real glucose values or credentials.**
 
-- [Medical disclaimer](legal/medical-disclaimer.md)
+- [Medical disclaimer](../legal/medical-disclaimer.md)

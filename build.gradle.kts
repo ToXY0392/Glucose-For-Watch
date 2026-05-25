@@ -1,7 +1,7 @@
 ﻿import java.io.File
 import java.util.Properties
 
-// Arborescence modules + paquets : docs/structure-repository.md
+// Modules + packages: docs/dev/architecture.md (Modules), docs/dev/setup.md (Project layout)
 
 plugins {
     id("com.android.application") version "9.2.1" apply false

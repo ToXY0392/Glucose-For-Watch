@@ -23,11 +23,11 @@ try {
 
     $checks += @{
         Name = "widget-g7-compat-matrix-maintainer"
-        Target = "docs/dev.md"
+        Target = "docs/dev/setup.md"
     }
     $checks += @{
         Name = "widget-g7-doc-drift-checker"
-        Target = "docs/dev.md"
+        Target = "docs/dev/setup.md"
     }
     $checks += @{
         Name = "widget-g7-release-notes-curator"

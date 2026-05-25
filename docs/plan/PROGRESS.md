@@ -2,8 +2,7 @@
 
 > **Dernière MAJ :** 2026-05-25  
 > **Distribution :** PC uniquement (`installWidgetG7Debug`) — pas de Play Store  
-> **Docs plan :** [ACTION-PLAN.md](ACTION-PLAN.md) (opérationnel) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)  
-> **Canvas :** `canvases/widget-g7-plan-sideload.canvas.tsx`
+> **Docs plan :** [ACTION-PLAN.md](ACTION-PLAN.md) (opérationnel) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
 ---
 
@@ -86,7 +85,7 @@ S  Stabilité (transverse, chaque PR)
 | S.2 | stability-gate.ps1 | 🔄 |
 | S.3 | stability-signoff-template | 🔄 |
 | S.4 | Test FGS fallback (X.7) | ✅ |
-| S.5 | Gate dans dev.md / CONTRIBUTING | ✅ |
+| S.5 | Gate dans dev/setup.md / CONTRIBUTING | ✅ |
 | S.6 | PR-CHECKLIST.md | 🔄 |
 | S.7 | hardware-smoke : FAIL si push≠ack (pas WARN) | ✅ |
 | S.8 | ACTION-PLAN.md (calendrier + risques) | 🔄 |
@@ -139,7 +138,7 @@ S  Stabilité (transverse, chaque PR)
 | M.2 | Parité hero ↔ tuile (temps, stale) | ✅ | 4h |
 | M.3 | 6 états preview exportables | ✅ | 3h |
 | M.4 | design-reference companion | ☐ | 2h |
-| M.5 | Doc previews dev.md | ✅ | dev.md |
+| M.5 | Doc previews dev/setup.md | ✅ | dev/setup.md |
 
 **DoD G-M :** G-A ✅ + previews + smoke S1–S3 · peut merger **avant** B si B pas prêt
 
@@ -186,10 +185,10 @@ S  Stabilité (transverse, chaque PR)
 | D.1 | Tests DexcomShareClient (5+ cas) | ✅ | 6h |
 | D.2 | Cleanup code mort home | ✅ | 2h |
 | D.3 | install-and-verify push/ack auto | ✅ | 4h |
-| D.4 | Doc install PC unique | ✅ | dev.md |
+| D.4 | Doc install PC unique | ✅ | dev/setup.md |
 | D.5 | Plan docs index | 🔄 | — |
 | D.6 | capture-crash-log.ps1 | 🔄 | 1h |
-| D.7 | stability-gate dans dev.md | ✅ | dev.md |
+| D.7 | stability-gate dans dev/setup.md | ✅ | dev/setup.md |
 
 **Tag v0.5.0 :** [G-M7 checklist](STABILITY-GATES.md#g-m7--tag-v050)
 

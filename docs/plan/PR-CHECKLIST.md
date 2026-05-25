@@ -53,7 +53,7 @@ Copier/coller dans la description de chaque PR.
 ## Après merge
 
 - [ ] Mettre à jour [PROGRESS.md](PROGRESS.md) statuts
-- [ ] Gate scoreboard [ACTION-PLAN.md](ACTION-PLAN.md#scoreboard)
+- [ ] Gate scoreboard [PROGRESS.md](PROGRESS.md#scoreboard-maj-hebdo)
 - [ ] Incident ? → `docs/qa/incidents/YYYY-MM-DD-*.md`
 
 ---

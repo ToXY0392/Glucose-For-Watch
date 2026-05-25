@@ -137,7 +137,7 @@ G-C ──► D tests ──► G-D ──► G-M7 (v0.5.0)
 | B.1 | `ComplicationUpdateNotifier.notifyReadingChanged` on cache write | Tuile = complication < 45s | 4h |
 | B.2 | Ligne erreur sync home OU statut ack explicite | User voit erreur Dexcom/montre | 3h |
 | B.5 | `strings.xml` wear tile sync FR | Plus de "Sync" EN | 30m |
-| B.3 | Documenter scheduler unique (FGS vs alarm) | architecture.md | 2h |
+| B.3 | Documenter scheduler unique (FGS vs alarm) | dev/architecture.md | 2h |
 | B.4 | `WatchSyncVerifier` via engine | Test sync attend ack ou timeout | 4h |
 
 ### Bloc C — QA (PR #12 doc)
@@ -217,7 +217,7 @@ G-C ──► D tests ──► G-D ──► G-M7 (v0.5.0)
 | R4 | Soak C.7 flake | M | Bloque M7 | Re-run 2 nuits · logcat | C |
 | R5 | Compose F3 casse sync | M | Critique | F3 gate 4h soak · revert | F |
 | R6 | QA hardware indispo | M | Retarde C | smoke strict · repro partiel | C |
-| R7 | Double Gradle WSL+Studio | M | Corrupt build | 1 sync à la fois · dev.md | S |
+| R7 | Double Gradle WSL+Studio | M | Corrupt build | 1 sync à la fois · dev/setup.md | S |
 | R8 | Batterie montre <20% crash phone | F | Moyen | C.8 | C |
 
 ---

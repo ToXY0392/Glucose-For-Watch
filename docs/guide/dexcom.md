@@ -35,4 +35,4 @@ Default application ID: `d89443d2-327c-4a6f-89e5-496bbb0317db`
 
 ## Medical note
 
-Not a certified medical device. Confirm readings with official Dexcom apps and your healthcare provider. See [medical disclaimer](legal/medical-disclaimer.md).
+Not a certified medical device. Confirm readings with official Dexcom apps and your healthcare provider. See [medical disclaimer](../legal/medical-disclaimer.md).

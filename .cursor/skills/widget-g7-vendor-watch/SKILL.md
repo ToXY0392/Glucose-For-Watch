@@ -19,7 +19,7 @@ Faire une veille fournisseur actionnable pour le repo Widget G7.
 
 ## Entrées repo à lire
 - `README.md`
-- `docs/dev.md`
+- `docs/dev/setup.md`
 - `build.gradle.kts`
 - `gradle/wrapper/gradle-wrapper.properties`
 

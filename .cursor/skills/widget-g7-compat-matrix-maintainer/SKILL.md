@@ -1,6 +1,6 @@
 ---
 name: widget-g7-compat-matrix-maintainer
-description: Maintient la matrice de compatibilite Android Studio, JDK, AGP, Gradle, Kotlin et Wear OS pour Widget G7, puis signale les combinaisons a risque et met a jour docs/dev.md.
+description: Maintient la matrice de compatibilite Android Studio, JDK, AGP, Gradle, Kotlin et Wear OS pour Widget G7, puis signale les combinaisons a risque et met a jour docs/dev/setup.md.
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ disable-model-invocation: true
 Garder une matrice de compatibilite fiable pour le build et le developpement.
 
 ## Entrees
-- `docs/dev.md`
+- `docs/dev/setup.md`
 - `README.md`
 - `build.gradle.kts`
 - `gradle/wrapper/gradle-wrapper.properties`
@@ -23,7 +23,7 @@ Garder une matrice de compatibilite fiable pour le build et le developpement.
    - `Risque`
    - `Non supporte`
 4. Ajouter une recommandation claire pour chaque statut `Risque`.
-5. Mettre a jour `docs/dev.md` si edition autorisee.
+5. Mettre a jour `docs/dev/setup.md` si edition autorisee.
 
 ## Sortie attendue
 - **Matrice a jour**
