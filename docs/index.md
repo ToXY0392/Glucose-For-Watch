@@ -23,7 +23,9 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [plan/PROGRESS.md](plan/PROGRESS.md) | Block status and scoreboard |
 | [plan/STABILITY-GATES.md](plan/STABILITY-GATES.md) | Blocking release criteria |
 | [plan/PR-CHECKLIST.md](plan/PR-CHECKLIST.md) | Copy-paste PR checklist |
+| [../AGENTS.md](../AGENTS.md) | Cursor agent guide · GitHub workflow skills |
 | [plan/GITHUB-SETUP.md](plan/GITHUB-SETUP.md) | GitHub repo + Project configuration plan |
+| [plan/GITHUB-IMPORT-ISSUES.md](plan/GITHUB-IMPORT-ISSUES.md) | P0 issues + labels import checklist |
 
 ## Design
 

@@ -8,7 +8,7 @@ Glucose For Watch is distributed via sideload (debug APK). Security fixes apply 
 
 **Do not** open public issues for security-sensitive reports.
 
-Prefer [GitHub Security Advisories](https://github.com/ToXY0392/glucose-for-watch/security/advisories/new) (private) or contact the maintainer directly.
+Prefer [GitHub Security Advisories](https://github.com/ToXY0392/Glucose-For-Watch/security/advisories/new) (private) or contact the maintainer directly.
 
 ## What to include
 

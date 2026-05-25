@@ -48,5 +48,5 @@ Use template `.github/ISSUE_TEMPLATE/bloc_task.md`:
 
 ## Repo naming
 
-- GitHub: `ToXY0392/glucose-for-watch`
+- GitHub: `ToXY0392/Glucose-For-Watch`
 - Local folder: **`Widget G7`** (unchanged)
