@@ -12,6 +12,7 @@ Keep project documentation aligned with vendor recommendations.
 ## Scope
 - `README.md`
 - `docs/index.md`
+- `docs/plan/DOC-BACKLOG.md`
 - `docs/dev/setup.md`
 - `docs/dev/architecture.md`
 - `CHANGELOG.md`

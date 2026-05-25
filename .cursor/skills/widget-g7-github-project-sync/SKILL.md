@@ -25,11 +25,12 @@ disable-model-invocation: true
 
 ## Weekly ritual (Monday, 15 min)
 
-1. Read PROGRESS scoreboard — update gate statuses and KPI dates.
-2. Open Project view **Gates & KPI** — align card status with PROGRESS.
-3. Pick **1 bloc** + **1 gate** for the week.
-4. Move ready issues to **Ready**; active work to **In Progress**.
-5. `adb devices -l` — confirm phone + watch if hardware week.
+1. Run `@widget-g7-doc-backlog-sync` (or `.\scripts\dev\sync_doc_backlog.ps1`).
+2. Read PROGRESS scoreboard — update gate statuses and KPI dates.
+3. Open Project view **Gates & KPI** — align card status with PROGRESS.
+4. Pick **1 bloc** + **1 gate** for the week.
+5. Move ready issues to **Ready**; active work to **In Progress**.
+6. `adb devices -l` — confirm phone + watch if hardware week.
 
 ## New issue checklist
 

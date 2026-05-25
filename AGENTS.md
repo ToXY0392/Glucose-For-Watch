@@ -7,6 +7,7 @@ Entry point for Cursor agents working on this repository.
 | Doc | Path |
 |-----|------|
 | Hub | [docs/index.md](docs/index.md) |
+| Doc backlog | [docs/plan/DOC-BACKLOG.md](docs/plan/DOC-BACKLOG.md) |
 | GitHub setup | [docs/plan/GITHUB-SETUP.md](docs/plan/GITHUB-SETUP.md) |
 | PR checklist | [docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md) |
 | Progress / gates | [docs/plan/PROGRESS.md](docs/plan/PROGRESS.md) |
@@ -36,6 +37,7 @@ Entry point for Cursor agents working on this repository.
 | Draft complete documented PR | `widget-g7-pr-author` |
 | Before merge PR | `widget-g7-pr-gatekeeper` |
 | Git / secrets hygiene | `widget-g7-repo-hygiene` |
+| Sync DOC-BACKLOG + QA evidence | `widget-g7-doc-backlog-sync` |
 | Project + PROGRESS sync | `widget-g7-github-project-sync` |
 | Dependabot PRs | `widget-g7-dependabot-triage` + `widget-g7-dependency-advisor` |
 | Sync debugging | `widget-g7-sync-health-reviewer` |

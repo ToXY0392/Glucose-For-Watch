@@ -15,7 +15,7 @@
 | **design-reference** | Static mockups | `toxy-ux-kit/design-reference/` |
 | **CI verify_ci** | Unit + compile | `.github/workflows/ci.yml` |
 | **Dependabot** | Gradle + Actions | `.github/dependabot.yml` |
-| **Cursor skills** | doc-drift, pr-gatekeeper, pr-author, … | `.cursor/skills/` |
+| **Cursor skills** | doc-drift, doc-backlog-sync, pr-gatekeeper, pr-author, … | `.cursor/skills/` |
 
 **Storybook** = web ecosystem (React). Relevant equivalent here:
 
@@ -65,7 +65,8 @@ From [PROGRESS.md](PROGRESS.md):
 
 | Day | Action | Tool |
 |-----|--------|------|
-| Monday | PROGRESS scoreboard + Project | skill `widget-g7-github-project-sync` |
+| Monday | DOC-BACKLOG + PROGRESS scoreboard | skill `widget-g7-doc-backlog-sync` |
+| Monday | GitHub Project columns | skill `widget-g7-github-project-sync` |
 | Monday | Doc drift check | skill `widget-g7-doc-drift-checker` |
 | Each UI PR | export-app-preview | AUTO-1 (CI) |
 | Post-merge doc | Link check | AUTO-4 |
@@ -75,6 +76,9 @@ From [PROGRESS.md](PROGRESS.md):
 ## Scripts
 
 ```powershell
+# Doc backlog signals
+.\scripts\dev\sync_doc_backlog.ps1
+
 # Update Project #1 columns
 .\scripts\dev\update_github_project_board.ps1
 
