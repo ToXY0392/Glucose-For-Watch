@@ -15,7 +15,7 @@
 | **design-reference** | Maquettes statiques | `toxy-ux-kit/design-reference/` |
 | **CI verify_ci** | Unit + compile | `.github/workflows/ci.yml` |
 | **Dependabot** | Gradle + Actions | `.github/dependabot.yml` |
-| **Skills Cursor** | doc-drift, pr-gatekeeper, … | `.cursor/skills/` |
+| **Skills Cursor** | doc-drift, pr-gatekeeper, pr-author, … | `.cursor/skills/` |
 
 **Storybook** = écosystème web (React). Ici l’équivalent pertinent :
 
@@ -41,6 +41,7 @@ Créées via `scripts/dev/create_automation_issues.ps1` :
 | AUTO-6 | Paparazzi wear tile (optionnel) | v0.6 | 2j |
 | AUTO-7 | Project workflow PR → In Review | v0.5 | 1h |
 | AUTO-8 | Architecture diagram export CI | v0.5 | 2h |
+| AUTO-9 | PR author skill + CONTRIBUTING integration ([#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21)) | v0.5 | 2h · skill ✅ |
 
 ---
 
