@@ -27,6 +27,7 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [plan/GITHUB-SETUP.md](plan/GITHUB-SETUP.md) | GitHub repo + Project configuration plan |
 | [plan/GITHUB-IMPORT-ISSUES.md](plan/GITHUB-IMPORT-ISSUES.md) | P0 issues + labels import checklist |
 | [plan/GITHUB-PROJECT-UI-GUIDE.md](plan/GITHUB-PROJECT-UI-GUIDE.md) | Project board setup (UI step-by-step) |
+| [plan/AUTOMATION-BACKLOG.md](plan/AUTOMATION-BACKLOG.md) | Doc/CI automation backlog (Showkase, previews) |
 
 ## Design
 
