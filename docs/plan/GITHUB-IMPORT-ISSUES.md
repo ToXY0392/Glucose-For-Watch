@@ -1,7 +1,29 @@
-# Import issues P0 — Glucose For Watch
+> **Statut 2026-05-26 :** issues #1-#12 creees · labels + milestones OK · Project UI manuel (scope `project` requis sur le token).
 
-> Créer via **Issues → New issue → Bloc task (plan)** ou `gh issue create` après rename repo.  
-> Repo: `ToXY0392/Glucose-For-Watch` · Milestone: **v0.5.0 — Stable sideload**
+## Issues creees
+
+| # | Title |
+|---|-------|
+| [#1](https://github.com/ToXY0392/Glucose-For-Watch/issues/1) | [bloc-x] X.3 - Repro soak FGS |
+| [#2](https://github.com/ToXY0392/Glucose-For-Watch/issues/2) | [bloc-x] X.7 - Test Robolectric FGS |
+| [#3](https://github.com/ToXY0392/Glucose-For-Watch/issues/3) | [bloc-c] C.7 - Soak nuit 8h |
+| [#4](https://github.com/ToXY0392/Glucose-For-Watch/issues/4) | [incident] FGS crash 2026-05-25 |
+| [#5-#12](https://github.com/ToXY0392/Glucose-For-Watch/issues) | P1/P2 blocs A, M, B, C, D |
+
+## GitHub Project (2 min UI)
+
+Le token git actuel n'a pas le scope **`project`**. Creer le board manuellement :
+
+1. https://github.com/ToXY0392/Glucose-For-Watch → **Projects** → **New project**
+2. Nom : `Glucose For Watch v0.5 to v0.6`
+3. Template **Board** · colonnes : Backlog → Ready → In Progress → In Review → QA Hardware → Gate Ready → Done
+4. **Add items** → selectionner issues #1-#12
+
+Ou apres avoir ajoute le scope `project` au token : `powershell scripts/dev/bootstrap_github.ps1` (section Project).
+
+---
+
+## Import original (reference)
 
 ## P0 — Bloquants
 
