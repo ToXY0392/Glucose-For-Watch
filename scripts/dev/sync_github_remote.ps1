@@ -5,7 +5,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-Set-Location $PSScriptRoot\..\..\..
+Set-Location (Join-Path $PSScriptRoot "..\..")
 
 $url = "https://github.com/$Repo.git"
 Write-Host "Setting origin to $url"
