@@ -19,13 +19,13 @@ _None_
 ## Manual still required
 
 - [ ] C.0 tap sync button x10 on phone (manual, complements warm start)
-- [ ] C.1 AGP couleurs 60/120/200 mg/dL (visuel phone + watch)
-- [ ] C.2 Complication vs tuile (meme valeur, lag <= 45s)
-- [ ] C.3 Offline montre 2h puis rattrapage
-- [ ] C.4 LOW / HI affichage
-- [ ] C.6 Reinstall APK + re-ajout tuile
-- [ ] C.7 Soak nuit 8h charge ecran off
-- [ ] C.8 Batterie montre <= 20% apres session
+- [ ] C.1 AGP colors 60/120/200 mg/dL (visual phone + watch)
+- [ ] C.2 Complication vs tile (same value, lag <= 45s)
+- [ ] C.3 Offline watch 2h then catch-up
+- [ ] C.4 LOW / HI display
+- [ ] C.6 Reinstall APK + re-add tile
+- [ ] C.7 8h overnight soak charging screen off
+- [ ] C.8 Watch battery <= 20% after session
 
 ## Smoke output
 

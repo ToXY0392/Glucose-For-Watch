@@ -7,8 +7,8 @@
 | Field | Value |
 |-------|-------|
 | **Bloc** | S / X / A / M / B / C / D / F0–F5 |
-| **Gate cible** | G-X / G-A / … / G-M7 / G-M8 |
-| **Touch sync ?** | oui / non |
+| **Target gate** | G-X / G-A / … / G-M7 / G-M8 |
+| **Touches sync?** | yes / no |
 | **Branch** | `type/bloc-id-slug` → `integrate` |
 
 > Full checklist: [docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)

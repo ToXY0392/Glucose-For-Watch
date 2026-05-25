@@ -1,15 +1,15 @@
 ---
 name: widget-g7-vendor-watch
-description: Scrute les mises à jour Android, Wear OS, AGP, Gradle, Kotlin et Dexcom, puis classe l'impact réel pour Widget G7 en actions immédiates, planifiées ou ignorées.
+description: Scans Android, Wear OS, AGP, Gradle, Kotlin, and Dexcom updates, then classifies real impact for Widget G7 into immediate, planned, or ignored actions.
 disable-model-invocation: true
 ---
 
 # Widget G7 Vendor Watch
 
-## Objectif
-Faire une veille fournisseur actionnable pour le repo Widget G7.
+## Objective
+Provide actionable vendor monitoring for the Widget G7 repo.
 
-## Sources à surveiller
+## Sources to monitor
 - Android Developers (Android + Jetpack)
 - Wear OS documentation
 - Android Gradle Plugin release notes
@@ -17,33 +17,33 @@ Faire une veille fournisseur actionnable pour le repo Widget G7.
 - Kotlin release notes
 - Dexcom Share documentation
 
-## Entrées repo à lire
+## Repo inputs to read
 - `README.md`
 - `docs/dev/setup.md`
 - `build.gradle.kts`
 - `gradle/wrapper/gradle-wrapper.properties`
 
 ## Workflow
-1. Relever les versions et hypothèses actuelles du repo.
-2. Collecter les nouveautés fournisseur depuis le dernier run (mode delta).
-3. Identifier uniquement les impacts réels sur Widget G7 :
+1. Record current repo versions and assumptions.
+2. Collect vendor updates since the last run (delta mode).
+3. Identify only real impacts on Widget G7:
    - breaking changes
-   - dépréciations
-   - min SDK / compatibilité outillage
-   - changements de comportement API
-4. Produire un bulletin trié en :
-   - `A faire maintenant`
-   - `A planifier`
-   - `A ignorer`
+   - deprecations
+   - min SDK / tooling compatibility
+   - API behavior changes
+4. Produce a sorted bulletin with:
+   - `Do now`
+   - `Plan`
+   - `Ignore`
 
-## Format de sortie
-- **Resume executif** (3-5 lignes)
-- **A faire maintenant** (impact + action + urgence)
-- **A planifier** (fenetre recommandee)
-- **A ignorer** (raison explicite)
-- **Sources consultees** (liens)
+## Output format
+- **Executive summary** (3-5 lines)
+- **Do now** (impact + action + urgency)
+- **Plan** (recommended window)
+- **Ignore** (explicit reason)
+- **Sources consulted** (links)
 
-## Regles
-- Ne pas lister des updates sans impact concret sur le repo.
-- Citer une source pour chaque point important.
-- Privilegier des actions minimales et reversibles.
+## Rules
+- Do not list updates without concrete impact on the repo.
+- Cite a source for each important point.
+- Prefer minimal, reversible actions.

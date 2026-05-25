@@ -1,66 +1,66 @@
-# Checklist PR — Glucose For Watch
+# PR checklist — Glucose For Watch
 
-Copier/coller dans la description de chaque PR.
-
----
-
-## Métadonnées
-
-- **Bloc :** X / A / M / B / C / D / F0–F5 / S
-- **PR # :**
-- **Gate cible :** G-X / G-A / … / G-M7 / G-M8
-- **Touch sync ?** oui / non  
-  _(oui si `mobile/sync`, `wear/`, `feature/sync`, `ActiveGlucoseSyncService`)_
+Copy/paste into every PR description.
 
 ---
 
-## Avant merge
+## Metadata
 
-### Automatisé
+- **Bloc:** X / A / M / B / C / D / F0–F5 / S
+- **PR #:**
+- **Target gate:** G-X / G-A / … / G-M7 / G-M8
+- **Touches sync?** yes / no  
+  _(yes if `mobile/sync`, `wear/`, `feature/sync`, `ActiveGlucoseSyncService`)_
+
+---
+
+## Before merge
+
+### Automated
 
 - [ ] `bash scripts/dev/verify_ci.sh` — **PASS**
-- [ ] `.\scripts\qa\stability-gate.ps1` — **PASS** (ou `-Strict` si hardware)
-- [ ] `./gradlew test` — vert sur modules touchés
+- [ ] `.\scripts\qa\stability-gate.ps1` — **PASS** (or `-Strict` if hardware)
+- [ ] `./gradlew test` — green on touched modules
 
-### Hardware (si touch mobile/wear ou gate bloc)
+### Hardware (if mobile/wear touched or bloc gate)
 
 - [ ] `.\gradlew.bat installWidgetG7Debug` — OK phone + watch
-- [ ] `.\scripts\qa\hardware-smoke.ps1` — pas de FAIL critique
-- [ ] Push seq / Ack seq notés : _____ / _____
-- [ ] 0 nouveau `FATAL` logcat `com.widgetg7.mobile`
+- [ ] `.\scripts\qa\hardware-smoke.ps1` — no critical FAIL
+- [ ] Push seq / Ack seq noted: _____ / _____
+- [ ] 0 new `FATAL` logcat `com.widgetg7.mobile`
 
-### Qualité code
+### Code quality
 
-- [ ] Scope limité au bloc (pas de refactor gratuit)
-- [ ] Pas de credentials · pas de glucose réel dans commits/captures
-- [ ] Strings user-facing dans `strings.xml` (si UI)
-- [ ] LF cohérent · pas de gros diff unrelated
+- [ ] Scope limited to bloc (no gratuitous refactor)
+- [ ] No credentials · no real glucose in commits/screenshots
+- [ ] User-facing strings in `strings.xml` (if UI)
+- [ ] Consistent LF · no large unrelated diff
 
 ---
 
-## Gate bloc (cocher si applicable)
+## Gate bloc (check if applicable)
 
-- [ ] **G-X** — X.5–X.7 · 30 min sans crash
-- [ ] **G-A** — déconnexion entry=settings · notifs · sync feedback
-- [ ] **G-M** — 6 previews · parité hero/tuile · smoke S1–S3
-- [ ] **G-B** — complication 30 min · tuile FR
-- [ ] **G-C** — sign-off stability doc
+- [ ] **G-X** — X.5–X.7 · 30 min no crash
+- [ ] **G-A** — disconnect entry=settings · notifications · sync feedback
+- [ ] **G-M** — 6 previews · hero/tile parity · smoke S1–S3
+- [ ] **G-B** — complication 30 min · tile FR
+- [ ] **G-C** — stability sign-off doc
 - [ ] **G-D** — Dexcom tests · install script
-- [ ] **G-F*** — phase Compose · sync non régressive
+- [ ] **G-F*** — Compose phase · sync non-regressive
 
 ---
 
-## Après merge
+## After merge
 
-- [ ] Mettre à jour [PROGRESS.md](PROGRESS.md) statuts
-- [ ] Gate scoreboard [PROGRESS.md](PROGRESS.md#scoreboard-maj-hebdo)
-- [ ] Incident ? → `docs/qa/incidents/YYYY-MM-DD-*.md`
+- [ ] Update [PROGRESS.md](PROGRESS.md) statuses
+- [ ] Gate scoreboard [PROGRESS.md](PROGRESS.md#scoreboard-weekly-update)
+- [ ] Incident? → `docs/qa/incidents/YYYY-MM-DD-*.md`
 
 ---
 
-## Rollback (si problème post-merge)
+## Rollback (if post-merge issue)
 
 1. `git revert <commit>`
 2. `installWidgetG7Debug`
 3. `stability-gate.ps1 -Strict`
-4. Fiche incident + retest **G-X** minimum si sync
+4. Incident report + retest minimum **G-X** if sync

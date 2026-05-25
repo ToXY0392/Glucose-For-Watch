@@ -1,181 +1,181 @@
-# Gates de stabilité — Glucose For Watch
+# Stability gates — Glucose For Watch
 
-> **Rôle :** critères **bloquants** entre chaque bloc du [plan PROGRESS.md](PROGRESS.md).  
-> **Règle :** aucun tag (`v0.5.0`, `v0.6.0`) sans **Go** signé sur la gate correspondante.
-
----
-
-## KPI stabilité (Definition of Stable)
-
-| KPI | Seuil v0.5.0 | Mesure |
-|-----|--------------|--------|
-| **K1 Crash fatal phone** | 0 sur scénarios obligatoires | `adb logcat AndroidRuntime:E` · pas de « a cessé de fonctionner » |
-| **K2 Soak nuit** | 8 h phone en charge, écran off, Dexcom ON | Logcat + hero glucose le matin |
-| **K3 Sync 30 min** | push/ack seq alignés · drift phone/watch ≤ 1 lecture | `hardware-smoke.ps1` + observation |
-| **K4 Sync S1–S3** | ✅ après chaque PR touchant `mobile/sync/` ou `wear/` | Session hardware ou smoke enrichi |
-| **K5 Tests unitaires** | 100 % verts | `./gradlew test` + `verify_ci.sh` |
-| **K6 QA matrice G7** | 7/7 + session 0 crash | [Bloc C](PROGRESS.md#bloc-c--qa-hardware-stabilité) |
-| **K7 Déconnexion Dexcom** | sync stoppée · prefs cohérentes · pas de FGS fantôme | Test manuel post A.2 |
-| **K8 Compose (v0.6)** | sync inchangée après chaque phase F | Smoke S1–S3 sans régression |
+> **Role:** **blocking** criteria between each block in the [PROGRESS.md plan](PROGRESS.md).  
+> **Rule:** no tag (`v0.5.0`, `v0.6.0`) without a signed **Go** on the corresponding gate.
 
 ---
 
-## Pyramide de tests
+## Stability KPIs (Definition of Stable)
+
+| KPI | v0.5.0 threshold | Measurement |
+|-----|------------------|-------------|
+| **K1 Fatal phone crash** | 0 on mandatory scenarios | `adb logcat AndroidRuntime:E` · no "has stopped" |
+| **K2 Overnight soak** | 8 h phone charging, screen off, Dexcom ON | Logcat + morning glucose hero |
+| **K3 30 min sync** | push/ack seq aligned · phone/watch drift ≤ 1 reading | `hardware-smoke.ps1` + observation |
+| **K4 Sync S1–S3** | ✅ after each PR touching `mobile/sync/` or `wear/` | Hardware session or enriched smoke |
+| **K5 Unit tests** | 100 % green | `./gradlew test` + `verify_ci.sh` |
+| **K6 QA G7 matrix** | 7/7 + session 0 crash | [Block C](PROGRESS.md#block-c--hardware-qa--pr-12--gate-g-c-) |
+| **K7 Dexcom disconnect** | sync stopped · prefs consistent · no ghost FGS | Manual test post A.2 |
+| **K8 Compose (v0.6)** | sync unchanged after each F phase | Smoke S1–S3 without regression |
+
+---
+
+## Test pyramid
 
 ```
                     ┌─────────────────────┐
                     │  Soak 8h + QA 7/7   │  ← tag v0.5.0 (M7)
                     └──────────┬──────────┘
                ┌───────────────┴───────────────┐
-               │  Hardware sessions C.0–C.3    │  ← hebdo / par bloc
+               │  Hardware sessions C.0–C.3    │  ← weekly / per block
                └───────────────┬───────────────┘
           ┌────────────────────┴────────────────────┐
-          │  stability-gate.ps1 (smoke + logcat)      │  ← chaque PR
+          │  stability-gate.ps1 (smoke + logcat)      │  ← each PR
           └────────────────────┬────────────────────┘
      ┌─────────────────────────┴─────────────────────────┐
-     │  verify_ci.sh (unit + compile)                     │  ← chaque commit
+     │  verify_ci.sh (unit + compile)                     │  ← each commit
      └─────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## Gate de sortie par bloc
+## Exit gate per block
 
-### G-X — après PR #8 (Bloc X)
+### G-X — after PR #8 (Block X)
 
-| # | Critère | Commande / procédure |
-|---|---------|----------------------|
-| 1 | Test unitaire : FGS refusé → pas de crash, fallback Worker | `:mobile:test` (test à ajouter X.7) |
-| 2 | Repro soak : 8 h charge + écran off OU repro quota FGS artificiel | X.3 |
+| # | Criterion | Command / procedure |
+|---|-----------|---------------------|
+| 1 | Unit test: FGS denied → no crash, Worker fallback | `:mobile:test` (test to add X.7) |
+| 2 | Soak repro: 8 h charge + screen off OR artificial FGS quota repro | X.3 |
 | 3 | 0 `FATAL EXCEPTION` logcat post-soak | `stability-gate.ps1 -CheckLogcat` |
-| 4 | Sync manuelle + auto OK le lendemain | hero + tuile |
+| 4 | Manual + auto sync OK next morning | hero + tile |
 
-**Bloquant M7 si un seul ☐**
-
----
-
-### G-A — après PR #9 (Bloc A)
-
-| # | Critère |
-|---|---------|
-| 1 | G-X toujours ✅ |
-| 2 | Notif permission : accord/refus géré sans crash |
-| 3 | Déconnexion entry **et** settings : sync off, `PhoneSyncStateStore` vide |
-| 4 | Sync manuelle : Snackbar succès **ou** erreur (jamais faux succès) |
-| 5 | `verify_ci.sh` vert |
+**Blocks M7 if any single ☐**
 
 ---
 
-### G-M — après PR #10 (Bloc M)
+### G-A — after PR #9 (Block A)
 
-| # | Critère |
-|---|---------|
+| # | Criterion |
+|---|-----------|
+| 1 | G-X still ✅ |
+| 2 | Notification permission: grant/deny handled without crash |
+| 3 | Entry **and** settings disconnect: sync off, `PhoneSyncStateStore` empty |
+| 4 | Manual sync: Snackbar success **or** error (never false success) |
+| 5 | `verify_ci.sh` green |
+
+---
+
+### G-M — after PR #10 (Block M)
+
+| # | Criterion |
+|---|-----------|
 | 1 | G-A ✅ |
-| 2 | 6 états preview exportables |
-| 3 | Parité hero/tuile sur 1 session visuelle (120 mg/dL min.) |
-| 4 | Pas de régression sync (smoke S1–S3) |
+| 2 | 6 exportable preview states |
+| 3 | Hero/tile parity on 1 visual session (120 mg/dL min.) |
+| 4 | No sync regression (smoke S1–S3) |
 
 ---
 
-### G-B — après PR #11 (Bloc B)
+### G-B — after PR #11 (Block B)
 
-| # | Critère |
-|---|---------|
+| # | Criterion |
+|---|-----------|
 | 1 | G-M ✅ |
-| 2 | Complication = tuile après sync forcée (30 min sample) |
-| 3 | Tuile FR · pas de crash wear |
+| 2 | Complication = tile after forced sync (30 min sample) |
+| 3 | FR tile · no wear crash |
 | 4 | smoke push/ack seq |
 
 ---
 
-### G-C — après PR #12 (Bloc C) — **gate principale v0.5.0**
+### G-C — after PR #12 (Block C) — **main v0.5.0 gate**
 
-Sessions obligatoires :
+Mandatory sessions:
 
-| ID | Scénario | Durée | KPI |
-|----|----------|-------|-----|
-| C.0 | Crash reg · sync répétée · cycle vie app | 30 min | K1 |
-| C.1 | AGP 60/120/200 phone + tile | 2 h | visuel |
-| C.2 | Complication vs tuile | 30 min | K3 |
-| C.3 | Offline montre 2 h · phone actif · reconnect | 2–3 h | rattrapage |
-| C.4 | LOW / HI si disponible | — | affichage |
-| C.5 | Sync continue | 30 min | K3 |
-| C.6 | Réinstall APK PC + re-add tuile/complication | 1 h | K4 |
-| **C.7** | **Soak nuit** phone charge · Dexcom · sync auto | **8 h** | **K2** |
-| C.8 | Montre batterie ≤ 20 % · mode dégradé | 1 h | pas de crash phone |
+| ID | Scenario | Duration | KPI |
+|----|----------|----------|-----|
+| C.0 | Crash reg · repeated sync · app lifecycle | 30 min | K1 |
+| C.1 | AGP 60/120/200 phone + tile | 2 h | visual |
+| C.2 | Complication vs tile | 30 min | K3 |
+| C.3 | Watch offline 2 h · phone active · reconnect | 2–3 h | catch-up |
+| C.4 | LOW / HI if available | — | display |
+| C.5 | Continuous sync | 30 min | K3 |
+| C.6 | PC APK reinstall + re-add tile/complication | 1 h | K4 |
+| **C.7** | **Overnight soak** phone charging · Dexcom · auto sync | **8 h** | **K2** |
+| C.8 | Watch battery ≤ 20 % · degraded mode | 1 h | no phone crash |
 
-Livrable : `docs/qa/YYYY-MM-DD-stability-signoff.md` + captures + extrait logcat
+Deliverable: `docs/qa/YYYY-MM-DD-stability-signoff.md` + captures + logcat excerpt
 
 ---
 
-### G-D — après PR #13–14 (Bloc D)
+### G-D — after PR #13–14 (Block D)
 
-| # | Critère |
-|---|---------|
-| 1 | G-C ✅ (dont C.7 soak) |
-| 2 | Tests `DexcomShareClient` verts |
-| 3 | `install-and-verify.ps1` + checks push/ack auto |
-| 4 | `stability-gate.ps1` documenté dans dev/setup.md |
+| # | Criterion |
+|---|-----------|
+| 1 | G-C ✅ (including C.7 soak) |
+| 2 | `DexcomShareClient` tests green |
+| 3 | `install-and-verify.ps1` + auto push/ack checks |
+| 4 | `stability-gate.ps1` documented in dev/setup.md |
 
 ---
 
 ### G-M7 — tag v0.5.0
 
-Checklist **Go / No-Go** :
+**Go / No-Go** checklist:
 
-- [ ] Gates G-X → G-D toutes ✅
-- [ ] KPI K1–K7 validés
-- [ ] Incident [2026-05-25-app-crash.md](../qa/incidents/2026-05-25-app-crash.md) clos (X.6 + C.7)
-- [ ] `./gradlew test` + `verify_ci.sh` vert sur commit tagué
-- [ ] `hardware-smoke.ps1` OK (pas de FAIL critiques)
-- [ ] Matrice G7 7/7 signée
+- [ ] Gates G-X → G-D all ✅
+- [ ] KPIs K1–K7 validated
+- [ ] Incident [2026-05-25-app-crash.md](../qa/incidents/2026-05-25-app-crash.md) closed (X.6 + C.7)
+- [ ] `./gradlew test` + `verify_ci.sh` green on tagged commit
+- [ ] `hardware-smoke.ps1` OK (no critical FAIL)
+- [ ] G7 matrix 7/7 signed
 
 ---
 
-## Gates Compose (v0.6.0)
+## Compose gates (v0.6.0)
 
-| Gate | Après | Critère minimal |
-|------|-------|-----------------|
-| **G-F0** | PR #15 | Compile · tests verts · **aucun écran migré** · sync identique |
+| Gate | After | Minimal criterion |
+|------|-------|---------------------|
+| **G-F0** | PR #15 | Compile · tests green · **no screen migrated** · sync identical |
 | **G-F1** | PR #16 | Legal/Notice Compose · navigation OK · smoke |
-| **G-F2** | PR #17 | Dexcom connect/disconnect · WatchSetup · **G-A retest déconnexion** |
-| **G-F3** | PR #18 | Home Compose · sync 30 min · S1–S3 · **pas de régression K2** (soak 4 h min.) |
-| **G-M8** | tag v0.6.0 | G-F0→F3 ✅ · K8 · smoke complet |
+| **G-F2** | PR #17 | Dexcom connect/disconnect · WatchSetup · **G-A disconnect retest** |
+| **G-F3** | PR #18 | Home Compose · 30 min sync · S1–S3 · **no K2 regression** (4 h soak min.) |
+| **G-M8** | tag v0.6.0 | G-F0→F3 ✅ · K8 · full smoke |
 
-**Règle Compose :** 1 écran migré = 1 gate · pas de merge F2+F3 en une PR.
+**Compose rule:** 1 migrated screen = 1 gate · no merging F2+F3 in one PR.
 
 ---
 
-## Outils
+## Tools
 
 | Script | Usage |
-|--------|--------|
-| `bash scripts/dev/verify_ci.sh` | Gate CI · chaque PR |
+|--------|-------|
+| `bash scripts/dev/verify_ci.sh` | CI gate · each PR |
 | `.\scripts\qa\stability-gate.ps1` | CI + smoke + FATAL logcat |
-| `.\scripts\qa\capture-crash-log.ps1` | Post-crash · alimenter fiche incident |
+| `.\scripts\qa\capture-crash-log.ps1` | Post-crash · feed incident report |
 | `.\scripts\qa\hardware-smoke.ps1` | Push/ack, hero, watch health |
 | `.\scripts\qa\install-and-verify.ps1` | Install + checklist |
 | `.\scripts\qa\tail-sync-logs.ps1` | Debug sync / crash |
 
-Plan opérationnel : [ACTION-PLAN.md](ACTION-PLAN.md) · Checklist merge : [PR-CHECKLIST.md](PR-CHECKLIST.md)
+Operational plan: [ACTION-PLAN.md](ACTION-PLAN.md) · Merge checklist: [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
 ---
 
-## Politique rollback
+## Rollback policy
 
 | Situation | Action |
 |-----------|--------|
-| FATAL post-merge PR sync | Revert PR · incident doc · G-X retest |
-| Soak C.7 échoue | Pas de tag M7 · retour Bloc X/B |
-| Compose F* casse sync | Revert écran migré · XML restauré |
-| WARN smoke non critique | Noter · fix avant M7 si touché sync |
+| FATAL post-merge sync PR | Revert PR · incident doc · G-X retest |
+| C.7 soak fails | No M7 tag · return to Block X/B |
+| Compose F* breaks sync | Revert migrated screen · XML restored |
+| Non-critical smoke WARN | Note · fix before M7 if sync touched |
 
 ---
 
 ## Sign-off
 
-| Gate | Date | Validateur | OK |
-|------|------|------------|-----|
+| Gate | Date | Validator | OK |
+|------|------|-----------|-----|
 | G-X | | | ☐ |
 | G-A | | | ☐ |
 | G-M | | | ☐ |

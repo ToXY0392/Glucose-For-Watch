@@ -1,16 +1,16 @@
-# GitHub Project — guide UI pas a pas
+# GitHub Project — step-by-step UI guide
 
-> Repo: **ToXY0392/Glucose-For-Watch** · Issues **#1-#12** deja creees.
+> Repo: **ToXY0392/Glucose-For-Watch** · Issues **#1–#12** already created.
 
-Tu es sur: **Projects** (ecran vide) → bouton vert **+ New project**.
+You are on: **Projects** (empty screen) → green **+ New project** button.
 
 ---
 
-## Etape 1 — Creer le board (30 sec)
+## Step 1 — Create the board (30 sec)
 
-1. Clique **+ New project**
-2. Choisis **Board** (pas Table, pas Roadmap pour commencer)
-3. Titre:
+1. Click **+ New project**
+2. Choose **Board** (not Table, not Roadmap to start)
+3. Title:
    ```
    Glucose For Watch v0.5 to v0.6
    ```
@@ -18,18 +18,18 @@ Tu es sur: **Projects** (ecran vide) → bouton vert **+ New project**.
 
 ---
 
-## Etape 2 — Colonnes Status (2 min)
+## Step 2 — Status columns (2 min)
 
-GitHub Projects v2 utilise le champ **Status** comme colonnes du board.
+GitHub Projects v2 uses the **Status** field as board columns.
 
-1. Ouvre le project cree
-2. En haut a droite: **...** (menu) → **Settings**
-3. Section **Fields** → clique sur **Status** (built-in)
+1. Open the created project
+2. Top right: **...** (menu) → **Settings**
+3. **Fields** section → click **Status** (built-in)
 4. **Edit field** / **Manage options**
-5. Remplace la liste par (ajoute avec **+ Add option**, supprime Todo/Done par defaut si doublons):
+5. Replace the list with (add with **+ Add option**, remove default Todo/Done if duplicates):
 
-| Option (nom exact) | Couleur suggeree |
-|--------------------|------------------|
+| Option (exact name) | Suggested color |
+|---------------------|-----------------|
 | Backlog | Gray |
 | Ready | Blue |
 | In Progress | Yellow |
@@ -38,84 +38,84 @@ GitHub Projects v2 utilise le champ **Status** comme colonnes du board.
 | Gate Ready | Green |
 | Done | Green |
 
-6. **Save changes** → retour au board: tu dois voir **7 colonnes**
+6. **Save changes** → back to board: you should see **7 columns**
 
 ---
 
-## Etape 3 — Ajouter les 12 issues (1 min)
+## Step 3 — Add the 12 issues (1 min)
 
-1. Sur le board, clique **+ Add item** (bas d'une colonne) **ou** bouton **Add items** en haut
-2. Choisis **Issues from repository** → **Glucose-For-Watch**
-3. Coche **toutes** les issues ouvertes (#1 a #12) ou tape dans la recherche:
+1. On the board, click **+ Add item** (bottom of a column) **or** **Add items** at the top
+2. Choose **Issues from repository** → **Glucose-For-Watch**
+3. Check **all** open issues (#1 to #12) or search:
    ```
    is:issue is:open
    ```
 4. **Add selected items**
 
-Tu dois voir **12 cartes** (probablement toutes en **Backlog** ou **Todo**).
+You should see **12 cards** (probably all in **Backlog** or **Todo**).
 
 ---
 
-## Etape 4 — Placer les cartes (drag & drop)
+## Step 4 — Place cards (drag & drop)
 
-Glisse chaque carte vers la bonne colonne:
+Drag each card to the right column:
 
-| Colonne | Issues |
-|---------|--------|
+| Column | Issues |
+|--------|--------|
 | **In Progress** | **#3** C.7 soak |
 | **Ready** | **#1** X.3 · **#2** X.7 · **#4** incident |
 | **Backlog** | **#5** #6 #7 #8 #9 #10 #11 #12 |
 
-Regle solo: **1 seule** carte In Progress (#3 soak).
+Solo rule: **only one** card In Progress (#3 soak).
 
 ---
 
-## Etape 5 — Champs custom (2 min, optionnel)
+## Step 5 — Custom fields (2 min, optional)
 
 **Settings** → **Fields** → **+ New field**
 
-| Nom | Type | Options |
-|-----|------|---------|
+| Name | Type | Options |
+|------|------|---------|
 | Bloc | Single select | S, X, A, M, B, C, D, F |
 | Gate | Single select | G-X, G-A, G-M, G-B, G-C, G-D, G-M7, G-M8 |
 | Sync touch | Checkbox | — |
 | Hardware QA | Checkbox | — |
 
-Remplis sur les cartes (clic carte → panneau droit):
+Fill on cards (click card → right panel):
 
 | Issue | Bloc | Gate | Sync | Hardware |
 |-------|------|------|------|----------|
-| #1 | X | G-X | oui | oui |
-| #2 | X | G-X | non | non |
-| #3 | C | G-C | oui | oui |
-| #4 | X | G-X | oui | non |
-| #8 | B | G-B | oui | oui |
-| #9-11 | C | G-C | varie | oui |
+| #1 | X | G-X | yes | yes |
+| #2 | X | G-X | no | no |
+| #3 | C | G-C | yes | yes |
+| #4 | X | G-X | yes | no |
+| #8 | B | G-B | yes | yes |
+| #9-11 | C | G-C | varies | yes |
 
 ---
 
-## Etape 6 — Lier au repo
+## Step 6 — Link to repo
 
-1. **Settings** du project → **Manage access** / **Linked repositories**
+1. Project **Settings** → **Manage access** / **Linked repositories**
 2. **Link repository** → **Glucose-For-Watch**
 
-Ou depuis https://github.com/ToXY0392/Glucose-For-Watch/projects → **Link a project** → selectionne le board cree.
+Or from https://github.com/ToXY0392/Glucose-For-Watch/projects → **Link a project** → select the created board.
 
 ---
 
 ## Verification
 
-- [ ] 7 colonnes Status visibles
-- [ ] 12 cartes (#1-#12)
-- [ ] #3 en **In Progress**
-- [ ] #1 #2 #4 en **Ready**
-- [ ] Repo lie au project
+- [ ] 7 Status columns visible
+- [ ] 12 cards (#1–#12)
+- [ ] #3 in **In Progress**
+- [ ] #1 #2 #4 in **Ready**
+- [ ] Repo linked to project
 
-**URL project:** `https://github.com/users/ToXY0392/projects/<numero>`
+**Project URL:** `https://github.com/users/ToXY0392/projects/<number>`
 
 ---
 
-## Automatisation (apres scope `project` sur le token)
+## Automation (after `project` scope on token)
 
 ```powershell
 gh auth login --scopes "project,read:project,repo"

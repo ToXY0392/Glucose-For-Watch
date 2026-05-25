@@ -1,6 +1,6 @@
 ---
 name: Incident P0 (crash / fatal)
-about: Crash fatal phone ou sync bloquante — gate G-X minimum
+about: Fatal phone crash or blocking sync — minimum gate G-X
 title: "[incident] "
 labels:
   - bug
@@ -10,13 +10,13 @@ body:
   - type: markdown
     attributes:
       value: |
-        **Incident bloquant stabilité (K1).** Lier à un bloc du plan · fermer seulement après gate validée.
-        Ne pas joindre glucose réel · credentials · logcat complet non redigé.
+        **Stability-blocking incident (K1).** Link to a plan bloc · close only after gate validated.
+        Do not attach real glucose values · credentials · unredacted full logcat.
 
   - type: input
     id: incident_date
     attributes:
-      label: Date incident
+      label: Incident date
       placeholder: "2026-05-25"
     validations:
       required: true
@@ -24,13 +24,13 @@ body:
   - type: dropdown
     id: bloc
     attributes:
-      label: Bloc lié
+      label: Related bloc
       options:
-        - X — Crash FGS
-        - A — P0 fiabilité
+        - X — FGS crash
+        - A — P0 reliability
         - B — Sync / wear
         - C — QA
-        - S — Autre
+        - S — Other
     validations:
       required: true
 
@@ -38,7 +38,7 @@ body:
     id: summary
     attributes:
       label: Summary
-      description: Une phrase — stack trace type sans PII
+      description: One sentence — typical stack trace without PII
       placeholder: "ForegroundServiceStartNotAllowedException in ActiveGlucoseSyncService.onCreate"
     validations:
       required: true
@@ -83,13 +83,13 @@ body:
     id: evidence
     attributes:
       label: Evidence doc
-      description: Lien vers docs/qa/incidents/ ou soak-runs/
+      description: Link to docs/qa/incidents/ or soak-runs/
       placeholder: "docs/qa/incidents/2026-05-25-app-crash.md"
 
   - type: dropdown
     id: gate_to_retest
     attributes:
-      label: Gate minimum before close
+      label: Minimum gate before close
       options:
         - G-X
         - G-A

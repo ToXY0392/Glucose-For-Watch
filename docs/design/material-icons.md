@@ -1,125 +1,125 @@
-# Icônes officielles Android (Material)
+# Official Android Icons (Material)
 
-Guide pour importer les icônes **officielles Google** dans Glucose For Watch (VectorDrawable XML, module `mobile/`).
+Guide for importing **official Google** icons into Glucose For Watch (VectorDrawable XML, `mobile/` module).
 
 ---
 
-## Sources officielles (par ordre recommandé)
+## Official sources (recommended order)
 
-| Source | URL | Format Android | Mise à jour |
+| Source | URL | Android format | Updates |
 |--------|-----|----------------|-------------|
-| **Material Symbols (recommandé)** | [fonts.google.com/icons](https://fonts.google.com/icons) | Onglet **Android** → XML 24 dp | Actif (2026) |
-| **Dépôt GitHub Google** | [github.com/google/material-design-icons](https://github.com/google/material-design-icons) | `symbols/android/{nom}/materialsymbols{style}/{nom}_24px.xml` | Actif |
-| **Android Studio** | File → New → Vector Asset → *Material Icon* | VectorDrawable | Sync avec Google Fonts |
-| Material Icons (legacy) | [fonts.google.com/icons?icon.set=Material+Icons](https://fonts.google.com/icons?icon.set=Material+Icons) | PNG / anciens XML 24×24 | Plus maintenu |
+| **Material Symbols (recommended)** | [fonts.google.com/icons](https://fonts.google.com/icons) | **Android** tab → XML 24 dp | Active (2026) |
+| **Google GitHub repository** | [github.com/google/material-design-icons](https://github.com/google/material-design-icons) | `symbols/android/{name}/materialsymbols{style}/{name}_24px.xml` | Active |
+| **Android Studio** | File → New → Vector Asset → *Material Icon* | VectorDrawable | Synced with Google Fonts |
+| Material Icons (legacy) | [fonts.google.com/icons?icon.set=Material+Icons](https://fonts.google.com/icons?icon.set=Material+Icons) | PNG / legacy 24×24 XML | No longer maintained |
 
-**Licence :** Apache 2.0 — usage commercial OK, attribution appréciée dans les notices open source.
+**License:** Apache 2.0 — commercial use OK, attribution appreciated in open source notices.
 
-**À éviter pour ce projet :**
+**Avoid for this project:**
 
-| Option | Pourquoi |
+| Option | Why |
 |--------|----------|
-| `androidx.compose.material:material-icons-extended` | ~18 Mo, bibliothèque Compose dépréciée ; le home mobile est en XML Views |
-| Cloner tout le repo (~310 Mo ZIP) | Trop lourd — importer **icône par icône** |
+| `androidx.compose.material:material-icons-extended` | ~18 MB, deprecated Compose library; mobile home is XML Views |
+| Cloning the entire repo (~310 MB ZIP) | Too heavy — import **icon by icon** |
 
 ---
 
-## Chemin canonique dans le repo Google
+## Canonical path in the Google repo
 
 ```
 symbols/android/
-  └── {icon_name}/           # ex. bluetooth, battery_saver, chevron_right
-        ├── materialsymbolsoutlined/   ← style par défaut (recommandé)
+  └── {icon_name}/           # e.g. bluetooth, battery_saver, chevron_right
+        ├── materialsymbolsoutlined/   ← default style (recommended)
         ├── materialsymbolsrounded/
         └── materialsymbolssharp/
               └── {icon_name}_24px.xml
 ```
 
-Exemple brut :
+Raw example:
 
 ```
 https://raw.githubusercontent.com/google/material-design-icons/master/symbols/android/bluetooth/materialsymbolsoutlined/bluetooth_24px.xml
 ```
 
-Variantes : `{nom}_fill1_24px.xml` (rempli), tailles 20/40/48 px.
+Variants: `{name}_fill1_24px.xml` (filled), sizes 20/40/48 px.
 
 ---
 
-## État actuel du projet
+## Current project state
 
-Les drawables `mobile/src/main/res/drawable/ic_*_24.xml` reprennent déjà des tracés **Material Icons classiques** (viewport `24×24`), copiés à la main.
+The drawables `mobile/src/main/res/drawable/ic_*_24.xml` already use **classic Material Icons** paths (viewport `24×24`), copied manually.
 
-Les **Material Symbols** officiels (2022+) utilisent souvent viewport `960×960` — même rendu 24 dp, paths différents, rendu plus cohérent avec Android 14/15.
+Official **Material Symbols** (2022+) often use viewport `960×960` — same 24 dp rendering, different paths, more consistent with Android 14/15.
 
-| Drawable projet | Nom Material Symbol | Style suggéré |
+| Project drawable | Material Symbol name | Suggested style |
 |-----------------|---------------------|---------------|
 | `ic_bluetooth_24` | `bluetooth` | outlined |
 | `ic_battery_24` | `battery_full` | outlined |
 | `ic_battery_saver_24` | `battery_saver` | outlined |
 | `ic_refresh_24` | `refresh` | outlined |
-| `ic_watch_24` | `aod_watch` ou chercher sur [fonts.google.com/icons](https://fonts.google.com/icons) | outlined |
+| `ic_watch_24` | `aod_watch` or search on [fonts.google.com/icons](https://fonts.google.com/icons) | outlined |
 | `ic_share_24` | `share` | outlined |
 | `ic_lock_24` | `lock` | outlined |
 | `ic_settings_24` | `settings` | outlined |
 | `ic_chevron_forward_24` | `chevron_right` | outlined |
 | `ic_back_arrow` | `arrow_back` | outlined |
 | `ic_more_vert_24` | `more_vert` | outlined |
-| `ic_watch_install` | `install_mobile` ou `watch` | outlined |
+| `ic_watch_install` | `install_mobile` or `watch` | outlined |
 
-**Ne pas remplacer :** `ic_brand_mark`, `ic_launcher_*`, `ic_sensor_glucose` (marque / métier).
+**Do not replace:** `ic_brand_mark`, `ic_launcher_*`, `ic_sensor_glucose` (brand / domain-specific).
 
 ---
 
-## Import rapide (script)
+## Quick import (script)
 
-Depuis la racine du repo :
+From the repo root:
 
 ```powershell
-# Une icône → mobile/src/main/res/drawable/
+# One icon → mobile/src/main/res/drawable/
 .\scripts\dev\import-material-icon.ps1 -IconName chevron_right -OutName ic_chevron_forward_24
 
-# Lister les styles disponibles pour une icône
+# List available styles for an icon
 .\scripts\dev\import-material-icon.ps1 -IconName watch -ListOnly
 ```
 
-Le script :
+The script:
 
-1. Télécharge le XML depuis le dépôt **google/material-design-icons**
-2. Remplace `@android:color/white` par `@color/wg7_icon_tint`
-3. Supprime `android:tint="?attr/colorControlNormal"` (le projet teinte via `fillColor` + layouts)
+1. Downloads the XML from the **google/material-design-icons** repository
+2. Replaces `@android:color/white` with `@color/wg7_icon_tint`
+3. Removes `android:tint="?attr/colorControlNormal"` (the project tints via `fillColor` + layouts)
 
 ---
 
-## Import manuel (Android Studio)
+## Manual import (Android Studio)
 
 1. **File → New → Vector Asset**
-2. **Asset type :** Clip Art → **Material Icon**
-3. Choisir l’icône, size **24 dp**, couleur noire
-4. **Next** → enregistrer sous `ic_{nom}_24.xml`
-5. Ouvrir le XML et mettre `android:fillColor="@color/wg7_icon_tint"`
+2. **Asset type:** Clip Art → **Material Icon**
+3. Choose the icon, size **24 dp**, black color
+4. **Next** → save as `ic_{name}_24.xml`
+5. Open the XML and set `android:fillColor="@color/wg7_icon_tint"`
 
-Ou depuis Google Fonts : rechercher l’icône → onglet **Android** → télécharger le XML.
+Or from Google Fonts: search the icon → **Android** tab → download the XML.
 
 ---
 
-## Convention projet
+## Project convention
 
-- Préfixe : `ic_`
-- Suffixe taille : `_24` pour les lignes settings / toolbar
-- Couleur : `@color/wg7_icon_tint` (pas de hex dans le drawable)
-- `android:contentDescription` : toujours via `@string/…` dans les layouts
+- Prefix: `ic_`
+- Size suffix: `_24` for settings rows / toolbar
+- Color: `@color/wg7_icon_tint` (no hex in the drawable)
+- `android:contentDescription`: always via `@string/…` in layouts
 
 ---
 
 ## Wear OS
 
-Le module `wear/` utilise Compose pour l’écran launcher ; les tuiles/complications utilisent des drawables XML. Même pipeline : importer en `wear/src/main/res/drawable/` si besoin.
+The `wear/` module uses Compose for the launcher screen; tiles/complications use XML drawables. Same pipeline: import into `wear/src/main/res/drawable/` if needed.
 
 ---
 
-## Références
+## References
 
 - [Material Symbols — Google Fonts](https://fonts.google.com/icons)
 - [Material Icons developer guide](https://developers.google.com/fonts/docs/material_icons)
 - [Vector Asset Studio](https://developer.android.com/studio/write/vector-asset-studio)
-- [Dépôt GitHub google/material-design-icons](https://github.com/google/material-design-icons)
+- [GitHub repository google/material-design-icons](https://github.com/google/material-design-icons)

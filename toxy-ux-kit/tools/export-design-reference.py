@@ -234,18 +234,18 @@ def main() -> None:
         <p style="color:var(--text-sec);font-size:0.8rem;margin-bottom:0.75rem">Wear status · AGP hero</p>
         <div class="watch">
           <div class="value" style="color:var(--agp-high)">200</div>
-          <div class="meta">mg/dL → · À jour</div>
+          <div class="meta">mg/dL → · Up to date</div>
           <button type="button" class="sync">↻ Sync</button>
         </div>
       </div>
       <div class="panel phone">
         <p style="color:var(--text-sec);font-size:0.8rem;margin-bottom:0.75rem">Mobile home hero</p>
         <div class="hero-value">120</div>
-        <div class="hero-sub">mg/dL ↗ · sync il y a 2 min</div>
+        <div class="hero-sub">mg/dL ↗ · synced 2 min ago</div>
         <div style="margin-top:1rem">
-          <span class="pill pill-ok">Montre confirmée</span>
-          <span class="pill pill-warn">Sync en attente</span>
-          <span class="pill pill-err">Dexcom erreur</span>
+          <span class="pill pill-ok">Watch confirmed</span>
+          <span class="pill pill-warn">Sync pending</span>
+          <span class="pill pill-err">Dexcom error</span>
         </div>
       </div>
     </div>

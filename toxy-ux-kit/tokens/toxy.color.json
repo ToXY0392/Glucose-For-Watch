@@ -8,9 +8,9 @@
 
       "background": {
 
-        "top": { "$value": "#F3F4F6", "$type": "color", "$description": "App canvas top — blanc métal" },
+        "top": { "$value": "#F3F4F6", "$type": "color", "$description": "App canvas top — metallic white" },
 
-        "bottom": { "$value": "#E5E7EB", "$type": "color", "$description": "Gradient end — blanc métal" }
+        "bottom": { "$value": "#E5E7EB", "$type": "color", "$description": "Gradient end — metallic white" }
 
       },
 
@@ -24,9 +24,9 @@
 
       "surface": {
 
-        "default": { "$value": "#F3F4F6", "$type": "color", "$description": "Cards — même ton que canvas" },
+        "default": { "$value": "#F3F4F6", "$type": "color", "$description": "Cards — same tone as canvas" },
 
-        "alt": { "$value": "#E5E7EB", "$type": "color", "$description": "Surfaces légèrement plus foncées" }
+        "alt": { "$value": "#E5E7EB", "$type": "color", "$description": "Slightly darker surfaces" }
 
       },
 

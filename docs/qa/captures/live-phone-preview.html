@@ -1,5 +1,5 @@
-encore pointer<!DOCTYPE html>
-<html lang="fr">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -53,14 +53,14 @@ encore pointer<!DOCTYPE html>
 </head>
 <body>
   <header>
-    <h1>Glucose For Watch · téléphone</h1>
+    <h1>Glucose For Watch · phone</h1>
     <span class="meta" id="updated">…</span>
   </header>
   <div class="frame">
-    <img id="shot" alt="Capture écran téléphone" src="live-phone.png" />
+    <img id="shot" alt="Phone screen capture" src="live-phone.png" />
   </div>
   <p class="hint">
-    Capture ADB live · rafraîchissement auto 2 s · script
+    Live ADB capture · auto refresh 2 s · script
     <code>scripts/qa/open-phone-in-cursor.ps1 -Live</code>
   </p>
   <script>
@@ -69,10 +69,10 @@ encore pointer<!DOCTYPE html>
     function refresh() {
       const t = Date.now();
       img.src = 'live-phone.png?t=' + t;
-      updated.textContent = new Date().toLocaleTimeString('fr-FR');
+      updated.textContent = new Date().toLocaleTimeString('en-US');
     }
     img.addEventListener('error', () => {
-      updated.textContent = 'En attente de capture…';
+      updated.textContent = 'Waiting for capture…';
     });
     setInterval(refresh, 2000);
     refresh();

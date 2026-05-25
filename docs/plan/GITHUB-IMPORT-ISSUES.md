@@ -1,50 +1,50 @@
-> **Statut 2026-05-26 :** issues #1-#12 creees · labels + milestones OK · Project UI manuel (scope `project` requis sur le token).
+> **Status 2026-05-26:** issues #1–#12 created · labels + milestones OK · Project UI manual (`project` scope required on token).
 
-## Issues creees
+## Created issues
 
 | # | Title |
 |---|-------|
 | [#1](https://github.com/ToXY0392/Glucose-For-Watch/issues/1) | [bloc-x] X.3 - Repro soak FGS |
-| [#2](https://github.com/ToXY0392/Glucose-For-Watch/issues/2) | [bloc-x] X.7 - Test Robolectric FGS |
-| [#3](https://github.com/ToXY0392/Glucose-For-Watch/issues/3) | [bloc-c] C.7 - Soak nuit 8h |
+| [#2](https://github.com/ToXY0392/Glucose-For-Watch/issues/2) | [bloc-x] X.7 - Robolectric FGS test |
+| [#3](https://github.com/ToXY0392/Glucose-For-Watch/issues/3) | [bloc-c] C.7 - 8h overnight soak |
 | [#4](https://github.com/ToXY0392/Glucose-For-Watch/issues/4) | [incident] FGS crash 2026-05-25 |
 | [#5-#12](https://github.com/ToXY0392/Glucose-For-Watch/issues) | P1/P2 blocs A, M, B, C, D |
 
 ## GitHub Project (2 min UI)
 
-Le token git actuel n'a pas le scope **`project`**. Creer le board manuellement :
+Current git token lacks **`project`** scope. Create the board manually:
 
 1. https://github.com/ToXY0392/Glucose-For-Watch → **Projects** → **New project**
-2. Nom : `Glucose For Watch v0.5 to v0.6`
-3. Template **Board** · colonnes : Backlog → Ready → In Progress → In Review → QA Hardware → Gate Ready → Done
-4. **Add items** → selectionner issues #1-#12
+2. Name: `Glucose For Watch v0.5 to v0.6`
+3. **Board** template · columns: Backlog → Ready → In Progress → In Review → QA Hardware → Gate Ready → Done
+4. **Add items** → select issues #1–#12
 
-Ou apres avoir ajoute le scope `project` au token : `powershell scripts/dev/bootstrap_github.ps1` (section Project).
+Or after adding `project` scope to the token: `powershell scripts/dev/bootstrap_github.ps1` (Project section).
 
 ---
 
-## Import original (reference)
+## Original import (reference)
 
-## P0 — Bloquants
+## P0 — Blockers
 
 | Title | Bloc | Gate | Labels |
 |-------|------|------|--------|
-| `[bloc-x] X.3 — Repro soak FGS ou simulation quota` | X | G-X | `bloc-x`, `gate-blocker`, `sync-critical`, `hardware-qa` |
-| `[bloc-x] X.7 — Test Robolectric FGS refusé → fallback Worker` | X | G-X | `bloc-x`, `gate-blocker`, `area:mobile` |
-| `[bloc-c] C.7 — Soak nuit 8h + sign-off matin` | C | G-C | `bloc-c`, `gate-blocker`, `hardware-qa` |
-| `[incident] FGS crash 2026-05-25 — fermer après G-X` | X | G-X | template **Incident P0** |
+| `[bloc-x] X.3 — Repro soak FGS or quota simulation` | X | G-X | `bloc-x`, `gate-blocker`, `sync-critical`, `hardware-qa` |
+| `[bloc-x] X.7 — Robolectric test FGS denied → Worker fallback` | X | G-X | `bloc-x`, `gate-blocker`, `area:mobile` |
+| `[bloc-c] C.7 — 8h overnight soak + morning sign-off` | C | G-C | `bloc-c`, `gate-blocker`, `hardware-qa` |
+| `[incident] FGS crash 2026-05-25 — close after G-X` | X | G-X | **Incident P0** template |
 
 ## P1 — v0.5.0
 
 | Title | Bloc | Gate | Labels |
 |-------|------|------|--------|
-| `[bloc-a] A.1 — Flow permission notifications` | A | G-A | `bloc-a`, `area:mobile` |
-| `[bloc-a] A.3 — Snackbar feedback sync manuelle` | A | G-A | `bloc-a`, `area:mobile`, `area:sync` |
-| `[bloc-m] M.4 — design-reference companion PNG à jour` | M | G-M | `bloc-m`, `area:ux-kit` |
-| `[bloc-b] B.4 — WatchSyncVerifier via engine + test ack` | B | G-B | `bloc-b`, `area:wear`, `sync-critical` |
-| `[bloc-c] C.2 — Complication vs tuile t/5min × 6` | C | G-C | `bloc-c`, `hardware-qa`, `area:wear` |
-| `[bloc-c] C.3 — Offline watch 2h · rattrapage` | C | G-C | `bloc-c`, `hardware-qa`, `sync-critical` |
-| `[bloc-c] C.8 — Montre ≤20% batterie · sync dégradée` | C | G-C | `bloc-c`, `hardware-qa` |
+| `[bloc-a] A.1 — Notification permission flow` | A | G-A | `bloc-a`, `area:mobile` |
+| `[bloc-a] A.3 — Manual sync snackbar feedback` | A | G-A | `bloc-a`, `area:mobile`, `area:sync` |
+| `[bloc-m] M.4 — design-reference companion PNG up to date` | M | G-M | `bloc-m`, `area:ux-kit` |
+| `[bloc-b] B.4 — WatchSyncVerifier via engine + ack test` | B | G-B | `bloc-b`, `area:wear`, `sync-critical` |
+| `[bloc-c] C.2 — Complication vs tile every 5 min × 6` | C | G-C | `bloc-c`, `hardware-qa`, `area:wear` |
+| `[bloc-c] C.3 — Watch offline 2h · catch-up` | C | G-C | `bloc-c`, `hardware-qa`, `sync-critical` |
+| `[bloc-c] C.8 — Watch ≤20% battery · degraded sync` | C | G-C | `bloc-c`, `hardware-qa` |
 
 ## P2
 
@@ -52,7 +52,7 @@ Ou apres avoir ajoute le scope `project` au token : `powershell scripts/dev/boot
 |-------|------|------|--------|
 | `[bloc-d] D.6 — capture-crash-log.ps1 one-command` | D | G-D | `bloc-d`, `area:infra` |
 
-## gh CLI (après `gh auth login`)
+## gh CLI (after `gh auth login`)
 
 ```bash
 bash .github/scripts/create-labels.sh
@@ -61,15 +61,15 @@ gh api repos/ToXY0392/Glucose-For-Watch/milestones -f title="v0.5.0 — Stable s
 gh api repos/ToXY0392/Glucose-For-Watch/milestones -f title="v0.6.0 — Compose phone" -f description="Blocs F0→F5 · gate G-M8"
 
 gh issue create --repo ToXY0392/Glucose-For-Watch \
-  --title "[bloc-x] X.3 — Repro soak FGS ou simulation quota" \
+  --title "[bloc-x] X.3 — Repro soak FGS or quota simulation" \
   --label "bloc-x,gate-blocker,sync-critical,hardware-qa" \
-  --body "Gate G-X · voir ACTION-PLAN X.3"
+  --body "Gate G-X · see ACTION-PLAN X.3"
 ```
 
 ## GitHub Project
 
 1. **Projects → New** → `Glucose For Watch — v0.5 → v0.6`
-2. Colonnes: Backlog → Ready → In Progress → In Review → QA Hardware → Gate Ready → Done
-3. Ajouter les issues P0 ci-dessus
+2. Columns: Backlog → Ready → In Progress → In Review → QA Hardware → Gate Ready → Done
+3. Add the P0 issues above
 
-Voir [GITHUB-SETUP.md](GITHUB-SETUP.md) pour le détail complet.
+See [GITHUB-SETUP.md](GITHUB-SETUP.md) for full details.

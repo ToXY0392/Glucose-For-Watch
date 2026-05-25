@@ -1,74 +1,74 @@
 # Stability sign-off — Glucose For Watch
 
-> Copier ce fichier : `docs/qa/YYYY-MM-DD-stability-signoff.md`  
-> Référence gates : [STABILITY-GATES.md](../plan/STABILITY-GATES.md)
+> Copy this file: `docs/qa/YYYY-MM-DD-stability-signoff.md`  
+> Gate reference: [STABILITY-GATES.md](../plan/STABILITY-GATES.md)
 
 ---
 
-## Contexte
+## Context
 
-| Champ | Valeur |
+| Field | Value |
 |-------|--------|
 | Date | |
-| Version app | |
+| App version | |
 | Commit / tag | |
-| Phone | modèle · serial · Android |
-| Watch | modèle · Wear OS |
-| Opérateur | |
-| Gate visée | G-X / G-A / G-C / G-M7 / G-M8 |
+| Phone | model · serial · Android |
+| Watch | model · Wear OS |
+| Operator | |
+| Target gate | G-X / G-A / G-C / G-M7 / G-M8 |
 
 ---
 
 ## KPI
 
-| KPI | Seuil | Résultat | OK |
+| KPI | Threshold | Result | OK |
 |-----|-------|----------|-----|
-| K1 Crash fatal | 0 | | ☐ |
-| K2 Soak 8 h (C.7) | hero matin + 0 FATAL | | ☐ |
-| K3 Sync 30 min | push/ack OK | | ☐ |
+| K1 Fatal crash | 0 | | ☐ |
+| K2 8 h soak (C.7) | morning hero + 0 FATAL | | ☐ |
+| K3 30 min sync | push/ack OK | | ☐ |
 | K5 verify_ci | PASS | | ☐ |
 
 ---
 
-## Scénarios Bloc C
+## Block C scenarios
 
-| ID | Scénario | Résultat | Evidence |
+| ID | Scenario | Result | Evidence |
 |----|----------|----------|----------|
 | C.0 | Crash reg 30 min | | |
-| C.1 | AGP couleurs | | |
+| C.1 | AGP colors | | |
 | C.2 | Complication 30 min | | |
 | C.3 | Offline 2 h | | |
 | C.4 | LOW/HI | | |
 | C.5 | Sync 30 min | | |
-| C.6 | Réinstall + tuile | | |
-| C.7 | **Soak nuit 8 h** | | |
-| C.8 | Batterie montre ≤ 20 % | | |
+| C.6 | Reinstall + tile | | |
+| C.7 | **8 h overnight soak** | | |
+| C.8 | Watch battery ≤ 20 % | | |
 
 ---
 
-## Automatisé
+## Automated
 
 ```text
 stability-gate.ps1 : PASS / FAIL
 hardware-smoke.ps1 : PASS / FAIL / WARN
-logcat FATAL       : none / (coller extrait)
+logcat FATAL       : none / (paste excerpt)
 ```
 
 ---
 
-## Incidents ouverts
+## Open incidents
 
-| Date | Incident | Statut |
+| Date | Incident | Status |
 |------|----------|--------|
 | | | |
 
 ---
 
-## Décision
+## Decision
 
-- [ ] **GO** — gate validée
-- [ ] **NO-GO** — bloquer tag / merge
+- [ ] **GO** — gate validated
+- [ ] **NO-GO** — block tag / merge
 
-Rationale :
+Rationale:
 
-Sign-off :
+Sign-off:

@@ -1,124 +1,124 @@
-# Plan de configuration GitHub — Glucose For Watch
+# GitHub Setup Plan — Glucose For Watch
 
-> **Rôle :** guide pas-à-pas pour configurer le dépôt GitHub et un **GitHub Project** alignés sur [ACTION-PLAN.md](ACTION-PLAN.md), [PROGRESS.md](PROGRESS.md) et [STABILITY-GATES.md](STABILITY-GATES.md).  
-> **Contexte :** app sideload PC · solo dev · chemin critique v0.5.0 → v0.6.0 · sync phone→watch sacré.
+> **Role:** step-by-step guide to configure the GitHub repository and a **GitHub Project** aligned with [ACTION-PLAN.md](ACTION-PLAN.md), [PROGRESS.md](PROGRESS.md), and [STABILITY-GATES.md](STABILITY-GATES.md).  
+> **Context:** sideload PC app · solo dev · critical path v0.5.0 → v0.6.0 · phone→watch sync is sacred.
 
 ---
 
-## Table des matières
+## Table of contents
 
-1. [Vue d'ensemble](#1-vue-densemble)
-2. [Phase 0 — Hygiène repo](#2-phase-0--hygiène-repo)
+1. [Overview](#1-overview)
+2. [Phase 0 — Repo hygiene](#2-phase-0--repo-hygiene)
 3. [Phase 1 — Branches](#3-phase-1--branches)
-4. [Phase 2 — Labels et milestones](#4-phase-2--labels-et-milestones)
-5. [Phase 3 — Issues et PR](#5-phase-3--issues-et-pr)
+4. [Phase 2 — Labels and milestones](#4-phase-2--labels-and-milestones)
+5. [Phase 3 — Issues and PRs](#5-phase-3--issues-and-prs)
 6. [Phase 4 — GitHub Project](#6-phase-4--github-project)
-7. [Phase 5 — Automatisations](#7-phase-5--automatisations)
-7. [Phase 6 — Sécurité et release](#8-phase-6--sécurité-et-release)
-8. [Phase 7 — CI et checks](#9-phase-7--ci-et-checks)
-9. [Mapping blocs ↔ GitHub](#10-mapping-blocs--github)
-10. [Backlog initial à importer](#11-backlog-initial-à-importer)
-11. [Rituels hebdomadaires](#12-rituels-hebdomadaires)
-12. [Checklist finale](#13-checklist-finale)
+7. [Phase 5 — Automations](#7-phase-5--automations)
+7. [Phase 6 — Security and release](#8-phase-6--security-and-release)
+8. [Phase 7 — CI and checks](#9-phase-7--ci-and-checks)
+9. [Block mapping ↔ GitHub](#10-block-mapping--github)
+10. [Initial backlog to import](#11-initial-backlog-to-import)
+11. [Weekly rituals](#12-weekly-rituals)
+12. [Final checklist](#13-final-checklist)
 
 ---
 
-## 1. Vue d'ensemble
+## 1. Overview
 
-### Architecture cible
+### Target architecture
 
 ```
 GitHub Repo (Widget G7)
 ├── Branches
-│   ├── main              ← releases taguées (v0.5.0, v0.6.0)
-│   ├── integrate         ← intégration quotidienne (ex-rebuild)
-│   └── feat|fix|docs|qa/bloc-*  ← branches courtes (1–5 j)
-├── Issues                ← 1 issue = 1 tâche atomique (X.5a, C.7…)
-├── Pull Requests         ← 1 PR = 1 bloc ou sous-objectif mesurable
+│   ├── main              ← tagged releases (v0.5.0, v0.6.0)
+│   ├── integrate         ← daily integration (formerly rebuild)
+│   └── feat|fix|docs|qa/bloc-*  ← short-lived branches (1–5 d)
+├── Issues                ← 1 issue = 1 atomic task (X.5a, C.7…)
+├── Pull Requests         ← 1 PR = 1 block or measurable sub-goal
 ├── Milestones            ← v0.5.0 · v0.6.0
-└── GitHub Project        ← orchestration Kanban + gates + KPI
-         ↕ sync hebdo
-docs/plan/PROGRESS.md     ← scoreboard source de vérité KPI
-docs/qa/                  ← preuves hardware (soak, incidents)
+└── GitHub Project        ← Kanban orchestration + gates + KPI
+         ↕ weekly sync
+docs/plan/PROGRESS.md     ← KPI source-of-truth scoreboard
+docs/qa/                  ← hardware evidence (soak, incidents)
 ```
 
-### Principes (hérités du plan app)
+### Principles (inherited from the app plan)
 
-| # | Principe | Implémentation GitHub |
+| # | Principle | GitHub implementation |
 |---|----------|------------------------|
-| P1 | Stabilité avant features | Milestone v0.5.0 avant v0.6.0 ; label `gate-blocker` |
-| P2 | Une PR = un objectif | Branche `fix/bloc-x-*` · issue liée · template PR |
-| P3 | Preuve avant merge | Checks CI + checklist PR + colonne QA Hardware |
-| P4 | Soak obligatoire | Issue C.7 · champ Evidence · milestone v0.5.0 |
-| P6 | Sync = contrat sacré | Label `sync-critical` · retest S1–S3 auto-créé |
-| P7 | Solo dev séquencé | Project limité · pas de colonnes inutiles |
+| P1 | Stability before features | Milestone v0.5.0 before v0.6.0; label `gate-blocker` |
+| P2 | One PR = one goal | Branch `fix/bloc-x-*` · linked issue · PR template |
+| P3 | Proof before merge | CI checks + PR checklist + QA Hardware column |
+| P4 | Soak required | Issue C.7 · Evidence field · milestone v0.5.0 |
+| P6 | Sync = sacred contract | Label `sync-critical` · S1–S3 retest auto-created |
+| P7 | Solo dev sequenced | Limited Project · no unnecessary columns |
 
-### Documents liés
+### Related documents
 
-| Doc | Rôle |
+| Doc | Role |
 |-----|------|
-| [ACTION-PLAN.md](ACTION-PLAN.md) | Backlog détaillé · calendrier S1–S8 |
-| [PROGRESS.md](PROGRESS.md) | Scoreboard gates/KPI · MAJ hebdo |
-| [STABILITY-GATES.md](STABILITY-GATES.md) | Critères Go/No-Go par gate |
-| [PR-CHECKLIST.md](PR-CHECKLIST.md) | Checklist merge (copiée dans PR) |
+| [ACTION-PLAN.md](ACTION-PLAN.md) | Detailed backlog · S1–S8 calendar |
+| [PROGRESS.md](PROGRESS.md) | Gates/KPI scoreboard · weekly updates |
+| [STABILITY-GATES.md](STABILITY-GATES.md) | Go/No-Go criteria per gate |
+| [PR-CHECKLIST.md](PR-CHECKLIST.md) | Merge checklist (copied into PR) |
 
 ---
 
-## 2. Phase 0 — Hygiène repo
+## 2. Phase 0 — Repo hygiene
 
-**Durée :** 30 min · **Bloquant avant tout le reste**
+**Duration:** 30 min · **Blocking before everything else**
 
-### 0.1 `.gitignore` — ajouter
+### 0.1 `.gitignore` — add
 
 ```gitignore
-# Cursor runtime (état session local)
+# Cursor runtime (local session state)
 .cursor/state/
 !.cursor/state/.gitkeep
 
-# Bruit build / tooling
+# Build / tooling noise
 *.log
 analytics.settings
 .tmp-*.jar
 .android-user-home/
 ```
 
-### 0.2 Retirer du suivi git (sans supprimer localement)
+### 0.2 Remove from git tracking (without deleting locally)
 
 ```powershell
 git rm -r --cached .cursor/state/
 git rm --cached .android-user-home/debug.keystore.lock .tmp-protolayout-classes.jar .tmp-tiles-classes.jar analytics.settings build-last.log
 ```
 
-### 0.3 Fichiers repo à ajouter
+### 0.3 Repo files to add
 
-| Fichier | Contenu |
+| File | Content |
 |---------|---------|
-| `LICENSE` | Licence choisie (MIT, Apache-2.0, ou propriétaire sideload) |
-| `SECURITY.md` | Signalement vulnérabilités · pas de glucose réel dans reports |
-| `AGENTS.md` | Index skills Cursor + point d'entrée docs |
+| `LICENSE` | Chosen license (MIT, Apache-2.0, or proprietary sideload) |
+| `SECURITY.md` | Vulnerability reporting · no real glucose in reports |
+| `AGENTS.md` | Cursor skills index + docs entry point |
 | `.editorconfig` | LF · UTF-8 · indent 4 (Kotlin/XML) |
 
-### 0.4 Committer les docs plan manquantes
+### 0.4 Commit missing plan docs
 
-- [ ] `docs/plan/PROGRESS.md` (actuellement untracked)
-- [ ] Ce fichier `docs/plan/GITHUB-SETUP.md`
+- [ ] `docs/plan/PROGRESS.md` (currently untracked)
+- [ ] This file `docs/plan/GITHUB-SETUP.md`
 
 ---
 
 ## 3. Phase 1 — Branches
 
-### 3.1 Modèle de branches
+### 3.1 Branch model
 
-| Branche | Type | Rôle | Merge vers |
+| Branch | Type | Role | Merge into |
 |---------|------|------|------------|
-| `main` | longue | Releases stables · tags M7/M8 | — |
-| `integrate` | longue | Intégration quotidienne · CI | `main` (post-gate) |
-| `release/v0.5` | longue (temp.) | Gel bugfix avant tag v0.5.0 | `main` |
-| `{type}/bloc-{id}-{slug}` | courte | Dev feature/fix | `integrate` |
+| `main` | long-lived | Stable releases · M7/M8 tags | — |
+| `integrate` | long-lived | Daily integration · CI | `main` (post-gate) |
+| `release/v0.5` | long-lived (temp.) | Bugfix freeze before v0.5.0 tag | `main` |
+| `{type}/bloc-{id}-{slug}` | short-lived | Feature/fix dev | `integrate` |
 
-**Types autorisés :** `feat` · `fix` · `docs` · `test` · `chore` · `qa` · `design`
+**Allowed types:** `feat` · `fix` · `docs` · `test` · `chore` · `qa` · `design`
 
-**Exemples alignés plan :**
+**Plan-aligned examples:**
 
 ```
 fix/bloc-x-fgs-crash          → PR #8  · gate G-X
@@ -129,8 +129,8 @@ docs/bloc-c-qa-evidence       → PR #12 · gate G-C
 test/bloc-d-dexcom-coverage   → PR #13-14 · gate G-D
 feat/bloc-f0-compose-gradle   → PR #15 · gate G-F0
 feat/bloc-f3-home-compose     → PR #18 · gate G-F3
-chore/bloc-s-repo-hygiene     → transverse
-qa/bloc-c-soak-night          → session C.7 hardware
+chore/bloc-s-repo-hygiene     → cross-cutting
+qa/bloc-c-soak-night          → C.7 hardware session
 ```
 
 ### 3.2 Migration `rebuild` → `integrate`
@@ -139,64 +139,64 @@ qa/bloc-c-soak-night          → session C.7 hardware
 git checkout rebuild
 git branch -m integrate
 git push origin -u integrate
-# Mettre à jour CI (voir Phase 7) puis :
+# Update CI (see Phase 7) then:
 git push origin --delete rebuild
 ```
 
-### 3.3 Branches à auditer / fermer
+### 3.3 Branches to audit / close
 
-| Branche actuelle | Action |
+| Current branch | Action |
 |------------------|--------|
-| `dev` | Merger dans `integrate` ou supprimer si stale |
-| `docs` | Supprimer après merge si vide |
-| `design` | Garder si travail ToXY actif |
-| `phase/test` | Renommer `qa/bloc-c-soak` ou supprimer |
+| `dev` | Merge into `integrate` or delete if stale |
+| `docs` | Delete after merge if empty |
+| `design` | Keep if active ToXY work |
+| `phase/test` | Rename `qa/bloc-c-soak` or delete |
 
-### 3.4 Protection de branche `main`
+### 3.4 Branch protection for `main`
 
 **Settings → Branches → Add rule → `main`**
 
-| Option | Valeur |
+| Option | Value |
 |--------|--------|
 | Require pull request before merging | ✅ |
-| Required approvals | 0 (solo) ou 1 si co-dev |
+| Required approvals | 0 (solo) or 1 if co-dev |
 | Require status checks | ✅ `Verify Linux Build Gates` |
 | Require branches up to date | ✅ |
 | Do not allow bypassing | ✅ |
-| Restrict pushes | ✅ (personne sauf toi via PR) |
+| Restrict pushes | ✅ (nobody except you via PR) |
 
-### 3.5 Protection `integrate` (recommandée)
+### 3.5 Protection for `integrate` (recommended)
 
-| Option | Valeur |
+| Option | Value |
 |--------|--------|
 | Require status checks | ✅ CI verify |
-| Allow direct push | ✅ (solo dev quotidien) |
+| Allow direct push | ✅ (solo dev daily) |
 
 ---
 
-## 4. Phase 2 — Labels et milestones
+## 4. Phase 2 — Labels and milestones
 
-### 4.1 Labels — création (GitHub UI ou CLI)
+### 4.1 Labels — creation (GitHub UI or CLI)
 
-**Settings → Labels** ou avec [GitHub CLI](https://cli.github.com/) :
+**Settings → Labels** or with [GitHub CLI](https://cli.github.com/):
 
 ```bash
-# Blocs (couleur par domaine)
-gh label create "bloc-s"       --color "BFD4F2" --description "Stabilité transverse"
-gh label create "bloc-x"       --color "D73A4A" --description "Crash FGS · gate G-X"
-gh label create "bloc-a"       --color "FBCA04" --description "P0 fiabilité · gate G-A"
+# Blocks (color by domain)
+gh label create "bloc-s"       --color "BFD4F2" --description "Cross-cutting stability"
+gh label create "bloc-x"       --color "D73A4A" --description "FGS crash · gate G-X"
+gh label create "bloc-a"       --color "FBCA04" --description "P0 reliability · gate G-A"
 gh label create "bloc-m"       --color "0E8A16" --description "Mock user · gate G-M"
 gh label create "bloc-b"       --color "1D76DB" --description "Sync/wear · gate G-B"
-gh label create "bloc-c"       --color "5319E7" --description "QA hardware · gate G-C"
-gh label create "bloc-d"       --color "006B75" --description "Qualité/tests · gate G-D"
+gh label create "bloc-c"       --color "5319E7" --description "Hardware QA · gate G-C"
+gh label create "bloc-d"       --color "006B75" --description "Quality/tests · gate G-D"
 gh label create "bloc-f"       --color "E99695" --description "Compose v0.6 · gate G-F*"
 
-# Priorité / risque
-gh label create "gate-blocker" --color "B60205" --description "Bloque tag v0.5 ou v0.6"
-gh label create "incident-p0"  --color "8B0000" --description "Crash fatal ouvert"
-gh label create "sync-critical" --color "D93F0B" --description "Touch sync · S1–S3 requis"
+# Priority / risk
+gh label create "gate-blocker" --color "B60205" --description "Blocks v0.5 or v0.6 tag"
+gh label create "incident-p0"  --color "8B0000" --description "Open fatal crash"
+gh label create "sync-critical" --color "D93F0B" --description "Touches sync · S1–S3 required"
 
-# Surface app
+# App surface
 gh label create "area:mobile"  --color "C5DEF5" --description "Phone app"
 gh label create "area:wear"    --color "C5DEF5" --description "Tile · complication"
 gh label create "area:sync"     --color "C5DEF5" --description "GlucoseSyncEngine · Data Layer"
@@ -205,65 +205,65 @@ gh label create "area:ux-kit"    --color "C5DEF5" --description "toxy-ux-kit · 
 gh label create "area:infra"    --color "C5DEF5" --description "CI · scripts · repo"
 
 # Workflow
-gh label create "hardware-qa"  --color "D4C5F9" --description "Session adb phone+watch"
-gh label create "docs-only"    --color "EDEDED" --description "Pas de build requis"
-gh label create "good first issue" --color "7057FF" --description "Entrée facile"
+gh label create "hardware-qa"  --color "D4C5F9" --description "adb phone+watch session"
+gh label create "docs-only"    --color "EDEDED" --description "No build required"
+gh label create "good first issue" --color "7057FF" --description "Easy entry point"
 
-# Existants (conserver)
+# Existing (keep)
 # bug · enhancement
 ```
 
 ### 4.2 Milestones
 
-| Milestone | Titre | Date cible | Description |
+| Milestone | Title | Target date | Description |
 |-----------|-------|------------|-------------|
-| M1 | **v0.5.0 — Stable sideload** | fin S4 | Blocs X→D · gates G-X→G-M7 · soak C.7 |
-| M2 | **v0.6.0 — Compose phone** | fin S8 | Blocs F0→F5 · gate G-M8 |
+| M1 | **v0.5.0 — Stable sideload** | end S4 | Blocks X→D · gates G-X→G-M7 · soak C.7 |
+| M2 | **v0.6.0 — Compose phone** | end S8 | Blocks F0→F5 · gate G-M8 |
 
-**Issues par milestone :** voir [§11 Backlog initial](#11-backlog-initial-à-importer).
+**Issues per milestone:** see [§11 Initial backlog](#11-initial-backlog-to-import).
 
 ---
 
-## 5. Phase 3 — Issues et PR
+## 5. Phase 3 — Issues and PRs
 
-### 5.1 Templates d'issues (fichiers repo)
+### 5.1 Issue templates (repo files)
 
 | Template | Usage |
 |----------|-------|
-| `bug_report.md` | Bug utilisateur / sync (existant) |
-| `feature_request.md` | Amélioration (existant) |
-| `bloc_task.md` | Tâche plan ACTION-PLAN (nouveau) |
-| `incident_p0.md` | Crash fatal · incident ouvert (nouveau) |
+| `bug_report.md` | User bug / sync (existing) |
+| `feature_request.md` | Enhancement (existing) |
+| `bloc_task.md` | ACTION-PLAN task (new) |
+| `incident_p0.md` | Fatal crash · open incident (new) |
 
-Voir `.github/ISSUE_TEMPLATE/` — choix via `config.yml`.
+See `.github/ISSUE_TEMPLATE/` — choice via `config.yml`.
 
-### 5.2 Convention titres issues
+### 5.2 Issue title convention
 
 ```
-[bloc-x] X.5a — try/catch FGS dans onCreate
-[bloc-c] C.7 — soak nuit 8h + sign-off
+[bloc-x] X.5a — try/catch FGS in onCreate
+[bloc-c] C.7 — 8h overnight soak + sign-off
 [incident] FGS crash Pixel 8a — 2026-05-25
-[bloc-f3] F3 — HomeScreen Compose + gate soak 4h
+[bloc-f3] F3 — HomeScreen Compose + 4h soak gate
 ```
 
-### 5.3 Template PR
+### 5.3 PR template
 
-Le template `.github/pull_request_template.md` référence [PR-CHECKLIST.md](PR-CHECKLIST.md).
+The template `.github/pull_request_template.md` references [PR-CHECKLIST.md](PR-CHECKLIST.md).
 
-**Champs obligatoires dans chaque PR :**
+**Required fields in each PR:**
 
-- Bloc / Gate / Touch sync
-- Lien issue (`Closes #N` ou `Refs #N`)
-- Branche source → `integrate` (ou `main` pour hotfix release)
+- Block / Gate / Sync touch
+- Linked issue (`Closes #N` or `Refs #N`)
+- Source branch → `integrate` (or `main` for release hotfix)
 
-### 5.4 Liaison issue ↔ PR ↔ docs
+### 5.4 Issue ↔ PR ↔ docs linkage
 
 ```
 Issue #42 [bloc-x] X.5a
     ↓ PR fix/bloc-x-fgs-crash → integrate
     ↓ merge
-PROGRESS.md scoreboard MAJ
-docs/qa/soak-runs/… si hardware
+PROGRESS.md scoreboard updated
+docs/qa/soak-runs/… if hardware
 Project card → Done
 ```
 
@@ -271,99 +271,99 @@ Project card → Done
 
 ## 6. Phase 4 — GitHub Project
 
-### 6.1 Création
+### 6.1 Creation
 
 1. Repo → **Projects** → **New project**
-2. Template : **Team backlog** (ou Board vide)
-3. Nom : **`Glucose For Watch — v0.5 → v0.6`**
-4. Lier au repo `Widget G7`
+2. Template: **Team backlog** (or empty Board)
+3. Name: **`Glucose For Watch — v0.5 → v0.6`**
+4. Link to repo `Widget G7`
 
-### 6.2 Colonnes (Board view)
+### 6.2 Columns (Board view)
 
-| Colonne | Definition of Ready | Definition of Done |
+| Column | Definition of Ready | Definition of Done |
 |---------|---------------------|------------------|
-| **Backlog** | Issue créée · bloc identifié | — |
-| **Ready** | Gate amont OK · branche nommée | — |
-| **In Progress** | Dev actif · draft PR possible | — |
-| **In Review** | PR ouverte · CI verte | — |
-| **QA Hardware** | Touch sync/wear · adb requis | smoke + seq notés |
-| **Gate Ready** | stability-gate PASS · critères gate cochés | — |
-| **Done** | PR mergée · PROGRESS MAJ | evidence liée |
+| **Backlog** | Issue created · block identified | — |
+| **Ready** | Upstream gate OK · branch named | — |
+| **In Progress** | Active dev · draft PR possible | — |
+| **In Review** | PR open · CI green | — |
+| **QA Hardware** | Sync/wear touch · adb required | smoke + seq noted |
+| **Gate Ready** | stability-gate PASS · gate criteria checked | — |
+| **Done** | PR merged · PROGRESS updated | evidence linked |
 
-**Règle solo :** max **2** cartes In Progress (focus chemin critique).
+**Solo rule:** max **2** In Progress cards (critical path focus).
 
-### 6.3 Champs personnalisés (Project settings → Fields)
+### 6.3 Custom fields (Project settings → Fields)
 
-| Champ | Type | Options / notes |
+| Field | Type | Options / notes |
 |-------|------|-----------------|
 | **Bloc** | Single select | S, X, A, M, B, C, D, F0, F1, F2, F3, F4, F5 |
 | **Gate** | Single select | G-X, G-A, G-M, G-B, G-C, G-D, G-M7, G-F0…G-F3, G-M8 |
 | **KPI** | Multi select | K1, K2, K3, K4, K5, K6, K7, K8 |
-| **Sync touch** | Checkbox | Déclenche colonne QA Hardware |
-| **Hardware QA** | Checkbox | Phone + watch requis |
-| **Effort (h)** | Number | Depuis ACTION-PLAN |
-| **Branch** | Text | ex. `fix/bloc-x-fgs-crash` |
-| **Evidence** | URL | Lien docs/qa/ ou issue comment |
+| **Sync touch** | Checkbox | Triggers QA Hardware column |
+| **Hardware QA** | Checkbox | Phone + watch required |
+| **Effort (h)** | Number | From ACTION-PLAN |
+| **Branch** | Text | e.g. `fix/bloc-x-fgs-crash` |
+| **Evidence** | URL | Link to docs/qa/ or issue comment |
 
-### 6.4 Vues du Project
+### 6.4 Project views
 
-#### Vue A — **Board** (quotidien)
+#### View A — **Board** (daily)
 
-- Layout : Board
-- Group by : Status (colonnes §6.2)
-- Filter : `status != Done` OR `updated:>@today-14d`
+- Layout: Board
+- Group by: Status (columns §6.2)
+- Filter: `status != Done` OR `updated:>@today-14d`
 
-#### Vue B — **Gates & KPI** (hebdo)
+#### View B — **Gates & KPI** (weekly)
 
-- Layout : Table
-- Columns : Title · Bloc · Gate · KPI · Sync touch · Milestone · Assignee
-- Sort : Gate (custom order G-X first) · Priority
-- Filter : Milestone = v0.5.0
+- Layout: Table
+- Columns: Title · Bloc · Gate · KPI · Sync touch · Milestone · Assignee
+- Sort: Gate (custom order G-X first) · Priority
+- Filter: Milestone = v0.5.0
 
-#### Vue C — **Roadmap** (planning)
+#### View C — **Roadmap** (planning)
 
-- Layout : Roadmap
-- Date field : **Target date** (aligné calendrier S1–S8)
-- Group : Milestone
-- Items : blocs entiers + jalons C.7 · M7 · M8
+- Layout: Roadmap
+- Date field: **Target date** (aligned with S1–S8 calendar)
+- Group: Milestone
+- Items: whole blocks + milestones C.7 · M7 · M8
 
-#### Vue D — **QA & Incidents**
+#### View D — **QA & Incidents**
 
-- Layout : Table
-- Filter : label `hardware-qa` OR `incident-p0` OR Bloc = C
-- Columns : Title · Evidence · Gate · Status
+- Layout: Table
+- Filter: label `hardware-qa` OR `incident-p0` OR Bloc = C
+- Columns: Title · Evidence · Gate · Status
 
-### 6.5 Sync Project ↔ PROGRESS.md
+### 6.5 Project ↔ PROGRESS.md sync
 
-| Où | Quoi | Fréquence |
+| Where | What | Frequency |
 |----|------|-----------|
-| GitHub Project | Statut cartes · In Progress · Done | temps réel |
-| PROGRESS.md | Scoreboard gates · KPI · dates | **hebdo** (rituel lundi) |
-| STABILITY-GATES.md | Critères (rarement modifié) | si nouveau gate |
-| docs/qa/ | Preuves soak/incidents | après chaque session |
+| GitHub Project | Card status · In Progress · Done | real-time |
+| PROGRESS.md | Gates scoreboard · KPI · dates | **weekly** (Monday ritual) |
+| STABILITY-GATES.md | Criteria (rarely modified) | if new gate |
+| docs/qa/ | Soak/incident evidence | after each session |
 
-**Ne pas dupliquer** le détail des tâches : ACTION-PLAN reste la spec ; le Project est le **tableau de bord**.
+**Do not duplicate** task detail: ACTION-PLAN remains the spec; the Project is the **dashboard**.
 
 ---
 
-## 7. Phase 5 — Automatisations
+## 7. Phase 5 — Automations
 
 ### 7.1 Project workflows (Settings → Workflows)
 
 | Workflow | Trigger | Action |
 |----------|---------|--------|
-| Item added to project | Issue ajoutée | Status = Backlog |
-| Item closed | Issue fermée | Status = Done |
-| PR merged | Linked issue | Status = Done · commenter |
-| Item labeled `sync-critical` | Label ajouté | Sync touch = checked |
+| Item added to project | Issue added | Status = Backlog |
+| Item closed | Issue closed | Status = Done |
+| PR merged | Linked issue | Status = Done · comment |
+| Item labeled `sync-critical` | Label added | Sync touch = checked |
 
-### 7.2 Suggestions manuelles (solo dev)
+### 7.2 Manual suggestions (solo dev)
 
-Après merge PR touchant sync :
+After merging a PR that touches sync:
 
-1. Créer issue follow-up : `[bloc-s] S1–S3 retest post-PR #N`
+1. Create follow-up issue: `[bloc-s] S1–S3 retest post-PR #N`
 2. Label `sync-critical` · `hardware-qa`
-3. Colonne QA Hardware
+3. QA Hardware column
 
 ### 7.3 Dependabot (`.github/dependabot.yml`)
 
@@ -387,76 +387,76 @@ updates:
       - "area:infra"
 ```
 
-**Règle :** upgrades AGP/Gradle via skill `widget-g7-dependency-advisor` · PR dédiée · jamais mélangée avec bloc feature.
+**Rule:** AGP/Gradle upgrades via skill `widget-g7-dependency-advisor` · dedicated PR · never mixed with feature block.
 
 ---
 
-## 8. Phase 6 — Sécurité et release
+## 8. Phase 6 — Security and release
 
-### 8.1 SECURITY.md (racine repo)
+### 8.1 SECURITY.md (repo root)
 
-Contenu minimal :
+Minimal content:
 
-- Ne pas inclure credentials Dexcom · glucose réel · logcat complet avec PII
-- Email ou GitHub Security Advisories (privé)
-- Scope : app mobile/wear · scripts sideload · pas de serveur backend
+- Do not include Dexcom credentials · real glucose · full logcat with PII
+- Email or GitHub Security Advisories (private)
+- Scope: mobile/wear app · sideload scripts · no backend server
 
-### 8.2 Release workflow (manuel v0.5)
+### 8.2 Release workflow (manual v0.5)
 
-Jusqu'à CI release automatisée :
+Until automated release CI:
 
-1. Gate G-M7 ✅ dans PROGRESS.md
-2. Branche `release/v0.5` depuis `integrate`
+1. Gate G-M7 ✅ in PROGRESS.md
+2. Branch `release/v0.5` from `integrate`
 3. `bash scripts/release/release_dry_run.sh`
-4. Tag `v0.5.0` sur `main`
-5. GitHub Release · notes depuis CHANGELOG.md · APK en artifact privé (si configuré)
+4. Tag `v0.5.0` on `main`
+5. GitHub Release · notes from CHANGELOG.md · APK as private artifact (if configured)
 
 ### 8.3 GitHub Release checklist
 
 - [ ] CHANGELOG.md section v0.5.0
 - [ ] Legal placeholders OK (`check_legal_placeholders.sh`)
-- [ ] soak C.7 sign-off dans docs/qa/
-- [ ] Incident K1 = 0 (fermé)
+- [ ] soak C.7 sign-off in docs/qa/
+- [ ] Incident K1 = 0 (closed)
 
 ---
 
-## 9. Phase 7 — CI et checks
+## 9. Phase 7 — CI and checks
 
-### 9.1 Branches déclenchant CI
+### 9.1 Branches triggering CI
 
-Mettre à jour `.github/workflows/ci.yml` :
+Update `.github/workflows/ci.yml`:
 
 ```yaml
 on:
   push:
     branches:
       - main
-      - integrate      # remplace rebuild
+      - integrate      # replaces rebuild
   pull_request:
   workflow_dispatch:
 ```
 
-### 9.2 Status checks requis sur `main`
+### 9.2 Required status checks on `main`
 
-| Job CI | Nom affiché | Bloquant |
+| CI job | Display name | Blocking |
 |--------|-------------|----------|
 | `verify` | Verify Linux Build Gates | ✅ |
 | `release-artifacts` | Verify Release Artifacts | ✅ (pre-release) |
 
-### 9.3 Checks locaux (hors GitHub)
+### 9.3 Local checks (outside GitHub)
 
-Non branchables sur GitHub sans self-hosted runner :
+Not enforceable on GitHub without self-hosted runner:
 
-- `stability-gate.ps1` → checklist PR manuelle
-- `hardware-smoke.ps1` → colonne QA Hardware du Project
+- `stability-gate.ps1` → manual PR checklist
+- `hardware-smoke.ps1` → Project QA Hardware column
 
 ---
 
-## 10. Mapping blocs ↔ GitHub
+## 10. Block mapping ↔ GitHub
 
-| Bloc | PR plan | Gate | Milestone | Labels typiques | Branche type |
+| Block | Plan PR | Gate | Milestone | Typical labels | Branch type |
 |------|---------|------|-----------|-----------------|--------------|
-| S | — | transverse | les deux | `bloc-s`, `area:infra` | `chore/bloc-s-*` |
+| S | — | cross-cutting | both | `bloc-s`, `area:infra` | `chore/bloc-s-*` |
 | X | #8 | G-X | v0.5.0 | `bloc-x`, `gate-blocker`, `sync-critical` | `fix/bloc-x-*` |
 | A | #9 | G-A | v0.5.0 | `bloc-a`, `area:mobile` | `feat/bloc-a-*` |
 | M | #10 | G-M | v0.5.0 | `bloc-m`, `area:mobile` | `feat/bloc-m-*` |
@@ -467,7 +467,7 @@ Non branchables sur GitHub sans self-hosted runner :
 | F0–F5 | #15–18 | G-F* | v0.6.0 | `bloc-f`, `area:mobile` | `feat/bloc-f*-*` |
 | M8 | tag | G-M8 | v0.6.0 | — | `release/v0.6` |
 
-### Chemin critique (ordre merge vers `integrate`)
+### Critical path (merge order into `integrate`)
 
 ```
 X → A → (M ∥ prep B) → B → C → D → merge integrate → main → v0.5.0
@@ -477,117 +477,117 @@ X → A → (M ∥ prep B) → B → C → D → merge integrate → main → v0
 
 ---
 
-## 11. Backlog initial à importer
+## 11. Initial backlog to import
 
-Créer ces issues **dans l'ordre** et les ajouter au Project (milestone v0.5.0 sauf F*).
+Create these issues **in order** and add them to the Project (milestone v0.5.0 except F*).
 
-### P0 — Bloquants immédiats
+### P0 — Immediate blockers
 
-| Issue | Bloc | Gate | État PROGRESS |
+| Issue | Block | Gate | PROGRESS status |
 |-------|------|------|---------------|
-| `[bloc-x] X.3 — Repro soak FGS ou simulation quota` | X | G-X | 🔄 |
-| `[bloc-x] X.7 — Test Robolectric FGS refusé → fallback Worker` | X | G-X | ☐ |
-| `[bloc-c] C.7 — Soak nuit 8h + sign-off matin` | C | G-C | 🔄 |
-| `[incident] FGS crash 2026-05-25 — fermer après G-X` | X | G-X | ouvert K1 |
+| `[bloc-x] X.3 — Repro soak FGS or quota simulation` | X | G-X | 🔄 |
+| `[bloc-x] X.7 — Robolectric test FGS denied → Worker fallback` | X | G-X | ☐ |
+| `[bloc-c] C.7 — 8h overnight soak + morning sign-off` | C | G-C | 🔄 |
+| `[incident] FGS crash 2026-05-25 — close after G-X` | X | G-X | open K1 |
 
-### P1 — v0.5.0 en cours
+### P1 — v0.5.0 in progress
 
-| Issue | Bloc | Gate |
+| Issue | Block | Gate |
 |-------|------|------|
-| `[bloc-a] A.1 — Flow permission notifications` | A | G-A |
-| `[bloc-a] A.3 — Snackbar feedback sync manuelle` | A | G-A |
-| `[bloc-m] M.4 — design-reference companion PNG à jour` | M | G-M |
-| `[bloc-b] B.4 — WatchSyncVerifier via engine + test ack` | B | G-B |
-| `[bloc-c] C.2 — Complication vs tuile t/5min × 6` | C | G-C |
-| `[bloc-c] C.3 — Offline watch 2h · rattrapage` | C | G-C |
-| `[bloc-c] C.8 — Montre ≤20% batterie · sync dégradée` | C | G-C |
+| `[bloc-a] A.1 — Notification permission flow` | A | G-A |
+| `[bloc-a] A.3 — Manual sync snackbar feedback` | A | G-A |
+| `[bloc-m] M.4 — design-reference companion PNG up to date` | M | G-M |
+| `[bloc-b] B.4 — WatchSyncVerifier via engine + ack test` | B | G-B |
+| `[bloc-c] C.2 — Complication vs tile every 5 min × 6` | C | G-C |
+| `[bloc-c] C.3 — Offline watch 2h · catch-up` | C | G-C |
+| `[bloc-c] C.8 — Watch ≤20% battery · degraded sync` | C | G-C |
 
-### P2 — Post G-C / pré M7
+### P2 — Post G-C / pre M7
 
-| Issue | Bloc | Gate |
+| Issue | Block | Gate |
 |-------|------|------|
 | `[bloc-d] D.6 — capture-crash-log.ps1 one-command` | D | G-D |
-| `[bloc-s] Repo hygiene — gitignore + purge artefacts` | S | — |
-| `[bloc-s] Commit PROGRESS.md + index docs plan` | S | — |
+| `[bloc-s] Repo hygiene — gitignore + purge artifacts` | S | — |
+| `[bloc-s] Commit PROGRESS.md + plan docs index` | S | — |
 
-### v0.6.0 (milestone M2 — créer issues plus tard)
+### v0.6.0 (milestone M2 — create issues later)
 
-| Issue | Bloc | Gate |
+| Issue | Block | Gate |
 |-------|------|------|
 | `[bloc-f0] F0 — Gradle Compose + WidgetG7Theme` | F0 | G-F0 |
-| `[bloc-f3] F3 — HomeScreen Compose + soak 4h` | F3 | G-F3 |
+| `[bloc-f3] F3 — HomeScreen Compose + 4h soak` | F3 | G-F3 |
 
 ---
 
-## 12. Rituels hebdomadaires
+## 12. Weekly rituals
 
-### Lundi (15 min)
+### Monday (15 min)
 
-- [ ] Ouvrir Project vue **Gates & KPI**
-- [ ] Mettre à jour [PROGRESS.md](PROGRESS.md) scoreboard
-- [ ] Choisir **1 bloc** + **1 gate** fin de semaine
-- [ ] Max 2 cartes → In Progress
+- [ ] Open Project **Gates & KPI** view
+- [ ] Update [PROGRESS.md](PROGRESS.md) scoreboard
+- [ ] Pick **1 block** + **1 gate** for end of week
+- [ ] Max 2 cards → In Progress
 - [ ] `adb devices -l` · phone + watch OK
 
-### Avant chaque PR
+### Before each PR
 
-- [ ] Branche nommée `type/bloc-id-slug`
-- [ ] Issue liée · labels bloc + area
-- [ ] [PR-CHECKLIST.md](PR-CHECKLIST.md) dans description PR
+- [ ] Branch named `type/bloc-id-slug`
+- [ ] Linked issue · block + area labels
+- [ ] [PR-CHECKLIST.md](PR-CHECKLIST.md) in PR description
 - [ ] `verify_ci.sh` + `stability-gate.ps1`
 
-### Vendredi (30 min)
+### Friday (30 min)
 
-- [ ] Gate bloc cochée ou reportée (commenter why sur issue)
-- [ ] Cartes Done · evidence URL renseignée
-- [ ] Session hardware → fichier dans `docs/qa/sessions/` ou `soak-runs/`
+- [ ] Block gate checked or deferred (comment why on issue)
+- [ ] Done cards · evidence URL filled in
+- [ ] Hardware session → file in `docs/qa/sessions/` or `soak-runs/`
 
-### Nuit soak (C.7)
+### Overnight soak (C.7)
 
 - [ ] Issue C.7 → In Progress · label `hardware-qa`
-- [ ] Matin : sign-off template · fermer issue · PROGRESS K2 ✅
+- [ ] Morning: sign-off template · close issue · PROGRESS K2 ✅
 
 ---
 
-## 13. Checklist finale
+## 13. Final checklist
 
-### Phase 0 — Hygiène
-- [ ] `.gitignore` enrichi
-- [ ] Artefacts retirés du suivi git
-- [ ] `PROGRESS.md` commité
+### Phase 0 — Hygiene
+- [ ] `.gitignore` enriched
+- [ ] Artifacts removed from git tracking
+- [ ] `PROGRESS.md` committed
 - [ ] `LICENSE` · `SECURITY.md` · `AGENTS.md`
 
 ### Phase 1 — Branches
 - [ ] `rebuild` → `integrate`
-- [ ] Protection `main` active
-- [ ] Branches stale nettoyées
+- [ ] `main` protection active
+- [ ] Stale branches cleaned up
 
 ### Phase 2 — Labels & milestones
-- [ ] Labels blocs + gates créés
-- [ ] Milestones v0.5.0 et v0.6.0
+- [ ] Block + gate labels created
+- [ ] Milestones v0.5.0 and v0.6.0
 
-### Phase 3 — Issues & PR
+### Phase 3 — Issues & PRs
 - [ ] Templates bloc_task + incident_p0
-- [ ] PR template aligné checklist
+- [ ] PR template aligned with checklist
 
 ### Phase 4 — Project
-- [ ] Project créé · 4 vues
-- [ ] Champs Bloc · Gate · KPI · Evidence
-- [ ] Backlog P0 importé (§11)
+- [ ] Project created · 4 views
+- [ ] Bloc · Gate · KPI · Evidence fields
+- [ ] P0 backlog imported (§11)
 
 ### Phase 5–7 — Automation & CI
-- [ ] Dependabot configuré
-- [ ] CI sur `integrate`
-- [ ] Premier rituel lundi exécuté
+- [ ] Dependabot configured
+- [ ] CI on `integrate`
+- [ ] First Monday ritual executed
 
 ---
 
-## Annexe — AGENTS.md (extrait suggéré)
+## Appendix — AGENTS.md (suggested excerpt)
 
 ```markdown
 # Agent guide — Widget G7
 
-## Docs plan
+## Plan docs
 - Hub: docs/index.md
 - GitHub setup: docs/plan/GITHUB-SETUP.md
 - PR checklist: docs/plan/PR-CHECKLIST.md
@@ -599,9 +599,9 @@ Créer ces issues **dans l'ordre** et les ajouter au Project (milestone v0.5.0 s
 ## Skills (sync/debug)
 - widget-g7-sync-health-reviewer
 - widget-g7-agp-color-guard
-- widget-g7-pr-gatekeeper (à créer)
+- widget-g7-pr-gatekeeper (to create)
 ```
 
 ---
 
-*Dernière MAJ : 2026-05-26 · aligné ACTION-PLAN S1–S8 et PROGRESS scoreboard.*
+*Last updated: 2026-05-26 · aligned with ACTION-PLAN S1–S8 and PROGRESS scoreboard.*

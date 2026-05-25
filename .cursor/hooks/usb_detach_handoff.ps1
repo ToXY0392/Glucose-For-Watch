@@ -96,10 +96,10 @@ if ($watchDetached) {
 
 $incidentsToAdd = @()
 if ($createPhoneIncident) {
-    $incidentsToAdd += "| $($now.ToString('yyyy-MM-dd')) | USB detach detecte (phone) | Ouvert (rebrancher telephone + verifier sync) |"
+    $incidentsToAdd += "| $($now.ToString('yyyy-MM-dd')) | USB detach detected (phone) | Open (reconnect phone + verify sync) |"
 }
 if ($createWatchIncident) {
-    $incidentsToAdd += "| $($now.ToString('yyyy-MM-dd')) | USB detach detecte (watch) | Ouvert (rebrancher montre + verifier sync) |"
+    $incidentsToAdd += "| $($now.ToString('yyyy-MM-dd')) | USB detach detected (watch) | Open (reconnect watch + verify sync) |"
 }
 
 $handoffUpdated = $false
@@ -108,7 +108,7 @@ if ((Test-Path $handoffPath) -and $incidentsToAdd.Count -gt 0) {
     $headerIndex = -1
     $separatorIndex = -1
     for ($i = 0; $i -lt $lines.Count; $i++) {
-        if ($lines[$i] -eq "## Incidents récents") {
+        if ($lines[$i] -eq "## Recent incidents") {
             $headerIndex = $i
         }
         if ($headerIndex -ge 0 -and $lines[$i] -eq "| --- | --- | --- |") {

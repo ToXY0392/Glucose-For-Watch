@@ -1,6 +1,6 @@
 ---
 name: Bloc task (plan)
-about: Tâche atomique du ACTION-PLAN (X.5a, C.7, B.1…)
+about: Atomic ACTION-PLAN task (X.5a, C.7, B.1…)
 title: "[bloc-] "
 labels:
   - enhancement
@@ -8,27 +8,27 @@ body:
   - type: markdown
     attributes:
       value: |
-        Tâche alignée sur [ACTION-PLAN](docs/plan/ACTION-PLAN.md) · checklist merge : [PR-CHECKLIST](docs/plan/PR-CHECKLIST.md).
-        **Ne pas inclure** credentials Dexcom ni glucose réel.
+        Task aligned with [ACTION-PLAN](docs/plan/ACTION-PLAN.md) · merge checklist: [PR-CHECKLIST](docs/plan/PR-CHECKLIST.md).
+        **Do not include** Dexcom credentials or real glucose values.
 
   - type: dropdown
     id: bloc
     attributes:
       label: Bloc
       options:
-        - S — Stabilité transverse
-        - X — Crash FGS
-        - A — P0 fiabilité
+        - S — Cross-cutting stability
+        - X — FGS crash
+        - A — P0 reliability
         - M — Mock user / HomeViewModel
         - B — Sync / wear
-        - C — QA hardware
-        - D — Qualité / tests
+        - C — Hardware QA
+        - D — Quality / tests
         - F0 — Compose Gradle
-        - F1 — Écrans simples Compose
+        - F1 — Simple Compose screens
         - F2 — Dexcom / WatchSetup Compose
         - F3 — Home Compose
         - F4 — Installer
-        - F5 — Cleanup XML
+        - F5 — XML cleanup
     validations:
       required: true
 
@@ -36,7 +36,7 @@ body:
     id: task_id
     attributes:
       label: Task ID
-      description: "Ex. X.5a, C.7, B.1"
+      description: "E.g. X.5a, C.7, B.1"
       placeholder: "X.5a"
     validations:
       required: true
@@ -44,7 +44,7 @@ body:
   - type: dropdown
     id: gate
     attributes:
-      label: Gate cible
+      label: Target gate
       options:
         - G-X
         - G-A
@@ -78,7 +78,7 @@ body:
     attributes:
       label: Sync
       options:
-        - label: "Touch sync (mobile/sync, wear/, feature/sync) — S1–S3 retest required"
+        - label: "Touches sync (mobile/sync, wear/, feature/sync) — S1–S3 retest required"
           required: false
 
   - type: checkboxes
@@ -93,9 +93,9 @@ body:
     id: definition_of_done
     attributes:
       label: Definition of Done
-      description: Copier depuis ACTION-PLAN ou préciser critères
+      description: Copy from ACTION-PLAN or specify criteria
       placeholder: |
-        - [ ] Critère 1
+        - [ ] Criterion 1
         - [ ] stability-gate.ps1 PASS
         - [ ] PROGRESS.md updated after merge
     validations:

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -77,22 +77,22 @@
   </header>
 
   <div class="toolbar">
-    <button type="button" data-key="BACK">Retour</button>
-    <button type="button" data-key="HOME">Accueil</button>
-    <button type="button" data-key="RECENTS">Récents</button>
-    <button type="button" id="launchBtn" class="primary">Ouvrir app</button>
+    <button type="button" data-key="BACK">Back</button>
+    <button type="button" data-key="HOME">Home</button>
+    <button type="button" data-key="RECENTS">Recents</button>
+    <button type="button" id="launchBtn" class="primary">Open app</button>
     <button type="button" id="pauseBtn">Pause</button>
   </div>
 
   <div class="frame">
-    <img id="screen" alt="Ecran telephone" draggable="false" />
+    <img id="screen" alt="Phone screen" draggable="false" />
   </div>
 
   <p class="hint">
-    Clic = tap · glisser = swipe · rafraîchissement ~450 ms<br />
-    Ouvrir dans <strong>Cursor Simple Browser</strong> pour manipuler l’app ici.
+    Click = tap · drag = swipe · refresh ~450 ms<br />
+    Open in <strong>Cursor Simple Browser</strong> to control the app here.
   </p>
-  <p class="status" id="status">Connexion…</p>
+  <p class="status" id="status">Connecting…</p>
 
   <script>
     const screenEl = document.getElementById('screen');
@@ -138,10 +138,10 @@
           URL.revokeObjectURL(url);
         };
         screenEl.src = url;
-        statusEl.textContent = 'Live · ' + new Date().toLocaleTimeString('fr-FR');
+        statusEl.textContent = 'Live · ' + new Date().toLocaleTimeString('en-US');
         statusEl.classList.remove('err');
       } catch (e) {
-        statusEl.textContent = 'Erreur: ' + e.message;
+        statusEl.textContent = 'Error: ' + e.message;
         statusEl.classList.add('err');
       }
     }
@@ -186,7 +186,7 @@
           await sendSwipe(a.x, a.y, b.x, b.y);
         }
       } catch (err) {
-        statusEl.textContent = 'Erreur: ' + err.message;
+        statusEl.textContent = 'Error: ' + err.message;
         statusEl.classList.add('err');
       }
       dragStart = null;
@@ -202,7 +202,7 @@
           });
           setTimeout(refreshScreen, 150);
         } catch (err) {
-          statusEl.textContent = 'Erreur: ' + err.message;
+          statusEl.textContent = 'Error: ' + err.message;
           statusEl.classList.add('err');
         }
       });
@@ -213,14 +213,14 @@
         await api('/api/launch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
         setTimeout(refreshScreen, 600);
       } catch (err) {
-        statusEl.textContent = 'Erreur: ' + err.message;
+        statusEl.textContent = 'Error: ' + err.message;
         statusEl.classList.add('err');
       }
     });
 
     pauseBtn.addEventListener('click', () => {
       paused = !paused;
-      pauseBtn.textContent = paused ? 'Reprendre' : 'Pause';
+      pauseBtn.textContent = paused ? 'Resume' : 'Pause';
       if (!paused) refreshScreen();
     });
 
@@ -229,7 +229,7 @@
         const info = await api('/api/info');
         deviceMeta.textContent = info.serial + ' · ' + info.width + '×' + info.height;
       } catch (e) {
-        deviceMeta.textContent = 'hors ligne';
+        deviceMeta.textContent = 'offline';
       }
       refreshScreen();
       setInterval(refreshScreen, 450);

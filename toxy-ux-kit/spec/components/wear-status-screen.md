@@ -12,8 +12,8 @@
 │         120             │  ← agp.glucose.* (48sp bold)
 │       mg/dL  ↗          │  ← toxy text.secondary + agp trend
 │                         │
-│      À jour             │  ← sync status (ok / warn / error)
-│   Batterie 72%          │  ← optional health line
+│      Up to date         │  ← sync status (ok / warn / error)
+│   Battery 72%           │  ← optional health line
 │                         │
 │    ┌─────────────────┐  │
 │    │    ↻ Sync       │  │  ← M3 Button · primary mint
@@ -49,11 +49,11 @@
 
 | State | Hero | Status line |
 |-------|------|-------------|
-| Fresh in-range | AGP green + trend | « À jour » · secondary |
-| Stale | AGP + unknown trend | « Donnée périmée » · sync.warn |
-| No data | `--` · unknown | « Configurez Dexcom… » |
-| Refreshing | last value | « Actualisation… » |
-| Error | last value | « Échec de synchro » · sync.error |
+| Fresh in-range | AGP green + trend | "Up to date" · secondary |
+| Stale | AGP + unknown trend | "Stale data" · sync.warn |
+| No data | `--` · unknown | "Set up Dexcom Share on phone…" |
+| Refreshing | last value | "Refreshing…" |
+| Error | last value | "Sync failed" · sync.error |
 
 See [sync-states.md](sync-states.md).
 

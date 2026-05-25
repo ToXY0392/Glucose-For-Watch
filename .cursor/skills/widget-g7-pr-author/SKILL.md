@@ -57,7 +57,7 @@ If mixed blocs → stop and suggest `split-to-prs`.
 | `scripts/qa/` | may need smoke notes |
 | `core/datalayer-contract/` | sync-critical + contract doc |
 
-Set **Touch sync?** oui/non in PR metadata.
+Set **Touch sync?** yes/no in PR metadata.
 
 ### 3. Doc update matrix
 
@@ -124,8 +124,8 @@ Use template below. Copy [PR-CHECKLIST](../../../docs/plan/PR-CHECKLIST.md) gate
 | Field | Value |
 |-------|-------|
 | **Bloc** | [X / A / M / B / C / D / F0–F5 / S] |
-| **Gate cible** | [G-X / … / G-M8] |
-| **Touch sync?** | [oui / non] |
+| **Target gate** | [G-X / … / G-M8] |
+| **Touch sync?** | [yes / no] |
 | **Branch** | `[type]/bloc-[id]-[slug]` → `integrate` |
 | **Issue** | Closes #N |
 

@@ -6,21 +6,21 @@
   <title>ToXY UX Kit — Design Reference v0.2.0</title>
   <style>
     :root {
-      --bg-top: #0D1117;
-      --bg-bottom: #0F172A;
-      --surface: #111827;
-      --surface-alt: #1E293B;
-      --text: #F8FAFC;
-      --text-sec: #94A3B8;
+      --bg-top: #F3F4F6;
+      --bg-bottom: #E5E7EB;
+      --surface: #F3F4F6;
+      --surface-alt: #E5E7EB;
+      --text: #0F172A;
+      --text-sec: #475569;
       --accent: #34D399;
       --accent-on: #0F172A;
-      --accent-soft: #163D34;
-      --agp-in: #008000;
-      --agp-high: #FFCC00;
-      --agp-low: #E00000;
-      --sync-ok-soft: #14532D;
-      --sync-warn-soft: #422006;
-      --sync-err-soft: #3F1818;
+      --accent-soft: #D1FAE5;
+      --agp-in: #16A34A;
+      --agp-high: #B45309;
+      --agp-low: #EF4444;
+      --sync-ok-soft: #DCFCE7;
+      --sync-warn-soft: #F1F5F9;
+      --sync-err-soft: #FEE2E2;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -35,14 +35,14 @@
     header h1 { font-size: 1.75rem; font-weight: 700; }
     header p { color: var(--text-sec); margin-top: 0.5rem; max-width: 52rem; }
     .rule {
-      background: #3F1818;
-      border: 1px solid #F87171;
+      background: #FEE2E2;
+      border: 1px solid #DC2626;
       border-radius: 12px;
       padding: 0.75rem 1rem;
       margin: 1rem 0 2rem;
       font-size: 0.9rem;
     }
-    .rule strong { color: #F87171; }
+    .rule strong { color: #DC2626; }
     h2 { font-size: 1.15rem; margin: 2rem 0 1rem; color: var(--text-sec); text-transform: uppercase; letter-spacing: 0.06em; }
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
     @media (max-width: 800px) { .grid-2 { grid-template-columns: 1fr; } }
@@ -97,9 +97,9 @@
       margin: 0.25rem 0.25rem 0 0;
       border: 1px solid transparent;
     }
-    .pill-ok { background: var(--sync-ok-soft); color: #4ADE80; border-color: #334ADE80; }
-    .pill-warn { background: var(--sync-warn-soft); color: #FB923C; }
-    .pill-err { background: var(--sync-err-soft); color: #F87171; }
+    .pill-ok { background: var(--sync-ok-soft); color: #059669; border-color: #33059669; }
+    .pill-warn { background: var(--sync-warn-soft); color: #0F172A; }
+    .pill-err { background: var(--sync-err-soft); color: #DC2626; }
     .refs { margin-top: 2rem; font-size: 0.85rem; color: var(--text-sec); }
     .refs a { color: var(--accent); }
     footer { margin-top: 3rem; font-size: 0.75rem; color: var(--text-sec); }
@@ -122,59 +122,59 @@
       <section class="panel">
         <h2>ToXY Chrome</h2>
         <div class="swatch">
-          <div class="swatch-color" style="background:#0D1117"></div>
-          <div class="swatch-meta"><strong>toxy.color.background.top</strong><span>#0D1117 · Canvas</span></div>
+          <div class="swatch-color" style="background:#F3F4F6"></div>
+          <div class="swatch-meta"><strong>toxy.color.background.top</strong><span>#F3F4F6 · Canvas</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#111827"></div>
-          <div class="swatch-meta"><strong>toxy.color.surface.default</strong><span>#111827 · Cards</span></div>
+          <div class="swatch-color" style="background:#F3F4F6"></div>
+          <div class="swatch-meta"><strong>toxy.color.surface.default</strong><span>#F3F4F6 · Cards</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#F8FAFC"></div>
-          <div class="swatch-meta"><strong>toxy.color.text.primary</strong><span>#F8FAFC · Primary text</span></div>
+          <div class="swatch-color" style="background:#0F172A"></div>
+          <div class="swatch-meta"><strong>toxy.color.text.primary</strong><span>#0F172A · Primary text</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#94A3B8"></div>
-          <div class="swatch-meta"><strong>toxy.color.text.secondary</strong><span>#94A3B8 · Secondary text</span></div>
+          <div class="swatch-color" style="background:#475569"></div>
+          <div class="swatch-meta"><strong>toxy.color.text.secondary</strong><span>#475569 · Secondary text</span></div>
         </div>
         <div class="swatch">
           <div class="swatch-color" style="background:#34D399"></div>
           <div class="swatch-meta"><strong>toxy.color.accent.default</strong><span>#34D399 · Brand / sync chrome</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#4ADE80"></div>
-          <div class="swatch-meta"><strong>toxy.color.sync.ok</strong><span>#4ADE80 · Sync OK</span></div>
+          <div class="swatch-color" style="background:#059669"></div>
+          <div class="swatch-meta"><strong>toxy.color.sync.ok</strong><span>#059669 · Sync OK</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#FB923C"></div>
-          <div class="swatch-meta"><strong>toxy.color.sync.warn</strong><span>#FB923C · Sync warn</span></div>
+          <div class="swatch-color" style="background:#0F172A"></div>
+          <div class="swatch-meta"><strong>toxy.color.sync.warn</strong><span>#0F172A · Sync warn</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#F87171"></div>
-          <div class="swatch-meta"><strong>toxy.color.sync.error</strong><span>#F87171 · Sync error</span></div>
+          <div class="swatch-color" style="background:#DC2626"></div>
+          <div class="swatch-meta"><strong>toxy.color.sync.error</strong><span>#DC2626 · Sync error</span></div>
         </div>
       </section>
       <section class="panel">
         <h2>AGP Medical</h2>
         <div class="swatch">
-          <div class="swatch-color" style="background:#9C0000"></div>
-          <div class="swatch-meta"><strong>agp.glucose.veryLow</strong><span>#9C0000 · < 54 mg/dL</span></div>
+          <div class="swatch-color" style="background:#DC2626"></div>
+          <div class="swatch-meta"><strong>agp.glucose.veryLow</strong><span>#DC2626 · < 54 mg/dL</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#E00000"></div>
-          <div class="swatch-meta"><strong>agp.glucose.low</strong><span>#E00000 · 54–69</span></div>
+          <div class="swatch-color" style="background:#EF4444"></div>
+          <div class="swatch-meta"><strong>agp.glucose.low</strong><span>#EF4444 · 54–69</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#008000"></div>
-          <div class="swatch-meta"><strong>agp.glucose.inRange</strong><span>#008000 · 70–180</span></div>
+          <div class="swatch-color" style="background:#16A34A"></div>
+          <div class="swatch-meta"><strong>agp.glucose.inRange</strong><span>#16A34A · 70–180</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#FFCC00"></div>
-          <div class="swatch-meta"><strong>agp.glucose.high</strong><span>#FFCC00 · 181–250</span></div>
+          <div class="swatch-color" style="background:#B45309"></div>
+          <div class="swatch-meta"><strong>agp.glucose.high</strong><span>#B45309 · 181–250</span></div>
         </div>
         <div class="swatch">
-          <div class="swatch-color" style="background:#FF9900"></div>
-          <div class="swatch-meta"><strong>agp.glucose.veryHigh</strong><span>#FF9900 · > 250</span></div>
+          <div class="swatch-color" style="background:#EA580C"></div>
+          <div class="swatch-meta"><strong>agp.glucose.veryHigh</strong><span>#EA580C · > 250</span></div>
         </div>
         <div class="swatch">
           <div class="swatch-color" style="background:#64748B"></div>
@@ -197,18 +197,18 @@
         <p style="color:var(--text-sec);font-size:0.8rem;margin-bottom:0.75rem">Wear status · AGP hero</p>
         <div class="watch">
           <div class="value" style="color:var(--agp-high)">200</div>
-          <div class="meta">mg/dL → · À jour</div>
+          <div class="meta">mg/dL → · Up to date</div>
           <button type="button" class="sync">↻ Sync</button>
         </div>
       </div>
       <div class="panel phone">
         <p style="color:var(--text-sec);font-size:0.8rem;margin-bottom:0.75rem">Mobile home hero</p>
         <div class="hero-value">120</div>
-        <div class="hero-sub">mg/dL ↗ · sync il y a 2 min</div>
+        <div class="hero-sub">mg/dL ↗ · synced 2 min ago</div>
         <div style="margin-top:1rem">
-          <span class="pill pill-ok">Montre confirmée</span>
-          <span class="pill pill-warn">Sync en attente</span>
-          <span class="pill pill-err">Dexcom erreur</span>
+          <span class="pill pill-ok">Watch confirmed</span>
+          <span class="pill pill-warn">Sync pending</span>
+          <span class="pill pill-err">Dexcom error</span>
         </div>
       </div>
     </div>
