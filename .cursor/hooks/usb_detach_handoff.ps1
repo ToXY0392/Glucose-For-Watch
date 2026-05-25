@@ -44,7 +44,7 @@ function Load-JsonFile {
 $repoRoot = (Get-Location).Path
 $stateDir = Join-Path $repoRoot ".cursor/state"
 $usbStateFile = Join-Path $stateDir "usb-state.json"
-$handoffPath = Join-Path $repoRoot "docs/developer-handoff.md"
+$handoffPath = Join-Path $stateDir "developer-handoff.md"
 $reportDir = Join-Path $stateDir "reports"
 $reportPath = Join-Path $reportDir "usb-detach-check.md"
 

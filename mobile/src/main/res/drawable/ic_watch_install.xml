@@ -1,35 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Montre — contour monochrome (teinte via app:tint) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
     android:viewportWidth="24"
     android:viewportHeight="24">
     <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M9,3.5h6l0.75,3.5H8.25L9,3.5z"
-        android:strokeColor="@color/wg7_text_primary"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:strokeWidth="1.4" />
-    <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M8.25,17.5H9.75L10.5,20.5h3l0.75,-3h1.5"
-        android:strokeColor="@color/wg7_text_primary"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:strokeWidth="1.4" />
-    <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M8.25,7.5h7.5a1.75,1.75 0 0,1 1.75,1.75v5.5a1.75,1.75 0 0,1 -1.75,1.75H8.25a1.75,1.75 0 0,1 -1.75,-1.75v-5.5a1.75,1.75 0 0,1 1.75,-1.75z"
-        android:strokeColor="@color/wg7_text_primary"
-        android:strokeLineJoin="round"
-        android:strokeWidth="1.5" />
-    <path
-        android:fillColor="@android:color/transparent"
-        android:pathData="M10,12.5l1.6,1.6l3.2,-3.4"
-        android:strokeColor="@color/wg7_text_primary"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:strokeWidth="1.4" />
+        android:fillColor="@color/wg7_icon_tint"
+        android:pathData="M19,9h-4V3H9v6H5l7,7 7,-7zM5,18v2h14v-2H5z" />
 </vector>

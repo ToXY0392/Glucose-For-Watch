@@ -5,7 +5,7 @@ alwaysApply: true
 
 # Développement Cursor (WSL) + Android Studio (Windows)
 
-- **Une seule** copie editable : chemins **`/home/…`** sous WSL dans Cursor ; Android Studio sous Windows doit ouvrir le **même** dossier en **`\\wsl.localhost\…`** ou **`\\wsl$\…`** (`docs/developpement-double-ide-cursor-studio.md`).
+- **Une seule** copie editable : chemins **`/home/…`** sous WSL dans Cursor ; Android Studio sous Windows doit ouvrir le **même** dossier en **`\\wsl.localhost\…`** ou **`\\wsl$\…`** (`docs/dev.md`).
 - **`local.properties`** hors git : **`sdk.dir`** Linux pour `./gradlew` sous WSL, ou chemin SDK **Windows** (échapper `\`) pour la sync Gradle lancée par Studio depuis Windows selon ta config.
 - Conserver une fin de ligne cohérente (**LF**). Éviter deux grosses synchros Gradle concurrentes Cursor + Studio sur le même root.
 

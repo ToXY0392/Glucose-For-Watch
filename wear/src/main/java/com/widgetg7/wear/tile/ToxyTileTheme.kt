@@ -19,8 +19,8 @@ object ToxyTileTheme {
 
     const val BACKGROUND = 0xFF0F1419.toInt()
     const val UNIT_TEXT = 0xFF9CA3AF.toInt()
-    const val SYNC_ACCENT = 0xFF6EB5FF.toInt()
-    const val SYNC_BG = 0x336EB5FF.toInt()
+    const val SYNC_ACCENT = 0xFF8FC7FF.toInt()
+    const val SYNC_BG = 0x338FC7FF.toInt()
     const val SYNC_LOCKED_ACCENT = 0xFF6B7280.toInt()
     const val SYNC_LOCKED_BG = 0x226B7280.toInt()
 

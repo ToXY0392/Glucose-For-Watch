@@ -23,19 +23,23 @@ class ActiveGlucoseSyncService : Service() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val syncMutex = Mutex()
     private var loopJob: Job? = null
+    private var foregroundActive = false
     private lateinit var reconnectDetector: WatchReconnectDetector
 
     override fun onCreate() {
         super.onCreate()
         reconnectDetector = WatchReconnectDetector(this)
-        PhoneSyncStateStore(this).recordActiveServiceState("starting")
-        startForeground(
-            NotificationHelper.ID_ACTIVE_SYNC,
-            NotificationHelper(this).buildActiveSyncNotification(),
-        )
+        foregroundActive = promoteToForeground()
+        if (!foregroundActive) {
+            BackgroundSyncFallback.activate(this)
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (!foregroundActive) {
+            stopSelf()
+            return START_NOT_STICKY
+        }
         when (intent?.action ?: ACTION_START) {
             ACTION_START -> {
                 Log.i(TAG, "service_action_start")
@@ -202,11 +206,24 @@ class ActiveGlucoseSyncService : Service() {
         )
     }
 
+    private fun promoteToForeground(): Boolean {
+        return ActiveGlucoseSyncForegroundGate.promote {
+            PhoneSyncStateStore(this).recordActiveServiceState("starting")
+            startForeground(
+                NotificationHelper.ID_ACTIVE_SYNC,
+                NotificationHelper(this).buildActiveSyncNotification(),
+            )
+            PhoneSyncStateStore(this).recordActiveServiceState("running")
+        }
+    }
+
     private fun stopActiveSync() {
         AppSettingsStore(this).setActiveSyncEnabled(false)
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
         loopJob?.cancel()
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        if (foregroundActive) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        }
         stopSelf()
     }
 

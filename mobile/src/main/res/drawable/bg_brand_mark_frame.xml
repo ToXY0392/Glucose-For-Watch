@@ -5,5 +5,5 @@
     <corners android:radius="16dp" />
     <stroke
         android:width="@dimen/wg7_accent_stroke"
-        android:color="@color/wg7_alert" />
+        android:color="@color/wg7_icon_frame_stroke" />
 </shape>

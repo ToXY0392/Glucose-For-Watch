@@ -11,12 +11,12 @@ enum class GlucoseRange {
 }
 
 object AgpGlucoseColors {
-    const val VERY_LOW = 0xFF9C0000.toInt()
-    const val LOW = 0xFFE00000.toInt()
-    const val IN_RANGE = 0xFF008000.toInt()
-    const val HIGH = 0xFFFFCC00.toInt()
-    const val VERY_HIGH = 0xFFFF9900.toInt()
-    const val UNKNOWN = 0xFF64748B.toInt()
+    const val VERY_LOW = 0xFFC54B47.toInt()
+    const val LOW = 0xFFD46363.toInt()
+    const val IN_RANGE = 0xFF3A9B6E.toInt()
+    const val HIGH = 0xFFA8742F.toInt()
+    const val VERY_HIGH = 0xFFC9743F.toInt()
+    const val UNKNOWN = 0xFF9A948D.toInt()
 
     fun colorFor(range: GlucoseRange): Int =
         when (range) {

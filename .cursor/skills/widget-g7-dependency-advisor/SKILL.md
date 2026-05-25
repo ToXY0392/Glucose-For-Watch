@@ -13,8 +13,6 @@ Planifier des montées de version stables et auditables.
 - `build.gradle.kts`
 - `settings.gradle.kts`
 - `gradle/wrapper/gradle-wrapper.properties`
-- `docs/ref/dependency-registry.md`
-- `docs/ref/dependency-catalog.yaml` (si present)
 - modules `**/build.gradle.kts`
 
 ## Workflow

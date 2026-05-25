@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Logo : goutte de sang minimaliste (blanc) -->
-    <color name="gfw_brand_bezel">#D6D3D1</color>
+    <color name="gfw_brand_bezel">#E5DFD7</color>
     <color name="gfw_brand_glucose">@color/agp_inRange</color>
-    <!-- Chrome UI — ToXY emerald (jamais sur la valeur glycémie) -->
-    <color name="gfw_chrome_accent">#34D399</color>
-    <color name="gfw_chrome_accent_dark">#059669</color>
-    <color name="gfw_chrome_accent_soft">#1E293B</color>
-    <color name="gfw_chrome_on_accent">#0F172A</color>
-    <!-- Fond canvas ToXY -->
-    <color name="gfw_canvas_start">#0D1117</color>
-    <color name="gfw_canvas_end">#0F172A</color>
+    <!-- Chrome UI — pierre chaude (jamais sur la valeur glycémie AGP) -->
+    <color name="gfw_chrome_accent">#6F6963</color>
+    <color name="gfw_chrome_accent_dark">#504C48</color>
+    <color name="gfw_chrome_accent_soft">#F0EDE8</color>
+    <color name="gfw_chrome_on_accent">#403C38</color>
+    <!-- Fond canvas — ivoire pierre -->
+    <color name="gfw_canvas_start">#F8F7F4</color>
+    <color name="gfw_canvas_end">#F1EEE9</color>
 </resources>

@@ -1,214 +1,252 @@
 # Suivi du plan — Glucose For Watch
 
-> **Dernière MAJ :** 2026-05-24  
-> **Phase en cours :** **Phase 5 — Post-audit** (fiabilité sync · QA hardware · rebrand)  
-> **Plan détaillé :** [MASTER-REFACTOR-PLAN.md](MASTER-REFACTOR-PLAN.md) · **Actions audit :** [AUDIT-ACTION-PLAN.md](AUDIT-ACTION-PLAN.md)
+> **Dernière MAJ :** 2026-05-25  
+> **Distribution :** PC uniquement (`installWidgetG7Debug`) — pas de Play Store  
+> **Docs plan :** [ACTION-PLAN.md](ACTION-PLAN.md) (opérationnel) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)  
+> **Canvas :** `canvases/widget-g7-plan-sideload.canvas.tsx`
 
 ---
 
-## Progression globale
+## Scoreboard (MAJ hebdo)
 
-```
-Phase −1  ████████████████████  100%  ✅ Fondations
-Phase 0   ████████████████████  100%  ✅ Code · QA hardware reportée
-Phase 1   ████████████████████  100%  ✅ Kit intégré
-Phase 2   ████████████████████  100%  ✅ Sync robuste + tests mock
-Phase 3   ████████████████████  100%  ✅ Design ref HTML
-Phase 4   ████████████████████  100%  ✅ Maintenance
-─────────────────────────────────────────────
-Total     ████████████████████  100%  (32/32 · QA hardware en attente)
-```
+| Gate | Statut | Date | Bloque |
+|------|--------|------|--------|
+| **G-X** | 🔄 | 2026-05-25 | tout · X.6 ✅ · X.3 → C.7 |
+| G-A | 🔄 | 2026-05-25 | M, B, C · A.4 ✅ |
+| G-M | 🔄 | 2026-05-25 | B · M.1–M.3 ✅ |
+| G-B | 🔄 | 2026-05-25 | C · B.1–B.3/B.5 ✅ |
+| **G-C** | ☐ | | **M7** |
+| G-D | 🔄 | 2026-05-25 | M7 · D.1–D.3 ✅ |
+| **G-M7** v0.5.0 | ☐ | | F |
+| G-M8 v0.6.0 | ☐ | | — |
+
+| KPI | Actuel | Cible | Preuve |
+|-----|--------|-------|--------|
+| K1 Crash fatal | **1 incident ouvert** | 0 | [incident](../qa/incidents/2026-05-25-app-crash.md) |
+| K2 Soak 8 h | ☐ | ✅ C.7 | sign-off |
+| K3 Sync 30 min | ✅ | ✅ | [X.6 soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) |
+| K4 S1–S3 | ✅ session 05-24 | ✅ post-PR sync | logs |
+| K5 Unit tests | CI OK + Dexcom 9 tests | 100 % | verify_ci |
+| K6 QA G7 | **4/7** | 7/7 | matrice C |
+| K7 Déconnexion | ✅ | ✅ | A.2 |
+
+---
+
+## Objectifs version
+
+| Version | Objectif | Gate | Semaine cible |
+|---------|----------|------|---------------|
+| **v0.5.0** sideload | Stable · QA 7/7 · install PC | G-M7 | S4 |
+| **v0.6.0** Compose | Phone UI Compose M3 · sync OK | G-M8 | S8 |
+
+**Chemin critique :** X.5 → G-X → … → **C.7 soak** → G-M7 → F3 → G-M8  
+→ Détail : [ACTION-PLAN §2](ACTION-PLAN.md#2-chemin-critique)
+
+---
+
+## État actuel
 
 | Indicateur | Valeur |
 |------------|--------|
-| App | v0.4.0 |
-| Kit UX | v0.2.0 |
-| Prochaine tâche | **PR #5** matrice QA hardware (G7 **4/7** + S1–S3 ✅ · [session](../qa/2026-05-24-hardware-session.md)) · **PR #6** rebrand docs 🔄 |
-| Jalon cible | **M4** sync fiable · **M7** Play Store v0.5.0 |
+| App | v0.4.0 (vc 23) |
+| Phone | Pixel 8a · Android 14+ |
+| Watch | Pixel Watch 2 (session 05-24) |
+| Crash P0 | FGS mitigé · X.6 0 FATAL | |
+| Phone UI | XML · Material 3 |
+| Wear UI | Compose M3 ✅ |
 
 ---
 
-## Timeline jalons
+## Architecture du plan — 9 blocs · 12 gates · 2 jalons
 
-| Jalon | Date cible | Contenu | Statut |
-|-------|------------|---------|--------|
-| **M−1** | 2026-05-23 | Doc EN + kit UX v0.1 | ✅ |
-| **M0** | 2026-05-31 | Tile sync + AGP + badge offline | ✅ |
-| **M1** | 2026-06-14 | Tokens ToXY intégrés dans l’APK | ✅ |
-| **M2** | 2026-06-28 | Rattrapage offline 2 h | ✅ code · ⏸ QA reportée |
-| **M3** | 2026-07-19 | Release v0.4.0 | ✅ tag · ⏸ QA sign-off reporté |
-
----
-
-## Phase −1 — Fondations ✅
-
-| # | Tâche | Statut |
-|---|-------|--------|
-| −1.1 | Documentation EN ([`docs/index.md`](../index.md)) | ✅ |
-| −1.2 | Kit UX autonome [`toxy-ux-kit/`](../../toxy-ux-kit/README.md) v0.1 | ✅ |
-| −1.3 | Tokens JSON (ToXY + AGP) | ✅ |
-| −1.4 | Specs composants (tile, home, sync) | ✅ |
-| −1.5 | Script export Android colors | ✅ |
-| −1.6 | Suppression doublons doc | ✅ |
-
----
-
-## Phase 0 — Correctifs P0 ✅ (code)
-
-| # | Tâche | Statut | Vérification |
-|---|-------|--------|--------------|
-| 0.1 | Bouton sync sur la tile | ✅ | Tap `↻ Sync` → refresh phone |
-| 0.2 | Freshness tile 45 s | ✅ | Tile se rafraîchit périodiquement |
-| 0.3 | Badge montre hors portée (phone) | ✅ | Message après 3 push ratés |
-| 0.4 | Repush backoff 10/30/60/120 s | ✅ | Ne s’arrête plus au 1er échec |
-| 0.5 | `GlucoseRangeResolver` + AGP tile/phone | ✅ | 120→vert, 200→jaune, 60→rouge |
-| 0.6 | Tests unitaires resolver | ✅ | `./gradlew :core:model:test` |
-| 0.7 | QA manuelle 30 min + offline 1 h | ⏸ | Reportée — [install-and-verify.ps1](../../scripts/qa/install-and-verify.ps1) |
-
-### Checklist QA Phase 0 (0.7) — ⏸ reportée
-
-À cocher quand phone + montre disponibles :
-
-- [ ] Install : phone + watch connectés en adb
-- [ ] Tile : bouton sync visible et fonctionnel
-- [ ] Valeur tile colorée AGP (pas mint)
-- [ ] Phone hero coloré AGP
-- [ ] Sync 30 min continue sans dérive
-- [ ] Montre offline 1 h → badge phone clair → reconnect → rattrapage
-
----
-
-## Phase 1 — Intégration kit → app ✅
-
-| # | Tâche | Statut | Livrable |
-|---|-------|--------|----------|
-| 1.1 | Export XML tokens | ✅ | `mobile/.../toxy_colors.xml`, `agp_glucose_colors.xml` |
-| 1.2 | Retirer legacy `wg7_*` glycémie | ✅ | `GlucoseSnapshot` AGP ; `wg7_*` → alias chrome |
-| 1.3 | AGP sur complication | ✅ | RANGED_VALUE 40–400 ; teinte texte = cadran (limit API) |
-| 1.4 | `ToxyTileTheme.kt` (wear) | ✅ | Chrome centralisé |
-| 1.5 | KDoc EN sync / model / tile | ✅ | Fichiers sync + tile touchés |
-| 1.6 | Corriger `dependency-catalog.yaml` | ✅ | Chemins `feature/dexcom-share/` |
-| 1.7 | Skills Cursor (theme, sync, AGP) | ✅ | `.cursor/skills/` |
-
----
-
-## Phase 2 — Sync robuste ✅
-
-| # | Tâche | Statut | Critère OK |
-|---|-------|--------|------------|
-| 2.1 | `PendingPushQueue` | ✅ | Lecture persistée si push fail |
-| 2.2 | `WatchReconnectDetector` | ✅ | Détecte reconnect (sync pass + peer) |
-| 2.3 | Flush queue à la reconnexion | ✅ | `PendingPushFlusher` + `onPeerConnected` |
-| 2.4 | WorkManager catch-up | ✅ | `PhoneGlucoseSyncWorker` flush pending |
-| 2.5 | Fix complication stale | ✅ | `WearGlucoseSurfaceModelFactory` = tile |
-| 2.6 | Tests mock offline/online | ✅ | 10 tests sync + queue + reconnect + wear display |
-| **0.7** | **QA manuelle 30 min + offline 1–2 h** | ⏸ reportée | Quand hardware dispo |
-
-**Gate M2 :** montre offline 2 h → reconnect → sync auto sans action manuelle.
-
----
-
-## Phase 3 — Release v0.4.0 🔄
-
-| # | Tâche | Statut |
-|---|-------|--------|
-| 3.1 | Design reference (HTML, remplace Figma) | ✅ | `design-reference/index.html` · Figma optionnel |
-| 3.2 | Wear status screen (Compose M3) | ✅ | `WearStatusScreen` + `ToxyWearColorScheme` |
-| 3.3 | QA matrice G6 + G7 (14 cas) | ⏸ | [QA-MATRIX-G6-G7.md](QA-MATRIX-G6-G7.md) — reportée |
-| 3.4 | CI GitHub Actions | ✅ | `.github/workflows/ci.yml` + `verify_ci.sh` étendu |
-| 3.5 | Templates Issue / PR | ✅ | `.github/ISSUE_TEMPLATE/`, `pull_request_template.md` |
-| 3.6 | Rebrand ToXY + tag v0.4.0 | ✅ | `ToXY` v0.4.0 · tag `v0.4.0` |
-
-### Matrice QA G6/G7 (Phase 3.3)
-
-Procédures détaillées : **[QA-MATRIX-G6-G7.md](QA-MATRIX-G6-G7.md)**
-
-```powershell
-.\scripts\qa\install-and-verify.ps1    # install + verif packages
-.\scripts\qa\hardware-smoke.ps1        # checks auto phone + Data Layer watch
-.\scripts\qa\tail-sync-logs.ps1        # pendant tap sync tile (B.1.5)
-.\scripts\qa\connect-watch-adb.ps1     # adb montre (debug sans fil)
+```
+S  Stabilité (transverse, chaque PR)
+├── v0.5.0 ─────────────────────────
+│   X  Crash          PR #8   → G-X      ★ CRITIQUE
+│   A  P0 fiabilité   PR #9   → G-A
+│   M  Mock user      PR #10  → G-M      ║ parallèle après G-A
+│   B  Sync/wear      PR #11  → G-B      ║
+│   C  QA + soak      PR #12  → G-C      ★ C.7 bloque M7
+│   D  Qualité        PR #13-14 → G-D
+│   M7 tag v0.5.0
+└── v0.6.0 ─────────────────────────
+    F  Compose M3     PR #15-18 → G-F* → M8
 ```
 
-| Cas | G6 | G7 |
-|-----|----|----|
-| Share US | ☐ | ☐ |
-| Share OUS | ☐ | ☐ |
-| Couleurs AGP | ☐ | ☐ |
-| Tile + sync | ☐ | ☐ |
-| Offline → reconnect | ☐ | ☐ |
-| Complication | ☐ | ☐ |
-| LOW / HI | ☐ | ☐ |
+**Ordre strict v0.5.0 :** S · X → A → (M ∥ prep B) → B → C → D → M7  
+**Règle d'or :** [PR-CHECKLIST.md](PR-CHECKLIST.md) + `stability-gate.ps1` avant **chaque** merge
 
 ---
 
-## Tests à chaque étape
+## Bloc S — Stabilité transverse
+
+| ID | Tâche | Statut |
+|----|-------|--------|
+| S.1 | STABILITY-GATES.md | 🔄 |
+| S.2 | stability-gate.ps1 | 🔄 |
+| S.3 | stability-signoff-template | 🔄 |
+| S.4 | Test FGS fallback (X.7) | ✅ |
+| S.5 | Gate dans dev.md / CONTRIBUTING | ✅ |
+| S.6 | PR-CHECKLIST.md | 🔄 |
+| S.7 | hardware-smoke : FAIL si push≠ack (pas WARN) | ✅ |
+| S.8 | ACTION-PLAN.md (calendrier + risques) | 🔄 |
 
 ```powershell
-.\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
-.\gradlew.bat test
-.\gradlew.bat installWidgetG7Debug   # si hardware dispo
+.\scripts\qa\stability-gate.ps1 -Strict    # avant merge
+.\scripts\qa\capture-crash-log.ps1         # apres crash
 ```
 
-| # | Test | Phase | Statut |
-|---|------|-------|--------|
-| T1 | Install fresh | Toutes | ☐ |
-| T2 | Dexcom Share connect | Toutes | ☐ |
-| T3 | Sync 30 min | 0, 2 | ☐ |
-| T4 | Offline 1 h / 2 h | 0, 2 | ☐ |
-| T5 | Tap sync tile < 30 s | 0 | ☐ |
-| T6 | Complication = tile | 2 | ☐ |
-| T7 | LOW / HI AGP | 1 | ☐ |
-| T8 | 60/120/200/300 mg/dL couleurs | 0 | ☐ |
+---
+
+## Bloc X — Crash phone (P0) · PR #8 · Gate G-X
+
+> [Incident](../qa/incidents/2026-05-25-app-crash.md) · veille · charge · `ActiveGlucoseSyncService:32`
+
+| ID | Tâche | Statut | Est. |
+|----|-------|--------|------|
+| X.1 | Logcat capturé | ✅ | — |
+| X.2 | Fiche veille + charge | ✅ | — |
+| X.3 | Repro soak / quota FGS | ☐ | 8h |
+| X.4 | Cause racine FGS | ✅ | — |
+| X.5a | try/catch startForeground | ✅ | 2h |
+| X.5b | Fallback Worker/alarm | ✅ | 3h |
+| X.5c | Dédupliquer schedulers FGS | ✅ | 4h |
+| X.6 | 30 min sans crash | ✅ | [soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) |
+| X.7 | Test unitaire FGS refusé | ✅ | 3h |
+
+**DoD G-X :** X.5a–c + X.6 + X.7 + 0 FATAL · [critères](STABILITY-GATES.md#g-x--après-pr-8-bloc-x)
 
 ---
 
-## Phase 4 — Maintenance ✅ (code)
+## Bloc A — P0 fiabilité · PR #9 · Gate G-A
 
-| # | Tâche | Statut |
-|---|-------|--------|
-| 4.1 | `lint-agp-colors.py` + CI | ✅ |
-| 4.2 | `tokens-validate.py` + CI | ✅ |
-| 4.3 | CI branche `rebuild` | ✅ |
-| 4.4 | Mobile semantic colors → tokens | ✅ | kit v0.2 · pills + aurora |
+| ID | Tâche | Statut | Est. |
+|----|-------|--------|------|
+| A.1 | POST_NOTIFICATIONS runtime | ✅ | 2h |
+| A.2 | Déconnexion entry = settings | ✅ | 1h |
+| A.3 | Sync manuelle → result réel | ✅ | 2h |
+| A.4 | Strings → strings.xml | ✅ | Dexcom entry/settings |
 
----
-
-## Definition of Done (refonte complète)
-
-- [x] Bouton sync tile ≥ 48 dp
-- [x] AGP sur tile + phone hero (resolver)
-- [x] AGP sur complication (RANGED_VALUE ; teinte texte = cadran)
-- [x] Kit tokens intégrés (pas de hardcode legacy glycémie)
-- [x] Offline queue + reconnect flush (code)
-- [ ] Offline 2 h → auto catch-up (⏸ QA hardware reportée)
-- [ ] Matrice G6/G7 signée (⏸ reportée)
-- [x] CI green · v0.4.0 taguée
+**DoD G-A :** G-X ✅ + K7 déconnexion + notifs + [STABILITY-GATES § G-A](STABILITY-GATES.md#g-a--après-pr-9-bloc-a)
 
 ---
 
-## Phase 5 — Post-audit 🔄
+## Bloc M — Mock utilisateur · PR #10 · Gate G-M
 
-> Plan complet : **[AUDIT-ACTION-PLAN.md](AUDIT-ACTION-PLAN.md)**
+| ID | Tâche | Statut | Est. |
+|----|-------|--------|------|
+| M.1 | HomeUiState + HomeViewModel (pont F0.3) | ✅ | 6h |
+| M.2 | Parité hero ↔ tuile (temps, stale) | ✅ | 4h |
+| M.3 | 6 états preview exportables | ✅ | 3h |
+| M.4 | design-reference companion | ☐ | 2h |
+| M.5 | Doc previews dev.md | ✅ | dev.md |
 
-| Bloc | Priorité | Statut | Réf. plan |
-|------|----------|--------|-----------|
-| A — Sync P0 (A.1–A.4, PR #1–#4) | P0 | ✅ | [§3](AUDIT-ACTION-PLAN.md#3-sprint-1--sync-p0) |
-| B — QA hardware + CI preview | P1 | 🔄 G7 4/7 · S1–S3 ✅ | [§4](AUDIT-ACTION-PLAN.md#4-sprint-2--tests--qa) |
-| C — Rebrand + logo + a11y | P1 | 🔄 docs ✅ · legacy cleanup ✅ | [§5](AUDIT-ACTION-PLAN.md#5-sprint-3--produit--ui) |
-| D — Sécurité / legal Play | P2 | ☐ | [§6](AUDIT-ACTION-PLAN.md#6-sprint-4--legal--release) |
-| E — Tests E.1–E.6 | P1 | ✅ | [§4](AUDIT-ACTION-PLAN.md#tâche-e--catalogue-tests-à-ajouter) |
-| F — Release Play v0.5.0 | P2 | ☐ | [§6 F](AUDIT-ACTION-PLAN.md#tâche-f--release-play-store-v050-playbook) |
-
----
-
-## Comment mettre à jour ce fichier
-
-1. Cocher une tâche terminée : remplacer `☐` par `✅`
-2. Mettre à jour la barre de progression en tête
-3. Ajuster **Phase en cours** et **Prochaine tâche**
-4. Commit avec message du type : `docs: progress — phase 1.1 done`
+**DoD G-M :** G-A ✅ + previews + smoke S1–S3 · peut merger **avant** B si B pas prêt
 
 ---
 
-*Vue de suivi — ne remplace pas le [plan maître](MASTER-REFACTOR-PLAN.md).*
+## Bloc B — Sync & wear · PR #11 · Gate G-B
+
+| ID | Tâche | P | Statut | Est. |
+|----|-------|---|--------|------|
+| B.1 | Cache complication invalidé | P1 | ✅ | 4h |
+| B.2 | UI push vs ack / erreur visible | P1 | ✅ | 3h |
+| B.5 | Tuile wear FR | P1 | ✅ | 30m |
+| B.3 | Doc scheduler unique | P2 | ✅ | 2h |
+| B.4 | WatchSyncVerifier → engine | P2 | ☐ | 4h |
+
+**DoD G-B :** complication ≤45s lag · tuile FR · smoke seq · [STABILITY-GATES § G-B](STABILITY-GATES.md#g-b--après-pr-11-bloc-b)
+
+---
+
+## Bloc C — QA hardware · PR #12 · Gate G-C ★
+
+> **Sans C.7 (soak 8 h) = pas de tag v0.5.0**
+
+| ID | Scénario | Durée | KPI | Statut |
+|----|----------|-------|-----|--------|
+| C.0 | Crash reg · kill/relaunch · sync ×10 | 30m | K1 | 🔄 | auto 3+10 + [session](../qa/sessions/2026-05-25_1605-bloc-c-automated.md) |
+| C.1 | AGP 60/120/200 | 2h | visuel | ☐ |
+| C.2 | Complication vs tuile | 30m | K3 | ☐ |
+| C.3 | Offline montre 2h | 2–3h | rattrapage | ☐ |
+| C.4 | LOW / HI | — | affichage | ☐ |
+| C.5 | Sync continue | 30m | K3 | 🔄 | X.6 ✅ · C.5 auto optional |
+| C.6 | Réinstall APK + tuile | 1h | K4 | ☐ |
+| **C.7** | **Soak nuit charge** | **8h** | **K2** | ☐ |
+| C.8 | Montre bat. ≤20% | 1h | K1 | ☐ |
+
+**Procédure C.7 :** [ACTION-PLAN §7](ACTION-PLAN.md#7-rituel-hebdomadaire) · livrable [sign-off](../qa/stability-signoff-template.md)
+
+---
+
+## Bloc D — Qualité · PR #13–14 · Gate G-D → M7
+
+| ID | Tâche | Statut | Est. |
+|----|-------|--------|------|
+| D.1 | Tests DexcomShareClient (5+ cas) | ✅ | 6h |
+| D.2 | Cleanup code mort home | ✅ | 2h |
+| D.3 | install-and-verify push/ack auto | ✅ | 4h |
+| D.4 | Doc install PC unique | ✅ | dev.md |
+| D.5 | Plan docs index | 🔄 | — |
+| D.6 | capture-crash-log.ps1 | 🔄 | 1h |
+| D.7 | stability-gate dans dev.md | ✅ | dev.md |
+
+**Tag v0.5.0 :** [G-M7 checklist](STABILITY-GATES.md#g-m7--tag-v050)
+
+---
+
+## Bloc F — Compose M3 · PR #15–18 · Gate G-M8
+
+| Phase | PR | Gate | Durée |
+|-------|-----|------|-------|
+| F0 Fondations | #15 | G-F0 | 2–3j |
+| F1 Legal/Notice | #16 | G-F1 | 2–3j |
+| F2 Dexcom/Watch | #17 | G-F2 | 1 sem |
+| F3 **Home** | #18 | G-F3 + soak 4h | 1–1,5 sem |
+| F4 Installer (opt.) | — | — | opt. |
+| F5 Cleanup + icônes | #18+ | G-M8 | 2–3j |
+
+Détail écrans + tâches : [ACTION-PLAN §11](ACTION-PLAN.md#11-compose-v060) · [PROGRESS Bloc F historique](ACTION-PLAN.md)
+
+**Interdit avant G-M7 :** toucher MainActivity Compose
+
+---
+
+## Registre décisions
+
+| Date | Décision | Raison |
+|------|----------|--------|
+| 2025-05-25 | Pas Play Store · sideload PC | Usage perso / dev |
+| 2025-05-25 | C.7 soak 8h bloque M7 | Crash veille reproduit |
+| 2025-05-25 | Compose après v0.5.0 | Stabilité d'abord |
+| 2025-05-25 | WearInstaller reste XML (F4 opt.) | OCR = risque |
+
+---
+
+## Workflow quotidien
+
+```powershell
+# Dev loop
+.\gradlew.bat installWidgetG7Debug
+
+# Avant merge PR
+.\scripts\qa\stability-gate.ps1 -Strict
+
+# Session QA
+.\scripts\qa\hardware-smoke.ps1
+.\scripts\qa\qa-session-c.ps1
+.\scripts\qa\tail-sync-logs.ps1
+
+# Soak X.6 (30 min) ou C.7 (8 h)
+.\scripts\qa\soak-monitor.ps1                      # X.6
+.\scripts\qa\soak-monitor.ps1 -DurationMinutes 480 -Label C.7
+# matin :
+.\scripts\qa\capture-crash-log.ps1
+.\scripts\qa\stability-gate.ps1 -CheckLogcatOnly
+```
+
+---
+
+## Backlog (post-v0.6)
+
+Play Store · OAuth Dexcom v3 · mmol/L · watch face · G6 QA · Installer Compose

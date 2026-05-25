@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Goutte de sang — marque in-app (48dp), blanc uniquement -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
+    android:viewportWidth="24"
+    android:viewportHeight="24">
     <path
-        android:fillColor="@color/wg7_text_primary"
-        android:pathData="M24,8 C16.5,8 12.5,16 12.5,24 C12.5,31.5 24,41 24,41 C24,41 35.5,31.5 35.5,24 C35.5,16 31.5,8 24,8 Z" />
+        android:fillColor="@color/wg7_icon_tint"
+        android:pathData="M12,2c-5.33,4.55 -8,8.48 -8,11.8c0,4.98 3.8,8.2 8,8.2s8,-3.22 8,-8.2c0,-3.32 -2.67,-7.25 -8,-11.8z" />
 </vector>

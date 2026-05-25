@@ -24,7 +24,7 @@ This project:
 - Updates the **tile** and **complication**
 - Tracks sync health (ack, timestamp, stale state) for diagnostics
 
-**Supported sensors:** Dexcom **G6** and **G7** when Dexcom Share is enabled on the account (same Share API — see [compatibility doc](docs/compatibility/dexcom-g6-g7.md)).
+**Supported sensors:** Dexcom **G6** and **G7** when Dexcom Share is enabled on the account (same Share API — see [dexcom.md](docs/dexcom.md)).
 
 ## Highlights
 
@@ -42,11 +42,11 @@ This project:
 | `core/` | Shared models and Data Layer contract |
 | `feature/` | Sync engine, Dexcom Share client, watch install |
 
-See [Architecture overview](docs/architecture/overview.md) and [Sync pipeline](docs/architecture/sync-pipeline.md).
+See [architecture.md](docs/architecture.md).
 
 ## Prerequisites
 
-- Android Studio (recent) — see [Android Studio guide](docs/development/android-studio.md)
+- Android Studio (recent) — see [dev.md](docs/dev.md)
 - Gradle wrapper **9.4.1** (AGP **9.2.1**, Kotlin **2.3.20**)
 - JDK **JBR 21** (Android Studio bundled)
 - Android SDK with `compileSdk 36` (`local.properties` → `sdk.dir`)
@@ -62,7 +62,7 @@ See [Architecture overview](docs/architecture/overview.md) and [Sync pipeline](d
 6. Run a sync test from the phone home screen.
 7. Add the Glucose For Watch tile or complication on the watch.
 
-Detailed steps: [User quick start](docs/user/quick-start.md).
+Detailed steps: [user.md](docs/user.md).
 
 ## Build
 
@@ -86,14 +86,14 @@ Install both (requires `local.properties` serials):
 
 | Symptom | Action |
 |---------|--------|
-| Gradle IDE sync fails but terminal works | Check JBR path in `gradle.properties`; see [environment](docs/compatibility/environment.md) |
-| Watch value frozen | Force sync from phone; see [troubleshooting](docs/user/troubleshooting.md) |
+| Gradle IDE sync fails but terminal works | Check JBR path in `gradle.properties`; see [dev.md](docs/dev.md) |
+| Watch value frozen | Force sync from phone; see [user.md](docs/user.md) |
 | Complication shows old value | Remove and re-add complication on watch face |
 | Watch was offline | Data catches up on reconnect; keep phone app running |
 
 ## Documentation
 
-**[docs/index.md](docs/index.md)** · **Suivi plan : [docs/plan/PROGRESS.md](docs/plan/PROGRESS.md)** · [Plan maître](docs/plan/MASTER-REFACTOR-PLAN.md) · Design : [toxy-ux-kit/](toxy-ux-kit/README.md)
+**[docs/index.md](docs/index.md)** · Design : [toxy-ux-kit/](toxy-ux-kit/README.md)
 
 ## Contributing
 

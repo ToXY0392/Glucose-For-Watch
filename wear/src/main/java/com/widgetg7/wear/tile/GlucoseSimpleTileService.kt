@@ -16,6 +16,7 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.data.GlucoseSnapshot
 import com.widgetg7.wear.display.WearGlucoseSurfaceModelFactory
+import com.widgetg7.wear.R
 
 /** Glucose tile: AGP-colored value, unit, trend, and sync action. */
 class GlucoseSimpleTileService : TileService() {
@@ -187,7 +188,12 @@ class GlucoseSimpleTileService : TileService() {
         metrics: ToxyTileTheme.TileLayoutMetrics,
         syncLocked: Boolean,
     ): LayoutElementBuilders.LayoutElement {
-        val label = if (syncLocked) "Sync..." else "\u21BB Sync"
+        val label =
+            if (syncLocked) {
+                getString(R.string.tile_sync_in_progress)
+            } else {
+                getString(R.string.tile_sync_action)
+            }
         val textColor = if (syncLocked) ToxyTileTheme.SYNC_LOCKED_ACCENT else ToxyTileTheme.SYNC_ACCENT
         val bgColor = if (syncLocked) ToxyTileTheme.SYNC_LOCKED_BG else ToxyTileTheme.SYNC_BG
 

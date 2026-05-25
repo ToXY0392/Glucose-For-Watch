@@ -54,9 +54,8 @@ if (-not $shouldRun) {
 
 $trackedFiles = @(
     "README.md",
-    "COMPATIBILITY.md",
-    "docs/android-studio.md",
-    "docs/release-notes.md"
+    "docs/dev.md",
+    "CHANGELOG.md"
 )
 
 $staleSignals = @()

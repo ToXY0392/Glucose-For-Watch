@@ -4,7 +4,7 @@
     <string name="wear_status_title">Glycémie</string>
     <string name="wear_status_no_data">--</string>
     <string name="wear_status_unit">mg/dL</string>
-    <string name="wear_status_sync_now">↻ Sync</string>
+    <string name="wear_status_sync_now">↻ Synchro</string>
     <string name="wear_status_phone_hint">Configurez Dexcom Share sur le téléphone.</string>
     <string name="wear_status_stale">Donnée périmée</string>
     <string name="wear_status_refresh_in_progress">Actualisation…</string>
@@ -14,6 +14,8 @@
     <string name="wear_open_on_phone_hint">Utilisez Glucose For Watch sur le téléphone.</string>
     <string name="tile_glucose_simple_label">Glycémie</string>
     <string name="tile_glucose_simple_description">Taux, unité et tendance</string>
+    <string name="tile_sync_action">↻ Synchro</string>
+    <string name="tile_sync_in_progress">Synchro…</string>
     <string name="complication_provider_label">Glycémie</string>
     <string name="wear_complication_not_linked">Complication non liée au cadran</string>
     <string name="wear_complication_setup_hint">Cadran → Personnaliser → slot → Glycémie (Glucose For Watch)</string>

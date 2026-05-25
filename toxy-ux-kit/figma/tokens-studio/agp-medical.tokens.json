@@ -1,32 +1,32 @@
 {
   "glucose": {
     "veryLow": {
-      "value": "#9C0000",
+      "value": "#FF4444",
       "type": "color",
       "description": "Level 2 hypoglycemia — < 54 mg/dL"
     },
     "low": {
-      "value": "#E00000",
+      "value": "#FF6666",
       "type": "color",
       "description": "Level 1 hypoglycemia — 54–69 mg/dL"
     },
     "inRange": {
-      "value": "#008000",
+      "value": "#4ADE80",
       "type": "color",
       "description": "Time in Range — 70–180 mg/dL"
     },
     "high": {
-      "value": "#FFCC00",
+      "value": "#FFE44D",
       "type": "color",
       "description": "Level 1 hyperglycemia — 181–250 mg/dL"
     },
     "veryHigh": {
-      "value": "#FF9900",
+      "value": "#FFAA00",
       "type": "color",
       "description": "Level 2 hyperglycemia — > 250 mg/dL"
     },
     "unknown": {
-      "value": "#64748B",
+      "value": "#9CA3AF",
       "type": "color",
       "description": "Stale, no data, or non-clinical muted trend — NOT a range"
     }

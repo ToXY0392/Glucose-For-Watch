@@ -57,4 +57,4 @@ fi
 echo ""
 echo "Si Android Studio affiche encore des droits d ecriture : lancer en ADMIN Windows :"
 echo "  scripts/windows/fix-windows-studio-defender-admin.ps1 -ProjectPath \"<ton chemin Widget G7>\""
-echo "Voir COMPATIBILITY.md section Windows / Write Permissions Issue."
+echo "Voir docs/dev.md section Windows write permissions."

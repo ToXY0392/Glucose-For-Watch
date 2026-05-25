@@ -100,10 +100,8 @@ See [CHANGELOG.md](CHANGELOG.md). Kit version is **independent** from app `versi
 
 ## Related app documentation
 
-Mirror / summary in the main repo (points here):
-
-- [docs/design/README.md](../docs/design/README.md)
-- [docs/design/glucose-color-standard.md](../docs/design/glucose-color-standard.md)
+- [docs/index.md](../docs/index.md)
+- [docs/architecture.md](../docs/architecture.md)
 
 ---
 

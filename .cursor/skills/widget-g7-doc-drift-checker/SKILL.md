@@ -12,9 +12,9 @@ Maintenir la documentation du projet alignee avec les recommandations fournisseu
 ## Portee
 - `README.md`
 - `docs/index.md`
-- `docs/android-studio.md`
-- `docs/ref/*`
-- `COMPATIBILITY.md`
+- `docs/dev.md`
+- `docs/architecture.md`
+- `CHANGELOG.md`
 
 ## Workflow
 1. Inventorier versions, commandes et recommandations presentes dans la doc interne.
@@ -35,4 +35,4 @@ Maintenir la documentation du projet alignee avec les recommandations fournisseu
 ## Regles
 - Ne pas inventer de version ni de recommandation.
 - Ne modifier que la documentation dans cette skill.
-- Respecter les contraintes du projet Windows/WSL decrites dans `docs/developpement-double-ide-cursor-studio.md`.
+- Respecter les contraintes du projet Windows/WSL decrites dans `docs/dev.md`.

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/gfw_canvas_end" />
+    <gradient
+        android:angle="270"
+        android:endColor="@color/gfw_canvas_end"
+        android:startColor="@color/gfw_canvas_start"
+        android:type="linear" />
 </shape>

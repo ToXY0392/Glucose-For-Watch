@@ -163,7 +163,7 @@ class DexcomShareClient(
             val code = connection.responseCode
             val body = readBody(if (code in 200..299) connection.inputStream else connection.errorStream)
             if (code !in 200..299) {
-                throw classifyHttpFailure(code, body, label)
+                throw DexcomShareHttpClassifier.classifyFailure(code, body, label)
             }
             return body
         } catch (_: IOException) {
@@ -173,27 +173,6 @@ class DexcomShareClient(
             )
         } finally {
             connection.disconnect()
-        }
-    }
-
-    private fun classifyHttpFailure(code: Int, body: String, label: String): DexcomShareException {
-        val normalized = body.lowercase()
-        return when {
-            normalized.contains("accountpasswordinvalid") ||
-                normalized.contains("invalidpassword") ||
-                normalized.contains("invalid password") ||
-                normalized.contains("account not found") ||
-                normalized.contains("authenticatepublisheraccount") ->
-                DexcomShareException(DexcomShareErrorKind.AUTH, "Identifiants Dexcom invalides.")
-
-            normalized.contains("sessionidnotfound") ->
-                DexcomShareException(DexcomShareErrorKind.SESSION, "Session Dexcom à renouveler.")
-
-            code in 500..599 ->
-                DexcomShareException(DexcomShareErrorKind.NETWORK, "Dexcom est temporairement indisponible.")
-
-            else ->
-                DexcomShareException(DexcomShareErrorKind.UNKNOWN, "$label HTTP $code")
         }
     }
 

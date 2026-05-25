@@ -111,7 +111,7 @@ When the file is ready:
    }
    ```
 
-3. Mark Phase 3.1 ✅ in [`docs/plan/PROGRESS.md`](../../docs/plan/PROGRESS.md)
+3. Update `figmaUrl` in [kit.manifest.json](../kit.manifest.json) when the file is ready
 
 ---
 

@@ -81,8 +81,10 @@ if ($watchApp -eq "true" -and $watchVer -eq "0.4.0") {
 
 if ($pushSeq -and $ackSeq -and $pushSeq -eq $ackSeq) {
     Write-Host "[OK] S3 Watch ACK matches last push" -ForegroundColor Green; $pass++
+} elseif ($pushSeq -and [int]$pushSeq -gt 0 -and $pushSeq -ne $ackSeq) {
+    Write-Host "[FAIL] S3 push/ack mismatch (push=$pushSeq ack=$ackSeq)" -ForegroundColor Red; $fail++
 } else {
-    Write-Host "[WARN] S3 ACK mismatch or no push yet" -ForegroundColor Yellow
+    Write-Host "[WARN] S3 no push yet - tap sync on watch tile" -ForegroundColor Yellow
 }
 
 if ($watchPending -eq "false" -and $pushFails -eq "0") {

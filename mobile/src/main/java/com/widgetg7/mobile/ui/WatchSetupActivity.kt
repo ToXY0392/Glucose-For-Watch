@@ -14,16 +14,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.battery.BatteryOptimizationHelper
 import com.widgetg7.mobile.watch.ConnectedWatchNode
 import com.widgetg7.mobile.watch.WatchConnectionRepository
+import com.widgetg7.mobile.watch.WatchSyncVerifier
 import kotlinx.coroutines.launch
 
 class WatchSetupActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
 
     private lateinit var batteryOptimizationButton: MaterialButton
+    private lateinit var watchInstallButton: MaterialButton
+    private lateinit var watchTestButton: MaterialButton
     private lateinit var backToHomeButton: ImageButton
     private lateinit var watchSelectorLabel: TextView
     private lateinit var watchSelectorSpinner: Spinner
@@ -50,6 +54,8 @@ class WatchSetupActivity : AppCompatActivity() {
         ViewCompat.requestApplyInsets(scrollView)
 
         batteryOptimizationButton = findViewById(R.id.batteryOptimizationButton)
+        watchInstallButton = findViewById(R.id.watchInstallButton)
+        watchTestButton = findViewById(R.id.watchTestButton)
         backToHomeButton = findViewById(R.id.backToHomeButton)
         watchSelectorLabel = findViewById(R.id.watchSelectorLabel)
         watchSelectorSpinner = findViewById(R.id.watchSelectorSpinner)
@@ -58,6 +64,12 @@ class WatchSetupActivity : AppCompatActivity() {
             runCatching {
                 startActivity(BatteryOptimizationHelper(this).buildSettingsIntent())
             }
+        }
+        watchInstallButton.setOnClickListener {
+            startActivity(Intent(this, WearInstallerActivity::class.java))
+        }
+        watchTestButton.setOnClickListener {
+            lifecycleScope.launch { runWatchTest() }
         }
         backToHomeButton.setOnClickListener { finish() }
 
@@ -84,7 +96,36 @@ class WatchSetupActivity : AppCompatActivity() {
         lifecycleScope.launch {
             refreshWatchChoices()
             refreshBatteryOptimizationStatus()
+            refreshWatchTestAvailability()
         }
+    }
+
+    private suspend fun refreshWatchTestAvailability() {
+        val watchStatus = WatchConnectionRepository(this).loadStatus()
+        watchTestButton.isEnabled = watchStatus.connected
+    }
+
+    private suspend fun runWatchTest() {
+        watchTestButton.isEnabled = false
+        watchTestButton.text = getString(R.string.home_watch_test_running)
+
+        val result = WatchSyncVerifier(this).runTest()
+        val message =
+            when (result) {
+                WatchSyncVerifier.Result.NoWatch -> getString(R.string.home_watch_test_no_watch)
+                WatchSyncVerifier.Result.NoDexcom -> getString(R.string.home_watch_test_no_dexcom)
+                WatchSyncVerifier.Result.Timeout -> getString(R.string.home_watch_test_timeout)
+                WatchSyncVerifier.Result.SendFailed -> getString(R.string.home_watch_test_failed)
+                is WatchSyncVerifier.Result.Error ->
+                    result.message?.takeIf { it.isNotBlank() }
+                        ?: getString(R.string.home_watch_test_failed)
+                is WatchSyncVerifier.Result.Sent ->
+                    getString(R.string.home_watch_test_sent, result.valueMgDl)
+            }
+
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show()
+        watchTestButton.text = getString(R.string.home_watch_test)
+        refreshWatchTestAvailability()
     }
 
     private fun refreshBatteryOptimizationStatus() {

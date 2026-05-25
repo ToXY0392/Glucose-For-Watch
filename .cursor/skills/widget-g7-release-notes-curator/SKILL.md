@@ -1,6 +1,6 @@
 ---
 name: widget-g7-release-notes-curator
-description: Agrege les release notes officielles des fournisseurs Android, Wear OS, AGP, Gradle, Kotlin et Dexcom, puis extrait les points applicables a Widget G7 pour pre-remplir docs/release-notes.md.
+description: Agrege les release notes officielles des fournisseurs Android, Wear OS, AGP, Gradle, Kotlin et Dexcom, puis extrait les points applicables a Widget G7 pour pre-remplir CHANGELOG.md.
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ disable-model-invocation: true
 Maintenir un changelog projet utile et aligne avec les evolutions upstream.
 
 ## Fichier cible principal
-- `docs/release-notes.md`
+- `CHANGELOG.md`
 
 ## Workflow
 1. Collecter les release notes recentes des fournisseurs suivis.
@@ -19,7 +19,7 @@ Maintenir un changelog projet utile et aligne avec les evolutions upstream.
    - impact technique
    - impact produit
    - action recommandee
-4. Si edition autorisee, mettre a jour `docs/release-notes.md`.
+4. Si edition autorisee, mettre a jour `CHANGELOG.md`.
 
 ## Format de section
 - `Upstream changes`

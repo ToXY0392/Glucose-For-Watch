@@ -3,6 +3,7 @@ package com.widgetg7.mobile.sync
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.widgetg7.mobile.settings.AppSettingsStore
 
 class PhoneBootReceiver : BroadcastReceiver() {
 
@@ -12,12 +13,14 @@ class PhoneBootReceiver : BroadcastReceiver() {
             Intent.ACTION_MY_PACKAGE_REPLACED,
             Intent.ACTION_TIME_CHANGED,
             Intent.ACTION_TIMEZONE_CHANGED -> {
-                PhoneAutoSyncScheduler.schedule(context)
-                if (
-                    com.widgetg7.mobile.settings.AppSettingsStore(context).isActiveSyncEnabled() &&
-                    com.widgetg7.mobile.settings.AppSettingsStore(context).loadDexcomSettings().isConfigured()
-                ) {
+                val settingsStore = AppSettingsStore(context)
+                if (!settingsStore.loadDexcomSettings().isConfigured()) {
+                    return
+                }
+                if (settingsStore.isActiveSyncEnabled()) {
                     ActiveGlucoseSyncController.start(context)
+                } else {
+                    PhoneAutoSyncScheduler.schedule(context)
                 }
             }
 

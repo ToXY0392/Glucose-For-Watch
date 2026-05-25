@@ -24,8 +24,8 @@
         <item name="android:windowBackground">@drawable/bg_premium_canvas</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@color/wg7_bg_bottom</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
         <item name="materialButtonStyle">@style/Widget.WidgetG7.PrimaryButton</item>
         <item name="materialCardViewStyle">@style/Widget.WidgetG7.SectionCard</item>
         <item name="textInputStyle">@style/Widget.WidgetG7.InputLayout</item>

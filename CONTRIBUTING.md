@@ -4,10 +4,9 @@ Thank you for contributing. This project syncs real health data — extra care i
 
 ## Before you start
 
-1. Read [Getting started](docs/development/getting-started.md)
-2. Read [Sync pipeline](docs/architecture/sync-pipeline.md)
-3. Read [AGP glucose color standard](docs/design/glucose-color-standard.md) — **never use brand colors on glucose values**
-4. Read [Master refactor plan](docs/plan/MASTER-REFACTOR-PLAN.md) for current priorities
+1. Read [dev.md](docs/dev.md)
+2. Read [architecture.md](docs/architecture.md)
+3. Read [AGP medical layer](toxy-ux-kit/spec/01-agp-medical-layer.md) — **never use brand colors on glucose values**
 
 ## Development setup
 
@@ -16,7 +15,7 @@ Thank you for contributing. This project syncs real health data — extra care i
 .\gradlew.bat test
 ```
 
-Dual IDE: [Cursor + Android Studio](docs/development/dual-ide-setup.md)
+Dual IDE: [dev.md](docs/dev.md#dual-ide-cursor--android-studio)
 
 ## Pull request guidelines
 
@@ -48,14 +47,13 @@ For significant sync changes: **30 min regression** recommended.
 
 ### Design changes
 
-- Glucose values → AGP colors only ([spec](docs/design/glucose-color-standard.md))
-- UI chrome → UX kit tokens ([spec](docs/design/toxy-design-system.md))
-- Wear tile → ≥ 48 dp touch targets ([tile spec](docs/design/wear-tile-spec.md))
+- Glucose values → AGP colors only ([spec](toxy-ux-kit/spec/01-agp-medical-layer.md))
+- UI chrome → UX kit tokens ([spec](toxy-ux-kit/spec/02-toxy-chrome-layer.md))
+- Wear tile → ≥ 48 dp touch targets ([tile spec](toxy-ux-kit/spec/components/wear-tile.md))
 
 ### Documentation
 
-- Update relevant docs in English when behavior changes
-- Run `widget-g7-doc-drift-checker` skill if available
+- Update relevant docs when behavior changes
 
 ### Code style
 

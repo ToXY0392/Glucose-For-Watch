@@ -11,7 +11,13 @@
     <dimen name="wg7_icon_tile_frame">52dp</dimen>
     <dimen name="wg7_icon_tonal_padding">9dp</dimen>
     <dimen name="wg7_touch_min">48dp</dimen>
-    <!-- Carte Montre (accueil) -->
-    <dimen name="wg7_watch_card_image_size">96dp</dimen>
-    <dimen name="wg7_watch_card_pad">22dp</dimen>
+    <dimen name="wg7_reading_accent_width">4dp</dimen>
+    <dimen name="wg7_hero_value_text">72sp</dimen>
+    <dimen name="wg7_status_dot">8dp</dimen>
+    <dimen name="wg7_row_min_height">56dp</dimen>
+    <dimen name="wg7_companion_watch_size">260dp</dimen>
+    <dimen name="wg7_companion_pill_height">112dp</dimen>
+    <dimen name="wg7_companion_pill_radius">28dp</dimen>
+    <dimen name="wg7_companion_group_radius">28dp</dimen>
+    <dimen name="wg7_companion_settings_icon">40dp</dimen>
 </resources>

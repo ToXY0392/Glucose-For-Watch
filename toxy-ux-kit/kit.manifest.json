@@ -40,7 +40,7 @@
     "figmaHandoff": "figma/FIGMA-HANDOFF.md",
     "figmaUrl": null,
     "figmaOptional": true,
-    "appDocsSymlink": "../docs/design/README.md"
+    "appDocsSymlink": "../docs/index.md"
   },
   "exports": {
     "androidColors": "tools/export-android-colors.py",

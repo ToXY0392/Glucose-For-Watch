@@ -112,21 +112,50 @@ function Test-PackageInstalled {
     return $true
 }
 
+function Test-SyncSequence {
+    param(
+        [string]$Adb,
+        [string]$Serial
+    )
+    if (-not $Serial) { return $true }
+
+    $stateXml = & $Adb -s $Serial shell "run-as com.widgetg7.mobile cat shared_prefs/widget_g7_phone_sync_state.xml 2>/dev/null"
+    if (-not $stateXml) {
+        Write-Host "  [WARN] Sync state prefs unavailable (open app once)" -ForegroundColor Yellow
+        return $true
+    }
+
+    $pushSeq = $null
+    $ackSeq = $null
+    if ($stateXml -match '<long name="last_push_sequence_id" value="([^"]*)"') { $pushSeq = $matches[1] }
+    if ($stateXml -match '<long name="last_ack_sequence_id" value="([^"]*)"') { $ackSeq = $matches[1] }
+
+    Write-Host "  push/ack seq: $pushSeq / $ackSeq"
+    if ($pushSeq -and $ackSeq -and $pushSeq -eq $ackSeq) {
+        Write-Host "  [OK] Watch ACK matches last push" -ForegroundColor Green
+        return $true
+    }
+    if ($pushSeq -and [int]$pushSeq -gt 0 -and $pushSeq -ne $ackSeq) {
+        Write-Host "  [FAIL] push/ack mismatch (push=$pushSeq ack=$ackSeq)" -ForegroundColor Red
+        return $false
+    }
+    Write-Host "  [WARN] No push yet - tap sync on watch tile" -ForegroundColor Yellow
+    return $true
+}
+
 function Show-QaChecklist {
     Write-Host ""
-    Write-Host "=== Manual QA - docs/plan/QA-MATRIX-G6-G7.md ===" -ForegroundColor Cyan
+    Write-Host "=== Manual QA checklist ===" -ForegroundColor Cyan
     @(
-        'B.1.1.3  Tile Glycemie + bouton sync'
-        'B.1.1.4  Complication SHORT_TEXT sur cadran'
-        'B.1.2    Dexcom Share US ou OUS'
-        'B.1.3    Sync continue 30 min'
-        'B.1.4    Offline 1-2 h puis rattrapage auto'
-        'B.1.5    Tap sync tile + tail-sync-logs.ps1'
-        'B.1.8    Couleurs AGP - pas de mint sur chiffre'
-        'S1-S4    Verifications sync P0 post-audit'
+        'Tile glycemie + bouton sync'
+        'Complication SHORT_TEXT sur cadran'
+        'Dexcom Share US ou OUS'
+        'Sync continue 30 min'
+        'Offline 1-2 h puis rattrapage auto'
+        'Tap sync tile'
+        'Couleurs AGP - pas de mint sur chiffre'
+        'Phone value = watch value apres sync'
     ) | ForEach-Object { Write-Host "  [ ] $_" }
-    Write-Host ""
-    Write-Host "Captures: docs/qa/captures/ (voir README)" -ForegroundColor DarkGray
     Write-Host ""
 }
 
@@ -189,9 +218,15 @@ if ($phoneOk) {
     & $adb -s $targets.Phone shell am start -n "$PackageId/.SplashActivity" | Out-Null
 }
 
+$syncOk = $true
+if ($phoneOk) {
+    Write-Host "`n=== Sync sequence (D.3) ===" -ForegroundColor Cyan
+    $syncOk = Test-SyncSequence -Adb $adb -Serial $targets.Phone
+}
+
 Show-QaChecklist
 
-if ($phoneOk -and ($watchOk -or $AllowPhoneOnly)) {
+if ($phoneOk -and ($watchOk -or $AllowPhoneOnly) -and $syncOk) {
     Write-Host "Automated checks passed. Complete matrix on hardware.`n" -ForegroundColor Green
     exit 0
 }
