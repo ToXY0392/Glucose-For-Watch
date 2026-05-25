@@ -11,15 +11,13 @@ Set-Location (Join-Path $PSScriptRoot "..\..")
 
 function Get-GhToken {
     if ($env:GH_TOKEN) { return $env:GH_TOKEN }
+    $ghToken = gh auth token 2>$null
+    if ($ghToken) { return $ghToken.Trim() }
     $cred = @"
 protocol=https
 host=github.com
 "@ | git credential fill
     return ($cred | Select-String '^password=').ToString().Substring(9)
-}
-
-function Invoke-GhGraphql($query, $variables) {
-    param()
 }
 
 function Invoke-Gql($token, $query, $variables) {
@@ -28,7 +26,7 @@ function Invoke-Gql($token, $query, $variables) {
         -Headers @{ Authorization = "Bearer $token" } `
         -Body $body -ContentType "application/json"
     if ($r.errors) {
-        throw ($r.errors | ForEach-Object { $_.message } | Join-String -Separator "; ")
+        throw (($r.errors | ForEach-Object { $_.message }) -join "; ")
     }
     return $r.data
 }
@@ -110,13 +108,13 @@ $fieldsData = Invoke-Gql $token $fieldsQ @{ id = $projectId }
 $statusFieldId = $fieldsData.node.field.id
 
 $desiredStatuses = @(
-    @{ name = "Backlog"; color = GRAY; description = "Not started" },
-    @{ name = "Ready"; color = BLUE; description = "Gate amont OK" },
-    @{ name = "In Progress"; color = YELLOW; description = "Active dev" },
-    @{ name = "In Review"; color = ORANGE; description = "PR open" },
-    @{ name = "QA Hardware"; color = PURPLE; description = "adb phone+watch" },
-    @{ name = "Gate Ready"; color = GREEN; description = "stability-gate OK" },
-    @{ name = "Done"; color = GREEN; description = "Merged" }
+    @{ name = "Backlog"; color = "GRAY"; description = "Not started" },
+    @{ name = "Ready"; color = "BLUE"; description = "Gate amont OK" },
+    @{ name = "In Progress"; color = "YELLOW"; description = "Active dev" },
+    @{ name = "In Review"; color = "ORANGE"; description = "PR open" },
+    @{ name = "QA Hardware"; color = "PURPLE"; description = "adb phone+watch" },
+    @{ name = "Gate Ready"; color = "GREEN"; description = "stability-gate OK" },
+    @{ name = "Done"; color = "GREEN"; description = "Merged" }
 )
 
 $updateFieldQ = @"
@@ -217,7 +215,7 @@ mutation(`$input: CreateProjectV2FieldInput!) {
 }
 "@
     try {
-        $opts = $fieldDef.options | ForEach-Object { @{ name = $_; color = GRAY; description = $_ } }
+        $opts = $fieldDef.options | ForEach-Object { @{ name = $_; color = "GRAY"; description = $_ } }
         Invoke-Gql $token $createFieldQ @{
             input = @{
                 projectId = $projectId
