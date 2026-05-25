@@ -23,6 +23,7 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [plan/PROGRESS.md](plan/PROGRESS.md) | Block status and scoreboard |
 | [plan/STABILITY-GATES.md](plan/STABILITY-GATES.md) | Blocking release criteria |
 | [plan/PR-CHECKLIST.md](plan/PR-CHECKLIST.md) | Copy-paste PR checklist |
+| [plan/GITHUB-SETUP.md](plan/GITHUB-SETUP.md) | GitHub repo + Project configuration plan |
 
 ## Design
 

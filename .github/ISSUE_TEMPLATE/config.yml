@@ -1,0 +1,8 @@
+﻿blank_issues_enabled: false
+contact_links:
+  - name: Documentation hub
+    url: https://github.com/ToXY0392/glucose-for-watch/blob/integrate/docs/index.md
+    about: Setup, architecture, user guide
+  - name: Medical disclaimer
+    url: https://github.com/ToXY0392/glucose-for-watch/blob/integrate/docs/legal/medical-disclaimer.md
+    about: Glucose For Watch is not a certified medical device

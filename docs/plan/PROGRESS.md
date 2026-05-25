@@ -22,11 +22,11 @@
 | KPI | Actuel | Cible | Preuve |
 |-----|--------|-------|--------|
 | K1 Crash fatal | **1 incident ouvert** | 0 | [incident](../qa/incidents/2026-05-25-app-crash.md) |
-| K2 Soak 8 h | ☐ | ✅ C.7 | sign-off |
+| K2 Soak 8 h | 🔄 | ✅ C.7 | [C.7 en cours](../qa/soak-runs/) · sign-off matin |
 | K3 Sync 30 min | ✅ | ✅ | [X.6 soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) |
 | K4 S1–S3 | ✅ session 05-24 | ✅ post-PR sync | logs |
 | K5 Unit tests | CI OK + Dexcom 9 tests | 100 % | verify_ci |
-| K6 QA G7 | **4/7** | 7/7 | matrice C |
+| K6 QA G7 | **5/7** | 7/7 | matrice C · C.0/C.5 ✅ |
 | K7 Déconnexion | ✅ | ✅ | A.2 |
 
 ---
@@ -164,14 +164,14 @@ S  Stabilité (transverse, chaque PR)
 
 | ID | Scénario | Durée | KPI | Statut |
 |----|----------|-------|-----|--------|
-| C.0 | Crash reg · kill/relaunch · sync ×10 | 30m | K1 | 🔄 | auto 3+10 + [session](../qa/sessions/2026-05-25_1605-bloc-c-automated.md) |
+| C.0 | Crash reg · kill/relaunch · sync ×10 | 30m | K1 | ✅ | [session](../qa/sessions/2026-05-25_1605-bloc-c-automated.md) · sync bouton ×10 manuel optionnel |
 | C.1 | AGP 60/120/200 | 2h | visuel | ☐ |
 | C.2 | Complication vs tuile | 30m | K3 | ☐ |
 | C.3 | Offline montre 2h | 2–3h | rattrapage | ☐ |
 | C.4 | LOW / HI | — | affichage | ☐ |
-| C.5 | Sync continue | 30m | K3 | 🔄 | X.6 ✅ · C.5 auto optional |
+| C.5 | Sync continue | 30m | K3 | ✅ | [X.6 soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) + smoke S3 |
 | C.6 | Réinstall APK + tuile | 1h | K4 | ☐ |
-| **C.7** | **Soak nuit charge** | **8h** | **K2** | ☐ |
+| **C.7** | **Soak nuit charge** | **8h** | **K2** | 🔄 | soak-monitor 480 min (relance fenêtre dédiée) |
 | C.8 | Montre bat. ≤20% | 1h | K1 | ☐ |
 
 **Procédure C.7 :** [ACTION-PLAN §7](ACTION-PLAN.md#7-rituel-hebdomadaire) · livrable [sign-off](../qa/stability-signoff-template.md)
