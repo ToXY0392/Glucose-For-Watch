@@ -4,7 +4,7 @@ description: Compares Widget G7 internal documentation against recent official d
 disable-model-invocation: true
 ---
 
-# Widget G7 Doc Drift Checker
+# Glucose For Watch Doc Drift Checker
 
 ## Objective
 Keep project documentation aligned with vendor recommendations.
