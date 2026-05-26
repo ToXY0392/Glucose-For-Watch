@@ -8,120 +8,90 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneAutoSyncScheduler
 import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
 import com.widgetg7.mobile.ui.DexcomEntryActivity
 import com.widgetg7.mobile.ui.DexcomSettingsActivity
-import com.widgetg7.mobile.ui.HomeUiBinder
 import com.widgetg7.mobile.ui.HomeViewModel
 import com.widgetg7.mobile.ui.ManualSyncFeedbackFormatter
 import com.widgetg7.mobile.ui.NoticeActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.ui.WearInstallerActivity
+import com.widgetg7.mobile.ui.compose.HomeScreen
+import com.widgetg7.mobile.ui.theme.WidgetG7Theme
 import kotlinx.coroutines.launch
 
 /** Home screen: glucose hero, companion status, settings rows, and manual sync. */
-class MainActivity : AppCompatActivity() {
-    private var baseScrollPaddingTop = 0
-    private var baseScrollPaddingBottom = 0
-
+class MainActivity : ComponentActivity() {
     private val homeViewModel: HomeViewModel by viewModels()
+    private val snackbarHostState = SnackbarHostState()
+    private var syncBusy by mutableStateOf(false)
 
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* denied is OK */ }
 
-    private lateinit var syncNowButton: ImageButton
-    private lateinit var homeWatchFaceValue: TextView
-    private lateinit var homeWatchFaceMeta: TextView
-    private lateinit var homeConnectionStatus: TextView
-    private lateinit var homeBatteryStatus: TextView
-    private lateinit var homeBatteryIcon: View
-    private lateinit var homeStatusSeparator: View
-    private lateinit var homeSyncAgeStatus: TextView
-    private lateinit var homeSyncStatusLine: TextView
-    private lateinit var homeBatterySettingSubtitle: TextView
-    private lateinit var homeInstallSettingRow: View
-    private lateinit var dexcomRowStatus: TextView
-    private lateinit var watchRowStatus: TextView
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val mainScrollView = findViewById<NestedScrollView>(R.id.mainScrollView)
-        baseScrollPaddingTop = mainScrollView.paddingTop
-        baseScrollPaddingBottom = mainScrollView.paddingBottom
-        ViewCompat.setOnApplyWindowInsetsListener(mainScrollView) { view, insets ->
-            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(
-                view.paddingLeft,
-                baseScrollPaddingTop + systemBarsInsets.top,
-                view.paddingRight,
-                baseScrollPaddingBottom + systemBarsInsets.bottom,
-            )
-            insets
-        }
-        ViewCompat.requestApplyInsets(mainScrollView)
-
-        syncNowButton = findViewById(R.id.syncNowButton)
-        homeWatchFaceValue = findViewById(R.id.homeWatchFaceValue)
-        homeWatchFaceMeta = findViewById(R.id.homeWatchFaceMeta)
-        homeConnectionStatus = findViewById(R.id.homeConnectionStatus)
-        homeBatteryStatus = findViewById(R.id.homeBatteryStatus)
-        homeBatteryIcon = findViewById(R.id.homeBatteryIcon)
-        homeStatusSeparator = findViewById(R.id.homeStatusSeparator)
-        homeSyncAgeStatus = findViewById(R.id.homeSyncAgeStatus)
-        homeSyncStatusLine = findViewById(R.id.homeSyncStatusLine)
-        homeBatterySettingSubtitle = findViewById(R.id.homeBatterySettingSubtitle)
-        homeInstallSettingRow = findViewById(R.id.homeInstallSettingRow)
-        dexcomRowStatus = findViewById(R.id.dexcomRowStatus)
-        watchRowStatus = findViewById(R.id.watchRowStatus)
-
-        findViewById<View>(R.id.dexcomRow).setOnClickListener { openDexcomFlow() }
-        findViewById<View>(R.id.watchRow).setOnClickListener { openWatchSetup() }
-        findViewById<View>(R.id.homeBatterySettingRow).setOnClickListener { openBatterySettings() }
-        findViewById<View>(R.id.homeInstallSettingRow).setOnClickListener { openWearInstaller() }
-        findViewById<View>(R.id.openNoticeButton).setOnClickListener {
-            startActivity(Intent(this, NoticeActivity::class.java))
-        }
-        findViewById<View>(R.id.homePermissionsRow).setOnClickListener { openAppDetailsSettings() }
-
-        syncNowButton.setOnClickListener {
-            lifecycleScope.launch { runManualSync() }
-        }
-
-        homeViewModel.uiState.observe(this) { state ->
-            if (state == null) return@observe
-            HomeUiBinder.bind(
-                syncNowButton = syncNowButton,
-                homeWatchFaceValue = homeWatchFaceValue,
-                homeWatchFaceMeta = homeWatchFaceMeta,
-                homeConnectionStatus = homeConnectionStatus,
-                homeBatteryStatus = homeBatteryStatus,
-                homeBatteryIcon = homeBatteryIcon,
-                homeStatusSeparator = homeStatusSeparator,
-                homeSyncAgeStatus = homeSyncAgeStatus,
-                homeSyncStatusLine = homeSyncStatusLine,
-                homeBatterySettingSubtitle = homeBatterySettingSubtitle,
-                homeInstallSettingRow = homeInstallSettingRow,
-                dexcomRowStatus = dexcomRowStatus,
-                watchRowStatus = watchRowStatus,
-                state = state,
-            )
+        enableEdgeToEdge()
+        setContent {
+            WidgetG7Theme {
+                val uiState by homeViewModel.uiState.observeAsState()
+                Scaffold(
+                    snackbarHost = { SnackbarHost(snackbarHostState) },
+                    containerColor = Color.Transparent,
+                ) { padding ->
+                    Box(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(padding),
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.bg_companion_canvas),
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.FillBounds,
+                        )
+                        HomeScreen(
+                            state = uiState,
+                            syncEnabled = !syncBusy,
+                            onSyncClick = { lifecycleScope.launch { runManualSync() } },
+                            onDexcomClick = { openDexcomFlow() },
+                            onWatchClick = { openWatchSetup() },
+                            onBatteryClick = { openBatterySettings() },
+                            onInstallClick = { openWearInstaller() },
+                            onNoticeClick = {
+                                startActivity(Intent(this@MainActivity, NoticeActivity::class.java))
+                            },
+                            onPermissionsClick = { openAppDetailsSettings() },
+                        )
+                    }
+                }
+            }
         }
 
         scheduleAutoSyncIfReady()
@@ -140,17 +110,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun runManualSync() {
-        syncNowButton.isEnabled = false
-        syncNowButton.alpha = 0.45f
+        syncBusy = true
 
         try {
             val settingsStore = AppSettingsStore(this)
             if (!settingsStore.loadDexcomSettings().isConfigured()) {
-                Snackbar.make(
-                    findViewById(android.R.id.content),
-                    getString(R.string.manual_sync_dexcom_off),
-                    Snackbar.LENGTH_LONG,
-                ).show()
+                snackbarHostState.showSnackbar(getString(R.string.manual_sync_dexcom_off))
                 return
             }
 
@@ -160,15 +125,10 @@ class MainActivity : AppCompatActivity() {
                     triggeredFromWatch = false,
                     forcePushCurrentReading = true,
                 )
-            Snackbar.make(
-                findViewById(android.R.id.content),
-                ManualSyncFeedbackFormatter.format(this, result),
-                Snackbar.LENGTH_LONG,
-            ).show()
+            snackbarHostState.showSnackbar(ManualSyncFeedbackFormatter.format(this, result))
         } finally {
             refreshHome()
-            syncNowButton.isEnabled = true
-            syncNowButton.alpha = 1f
+            syncBusy = false
         }
     }
 
