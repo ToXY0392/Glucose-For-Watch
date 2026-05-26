@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 
 @Preview(name = "WidgetG7Theme — chrome tokens", showBackground = true)
+@ShowkaseComposable
 @Composable
-private fun WidgetG7ThemePreview() {
+internal fun WidgetG7ThemePreview() {
     WidgetG7Theme {
         Surface(
             modifier = Modifier.fillMaxWidth(),

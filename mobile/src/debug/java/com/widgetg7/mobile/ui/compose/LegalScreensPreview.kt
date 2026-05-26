@@ -6,13 +6,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.airbnb.android.showkase.annotation.ShowkaseComposable
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.ui.LegalDocumentConfig
 import com.widgetg7.mobile.ui.theme.WidgetG7Theme
 
 @Preview(name = "NoticeScreen", showBackground = true)
+@ShowkaseComposable
 @Composable
-private fun NoticeScreenPreview() {
+internal fun NoticeScreenPreview() {
     WidgetG7Theme {
         NoticeScreen(
             onBack = {},
@@ -25,8 +27,9 @@ private fun NoticeScreenPreview() {
 }
 
 @Preview(name = "LegalDocumentScreen — CGU", showBackground = true)
+@ShowkaseComposable
 @Composable
-private fun LegalDocumentScreenPreview() {
+internal fun LegalDocumentScreenPreview() {
     WidgetG7Theme {
         LegalDocumentScreen(
             config =

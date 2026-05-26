@@ -47,6 +47,16 @@ dexcomShareApplicationId=d89443d2-327c-4a6f-89e5-496bbb0317db
 
 APKs: `mobile/build/outputs/apk/debug/mobile-debug.apk`, `wear/build/outputs/apk/debug/wear-debug.apk`.
 
+### Compose preview browser (Showkase · AUTO-3)
+
+Debug builds include a searchable catalog of `@ShowkaseComposable` / `@Preview` screens:
+
+```powershell
+.\gradlew.bat :mobile:assembleDebug
+```
+
+Launch from code: `startActivity(Showkase.getBrowserIntent(context))` (generated after first debug compile). Previews live in `mobile/src/debug/` — annotate with `@ShowkaseComposable` alongside `@Preview`.
+
 List devices: `adb devices -l`.
 
 ### PC sideload (distribution v0.5.0)
