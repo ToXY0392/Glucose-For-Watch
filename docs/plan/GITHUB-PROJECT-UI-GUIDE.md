@@ -115,9 +115,14 @@ Or from https://github.com/ToXY0392/Glucose-For-Watch/projects → **Link a proj
 
 ---
 
-## Automation (after `project` scope on token)
+## Automation (AUTO-7)
+
+PRs to **`develop/integration`** run [`.github/workflows/project-pr-in-review.yml`](../../.github/workflows/project-pr-in-review.yml) — linked issues (`Closes #N` / `Refs #N`) move to **In Review** on [Project #1](https://github.com/users/ToXY0392/projects/1).
+
+Repo secret **`PROJECTS_TOKEN`** (PAT with `project` scope) required for Actions.
 
 ```powershell
 gh auth login --scopes "project,read:project,repo"
-.\scripts\dev\setup_github_project.ps1
+gh secret set PROJECTS_TOKEN --body "$(gh auth token)" --repo ToXY0392/Glucose-For-Watch
+.\scripts\dev\update_github_project_board.ps1 -ProjectNumber 1
 ```

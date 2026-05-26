@@ -69,10 +69,10 @@ Tracked in [AUTOMATION-BACKLOG.md](AUTOMATION-BACKLOG.md); implement when bandwi
 | AUTO-1 | CI export PNG previews on mobile UI PRs | v0.5 | ✅ | #13 · `preview-export.yml` |
 | AUTO-2 | Static preview gallery HTML (offline sideload doc) | v0.5 | ✅ | #14 · `generate_preview_gallery.py` |
 | AUTO-4 | CI markdown link checker on `docs/` | v0.5 | ✅ | #16 · `scripts/dev/check_docs_links.py` in verify_ci |
-| AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | ☐ | #17 |
-| AUTO-7 | Project workflow: PR opened → In Review column | v0.5 | ☐ | #19 |
-| AUTO-8 | Architecture diagram export in CI | v0.5 | ☐ | #20 |
-| DOC-P2-1 | Close duplicate GitHub Project **#2** (keep Project **#1**) | — | ☐ | [Project #1](https://github.com/users/ToXY0392/projects/1) |
+| AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | ✅ | #17 · `doc-drift-weekly.yml` |
+| AUTO-7 | Project workflow: PR opened → In Review column | v0.5 | ✅ | #19 · `project-pr-in-review.yml` |
+| AUTO-8 | Architecture diagram export in CI | v0.5 | ✅ | #20 · `architecture-diagram.yml` |
+| DOC-P2-1 | Close duplicate GitHub Project **#2** (keep Project **#1**) | — | ✅ | Project #2 closed · #1 renamed |
 | DOC-P2-2 | **doc-backlog-sync skill** in ACTION-PLAN §7 weekly ritual | — | ✅ | `@glucose-for-watch-doc-backlog-sync` |
 | DOC-P2-3 | **Docs-only branch** — CI sync to `docs` on doc path changes | v0.5 | ✅ | [DOCS-BRANCH.md](DOCS-BRANCH.md) |
 

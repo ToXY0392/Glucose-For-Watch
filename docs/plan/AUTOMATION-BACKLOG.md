@@ -39,10 +39,10 @@ Created via `scripts/dev/create_automation_issues.ps1`:
 | AUTO-2 | Static preview gallery HTML | v0.5 | done · `scripts/qa/generate_preview_gallery.py` |
 | AUTO-3 | Showkase for Compose v0.6 | v0.6 | done · PR #39 |
 | AUTO-4 | CI markdown link checker docs/ | v0.5 | done · `check_docs_links.py` |
-| AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | 3h |
+| AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | done · `doc-drift-weekly.yml` |
 | AUTO-6 | Paparazzi wear tile (optional) | v0.6 | 2d |
-| AUTO-7 | Project workflow PR → In Review | v0.5 | 1h |
-| AUTO-8 | Architecture diagram export CI | v0.5 | 2h |
+| AUTO-7 | Project workflow PR → In Review | v0.5 | done · `project-pr-in-review.yml` |
+| AUTO-8 | Architecture diagram export CI | v0.5 | done · `architecture-diagram.yml` |
 | AUTO-10 | Docs-only branch CI (`docs`) | v0.5 | done · [DOCS-BRANCH.md](DOCS-BRANCH.md) |
 | AUTO-9 | PR author skill + CONTRIBUTING integration ([#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21)) | v0.5 | 2h · skill ✅ |
 

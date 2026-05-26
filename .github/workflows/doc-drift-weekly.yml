@@ -1,0 +1,46 @@
+name: Weekly doc drift issue
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+
+jobs:
+  open-doc-drift-issue:
+    name: Open doc drift checklist issue
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create weekly doc drift issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          DATE="$(date -u +%Y-%m-%d)"
+          EXISTING="$(gh issue list --repo "$GITHUB_REPOSITORY" --search "Doc drift check $DATE in:title" --json number --jq '.[0].number // empty')"
+          if [[ -n "$EXISTING" ]]; then
+            echo "Issue already exists: #$EXISTING"
+            exit 0
+          fi
+          gh issue create --repo "$GITHUB_REPOSITORY" \
+            --title "[bloc-s] Doc drift check $DATE" \
+            --label "bloc-s,area:infra,docs-only" \
+            --body "$(cat <<EOF
+## Weekly doc drift ritual (AUTO-5)
+
+Run \`@glucose-for-watch-doc-drift-checker\` or review manually:
+
+- [ ] \`README.md\` vs app behaviour
+- [ ] \`docs/dev/setup.md\` commands still valid
+- [ ] \`docs/dev/architecture.md\` matches modules
+- [ ] \`docs/plan/PROGRESS.md\` scoreboard date
+- [ ] \`docs/plan/DOC-BACKLOG.md\` sync (\`@glucose-for-watch-doc-backlog-sync\`)
+- [ ] Cross-links: \`python3 scripts/dev/check_docs_links.py\`
+
+Pair with \`@glucose-for-watch-github-project-sync\` (Monday).
+
+Refs: #17 · skill \`glucose-for-watch-doc-drift-checker\`
+EOF
+)"
