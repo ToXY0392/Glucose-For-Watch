@@ -183,4 +183,5 @@ Operational plan: [ACTION-PLAN.md](ACTION-PLAN.md) · Merge checklist: [PR-CHECK
 | G-C | 2026-05-26 | operator | ✅ |
 | G-D | 2026-05-26 | operator | ✅ |
 | G-M7 v0.5.0 | 2026-05-26 | operator | ✅ |
-| G-M8 v0.6.0 | | | ☐ |
+| G-F3 Home Compose | 2026-05-26 | operator | ✅ |
+| G-M8 v0.6.0 | 2026-05-26 | operator | ✅ |

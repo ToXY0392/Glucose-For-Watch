@@ -1,6 +1,6 @@
 # Plan tracking — Glucose For Watch
 
-> **Last updated:** 2026-05-26 · **G-M7 closed** · tag `v0.5.0` on `integrate`  
+> **Last updated:** 2026-05-26 · **G-M8 closed** · tag `v0.6.0` on `integrate`  
 > **Distribution:** PC only (`installWidgetG7Debug`) — no Play Store  
 > **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
@@ -17,14 +17,15 @@
 | **G-C** | ✅ | 2026-05-26 | — |
 | **G-D** | ✅ | 2026-05-26 | M7 |
 | **G-M7** v0.5.0 | ✅ | 2026-05-26 | — |
-| G-M8 v0.6.0 | ☐ | | — |
+| **G-F3** Home Compose | ✅ | 2026-05-26 | M8 |
+| **G-M8** v0.6.0 | ✅ | 2026-05-26 | — |
 
 | KPI | Current | Target | Evidence |
 |-----|---------|--------|----------|
 | K1 Fatal crash | 0 | 0 | [incident closed](../qa/incidents/2026-05-25-app-crash.md) |
 | K2 8 h soak | ✅ | ✅ C.7 | [soak](../qa/soak-runs/2026-05-26_C.7-soak.md) · [sign-off](../qa/2026-05-26-stability-signoff.md) |
 | K3 30 min sync | ✅ | ✅ | [X.6 soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) |
-| K4 S1–S3 | ✅ session 05-24 | ✅ post-PR sync | logs |
+| K4 S1–S3 | ✅ post-F3 | ✅ post-F3 | [G-F3 sign-off](../qa/2026-05-26-g-f3-signoff.md) |
 | K5 Unit tests | CI OK + Dexcom 9 tests | 100 % | verify_ci |
 | K6 QA G7 | **7/7** | 7/7 | [bloc-c-evidence](../qa/bloc-c-evidence.md) · C.7 + waivers |
 | K7 Disconnect | ✅ | ✅ | A.2 |
@@ -47,11 +48,11 @@
 
 | Indicator | Value |
 |-----------|-------|
-| App | v0.5.0 (vc 24) |
+| App | v0.6.0 (vc 25) |
 | Phone | Pixel 8a · Android 14+ |
-| Watch | Pixel Watch 2 (session 05-24) |
+| Watch | Pixel Watch 2 (session 05-26) |
 | P0 crash | FGS mitigated · C.7 8h PASS · incident closed | |
-| Phone UI | XML · Material 3 |
+| Phone UI | **Compose M3** ✅ |
 | Wear UI | Compose M3 ✅ |
 
 ---
@@ -198,12 +199,12 @@ S  Stability (cross-cutting, each PR)
 
 | Phase | PR | Gate | Duration |
 |-------|-----|------|----------|
-| F0 Foundations | #15 | G-F0 | 2–3d |
-| F1 Legal/Notice | #16 | G-F1 | 2–3d |
-| F2 Dexcom/Watch | #17 | G-F2 | 1 week |
-| F3 **Home** | #18 | G-F3 + soak 4h | 1–1.5 weeks |
+| F0 Foundations | #30 | G-F0 | 2–3d |
+| F1 Legal/Notice | #32 | G-F1 | 2–3d |
+| F2 Dexcom/Watch | #33 | G-F2 | 1 week |
+| F3 **Home** | #34 | G-F3 | 1–1.5 weeks |
 | F4 Installer (opt.) | — | — | opt. |
-| F5 Cleanup + icons | #18+ | G-M8 | 2–3d |
+| F5 Cleanup | #36 | G-M8 | 2–3d |
 
 Screen detail + tasks: [ACTION-PLAN §11](ACTION-PLAN.md#11-compose-v060) · [PROGRESS Block F history](ACTION-PLAN.md)
 
