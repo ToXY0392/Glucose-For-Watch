@@ -1,5 +1,10 @@
 package com.widgetg7.feature.sync
 
+/**
+ * Low-battery watch sync policy: slower poll interval below 20% when not charging.
+ *
+ * [syncLimited] from the watch forces degraded mode regardless of battery level.
+ */
 object BatteryDegradedPolicy {
     private const val LOW_BATTERY_THRESHOLD = 20
     const val POLL_INTERVAL_NORMAL_MS = 45_000L

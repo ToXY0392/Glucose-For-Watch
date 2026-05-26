@@ -4,6 +4,7 @@ import com.widgetg7.core.model.SyncStatusSnapshot
 import com.widgetg7.mobile.sync.PhoneSyncStateSnapshot
 import com.widgetg7.mobile.watch.WatchConnectionStatus
 
+/** Localized strings for home sync status pill variants. */
 data class HomeSyncPillLabels(
     val dexcomOff: String,
     val watchUnreachable: String,
@@ -17,6 +18,7 @@ data class HomeSyncPillLabels(
     val ready: String,
 )
 
+/** Visual severity for the home sync status pill. */
 enum class HomeSyncPillTone {
     OK,
     WARN,
@@ -24,6 +26,7 @@ enum class HomeSyncPillTone {
     NEUTRAL,
 }
 
+/** Derives sync status pill label and tone from Dexcom, watch, and sync state. */
 object HomeSyncPillResolver {
     const val WATCH_PUSH_FAILURE_THRESHOLD = 3
 
@@ -85,6 +88,7 @@ object HomeSyncPillResolver {
             else -> HomeSyncPillTone.NEUTRAL
         }
 
+    /** True when the watch acknowledged the latest pushed sequence. */
     fun hasWatchAck(state: PhoneSyncStateSnapshot): Boolean =
         state.lastAckSequenceId == state.lastPushSequenceId && state.lastAckSequenceId > 0L
 

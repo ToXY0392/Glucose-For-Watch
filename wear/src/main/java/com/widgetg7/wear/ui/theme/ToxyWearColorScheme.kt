@@ -3,7 +3,7 @@ package com.widgetg7.wear.ui.theme
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material3.ColorScheme
 
-/** Glucose For Watch — chrome montre (glycémie = AGP uniquement). */
+/** Glucose For Watch — watch chrome (glucose values use AGP colors only). */
 internal val ToxyWearColorScheme =
     ColorScheme(
         primary = Color(0xFF8FC7FF),

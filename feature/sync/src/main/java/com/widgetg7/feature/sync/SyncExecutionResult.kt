@@ -1,5 +1,6 @@
 package com.widgetg7.feature.sync
 
+/** Result of a single [GlucoseSyncEngine.run] invocation. */
 sealed interface SyncExecutionResult {
     val sourceName: String
     val watchDelivery: WatchDeliveryStatus

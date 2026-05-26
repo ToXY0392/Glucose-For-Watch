@@ -12,6 +12,7 @@ import kotlinx.coroutines.tasks.await
 import kotlin.math.max
 import kotlin.math.roundToInt
 
+/** ML Kit text recognition for watch install screenshots; decodes and rotates images. */
 object WearInstallOcr {
     const val DECODE_FAILED_MESSAGE = "wg7_wear_ocr_decode"
 

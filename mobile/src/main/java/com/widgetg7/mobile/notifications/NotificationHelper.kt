@@ -15,6 +15,7 @@ import com.widgetg7.mobile.MainActivity
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncService
 
+/** Sync alert and foreground-service notification builders. */
 class NotificationHelper(private val context: Context) {
 
     fun notifyDexcomReconnectRequired() {

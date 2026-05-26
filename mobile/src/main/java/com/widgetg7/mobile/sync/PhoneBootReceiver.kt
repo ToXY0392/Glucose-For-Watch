@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.widgetg7.mobile.settings.AppSettingsStore
 
+/** Reschedules sync after boot, package update, or clock/timezone change. */
 class PhoneBootReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {

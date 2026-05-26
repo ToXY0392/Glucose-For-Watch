@@ -2,6 +2,7 @@ package com.widgetg7.feature.sync
 
 import com.widgetg7.core.model.SyncErrorCategory
 
+/** Maps Dexcom error kinds and timeout hints to [SyncErrorCategory]. */
 object SyncErrorPolicy {
     fun fromTimeoutHint(message: String?): SyncErrorCategory? {
         if (message.isNullOrBlank()) return null

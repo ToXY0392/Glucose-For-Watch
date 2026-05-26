@@ -8,7 +8,9 @@ import com.widgetg7.mobile.sync.PhoneWearSyncService
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeout
 
+/** End-to-end test: fetch latest reading and push once to the watch. */
 class WatchSyncVerifier(private val context: Context) {
+    /** Outcome of the watch sync connectivity test. */
     sealed interface Result {
         data object NoWatch : Result
 

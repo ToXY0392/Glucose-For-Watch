@@ -3,6 +3,7 @@ package com.widgetg7.mobile.ui
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 
+/** Precomputed fields bound to the home screen layout. */
 data class HomeUiState(
     val watchFaceValueText: String,
     @ColorInt val watchFaceValueColor: Int,

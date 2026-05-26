@@ -21,6 +21,7 @@ import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
 
+/** First-run Dexcom connection and legal consent gate. */
 class DexcomEntryActivity : AppCompatActivity() {
     private lateinit var openDexcomLoginButton: MaterialButton
     private lateinit var backToHomeButton: ImageButton

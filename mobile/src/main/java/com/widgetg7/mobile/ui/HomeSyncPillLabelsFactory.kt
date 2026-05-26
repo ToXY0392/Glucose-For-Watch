@@ -3,6 +3,7 @@ package com.widgetg7.mobile.ui
 import android.content.Context
 import com.widgetg7.mobile.R
 
+/** Builds localized [HomeSyncPillLabels] from string resources. */
 object HomeSyncPillLabelsFactory {
     fun create(context: Context): HomeSyncPillLabels =
         HomeSyncPillLabels(
@@ -19,7 +20,9 @@ object HomeSyncPillLabelsFactory {
         )
 }
 
+/** Text and background colors for each [HomeSyncPillTone]. */
 object HomeSyncPillToneColors {
+    /** Text and background color resources for a sync pill tone. */
     data class Colors(
         val textColorRes: Int,
         val backgroundColorRes: Int,

@@ -7,7 +7,9 @@ import com.widgetg7.mobile.R
 import com.widgetg7.mobile.watch.WatchConnectionStatus
 import com.widgetg7.mobile.watch.WatchSyncHealthStatus
 
+/** Formats connection, battery, and sync-age strip under the watch face. */
 object HomeCompanionStatusFormatter {
+    /** Localized labels for the companion status strip. */
     data class StatusLabels(
         val connected: String,
         val disconnected: String,
@@ -17,6 +19,7 @@ object HomeCompanionStatusFormatter {
         val syncNever: String,
     )
 
+    /** Formatted companion strip fields for the home screen. */
     data class CompanionStatus(
         val connectionLabel: String,
         val batteryLabel: String,

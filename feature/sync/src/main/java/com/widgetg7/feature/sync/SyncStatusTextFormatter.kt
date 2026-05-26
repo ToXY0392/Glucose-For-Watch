@@ -6,6 +6,7 @@ import java.text.DateFormat
 import java.util.Date
 import kotlin.math.max
 
+/** Builds French status lines for Dexcom account and sync state on the phone home screen. */
 object SyncStatusTextFormatter {
     fun dexcomStatus(
         dexcomConfigured: Boolean,

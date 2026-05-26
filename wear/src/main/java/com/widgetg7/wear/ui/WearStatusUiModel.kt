@@ -24,6 +24,7 @@ data class WearStatusUiModel(
     val hasReading: Boolean = valueText != "--"
 }
 
+/** Builds [WearStatusUiModel] from cache, refresh status, and watch health. */
 object WearStatusUiModelFactory {
     fun load(context: Context, nowEpochMs: Long = System.currentTimeMillis()): WearStatusUiModel {
         val cache = GlucoseCache(context)

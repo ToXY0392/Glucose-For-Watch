@@ -3,6 +3,7 @@ package com.widgetg7.feature.watchinstall
 import com.flyfishxu.kadb.Kadb
 import java.io.File
 
+/** Wireless ADB pair + install using the bundled wear APK over Wi-Fi. */
 object WearDirectAdbInstaller {
     suspend fun pair(host: String, pairPort: Int, pairingCode: String) {
         Kadb.pair(host, pairPort, pairingCode)

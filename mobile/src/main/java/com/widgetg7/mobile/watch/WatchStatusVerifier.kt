@@ -8,6 +8,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withTimeoutOrNull
 
+/** Requests a fresh watch status snapshot via Data Layer. */
 class WatchStatusVerifier(private val context: Context) {
     suspend fun requestStatus(targetNodeId: String): WatchSyncHealthStatus? {
         val requestedAt = System.currentTimeMillis()

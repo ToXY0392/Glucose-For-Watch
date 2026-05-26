@@ -3,6 +3,7 @@ package com.widgetg7.mobile.sync
 import android.app.ForegroundServiceStartNotAllowedException
 import android.util.Log
 
+/** Attempts foreground promotion; swallows quota/security refusal without crashing. */
 object ActiveGlucoseSyncForegroundGate {
     private const val TAG = "WG7.FgsGate"
 

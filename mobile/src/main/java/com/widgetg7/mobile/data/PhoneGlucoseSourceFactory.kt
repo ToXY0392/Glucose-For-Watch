@@ -6,6 +6,7 @@ import com.widgetg7.feature.dexcomshare.DexcomShareConfig
 import com.widgetg7.mobile.BuildConfig
 import com.widgetg7.mobile.settings.AppSettingsStore
 
+/** Creates the configured [PhoneGlucoseSource] (Dexcom Share). */
 object PhoneGlucoseSourceFactory {
     fun create(context: Context): PhoneGlucoseSource {
         val settingsConfig = AppSettingsStore(context)

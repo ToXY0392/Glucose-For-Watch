@@ -13,6 +13,7 @@ import com.widgetg7.mobile.watch.WatchHomeCardSummary
 import com.widgetg7.mobile.watch.WatchSyncHealthStatus
 import androidx.core.content.ContextCompat
 
+/** Maps repositories and settings into [HomeUiState]. */
 object HomeStateMapper {
     fun map(
         context: Context,

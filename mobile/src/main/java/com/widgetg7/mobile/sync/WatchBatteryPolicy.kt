@@ -4,6 +4,7 @@ import com.widgetg7.feature.sync.SyncMessageCatalog
 import com.widgetg7.mobile.watch.WatchSyncHealthStatus
 import com.widgetg7.feature.sync.BatteryDegradedPolicy
 
+/** Poll interval and messaging when watch battery is degraded. */
 object WatchBatteryPolicy {
     const val POLL_INTERVAL_NORMAL_MS = BatteryDegradedPolicy.POLL_INTERVAL_NORMAL_MS
     const val POLL_INTERVAL_DEGRADED_MS = BatteryDegradedPolicy.POLL_INTERVAL_DEGRADED_MS

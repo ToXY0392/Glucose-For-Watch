@@ -4,11 +4,13 @@ import android.content.Context
 import com.google.android.gms.wearable.Wearable
 import kotlinx.coroutines.tasks.await
 
+/** Wear OS node id and display name for a connected watch. */
 data class ConnectedWatchNode(
     val nodeId: String,
     val displayName: String,
 )
 
+/** Resolved watch connection state including preferred watch selection. */
 data class WatchConnectionStatus(
     val connected: Boolean,
     val nodeId: String,
@@ -24,6 +26,7 @@ data class WatchConnectionStatus(
     }
 }
 
+/** Loads connected watches and persists the user's preferred watch. */
 class WatchConnectionRepository(private val context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 

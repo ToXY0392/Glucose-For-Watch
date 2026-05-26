@@ -10,6 +10,7 @@ enum class GlucoseRange {
     UNKNOWN,
 }
 
+/** ARGB colors for each [GlucoseRange] band (AGP / time-in-range palette). */
 object AgpGlucoseColors {
     const val VERY_LOW = 0xFFC54B47.toInt()
     const val LOW = 0xFFD46363.toInt()
@@ -29,6 +30,7 @@ object AgpGlucoseColors {
         }
 }
 
+/** Maps mg/dL values to [GlucoseRange] bands and AGP display colors. */
 object GlucoseRangeResolver {
     fun resolveRange(mgDl: Int): GlucoseRange =
         when {
@@ -41,6 +43,7 @@ object GlucoseRangeResolver {
 
     fun resolveColor(mgDl: Int): Int = AgpGlucoseColors.colorFor(resolveRange(mgDl))
 
+    /** Returns [AgpGlucoseColors.UNKNOWN] when value is missing or the reading is stale. */
     fun resolveColorForReading(valueMgDl: Int?, stale: Boolean): Int {
         if (valueMgDl == null || stale) return AgpGlucoseColors.UNKNOWN
         return resolveColor(valueMgDl)

@@ -32,6 +32,7 @@ import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
 import kotlinx.coroutines.launch
 
+/** Dexcom Share account editor and connection test. */
 class DexcomSettingsActivity : AppCompatActivity() {
     private lateinit var saveDexcomButton: Button
     private lateinit var disconnectDexcomButton: Button

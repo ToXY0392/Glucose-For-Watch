@@ -6,6 +6,7 @@ import com.widgetg7.feature.dexcomshare.DexcomShareException
 import com.widgetg7.feature.sync.SyncErrorMessagePolicy
 import com.widgetg7.feature.sync.SyncErrorPolicy
 
+/** Maps Dexcom and sync exceptions to categories and user-facing messages. */
 object SyncErrorAdapter {
     fun toCategory(t: Throwable): SyncErrorCategory {
         SyncErrorPolicy.fromTimeoutHint(t.message)?.let { return it }

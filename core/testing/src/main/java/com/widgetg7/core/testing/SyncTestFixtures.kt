@@ -4,6 +4,7 @@ import com.widgetg7.core.model.GlucoseReading
 import com.widgetg7.core.model.SyncErrorCategory
 import com.widgetg7.core.model.SyncStatusSnapshot
 
+/** Factory helpers for unit tests across sync and mobile modules. */
 object SyncTestFixtures {
     fun glucoseReading(
         valueMgDl: Int = 123,

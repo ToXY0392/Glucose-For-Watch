@@ -34,6 +34,7 @@ import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.ui.WearInstallerActivity
 import kotlinx.coroutines.launch
 
+/** Home screen: glucose hero, companion status, settings rows, and manual sync. */
 class MainActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
     private var baseScrollPaddingBottom = 0

@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import com.widgetg7.mobile.R
 
+/** Applies [HomeUiState] to home screen views. */
 object HomeUiBinder {
     fun bind(
         syncNowButton: ImageButton,

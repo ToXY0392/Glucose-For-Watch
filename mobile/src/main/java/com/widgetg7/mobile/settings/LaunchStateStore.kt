@@ -2,6 +2,7 @@ package com.widgetg7.mobile.settings
 
 import android.content.Context
 
+/** Tracks whether the user completed first-run Dexcom entry. */
 class LaunchStateStore(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 

@@ -7,11 +7,13 @@ import com.widgetg7.core.datalayer.GlucoseDataLayerContract
 import com.widgetg7.core.model.GlucoseReading
 import kotlinx.coroutines.tasks.await
 
+/** Pushes the latest glucose reading to the watch via an urgent Data Layer item. */
 class WearSyncPublisher(
     private val context: Context,
     private val resolveTargetNodeId: suspend () -> String?,
     private val resolveSourceNodeId: suspend () -> String? = { null },
 ) {
+    /** Returns false when no target watch node is connected. */
     suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean {
         val nodeId = resolveTargetNodeId().orEmpty()
         if (nodeId.isBlank()) {

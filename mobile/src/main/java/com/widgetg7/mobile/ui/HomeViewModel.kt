@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
+/** Exposes [HomeUiState] and refreshes on demand. */
 class HomeViewModel(
     private val loader: HomeStateLoader = HomeStateLoader(),
 ) : ViewModel() {

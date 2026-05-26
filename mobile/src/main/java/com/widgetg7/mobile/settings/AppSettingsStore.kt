@@ -8,6 +8,7 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.widgetg7.feature.dexcomshare.DexcomShareConfig
 
+/** Dexcom Share account settings and server region. */
 data class DexcomUserSettings(
     val username: String,
     val password: String,
@@ -16,6 +17,7 @@ data class DexcomUserSettings(
     fun isConfigured(): Boolean = username.isNotBlank() && password.isNotBlank()
 }
 
+/** Encrypted storage for Dexcom settings and active-sync toggle. */
 class AppSettingsStore(context: Context) {
     private val prefs: SharedPreferences = createPreferences(context)
 

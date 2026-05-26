@@ -14,6 +14,7 @@ data class WearGlucoseSurfaceModel(
     val valueMgDl: Int?,
 )
 
+/** Maps a cached [GlucoseSnapshot] into [WearGlucoseSurfaceModel] for tile and complication. */
 object WearGlucoseSurfaceModelFactory {
     fun fromSnapshot(snapshot: GlucoseSnapshot?): WearGlucoseSurfaceModel {
         val trendArrow = snapshot?.trendArrow().orEmpty()

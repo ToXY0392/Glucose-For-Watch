@@ -13,6 +13,7 @@ import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.data.WatchSyncHealthSnapshot
 
+/** Evaluates watch battery/power state and publishes sync health to the phone. */
 class WatchSyncHealthMonitor(private val context: Context) {
     private val cache = GlucoseCache(context)
 

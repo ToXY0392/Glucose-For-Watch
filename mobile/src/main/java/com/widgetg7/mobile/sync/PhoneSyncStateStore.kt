@@ -2,6 +2,7 @@ package com.widgetg7.mobile.sync
 
 import android.content.Context
 
+/** Persisted phone sync pipeline state (fetch, push, ack). */
 data class PhoneSyncStateSnapshot(
     val lastFetchedReadingTimestampEpochMs: Long,
     val lastPushedReadingTimestampEpochMs: Long,
@@ -24,6 +25,7 @@ data class PhoneSyncStateSnapshot(
     val activeServiceUpdatedAtEpochMs: Long,
 )
 
+/** SharedPreferences store for phone-side sync telemetry. */
 class PhoneSyncStateStore(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
@@ -66,6 +68,7 @@ class PhoneSyncStateStore(context: Context) {
             .apply()
     }
 
+    /** Uses wall-clock millis as the push sequence id. */
     fun nextSequenceId(nowEpochMs: Long = System.currentTimeMillis()): Long = nowEpochMs
 
     fun recordPushSuccess(

@@ -1,5 +1,9 @@
 package com.widgetg7.core.datalayer
 
+/**
+ * Wear Data Layer paths and DataMap keys shared by phone and watch modules.
+ * [PUSH_VERSION] bumps invalidate stale payloads on both sides.
+ */
 object GlucoseDataLayerContract {
     const val PATH_LATEST = "/glucose/latest"
     const val PATH_REFRESH_REQUEST = "/glucose/refresh/request"
