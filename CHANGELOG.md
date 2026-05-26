@@ -8,7 +8,31 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- User-facing documentation rebranded to **Glucose For Watch** (launcher name already set in `strings.xml`)
+- Compose M3 phone migration (Block F) — see [ACTION-PLAN.md](docs/plan/ACTION-PLAN.md)
+
+---
+
+## [0.5.0] — 2026-05-26
+
+Sideload milestone · gate **G-M7** · PC install only (`installWidgetG7Debug`).
+
+### Added
+
+- Bloc C QA evidence pack (C.7 8 h soak PASS, G7 matrix 7/7 with documented waivers)
+- QA automation scripts: `sample-c2/c3/c8-session.ps1`, `capture-c1-agp-session.ps1`
+- English KDoc on public Kotlin APIs (developer comments; UI stays French)
+- Draft `cgu.txt` for release build; Windows folder rename helper script
+
+### Fixed
+
+- FGS crash mitigated (Bloc X): fallback schedulers, deduplicated FGS starts
+- CI release artifact verification accepts unsigned release APKs
+- Wear status preview moved to debug source set for release builds
+
+### Verified
+
+- KPIs K1–K7 · incident [2026-05-25-app-crash](../docs/qa/incidents/2026-05-25-app-crash.md) closed
+- Tag `v0.5.0` on `integrate`
 
 ---
 
@@ -55,6 +79,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ---
 
-[Unreleased]: https://github.com/compare/v0.4.0...HEAD
-[0.4.0]: https://github.com/compare/v0.3.1...v0.4.0
+[Unreleased]: https://github.com/ToXY0392/Glucose-For-Watch/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/ToXY0392/Glucose-For-Watch/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/ToXY0392/Glucose-For-Watch/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/compare/...v0.3.1

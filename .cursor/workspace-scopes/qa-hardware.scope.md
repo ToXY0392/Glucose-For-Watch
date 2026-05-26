@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Branch** | `workspace/qa-hardware` |
-| **Status** | **ACTIVE** (sole sandbox pre v0.5.0 tag) |
+| **Status** | on-demand (G-M7 closed 2026-05-26) |
 | **Skill** | `widget-g7-qa-hardware-scope` |
 
 ## Allowed paths

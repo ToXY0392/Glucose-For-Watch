@@ -37,7 +37,7 @@ Entry point for Cursor agents working on this repository.
 
 Hub: [docs/plan/WORKSPACE.md](docs/plan/WORKSPACE.md) · Router: `widget-g7-workspace-guard`
 
-Pre v0.5.0 tag: only **`workspace/qa-hardware`** active; others dormant (rebase weekly).
+Post v0.5.0 tag: **`workspace/mobile-app`** active (Bloc F); QA sandboxes on-demand (rebase weekly).
 
 ## Rules (always apply)
 
