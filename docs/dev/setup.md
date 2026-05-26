@@ -17,7 +17,7 @@ Optional: Wear OS watch + Android phone for device testing.
 
 ```bash
 git clone <repository-url>
-cd "Widget G7"
+cd "Glucose-For-Watch"
 ```
 
 Create `local.properties` (not in git):
@@ -168,12 +168,12 @@ cd scripts\windows
 .\fix-windows-studio-defender-admin.ps1 -ProjectPath "C:\Dev\Widget-G7"
 ```
 
-Prefer `C:\Dev\Widget-G7` (no spaces) or a WSL UNC path over Desktop/OneDrive.
+Prefer `C:\Dev\Glucose-For-Watch` (no spaces) or a WSL UNC path over Desktop/OneDrive.
 
 ## Project layout
 
 ```
-Widget G7/
+Glucose-For-Watch/
 ├── mobile/              # Phone APK
 ├── wear/                # Wear companion APK
 ├── core/                # model, datalayer-contract, testing
