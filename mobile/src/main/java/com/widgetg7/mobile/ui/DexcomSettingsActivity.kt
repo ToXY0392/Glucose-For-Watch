@@ -2,16 +2,21 @@ package com.widgetg7.mobile.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
-import com.widgetg7.core.model.SyncStatusSnapshot
 import com.widgetg7.feature.dexcomshare.DexcomShareClient
 import com.widgetg7.feature.dexcomshare.DexcomShareConfig
 import com.widgetg7.feature.sync.SyncExecutionResult
@@ -27,16 +32,22 @@ import com.widgetg7.mobile.settings.DexcomUserSettings
 import com.widgetg7.mobile.settings.LaunchStateStore
 import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
-import com.widgetg7.mobile.sync.SyncErrorAdapter
 import com.widgetg7.mobile.sync.PhoneGlucoseSyncEngine
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
+import com.widgetg7.mobile.sync.SyncErrorAdapter
+import com.widgetg7.mobile.ui.compose.DexcomSettingsScreen
+import com.widgetg7.mobile.ui.compose.DexcomSettingsUiState
+import com.widgetg7.mobile.ui.theme.WidgetG7Theme
 import kotlinx.coroutines.launch
 
 /** Dexcom Share account editor and connection test. */
-class DexcomSettingsActivity : AppCompatActivity() {
-    private lateinit var saveDexcomButton: Button
-    private lateinit var disconnectDexcomButton: Button
-    private lateinit var backIconButton: ImageView
+class DexcomSettingsActivity : ComponentActivity() {
+    private val snackbarHostState = SnackbarHostState()
+    private var uiState by mutableStateOf(DexcomSettingsUiState())
+
+    private lateinit var settingsStore: AppSettingsStore
+    private lateinit var launchStateStore: LaunchStateStore
+    private lateinit var syncStatusRepository: SyncStatusRepository
     private var firstConnectionFlow = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,100 +61,140 @@ class DexcomSettingsActivity : AppCompatActivity() {
             finish()
             return
         }
-        setContentView(R.layout.activity_dexcom_settings)
+
         firstConnectionFlow = intent.getBooleanExtra(EXTRA_FIRST_CONNECTION_FLOW, false)
+        settingsStore = AppSettingsStore(this)
+        launchStateStore = LaunchStateStore(this)
+        syncStatusRepository = SyncStatusRepository(this)
 
-        val settingsStore = AppSettingsStore(this)
-        val launchStateStore = LaunchStateStore(this)
-        val syncStatusRepository = SyncStatusRepository(this)
         val currentSettings = settingsStore.loadDexcomSettings()
+        uiState =
+            DexcomSettingsUiState(
+                username = currentSettings.username,
+                password = currentSettings.password,
+                serverLabel = SyncServerLabelFormatter.displayServer(currentSettings.server),
+                accountSummary =
+                    SyncStatusTextFormatter.dexcomAccountSummary(
+                        dexcomConfigured = currentSettings.isConfigured(),
+                        serverLabel = SyncServerLabelFormatter.displayServer(currentSettings.server),
+                        syncStatus = syncStatusRepository.load(),
+                    ),
+                statusMessage = getString(R.string.dexcom_no_verification_yet),
+                saveButtonLabel = getString(R.string.dexcom_verify_connect),
+            )
 
-        val usernameInput = findViewById<EditText>(R.id.dexcomUsernameInput)
-        val passwordInput = findViewById<EditText>(R.id.dexcomPasswordInput)
-        val serverInput = findViewById<AutoCompleteTextView>(R.id.dexcomServerInput)
-        val statusText = findViewById<TextView>(R.id.dexcomSettingsStatusText)
-        val accountSummaryText = findViewById<TextView>(R.id.dexcomAccountSummaryText)
-        saveDexcomButton = findViewById(R.id.saveDexcomButton)
-        disconnectDexcomButton = findViewById(R.id.disconnectDexcomButton)
-        backIconButton = findViewById(R.id.backIconButton)
+        enableEdgeToEdge()
+        setContent {
+            WidgetG7Theme {
+                Scaffold(
+                    snackbarHost = { SnackbarHost(snackbarHostState) },
+                ) { padding ->
+                    DexcomSettingsScreen(
+                        state = uiState,
+                        serverOptions =
+                            listOf(
+                                getString(R.string.dexcom_server_europe),
+                                getString(R.string.dexcom_server_us),
+                            ),
+                        onUsernameChange = { uiState = uiState.copy(username = it) },
+                        onPasswordChange = { uiState = uiState.copy(password = it) },
+                        onServerChange = { uiState = uiState.copy(serverLabel = it) },
+                        onSave = { saveAndVerify() },
+                        onDisconnect = { disconnect() },
+                        onBack = { finish() },
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .padding(padding)
+                                .background(MaterialTheme.colorScheme.background),
+                    )
+                }
+            }
+        }
+    }
 
-        usernameInput.setText(currentSettings.username)
-        passwordInput.setText(currentSettings.password)
-        serverInput.setAdapter(
-            ArrayAdapter(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                listOf(
-                    getString(R.string.dexcom_server_europe),
-                    getString(R.string.dexcom_server_us),
-                ),
-            ),
-        )
-        serverInput.setText(SyncServerLabelFormatter.displayServer(currentSettings.server), false)
+    private fun saveAndVerify() {
+        lifecycleScope.launch {
+            setBusy(true)
+            val settings = readSettingsFromState()
+            uiState = uiState.copy(statusMessage = getString(R.string.dexcom_connect_in_progress))
 
-        renderAccountSummary(currentSettings, syncStatusRepository.load(), accountSummaryText, statusText)
-
-        backIconButton.setOnClickListener { finish() }
-
-        saveDexcomButton.setOnClickListener {
-            lifecycleScope.launch {
-                setBusyState(true)
-                val settings = readSettings(usernameInput, passwordInput, serverInput)
-
-                statusText.text = getString(R.string.dexcom_connect_in_progress)
-
-                try {
-                    val config = DexcomShareConfig(
+            try {
+                val config =
+                    DexcomShareConfig(
                         username = settings.username,
                         password = settings.password,
                         server = settings.server,
                         applicationId = BuildConfig.DEXCOM_SHARE_APPLICATION_ID.trim(),
                     )
-                    val reading = DexcomShareClient(config).latest()
-                    settingsStore.saveDexcomSettings(settings)
-                    settingsStore.setActiveSyncEnabled(true)
-                    launchStateStore.markDexcomEntryCompleted()
-                    syncStatusRepository.saveFetchedReading("dexcom-share", reading)
-                    ActiveGlucoseSyncController.start(this@DexcomSettingsActivity)
-                    val syncResult = PhoneGlucoseSyncEngine(this@DexcomSettingsActivity).run(
-                        triggeredFromWatch = false,
-                        forcePushCurrentReading = true,
+                val reading = DexcomShareClient(config).latest()
+                settingsStore.saveDexcomSettings(settings)
+                settingsStore.setActiveSyncEnabled(true)
+                launchStateStore.markDexcomEntryCompleted()
+                syncStatusRepository.saveFetchedReading("dexcom-share", reading)
+                ActiveGlucoseSyncController.start(this@DexcomSettingsActivity)
+                val syncResult = PhoneGlucoseSyncEngine(this@DexcomSettingsActivity).run(
+                    triggeredFromWatch = false,
+                    forcePushCurrentReading = true,
+                )
+                val statusMessage = connectionStatusMessage(syncResult)
+                uiState =
+                    uiState.copy(
+                        accountSummary =
+                            SyncStatusTextFormatter.dexcomAccountSummary(
+                                dexcomConfigured = settings.isConfigured(),
+                                serverLabel = SyncServerLabelFormatter.displayServer(settings.server),
+                                syncStatus = syncStatusRepository.load(),
+                            ),
+                        statusMessage = statusMessage,
                     )
-                    renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                    statusText.text = connectionStatusMessage(syncResult)
-                    Snackbar.make(findViewById(android.R.id.content), statusText.text, 2500).show()
-                    if (firstConnectionFlow) {
-                        startActivity(
-                            Intent(this@DexcomSettingsActivity, MainActivity::class.java).apply {
-                                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            },
-                        )
-                        finish()
-                    }
-                } catch (t: Throwable) {
-                    syncStatusRepository.saveError(SyncErrorAdapter.toUserMessage(t), SyncErrorAdapter.toCategory(t))
-                    renderAccountSummary(settings, syncStatusRepository.load(), accountSummaryText, statusText)
-                    statusText.text = getString(R.string.dexcom_connect_failed, SyncErrorAdapter.toUserMessage(t))
+                snackbarHostState.showSnackbar(statusMessage)
+                if (firstConnectionFlow) {
+                    startActivity(
+                        Intent(this@DexcomSettingsActivity, MainActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        },
+                    )
+                    finish()
                 }
-
-                setBusyState(false)
+            } catch (t: Throwable) {
+                syncStatusRepository.saveError(
+                    SyncErrorAdapter.toUserMessage(t),
+                    SyncErrorAdapter.toCategory(t),
+                )
+                uiState =
+                    uiState.copy(
+                        accountSummary =
+                            SyncStatusTextFormatter.dexcomAccountSummary(
+                                dexcomConfigured = settings.isConfigured(),
+                                serverLabel = SyncServerLabelFormatter.displayServer(settings.server),
+                                syncStatus = syncStatusRepository.load(),
+                            ),
+                        statusMessage =
+                            getString(
+                                R.string.dexcom_connect_failed,
+                                SyncErrorAdapter.toUserMessage(t),
+                            ),
+                    )
             }
-        }
 
-        disconnectDexcomButton.setOnClickListener {
-            settingsStore.clearDexcomSettings()
-            ActiveGlucoseSyncController.stop(this)
-            launchStateStore.resetDexcomEntry()
-            LegalConsentStore(this).clearAcceptedVersion()
-            syncStatusRepository.clearSessionState()
-            PhoneSyncStateStore(this).clear()
-            startActivity(
-                Intent(this, DexcomEntryActivity::class.java).apply {
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                },
-            )
-            finish()
+            setBusy(false)
         }
+    }
+
+    private fun disconnect() {
+        settingsStore.clearDexcomSettings()
+        ActiveGlucoseSyncController.stop(this)
+        launchStateStore.resetDexcomEntry()
+        LegalConsentStore(this).clearAcceptedVersion()
+        syncStatusRepository.clearSessionState()
+        PhoneSyncStateStore(this).clear()
+        startActivity(
+            Intent(this, DexcomEntryActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            },
+        )
+        finish()
     }
 
     private fun connectionStatusMessage(syncResult: SyncExecutionResult): String =
@@ -171,43 +222,24 @@ class DexcomSettingsActivity : AppCompatActivity() {
                 }
         }
 
-    private fun readSettings(
-        usernameInput: EditText,
-        passwordInput: EditText,
-        serverInput: AutoCompleteTextView,
-    ): DexcomUserSettings {
-        return DexcomUserSettings(
-            username = usernameInput.text.toString(),
-            password = passwordInput.text.toString(),
-            server = toServerCode(serverInput.text.toString()),
-        )
-    }
-
-    private fun renderAccountSummary(
-        settings: DexcomUserSettings,
-        syncStatus: SyncStatusSnapshot,
-        accountSummaryText: TextView,
-        statusText: TextView,
-    ) {
-        accountSummaryText.text = SyncStatusTextFormatter.dexcomAccountSummary(
-            dexcomConfigured = settings.isConfigured(),
-            serverLabel = SyncServerLabelFormatter.displayServer(settings.server),
-            syncStatus = syncStatus,
+    private fun readSettingsFromState(): DexcomUserSettings =
+        DexcomUserSettings(
+            username = uiState.username,
+            password = uiState.password,
+            server = toServerCode(uiState.serverLabel),
         )
 
-        if (statusText.text.isNullOrBlank()) {
-            statusText.text = getString(R.string.dexcom_no_verification_yet)
-        }
-    }
-
-    private fun setBusyState(isBusy: Boolean) {
-        saveDexcomButton.isEnabled = !isBusy
-        disconnectDexcomButton.isEnabled = !isBusy
-        saveDexcomButton.text = if (isBusy) {
-            getString(R.string.dexcom_verify_busy)
-        } else {
-            getString(R.string.dexcom_verify_connect)
-        }
+    private fun setBusy(isBusy: Boolean) {
+        uiState =
+            uiState.copy(
+                isBusy = isBusy,
+                saveButtonLabel =
+                    if (isBusy) {
+                        getString(R.string.dexcom_verify_busy)
+                    } else {
+                        getString(R.string.dexcom_verify_connect)
+                    },
+            )
     }
 
     private fun toServerCode(label: String): String = if (label.equals("US", true)) "US" else "OUS"

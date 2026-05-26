@@ -2,75 +2,80 @@ package com.widgetg7.mobile.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.view.View
-import android.widget.CheckBox
-import android.widget.ImageButton
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.button.MaterialButton
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import com.widgetg7.feature.sync.SyncStatusRepository
-import com.widgetg7.mobile.R
 import com.widgetg7.mobile.settings.AppSettingsStore
-import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.settings.LaunchStateStore
+import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
+import com.widgetg7.mobile.ui.compose.DexcomEntryScreen
+import com.widgetg7.mobile.ui.compose.DexcomEntryUiState
+import com.widgetg7.mobile.ui.theme.WidgetG7Theme
 
 /** First-run Dexcom connection and legal consent gate. */
-class DexcomEntryActivity : AppCompatActivity() {
-    private lateinit var openDexcomLoginButton: MaterialButton
-    private lateinit var backToHomeButton: ImageButton
-    private lateinit var legalTermsCheckbox: CheckBox
-    private lateinit var medicalWarningCheckbox: CheckBox
+class DexcomEntryActivity : ComponentActivity() {
     private lateinit var appSettingsStore: AppSettingsStore
     private lateinit var launchStateStore: LaunchStateStore
     private lateinit var syncStatusRepository: SyncStatusRepository
     private lateinit var legalConsentStore: LegalConsentStore
 
+    private var uiState by mutableStateOf(DexcomEntryUiState())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dexcom_entry)
 
         appSettingsStore = AppSettingsStore(this)
         launchStateStore = LaunchStateStore(this)
         syncStatusRepository = SyncStatusRepository(this)
         legalConsentStore = LegalConsentStore(this)
-        openDexcomLoginButton = findViewById(R.id.openDexcomLoginButton)
-        backToHomeButton = findViewById(R.id.backToHomeButton)
-        legalTermsCheckbox = findViewById(R.id.legalTermsCheckbox)
-        medicalWarningCheckbox = findViewById(R.id.medicalWarningCheckbox)
-
-        bindLegalLinks(findViewById(R.id.legalLinksText))
 
         if (legalConsentStore.hasAcceptedCurrentVersion()) {
-            legalTermsCheckbox.isChecked = true
-            medicalWarningCheckbox.isChecked = true
+            uiState =
+                uiState.copy(
+                    legalTermsAccepted = true,
+                    medicalWarningAccepted = true,
+                )
         }
+        refreshConfiguredState()
 
-        val updateButtonState = {
-            openDexcomLoginButton.isEnabled = legalTermsCheckbox.isChecked && medicalWarningCheckbox.isChecked
-        }
-
-        legalTermsCheckbox.setOnCheckedChangeListener { _, _ -> updateButtonState() }
-        medicalWarningCheckbox.setOnCheckedChangeListener { _, _ -> updateButtonState() }
-        renderPrimaryAction()
-
-        backToHomeButton.setOnClickListener { finish() }
-
-        openDexcomLoginButton.setOnClickListener {
-            if (appSettingsStore.loadDexcomSettings().isConfigured()) {
-                showDisconnectConfirmation()
-            } else {
-                legalConsentStore.markAcceptedCurrentVersion()
-                startActivity(
-                    Intent(this, DexcomSettingsActivity::class.java).apply {
-                        putExtra(DexcomSettingsActivity.EXTRA_FIRST_CONNECTION_FLOW, true)
+        enableEdgeToEdge()
+        setContent {
+            WidgetG7Theme {
+                DexcomEntryScreen(
+                    state = uiState,
+                    onLegalTermsChange = { checked ->
+                        uiState = uiState.copy(legalTermsAccepted = checked)
                     },
+                    onMedicalWarningChange = { checked ->
+                        uiState = uiState.copy(medicalWarningAccepted = checked)
+                    },
+                    onPrimaryAction = { onPrimaryActionClicked() },
+                    onConfirmDisconnect = { performDisconnect() },
+                    onDismissDisconnect = {
+                        uiState = uiState.copy(showDisconnectDialog = false)
+                    },
+                    onDocumentClick = { documentType ->
+                        startActivity(
+                            Intent(this, LegalDocumentActivity::class.java).apply {
+                                putExtra(LegalDocumentActivity.EXTRA_DOCUMENT_TYPE, documentType)
+                            },
+                        )
+                    },
+                    onBack = { finish() },
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background),
                 )
             }
         }
@@ -78,92 +83,39 @@ class DexcomEntryActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        renderPrimaryAction()
+        refreshConfiguredState()
     }
 
-    private fun bindLegalLinks(textView: TextView) {
-        val text = getString(R.string.dexcom_entry_legal_links)
-        val spannable = SpannableString(text)
-
-        addLink(
-            spannable = spannable,
-            fullText = text,
-            linkText = getString(R.string.dexcom_entry_link_cgu),
-            documentType = LegalDocumentActivity.DOCUMENT_TYPE_CGU,
-        )
-        addLink(
-            spannable = spannable,
-            fullText = text,
-            linkText = getString(R.string.dexcom_entry_link_privacy),
-            documentType = LegalDocumentActivity.DOCUMENT_TYPE_PRIVACY,
-        )
-        addLink(
-            spannable = spannable,
-            fullText = text,
-            linkText = getString(R.string.dexcom_entry_link_medical),
-            documentType = LegalDocumentActivity.DOCUMENT_TYPE_MEDICAL,
-        )
-
-        textView.text = spannable
-        textView.movementMethod = LinkMovementMethod.getInstance()
-        textView.highlightColor = android.graphics.Color.TRANSPARENT
+    private fun refreshConfiguredState() {
+        uiState = uiState.copy(isConfigured = appSettingsStore.loadDexcomSettings().isConfigured())
     }
 
-    private fun addLink(
-        spannable: SpannableString,
-        fullText: String,
-        linkText: String,
-        documentType: String,
-    ) {
-        val start = fullText.indexOf(linkText)
-        if (start < 0) return
-        val end = start + linkText.length
-        spannable.setSpan(
-            object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    startActivity(
-                        Intent(this@DexcomEntryActivity, LegalDocumentActivity::class.java).apply {
-                            putExtra(LegalDocumentActivity.EXTRA_DOCUMENT_TYPE, documentType)
-                        },
-                    )
-                }
-            },
-            start,
-            end,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
-        )
-    }
-
-    private fun renderPrimaryAction() {
-        val isConfigured = appSettingsStore.loadDexcomSettings().isConfigured()
-        openDexcomLoginButton.text = if (isConfigured) {
-            getString(R.string.dexcom_entry_disconnect)
+    private fun onPrimaryActionClicked() {
+        if (appSettingsStore.loadDexcomSettings().isConfigured()) {
+            uiState = uiState.copy(showDisconnectDialog = true)
         } else {
-            getString(R.string.dexcom_entry_connect)
-        }
-        openDexcomLoginButton.isEnabled = if (isConfigured) {
-            true
-        } else {
-            legalTermsCheckbox.isChecked && medicalWarningCheckbox.isChecked
+            legalConsentStore.markAcceptedCurrentVersion()
+            startActivity(
+                Intent(this, DexcomSettingsActivity::class.java).apply {
+                    putExtra(DexcomSettingsActivity.EXTRA_FIRST_CONNECTION_FLOW, true)
+                },
+            )
         }
     }
 
-    private fun showDisconnectConfirmation() {
-        AlertDialog.Builder(this)
-            .setTitle(R.string.home_dexcom_disconnect_title)
-            .setMessage(R.string.dexcom_entry_disconnect_message)
-            .setNegativeButton(R.string.action_cancel, null)
-            .setPositiveButton(R.string.dexcom_entry_disconnect) { _, _ ->
-                appSettingsStore.clearDexcomSettings()
-                ActiveGlucoseSyncController.stop(this)
-                launchStateStore.resetDexcomEntry()
-                legalConsentStore.clearAcceptedVersion()
-                syncStatusRepository.clearSessionState()
-                PhoneSyncStateStore(this).clear()
-                legalTermsCheckbox.isChecked = false
-                medicalWarningCheckbox.isChecked = false
-                renderPrimaryAction()
-            }
-            .show()
+    private fun performDisconnect() {
+        appSettingsStore.clearDexcomSettings()
+        ActiveGlucoseSyncController.stop(this)
+        launchStateStore.resetDexcomEntry()
+        legalConsentStore.clearAcceptedVersion()
+        syncStatusRepository.clearSessionState()
+        PhoneSyncStateStore(this).clear()
+        uiState =
+            uiState.copy(
+                showDisconnectDialog = false,
+                legalTermsAccepted = false,
+                medicalWarningAccepted = false,
+                isConfigured = false,
+            )
     }
 }
