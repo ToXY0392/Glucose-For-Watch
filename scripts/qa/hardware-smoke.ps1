@@ -73,8 +73,8 @@ $fail = 0
 if ($lastValue) { Write-Host "[OK] B.1.2 Dexcom hero has value" -ForegroundColor Green; $pass++ }
 else { Write-Host "[FAIL] B.1.2 no glucose value" -ForegroundColor Red; $fail++ }
 
-if ($watchApp -eq "true" -and $watchVer -eq "0.4.0") {
-    Write-Host "[OK] B.1.1.2 Watch app 0.4.0 via Data Layer" -ForegroundColor Green; $pass++
+if ($watchApp -eq "true" -and $watchVer -match "^0\.[45]\.") {
+    Write-Host "[OK] B.1.1.2 Watch app $watchVer via Data Layer" -ForegroundColor Green; $pass++
 } else {
     Write-Host "[WARN] B.1.1.2 Watch app not confirmed (install or open watch once)" -ForegroundColor Yellow
 }

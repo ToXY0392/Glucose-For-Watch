@@ -17,7 +17,7 @@ Set-Location $Root
 
 $PackageId = "com.widgetg7.mobile"
 $AppLabel = "Glucose For Watch"
-$ExpectedVersionName = "0.4.0"
+$ExpectedVersionName = "0.5.0"
 
 function Read-LocalProperty {
     param([string]$Key)
