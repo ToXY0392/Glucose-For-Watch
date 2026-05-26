@@ -45,6 +45,7 @@ fun HomeScreen(
     onSyncClick: () -> Unit,
     onDexcomClick: () -> Unit,
     onWatchClick: () -> Unit,
+    onUnitClick: () -> Unit,
     onBatteryClick: () -> Unit,
     onInstallClick: () -> Unit,
     onNoticeClick: () -> Unit,
@@ -222,6 +223,12 @@ fun HomeScreen(
                     title = stringResource(R.string.home_companion_setting_dexcom_title),
                     subtitle = uiState.dexcomRowStatus,
                     onClick = onDexcomClick,
+                )
+                HomeSettingRow(
+                    icon = R.drawable.ic_settings_24,
+                    title = stringResource(R.string.home_companion_setting_unit_title),
+                    subtitle = uiState.unitRowStatus,
+                    onClick = onUnitClick,
                 )
                 HomeSettingRow(
                     icon = R.drawable.ic_watch_24,

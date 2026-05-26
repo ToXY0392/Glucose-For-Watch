@@ -3,7 +3,9 @@ package com.widgetg7.wear.data
 import android.content.Context
 import com.widgetg7.core.datalayer.GlucoseDataLayerContract
 import com.widgetg7.core.model.AgpGlucoseColors
+import com.widgetg7.core.model.GlucoseDisplayUnit
 import com.widgetg7.core.model.GlucoseRangeResolver
+import com.widgetg7.core.model.GlucoseUnitFormatter
 
 /** Semantic glucose range bucket for non-AGP UI hints (sync chrome). */
 enum class GlucoseSemanticLevel {
@@ -20,12 +22,11 @@ data class GlucoseSnapshot(
     val deltaMgDl: Int,
     val timestampEpochMs: Long,
     val stale: Boolean,
+    val displayUnit: GlucoseDisplayUnit = GlucoseDisplayUnit.MG_DL,
 ) {
-    fun displayValueText(): String = when {
-        valueMgDl <= DISPLAY_LOW_MAX_MG_DL -> "LOW"
-        valueMgDl >= DISPLAY_HIGH_MIN_MG_DL -> "HI"
-        else -> valueMgDl.toString()
-    }
+    fun displayValueText(): String = GlucoseUnitFormatter.formatValue(valueMgDl, displayUnit)
+
+    fun unitLabel(): String = GlucoseUnitFormatter.unitLabel(displayUnit)
 
     fun trendArrow(): String = when (trend) {
         "UP" -> "\u2191"
@@ -76,11 +77,6 @@ data class GlucoseSnapshot(
             else -> "$ageMinutes min"
         }
     }
-
-    private companion object {
-        private const val DISPLAY_LOW_MAX_MG_DL = 40
-        private const val DISPLAY_HIGH_MIN_MG_DL = 400
-    }
 }
 
 /** Data Layer path and field keys shared with the phone app. */
@@ -97,6 +93,7 @@ object GlucoseKeys {
     const val DELTA_MG_DL = GlucoseDataLayerContract.DELTA_MG_DL
     const val TIMESTAMP_EPOCH_MS = GlucoseDataLayerContract.TIMESTAMP_EPOCH_MS
     const val STALE = GlucoseDataLayerContract.STALE
+    const val DISPLAY_UNIT = GlucoseDataLayerContract.DISPLAY_UNIT
     const val SEQUENCE_ID = GlucoseDataLayerContract.SEQUENCE_ID
     const val TARGET_NODE_ID = GlucoseDataLayerContract.TARGET_NODE_ID
     const val SOURCE_PHONE_NODE_ID = GlucoseDataLayerContract.SOURCE_PHONE_NODE_ID
@@ -199,6 +196,7 @@ class GlucoseCache(context: Context) {
             .putInt(GlucoseKeys.DELTA_MG_DL, snapshot.deltaMgDl)
             .putLong(GlucoseKeys.TIMESTAMP_EPOCH_MS, snapshot.timestampEpochMs)
             .putBoolean(GlucoseKeys.STALE, snapshot.stale)
+            .putString(GlucoseKeys.DISPLAY_UNIT, snapshot.displayUnit.name)
             .putString(GlucoseKeys.HISTORY, history.joinToString(","))
             .putLong(KEY_LAST_PHONE_UPDATE_RECEIVED_AT, receivedAtEpochMs)
             .apply()
@@ -215,6 +213,7 @@ class GlucoseCache(context: Context) {
             deltaMgDl = prefs.getInt(GlucoseKeys.DELTA_MG_DL, 0),
             timestampEpochMs = timestampEpochMs,
             stale = prefs.getBoolean(GlucoseKeys.STALE, true) || isTooOld,
+            displayUnit = GlucoseDisplayUnit.fromStorage(prefs.getString(GlucoseKeys.DISPLAY_UNIT, null)),
         )
     }
 

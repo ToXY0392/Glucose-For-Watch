@@ -55,7 +55,7 @@ object WearStatusUiModelFactory {
 
         return WearStatusUiModel(
             valueText = display.valueText,
-            unitText = context.getString(R.string.wear_status_unit),
+            unitText = display.unitLabel,
             trendArrow = display.trendArrow,
             showTrend = display.showTrend,
             valueColorArgb = display.valueColorArgb,

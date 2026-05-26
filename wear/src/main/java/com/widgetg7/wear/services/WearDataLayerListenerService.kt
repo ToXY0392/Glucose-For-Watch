@@ -10,6 +10,7 @@ import com.google.android.gms.wearable.Wearable
 import com.google.android.gms.wearable.WearableListenerService
 import com.widgetg7.wear.complication.ComplicationUpdateNotifier
 import com.widgetg7.wear.data.GlucoseCache
+import com.widgetg7.core.model.GlucoseDisplayUnit
 import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.data.GlucoseSnapshot
 import com.widgetg7.wear.sync.WatchSyncHealthMonitor
@@ -48,6 +49,7 @@ class WearDataLayerListenerService : WearableListenerService() {
                     deltaMgDl = map.getInt(GlucoseKeys.DELTA_MG_DL),
                     timestampEpochMs = map.getLong(GlucoseKeys.TIMESTAMP_EPOCH_MS),
                     stale = map.getBoolean(GlucoseKeys.STALE),
+                    displayUnit = GlucoseDisplayUnit.fromStorage(map.getString(GlucoseKeys.DISPLAY_UNIT)),
                 )
                 val sequenceId = map.getLong(GlucoseKeys.SEQUENCE_ID)
                 val sourcePhoneNodeId = map.getString(GlucoseKeys.SOURCE_PHONE_NODE_ID).orEmpty()

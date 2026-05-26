@@ -8,6 +8,7 @@ import androidx.wear.watchface.complications.data.LongTextComplicationData
 import androidx.wear.watchface.complications.data.PlainComplicationText
 import androidx.wear.watchface.complications.data.RangedValueComplicationData
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
+import com.widgetg7.core.model.GlucoseDisplayUnit
 import com.widgetg7.wear.data.GlucoseSnapshot
 import com.widgetg7.wear.display.WearGlucoseSurfaceModel
 import com.widgetg7.wear.display.WearGlucoseSurfaceModelFactory
@@ -22,11 +23,12 @@ internal object GlucoseComplicationDataFactory {
 
     fun fromSnapshot(snapshot: GlucoseSnapshot?): RequestPayload {
         val display = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+        val unitLabel = snapshot?.unitLabel() ?: GlucoseDisplayUnit.MG_DL.label()
         val title =
             if (snapshot == null) {
-                "mg/dL"
+                unitLabel
             } else {
-                secondaryMetadata(snapshot.compactTrendOnlyLabel())
+                secondaryMetadata(unitLabel, snapshot.compactTrendOnlyLabel())
             }
         return RequestPayload(
             display = display,
@@ -50,8 +52,8 @@ internal object GlucoseComplicationDataFactory {
             else -> null
         }
 
-    private fun secondaryMetadata(metadata: String): String =
-        if (metadata.isBlank()) "mg/dL" else "mg/dL $metadata"
+    private fun secondaryMetadata(unitLabel: String, metadata: String): String =
+        if (metadata.isBlank()) unitLabel else "$unitLabel $metadata"
 
     private fun buildShortTextData(
         payload: RequestPayload,

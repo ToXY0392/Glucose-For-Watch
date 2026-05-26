@@ -2,6 +2,7 @@ package com.widgetg7.mobile.ui
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import com.widgetg7.core.model.GlucoseDisplayUnit
 import com.widgetg7.core.model.AgpGlucoseColors
 import com.widgetg7.core.testing.SyncTestFixtures
 import com.widgetg7.mobile.R
@@ -48,6 +49,7 @@ class HomeStateMapperTest {
                 batteryProtected = true,
                 watchPushPending = false,
                 activeSyncEnabled = true,
+                displayUnit = GlucoseDisplayUnit.MG_DL,
                 nowEpochMs = nowEpochMs,
             )
 
@@ -76,6 +78,7 @@ class HomeStateMapperTest {
                 batteryProtected = true,
                 watchPushPending = false,
                 activeSyncEnabled = true,
+                displayUnit = GlucoseDisplayUnit.MG_DL,
                 nowEpochMs = nowEpochMs,
             )
 
@@ -100,6 +103,7 @@ class HomeStateMapperTest {
                 batteryProtected = true,
                 watchPushPending = true,
                 activeSyncEnabled = true,
+                displayUnit = GlucoseDisplayUnit.MG_DL,
                 nowEpochMs = nowEpochMs,
             )
 
@@ -128,11 +132,38 @@ class HomeStateMapperTest {
                 batteryProtected = true,
                 watchPushPending = false,
                 activeSyncEnabled = true,
+                displayUnit = GlucoseDisplayUnit.MG_DL,
                 nowEpochMs = nowEpochMs,
             )
 
         assertTrue(state.syncAgeLabel.contains("min"))
         assertTrue(state.watchFaceMetaText.contains("min"))
+    }
+
+    @Test
+    fun mmol_unit_formats_hero_value() {
+        val state =
+            HomeStateMapper.map(
+                context = context,
+                dexcomSettings = DexcomUserSettings("alice", "secret", "OUS"),
+                syncStatus =
+                    SyncTestFixtures.syncStatusSnapshot(
+                        lastValueMgDl = 120,
+                        lastReadingTimestampEpochMs = nowEpochMs - 120_000L,
+                    ),
+                watchStatus = connectedWatch(),
+                watchHealth = installedWatchHealth(),
+                syncState = ackedSyncState(),
+                batteryProtected = true,
+                watchPushPending = false,
+                activeSyncEnabled = true,
+                displayUnit = GlucoseDisplayUnit.MMOL_L,
+                nowEpochMs = nowEpochMs,
+            )
+
+        assertEquals("6.7", state.watchFaceValueText)
+        assertEquals("mmol/L", state.unitRowStatus)
+        assertTrue(state.watchFaceMetaText.startsWith("mmol/L"))
     }
 
     @Test
@@ -148,6 +179,7 @@ class HomeStateMapperTest {
                 batteryProtected = false,
                 watchPushPending = false,
                 activeSyncEnabled = false,
+                displayUnit = GlucoseDisplayUnit.MG_DL,
                 nowEpochMs = nowEpochMs,
             )
 

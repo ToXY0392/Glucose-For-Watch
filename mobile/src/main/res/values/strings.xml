@@ -19,6 +19,7 @@
     <string name="home_companion_setting_battery_on">Autorisée sur ce téléphone</string>
     <string name="home_companion_setting_battery_off">Autoriser pour la sync en arrière-plan</string>
     <string name="home_companion_setting_dexcom_title">Dexcom</string>
+    <string name="home_companion_setting_unit_title">Unité glycémie</string>
     <string name="home_companion_setting_watch_title">Montre</string>
     <string name="home_companion_setting_notice_title">Notice</string>
     <string name="home_companion_setting_notice_sub">Informations légales et usage</string>
@@ -67,7 +68,7 @@
     <string name="home_watch_status_unlinked_desc">Montre non connectée</string>
     <string name="home_watch_test">Tester</string>
     <string name="home_watch_test_running">…</string>
-    <string name="home_watch_test_sent">Envoi OK · %1$d mg/dL</string>
+    <string name="home_watch_test_sent">Envoi OK · %1$s</string>
     <string name="home_watch_test_failed">Échec envoi</string>
     <string name="home_watch_test_no_dexcom">Dexcom requis</string>
     <string name="home_watch_test_no_watch">Aucune montre</string>
@@ -180,5 +181,9 @@
     <string name="dexcom_entry_disconnect_message">Voulez-vous supprimer le compte Dexcom de l\'application ?</string>
     <string name="action_cancel">Annuler</string>
     <string name="home_watch_face_unit">mg/dL</string>
-    <string name="home_watch_face_unit_with_meta">mg/dL · %1$s</string>
+    <string name="home_watch_face_unit_with_meta">%1$s</string>
+    <string name="glucose_unit_settings_title">Unité glycémie</string>
+    <string name="glucose_unit_settings_subtitle">Affichage sur le téléphone et la montre. Les données Dexcom restent en mg/dL en interne.</string>
+    <string name="glucose_unit_mg_dl">mg/dL</string>
+    <string name="glucose_unit_mmol_l">mmol/L</string>
 </resources>

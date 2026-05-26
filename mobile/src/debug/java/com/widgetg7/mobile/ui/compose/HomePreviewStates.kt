@@ -1,6 +1,7 @@
 package com.widgetg7.mobile.ui.compose
 
 import android.content.Context
+import com.widgetg7.core.model.GlucoseDisplayUnit
 import com.widgetg7.core.testing.SyncTestFixtures
 import com.widgetg7.mobile.settings.DexcomUserSettings
 import com.widgetg7.mobile.sync.PhoneSyncStateSnapshot
@@ -28,6 +29,7 @@ internal object HomePreviewStates {
             batteryProtected = true,
             watchPushPending = false,
             activeSyncEnabled = true,
+            displayUnit = GlucoseDisplayUnit.MG_DL,
             nowEpochMs = now,
         )
     }
@@ -47,6 +49,7 @@ internal object HomePreviewStates {
             batteryProtected = true,
             watchPushPending = false,
             activeSyncEnabled = true,
+            displayUnit = GlucoseDisplayUnit.MG_DL,
         )
 
     private fun connectedWatch(): WatchConnectionStatus =
