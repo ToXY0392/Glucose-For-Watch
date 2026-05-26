@@ -86,7 +86,7 @@ dependencies {
     implementation(project(":feature:dexcom-share"))
     implementation(project(":feature:watch-install"))
     implementation("com.google.mlkit:text-recognition:16.0.1")
-    implementation("androidx.exifinterface:exifinterface:1.4.1")
+    implementation("androidx.exifinterface:exifinterface:1.4.2")
     implementation("com.flyfishxu:kadb:2.1.1")
     implementation("androidx.core:core-ktx:1.18.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
