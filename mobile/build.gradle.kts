@@ -3,6 +3,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -112,6 +113,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
+
+    val showkaseVersion = "1.0.5"
+    debugImplementation("com.airbnb.android:showkase:$showkaseVersion")
+    implementation("com.airbnb.android:showkase-annotation:$showkaseVersion")
+    kspDebug("com.airbnb.android:showkase-processor:$showkaseVersion")
+
+    debugImplementation(project(":core:testing"))
 
     testImplementation(project(":core:testing"))
     testImplementation("junit:junit:4.13.2")
