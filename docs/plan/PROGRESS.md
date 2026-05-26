@@ -1,6 +1,6 @@
 # Plan tracking — Glucose For Watch
 
-> **Last updated:** 2026-05-25  
+> **Last updated:** 2026-05-26  
 > **Distribution:** PC only (`installWidgetG7Debug`) — no Play Store  
 > **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
@@ -10,7 +10,7 @@
 
 | Gate | Status | Date | Blocks |
 |------|--------|------|--------|
-| **G-X** | 🔄 | 2026-05-25 | everything · X.6 ✅ · X.3 → C.7 |
+| **G-X** | ✅ | 2026-05-26 | X.6 + X.7 + C.7 (X.3) |
 | G-A | 🔄 | 2026-05-25 | M, B, C · A.4 ✅ |
 | G-M | 🔄 | 2026-05-25 | B · M.1–M.3 ✅ |
 | G-B | 🔄 | 2026-05-25 | C · B.1–B.3/B.5 ✅ |
@@ -21,12 +21,12 @@
 
 | KPI | Current | Target | Evidence |
 |-----|---------|--------|----------|
-| K1 Fatal crash | **1 open incident** | 0 | [incident](../qa/incidents/2026-05-25-app-crash.md) |
-| K2 8 h soak | 🔄 | ✅ C.7 | [C.7 in progress](../qa/soak-runs/) · morning sign-off |
+| K1 Fatal crash | 0 | 0 | [incident closed](../qa/incidents/2026-05-25-app-crash.md) |
+| K2 8 h soak | ✅ | ✅ C.7 | [soak](../qa/soak-runs/2026-05-26_C.7-soak.md) · [sign-off](../qa/2026-05-26-stability-signoff.md) |
 | K3 30 min sync | ✅ | ✅ | [X.6 soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) |
 | K4 S1–S3 | ✅ session 05-24 | ✅ post-PR sync | logs |
 | K5 Unit tests | CI OK + Dexcom 9 tests | 100 % | verify_ci |
-| K6 QA G7 | **5/7** | 7/7 | matrix C · C.0/C.5 ✅ |
+| K6 QA G7 | **6/7** | 7/7 | matrix C · C.0/C.5/C.7 ✅ |
 | K7 Disconnect | ✅ | ✅ | A.2 |
 
 ---
@@ -50,7 +50,7 @@
 | App | v0.4.0 (vc 23) |
 | Phone | Pixel 8a · Android 14+ |
 | Watch | Pixel Watch 2 (session 05-24) |
-| P0 crash | FGS mitigated · X.6 0 FATAL | |
+| P0 crash | FGS mitigated · C.7 8h PASS · incident closed | |
 | Phone UI | XML · Material 3 |
 | Wear UI | Compose M3 ✅ |
 
@@ -105,7 +105,7 @@ S  Stability (cross-cutting, each PR)
 |----|------|--------|------|
 | X.1 | Logcat captured | ✅ | — |
 | X.2 | Overnight + charging report | ✅ | — |
-| X.3 | Soak repro / FGS quota | ☐ | 8h |
+| X.3 | Soak repro / FGS quota | ✅ | [C.7](../qa/soak-runs/2026-05-26_C.7-soak.md) |
 | X.4 | FGS root cause | ✅ | — |
 | X.5a | try/catch startForeground | ✅ | 2h |
 | X.5b | Worker/alarm fallback | ✅ | 3h |
@@ -171,7 +171,7 @@ S  Stability (cross-cutting, each PR)
 | C.4 | LOW / HI | — | display | ☐ |
 | C.5 | Continuous sync | 30m | K3 | ✅ | [X.6 soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) + smoke S3 |
 | C.6 | APK reinstall + tile | 1h | K4 | ☐ |
-| **C.7** | **Overnight charge soak** | **8h** | **K2** | 🔄 | soak-monitor 480 min (dedicated window relaunch) |
+| **C.7** | **Overnight charge soak** | **8h** | **K2** | ✅ | [soak](../qa/soak-runs/2026-05-26_C.7-soak.md) |
 | C.8 | Watch battery ≤20% | 1h | K1 | ☐ |
 
 **C.7 procedure:** [ACTION-PLAN §7](ACTION-PLAN.md#7-weekly-ritual) · deliverable [sign-off](../qa/stability-signoff-template.md)
