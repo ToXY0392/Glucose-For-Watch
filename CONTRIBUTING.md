@@ -18,6 +18,33 @@ Thank you for contributing. This project syncs real health data — extra care i
 Build, install, and QA scripts: [dev/setup.md](docs/dev/setup.md).  
 Dual IDE (WSL + Studio): [dev/setup.md#dual-ide-cursor--android-studio](docs/dev/setup.md#dual-ide-cursor--android-studio).
 
+## Workspace sandboxes
+
+Long-lived branches for parallel work — see **[docs/plan/WORKSPACE.md](docs/plan/WORKSPACE.md)**.
+
+| Branch | Use for |
+|--------|---------|
+| `workspace/qa-hardware` | Hardware QA, `docs/qa/`, `scripts/qa/` |
+| `workspace/ui-ux-kit` | `toxy-ux-kit/`, design specs |
+| `workspace/mobile-app` | `mobile/` module only |
+| `workspace/wear-app` | `wear/` module only |
+
+1. Checkout the sandbox branch
+2. Use `@widget-g7-workspace-guard` at session start
+3. Rebase weekly: `git fetch && git rebase origin/integrate`
+4. Open PR to **`integrate`** (never direct to `main`)
+5. CI must pass · copy [PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)
+
+Short-lived `{feat|fix|docs}/bloc-*` branches remain the default for single-bloc PRs from `integrate`.
+
+### Pre-commit secrets hook (optional)
+
+```bash
+git config core.hooksPath .githooks
+```
+
+Rejects staged `local.properties`, keystores, and `.cursor/state/` runtime files.
+
 ## Pull request guidelines
 
 Copy the full checklist into every PR: **[docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)**.

@@ -25,6 +25,7 @@ toxy-ux-kit/tools/README.md
 
 # Cursor agent skills (markdown workflows)
 .cursor/skills/
+.cursor/workspace-scopes/
 
 # Architecture diagram assets
 scripts/assets/README.md

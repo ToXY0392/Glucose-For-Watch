@@ -114,10 +114,16 @@ git rm --cached .android-user-home/debug.keystore.lock .tmp-protolayout-classes.
 | `main` | long-lived | Stable releases · M7/M8 tags | — |
 | `integrate` | long-lived | Daily integration · CI | `main` (post-gate) |
 | `docs` | long-lived | Docs-only mirror (auto-sync, no direct edits) | — |
+| `workspace/qa-hardware` | long-lived | Hardware QA · evidence · scripts/qa | `integrate` |
+| `workspace/ui-ux-kit` | long-lived | ToXY kit · tokens · design-reference | `integrate` |
+| `workspace/mobile-app` | long-lived | Phone app (`mobile/`) | `integrate` |
+| `workspace/wear-app` | long-lived | Wear tile · complication · UI | `integrate` |
 | `release/v0.5` | long-lived (temp.) | Bugfix freeze before v0.5.0 tag | `main` |
-| `{type}/bloc-{id}-{slug}` | short-lived | Feature/fix dev | `integrate` |
+| `{type}/bloc-{id}-{slug}` | short-lived | Single-bloc PR from integrate | `integrate` |
 
-See [DOCS-BRANCH.md](DOCS-BRANCH.md) for the `docs` branch workflow.
+See [DOCS-BRANCH.md](DOCS-BRANCH.md) for the `docs` branch workflow · [WORKSPACE.md](WORKSPACE.md) for sandbox backlog and scopes.
+
+**Phase B (create when needed):** `workspace/sync-platform` · `workspace/infrastructure` · `workspace/dexcom-share`
 
 **Allowed types:** `feat` · `fix` · `docs` · `test` · `chore` · `qa` · `design`
 
@@ -150,10 +156,21 @@ git push origin --delete rebuild
 
 | Current branch | Action |
 |------------------|--------|
-| `dev` | Merge into `integrate` or delete if stale |
-| `docs` | Delete after merge if empty |
-| `design` | Keep if active ToXY work |
-| `phase/test` | Rename `qa/bloc-c-soak` or delete |
+| `design` | **Replaced** by `workspace/ui-ux-kit` (rebased on `integrate`) · delete |
+| `dev` | Delete (stale, 0 unique commits) |
+| `phase/test` | Delete · QA → `workspace/qa-hardware` |
+| `rebuild` | Delete if still on origin (renamed to `integrate`) |
+| `docs` | Keep (auto-sync mirror) |
+
+### 3.3.1 Workspace security
+
+| Measure | Detail |
+|---------|--------|
+| PR `workspace/*` → `integrate` | CI `Verify Linux Build Gates` required |
+| Secret scanning | GitHub Settings → Code security → enable + push protection |
+| Pre-commit | `.githooks/pre-commit` · `git config core.hooksPath .githooks` |
+| Scope skills | `.cursor/skills/widget-g7-*-scope` · `widget-g7-workspace-guard` |
+| Sensitive paths | [.github/CODEOWNERS](../../.github/CODEOWNERS) |
 
 ### 3.4 Branch protection for `main`
 
@@ -205,6 +222,7 @@ gh label create "area:wear"    --color "C5DEF5" --description "Tile · complicat
 gh label create "area:sync"     --color "C5DEF5" --description "GlucoseSyncEngine · Data Layer"
 gh label create "area:dexcom"   --color "C5DEF5" --description "Share API · auth"
 gh label create "area:ux-kit"    --color "C5DEF5" --description "toxy-ux-kit · AGP colors"
+gh label create "area:qa"       --color "C5DEF5" --description "Hardware QA · docs/qa"
 gh label create "area:infra"    --color "C5DEF5" --description "CI · scripts · repo"
 
 # Workflow

@@ -24,12 +24,26 @@ Entry point for Cursor agents working on this repository.
 | Integration branch | `integrate` (formerly `rebuild`) |
 | Release branch | `main` |
 
-**Branch naming:** `{feat|fix|docs|test|chore|qa}/bloc-{id}-{slug}`
+**Branch naming:** `{feat|fix|docs|test|chore|qa}/bloc-{id}-{slug}` (short-lived) · `workspace/*` (long-lived sandboxes)
+
+## Workspace sandboxes
+
+| Branch | Role | Skill |
+|--------|------|-------|
+| `workspace/qa-hardware` | QA evidence, soak, scripts/qa | `widget-g7-qa-hardware-scope` |
+| `workspace/ui-ux-kit` | ToXY kit, tokens, design-reference | `widget-g7-ux-kit-scope` |
+| `workspace/mobile-app` | Phone app (`mobile/`) | `widget-g7-mobile-app-scope` |
+| `workspace/wear-app` | Wear tile, complication, UI | `widget-g7-wear-app-scope` |
+
+Hub: [docs/plan/WORKSPACE.md](docs/plan/WORKSPACE.md) · Router: `widget-g7-workspace-guard`
+
+Pre v0.5.0 tag: only **`workspace/qa-hardware`** active; others dormant (rebase weekly).
 
 ## Rules (always apply)
 
 - [.cursor/rules/widget-g7-dual-ide-wsl.mdc](.cursor/rules/widget-g7-dual-ide-wsl.mdc)
 - [.cursor/rules/widget-g7-reinstall-apks.mdc](.cursor/rules/widget-g7-reinstall-apks.mdc)
+- [.cursor/rules/widget-g7-workspace-scopes.mdc](.cursor/rules/widget-g7-workspace-scopes.mdc)
 
 ## GitHub workflow skills
 
@@ -43,6 +57,11 @@ Entry point for Cursor agents working on this repository.
 | Dependabot PRs | `widget-g7-dependabot-triage` + `widget-g7-dependency-advisor` |
 | Sync debugging | `widget-g7-sync-health-reviewer` |
 | Release notes | `widget-g7-release-notes-curator` |
+| Workspace scope routing | `widget-g7-workspace-guard` |
+| UX kit sandbox | `widget-g7-ux-kit-scope` |
+| Mobile sandbox | `widget-g7-mobile-app-scope` |
+| Wear sandbox | `widget-g7-wear-app-scope` |
+| QA hardware sandbox | `widget-g7-qa-hardware-scope` |
 
 ## Cursor built-in skills
 
