@@ -24,23 +24,24 @@ jobs:
             echo "Issue already exists: #$EXISTING"
             exit 0
           fi
+          BODY_FILE="$(mktemp)"
+          {
+            echo "## Weekly doc drift ritual (AUTO-5)"
+            echo ""
+            echo "Run \`@glucose-for-watch-doc-drift-checker\` or review manually:"
+            echo ""
+            echo "- [ ] \`README.md\` vs app behaviour"
+            echo "- [ ] \`docs/dev/setup.md\` commands still valid"
+            echo "- [ ] \`docs/dev/architecture.md\` matches modules"
+            echo "- [ ] \`docs/plan/PROGRESS.md\` scoreboard date"
+            echo "- [ ] \`docs/plan/DOC-BACKLOG.md\` sync (\`@glucose-for-watch-doc-backlog-sync\`)"
+            echo "- [ ] Cross-links: \`python3 scripts/dev/check_docs_links.py\`"
+            echo ""
+            echo "Pair with \`@glucose-for-watch-github-project-sync\` (Monday)."
+            echo ""
+            echo "Refs: #17 · skill \`glucose-for-watch-doc-drift-checker\`"
+          } > "$BODY_FILE"
           gh issue create --repo "$GITHUB_REPOSITORY" \
             --title "[bloc-s] Doc drift check $DATE" \
             --label "bloc-s,area:infra,docs-only" \
-            --body "$(cat <<EOF
-## Weekly doc drift ritual (AUTO-5)
-
-Run \`@glucose-for-watch-doc-drift-checker\` or review manually:
-
-- [ ] \`README.md\` vs app behaviour
-- [ ] \`docs/dev/setup.md\` commands still valid
-- [ ] \`docs/dev/architecture.md\` matches modules
-- [ ] \`docs/plan/PROGRESS.md\` scoreboard date
-- [ ] \`docs/plan/DOC-BACKLOG.md\` sync (\`@glucose-for-watch-doc-backlog-sync\`)
-- [ ] Cross-links: \`python3 scripts/dev/check_docs_links.py\`
-
-Pair with \`@glucose-for-watch-github-project-sync\` (Monday).
-
-Refs: #17 · skill \`glucose-for-watch-doc-drift-checker\`
-EOF
-)"
+            --body-file "$BODY_FILE"
