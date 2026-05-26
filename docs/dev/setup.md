@@ -113,12 +113,13 @@ Criteria: [STABILITY-GATES.md](../plan/STABILITY-GATES.md) · progress: [PROGRES
 Export six home states as PNG without hardware:
 
 ```powershell
-.\gradlew.bat :mobile:testDebugUnitTest --tests com.widgetg7.mobile.preview.AppPreviewExporterTest
 .\scripts\qa\export-app-preview.ps1
+# Linux / CI equivalent:
+# bash scripts/qa/export_app_previews.sh
 .\scripts\qa\open-previews.ps1
 ```
 
-Output: `mobile/build/reports/app-previews/` and `docs/qa/captures/`.
+Output: `mobile/build/app-previews/*.png` and `mobile/build/preview-gallery/index.html`. On PRs touching mobile UI, CI uploads the gallery as artifact **mobile-home-preview-gallery** (AUTO-1/2).
 
 ## Dual IDE (Cursor + Android Studio)
 

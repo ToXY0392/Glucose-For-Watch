@@ -35,8 +35,8 @@ Created via `scripts/dev/create_automation_issues.ps1`:
 
 | ID | Title | Milestone | Effort |
 |----|-------|-----------|--------|
-| AUTO-1 | CI export PNG previews on mobile UI PR | v0.5 | 4h |
-| AUTO-2 | Static preview gallery HTML | v0.5 | 6h |
+| AUTO-1 | CI export PNG previews on mobile UI PR | v0.5 | done · `.github/workflows/preview-export.yml` |
+| AUTO-2 | Static preview gallery HTML | v0.5 | done · `scripts/qa/generate_preview_gallery.py` |
 | AUTO-3 | Showkase for Compose v0.6 | v0.6 | done · PR #39 |
 | AUTO-4 | CI markdown link checker docs/ | v0.5 | done · `check_docs_links.py` |
 | AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | 3h |
@@ -71,7 +71,7 @@ From [PROGRESS.md](PROGRESS.md):
 | Monday | DOC-BACKLOG + PROGRESS scoreboard | skill `widget-g7-doc-backlog-sync` |
 | Monday | GitHub Project columns | skill `widget-g7-github-project-sync` |
 | Monday | Doc drift check | skill `widget-g7-doc-drift-checker` |
-| Each UI PR | export-app-preview | AUTO-1 (CI) |
+| Each UI PR | export-app-preview / CI artifact | AUTO-1 ✅ · AUTO-2 ✅ |
 | Post-merge doc | Link check | AUTO-4 |
 
 ---
