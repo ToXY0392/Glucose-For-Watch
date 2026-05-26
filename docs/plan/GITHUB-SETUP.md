@@ -113,8 +113,11 @@ git rm --cached .android-user-home/debug.keystore.lock .tmp-protolayout-classes.
 |---------|------|------|------------|
 | `main` | long-lived | Stable releases · M7/M8 tags | — |
 | `integrate` | long-lived | Daily integration · CI | `main` (post-gate) |
+| `docs` | long-lived | Docs-only mirror (auto-sync, no direct edits) | — |
 | `release/v0.5` | long-lived (temp.) | Bugfix freeze before v0.5.0 tag | `main` |
 | `{type}/bloc-{id}-{slug}` | short-lived | Feature/fix dev | `integrate` |
+
+See [DOCS-BRANCH.md](DOCS-BRANCH.md) for the `docs` branch workflow.
 
 **Allowed types:** `feat` · `fix` · `docs` · `test` · `chore` · `qa` · `design`
 

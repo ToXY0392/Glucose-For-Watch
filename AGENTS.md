@@ -8,6 +8,7 @@ Entry point for Cursor agents working on this repository.
 |-----|------|
 | Hub | [docs/index.md](docs/index.md) |
 | Doc backlog | [docs/plan/DOC-BACKLOG.md](docs/plan/DOC-BACKLOG.md) |
+| Docs branch | [docs/plan/DOCS-BRANCH.md](docs/plan/DOCS-BRANCH.md) · [`docs`](https://github.com/ToXY0392/Glucose-For-Watch/tree/docs) on GitHub |
 | GitHub setup | [docs/plan/GITHUB-SETUP.md](docs/plan/GITHUB-SETUP.md) |
 | PR checklist | [docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md) |
 | Progress / gates | [docs/plan/PROGRESS.md](docs/plan/PROGRESS.md) |

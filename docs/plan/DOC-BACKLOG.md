@@ -74,6 +74,7 @@ Tracked in [AUTOMATION-BACKLOG.md](AUTOMATION-BACKLOG.md); implement when bandwi
 | AUTO-8 | Architecture diagram export in CI | v0.5 | ☐ | #20 |
 | DOC-P2-1 | Close duplicate GitHub Project **#2** (keep Project **#1**) | — | ☐ | [Project #1](https://github.com/users/ToXY0392/projects/1) |
 | DOC-P2-2 | **doc-backlog-sync skill** in ACTION-PLAN §7 weekly ritual | — | ✅ | `@widget-g7-doc-backlog-sync` |
+| DOC-P2-3 | **Docs-only branch** — CI sync to `docs` on doc path changes | v0.5 | ✅ | [DOCS-BRANCH.md](DOCS-BRANCH.md) |
 
 ---
 

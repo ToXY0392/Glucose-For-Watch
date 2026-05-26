@@ -29,6 +29,7 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [plan/GITHUB-PROJECT-UI-GUIDE.md](plan/GITHUB-PROJECT-UI-GUIDE.md) | Project board setup (UI step-by-step) |
 | [plan/AUTOMATION-BACKLOG.md](plan/AUTOMATION-BACKLOG.md) | Doc/CI automation backlog (Showkase, previews) |
 | [plan/DOC-BACKLOG.md](plan/DOC-BACKLOG.md) | Documentation backlog (living checklist · `@widget-g7-doc-backlog-sync`) |
+| [plan/DOCS-BRANCH.md](plan/DOCS-BRANCH.md) | Docs-only branch (`docs`) · auto-sync from other branches |
 
 ## Design
 
