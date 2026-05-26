@@ -2,9 +2,9 @@
 
 Glucose For Watch syncs Dexcom Share glucose from a phone to a Wear OS companion via the Wear Data Layer.
 
-![Sync architecture](../assets/widget-g7-architecture.png)
+![Sync architecture](../assets/glucose-for-watch-architecture.png)
 
-> Source (editable): [widget-g7-architecture.svg](../assets/widget-g7-architecture.svg) — regenerate PNG: `.\scripts\assets\export-architecture-diagram.ps1`
+> Source (editable): [glucose-for-watch-architecture.svg](../assets/glucose-for-watch-architecture.svg) — regenerate PNG: `.\scripts\assets\export-architecture-diagram.ps1`
 
 ## Modules
 

@@ -6,25 +6,25 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
-echo "[widget-g7] Exporting mobile home preview PNGs"
+echo "[gfw] Exporting mobile home preview PNGs"
 ./gradlew :mobile:testDebugUnitTest \
   --tests "com.widgetg7.mobile.preview.AppPreviewExporterTest"
 
 PREVIEW_DIR="$ROOT_DIR/mobile/build/app-previews"
 if ! compgen -G "$PREVIEW_DIR/*.png" > /dev/null; then
-  echo "[widget-g7] ERROR: no PNG files in $PREVIEW_DIR" >&2
+  echo "[gfw] ERROR: no PNG files in $PREVIEW_DIR" >&2
   exit 1
 fi
 
-echo "[widget-g7] PNG previews:"
+echo "[gfw] PNG previews:"
 ls -1 "$PREVIEW_DIR"/*.png
 
 python3 "$ROOT_DIR/scripts/qa/generate_preview_gallery.py"
 
 GALLERY="$ROOT_DIR/mobile/build/preview-gallery/index.html"
 if [[ ! -f "$GALLERY" ]]; then
-  echo "[widget-g7] ERROR: gallery not generated at $GALLERY" >&2
+  echo "[gfw] ERROR: gallery not generated at $GALLERY" >&2
   exit 1
 fi
 
-echo "[widget-g7] Gallery: $GALLERY"
+echo "[gfw] Gallery: $GALLERY"

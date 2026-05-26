@@ -3,7 +3,7 @@ name: UI Preview Export
 on:
   pull_request:
     branches:
-      - integrate
+      - develop/integration
       - main
     paths:
       - 'mobile/src/main/**'

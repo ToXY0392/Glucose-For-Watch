@@ -1,10 +1,10 @@
-# Regenerate docs/assets/widget-g7-architecture.png from the SVG source.
+# Regenerate docs/assets/glucose-for-watch-architecture.png from the SVG source.
 # Requires: npx (@resvg/resvg-js-cli)
 
 $ErrorActionPreference = "Stop"
 $Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
-$Svg = Join-Path $Root "docs\assets\widget-g7-architecture.svg"
-$Png = Join-Path $Root "docs\assets\widget-g7-architecture.png"
+$Svg = Join-Path $Root "docs\assets\glucose-for-watch-architecture.svg"
+$Png = Join-Path $Root "docs\assets\glucose-for-watch-architecture.png"
 
 if (-not (Test-Path $Svg)) {
     Write-Error "Missing source: $Svg"

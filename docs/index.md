@@ -28,15 +28,15 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [plan/GITHUB-IMPORT-ISSUES.md](plan/GITHUB-IMPORT-ISSUES.md) | P0 issues + labels import checklist |
 | [plan/GITHUB-PROJECT-UI-GUIDE.md](plan/GITHUB-PROJECT-UI-GUIDE.md) | Project board setup (UI step-by-step) |
 | [plan/AUTOMATION-BACKLOG.md](plan/AUTOMATION-BACKLOG.md) | Doc/CI automation backlog (Showkase, previews) |
-| [plan/DOC-BACKLOG.md](plan/DOC-BACKLOG.md) | Documentation backlog (living checklist · `@widget-g7-doc-backlog-sync`) |
+| [plan/DOC-BACKLOG.md](plan/DOC-BACKLOG.md) | Documentation backlog (living checklist · `@glucose-for-watch-doc-backlog-sync`) |
 | [plan/DOCS-BRANCH.md](plan/DOCS-BRANCH.md) | Docs-only branch (`docs`) · auto-sync from other branches |
-| [plan/WORKSPACE.md](plan/WORKSPACE.md) | Long-lived `workspace/*` sandbox branches · scopes · backlog |
+| [plan/WORKSPACE.md](plan/WORKSPACE.md) | Long-lived `sandbox/*` sandbox branches · scopes · backlog |
 
 ## Design
 
 | Document | Description |
 |----------|-------------|
-| [assets/widget-g7-architecture.svg](assets/widget-g7-architecture.svg) | Sync flow diagram (source) |
+| [assets/glucose-for-watch-architecture.svg](assets/glucose-for-watch-architecture.svg) | Sync flow diagram (source) |
 | [design/material-icons.md](design/material-icons.md) | Official Material icons import |
 | [../toxy-ux-kit/README.md](../toxy-ux-kit/README.md) | ToXY tokens, AGP medical layer, wear specs |
 

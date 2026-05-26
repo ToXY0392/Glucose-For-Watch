@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
-echo "[widget-g7] CI verification started"
+echo "[gfw] CI verification started"
 python3 toxy-ux-kit/tools/tokens-validate.py
 python3 toxy-ux-kit/tools/lint-agp-colors.py
 python3 scripts/dev/check_docs_links.py
@@ -18,4 +18,4 @@ python3 scripts/dev/check_docs_links.py
   :wear:testDebugUnitTest \
   :mobile:compileDebugKotlin \
   :wear:compileDebugKotlin
-echo "[widget-g7] CI verification finished"
+echo "[gfw] CI verification finished"

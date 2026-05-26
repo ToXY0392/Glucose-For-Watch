@@ -112,14 +112,14 @@ git rm --cached .android-user-home/debug.keystore.lock .tmp-protolayout-classes.
 | Branch | Type | Role | Merge into |
 |---------|------|------|------------|
 | `main` | long-lived | Stable releases · M7/M8 tags | — |
-| `integrate` | long-lived | Daily integration · CI | `main` (post-gate) |
+| `develop/integration` | long-lived | Daily integration · CI | `main` (post-gate) |
 | `docs` | long-lived | Docs-only mirror (auto-sync, no direct edits) | — |
-| `workspace/qa-hardware` | long-lived | Hardware QA · evidence · scripts/qa | `integrate` |
-| `workspace/ui-ux-kit` | long-lived | ToXY kit · tokens · design-reference | `integrate` |
-| `workspace/mobile-app` | long-lived | Phone app (`mobile/`) | `integrate` |
-| `workspace/wear-app` | long-lived | Wear tile · complication · UI | `integrate` |
+| `sandbox/qa-hardware` | long-lived | Hardware QA · evidence · scripts/qa | `develop/integration` |
+| `sandbox/ui-ux-kit` | long-lived | ToXY kit · tokens · design-reference | `develop/integration` |
+| `sandbox/mobile-app` | long-lived | Phone app (`mobile/`) | `develop/integration` |
+| `sandbox/wear-app` | long-lived | Wear tile · complication · UI | `develop/integration` |
 | `release/v0.5` | long-lived (temp.) | Bugfix freeze before v0.5.0 tag | `main` |
-| `{type}/bloc-{id}-{slug}` | short-lived | Single-bloc PR from integrate | `integrate` |
+| `{type}/bloc-{id}-{slug}` | short-lived | Single-bloc PR from develop/integration | `develop/integration` |
 
 See [DOCS-BRANCH.md](DOCS-BRANCH.md) for the `docs` branch workflow · [WORKSPACE.md](WORKSPACE.md) for sandbox backlog and scopes.
 
@@ -142,7 +142,7 @@ chore/bloc-s-repo-hygiene     → cross-cutting
 qa/bloc-c-soak-night          → C.7 hardware session
 ```
 
-### 3.2 Migration `rebuild` → `integrate`
+### 3.2 Migration `rebuild` → `develop/integration`
 
 ```powershell
 git checkout rebuild
@@ -156,20 +156,20 @@ git push origin --delete rebuild
 
 | Current branch | Action |
 |------------------|--------|
-| `design` | **Replaced** by `workspace/ui-ux-kit` (rebased on `integrate`) · delete |
+| `design` | **Replaced** by `sandbox/ui-ux-kit` (rebased on `develop/integration`) · delete |
 | `dev` | Delete (stale, 0 unique commits) |
-| `phase/test` | Delete · QA → `workspace/qa-hardware` |
-| `rebuild` | Delete if still on origin (renamed to `integrate`) |
+| `phase/test` | Delete · QA → `sandbox/qa-hardware` |
+| `rebuild` | Delete if still on origin (renamed to `develop/integration`) |
 | `docs` | Keep (auto-sync mirror) |
 
 ### 3.3.1 Workspace security
 
 | Measure | Detail |
 |---------|--------|
-| PR `workspace/*` → `integrate` | CI `Verify Linux Build Gates` required |
+| PR `sandbox/*` → `develop/integration` | CI `Verify Linux Build Gates` required |
 | Secret scanning | GitHub Settings → Code security → enable + push protection |
 | Pre-commit | `.githooks/pre-commit` · `git config core.hooksPath .githooks` |
-| Scope skills | `.cursor/skills/widget-g7-*-scope` · `widget-g7-workspace-guard` |
+| Scope skills | `.cursor/skills/glucose-for-watch-*-scope` · `glucose-for-watch-sandbox-guard` |
 | Sensitive paths | [.github/CODEOWNERS](../../.github/CODEOWNERS) |
 
 ### 3.4 Branch protection for `main`
@@ -185,7 +185,7 @@ git push origin --delete rebuild
 | Do not allow bypassing | ✅ |
 | Restrict pushes | ✅ (nobody except you via PR) |
 
-### 3.5 Protection for `integrate` (recommended)
+### 3.5 Protection for `develop/integration` (recommended)
 
 | Option | Value |
 |--------|--------|
@@ -275,7 +275,7 @@ The template `.github/pull_request_template.md` references [PR-CHECKLIST.md](PR-
 
 - Block / Gate / Sync touch
 - Linked issue (`Closes #N` or `Refs #N`)
-- Source branch → `integrate` (or `main` for release hotfix)
+- Source branch → `develop/integration` (or `main` for release hotfix)
 
 ### 5.4 Issue ↔ PR ↔ docs linkage
 
@@ -296,8 +296,8 @@ Project card → Done
 
 1. Repo → **Projects** → **New project**
 2. Template: **Team backlog** (or empty Board)
-3. Name: **`Glucose For Watch — v0.5 → v0.6`**
-4. Link to repo `Widget G7`
+3. Name: **`Glucose For Watch — post-v0.6`**
+4. Link to repo `Glucose-For-Watch`
 
 ### 6.2 Columns (Board view)
 
@@ -408,7 +408,7 @@ updates:
       - "area:infra"
 ```
 
-**Rule:** AGP/Gradle upgrades via skill `widget-g7-dependency-advisor` · dedicated PR · never mixed with feature block.
+**Rule:** AGP/Gradle upgrades via skill `glucose-for-watch-dependency-advisor` · dedicated PR · never mixed with feature block.
 
 ---
 
@@ -427,7 +427,7 @@ Minimal content:
 Until automated release CI:
 
 1. Gate G-M7 ✅ in PROGRESS.md
-2. Branch `release/v0.5` from `integrate`
+2. Branch `release/v0.5` from `develop/integration`
 3. `bash scripts/release/release_dry_run.sh`
 4. Tag `v0.5.0` on `main`
 5. GitHub Release · notes from CHANGELOG.md · APK as private artifact (if configured)
@@ -452,7 +452,7 @@ on:
   push:
     branches:
       - main
-      - integrate      # replaces rebuild
+      - develop/integration      # replaces rebuild
   pull_request:
   workflow_dispatch:
 ```
@@ -488,7 +488,7 @@ Not enforceable on GitHub without self-hosted runner:
 | F0–F5 | #15–18 | G-F* | v0.6.0 | `bloc-f`, `area:mobile` | `feat/bloc-f*-*` |
 | M8 | tag | G-M8 | v0.6.0 | — | `release/v0.6` |
 
-### Critical path (merge order into `integrate`)
+### Critical path (merge order into `develop/integration`)
 
 ```
 X → A → (M ∥ prep B) → B → C → D → merge integrate → main → v0.5.0
@@ -579,7 +579,7 @@ Create these issues **in order** and add them to the Project (milestone v0.5.0 e
 - [ ] `LICENSE` · `SECURITY.md` · `AGENTS.md`
 
 ### Phase 1 — Branches
-- [ ] `rebuild` → `integrate`
+- [ ] `rebuild` → `develop/integration`
 - [ ] `main` protection active
 - [ ] Stale branches cleaned up
 
@@ -598,7 +598,7 @@ Create these issues **in order** and add them to the Project (milestone v0.5.0 e
 
 ### Phase 5–7 — Automation & CI
 - [ ] Dependabot configured
-- [ ] CI on `integrate`
+- [ ] CI on `develop/integration`
 - [ ] First Monday ritual executed
 
 ---
@@ -614,13 +614,13 @@ Create these issues **in order** and add them to the Project (milestone v0.5.0 e
 - PR checklist: docs/plan/PR-CHECKLIST.md
 
 ## Branches
-- integrate = daily integration
+- develop/integration = daily integration
 - fix|feat/bloc-{id}-{slug} = short-lived
 
 ## Skills (sync/debug)
-- widget-g7-sync-health-reviewer
-- widget-g7-agp-color-guard
-- widget-g7-pr-gatekeeper (to create)
+- glucose-for-watch-sync-health-reviewer
+- glucose-for-watch-agp-color-guard
+- glucose-for-watch-pr-gatekeeper (to create)
 ```
 
 ---

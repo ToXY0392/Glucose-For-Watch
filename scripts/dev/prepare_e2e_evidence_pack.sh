@@ -80,5 +80,5 @@ Owner:
 Rationale:
 EOF
 
-echo "[widget-g7] E2E evidence pack ready: $OUT_DIR"
+echo "[gfw] E2E evidence pack ready: $OUT_DIR"
 echo "$OUT_DIR"

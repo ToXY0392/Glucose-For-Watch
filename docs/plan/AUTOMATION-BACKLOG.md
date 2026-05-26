@@ -68,9 +68,9 @@ From [PROGRESS.md](PROGRESS.md):
 
 | Day | Action | Tool |
 |-----|--------|------|
-| Monday | DOC-BACKLOG + PROGRESS scoreboard | skill `widget-g7-doc-backlog-sync` |
-| Monday | GitHub Project columns | skill `widget-g7-github-project-sync` |
-| Monday | Doc drift check | skill `widget-g7-doc-drift-checker` |
+| Monday | DOC-BACKLOG + PROGRESS scoreboard | skill `glucose-for-watch-doc-backlog-sync` |
+| Monday | GitHub Project columns | skill `glucose-for-watch-github-project-sync` |
+| Monday | Doc drift check | skill `glucose-for-watch-doc-drift-checker` |
 | Each UI PR | export-app-preview / CI artifact | AUTO-1 ✅ · AUTO-2 ✅ |
 | Post-merge doc | Link check | AUTO-4 |
 

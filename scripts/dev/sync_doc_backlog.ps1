@@ -49,10 +49,10 @@ $qaTopics = Get-QaSessionTopics
 $missingQa = @("C.2", "C.3", "C.8") | Where-Object { $_ -notin $qaTopics }
 
 $contributingPath = Join-Path $repoRoot "CONTRIBUTING.md"
-$auto9Contributing = (Test-FileContains $contributingPath "widget-g7-pr-author") -and (Test-FileContains $contributingPath "widget-g7-pr-gatekeeper")
+$auto9Contributing = (Test-FileContains $contributingPath "glucose-for-watch-pr-author") -and (Test-FileContains $contributingPath "glucose-for-watch-pr-gatekeeper")
 
 $prTemplatePath = Join-Path $repoRoot ".github/pull_request_template.md"
-$auto9PrTemplate = Test-FileContains $prTemplatePath "widget-g7-pr-author|pr-author"
+$auto9PrTemplate = Test-FileContains $prTemplatePath "glucose-for-watch-pr-author|pr-author"
 
 $captureScriptPath = Join-Path $repoRoot "scripts/qa/capture-crash-log.ps1"
 $captureScriptExists = Test-Path $captureScriptPath
@@ -179,4 +179,4 @@ if ($Apply -and (Test-Path $backlogPath)) {
     }
 }
 
-Write-Host "Done. Invoke @widget-g7-doc-backlog-sync to apply table updates."
+Write-Host "Done. Invoke @glucose-for-watch-doc-backlog-sync to apply table updates."

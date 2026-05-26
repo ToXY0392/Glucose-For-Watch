@@ -1,4 +1,5 @@
-# Update existing GitHub Project board: Status columns + issue placement (no duplicate items).
+# Update GitHub Project #1: Status columns + open AUTO issue placement.
+# Project #2 (duplicate) — close manually in GitHub UI (DOC-P2-1).
 param(
     [string]$Repo = "ToXY0392/Glucose-For-Watch",
     [int]$ProjectNumber = 1
@@ -79,10 +80,10 @@ $statusOptions = @{}
 foreach ($opt in $data.user.projectV2.field.options) { $statusOptions[$opt.name] = $opt.id }
 
 $placement = @{
-    3  = "In Progress"
-    1  = "Ready"
-    2  = "Ready"
-    4  = "Ready"
+    17 = "Backlog"   # AUTO-5 doc-drift
+    18 = "Backlog"   # AUTO-6 Paparazzi (optional)
+    19 = "Ready"     # AUTO-7 Project workflows (manual UI)
+    20 = "Backlog"   # AUTO-8 architecture diagram CI
 }
 
 $setQ = @"
