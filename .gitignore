@@ -16,7 +16,6 @@ local.properties
 
 # Legal / contenu gardé hors dépôt (voir docs)
 docs/CGU.md
-mobile/src/main/res/raw/cgu.txt
 
 # Cache compilateur Kotlin (bruit IDE, régénéré)
 .kotlin/
