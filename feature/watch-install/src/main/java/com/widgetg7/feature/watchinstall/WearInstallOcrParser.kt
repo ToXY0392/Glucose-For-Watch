@@ -1,5 +1,6 @@
 package com.widgetg7.feature.watchinstall
 
+/** Pairing fields extracted from a watch wireless-debug OCR capture. */
 data class WearInstallOcrParsed(
     val ip: String? = null,
     val pairPort: Int? = null,
@@ -7,6 +8,11 @@ data class WearInstallOcrParsed(
     val adbPort: Int? = null,
 )
 
+/**
+ * Parses watch wireless-debug screenshots for IP, pairing port/code, and ADB port.
+ *
+ * Tolerates common OCR misreads (O/0, spaced digits, multiline layouts).
+ */
 object WearInstallOcrParser {
     internal fun preprocessOcrRaw(raw: String): String {
         var s = raw.replace('\u00a0', ' ')
@@ -29,6 +35,7 @@ object WearInstallOcrParser {
         Regex("""(?:\d{1,3}\s*\.\s*){3}\d{1,3}\s*[:#]\s*(\d{4,5})\b""", RegexOption.IGNORE_CASE)
     private val portToken = Regex("""\b(\d{4,5})\b""")
 
+    /** Extracts pairing fields from raw ML Kit OCR text. */
     fun parse(raw: String): WearInstallOcrParsed {
         val cleaned = preprocessOcrRaw(raw)
         val text = normalizeOcrText(cleaned)

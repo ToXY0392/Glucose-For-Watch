@@ -3,6 +3,7 @@ package com.widgetg7.mobile.watch
 import android.content.Context
 import com.widgetg7.mobile.R
 
+/** Last watch-reported battery, app install, and capability snapshot. */
 data class WatchSyncHealthStatus(
     val batteryLevel: Int,
     val isCharging: Boolean,
@@ -43,6 +44,7 @@ data class WatchSyncHealthStatus(
     }
 }
 
+/** Persists watch health payloads received via the Data Layer. */
 class WatchSyncHealthRepository(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 

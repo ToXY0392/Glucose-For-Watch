@@ -22,6 +22,11 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
+/**
+ * Receives glucose and refresh events from the phone via the Wearable Data Layer.
+ *
+ * Persists readings, sends ACKs, updates tile/complication, and reports watch health.
+ */
 class WearDataLayerListenerService : WearableListenerService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 

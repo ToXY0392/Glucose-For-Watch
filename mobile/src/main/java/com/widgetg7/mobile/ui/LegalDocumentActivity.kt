@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.widgetg7.mobile.R
 
+/** Displays CGU, privacy policy, or medical disclaimer from raw assets. */
 class LegalDocumentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +46,7 @@ class LegalDocumentActivity : AppCompatActivity() {
         }
     }
 
+    /** Title and raw asset for a legal document type. */
     data class LegalDocumentConfig(
         val title: String,
         val rawResId: Int,

@@ -6,6 +6,7 @@ import com.widgetg7.core.model.GlucoseReading
 import com.widgetg7.core.model.SyncErrorCategory
 import com.widgetg7.core.model.SyncStatusSnapshot
 
+/** SharedPreferences-backed store for phone sync status shown on the home screen. */
 class SyncStatusRepository(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 

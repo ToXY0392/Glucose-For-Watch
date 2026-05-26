@@ -2,6 +2,7 @@ package com.widgetg7.wear.sync
 
 import kotlinx.coroutines.delay
 
+/** Retries watch-to-phone ACK writes with linear backoff. */
 internal class WearAckSender(
     private val maxAttempts: Int = MAX_ACK_ATTEMPTS,
     private val retryDelayMs: Long = ACK_RETRY_MS,

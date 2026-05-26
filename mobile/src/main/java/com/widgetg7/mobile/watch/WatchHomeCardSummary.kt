@@ -6,11 +6,13 @@ import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.sync.PhoneSyncStateSnapshot
 import com.widgetg7.mobile.ui.HomeSyncPillResolver
 
+/** Subtitle and linked flag for the home watch settings row. */
 data class WatchHomeCardState(
     val subtitle: String,
     val linked: Boolean,
 )
 
+/** Resolves watch row subtitle from connection, install, and ack state. */
 object WatchHomeCardSummary {
     fun resolve(
         context: Context,

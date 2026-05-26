@@ -22,6 +22,7 @@ import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchSyncVerifier
 import kotlinx.coroutines.launch
 
+/** Watch selection, battery optimization, and install/test flows. */
 class WatchSetupActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
 

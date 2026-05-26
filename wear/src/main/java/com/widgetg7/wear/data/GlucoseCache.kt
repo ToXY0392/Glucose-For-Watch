@@ -5,6 +5,7 @@ import com.widgetg7.core.datalayer.GlucoseDataLayerContract
 import com.widgetg7.core.model.AgpGlucoseColors
 import com.widgetg7.core.model.GlucoseRangeResolver
 
+/** Semantic glucose range bucket for non-AGP UI hints (sync chrome). */
 enum class GlucoseSemanticLevel {
     NORMAL,
     ATTENTION,
@@ -12,6 +13,7 @@ enum class GlucoseSemanticLevel {
     STALE,
 }
 
+/** Latest glucose reading from the phone, with display helpers for tile and complication. */
 data class GlucoseSnapshot(
     val valueMgDl: Int,
     val trend: String,
@@ -81,6 +83,7 @@ data class GlucoseSnapshot(
     }
 }
 
+/** Data Layer path and field keys shared with the phone app. */
 object GlucoseKeys {
     const val PATH_LATEST = GlucoseDataLayerContract.PATH_LATEST
     const val PATH_REFRESH_REQUEST = GlucoseDataLayerContract.PATH_REFRESH_REQUEST
@@ -124,6 +127,7 @@ object GlucoseKeys {
     const val ACK_RECEIVED_AT = GlucoseDataLayerContract.ACK_RECEIVED_AT
 }
 
+/** Phone-reported refresh/sync progress shown on tile and status screen. */
 data class RefreshStatusSnapshot(
     val status: String,
     val message: String,
@@ -162,6 +166,7 @@ data class RefreshStatusSnapshot(
     }
 }
 
+/** Watch battery and sync-limit state pushed back to the phone. */
 data class WatchSyncHealthSnapshot(
     val batteryLevel: Int,
     val isCharging: Boolean,
@@ -182,6 +187,7 @@ data class WatchSyncHealthSnapshot(
     }
 }
 
+/** SharedPreferences cache for glucose readings, refresh status, and sync health. */
 class GlucoseCache(context: Context) {
     private val prefs = context.getSharedPreferences("glucose_cache", Context.MODE_PRIVATE)
 

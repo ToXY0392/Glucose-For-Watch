@@ -3,12 +3,14 @@ package com.widgetg7.mobile.watch
 import androidx.annotation.DrawableRes
 import com.widgetg7.mobile.R
 
+/** Hero drawable and labels for the connected watch model. */
 data class WatchVisual(
     @DrawableRes val drawableResId: Int,
     val headline: String,
     val supportLabel: String?,
 )
 
+/** Picks watch hero artwork from device name and health metadata. */
 object WatchVisualResolver {
     fun resolve(displayName: String, health: WatchSyncHealthStatus?): WatchVisual {
         val manufacturer = health?.manufacturer.orEmpty()

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Build
 import android.os.SystemClock
 
+/** Repeating alarm that triggers sync when the foreground service is off. */
 object PhoneAutoSyncScheduler {
     private const val REQUEST_CODE = 1001
     private const val INTERVAL_MS = 90 * 1000L

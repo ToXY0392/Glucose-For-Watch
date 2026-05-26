@@ -13,12 +13,14 @@ import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.math.roundToInt
 
+/** Dexcom Share account settings and server region for the REST API. */
 data class DexcomShareConfig(
     val username: String,
     val password: String,
     val server: String,
     val applicationId: String,
 ) {
+    /** True when all Dexcom Share login fields and server (US/OUS) are set. */
     fun isConfigured(): Boolean {
         if (username.isBlank()) return false
         if (password.isBlank()) return false
@@ -34,6 +36,7 @@ data class DexcomShareConfig(
     }
 }
 
+/** Classification of Dexcom Share failures for error policy and UI. */
 enum class DexcomShareErrorKind {
     AUTH,
     SESSION,
@@ -42,11 +45,17 @@ enum class DexcomShareErrorKind {
     UNKNOWN,
 }
 
+/** Typed failure from [DexcomShareClient] with a [DexcomShareErrorKind]. */
 class DexcomShareException(
     val kind: DexcomShareErrorKind,
     override val message: String,
 ) : IllegalStateException(message)
 
+/**
+ * Fetches the latest glucose reading from Dexcom Share over HTTPS.
+ *
+ * Sessions are cached per account; readings older than two minutes are marked stale.
+ */
 class DexcomShareClient(
     private val config: DexcomShareConfig,
 ) {

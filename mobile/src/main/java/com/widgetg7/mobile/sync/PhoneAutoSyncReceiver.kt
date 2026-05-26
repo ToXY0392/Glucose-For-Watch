@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import com.widgetg7.mobile.settings.AppSettingsStore
 
+/** Alarm receiver: starts active sync or enqueues a one-shot Worker. */
 class PhoneAutoSyncReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent?) {

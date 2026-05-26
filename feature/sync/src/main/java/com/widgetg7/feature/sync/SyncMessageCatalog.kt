@@ -1,5 +1,6 @@
 package com.widgetg7.feature.sync
 
+/** French user-facing strings for sync feedback, refresh status, and degraded mode. */
 object SyncMessageCatalog {
     const val REFRESH_IN_PROGRESS = "Actualisation..."
     const val REFRESH_NO_NEW_READING = "Aucune nouvelle mesure"

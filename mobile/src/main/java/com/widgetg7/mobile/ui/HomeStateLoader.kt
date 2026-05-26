@@ -9,6 +9,7 @@ import com.widgetg7.mobile.sync.PhoneSyncStateStore
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 
+/** Loads repositories and delegates to [HomeStateMapper]. */
 class HomeStateLoader {
     suspend fun load(context: Context): HomeUiState {
         val appContext = context.applicationContext

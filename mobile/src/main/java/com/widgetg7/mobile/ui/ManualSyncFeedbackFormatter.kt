@@ -5,6 +5,7 @@ import com.widgetg7.feature.sync.SyncExecutionResult
 import com.widgetg7.feature.sync.WatchDeliveryStatus
 import com.widgetg7.mobile.R
 
+/** Snackbar text after a manual sync attempt. */
 object ManualSyncFeedbackFormatter {
     fun format(context: Context, result: SyncExecutionResult): String =
         when (result) {

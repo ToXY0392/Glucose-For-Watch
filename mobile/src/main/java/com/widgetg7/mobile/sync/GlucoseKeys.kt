@@ -2,6 +2,7 @@ package com.widgetg7.mobile.sync
 
 import com.widgetg7.core.datalayer.GlucoseDataLayerContract
 
+/** Mobile aliases for Wear Data Layer glucose contract keys. */
 object GlucoseKeys {
     const val PATH_LATEST = GlucoseDataLayerContract.PATH_LATEST
     const val PATH_REFRESH_REQUEST = GlucoseDataLayerContract.PATH_REFRESH_REQUEST

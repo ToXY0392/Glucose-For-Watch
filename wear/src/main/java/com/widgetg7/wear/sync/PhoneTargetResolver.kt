@@ -1,17 +1,18 @@
 package com.widgetg7.wear.sync
 
-/**
- * Picks which connected phone should receive a tile refresh message.
- *
- * Priority: last phone that pushed glucose → sole nearby phone → stable displayName sort.
- * Multiple phones without history: first sorted by displayName (documented limitation).
- */
+/** Connected phone node metadata for sync target selection. */
 data class PhoneNode(
     val id: String,
     val displayName: String = "",
     val isNearby: Boolean = false,
 )
 
+/**
+ * Picks which connected phone should receive a tile refresh message.
+ *
+ * Priority: last phone that pushed glucose → sole nearby phone → stable displayName sort.
+ * Multiple phones without history: first sorted by displayName (documented limitation).
+ */
 object PhoneTargetResolver {
     fun selectPhoneNodeId(
         connectedNodes: List<PhoneNode>,
