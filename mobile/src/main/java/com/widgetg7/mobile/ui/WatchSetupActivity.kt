@@ -2,88 +2,67 @@ package com.widgetg7.mobile.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.ScrollView
-import android.widget.Spinner
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.battery.BatteryOptimizationHelper
+import com.widgetg7.mobile.ui.compose.WatchSetupScreen
+import com.widgetg7.mobile.ui.compose.WatchSetupUiState
+import com.widgetg7.mobile.ui.theme.WidgetG7Theme
 import com.widgetg7.mobile.watch.ConnectedWatchNode
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import com.widgetg7.mobile.watch.WatchSyncVerifier
 import kotlinx.coroutines.launch
 
 /** Watch selection, battery optimization, and install/test flows. */
-class WatchSetupActivity : AppCompatActivity() {
-    private var baseScrollPaddingTop = 0
-
-    private lateinit var batteryOptimizationButton: MaterialButton
-    private lateinit var watchInstallButton: MaterialButton
-    private lateinit var watchTestButton: MaterialButton
-    private lateinit var backToHomeButton: ImageButton
-    private lateinit var watchSelectorLabel: TextView
-    private lateinit var watchSelectorSpinner: Spinner
-
+class WatchSetupActivity : ComponentActivity() {
+    private var uiState by mutableStateOf(WatchSetupUiState())
     private var connectedWatches: List<ConnectedWatchNode> = emptyList()
     private var applyingSelection = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_watch_setup)
 
-        val scrollView = findViewById<ScrollView>(R.id.watchSetupScrollView)
-        baseScrollPaddingTop = scrollView.paddingTop
-        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { view, insets ->
-            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(
-                view.paddingLeft,
-                baseScrollPaddingTop + systemBarsInsets.top,
-                view.paddingRight,
-                view.paddingBottom,
-            )
-            insets
-        }
-        ViewCompat.requestApplyInsets(scrollView)
-
-        batteryOptimizationButton = findViewById(R.id.batteryOptimizationButton)
-        watchInstallButton = findViewById(R.id.watchInstallButton)
-        watchTestButton = findViewById(R.id.watchTestButton)
-        backToHomeButton = findViewById(R.id.backToHomeButton)
-        watchSelectorLabel = findViewById(R.id.watchSelectorLabel)
-        watchSelectorSpinner = findViewById(R.id.watchSelectorSpinner)
-
-        batteryOptimizationButton.setOnClickListener {
-            runCatching {
-                startActivity(BatteryOptimizationHelper(this).buildSettingsIntent())
+        enableEdgeToEdge()
+        setContent {
+            WidgetG7Theme {
+                WatchSetupScreen(
+                    state = uiState,
+                    onWatchSelected = { index ->
+                        if (applyingSelection) return@WatchSetupScreen
+                        val selectedWatch = connectedWatches.getOrNull(index) ?: return@WatchSetupScreen
+                        WatchConnectionRepository(this).savePreferredWatch(selectedWatch)
+                        uiState = uiState.copy(selectedWatchIndex = index)
+                    },
+                    onBatteryOptimization = {
+                        runCatching {
+                            startActivity(BatteryOptimizationHelper(this).buildSettingsIntent())
+                        }
+                    },
+                    onInstallWear = {
+                        startActivity(Intent(this, WearInstallerActivity::class.java))
+                    },
+                    onWatchTest = {
+                        lifecycleScope.launch { runWatchTest() }
+                    },
+                    onBack = { finish() },
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.background),
+                )
             }
         }
-        watchInstallButton.setOnClickListener {
-            startActivity(Intent(this, WearInstallerActivity::class.java))
-        }
-        watchTestButton.setOnClickListener {
-            lifecycleScope.launch { runWatchTest() }
-        }
-        backToHomeButton.setOnClickListener { finish() }
-
-        watchSelectorSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    if (applyingSelection) return
-                    val selectedWatch = connectedWatches.getOrNull(position) ?: return
-                    WatchConnectionRepository(this@WatchSetupActivity).savePreferredWatch(selectedWatch)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) = Unit
-            }
 
         refreshOptions()
     }
@@ -103,12 +82,19 @@ class WatchSetupActivity : AppCompatActivity() {
 
     private suspend fun refreshWatchTestAvailability() {
         val watchStatus = WatchConnectionRepository(this).loadStatus()
-        watchTestButton.isEnabled = watchStatus.connected
+        uiState =
+            uiState.copy(
+                watchTestEnabled = watchStatus.connected,
+                watchTestLabel = getString(R.string.home_watch_test),
+            )
     }
 
     private suspend fun runWatchTest() {
-        watchTestButton.isEnabled = false
-        watchTestButton.text = getString(R.string.home_watch_test_running)
+        uiState =
+            uiState.copy(
+                watchTestEnabled = false,
+                watchTestLabel = getString(R.string.home_watch_test_running),
+            )
 
         val result = WatchSyncVerifier(this).runTest()
         val message =
@@ -124,20 +110,22 @@ class WatchSetupActivity : AppCompatActivity() {
                     getString(R.string.home_watch_test_sent, result.valueMgDl)
             }
 
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show()
-        watchTestButton.text = getString(R.string.home_watch_test)
+        Snackbar.make(window.decorView, message, Snackbar.LENGTH_SHORT).show()
         refreshWatchTestAvailability()
     }
 
     private fun refreshBatteryOptimizationStatus() {
         val status = BatteryOptimizationHelper(this).loadStatus()
-        batteryOptimizationButton.text =
-            if (status.isProtectedFromOptimization) {
-                getString(R.string.watch_setup_battery_ok)
-            } else {
-                getString(R.string.watch_setup_battery_prompt)
-            }
-        batteryOptimizationButton.isEnabled = !status.isProtectedFromOptimization
+        uiState =
+            uiState.copy(
+                batteryButtonLabel =
+                    if (status.isProtectedFromOptimization) {
+                        getString(R.string.watch_setup_battery_ok)
+                    } else {
+                        getString(R.string.watch_setup_battery_prompt)
+                    },
+                batteryButtonEnabled = !status.isProtectedFromOptimization,
+            )
     }
 
     private suspend fun refreshWatchChoices() {
@@ -145,29 +133,26 @@ class WatchSetupActivity : AppCompatActivity() {
         connectedWatches = repository.loadConnectedWatches()
 
         val showSelector = connectedWatches.size > 1
-        watchSelectorLabel.visibility = if (showSelector) View.VISIBLE else View.GONE
-        watchSelectorSpinner.visibility = if (showSelector) View.VISIBLE else View.GONE
-
         if (!showSelector) {
+            uiState =
+                uiState.copy(
+                    showWatchSelector = false,
+                    watchNames = emptyList(),
+                )
             return
         }
-
-        val adapter =
-            ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item,
-                connectedWatches.map { it.displayName },
-            ).also {
-                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            }
-        watchSelectorSpinner.adapter = adapter
 
         val preferredNodeId = repository.loadPreferredWatchId()
         val selectedIndex =
             connectedWatches.indexOfFirst { it.nodeId == preferredNodeId }.takeIf { it >= 0 } ?: 0
 
         applyingSelection = true
-        watchSelectorSpinner.setSelection(selectedIndex, false)
+        uiState =
+            uiState.copy(
+                showWatchSelector = true,
+                watchNames = connectedWatches.map { it.displayName },
+                selectedWatchIndex = selectedIndex,
+            )
         applyingSelection = false
     }
 }

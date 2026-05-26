@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 GLUCOSE_KT_GLOBS = [
     "mobile/src/main/java/com/widgetg7/mobile/ui/HomeStateMapper.kt",
-    "mobile/src/main/java/com/widgetg7/mobile/ui/HomeUiBinder.kt",
+    "mobile/src/main/java/com/widgetg7/mobile/ui/compose/HomeScreen.kt",
     "wear/src/main/java/com/widgetg7/wear/tile/ToxyTileTheme.kt",
     "wear/src/main/java/com/widgetg7/wear/tile/GlucoseSimpleTileService.kt",
     "wear/src/main/java/com/widgetg7/wear/complication/GlucoseComplicationService.kt",

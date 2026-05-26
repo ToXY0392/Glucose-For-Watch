@@ -6,9 +6,27 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+---
+
+## [0.6.0] — 2026-05-26
+
+Compose phone milestone · gate **G-M8** · sideload PC install only.
+
+### Added
+
+- Phone UI Compose M3: Legal, Notice, Dexcom, WatchSetup, **Home** (`HomeScreen`)
+- `WidgetG7Theme` + ToXY phone palette · Compose Gradle BOM
+- G-F3 QA gate: `docs/qa/G-F3-checklist.md` · `scripts/qa/g-f3-gate.ps1`
+
 ### Changed
 
-- Compose M3 phone migration (Block F) — see [ACTION-PLAN.md](docs/plan/ACTION-PLAN.md)
+- Block F0–F5: migrated phone screens from XML to Compose (WearInstaller stays XML)
+- Removed dead F1–F3 activity layouts; `HomeUiBinder` moved to test for PNG previews
+
+### Verified
+
+- Gates G-F0→F3 · K8 sync smoke S1–S3 · CI green post F5
+- Tag `v0.6.0` on `integrate`
 
 ---
 
