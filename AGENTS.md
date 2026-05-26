@@ -20,7 +20,7 @@ Entry point for Cursor agents working on this repository.
 | Item | Value |
 |------|-------|
 | GitHub | `ToXY0392/Glucose-For-Watch` |
-| Local folder | `Widget G7` (unchanged) |
+| Local folder | `Glucose-For-Watch` |
 | Integration branch | `integrate` (formerly `rebuild`) |
 | Release branch | `main` |
 

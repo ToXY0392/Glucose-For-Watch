@@ -17,7 +17,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 GLUCOSE_KT_GLOBS = [
-    "mobile/src/main/java/com/widgetg7/mobile/MainActivity.kt",
+    "mobile/src/main/java/com/widgetg7/mobile/ui/HomeStateMapper.kt",
+    "mobile/src/main/java/com/widgetg7/mobile/ui/HomeUiBinder.kt",
     "wear/src/main/java/com/widgetg7/wear/tile/ToxyTileTheme.kt",
     "wear/src/main/java/com/widgetg7/wear/tile/GlucoseSimpleTileService.kt",
     "wear/src/main/java/com/widgetg7/wear/complication/GlucoseComplicationService.kt",
@@ -28,7 +29,7 @@ GLUCOSE_KT_GLOBS = [
 ]
 
 REQUIRED_RESOLVER = {
-    ROOT / "mobile/src/main/java/com/widgetg7/mobile/MainActivity.kt": "GlucoseRangeResolver",
+    ROOT / "mobile/src/main/java/com/widgetg7/mobile/ui/HomeStateMapper.kt": "GlucoseRangeResolver",
     ROOT / "wear/src/main/java/com/widgetg7/wear/tile/ToxyTileTheme.kt": "GlucoseRangeResolver",
     ROOT / "wear/src/main/java/com/widgetg7/wear/data/GlucoseCache.kt": "GlucoseRangeResolver",
 }
