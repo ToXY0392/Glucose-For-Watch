@@ -1,6 +1,6 @@
 # Plan tracking — Glucose For Watch
 
-> **Last updated:** 2026-05-26  
+> **Last updated:** 2026-05-26 · J0 sign-off (C.7/K2/X.3) on `workspace/qa-hardware`  
 > **Distribution:** PC only (`installWidgetG7Debug`) — no Play Store  
 > **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
