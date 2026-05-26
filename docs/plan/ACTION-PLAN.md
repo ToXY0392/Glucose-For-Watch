@@ -1,7 +1,7 @@
 # Operational action plan — Glucose For Watch
 
 > **Master document** · complements [PROGRESS.md](PROGRESS.md) (tracking) and [STABILITY-GATES.md](STABILITY-GATES.md) (criteria).  
-> **Last updated:** 2026-05-25 · **Distribution:** PC sideload · **Target:** v0.5.0 stable → v0.6.0 Compose
+> **Last updated:** 2026-05-26 · **Distribution:** PC sideload · **Target:** v0.5.0 stable → v0.6.0 Compose
 
 ---
 
@@ -28,7 +28,7 @@
 | P1 | **Stability before features** | No tag without gate · overnight crash = P0 |
 | P2 | **One PR = one measurable goal** | No mixing sync + UI + refactor |
 | P3 | **Proof before merge** | `stability-gate.ps1` + block gate |
-| P4 | **Soak mandatory** | C.7 8 h blocks M7 · 4 h blocks M8 |
+| P4 | **Soak mandatory** | C.7 **8 h** blocks M7 · G-F3 K2 via **C.7 baseline** + 30 min sync (post-F3 **4 h optional**, archive only) |
 | P5 | **Fast revert** | Sync/UI PR revertible in < 15 min |
 | P6 | **Sync = sacred contract** | S1–S3 retest if touching `mobile/sync`, `wear/`, `feature/sync` |
 | P7 | **Solo dev: sequence** | No big bang Compose |
@@ -74,7 +74,7 @@ G-C ──► D tests ──► G-D ──► G-M7 (v0.5.0)
 | **S5** | | **F0** | PR #15 · Gradle Compose + theme | G-F0 |
 | S5–6 | | **F1–F2** | PR #16–17 · simple screens + Dexcom | G-F1, G-F2 |
 | **S7** | | **F3** | PR #18 · HomeScreen Compose | G-F3 |
-| S7 | overnight | soak 4h | Post-F3 | — |
+| S7 | | ~~soak 4h~~ | Waived — C.7 8 h baseline · see [G-F3 checklist](../qa/G-F3-checklist.md) | — |
 | **S8** | | **F5 + M8** | XML cleanup · icons · tag `v0.6.0` | **G-M8** |
 
 *Buffer: +1 week if C.7 or F3 slips.*
@@ -216,7 +216,7 @@ G-C ──► D tests ──► G-D ──► G-M7 (v0.5.0)
 | R2 | Dexcom API change | L | Critical | D.1 tests · log monitoring | D |
 | R3 | Complication always stale | M | Medium | B.1 + C.2 | B |
 | R4 | C.7 soak flake | M | Blocks M7 | Re-run 2 nights · logcat | C |
-| R5 | Compose F3 breaks sync | M | Critical | F3 gate 4h soak · revert | F |
+| R5 | Compose F3 breaks sync | M | Critical | G-F3 smoke + 30 min sync · C.7 baseline · revert | F |
 | R6 | QA hardware unavailable | M | Delays C | strict smoke · partial repro | C |
 | R7 | Double Gradle WSL+Studio | M | Corrupt build | 1 sync at a time · dev/setup.md | S |
 | R8 | Watch battery <20% crashes phone | L | Medium | C.8 | C |
@@ -264,7 +264,7 @@ Summary:
 | F0 | none | none | compile only |
 | F1 | Legal, Notice | none | navigation |
 | F2 | Dexcom, WatchSetup | **medium** | retest G-A disconnect |
-| F3 | **Home** | **high** | 30m sync + 4h soak |
+| F3 | **Home** | **high** | 30m sync · S1–S3 · K2 = C.7 baseline (4h post-F3 optional) |
 | F4 | Installer | OCR | optional XML |
 | F5 | cleanup | low | full smoke |
 

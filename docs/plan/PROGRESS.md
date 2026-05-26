@@ -220,6 +220,7 @@ Screen detail + tasks: [ACTION-PLAN §11](ACTION-PLAN.md#11-compose-v060) · [PR
 | 2025-05-25 | C.7 8h soak blocks M7 | Overnight crash reproduced |
 | 2025-05-25 | Compose after v0.5.0 | Stability first |
 | 2025-05-25 | WearInstaller stays XML (F4 opt.) | OCR = risk |
+| 2026-05-26 | G-F3 K2 = C.7 baseline · post-F3 4 h optional | C.7 8 h PASS · 30 min G-F3-sync · no dedicated 4 h needed |
 
 ---
 

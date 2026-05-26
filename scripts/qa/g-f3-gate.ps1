@@ -4,7 +4,7 @@
 #   .\scripts\qa\g-f3-gate.ps1 -Phase Preflight
 #   .\scripts\qa\g-f3-gate.ps1 -Phase Smoke          # install + hardware-smoke + manual checklist
 #   .\scripts\qa\g-f3-gate.ps1 -Phase Sync30          # 30 min soak + post smoke
-#   .\scripts\qa\g-f3-gate.ps1 -Phase Soak4h         # 4 h FATAL monitor (blocks until done)
+#   .\scripts\qa\g-f3-gate.ps1 -Phase Soak4h         # OPTIONAL 4 h archive (not required if C.7 PASS)
 #   .\scripts\qa\g-f3-gate.ps1 -Phase Signoff        # logcat + summary
 
 param(
@@ -55,10 +55,14 @@ switch ($Phase) {
         Write-Host "`n-- Post-sync verification --" -ForegroundColor DarkCyan
         .\scripts\qa\hardware-smoke.ps1 2>&1 | Out-Host
         .\scripts\qa\stability-gate.ps1 -CheckLogcatOnly 2>&1 | Out-Host
-        Write-Host "`n[OK] Sync30 complete if reports PASS. Next: .\scripts\qa\g-f3-gate.ps1 -Phase Soak4h" -ForegroundColor Green
+        Write-Host "`n[OK] Sync30 complete if reports PASS." -ForegroundColor Green
+        Write-Host "  K2: C.7 8 h baseline is sufficient (see G-F3-checklist.md Phase 3)." -ForegroundColor Green
+        Write-Host "  Optional archive: .\scripts\qa\g-f3-gate.ps1 -Phase Soak4h" -ForegroundColor DarkGray
+        Write-Host "  Then sign-off: .\scripts\qa\g-f3-gate.ps1 -Phase Signoff" -ForegroundColor Yellow
     }
     "Soak4h" {
-        Write-Host "-- 4 h soak (screen off, on charge) --" -ForegroundColor DarkCyan
+        Write-Host "-- OPTIONAL 4 h soak (archive only; not required when C.7 8 h PASS) --" -ForegroundColor DarkCyan
+        Write-Host "See docs/qa/G-F3-checklist.md Phase 3.`n"
         Write-Host "Tip: run in a dedicated PowerShell window.`n"
         & "$PSScriptRoot\soak-monitor.ps1" -DurationMinutes 240 -Label "G-F3"
         Write-Host "`nNext morning: .\scripts\qa\g-f3-gate.ps1 -Phase Signoff" -ForegroundColor Green
