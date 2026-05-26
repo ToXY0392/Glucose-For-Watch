@@ -264,7 +264,7 @@ See `.github/ISSUE_TEMPLATE/` — choice via `config.yml`.
 [bloc-x] X.5a — try/catch FGS in onCreate
 [bloc-c] C.7 — 8h overnight soak + sign-off
 [incident] FGS crash Pixel 8a — 2026-05-25
-[bloc-f3] F3 — HomeScreen Compose + 4h soak gate
+[bloc-f3] F3 — HomeScreen Compose + G-F3 gate (30m sync · C.7 K2 baseline)
 ```
 
 ### 5.3 PR template
@@ -536,7 +536,7 @@ Create these issues **in order** and add them to the Project (milestone v0.5.0 e
 | Issue | Block | Gate |
 |-------|------|------|
 | `[bloc-f0] F0 — Gradle Compose + WidgetG7Theme` | F0 | G-F0 |
-| `[bloc-f3] F3 — HomeScreen Compose + 4h soak` | F3 | G-F3 |
+| `[bloc-f3] F3 — HomeScreen Compose + G-F3 gate` | F3 | G-F3 |
 
 ---
 

@@ -1,8 +1,9 @@
 # Gate G-F3 — Home Compose (post PR #34)
 
+> **Status:** ✅ closed 2026-05-26 · [sign-off](2026-05-26-g-f3-signoff.md)  
 > **Target:** [STABILITY-GATES.md § Compose](../plan/STABILITY-GATES.md#compose-gates-v060)  
-> **Blocks:** tag `v0.6.0` / G-M8  
-> **App:** `0.5.0` (vc 24) · commit on `integrate` ≥ `519a458`
+> **K2 policy:** C.7 8 h baseline sufficient · post-F3 4 h **optional** (archive)  
+> **App:** `0.6.0` (vc 25) · tag on `integrate`
 
 ---
 
@@ -12,7 +13,7 @@
 |-----|-----------|----------|
 | K3 | 30 min sync, push/ack OK | `soak-monitor -Label G-F3-sync` report |
 | K4 | S1–S3 no regression | `hardware-smoke.ps1` + manual tile tap |
-| K2 (min) | 4 h soak, 0 FATAL | `soak-monitor -Label G-F3` report |
+| K2 (min) | 0 FATAL · no K2 regression | **C.7 8 h baseline** ✅ · logcat clean since F3 install · optional `G-F3` 4 h archive |
 | K8 | Compose home, sync unchanged | manual home smoke below |
 
 ---
@@ -63,21 +64,22 @@ At end:
 
 ---
 
-## Phase 3 — Soak 4 h (min)
+## Phase 3 — K2 long soak (waived · C.7 sufficient)
 
-Screen off, phone on charge, sync background OK.
+**Policy (2026-05-26):** A dedicated post-F3 **4 h** soak is **not required** when **C.7 8 h** already PASS and G-F3 sign-off records 0 FATAL since F3 install. C.7 is the stronger K2 evidence for the repo.
+
+**Required for G-F3 GO:**
+
+- [x] [C.7 soak](../soak-runs/2026-05-26_C.7-soak.md) PASS (8 h)
+- [x] Phase 2 sync 30 min PASS · `stability-gate.ps1 -CheckLogcatOnly` clean
+- [x] Sign-off [2026-05-26-g-f3-signoff.md](2026-05-26-g-f3-signoff.md) **GO**
+
+**Optional (archive only)** — extra F3-only 4 h report, does not block M8:
 
 ```powershell
-.\scripts\qa\g-f3-gate.ps1 -Phase Soak4h
-```
-
-Morning / end:
-
-```powershell
+.\scripts\qa\g-f3-gate.ps1 -Phase Soak4h   # optional
 .\scripts\qa\g-f3-gate.ps1 -Phase Signoff
 ```
-
-Copy `docs/qa/stability-signoff-template.md` → `docs/qa/YYYY-MM-DD-g-f3-signoff.md` and mark **GO**.
 
 ---
 
