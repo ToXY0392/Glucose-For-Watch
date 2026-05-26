@@ -68,5 +68,6 @@
         android:focusable="true"
         android:padding="16dp"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_back_arrow" />
+        android:src="@drawable/ic_back_arrow"
+        app:tint="@color/wg7_icon_tint" />
 </LinearLayout>

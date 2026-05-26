@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="wg7_tile_bg">#0D1117</color>
-    <color name="wg7_text_primary">#F8FAFC</color>
+    <color name="toxy_background">#2A2826</color>
+    <color name="toxy_text_primary">#F5F3F0</color>
+    <color name="toxy_text_secondary">#A8A29E</color>
+    <color name="toxy_accent">#9CA8A0</color>
+    <color name="toxy_accent_on">#2A2826</color>
+    <color name="toxy_sync_warn">#C9A86A</color>
+    <color name="toxy_sync_error">#C97878</color>
+    <color name="wg7_tile_bg">@color/toxy_background</color>
+    <color name="wg7_text_primary">@color/toxy_text_primary</color>
 </resources>

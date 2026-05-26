@@ -2,6 +2,7 @@ package com.widgetg7.mobile.settings
 
 import android.content.Context
 
+/** Persists legal document acceptance version and timestamp. */
 class LegalConsentStore(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 

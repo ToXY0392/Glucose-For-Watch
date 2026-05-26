@@ -1,12 +1,13 @@
 ﻿import java.io.File
 import java.util.Properties
 
-// Arborescence modules + paquets : docs/structure-repository.md
+// Modules + packages: docs/dev/architecture.md (Modules), docs/dev/setup.md (Project layout)
 
 plugins {
     id("com.android.application") version "9.2.1" apply false
     id("com.android.library") version "9.2.1" apply false
     id("org.jetbrains.kotlin.android") version "2.3.20" apply false
+    id("org.jetbrains.kotlin.plugin.compose") version "2.3.20" apply false
 }
 
 /**

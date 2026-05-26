@@ -1,0 +1,9 @@
+# Generated Android color exports
+
+Run from repo root:
+
+```bash
+python toxy-ux-kit/tools/export-android-colors.py
+```
+
+Files appear here after export. Review before copying to `mobile/src/main/res/values/`.

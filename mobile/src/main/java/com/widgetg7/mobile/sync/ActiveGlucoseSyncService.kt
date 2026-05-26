@@ -19,21 +19,28 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+/** Foreground service polling Dexcom and pushing readings to the watch. */
 class ActiveGlucoseSyncService : Service() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val syncMutex = Mutex()
     private var loopJob: Job? = null
+    private var foregroundActive = false
+    private lateinit var reconnectDetector: WatchReconnectDetector
 
     override fun onCreate() {
         super.onCreate()
-        PhoneSyncStateStore(this).recordActiveServiceState("starting")
-        startForeground(
-            NotificationHelper.ID_ACTIVE_SYNC,
-            NotificationHelper(this).buildActiveSyncNotification(),
-        )
+        reconnectDetector = WatchReconnectDetector(this)
+        foregroundActive = promoteToForeground()
+        if (!foregroundActive) {
+            BackgroundSyncFallback.activate(this)
+        }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (!foregroundActive) {
+            stopSelf()
+            return START_NOT_STICKY
+        }
         when (intent?.action ?: ACTION_START) {
             ACTION_START -> {
                 Log.i(TAG, "service_action_start")
@@ -101,6 +108,10 @@ class ActiveGlucoseSyncService : Service() {
                 return
             }
 
+            reconnectDetector.onBeforeSyncPass {
+                flushPendingOnReconnect()
+            }
+
             PhoneSyncStateStore(this).recordActiveServiceState("syncing")
             val result = PhoneGlucoseSyncEngine(this).run(
                 triggeredFromWatch = triggeredFromWatch,
@@ -115,12 +126,19 @@ class ActiveGlucoseSyncService : Service() {
         }
     }
 
+    private suspend fun flushPendingOnReconnect() {
+        if (!PendingPushQueue(this).hasPending()) return
+        Log.i(TAG, "reconnect_flush")
+        PendingPushFlusher.flush(this)
+    }
+
     private suspend fun repairUnackedDelivery() {
-        val delays = if (isWatchInDegradedBatteryMode()) {
-            longArrayOf(20_000L, 45_000L)
-        } else {
-            longArrayOf(10_000L, 20_000L, 30_000L)
-        }
+        val delays =
+            if (isWatchInDegradedBatteryMode()) {
+                longArrayOf(20_000L, 45_000L, 90_000L)
+            } else {
+                longArrayOf(10_000L, 30_000L, 60_000L, 120_000L)
+            }
         for (delayMs in delays) {
             val state = PhoneSyncStateStore(this).load()
             if (state.lastPushSequenceId <= 0L || state.lastAckSequenceId == state.lastPushSequenceId) {
@@ -134,26 +152,32 @@ class ActiveGlucoseSyncService : Service() {
             val reading = delayedState.toLastPushedReading() ?: return
             val nextRepushCount = delayedState.unackedRepushCount + 1
             val sequenceId = PhoneSyncStateStore(this).nextSequenceId()
-            runCatching {
-                if (!PhoneWearSyncService(this).pushLatest(reading, sequenceId)) return
-                PhoneSyncStateStore(this).recordPushSuccess(
-                    timestampEpochMs = reading.timestampEpochMs,
-                    sequenceId = sequenceId,
-                    valueMgDl = reading.valueMgDl,
-                    trend = reading.trend,
-                    deltaMgDl = reading.deltaMgDl,
-                    stale = reading.stale,
-                )
-                PhoneSyncStateStore(this).recordRepushAttempt(nextRepushCount)
-                Log.i(
-                    TAG,
-                    "repush_success sequenceId=$sequenceId repushCount=$nextRepushCount readingTs=${reading.timestampEpochMs}",
-                )
-            }.onFailure { error ->
-                PhoneSyncStateStore(this).recordPushFailure(error.message.orEmpty())
-                Log.w(TAG, "repush_failed error=${error.message}", error)
-                return
+            val pushed =
+                runCatching {
+                    PhoneWearSyncService(this).pushLatest(reading, sequenceId)
+                }.getOrElse { error ->
+                    PhoneSyncStateStore(this).recordPushFailure(error.message.orEmpty())
+                    Log.w(TAG, "repush_failed error=${error.message}", error)
+                    false
+                }
+            if (!pushed) {
+                PhoneSyncStateStore(this).recordWearPushUndelivered()
+                Log.w(TAG, "repush_skipped push_unavailable repushCount=$nextRepushCount")
+                continue
             }
+            PhoneSyncStateStore(this).recordPushSuccess(
+                timestampEpochMs = reading.timestampEpochMs,
+                sequenceId = sequenceId,
+                valueMgDl = reading.valueMgDl,
+                trend = reading.trend,
+                deltaMgDl = reading.deltaMgDl,
+                stale = reading.stale,
+            )
+            PhoneSyncStateStore(this).recordRepushAttempt(nextRepushCount)
+            Log.i(
+                TAG,
+                "repush_success sequenceId=$sequenceId repushCount=$nextRepushCount readingTs=${reading.timestampEpochMs}",
+            )
         }
     }
 
@@ -183,11 +207,24 @@ class ActiveGlucoseSyncService : Service() {
         )
     }
 
+    private fun promoteToForeground(): Boolean {
+        return ActiveGlucoseSyncForegroundGate.promote {
+            PhoneSyncStateStore(this).recordActiveServiceState("starting")
+            startForeground(
+                NotificationHelper.ID_ACTIVE_SYNC,
+                NotificationHelper(this).buildActiveSyncNotification(),
+            )
+            PhoneSyncStateStore(this).recordActiveServiceState("running")
+        }
+    }
+
     private fun stopActiveSync() {
         AppSettingsStore(this).setActiveSyncEnabled(false)
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
         loopJob?.cancel()
-        stopForeground(STOP_FOREGROUND_REMOVE)
+        if (foregroundActive) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        }
         stopSelf()
     }
 

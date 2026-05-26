@@ -2,6 +2,7 @@ package com.widgetg7.feature.sync
 
 import com.widgetg7.core.model.SyncStatusSnapshot
 
+/** Formats glucose values and home-screen summaries (LOW/HI clamping, trend, age). */
 object SyncGlucoseDisplayFormatter {
     private const val DISPLAY_LOW_MAX = 40
     private const val DISPLAY_HIGH_MIN = 400

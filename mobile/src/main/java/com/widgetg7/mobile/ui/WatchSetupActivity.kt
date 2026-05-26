@@ -5,43 +5,33 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.ImageButton
 import android.widget.ScrollView
 import android.widget.Spinner
-import com.google.android.material.button.MaterialButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.battery.BatteryOptimizationHelper
-import com.widgetg7.mobile.data.PhoneGlucoseSourceFactory
-import com.widgetg7.mobile.settings.AppSettingsStore
-import com.widgetg7.mobile.sync.PhoneWearSyncService
 import com.widgetg7.mobile.watch.ConnectedWatchNode
 import com.widgetg7.mobile.watch.WatchConnectionRepository
-import com.widgetg7.mobile.watch.WatchSyncHealthRepository
-import com.widgetg7.mobile.watch.WatchStatusVerifier
-import com.widgetg7.mobile.watch.WatchVisualResolver
-import kotlinx.coroutines.TimeoutCancellationException
+import com.widgetg7.mobile.watch.WatchSyncVerifier
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeout
 
+/** Watch selection, battery optimization, and install/test flows. */
 class WatchSetupActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
 
-    private lateinit var testWatchSyncButton: Button
-    private lateinit var batteryOptimizationButton: Button
+    private lateinit var batteryOptimizationButton: MaterialButton
+    private lateinit var watchInstallButton: MaterialButton
+    private lateinit var watchTestButton: MaterialButton
     private lateinit var backToHomeButton: ImageButton
-    private lateinit var watchStatusHeadlineText: TextView
-    private lateinit var watchStatusSupportText: TextView
-    private lateinit var watchStatusText: TextView
     private lateinit var watchSelectorLabel: TextView
     private lateinit var watchSelectorSpinner: Spinner
-    private lateinit var watchHeroImage: ImageView
 
     private var connectedWatches: List<ConnectedWatchNode> = emptyList()
     private var applyingSelection = false
@@ -64,76 +54,91 @@ class WatchSetupActivity : AppCompatActivity() {
         }
         ViewCompat.requestApplyInsets(scrollView)
 
-        testWatchSyncButton = findViewById(R.id.testWatchSyncButton)
-        findViewById<MaterialButton>(R.id.openWearInstallerButton).setOnClickListener {
-            startActivity(Intent(this, WearInstallerActivity::class.java))
-        }
         batteryOptimizationButton = findViewById(R.id.batteryOptimizationButton)
+        watchInstallButton = findViewById(R.id.watchInstallButton)
+        watchTestButton = findViewById(R.id.watchTestButton)
         backToHomeButton = findViewById(R.id.backToHomeButton)
-        watchStatusHeadlineText = findViewById(R.id.watchStatusHeadlineText)
-        watchStatusSupportText = findViewById(R.id.watchStatusSupportText)
-        watchStatusText = findViewById(R.id.watchSetupStatusText)
         watchSelectorLabel = findViewById(R.id.watchSelectorLabel)
         watchSelectorSpinner = findViewById(R.id.watchSelectorSpinner)
-        watchHeroImage = findViewById(R.id.watchHeroImage)
 
-        testWatchSyncButton.setOnClickListener {
-            refreshWatchStatus()
-        }
         batteryOptimizationButton.setOnClickListener {
             runCatching {
                 startActivity(BatteryOptimizationHelper(this).buildSettingsIntent())
             }
         }
+        watchInstallButton.setOnClickListener {
+            startActivity(Intent(this, WearInstallerActivity::class.java))
+        }
+        watchTestButton.setOnClickListener {
+            lifecycleScope.launch { runWatchTest() }
+        }
         backToHomeButton.setOnClickListener { finish() }
 
-        watchSelectorSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (applyingSelection) return
-                val selectedWatch = connectedWatches.getOrNull(position) ?: return
-                WatchConnectionRepository(this@WatchSetupActivity).savePreferredWatch(selectedWatch)
-                lifecycleScope.launch {
-                    refreshHeaderVisuals()
-                    watchStatusText.text = runWatchVerification()
+        watchSelectorSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    if (applyingSelection) return
+                    val selectedWatch = connectedWatches.getOrNull(position) ?: return
+                    WatchConnectionRepository(this@WatchSetupActivity).savePreferredWatch(selectedWatch)
                 }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) = Unit
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) = Unit
-        }
-
-        refreshWatchStatus()
+        refreshOptions()
     }
 
     override fun onResume() {
         super.onResume()
-        refreshWatchStatus()
+        refreshOptions()
     }
 
-    private fun refreshWatchStatus() {
-        testWatchSyncButton.isEnabled = false
-        testWatchSyncButton.text = "Test en cours..."
-        watchStatusText.text = "Vérification de la liaison montre..."
-
+    private fun refreshOptions() {
         lifecycleScope.launch {
             refreshWatchChoices()
-            refreshHeaderVisuals()
             refreshBatteryOptimizationStatus()
-            watchStatusText.text = runWatchVerification()
-            testWatchSyncButton.isEnabled = true
-            testWatchSyncButton.text = "Tester l'envoi"
+            refreshWatchTestAvailability()
         }
+    }
+
+    private suspend fun refreshWatchTestAvailability() {
+        val watchStatus = WatchConnectionRepository(this).loadStatus()
+        watchTestButton.isEnabled = watchStatus.connected
+    }
+
+    private suspend fun runWatchTest() {
+        watchTestButton.isEnabled = false
+        watchTestButton.text = getString(R.string.home_watch_test_running)
+
+        val result = WatchSyncVerifier(this).runTest()
+        val message =
+            when (result) {
+                WatchSyncVerifier.Result.NoWatch -> getString(R.string.home_watch_test_no_watch)
+                WatchSyncVerifier.Result.NoDexcom -> getString(R.string.home_watch_test_no_dexcom)
+                WatchSyncVerifier.Result.Timeout -> getString(R.string.home_watch_test_timeout)
+                WatchSyncVerifier.Result.SendFailed -> getString(R.string.home_watch_test_failed)
+                is WatchSyncVerifier.Result.Error ->
+                    result.message?.takeIf { it.isNotBlank() }
+                        ?: getString(R.string.home_watch_test_failed)
+                is WatchSyncVerifier.Result.Sent ->
+                    getString(R.string.home_watch_test_sent, result.valueMgDl)
+            }
+
+        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show()
+        watchTestButton.text = getString(R.string.home_watch_test)
+        refreshWatchTestAvailability()
     }
 
     private fun refreshBatteryOptimizationStatus() {
         val status = BatteryOptimizationHelper(this).loadStatus()
-        batteryOptimizationButton.text = if (status.isProtectedFromOptimization) {
-            "Sync en veille autorisee"
-        } else {
-            "Autoriser la sync en veille"
-        }
+        batteryOptimizationButton.text =
+            if (status.isProtectedFromOptimization) {
+                getString(R.string.watch_setup_battery_ok)
+            } else {
+                getString(R.string.watch_setup_battery_prompt)
+            }
         batteryOptimizationButton.isEnabled = !status.isProtectedFromOptimization
     }
-
 
     private suspend fun refreshWatchChoices() {
         val repository = WatchConnectionRepository(this)
@@ -147,155 +152,22 @@ class WatchSetupActivity : AppCompatActivity() {
             return
         }
 
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            connectedWatches.map { it.displayName },
-        ).also {
-            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
+        val adapter =
+            ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item,
+                connectedWatches.map { it.displayName },
+            ).also {
+                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            }
         watchSelectorSpinner.adapter = adapter
 
         val preferredNodeId = repository.loadPreferredWatchId()
-        val selectedIndex = connectedWatches.indexOfFirst { it.nodeId == preferredNodeId }.takeIf { it >= 0 } ?: 0
+        val selectedIndex =
+            connectedWatches.indexOfFirst { it.nodeId == preferredNodeId }.takeIf { it >= 0 } ?: 0
 
         applyingSelection = true
         watchSelectorSpinner.setSelection(selectedIndex, false)
         applyingSelection = false
-    }
-
-    private suspend fun refreshHeaderVisuals() {
-        val status = WatchConnectionRepository(this).loadStatus()
-        val health = WatchSyncHealthRepository(this).load()
-        val visual = WatchVisualResolver.resolve(status.displayName, health)
-
-        watchHeroImage.setImageResource(visual.drawableResId)
-        watchStatusHeadlineText.text = when {
-            !status.connected -> "Aucune montre connectée"
-            status.connectedWatches.size > 1 -> "Montre principale : ${visual.headline}"
-            else -> "Montre connectée : ${visual.headline}"
-        }
-
-        watchStatusSupportText.text = buildList {
-            if (!status.connected) {
-                add("Connectez une montre Wear OS au téléphone.")
-            } else {
-                add(visual.supportLabel ?: "Liaison détectée")
-                if (status.preferredNodeMissing) {
-                    add("La montre principale précédente n'est plus détectée.")
-                }
-                health?.summary()?.let {
-                    add(
-                        it.removePrefix("Montre: ").replaceFirstChar { char ->
-                            if (char.isLowerCase()) char.titlecase() else char.toString()
-                        },
-                    )
-                }
-            }
-        }.joinToString(" ")
-    }
-
-    private suspend fun runWatchVerification(): String {
-        val status = WatchConnectionRepository(this).loadStatus()
-        val watchHealth = WatchSyncHealthRepository(this).load()
-        val healthSummary = watchHealth?.summary()
-
-        if (!status.connected) {
-            return listOfNotNull(
-                "Aucune montre détectée.",
-                healthSummary,
-            ).joinToString("\n")
-        }
-
-        val wearStatus = runCatching {
-            WatchStatusVerifier(this).requestStatus(status.nodeId)
-        }.getOrNull()
-        val wearInstallSummary = when {
-            wearStatus?.appInstalled == true && wearStatus.supportsTile && wearStatus.supportsComplication ->
-                "Widget G7 Wear est installe : app, tile et complication disponibles."
-            wearStatus?.appInstalled == true && (!wearStatus.supportsTile || !wearStatus.supportsComplication) ->
-                "Widget G7 Wear est installe, mais re-ajoutez la tile et la complication depuis la montre apres reinstallation."
-            wearStatus?.appInstalled == true ->
-                "Widget G7 Wear est installe."
-            else ->
-                "Widget G7 Wear n'a pas encore repondu. Installez l'app montre pour activer tile et complication."
-        }
-        val latestHealthSummary = wearStatus?.summary() ?: healthSummary
-
-        val preferredNote = if (status.connectedWatches.size > 1) {
-            "Montre sélectionnée : ${status.displayName}."
-        } else {
-            null
-        }
-
-        if (!AppSettingsStore(this).loadDexcomSettings().isConfigured()) {
-            return listOfNotNull(
-                status.label(),
-                preferredNote,
-                wearInstallSummary,
-                "La liaison téléphone - montre est opérationnelle.",
-                "Le test complet nécessite une connexion Dexcom active.",
-                latestHealthSummary,
-            ).joinToString("\n")
-        }
-
-        return try {
-            val reading = withTimeout(VERIFY_TIMEOUT_MS) {
-                PhoneGlucoseSourceFactory.create(this@WatchSetupActivity).latest()
-            }
-            val sendOk =
-                withTimeout(VERIFY_TIMEOUT_MS) {
-                    val stateStore = com.widgetg7.mobile.sync.PhoneSyncStateStore(this@WatchSetupActivity)
-                    val sequenceId = stateStore.nextSequenceId()
-                    val ok =
-                        PhoneWearSyncService(this@WatchSetupActivity).pushLatest(reading, sequenceId)
-                    if (ok) {
-                        stateStore.recordPushSuccess(
-                            timestampEpochMs = reading.timestampEpochMs,
-                            sequenceId = sequenceId,
-                            valueMgDl = reading.valueMgDl,
-                            trend = reading.trend,
-                            deltaMgDl = reading.deltaMgDl,
-                            stale = reading.stale,
-                        )
-                    }
-                    ok
-                }
-
-            listOfNotNull(
-                status.label(),
-                preferredNote,
-                wearInstallSummary,
-                if (sendOk) {
-                    "Test complet réussi : la dernière glycémie a été envoyée à la montre."
-                } else {
-                    "Dexcom OK, mais la montre n’a pas reçu la donnée (vérifiez Bluetooth / Wear OS puis recommencez)."
-                },
-                "Valeur testée : ${reading.valueMgDl} mg/dL ${reading.trend}.",
-                latestHealthSummary,
-            ).joinToString("\n")
-        } catch (_: TimeoutCancellationException) {
-            listOfNotNull(
-                status.label(),
-                preferredNote,
-                wearInstallSummary,
-                "La liaison est détectée, mais le test complet a expiré.",
-                "Vérifiez Dexcom, le Bluetooth et la montre, puis recommencez.",
-                latestHealthSummary,
-            ).joinToString("\n")
-        } catch (error: Throwable) {
-            listOfNotNull(
-                status.label(),
-                preferredNote,
-                wearInstallSummary,
-                "La liaison est détectée, mais l'envoi de la glycémie a échoué.",
-                error.message?.takeIf { it.isNotBlank() },
-                latestHealthSummary,
-            ).joinToString("\n")
-        }
-    }
-
-    companion object {
-        private const val VERIFY_TIMEOUT_MS = 12_000L
     }
 }

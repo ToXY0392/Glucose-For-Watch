@@ -4,13 +4,14 @@ import com.widgetg7.core.model.SyncStatusSnapshot
 import com.widgetg7.feature.sync.SyncGlucoseDisplayFormatter
 import com.widgetg7.feature.sync.SyncReadingTextFormatter
 
+/** Phone UI delegates for glucose value and home hero text formatting. */
 object GlucoseDisplayFormatter {
     fun formatValueMgDl(value: Int): String = SyncGlucoseDisplayFormatter.formatValueMgDl(value)
 
-    /** Grande ligne d’accueil : « 120 mg/dL » ou LOW / HI. */
+    /** Home hero primary line: "120 mg/dL" or LOW / HI. */
     fun homeValuePrimary(snapshot: SyncStatusSnapshot): String? = SyncGlucoseDisplayFormatter.homeValuePrimary(snapshot)
 
-    /** Sous-ligne tendance · âge. */
+    /** Home hero secondary line: trend · age. */
     fun homeReadingSummary(snapshot: SyncStatusSnapshot): String? = SyncGlucoseDisplayFormatter.homeReadingSummary(snapshot)
 
     fun homeValueSubtitle(snapshot: SyncStatusSnapshot): String? = SyncGlucoseDisplayFormatter.homeValueSubtitle(snapshot)

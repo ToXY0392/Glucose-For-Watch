@@ -1,0 +1,18 @@
+CONDITIONS GENERALES D'UTILISATION
+
+Version brouillon — sideload / developpement uniquement.
+
+Le texte juridique definitif est maintenu hors depot (voir docs/CGU.md en local).
+En attendant publication Play Store, cette application est distribuee en sideload PC.
+
+1. Objet
+Widget G7 affiche la glycemie Dexcom sur telephone et montre Wear OS a usage personnel.
+
+2. Avertissement medical
+Cette application ne remplace pas un dispositif medical certifie ni un avis medical.
+
+3. Donnees
+Les identifiants Dexcom Share restent sur l'appareil. Consultez la politique de confidentialite.
+
+4. Acceptation
+En utilisant l'application, vous acceptez ces conditions provisoires.

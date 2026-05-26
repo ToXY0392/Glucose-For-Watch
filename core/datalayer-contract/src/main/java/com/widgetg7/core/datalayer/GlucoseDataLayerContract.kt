@@ -1,5 +1,9 @@
 package com.widgetg7.core.datalayer
 
+/**
+ * Wear Data Layer paths and DataMap keys shared by phone and watch modules.
+ * [PUSH_VERSION] bumps invalidate stale payloads on both sides.
+ */
 object GlucoseDataLayerContract {
     const val PATH_LATEST = "/glucose/latest"
     const val PATH_REFRESH_REQUEST = "/glucose/refresh/request"
@@ -15,6 +19,7 @@ object GlucoseDataLayerContract {
     const val STALE = "stale"
     const val SEQUENCE_ID = "sequenceId"
     const val TARGET_NODE_ID = "targetNodeId"
+    const val SOURCE_PHONE_NODE_ID = "sourcePhoneNodeId"
     const val REFRESH_STATUS = "refreshStatus"
     const val REFRESH_MESSAGE = "refreshMessage"
     const val REFRESH_UPDATED_AT = "refreshUpdatedAt"
@@ -35,6 +40,7 @@ object GlucoseDataLayerContract {
     const val WATCH_APP_VERSION_CODE = "watchAppVersionCode"
     const val WATCH_SUPPORTS_TILE = "watchSupportsTile"
     const val WATCH_SUPPORTS_COMPLICATION = "watchSupportsComplication"
+    const val WATCH_ACK_FAILURE_COUNT = "watchAckFailureCount"
     const val ACK_READING_TIMESTAMP_EPOCH_MS = "ackReadingTimestampEpochMs"
     const val ACK_SEQUENCE_ID = "ackSequenceId"
     const val ACK_RECEIVED_AT = "ackReceivedAt"

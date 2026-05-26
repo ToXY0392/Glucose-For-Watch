@@ -1,0 +1,5 @@
+# Sensitive paths — require review when co-dev expands
+/feature/dexcom-share/     @ToXY0392
+/mobile/**/settings/       @ToXY0392
+/core/datalayer-contract/  @ToXY0392
+/scripts/release/          @ToXY0392

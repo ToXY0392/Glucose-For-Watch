@@ -4,6 +4,7 @@ import com.widgetg7.core.model.GlucoseReading
 import com.widgetg7.core.model.SyncErrorCategory
 import com.widgetg7.core.model.SyncStatusSnapshot
 
+/** Factory helpers for unit tests across sync and mobile modules. */
 object SyncTestFixtures {
     fun glucoseReading(
         valueMgDl: Int = 123,
@@ -29,6 +30,7 @@ object SyncTestFixtures {
         lastErrorCategory: SyncErrorCategory = SyncErrorCategory.NONE,
         authFailureCount: Int = 0,
         consecutiveFailureCount: Int = 0,
+        watchPushPending: Boolean = false,
     ): SyncStatusSnapshot = SyncStatusSnapshot(
         lastValueMgDl = lastValueMgDl,
         lastTrend = lastTrend,
@@ -39,5 +41,6 @@ object SyncTestFixtures {
         lastErrorCategory = lastErrorCategory,
         authFailureCount = authFailureCount,
         consecutiveFailureCount = consecutiveFailureCount,
+        watchPushPending = watchPushPending,
     )
 }

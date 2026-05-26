@@ -116,6 +116,6 @@
             android:contentDescription="Retour"
             android:padding="10dp"
             android:src="@drawable/ic_back_arrow"
-            android:tint="@color/text_primary" />
+            app:tint="@color/wg7_icon_tint" />
     </LinearLayout>
 </ScrollView>

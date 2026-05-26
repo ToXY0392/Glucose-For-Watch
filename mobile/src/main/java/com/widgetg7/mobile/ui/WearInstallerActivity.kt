@@ -31,7 +31,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/** Aide à installer l’app montre : installation directe (ADB Wi‑Fi via Kadb). */
+/** Walks through direct Wear app install via ADB Wi-Fi (Kadb). */
 class WearInstallerActivity : AppCompatActivity() {
     private var baseScrollPaddingTop = 0
 

@@ -1,0 +1,48 @@
+{
+  "toxy": {
+    "typography": {
+      "fontFamily": {
+        "default": { "$value": "Roboto", "$type": "fontFamily" }
+      },
+      "glucoseValue": {
+        "mobile": {
+          "size": { "$value": "48sp", "$type": "dimension" },
+          "weight": { "$value": "700", "$type": "fontWeight" },
+          "colorLayer": "agp.glucose.*"
+        },
+        "wearTile": {
+          "size": { "$value": "56sp", "$type": "dimension" },
+          "weight": { "$value": "700", "$type": "fontWeight" },
+          "colorLayer": "agp.glucose.*"
+        }
+      },
+      "unitLabel": {
+        "size": { "$value": "18sp", "$type": "dimension" },
+        "weight": { "$value": "700", "$type": "fontWeight" },
+        "colorToken": "toxy.color.text.secondary"
+      },
+      "trendArrow": {
+        "wearTile": {
+          "size": { "$value": "32sp", "$type": "dimension" },
+          "weight": { "$value": "700", "$type": "fontWeight" },
+          "colorLayer": "agp.glucose.* or agp.glucose.unknown when stale"
+        }
+      },
+      "sectionTitle": {
+        "size": { "$value": "20sp", "$type": "dimension" },
+        "weight": { "$value": "500", "$type": "fontWeight" },
+        "colorToken": "toxy.color.text.primary"
+      },
+      "body": {
+        "size": { "$value": "16sp", "$type": "dimension" },
+        "weight": { "$value": "400", "$type": "fontWeight" },
+        "colorToken": "toxy.color.text.secondary"
+      },
+      "caption": {
+        "size": { "$value": "14sp", "$type": "dimension" },
+        "weight": { "$value": "400", "$type": "fontWeight" },
+        "colorToken": "toxy.color.text.tertiary"
+      }
+    }
+  }
+}

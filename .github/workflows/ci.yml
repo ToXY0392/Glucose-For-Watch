@@ -1,11 +1,16 @@
-name: CI
+﻿name: CI
 
 on:
   push:
     branches:
       - main
       - master
+      - integrate
+      - 'workspace/**'
   pull_request:
+    branches:
+      - main
+      - integrate
   workflow_dispatch:
 
 jobs:
@@ -81,3 +86,5 @@ jobs:
 
       - name: Run release dry-run (technical)
         run: ALLOW_INCOMPLETE_LEGAL=1 bash ./scripts/release/release_dry_run.sh
+
+

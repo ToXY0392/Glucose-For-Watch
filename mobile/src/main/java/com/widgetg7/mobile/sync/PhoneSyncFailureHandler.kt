@@ -5,12 +5,14 @@ import com.widgetg7.core.model.SyncStatusSnapshot
 import com.widgetg7.feature.sync.SyncFailurePolicy
 import com.widgetg7.feature.sync.SyncNotificationAction
 
+/** User message, error category, and optional notification action after sync failure. */
 data class PhoneSyncFailureOutcome(
     val message: String,
     val category: SyncErrorCategory,
     val notificationAction: SyncNotificationAction?,
 )
 
+/** Classifies sync errors and decides whether to notify the user. */
 object PhoneSyncFailureHandler {
     fun evaluate(error: Throwable, currentStatus: SyncStatusSnapshot): PhoneSyncFailureOutcome {
         val message = SyncErrorAdapter.toUserMessage(error)

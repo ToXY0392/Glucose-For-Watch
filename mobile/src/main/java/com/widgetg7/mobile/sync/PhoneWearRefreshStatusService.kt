@@ -4,6 +4,7 @@ import android.content.Context
 import com.widgetg7.feature.sync.RefreshStatusPublisher
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 
+/** Publishes refresh progress, failure, and completion to the watch via Data Layer. */
 class PhoneWearRefreshStatusService(private val context: Context) {
     private val publisher = RefreshStatusPublisher(context) {
         WatchConnectionRepository(context).loadStatus()

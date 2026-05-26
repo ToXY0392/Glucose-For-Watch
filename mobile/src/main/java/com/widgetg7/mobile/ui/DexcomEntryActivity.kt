@@ -18,7 +18,10 @@ import com.widgetg7.mobile.R
 import com.widgetg7.mobile.settings.AppSettingsStore
 import com.widgetg7.mobile.settings.LegalConsentStore
 import com.widgetg7.mobile.settings.LaunchStateStore
+import com.widgetg7.mobile.sync.ActiveGlucoseSyncController
+import com.widgetg7.mobile.sync.PhoneSyncStateStore
 
+/** First-run Dexcom connection and legal consent gate. */
 class DexcomEntryActivity : AppCompatActivity() {
     private lateinit var openDexcomLoginButton: MaterialButton
     private lateinit var backToHomeButton: ImageButton
@@ -79,25 +82,25 @@ class DexcomEntryActivity : AppCompatActivity() {
     }
 
     private fun bindLegalLinks(textView: TextView) {
-        val text = "Lire les CGU, la Politique de confidentialité et l'Avertissement médical."
+        val text = getString(R.string.dexcom_entry_legal_links)
         val spannable = SpannableString(text)
 
         addLink(
             spannable = spannable,
             fullText = text,
-            linkText = "CGU",
+            linkText = getString(R.string.dexcom_entry_link_cgu),
             documentType = LegalDocumentActivity.DOCUMENT_TYPE_CGU,
         )
         addLink(
             spannable = spannable,
             fullText = text,
-            linkText = "Politique de confidentialité",
+            linkText = getString(R.string.dexcom_entry_link_privacy),
             documentType = LegalDocumentActivity.DOCUMENT_TYPE_PRIVACY,
         )
         addLink(
             spannable = spannable,
             fullText = text,
-            linkText = "Avertissement médical",
+            linkText = getString(R.string.dexcom_entry_link_medical),
             documentType = LegalDocumentActivity.DOCUMENT_TYPE_MEDICAL,
         )
 
@@ -133,7 +136,11 @@ class DexcomEntryActivity : AppCompatActivity() {
 
     private fun renderPrimaryAction() {
         val isConfigured = appSettingsStore.loadDexcomSettings().isConfigured()
-        openDexcomLoginButton.text = if (isConfigured) "Se déconnecter" else "Se connecter"
+        openDexcomLoginButton.text = if (isConfigured) {
+            getString(R.string.dexcom_entry_disconnect)
+        } else {
+            getString(R.string.dexcom_entry_connect)
+        }
         openDexcomLoginButton.isEnabled = if (isConfigured) {
             true
         } else {
@@ -143,14 +150,16 @@ class DexcomEntryActivity : AppCompatActivity() {
 
     private fun showDisconnectConfirmation() {
         AlertDialog.Builder(this)
-            .setTitle("Déconnecter Dexcom")
-            .setMessage("Voulez-vous supprimer le compte Dexcom de l'application ?")
-            .setNegativeButton("Annuler", null)
-            .setPositiveButton("Se déconnecter") { _, _ ->
+            .setTitle(R.string.home_dexcom_disconnect_title)
+            .setMessage(R.string.dexcom_entry_disconnect_message)
+            .setNegativeButton(R.string.action_cancel, null)
+            .setPositiveButton(R.string.dexcom_entry_disconnect) { _, _ ->
                 appSettingsStore.clearDexcomSettings()
+                ActiveGlucoseSyncController.stop(this)
                 launchStateStore.resetDexcomEntry()
                 legalConsentStore.clearAcceptedVersion()
                 syncStatusRepository.clearSessionState()
+                PhoneSyncStateStore(this).clear()
                 legalTermsCheckbox.isChecked = false
                 medicalWarningCheckbox.isChecked = false
                 renderPrimaryAction()

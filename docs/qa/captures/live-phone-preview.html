@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glucose For Watch — live phone</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0d1117;
+      color: #94a3b8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+    header {
+      width: min(420px, 100%);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+    .meta { font-size: 11px; }
+    .frame {
+      width: min(420px, 100%);
+      border: 1px solid #334155;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #111827;
+    }
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .hint {
+      margin-top: 12px;
+      max-width: 420px;
+      font-size: 11px;
+      line-height: 1.45;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Glucose For Watch · phone</h1>
+    <span class="meta" id="updated">…</span>
+  </header>
+  <div class="frame">
+    <img id="shot" alt="Phone screen capture" src="live-phone.png" />
+  </div>
+  <p class="hint">
+    Live ADB capture · auto refresh 2 s · script
+    <code>scripts/qa/open-phone-in-cursor.ps1 -Live</code>
+  </p>
+  <script>
+    const img = document.getElementById('shot');
+    const updated = document.getElementById('updated');
+    function refresh() {
+      const t = Date.now();
+      img.src = 'live-phone.png?t=' + t;
+      updated.textContent = new Date().toLocaleTimeString('en-US');
+    }
+    img.addEventListener('error', () => {
+      updated.textContent = 'Waiting for capture…';
+    });
+    setInterval(refresh, 2000);
+    refresh();
+  </script>
+</body>
+</html>

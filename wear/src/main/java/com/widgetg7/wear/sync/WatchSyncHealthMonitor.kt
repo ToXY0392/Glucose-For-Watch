@@ -13,6 +13,7 @@ import com.widgetg7.wear.data.GlucoseCache
 import com.widgetg7.wear.data.GlucoseKeys
 import com.widgetg7.wear.data.WatchSyncHealthSnapshot
 
+/** Evaluates watch battery/power state and publishes sync health to the phone. */
 class WatchSyncHealthMonitor(private val context: Context) {
     private val cache = GlucoseCache(context)
 
@@ -21,6 +22,10 @@ class WatchSyncHealthMonitor(private val context: Context) {
         cache.saveWatchSyncHealth(snapshot)
         report(snapshot)
         return snapshot
+    }
+
+    fun recordAckFailure(nowEpochMs: Long = System.currentTimeMillis()) {
+        updateAndReport(nowEpochMs)
     }
 
     private fun evaluate(nowEpochMs: Long): WatchSyncHealthSnapshot {
@@ -50,6 +55,7 @@ class WatchSyncHealthMonitor(private val context: Context) {
             syncLimited = syncLimited,
             message = message,
             updatedAtEpochMs = nowEpochMs,
+            ackFailureCount = cache.ackFailureCount(),
         )
     }
 
@@ -69,6 +75,7 @@ class WatchSyncHealthMonitor(private val context: Context) {
             dataMap.putLong(GlucoseKeys.WATCH_APP_VERSION_CODE, packageVersionCode())
             dataMap.putBoolean(GlucoseKeys.WATCH_SUPPORTS_TILE, true)
             dataMap.putBoolean(GlucoseKeys.WATCH_SUPPORTS_COMPLICATION, true)
+            dataMap.putInt(GlucoseKeys.WATCH_ACK_FAILURE_COUNT, snapshot.ackFailureCount)
         }.asPutDataRequest().setUrgent()
         Wearable.getDataClient(context).putDataItem(request)
     }

@@ -1,0 +1,57 @@
+{
+  "glucose": {
+    "veryLow": {
+      "value": "#FF4444",
+      "type": "color",
+      "description": "Level 2 hypoglycemia — < 54 mg/dL"
+    },
+    "low": {
+      "value": "#FF6666",
+      "type": "color",
+      "description": "Level 1 hypoglycemia — 54–69 mg/dL"
+    },
+    "inRange": {
+      "value": "#4ADE80",
+      "type": "color",
+      "description": "Time in Range — 70–180 mg/dL"
+    },
+    "high": {
+      "value": "#FFE44D",
+      "type": "color",
+      "description": "Level 1 hyperglycemia — 181–250 mg/dL"
+    },
+    "veryHigh": {
+      "value": "#FFAA00",
+      "type": "color",
+      "description": "Level 2 hyperglycemia — > 250 mg/dL"
+    },
+    "unknown": {
+      "value": "#9CA3AF",
+      "type": "color",
+      "description": "Stale, no data, or non-clinical muted trend — NOT a range"
+    }
+  },
+  "thresholds": {
+    "veryLowMaxMgDl": {
+      "value": 53,
+      "type": "number"
+    },
+    "lowMaxMgDl": {
+      "value": 69,
+      "type": "number"
+    },
+    "inRangeMaxMgDl": {
+      "value": 180,
+      "type": "number"
+    },
+    "highMaxMgDl": {
+      "value": 250,
+      "type": "number"
+    },
+    "staleAfterMs": {
+      "value": 120000,
+      "type": "number",
+      "description": "2 minutes — app behavior"
+    }
+  }
+}

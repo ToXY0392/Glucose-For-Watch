@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <!-- Generated from toxy-ux-kit/tokens/ — AGP medical layer — glucose range colors only -->
+
+    <!-- Run: wsl python3 toxy-ux-kit/tools/export-android-colors.py -->
+
+
+
+    <!-- Level 2 hypoglycemia — < 54 mg/dL -->
+
+    <color name="agp_veryLow">#DC2626</color>
+
+    <!-- Level 1 hypoglycemia — 54–69 mg/dL -->
+
+    <color name="agp_low">#EF4444</color>
+
+    <!-- Time in Range — 70–180 mg/dL -->
+
+    <color name="agp_inRange">#16A34A</color>
+
+    <!-- Level 1 hyperglycemia — 181–250 mg/dL -->
+
+    <color name="agp_high">#B45309</color>
+
+    <!-- Level 2 hyperglycemia — > 250 mg/dL -->
+
+    <color name="agp_veryHigh">#EA580C</color>
+
+    <!-- Stale, no data, or non-clinical muted trend — NOT a range -->
+
+    <color name="agp_unknown">#64748B</color>
+
+</resources>
+

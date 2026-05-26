@@ -1,0 +1,11 @@
+{
+  "toxy": {
+    "shape": {
+      "cardHero": { "$value": "28dp", "$type": "dimension", "$description": "Asymmetric hero cards on mobile" },
+      "cardList": { "$value": "22dp", "$type": "dimension" },
+      "button": { "$value": "12dp", "$type": "dimension" },
+      "pill": { "$value": "9999dp", "$type": "dimension" },
+      "wearTile": { "$value": "full", "$type": "string", "$description": "System round clip on watch" }
+    }
+  }
+}

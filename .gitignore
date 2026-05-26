@@ -16,7 +16,6 @@ local.properties
 
 # Legal / contenu gardé hors dépôt (voir docs)
 docs/CGU.md
-mobile/src/main/res/raw/cgu.txt
 
 # Cache compilateur Kotlin (bruit IDE, régénéré)
 .kotlin/
@@ -40,3 +39,12 @@ Thumbs.db
 .gradle-user-home-mobile-french-fix/
 .gradle-user-home-mobile-french-fix-2/
 .gradle-user-home-serial/
+# Cursor runtime (état session local)
+.cursor/state/*
+!.cursor/state/.gitkeep
+
+# Bruit build / tooling
+*.log
+analytics.settings
+.tmp-*.jar
+.android-user-home/

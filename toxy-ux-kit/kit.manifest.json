@@ -1,0 +1,52 @@
+{
+  "$schema": "./tokens/meta.schema.json",
+  "name": "ToXY UX Kit",
+  "id": "com.toxy.ux-kit",
+  "version": "0.2.0",
+  "description": "Standalone design system for Widget G7 — brand chrome (ToXY) and medical glucose colors (AGP). Independent from the Android app modules.",
+  "license": "UNLICENSED",
+  "maintainers": ["Widget G7 project"],
+  "platforms": {
+    "android-mobile": { "minSdk": 28, "designUnit": "dp/sp" },
+    "wear-os-tile": { "minSdk": 30, "designUnit": "dp/sp" },
+    "figma": { "format": "variables + components" }
+  },
+  "layers": {
+    "chrome": {
+      "namespace": "toxy",
+      "tokenPrefix": "toxy.",
+      "description": "Brand UI: backgrounds, buttons, navigation, sync chrome"
+    },
+    "medical": {
+      "namespace": "agp",
+      "tokenPrefix": "agp.glucose.",
+      "description": "AGP / TIR glucose range colors — never mixed with toxy.accent",
+      "standard": "International Consensus on Time in Range / AGP Report"
+    }
+  },
+  "consumers": {
+    "widget-g7-mobile": {
+      "path": "../mobile/src/main/res/values",
+      "exportScript": "tools/export-android-colors.py"
+    },
+    "widget-g7-wear": {
+      "path": "../wear/src/main/java/com/widgetg7/wear/theme",
+      "note": "Protolayout constants generated manually or via export script"
+    }
+  },
+  "documentation": {
+    "hub": "README.md",
+    "designReference": "design-reference/index.html",
+    "figmaHandoff": "figma/FIGMA-HANDOFF.md",
+    "figmaUrl": null,
+    "figmaOptional": true,
+    "appDocsSymlink": "../docs/index.md"
+  },
+  "exports": {
+    "androidColors": "tools/export-android-colors.py",
+    "figmaTokensStudio": "tools/export-figma-tokens.py",
+    "designReference": "tools/export-design-reference.py",
+    "lintAgpColors": "tools/lint-agp-colors.py",
+    "validateTokens": "tools/tokens-validate.py"
+  }
+}

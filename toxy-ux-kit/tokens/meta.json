@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "tokenFormat": "w3c-design-tokens-subset",
+  "lastUpdated": "2026-05-23",
+  "files": [
+    "toxy.color.json",
+    "toxy.typography.json",
+    "toxy.spacing.json",
+    "toxy.shape.json",
+    "toxy.motion.json",
+    "agp.glucose.json"
+  ],
+  "rules": [
+    "Medical glucose values MUST use agp.glucose.* tokens only",
+    "Brand accent (toxy.color.accent) MUST NOT color numeric glucose readings",
+    "Stale / unknown data uses agp.glucose.unknown, not a clinical range color"
+  ]
+}

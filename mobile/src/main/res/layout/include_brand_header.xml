@@ -9,7 +9,7 @@
     <FrameLayout
         android:layout_width="@dimen/wg7_icon_tonal_size"
         android:layout_height="@dimen/wg7_icon_tonal_size"
-        android:background="@drawable/bg_home_icon_tonal">
+        android:background="@drawable/bg_brand_mark_frame">
 
         <ImageView
             android:layout_width="@dimen/wg7_icon_square_inner"
@@ -18,7 +18,7 @@
             android:contentDescription="@null"
             android:importantForAccessibility="no"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_brand_wg7_mark" />
+            android:src="@drawable/ic_brand_mark" />
     </FrameLayout>
 
     <LinearLayout
@@ -46,11 +46,9 @@
             android:layout_marginTop="4dp"
             android:importantForAccessibility="no"
             android:includeFontPadding="false"
-            android:letterSpacing="0.1"
+            android:letterSpacing="0.04"
             android:text="@string/home_brand_tagline"
-            android:textAllCaps="true"
-            android:textColor="@color/wg7_accent"
-            android:textSize="9sp"
-            android:textStyle="bold" />
+            android:textColor="@color/wg7_text_tertiary"
+            android:textSize="10sp" />
     </LinearLayout>
 </LinearLayout>

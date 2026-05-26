@@ -1,36 +1,31 @@
 ---
 name: widget-g7-compat-matrix-maintainer
-description: Maintient la matrice de compatibilite Android Studio, JDK, AGP, Gradle, Kotlin et Wear OS pour Widget G7, puis signale les combinaisons a risque et met a jour COMPATIBILITY.md.
+description: Maintains the Android Studio, JDK, AGP, Gradle, Kotlin, and Wear OS compatibility matrix for Widget G7, flags risky combinations, and updates docs/dev/setup.md.
 disable-model-invocation: true
 ---
 
 # Widget G7 Compat Matrix Maintainer
 
-## Objectif
-Garder une matrice de compatibilite fiable pour le build et le developpement.
+## Objective
+Keep a reliable compatibility matrix for build and development.
 
-## Entrees
-- `COMPATIBILITY.md`
+## Inputs
+- `docs/dev/setup.md`
 - `README.md`
-- `docs/android-studio.md`
 - `build.gradle.kts`
 - `gradle/wrapper/gradle-wrapper.properties`
 
 ## Workflow
-1. Lire les versions effectives du repo.
-2. Verifier la compatibilite outillage officielle.
-3. Mettre a jour les combinaisons avec statut :
-   - `Valide`
-   - `Risque`
-   - `Non supporte`
-4. Ajouter une recommandation claire pour chaque statut `Risque`.
-5. Mettre a jour `COMPATIBILITY.md` si edition autorisee.
+1. Read effective repo versions.
+2. Verify official tooling compatibility.
+3. Update combinations with status:
+   - `Valid`
+   - `Risk`
+   - `Unsupported`
+4. Add a clear recommendation for each `Risk` status.
+5. Update `docs/dev/setup.md` if editing is authorized.
 
-## Sortie attendue
-- **Matrice a jour**
-- **Alertes de compatibilite**
-- **Actions de remediation**
-
-## Regles
-- Expliciter l'axe de risque (build, sync IDE, runtime, tooling).
-- Garder la matrice concise et exploitable en revue.
+## Expected output
+- **Updated matrix**
+- **Risky combinations** with mitigation
+- **Patch applied**: yes/no

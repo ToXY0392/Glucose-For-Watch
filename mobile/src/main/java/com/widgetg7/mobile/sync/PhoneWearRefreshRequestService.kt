@@ -5,6 +5,7 @@ import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
 import com.google.android.gms.wearable.MessageEvent
+import com.google.android.gms.wearable.Node
 import com.google.android.gms.wearable.WearableListenerService
 import com.widgetg7.mobile.watch.WatchSyncHealthRepository
 import com.widgetg7.mobile.watch.WatchSyncHealthStatus
@@ -13,8 +14,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
+/** Wearable listener for watch refresh requests, acks, and status payloads. */
 class PhoneWearRefreshRequestService : WearableListenerService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    override fun onPeerConnected(node: Node) {
+        super.onPeerConnected(node)
+        if (!PendingPushQueue(this).hasPending()) return
+        Log.i(TAG, "peer_connected_pending_flush nodeId=${node.id}")
+        serviceScope.launch {
+            if (!PendingPushFlusher.flush(this@PhoneWearRefreshRequestService)) {
+                ActiveGlucoseSyncController.syncNow(this@PhoneWearRefreshRequestService)
+            }
+        }
+    }
 
     override fun onMessageReceived(messageEvent: MessageEvent) {
         if (messageEvent.path != GlucoseKeys.PATH_REFRESH_REQUEST) {
@@ -69,10 +82,11 @@ class PhoneWearRefreshRequestService : WearableListenerService() {
                 appVersionCode = map.getLong(GlucoseKeys.WATCH_APP_VERSION_CODE),
                 supportsTile = map.getBoolean(GlucoseKeys.WATCH_SUPPORTS_TILE),
                 supportsComplication = map.getBoolean(GlucoseKeys.WATCH_SUPPORTS_COMPLICATION),
+                ackFailureCount = map.getInt(GlucoseKeys.WATCH_ACK_FAILURE_COUNT, 0),
             )
             Log.i(
                 TAG,
-                "watch_status battery=${status.batteryLevel} lowPower=${status.lowPowerMode} syncLimited=${status.syncLimited} message=${status.message}",
+                "watch_status battery=${status.batteryLevel} lowPower=${status.lowPowerMode} syncLimited=${status.syncLimited} ackFailures=${status.ackFailureCount} message=${status.message}",
             )
             WatchSyncHealthRepository(this).save(status)
         }

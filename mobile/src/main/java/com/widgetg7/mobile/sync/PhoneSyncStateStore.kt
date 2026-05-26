@@ -2,6 +2,7 @@ package com.widgetg7.mobile.sync
 
 import android.content.Context
 
+/** Persisted phone sync pipeline state (fetch, push, ack). */
 data class PhoneSyncStateSnapshot(
     val lastFetchedReadingTimestampEpochMs: Long,
     val lastPushedReadingTimestampEpochMs: Long,
@@ -19,10 +20,12 @@ data class PhoneSyncStateSnapshot(
     val lastPushedDeltaMgDl: Int,
     val lastPushedStale: Boolean,
     val unackedRepushCount: Int,
+    val consecutiveWearPushFailures: Int,
     val activeServiceState: String,
     val activeServiceUpdatedAtEpochMs: Long,
 )
 
+/** SharedPreferences store for phone-side sync telemetry. */
 class PhoneSyncStateStore(context: Context) {
     private val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
@@ -48,6 +51,7 @@ class PhoneSyncStateStore(context: Context) {
             lastPushedDeltaMgDl = prefs.getInt(KEY_LAST_PUSHED_DELTA, 0),
             lastPushedStale = prefs.getBoolean(KEY_LAST_PUSHED_STALE, true),
             unackedRepushCount = prefs.getInt(KEY_UNACKED_REPUSH_COUNT, 0),
+            consecutiveWearPushFailures = prefs.getInt(KEY_CONSECUTIVE_WEAR_PUSH_FAILURES, 0),
             activeServiceState = prefs.getString(KEY_ACTIVE_SERVICE_STATE, "stopped").orEmpty(),
             activeServiceUpdatedAtEpochMs = prefs.getLong(KEY_ACTIVE_SERVICE_UPDATED_AT, 0L),
         )
@@ -64,6 +68,7 @@ class PhoneSyncStateStore(context: Context) {
             .apply()
     }
 
+    /** Uses wall-clock millis as the push sequence id. */
     fun nextSequenceId(nowEpochMs: Long = System.currentTimeMillis()): Long = nowEpochMs
 
     fun recordPushSuccess(
@@ -89,6 +94,20 @@ class PhoneSyncStateStore(context: Context) {
                 .putBoolean(KEY_LAST_PUSHED_STALE, stale)
         }
         editor.apply()
+        recordWearPushDelivered()
+    }
+
+    fun recordWearPushDelivered() {
+        prefs.edit()
+            .putInt(KEY_CONSECUTIVE_WEAR_PUSH_FAILURES, 0)
+            .apply()
+    }
+
+    fun recordWearPushUndelivered() {
+        val next = prefs.getInt(KEY_CONSECUTIVE_WEAR_PUSH_FAILURES, 0) + 1
+        prefs.edit()
+            .putInt(KEY_CONSECUTIVE_WEAR_PUSH_FAILURES, next)
+            .apply()
     }
 
     fun recordWatchAck(
@@ -103,6 +122,7 @@ class PhoneSyncStateStore(context: Context) {
             .putLong(KEY_LAST_ACK_AT, nowEpochMs)
             .putString(KEY_LAST_ACK_NODE_ID, nodeId)
             .putInt(KEY_UNACKED_REPUSH_COUNT, 0)
+            .putInt(KEY_CONSECUTIVE_WEAR_PUSH_FAILURES, 0)
             .apply()
     }
 
@@ -144,6 +164,7 @@ class PhoneSyncStateStore(context: Context) {
             .remove(KEY_LAST_PUSHED_DELTA)
             .remove(KEY_LAST_PUSHED_STALE)
             .remove(KEY_UNACKED_REPUSH_COUNT)
+            .remove(KEY_CONSECUTIVE_WEAR_PUSH_FAILURES)
             .remove(KEY_ACTIVE_SERVICE_STATE)
             .remove(KEY_ACTIVE_SERVICE_UPDATED_AT)
             .apply()
@@ -167,6 +188,7 @@ class PhoneSyncStateStore(context: Context) {
         private const val KEY_LAST_PUSHED_DELTA = "last_pushed_delta"
         private const val KEY_LAST_PUSHED_STALE = "last_pushed_stale"
         private const val KEY_UNACKED_REPUSH_COUNT = "unacked_repush_count"
+        private const val KEY_CONSECUTIVE_WEAR_PUSH_FAILURES = "consecutive_wear_push_failures"
         private const val KEY_ACTIVE_SERVICE_STATE = "active_service_state"
         private const val KEY_ACTIVE_SERVICE_UPDATED_AT = "active_service_updated_at"
     }

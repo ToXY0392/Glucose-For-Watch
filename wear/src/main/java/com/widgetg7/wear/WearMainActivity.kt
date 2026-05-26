@@ -1,30 +1,45 @@
 package com.widgetg7.wear
 
-import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
-import android.widget.TextView
-import androidx.core.content.ContextCompat
-import com.widgetg7.wear.complication.ComplicationUpdateNotifier
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
+import android.util.Log
+import com.widgetg7.wear.complication.ComplicationInstanceRegistry
+import com.widgetg7.wear.tile.GlucoseRefreshActivity
+import com.widgetg7.wear.ui.WearStatusScreen
+import com.widgetg7.wear.ui.theme.WidgetG7WearTheme
 
-/** Écran minimal pour que l’app apparaisse dans le tiroir montre (découverte des tuiles / complications). */
-class WearMainActivity : Activity() {
+/** Launcher: glucose status (Compose M3) aligned with tile + complication. */
+class WearMainActivity : ComponentActivity() {
+    private var refreshKey by mutableIntStateOf(0)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val tv =
-            TextView(this).apply {
-                text = getString(R.string.wear_open_on_phone_hint)
-                gravity = Gravity.CENTER
-                setPadding(32, 32, 32, 32)
-                setBackgroundColor(ContextCompat.getColor(this@WearMainActivity, R.color.wg7_tile_bg))
-                setTextColor(ContextCompat.getColor(this@WearMainActivity, R.color.wg7_text_primary))
+        setContent {
+            WidgetG7WearTheme {
+                WearStatusScreen(
+                    refreshKey = refreshKey,
+                    onSyncClick = { startActivity(Intent(this, GlucoseRefreshActivity::class.java)) },
+                )
             }
-        setContentView(tv)
-        ComplicationUpdateNotifier.requestUpdateAll(this)
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        ComplicationUpdateNotifier.requestUpdateAll(this)
+        refreshKey++
+        val instanceIds = ComplicationInstanceRegistry.activeInstanceIds(this)
+        Log.i(
+            TAG,
+            "complication_linked=${instanceIds.isNotEmpty()} instances=${instanceIds.toList()}",
+        )
+    }
+
+    private companion object {
+        private const val TAG = "WG7.Complication"
     }
 }

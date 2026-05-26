@@ -1,7 +1,8 @@
-﻿package com.widgetg7.mobile.sync
+package com.widgetg7.mobile.sync
 
 import com.widgetg7.core.datalayer.GlucoseDataLayerContract
 
+/** Mobile aliases for Wear Data Layer glucose contract keys. */
 object GlucoseKeys {
     const val PATH_LATEST = GlucoseDataLayerContract.PATH_LATEST
     const val PATH_REFRESH_REQUEST = GlucoseDataLayerContract.PATH_REFRESH_REQUEST
@@ -37,6 +38,8 @@ object GlucoseKeys {
     const val WATCH_APP_VERSION_CODE = GlucoseDataLayerContract.WATCH_APP_VERSION_CODE
     const val WATCH_SUPPORTS_TILE = GlucoseDataLayerContract.WATCH_SUPPORTS_TILE
     const val WATCH_SUPPORTS_COMPLICATION = GlucoseDataLayerContract.WATCH_SUPPORTS_COMPLICATION
+    const val WATCH_ACK_FAILURE_COUNT = GlucoseDataLayerContract.WATCH_ACK_FAILURE_COUNT
+    const val SOURCE_PHONE_NODE_ID = GlucoseDataLayerContract.SOURCE_PHONE_NODE_ID
     const val ACK_READING_TIMESTAMP_EPOCH_MS = GlucoseDataLayerContract.ACK_READING_TIMESTAMP_EPOCH_MS
     const val ACK_SEQUENCE_ID = GlucoseDataLayerContract.ACK_SEQUENCE_ID
     const val ACK_RECEIVED_AT = GlucoseDataLayerContract.ACK_RECEIVED_AT

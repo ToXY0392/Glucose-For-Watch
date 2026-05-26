@@ -6,6 +6,7 @@ import com.google.android.gms.wearable.Wearable
 import com.widgetg7.core.datalayer.GlucoseDataLayerContract
 import kotlinx.coroutines.tasks.await
 
+/** Writes tile refresh status to the Wear Data Layer for watch-initiated sync. */
 class RefreshStatusPublisher(
     private val context: Context,
     private val resolveTargetNodeId: suspend () -> String?,

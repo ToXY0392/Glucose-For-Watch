@@ -1,0 +1,37 @@
+#!/bin/sh
+# Glucose For Watch — pre-commit secrets and hygiene guard
+# Enable: git config core.hooksPath .githooks
+
+set -e
+
+STAGED=$(git diff --cached --name-only)
+
+block_path() {
+  echo "pre-commit: blocked — $1" >&2
+  exit 1
+}
+
+for path in $STAGED; do
+  case "$path" in
+    local.properties|*/local.properties)
+      block_path "local.properties must not be committed"
+      ;;
+    *.jks|*.keystore)
+      block_path "keystore files must not be committed"
+      ;;
+    .cursor/state/*)
+      case "$path" in
+        .cursor/state/.gitkeep) ;;
+        *) block_path ".cursor/state/ runtime files must not be committed" ;;
+      esac
+      ;;
+  esac
+done
+
+# Scan staged diff for obvious credential patterns (Dexcom / tokens in added lines)
+if git diff --cached | grep -E '^\+.*(password|Password|DEXCOM_|session[_-]?id|share[_-]?secret)' \
+  | grep -vE '^\+.*(strings\.xml|R\.string|@string/|placeholder|example|TODO)' >/dev/null 2>&1; then
+  block_path "possible credential in staged diff — review before commit"
+fi
+
+exit 0

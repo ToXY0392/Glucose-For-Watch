@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Generated from toxy-ux-kit/tokens/ — ToXY chrome layer — NOT for glucose values -->
+    <!-- Run: python toxy-ux-kit/tools/export-android-colors.py -->
+
+    <!-- App canvas top -->
+    <color name="toxy_background_top">#0D1117</color>
+    <!-- Gradient end -->
+    <color name="toxy_background_bottom">#0F172A</color>
+    <color name="toxy_canvas_start">#0D1117</color>
+    <color name="toxy_canvas_end">#111827</color>
+    <!-- Cards -->
+    <color name="toxy_surface_default">#111827</color>
+    <!-- Elevated cards -->
+    <color name="toxy_surface_alt">#1E293B</color>
+    <color name="toxy_outline">#334155</color>
+    <color name="toxy_text_primary">#F8FAFC</color>
+    <color name="toxy_text_secondary">#94A3B8</color>
+    <color name="toxy_text_tertiary">#64748B</color>
+    <!-- Primary actions, brand -->
+    <color name="toxy_accent_default">#34D399</color>
+    <!-- Pressed state -->
+    <color name="toxy_accent_dark">#059669</color>
+    <!-- Tonal containers -->
+    <color name="toxy_accent_soft">#163D34</color>
+    <!-- Text on accent -->
+    <color name="toxy_accent_on">#0F172A</color>
+    <!-- Watch ack confirmed -->
+    <color name="toxy_sync_ok">#4ADE80</color>
+    <!-- Success status pill background -->
+    <color name="toxy_sync_okSoft">#14532D</color>
+    <!-- Success status pill border -->
+    <color name="toxy_sync_okStroke">#334ADE80</color>
+    <!-- Stale / degraded -->
+    <color name="toxy_sync_warn">#FB923C</color>
+    <!-- Warn status pill background -->
+    <color name="toxy_sync_warnSoft">#422006</color>
+    <!-- Auth / push failure -->
+    <color name="toxy_sync_error">#F87171</color>
+    <!-- Error status pill background -->
+    <color name="toxy_sync_errorSoft">#3F1818</color>
+    <!-- Watch hero ring -->
+    <color name="toxy_sync_ring">#475569</color>
+    <color name="toxy_overlay_accentScrim">#3334D399</color>
+    <color name="toxy_overlay_glowStart">#4034D399</color>
+    <color name="toxy_overlay_glowCenter">#2234D399</color>
+    <color name="toxy_overlay_glowEnd">#00000000</color>
+    <!-- Wear installer hero gradient start -->
+    <color name="toxy_overlay_auroraStart">#4022C55E</color>
+    <!-- Wear installer hero gradient center -->
+    <color name="toxy_overlay_auroraCenter">#1834D399</color>
+    <!-- Wear installer hero gradient end -->
+    <color name="toxy_overlay_auroraEnd">#000D1117</color>
+</resources>

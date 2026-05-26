@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Fond splash aligné sur la toile Nocturne (logo géré par activity_splash). -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/wg7_bg_top" />
-        </shape>
-    </item>
-</layer-list>

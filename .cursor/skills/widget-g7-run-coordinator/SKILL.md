@@ -1,37 +1,37 @@
 ---
 name: widget-g7-run-coordinator
-description: Ordonne les executions recurrentes des skills de maintenance Widget G7 avec verrouillage, cooldown, deduplication et strategie d'alerte pour limiter le bruit.
+description: Orders recurring execution of Widget G7 maintenance skills with locking, cooldown, deduplication, and alert strategy to limit noise.
 disable-model-invocation: true
 ---
 
 # Widget G7 Run Coordinator
 
-## Objectif
-Coordonner l'automatisation de tous les skills de veille/maintenance sans spam.
+## Objective
+Coordinate automation of all monitoring/maintenance skills without spam.
 
-## Responsabilites
-- Lock d'execution (eviter doublons)
-- Cooldown entre runs
-- Deduplication des alertes
-- Escalade par severite
+## Responsibilities
+- Execution lock (avoid duplicates)
+- Cooldown between runs
+- Alert deduplication
+- Severity escalation
 
-## Politique d'alerte
-- `Critique` : notification immediate + blocage release si applicable
-- `Important` : digest quotidien
-- `Mineur` : digest hebdomadaire
+## Alert policy
+- `Critical`: immediate notification + release block if applicable
+- `Important`: daily digest
+- `Minor`: weekly digest
 
 ## Workflow
-1. Verifier l'etat precedent (timestamp + hash des alertes).
-2. Choisir le pack a lancer (quick / full / release).
-3. Executer les skills cibles dans l'ordre defini.
-4. Agreger les resultats dans un bulletin unique.
-5. Mettre a jour l'etat d'automatisation.
+1. Check previous state (timestamp + alert hash).
+2. Choose the pack to run (quick / full / release).
+3. Execute target skills in defined order.
+4. Aggregate results into a single bulletin.
+5. Update automation state.
 
-## Packs standards
+## Standard packs
 - `quick`: vendor-watch + security-bulletin
 - `full`: compat-matrix + dependency-advisor + doc-drift + release-notes-curator
-- `release`: full + verification des blocants
+- `release`: full + blocker verification
 
-## Regles
-- Ne pas publier deux fois la meme alerte sans nouveau signal.
-- Toujours produire un resume operationnel final.
+## Rules
+- Do not publish the same alert twice without a new signal.
+- Always produce a final operational summary.

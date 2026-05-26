@@ -9,6 +9,7 @@ import com.widgetg7.mobile.ui.DexcomEntryActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+/** Routes to Dexcom entry or home on cold start. */
 class SplashActivity : AppCompatActivity() {
     private val splashDurationMs = 0L
 

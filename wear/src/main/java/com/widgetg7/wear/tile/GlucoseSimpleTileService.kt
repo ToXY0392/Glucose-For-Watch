@@ -1,6 +1,6 @@
 package com.widgetg7.wear.tile
 
-import android.os.SystemClock
+import androidx.wear.protolayout.ActionBuilders
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DimensionBuilders
 import androidx.wear.protolayout.LayoutElementBuilders
@@ -14,46 +14,41 @@ import androidx.wear.tiles.TileService
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import com.widgetg7.wear.data.GlucoseCache
-import com.widgetg7.wear.complication.ComplicationUpdateNotifier
-import com.widgetg7.wear.sync.WatchSyncHealthMonitor
+import com.widgetg7.wear.data.GlucoseSnapshot
+import com.widgetg7.wear.display.WearGlucoseSurfaceModelFactory
+import com.widgetg7.wear.R
 
-/** Tuile glycémie minimaliste : valeur, mg/dL, flèche de tendance (sans libellé « Tendance »). */
+/** Glucose tile: AGP-colored value, unit, trend, and sync action. */
 class GlucoseSimpleTileService : TileService() {
 
     override fun onTileRequest(
         requestParams: RequestBuilders.TileRequest,
     ): ListenableFuture<TileBuilders.Tile> {
-        requestComplicationsRefreshThrottled()
-
         val cache = GlucoseCache(this)
-        val healthMonitor = WatchSyncHealthMonitor(this)
         val snapshot = cache.load()
-        healthMonitor.updateAndReport(System.currentTimeMillis())
+        val syncLocked = GlucoseSyncCoordinator.isSyncLocked(cache)
 
-        val valueText = snapshot?.displayValueText() ?: "--"
-        val trendArrow = snapshot?.trendArrow().orEmpty()
-        val showTrend = snapshot != null && trendArrow.isNotEmpty()
-        val trendStale = snapshot?.stale == true
-
-        val root =
-            buildRoot(
-                valueText = valueText,
-                trendArrow = trendArrow,
-                showTrend = showTrend,
-                trendStale = trendStale,
+        val deviceConfiguration = requestParams.deviceConfiguration
+        val metrics =
+            ToxyTileTheme.layoutMetrics(
+                screenWidthDp = deviceConfiguration.screenWidthDp,
+                screenHeightDp = deviceConfiguration.screenHeightDp,
+                screenShape = deviceConfiguration.screenShape,
             )
+        val root = buildRoot(snapshot, metrics, syncLocked)
 
         val tile =
             TileBuilders.Tile.Builder()
-                .setResourcesVersion(RESOURCES_VERSION)
+                .setResourcesVersion(ToxyTileTheme.RESOURCES_VERSION)
+                .setFreshnessIntervalMillis(ToxyTileTheme.FRESHNESS_INTERVAL_MS)
                 .setTileTimeline(
                     TimelineBuilders.Timeline.Builder()
                         .addTimelineEntry(
                             TimelineBuilders.TimelineEntry.Builder()
                                 .setLayout(Layout.Builder().setRoot(root).build())
-                                .build()
+                                .build(),
                         )
-                        .build()
+                        .build(),
                 )
                 .build()
 
@@ -65,117 +60,194 @@ class GlucoseSimpleTileService : TileService() {
     ): ListenableFuture<ResourceBuilders.Resources> {
         return Futures.immediateFuture(
             ResourceBuilders.Resources.Builder()
-                .setVersion(RESOURCES_VERSION)
+                .setVersion(ToxyTileTheme.RESOURCES_VERSION)
                 .build(),
         )
     }
 
     private fun buildRoot(
-        valueText: String,
-        trendArrow: String,
-        showTrend: Boolean,
-        trendStale: Boolean,
+        snapshot: GlucoseSnapshot?,
+        metrics: ToxyTileTheme.TileLayoutMetrics,
+        syncLocked: Boolean,
     ): LayoutElementBuilders.LayoutElement {
-        val trendColor = if (trendStale) TILE_TREND_STALE else TILE_ACCENT
+        val display = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
 
         val value =
             LayoutElementBuilders.Text.Builder()
-                .setText(valueText)
+                .setText(display.valueText)
                 .setFontStyle(
                     LayoutElementBuilders.FontStyle.Builder()
-                        .setSize(DimensionBuilders.sp(56f))
+                        .setSize(DimensionBuilders.sp(metrics.valueSp))
                         .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
-                        .setColor(ColorBuilders.argb(TILE_TEXT))
-                        .build()
+                        .setColor(ColorBuilders.argb(display.valueColorArgb))
+                        .build(),
                 )
                 .setMaxLines(1)
                 .build()
 
-        val unit =
-            LayoutElementBuilders.Text.Builder()
-                .setText("mg/dL")
-                .setFontStyle(
-                    LayoutElementBuilders.FontStyle.Builder()
-                        .setSize(DimensionBuilders.sp(18f))
-                        .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
-                        .setColor(ColorBuilders.argb(TILE_ACCENT))
-                        .build()
-                )
-                .setMaxLines(1)
+        val valueRow =
+            LayoutElementBuilders.Box.Builder()
+                .setWidth(DimensionBuilders.expand())
+                .setHeight(DimensionBuilders.dp(metrics.valueRowHeightDp))
+                .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+                .addContent(value)
                 .build()
 
-        val metaRow = LayoutElementBuilders.Row.Builder()
-        metaRow.addContent(unit)
-        if (showTrend) {
+        val metaRow =
+            LayoutElementBuilders.Row.Builder()
+                .setWidth(DimensionBuilders.wrap())
+                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+                .addContent(
+                    LayoutElementBuilders.Text.Builder()
+                        .setText("mg/dL")
+                        .setFontStyle(
+                            LayoutElementBuilders.FontStyle.Builder()
+                                .setSize(DimensionBuilders.sp(metrics.unitSp))
+                                .setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
+                                .setColor(ColorBuilders.argb(ToxyTileTheme.UNIT_TEXT))
+                                .build(),
+                        )
+                        .setMaxLines(1)
+                        .build(),
+                )
+        if (display.showTrend) {
             metaRow.addContent(
                 LayoutElementBuilders.Spacer.Builder()
-                    .setWidth(DimensionBuilders.dp(14f))
-                    .build()
+                    .setWidth(DimensionBuilders.dp(metrics.trendGapDp))
+                    .build(),
             )
             metaRow.addContent(
                 LayoutElementBuilders.Text.Builder()
-                    .setText(trendArrow)
+                    .setText(display.trendArrow)
                     .setFontStyle(
                         LayoutElementBuilders.FontStyle.Builder()
-                            .setSize(DimensionBuilders.sp(32f))
+                            .setSize(DimensionBuilders.sp(metrics.trendSp))
                             .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
-                            .setColor(ColorBuilders.argb(trendColor))
-                            .build()
+                            .setColor(ColorBuilders.argb(display.trendColorArgb))
+                            .build(),
                     )
                     .setMaxLines(1)
-                    .build()
+                    .build(),
             )
         }
 
-        val column =
+        val contentColumn =
             LayoutElementBuilders.Column.Builder()
                 .setWidth(DimensionBuilders.expand())
+                .setHeight(DimensionBuilders.expand())
                 .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-                .addContent(value)
                 .addContent(
                     LayoutElementBuilders.Spacer.Builder()
-                        .setHeight(DimensionBuilders.dp(10f))
-                        .build()
+                        .setHeight(DimensionBuilders.dp(metrics.topPadDp))
+                        .build(),
+                )
+                .addContent(valueRow)
+                .addContent(
+                    LayoutElementBuilders.Spacer.Builder()
+                        .setHeight(DimensionBuilders.dp(metrics.valueMetaGapDp))
+                        .build(),
                 )
                 .addContent(metaRow.build())
+                .addContent(
+                    LayoutElementBuilders.Spacer.Builder()
+                        .setHeight(DimensionBuilders.expand())
+                        .build(),
+                )
+                .addContent(buildSyncButton(metrics, syncLocked))
+                .addContent(
+                    LayoutElementBuilders.Spacer.Builder()
+                        .setHeight(DimensionBuilders.dp(metrics.bottomPadDp))
+                        .build(),
+                )
                 .build()
 
         return LayoutElementBuilders.Box.Builder()
             .setWidth(DimensionBuilders.expand())
             .setHeight(DimensionBuilders.expand())
-            .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-            .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
             .setModifiers(
                 ModifiersBuilders.Modifiers.Builder()
+                    .setPadding(
+                        ModifiersBuilders.Padding.Builder()
+                            .setStart(DimensionBuilders.dp(metrics.horizontalPadDp))
+                            .setEnd(DimensionBuilders.dp(metrics.horizontalPadDp))
+                            .build(),
+                    )
                     .setBackground(
                         ModifiersBuilders.Background.Builder()
-                            .setColor(ColorBuilders.argb(TILE_BG))
-                            .build()
+                            .setColor(ColorBuilders.argb(ToxyTileTheme.BACKGROUND))
+                            .build(),
                     )
-                    .build()
+                    .build(),
             )
-            .addContent(column)
+            .addContent(contentColumn)
             .build()
     }
 
-    private fun requestComplicationsRefreshThrottled() {
-        val now = SystemClock.elapsedRealtime()
-        synchronized(tileComplicationRefreshLock) {
-            if (now - lastTileComplicationRefreshElapsedMs < TILE_COMPLICATION_REFRESH_INTERVAL_MS) return
-            lastTileComplicationRefreshElapsedMs = now
+    private fun buildSyncButton(
+        metrics: ToxyTileTheme.TileLayoutMetrics,
+        syncLocked: Boolean,
+    ): LayoutElementBuilders.LayoutElement {
+        val label =
+            if (syncLocked) {
+                getString(R.string.tile_sync_in_progress)
+            } else {
+                getString(R.string.tile_sync_action)
+            }
+        val textColor = if (syncLocked) ToxyTileTheme.SYNC_LOCKED_ACCENT else ToxyTileTheme.SYNC_ACCENT
+        val bgColor = if (syncLocked) ToxyTileTheme.SYNC_LOCKED_BG else ToxyTileTheme.SYNC_BG
+
+        val syncLabel =
+            LayoutElementBuilders.Text.Builder()
+                .setText(label)
+                .setFontStyle(
+                    LayoutElementBuilders.FontStyle.Builder()
+                        .setSize(DimensionBuilders.sp(14f))
+                        .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
+                        .setColor(ColorBuilders.argb(textColor))
+                        .build(),
+                )
+                .setMaxLines(1)
+                .build()
+
+        val modifiers =
+            ModifiersBuilders.Modifiers.Builder()
+                .setBackground(
+                    ModifiersBuilders.Background.Builder()
+                        .setColor(ColorBuilders.argb(bgColor))
+                        .setCorner(
+                            ModifiersBuilders.Corner.Builder()
+                                .setRadius(DimensionBuilders.dp(metrics.syncButtonHeightDp / 2f))
+                                .build(),
+                        )
+                        .build(),
+                )
+
+        if (!syncLocked) {
+            modifiers.setClickable(
+                ModifiersBuilders.Clickable.Builder()
+                    .setId(ToxyTileTheme.SYNC_CLICK_ID)
+                    .setOnClick(
+                        ActionBuilders.LaunchAction.Builder()
+                            .setAndroidActivity(
+                                ActionBuilders.AndroidActivity.Builder()
+                                    .setClassName(GlucoseRefreshActivity::class.java.name)
+                                    .setPackageName(packageName)
+                                    .build(),
+                            )
+                            .build(),
+                    )
+                    .build(),
+            )
         }
-        ComplicationUpdateNotifier.requestUpdateAll(this)
-    }
 
-    private companion object {
-        private val tileComplicationRefreshLock = Any()
-        private var lastTileComplicationRefreshElapsedMs = 0L
-        private const val TILE_COMPLICATION_REFRESH_INTERVAL_MS = 45_000L
-
-        private const val RESOURCES_VERSION = "simple-tile-v5-nocturne-pro"
-        private const val TILE_BG = 0xFF0D1117.toInt()
-        private const val TILE_TEXT = 0xFFF8FAFC.toInt()
-        private const val TILE_ACCENT = 0xFF34D399.toInt()
-        private const val TILE_TREND_STALE = 0xFF64748B.toInt()
+        return LayoutElementBuilders.Box.Builder()
+            .setWidth(DimensionBuilders.dp(metrics.syncButtonWidthDp))
+            .setHeight(DimensionBuilders.dp(metrics.syncButtonHeightDp))
+            .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+            .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            .setModifiers(modifiers.build())
+            .addContent(syncLabel)
+            .build()
     }
 }

@@ -1,55 +1,34 @@
 package com.widgetg7.wear.tile
 
 import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import androidx.wear.tiles.TileService
-import com.google.android.gms.wearable.Wearable
-import com.widgetg7.wear.complication.ComplicationUpdateNotifier
+import android.util.Log
 import com.widgetg7.wear.data.GlucoseCache
-import com.widgetg7.wear.data.GlucoseKeys
-import com.widgetg7.wear.sync.WatchSyncHealthMonitor
 
+/** Zero-UI trampoline: acquire sync lock, mark pending, dispatch request, exit immediately. */
 class GlucoseRefreshActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         @Suppress("DEPRECATION")
         overridePendingTransition(0, 0)
 
+        if (!GlucoseSyncCoordinator.tryBeginSync()) {
+            Log.d(TAG, "sync_tap_ignored locked")
+            finishNoAnim()
+            return
+        }
+
         val cache = GlucoseCache(this)
-        val healthMonitor = WatchSyncHealthMonitor(this)
         cache.markRefreshPending()
-        healthMonitor.updateAndReport()
-        requestSurfaceUpdates()
+        GlucoseTileUpdateRequester.requestUpdateImmediate(this)
+        GlucoseSyncRequestExecutor.dispatch(this)
+        finishNoAnim()
+    }
 
-        Wearable.getNodeClient(this).connectedNodes
-            .addOnSuccessListener { nodes ->
-                val node = nodes.firstOrNull()
-                if (node == null) {
-                    cache.markRefreshFailed("Téléphone indisponible")
-                    healthMonitor.updateAndReport()
-                    requestSurfaceUpdates()
-                    finishNoAnim()
-                    return@addOnSuccessListener
-                }
-
-                Wearable.getMessageClient(this)
-                    .sendMessage(node.id, GlucoseKeys.PATH_REFRESH_REQUEST, ByteArray(0))
-                    .addOnSuccessListener {
-                        finishNoAnim()
-                    }
-                    .addOnFailureListener {
-                        cache.markRefreshFailed("Echec de synchro")
-                        healthMonitor.updateAndReport()
-                        requestSurfaceUpdates()
-                        finishNoAnim()
-                    }
-            }
-            .addOnFailureListener {
-                cache.markRefreshFailed("Téléphone indisponible")
-                healthMonitor.updateAndReport()
-                requestSurfaceUpdates()
-                finishNoAnim()
-            }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        finishNoAnim()
     }
 
     private fun finishNoAnim() {
@@ -58,8 +37,7 @@ class GlucoseRefreshActivity : Activity() {
         overridePendingTransition(0, 0)
     }
 
-    private fun requestSurfaceUpdates() {
-        TileService.getUpdater(this).requestUpdate(GlucoseSimpleTileService::class.java)
-        ComplicationUpdateNotifier.requestUpdateAll(this)
+    companion object {
+        private const val TAG = "WG7.WearDataLayer"
     }
 }

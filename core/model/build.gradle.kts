@@ -24,3 +24,7 @@ kotlin {
         jvmTarget.set(JvmTarget.JVM_17)
     }
 }
+
+dependencies {
+    testImplementation("junit:junit:4.13.2")
+}

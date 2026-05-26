@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 
+/** Battery optimization exemption state shown on the watch setup screen. */
 data class BatteryOptimizationStatus(
     val isProtectedFromOptimization: Boolean,
 ) {
@@ -19,6 +20,7 @@ data class BatteryOptimizationStatus(
     }
 }
 
+/** Reads battery optimization status and builds the system settings intent. */
 class BatteryOptimizationHelper(private val context: Context) {
 
     fun loadStatus(): BatteryOptimizationStatus {

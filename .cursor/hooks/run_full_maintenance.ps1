@@ -23,15 +23,15 @@ try {
 
     $checks += @{
         Name = "widget-g7-compat-matrix-maintainer"
-        Target = "COMPATIBILITY.md"
+        Target = "docs/dev/setup.md"
     }
     $checks += @{
         Name = "widget-g7-doc-drift-checker"
-        Target = "docs/android-studio.md"
+        Target = "docs/dev/setup.md"
     }
     $checks += @{
         Name = "widget-g7-release-notes-curator"
-        Target = "docs/release-notes.md"
+        Target = "CHANGELOG.md"
     }
     $checks += @{
         Name = "widget-g7-dependency-advisor"

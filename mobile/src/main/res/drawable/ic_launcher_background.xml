@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Pastille sous la texture launcher : Nocturne Pro. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/wg7_bg_top" />
+    <solid android:color="@color/gfw_canvas_end" />
 </shape>

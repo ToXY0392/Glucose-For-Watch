@@ -1,41 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Nocturne Pro : fonds & barres -->
-    <color name="wg7_bg_top">#0D1117</color>
-    <color name="wg7_bg_bottom">#0F172A</color>
-    <!-- Toile dégradée (accueil, assistant) -->
-    <color name="wg7_canvas_start">#0D1117</color>
-    <color name="wg7_canvas_end">#111827</color>
-    <!-- Surfaces cartes -->
-    <color name="wg7_surface">#111827</color>
-    <color name="wg7_surface_alt">#1E293B</color>
-    <color name="wg7_outline">#334155</color>
-    <!-- Texte -->
-    <color name="wg7_text_primary">#F8FAFC</color>
-    <color name="wg7_text_secondary">#94A3B8</color>
-    <color name="wg7_text_tertiary">#64748B</color>
-    <!-- Accent menthe -->
-    <color name="wg7_accent">#34D399</color>
-    <color name="wg7_accent_dark">#059669</color>
-    <color name="wg7_accent_soft">#163D34</color>
-    <color name="wg7_success">#4ADE80</color>
-    <color name="wg7_success_soft">#14532D</color>
-    <color name="wg7_watch_green">#4ADE80</color>
-    <color name="wg7_watch_ring">#475569</color>
-    <color name="wg7_danger">#F87171</color>
-    <color name="wg7_danger_soft">#3F1818</color>
-    <color name="wg7_alert">#FB923C</color>
-    <color name="wg7_alert_soft">#422006</color>
-    <color name="wg7_on_accent">#0F172A</color>
-    <!-- Halos & overlays (drawables) -->
-    <color name="wg7_accent_scrim">#3334D399</color>
-    <color name="wg7_success_soft_stroke">#334ADE80</color>
-    <color name="wg7_aurora_start">#4022C55E</color>
-    <color name="wg7_aurora_center">#1834D399</color>
-    <color name="wg7_aurora_end">#000D1117</color>
-    <color name="wg7_glow_start">#4034D399</color>
-    <color name="wg7_glow_center">#2234D399</color>
+    <color name="wg7_bg_top">@color/gfw_canvas_start</color>
+    <color name="wg7_bg_bottom">@color/gfw_canvas_end</color>
+    <color name="wg7_canvas_start">@color/gfw_canvas_start</color>
+    <color name="wg7_canvas_end">@color/gfw_canvas_end</color>
+    <color name="wg7_surface">#FDFCFA</color>
+    <color name="wg7_surface_alt">#F5F2ED</color>
+    <color name="wg7_outline">#E5DFD7</color>
+    <color name="wg7_card_highlight">@color/wg7_card_stroke</color>
+    <color name="wg7_card_stroke">#E5DFD7</color>
+    <color name="wg7_text_primary">#403C38</color>
+    <color name="wg7_text_secondary">#6F6963</color>
+    <color name="wg7_text_tertiary">#9A948D</color>
+    <color name="wg7_icon_tint">@color/wg7_text_secondary</color>
+    <color name="wg7_icon_frame_stroke">#DED8D0</color>
+    <color name="wg7_icon_tonal_fill">#F5F2ED</color>
+    <color name="wg7_accent">@color/gfw_chrome_accent</color>
+    <color name="wg7_accent_dark">@color/gfw_chrome_accent_dark</color>
+    <color name="wg7_accent_soft">@color/gfw_chrome_accent_soft</color>
+    <color name="wg7_on_accent">@color/gfw_chrome_on_accent</color>
+    <color name="wg7_watch_green">#7A9184</color>
+    <color name="wg7_watch_ring">#8A8480</color>
+    <color name="wg7_danger">#BE504C</color>
+    <color name="wg7_alert">@color/wg7_text_secondary</color>
+    <color name="wg7_ripple_neutral">#14403C38</color>
+    <color name="wg7_hud_glow_start">#406F6963</color>
+    <color name="wg7_hud_glow_center">#286F6963</color>
+    <color name="wg7_hud_glow_end">#00F8F7F4</color>
+    <color name="wg7_accent_scrim">#406F6963</color>
+    <color name="wg7_glow_start">#406F6963</color>
+    <color name="wg7_glow_center">#226F6963</color>
     <color name="wg7_glow_end">#00000000</color>
+    <color name="wg7_success">#7A9184</color>
+    <color name="wg7_success_soft">#EEF2EF</color>
+    <color name="wg7_danger_soft">#F9EBEA</color>
+    <color name="wg7_alert_soft">@color/wg7_neutral_soft</color>
+    <color name="wg7_neutral_soft">#F0EDE8</color>
+    <color name="wg7_success_soft_stroke">#337A9184</color>
+    <color name="wg7_alert_soft_stroke">#409A948D</color>
+    <color name="wg7_danger_soft_stroke">#33BE504C</color>
+    <color name="wg7_aurora_start">#406F6963</color>
+    <color name="wg7_aurora_center">#286F6963</color>
+    <color name="wg7_aurora_end">#00F8F7F4</color>
+    <color name="wg7_companion_bg">@color/gfw_canvas_start</color>
+    <color name="wg7_companion_pill">#EBE8E2</color>
+    <color name="wg7_companion_group">@color/wg7_surface</color>
+    <color name="wg7_companion_section">@color/wg7_text_secondary</color>
+    <color name="wg7_watch_face_bg">#3A3734</color>
+    <color name="wg7_watch_face_ring">#5C5853</color>
+    <color name="wg7_watch_face_meta">#B8B4AE</color>
     <color name="text_primary">@color/wg7_text_primary</color>
     <color name="text_secondary">@color/wg7_text_secondary</color>
     <color name="state_success">@color/wg7_success</color>

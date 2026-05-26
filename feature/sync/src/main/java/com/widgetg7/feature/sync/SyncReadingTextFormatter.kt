@@ -2,6 +2,7 @@ package com.widgetg7.feature.sync
 
 import kotlin.math.max
 
+/** Formats reading age as a relative French label (e.g. "il y a 5 min"). */
 object SyncReadingTextFormatter {
     fun readingAgeLabel(
         readingEpochMs: Long,

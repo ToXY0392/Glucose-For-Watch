@@ -1,0 +1,96 @@
+{
+
+  "$description": "AGP / International Consensus glucose range colors. Authoritative for all medical glucose visuals.",
+
+  "agp": {
+
+    "glucose": {
+
+      "veryLow": {
+
+        "$value": "#DC2626",
+
+        "$type": "color",
+
+        "$description": "Level 2 hypoglycemia — < 54 mg/dL"
+
+      },
+
+      "low": {
+
+        "$value": "#EF4444",
+
+        "$type": "color",
+
+        "$description": "Level 1 hypoglycemia — 54–69 mg/dL"
+
+      },
+
+      "inRange": {
+
+        "$value": "#16A34A",
+
+        "$type": "color",
+
+        "$description": "Time in Range — 70–180 mg/dL"
+
+      },
+
+      "high": {
+
+        "$value": "#B45309",
+
+        "$type": "color",
+
+        "$description": "Level 1 hyperglycemia — 181–250 mg/dL"
+
+      },
+
+      "veryHigh": {
+
+        "$value": "#EA580C",
+
+        "$type": "color",
+
+        "$description": "Level 2 hyperglycemia — > 250 mg/dL"
+
+      },
+
+      "unknown": {
+
+        "$value": "#64748B",
+
+        "$type": "color",
+
+        "$description": "Stale, no data, or non-clinical muted trend — NOT a range"
+
+      }
+
+    },
+
+    "thresholds": {
+
+      "veryLowMaxMgDl": { "$value": 53, "$type": "number" },
+
+      "lowMaxMgDl": { "$value": 69, "$type": "number" },
+
+      "inRangeMaxMgDl": { "$value": 180, "$type": "number" },
+
+      "highMaxMgDl": { "$value": 250, "$type": "number" },
+
+      "staleAfterMs": { "$value": 120000, "$type": "number", "$description": "2 minutes — app behavior" }
+
+    },
+
+    "sentinels": {
+
+      "lowText": { "$value": "LOW", "$type": "string", "colorToken": "agp.glucose.low" },
+
+      "highText": { "$value": "HI", "$type": "string", "colorToken": "agp.glucose.veryHigh" }
+
+    }
+
+  }
+
+}
+

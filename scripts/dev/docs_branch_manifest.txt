@@ -1,0 +1,31 @@
+# Paths published to the docs-only branch (one path per line, relative to repo root).
+# Lines starting with # are ignored. Trailing slashes include directories recursively.
+
+docs/
+README.md
+CONTRIBUTING.md
+AGENTS.md
+CHANGELOG.md
+SECURITY.md
+LICENSE
+
+# UX kit (specs, tokens, design reference — no Python tooling scripts)
+toxy-ux-kit/README.md
+toxy-ux-kit/CHANGELOG.md
+toxy-ux-kit/spec/
+toxy-ux-kit/design-reference/
+toxy-ux-kit/figma/
+toxy-ux-kit/assets/
+toxy-ux-kit/tokens/
+toxy-ux-kit/tools/README.md
+
+# GitHub doc templates
+.github/ISSUE_TEMPLATE/
+.github/pull_request_template.md
+
+# Cursor agent skills (markdown workflows)
+.cursor/skills/
+.cursor/workspace-scopes/
+
+# Architecture diagram assets
+scripts/assets/README.md

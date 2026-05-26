@@ -1,39 +1,39 @@
 ---
 name: widget-g7-security-bulletin
-description: Suit les CVE et avis securite des dependances Android et outils build utilises par Widget G7, puis priorise les corrections selon gravite et exploitabilite.
+description: Tracks CVEs and security advisories for Android dependencies and build tools used by Widget G7, then prioritizes fixes by severity and exploitability.
 disable-model-invocation: true
 ---
 
 # Widget G7 Security Bulletin
 
-## Objectif
-Fournir une veille securite orientee action pour mobile + wear.
+## Objective
+Provide action-oriented security monitoring for mobile + wear.
 
-## Cibles
-- Dependances runtime Android/Wear
-- Dependances build (AGP, Gradle, plugins)
-- Outils et chaines de build critiques
+## Targets
+- Android/Wear runtime dependencies
+- Build dependencies (AGP, Gradle, plugins)
+- Critical tools and build chains
 
 ## Workflow
-1. Recenser les composants utilises par le repo.
-2. Collecter les avis securite et CVE pertinentes.
-3. Evaluer chaque point selon :
-   - gravite
-   - exploitabilite dans le contexte Widget G7
-   - exposition reelle (build-time / runtime)
-4. Classer :
-   - `Critique`
+1. Inventory components used by the repo.
+2. Collect relevant security advisories and CVEs.
+3. Evaluate each item by:
+   - severity
+   - exploitability in the Widget G7 context
+   - real exposure (build-time / runtime)
+4. Classify:
+   - `Critical`
    - `Important`
-   - `Mineur`
-5. Proposer correction minimale + fenetre de release.
+   - `Minor`
+5. Propose minimal fix + release window.
 
-## Sortie attendue
-- **Tableau de priorite** (CVE, composant, score/gravite, impact)
-- **Actions immediates**
-- **Actions planifiees**
-- **Risques acceptes temporairement**
+## Expected output
+- **Priority table** (CVE, component, score/severity, impact)
+- **Immediate actions**
+- **Planned actions**
+- **Temporarily accepted risks**
 
-## Regles
-- Ne pas signaler des CVE hors contexte technique du repo.
-- Citer les sources des avis.
-- Toujours indiquer un chemin de correction realiste.
+## Rules
+- Do not report CVEs outside the repo's technical context.
+- Cite advisory sources.
+- Always indicate a realistic fix path.

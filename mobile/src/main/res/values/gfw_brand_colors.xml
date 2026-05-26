@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="gfw_brand_bezel">#E5DFD7</color>
+    <color name="gfw_brand_glucose">@color/agp_inRange</color>
+    <!-- Chrome UI — pierre chaude (jamais sur la valeur glycémie AGP) -->
+    <color name="gfw_chrome_accent">#6F6963</color>
+    <color name="gfw_chrome_accent_dark">#504C48</color>
+    <color name="gfw_chrome_accent_soft">#F0EDE8</color>
+    <color name="gfw_chrome_on_accent">#403C38</color>
+    <!-- Fond canvas — ivoire pierre -->
+    <color name="gfw_canvas_start">#F8F7F4</color>
+    <color name="gfw_canvas_end">#F1EEE9</color>
+</resources>

@@ -1,41 +1,39 @@
 ---
 name: widget-g7-dependency-advisor
-description: Analyse les versions AGP, Gradle, Kotlin et dependances du repo Widget G7, puis propose une strategie d'upgrade sure avec plan par petits PRs et rollback.
+description: Analyzes AGP, Gradle, Kotlin, and dependency versions in the Widget G7 repo, then proposes a safe upgrade strategy with a small-PR plan and rollback.
 disable-model-invocation: true
 ---
 
 # Widget G7 Dependency Advisor
 
-## Objectif
-Planifier des montées de version stables et auditables.
+## Objective
+Plan stable, auditable version upgrades.
 
-## Entrees a analyser
+## Inputs to analyze
 - `build.gradle.kts`
 - `settings.gradle.kts`
 - `gradle/wrapper/gradle-wrapper.properties`
-- `docs/ref/dependency-registry.md`
-- `docs/ref/dependency-catalog.yaml` (si present)
-- modules `**/build.gradle.kts`
+- `**/build.gradle.kts` modules
 
 ## Workflow
-1. Construire l'etat actuel des versions critiques (AGP/Gradle/Kotlin/libs).
-2. Evaluer la compatibilite outillage (Android Studio, JDK, AGP, Gradle, Kotlin).
-3. Proposer un ordre d'upgrade faible risque :
+1. Build the current state of critical versions (AGP/Gradle/Kotlin/libs).
+2. Evaluate tooling compatibility (Android Studio, JDK, AGP, Gradle, Kotlin).
+3. Propose a low-risk upgrade order:
    1) Kotlin
    2) AGP
    3) Gradle wrapper
-   4) bibliotheques applicatives
-4. Definir un plan de rollback par etape.
-5. Generer un plan de petits PRs (un theme par PR).
+   4) application libraries
+4. Define a rollback plan per step.
+5. Generate a small-PR plan (one theme per PR).
 
-## Sortie attendue
-- **Etat actuel**
-- **Cible recommandee**
-- **Plan de migration par PR**
+## Expected output
+- **Current state**
+- **Recommended target**
+- **Migration plan by PR**
 - **Rollback**
-- **Tests de validation par PR**
+- **Validation tests per PR**
 
-## Regles
-- Donner la raison de chaque upgrade.
-- Eviter les sauts de version massifs.
-- Prioriser la compatibilite du build avant les optimisations.
+## Rules
+- Give the reason for each upgrade.
+- Avoid massive version jumps.
+- Prioritize build compatibility over optimizations.

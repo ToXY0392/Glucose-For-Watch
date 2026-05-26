@@ -1,34 +1,34 @@
 ---
 name: widget-g7-usb-detach-handoff-writer
-description: Detecte les deconnexions USB du telephone ou de la montre via ADB et ajoute automatiquement une entree horodatee dans docs/developer-handoff.md pour faciliter la reprise.
+description: Detects USB disconnections of phone or watch via ADB and automatically adds a timestamped entry in .cursor/state/developer-handoff.md to ease resumption.
 disable-model-invocation: true
 ---
 
 # Widget G7 USB Detach Handoff Writer
 
-## Objectif
-Tracer automatiquement les deconnexions USB des appareils de test dans le handoff developpeur.
+## Objective
+Automatically trace USB disconnections of test devices in the developer handoff.
 
-## Cibles
-- `docs/developer-handoff.md`
+## Targets
+- `.cursor/state/developer-handoff.md`
 - `.cursor/state/usb-state.json`
 
 ## Preconditions
-- `WIDGETG7_PHONE_SERIAL` et `WIDGETG7_WATCH_SERIAL` definis.
-- `adb` disponible dans le PATH.
+- `WIDGETG7_PHONE_SERIAL` and `WIDGETG7_WATCH_SERIAL` defined.
+- `adb` available in PATH.
 
 ## Workflow
-1. Lire l'etat USB courant avec `adb devices -l`.
-2. Comparer au dernier etat connu (fichier `.cursor/state/usb-state.json`).
-3. Detecter les transitions `connected -> disconnected`.
-4. Ajouter un incident dans `docs/developer-handoff.md` (table `Incidents recents`).
-5. Appliquer une deduplication de 30 minutes par appareil.
-6. Mettre a jour l'etat local.
+1. Read current USB state with `adb devices -l`.
+2. Compare to last known state (`.cursor/state/usb-state.json` file).
+3. Detect `connected -> disconnected` transitions.
+4. Add an incident in `.cursor/state/developer-handoff.md` (`Recent incidents` table).
+5. Apply 30-minute deduplication per device.
+6. Update local state.
 
-## Format incident
-`| YYYY-MM-DD | USB detach detecte (phone/watch) | Ouvert (rebrancher + verifier sync) |`
+## Incident format
+`| YYYY-MM-DD | USB detach detected (phone/watch) | Open (reconnect + verify sync) |`
 
-## Regles
-- Ne pas ecrire d'incident si les serials ne sont pas configures.
-- Ne pas dupliquer un incident identique dans la fenetre de deduplication.
-- Preserver la structure markdown du handoff.
+## Rules
+- Do not write an incident if serials are not configured.
+- Do not duplicate an identical incident within the deduplication window.
+- Preserve the handoff markdown structure.

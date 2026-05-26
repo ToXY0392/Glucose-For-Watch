@@ -4,6 +4,7 @@ import android.content.Context
 import java.io.File
 import java.security.MessageDigest
 
+/** Bundled wear APK in assets and helpers to share or verify it for sideload. */
 class WearEmbeddedApkRepository(private val context: Context) {
     fun embeddedApkAvailable(): Boolean {
         val list = runCatching { context.assets.list(ASSET_FOLDER) }.getOrNull() ?: return false
@@ -33,6 +34,7 @@ class WearEmbeddedApkRepository(private val context: Context) {
         }.getOrNull()
     }
 
+    /** Copies the embedded APK to cache for FileProvider sharing during manual install. */
     fun copyToCacheForShare(): File? {
         if (!embeddedApkAvailable()) return null
         val out = File(context.cacheDir, CACHE_SHARE_NAME)
@@ -49,6 +51,7 @@ class WearEmbeddedApkRepository(private val context: Context) {
         const val ASSET_FILE_NAME = "widget-g7-wear.apk"
         private const val CACHE_SHARE_NAME = "widget-g7-wear-share.apk"
 
+        /** Human-readable French size string (o / Ko / Mo). */
         fun formatSize(bytes: Long): String {
             if (bytes <= 0) return "0 o"
             val kb = 1024.0
