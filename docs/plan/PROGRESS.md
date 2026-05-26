@@ -1,6 +1,6 @@
 # Plan tracking — Glucose For Watch
 
-> **Last updated:** 2026-05-26 · **G-C closed** on `workspace/qa-hardware`  
+> **Last updated:** 2026-05-26 · **G-M7 closed** · tag `v0.5.0` on `integrate`  
 > **Distribution:** PC only (`installWidgetG7Debug`) — no Play Store  
 > **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
@@ -11,12 +11,12 @@
 | Gate | Status | Date | Blocks |
 |------|--------|------|--------|
 | **G-X** | ✅ | 2026-05-26 | X.6 + X.7 + C.7 (X.3) |
-| G-A | 🔄 | 2026-05-25 | M, B, C · A.4 ✅ |
-| G-M | 🔄 | 2026-05-25 | B · M.1–M.3 ✅ |
-| G-B | 🔄 | 2026-05-25 | C · B.1–B.3/B.5 ✅ |
+| **G-A** | ✅ | 2026-05-26 | M, B, C |
+| **G-M** | ✅ | 2026-05-26 | B |
+| **G-B** | ✅ | 2026-05-26 | C |
 | **G-C** | ✅ | 2026-05-26 | — |
-| G-D | 🔄 | 2026-05-25 | M7 · D.1–D.3 ✅ |
-| **G-M7** v0.5.0 | 🔄 | | F · **G-C ✅** |
+| **G-D** | ✅ | 2026-05-26 | M7 |
+| **G-M7** v0.5.0 | ✅ | 2026-05-26 | — |
 | G-M8 v0.6.0 | ☐ | | — |
 
 | KPI | Current | Target | Evidence |
@@ -47,7 +47,7 @@
 
 | Indicator | Value |
 |-----------|-------|
-| App | v0.4.0 (vc 23) |
+| App | v0.5.0 (vc 24) |
 | Phone | Pixel 8a · Android 14+ |
 | Watch | Pixel Watch 2 (session 05-24) |
 | P0 crash | FGS mitigated · C.7 8h PASS · incident closed | |

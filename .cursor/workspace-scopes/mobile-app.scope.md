@@ -3,7 +3,7 @@
 | Field | Value |
 |-------|-------|
 | **Branch** | `workspace/mobile-app` |
-| **Status** | dormant (until v0.5.0 tag) |
+| **Status** | **ACTIVE** (primary sandbox post v0.5.0 · Bloc F) |
 | **Skill** | `widget-g7-mobile-app-scope` |
 
 ## Allowed paths
@@ -32,10 +32,10 @@
 
 ## Backlog
 
-**Post-tag v0.5.0:**
+**Post-tag v0.5.0 (active):**
 
-1. B.4 — WatchSyncVerifier via engine (`mobile/watch/WatchSyncVerifier.kt`, sync-critical)
-2. F0–F3 — Compose M3 (forbidden before v0.5.0 tag)
+1. F0–F3 — Compose M3 on `mobile/` (see [ACTION-PLAN §11](../../docs/plan/ACTION-PLAN.md#11-compose-v060))
+2. B.4 — WatchSyncVerifier via engine (`mobile/watch/WatchSyncVerifier.kt`, sync-critical)
 
 ## Security
 

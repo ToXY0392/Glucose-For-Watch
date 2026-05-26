@@ -123,12 +123,12 @@ Deliverable: `docs/qa/YYYY-MM-DD-stability-signoff.md` + captures + logcat excer
 
 **Go / No-Go** checklist:
 
-- [ ] Gates G-X → G-D all ✅
-- [ ] KPIs K1–K7 validated
-- [ ] Incident [2026-05-25-app-crash.md](../qa/incidents/2026-05-25-app-crash.md) closed (X.6 + C.7)
-- [ ] `./gradlew test` + `verify_ci.sh` green on tagged commit
-- [ ] `hardware-smoke.ps1` OK (no critical FAIL)
-- [ ] G7 matrix 7/7 signed
+- [x] Gates G-X → G-D all ✅
+- [x] KPIs K1–K7 validated
+- [x] Incident [2026-05-25-app-crash.md](../qa/incidents/2026-05-25-app-crash.md) closed (X.6 + C.7)
+- [x] `./gradlew test` + `verify_ci.sh` green on tagged commit
+- [x] `hardware-smoke.ps1` OK (no critical FAIL)
+- [x] G7 matrix 7/7 signed
 
 ---
 
@@ -176,11 +176,11 @@ Operational plan: [ACTION-PLAN.md](ACTION-PLAN.md) · Merge checklist: [PR-CHECK
 
 | Gate | Date | Validator | OK |
 |------|------|-----------|-----|
-| G-X | | | ☐ |
-| G-A | | | ☐ |
-| G-M | | | ☐ |
-| G-B | | | ☐ |
-| G-C | | | ☐ |
-| G-D | | | ☐ |
-| G-M7 v0.5.0 | | | ☐ |
+| G-X | 2026-05-26 | operator | ✅ |
+| G-A | 2026-05-26 | operator | ✅ |
+| G-M | 2026-05-26 | operator | ✅ |
+| G-B | 2026-05-26 | operator | ✅ |
+| G-C | 2026-05-26 | operator | ✅ |
+| G-D | 2026-05-26 | operator | ✅ |
+| G-M7 v0.5.0 | 2026-05-26 | operator | ✅ |
 | G-M8 v0.6.0 | | | ☐ |

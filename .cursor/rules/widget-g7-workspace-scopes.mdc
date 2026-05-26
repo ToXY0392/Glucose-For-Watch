@@ -15,4 +15,6 @@ When `git branch --show-current` matches `workspace/*`:
 
 Pre v0.5.0 tag: only **`workspace/qa-hardware`** should have active code/evidence work; other sandboxes are dormant.
 
+Post v0.5.0 tag: **`workspace/mobile-app`** is the primary active sandbox (Bloc F).
+
 See [docs/plan/WORKSPACE.md](../../docs/plan/WORKSPACE.md).

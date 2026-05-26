@@ -4,12 +4,12 @@ Long-lived parallel work lanes (`workspace/*`) for Glucose For Watch. Distinct f
 
 ## Model
 
-| Branch | Status (pre v0.5.0) | Skill |
-|--------|---------------------|-------|
-| [`workspace/qa-hardware`](WORKSPACE-qa-hardware.md) | **ACTIVE** | `widget-g7-qa-hardware-scope` |
+| Branch | Status (post v0.5.0) | Skill |
+|--------|----------------------|-------|
+| [`workspace/mobile-app`](WORKSPACE-mobile-app.md) | **ACTIVE** (Compose F0) | `widget-g7-mobile-app-scope` |
+| [`workspace/qa-hardware`](WORKSPACE-qa-hardware.md) | on-demand | `widget-g7-qa-hardware-scope` |
+| [`workspace/wear-app`](WORKSPACE-wear-app.md) | dormant | `widget-g7-wear-app-scope` |
 | [`workspace/ui-ux-kit`](WORKSPACE-ui-ux-kit.md) | dormant | `widget-g7-ux-kit-scope` |
-| [`workspace/mobile-app`](WORKSPACE-mobile-app.md) | dormant | `widget-g7-mobile-app-scope` |
-| [`workspace/wear-app`](WORKSPACE-wear-app.md) | dormant (triggers) | `widget-g7-wear-app-scope` |
 
 **Phase B (create when needed):** `workspace/sync-platform` · `workspace/infrastructure` · `workspace/dexcom-share`
 
@@ -21,9 +21,9 @@ Long-lived parallel work lanes (`workspace/*`) for Glucose For Watch. Distinct f
 4. Weekly: `git fetch && git rebase origin/integrate`
 5. PR to `integrate` · CI green · `@widget-g7-pr-gatekeeper`
 
-## Solo dev rule (pre-tag)
+## Solo dev rule (post-tag v0.5.0)
 
-**One active sandbox:** `workspace/qa-hardware` only until v0.5.0 tag.
+**Primary sandbox:** `workspace/mobile-app` (Bloc F · Compose v0.6.0). Rebase sandboxes weekly on `integrate`.
 
 ## Security
 
