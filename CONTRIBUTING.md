@@ -49,6 +49,8 @@ Rejects staged `local.properties`, keystores, and `.cursor/state/` runtime files
 
 Copy the full checklist into every PR: **[docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)**.
 
+For documented PRs (plan bloc, gates, QA evidence), invoke **`@widget-g7-pr-author`** in Cursor before opening. Before merge, use **`@widget-g7-pr-gatekeeper`** when CI or review comments block the PR.
+
 ### Scope
 
 - One logical change per PR when possible

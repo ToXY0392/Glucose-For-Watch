@@ -55,4 +55,4 @@ If no LOW/HI during v0.5.0 test window: mark **N/A — not observed** in sign-of
 |------|------|-----|
 | C.4 complete or N/A | 2026-05-26 | ✅ N/A |
 
-Spec: [AGP medical layer](../../toxy-ux-kit/spec/01-agp-medical-layer.md)
+Spec: [AGP medical layer](../../../toxy-ux-kit/spec/01-agp-medical-layer.md)

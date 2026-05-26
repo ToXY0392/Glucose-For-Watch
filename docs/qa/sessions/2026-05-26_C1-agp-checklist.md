@@ -21,7 +21,7 @@ Manual AGP color check (phone hero + watch tile/complication at 60 / 120 / 200 m
 | C.2 sample [2026-05-26_0449](2026-05-26_0449-C2-complication-sample.md) | phone hero = watch cache 207→152 mg/dL (values + sync OK) |
 | `hardware-smoke.ps1` | hero + push/ack aligned |
 
-Spec reference: [AGP medical layer](../../toxy-ux-kit/spec/01-agp-medical-layer.md)
+Spec reference: [AGP medical layer](../../../toxy-ux-kit/spec/01-agp-medical-layer.md)
 
 ## Plateaus (not visually confirmed — waived)
 
