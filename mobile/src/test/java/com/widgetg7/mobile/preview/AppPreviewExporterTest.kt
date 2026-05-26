@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.test.core.app.ApplicationProvider
+import com.widgetg7.core.model.GlucoseDisplayUnit
 import com.widgetg7.core.testing.SyncTestFixtures
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.settings.DexcomUserSettings
@@ -114,6 +115,7 @@ class AppPreviewExporterTest {
             batteryProtected = true,
             watchPushPending = false,
             activeSyncEnabled = true,
+            displayUnit = GlucoseDisplayUnit.MG_DL,
             nowEpochMs = now,
         )
     }
@@ -130,6 +132,7 @@ class AppPreviewExporterTest {
             batteryProtected = false,
             watchPushPending = false,
             activeSyncEnabled = true,
+            displayUnit = GlucoseDisplayUnit.MG_DL,
         )
     }
 
@@ -145,6 +148,7 @@ class AppPreviewExporterTest {
             batteryProtected = true,
             watchPushPending = false,
             activeSyncEnabled = true,
+            displayUnit = GlucoseDisplayUnit.MG_DL,
         )
     }
 
@@ -166,6 +170,7 @@ class AppPreviewExporterTest {
             batteryProtected = true,
             watchPushPending = true,
             activeSyncEnabled = true,
+            displayUnit = GlucoseDisplayUnit.MG_DL,
             nowEpochMs = now,
         )
     }
@@ -186,6 +191,7 @@ class AppPreviewExporterTest {
             batteryProtected = true,
             watchPushPending = false,
             activeSyncEnabled = true,
+            displayUnit = GlucoseDisplayUnit.MG_DL,
         )
     }
 
@@ -209,6 +215,7 @@ class AppPreviewExporterTest {
             batteryProtected = true,
             watchPushPending = false,
             activeSyncEnabled = true,
+            displayUnit = GlucoseDisplayUnit.MG_DL,
         )
     }
 

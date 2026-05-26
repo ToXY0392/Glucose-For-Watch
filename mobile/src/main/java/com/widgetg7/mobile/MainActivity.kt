@@ -39,6 +39,7 @@ import com.widgetg7.mobile.ui.DexcomSettingsActivity
 import com.widgetg7.mobile.ui.HomeViewModel
 import com.widgetg7.mobile.ui.ManualSyncFeedbackFormatter
 import com.widgetg7.mobile.ui.NoticeActivity
+import com.widgetg7.mobile.ui.GlucoseUnitSettingsActivity
 import com.widgetg7.mobile.ui.WatchSetupActivity
 import com.widgetg7.mobile.ui.WearInstallerActivity
 import com.widgetg7.mobile.ui.compose.HomeScreen
@@ -82,6 +83,7 @@ class MainActivity : ComponentActivity() {
                             onSyncClick = { lifecycleScope.launch { runManualSync() } },
                             onDexcomClick = { openDexcomFlow() },
                             onWatchClick = { openWatchSetup() },
+                            onUnitClick = { openGlucoseUnitSettings() },
                             onBatteryClick = { openBatterySettings() },
                             onInstallClick = { openWearInstaller() },
                             onNoticeClick = {
@@ -143,6 +145,10 @@ class MainActivity : ComponentActivity() {
 
     private fun openWatchSetup() {
         startActivity(Intent(this, WatchSetupActivity::class.java))
+    }
+
+    private fun openGlucoseUnitSettings() {
+        startActivity(Intent(this, GlucoseUnitSettingsActivity::class.java))
     }
 
     private fun openWearInstaller() {

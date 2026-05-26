@@ -18,6 +18,7 @@ data class HomeUiState(
     @ColorRes val syncStatusLineTextColorRes: Int,
     @ColorRes val syncStatusLineBackgroundColorRes: Int,
     val dexcomRowStatus: String,
+    val unitRowStatus: String,
     val watchRowStatus: String,
     val batterySettingSubtitle: String,
     val showInstallRow: Boolean,

@@ -1,32 +1,29 @@
 package com.widgetg7.feature.sync
 
+import com.widgetg7.core.model.GlucoseDisplayUnit
+import com.widgetg7.core.model.GlucoseUnitFormatter
 import com.widgetg7.core.model.SyncStatusSnapshot
 
 /** Formats glucose values and home-screen summaries (LOW/HI clamping, trend, age). */
 object SyncGlucoseDisplayFormatter {
-    private const val DISPLAY_LOW_MAX = 40
-    private const val DISPLAY_HIGH_MIN = 400
+    fun formatValue(valueMgDl: Int, unit: GlucoseDisplayUnit = GlucoseDisplayUnit.MG_DL): String =
+        GlucoseUnitFormatter.formatValue(valueMgDl, unit)
 
-    fun formatValueMgDl(value: Int): String =
-        when {
-            value <= DISPLAY_LOW_MAX -> "LOW"
-            value >= DISPLAY_HIGH_MIN -> "HI"
-            else -> value.toString()
-        }
+    fun formatValueMgDl(value: Int): String = formatValue(value, GlucoseDisplayUnit.MG_DL)
 
-    fun homeValuePrimary(snapshot: SyncStatusSnapshot): String? {
+    fun homeValuePrimary(snapshot: SyncStatusSnapshot, unit: GlucoseDisplayUnit): String? {
         val v = snapshot.lastValueMgDl ?: return null
-        return "${formatValueMgDl(v)} mg/dL"
+        return GlucoseUnitFormatter.formatWithUnit(v, unit)
     }
 
-    fun homeReadingSummary(snapshot: SyncStatusSnapshot): String? {
+    fun homeReadingSummary(snapshot: SyncStatusSnapshot, unit: GlucoseDisplayUnit): String? {
         val v = snapshot.lastValueMgDl ?: return null
-        val valueText = formatValueMgDl(v)
+        val valueText = GlucoseUnitFormatter.formatWithUnit(v, unit)
         val trend = snapshot.lastTrend
         val trendLabel = SyncTrendTextFormatter.displayTrend(trend).trim()
         val age = SyncReadingTextFormatter.readingAgeLabel(snapshot.lastReadingTimestampEpochMs)
         return buildString {
-            append(valueText).append(" mg/dL")
+            append(valueText)
             if (trendLabel.isNotBlank() && trendLabel != trend) {
                 append(" · ").append(trendLabel)
             }

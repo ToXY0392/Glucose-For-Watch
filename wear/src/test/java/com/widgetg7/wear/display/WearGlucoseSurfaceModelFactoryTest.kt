@@ -39,7 +39,26 @@ class WearGlucoseSurfaceModelFactoryTest {
         val model = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
 
         assertEquals("120", model.valueText)
+        assertEquals("mg/dL", model.unitLabel)
         assertEquals(AgpGlucoseColors.IN_RANGE, model.valueColorArgb)
+    }
+
+    @Test
+    fun mmol_unit_formats_value_text() {
+        val snapshot =
+            GlucoseSnapshot(
+                valueMgDl = 120,
+                trend = "FLAT",
+                deltaMgDl = 0,
+                timestampEpochMs = System.currentTimeMillis(),
+                stale = false,
+                displayUnit = com.widgetg7.core.model.GlucoseDisplayUnit.MMOL_L,
+            )
+
+        val model = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+
+        assertEquals("6.7", model.valueText)
+        assertEquals("mmol/L", model.unitLabel)
     }
 
     @Test

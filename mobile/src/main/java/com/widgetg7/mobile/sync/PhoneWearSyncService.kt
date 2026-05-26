@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.android.gms.wearable.Wearable
 import com.widgetg7.core.model.GlucoseReading
 import com.widgetg7.feature.sync.WearSyncPublisher
+import com.widgetg7.mobile.settings.DisplaySettingsStore
 import com.widgetg7.mobile.watch.WatchConnectionRepository
 import kotlinx.coroutines.tasks.await
 
@@ -24,6 +25,8 @@ class PhoneWearSyncService(private val context: Context) {
     /**
      * @return false when no reachable Wear node exists (no exception; phone sync may continue).
      */
-    suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean =
-        publisher.pushLatest(reading, sequenceId)
+    suspend fun pushLatest(reading: GlucoseReading, sequenceId: Long): Boolean {
+        val displayUnit = DisplaySettingsStore(context).loadGlucoseDisplayUnit()
+        return publisher.pushLatest(reading, sequenceId, displayUnit)
+    }
 }

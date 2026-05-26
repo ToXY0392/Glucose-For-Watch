@@ -17,6 +17,7 @@ object GlucoseDataLayerContract {
     const val DELTA_MG_DL = "deltaMgDl"
     const val TIMESTAMP_EPOCH_MS = "timestampEpochMs"
     const val STALE = "stale"
+    const val DISPLAY_UNIT = "displayUnit"
     const val SEQUENCE_ID = "sequenceId"
     const val TARGET_NODE_ID = "targetNodeId"
     const val SOURCE_PHONE_NODE_ID = "sourcePhoneNodeId"

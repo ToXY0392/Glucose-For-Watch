@@ -4,6 +4,7 @@ import android.content.Context
 import com.widgetg7.feature.sync.SyncStatusRepository
 import com.widgetg7.mobile.battery.BatteryOptimizationHelper
 import com.widgetg7.mobile.settings.AppSettingsStore
+import com.widgetg7.mobile.settings.DisplaySettingsStore
 import com.widgetg7.mobile.sync.PendingPushQueue
 import com.widgetg7.mobile.sync.PhoneSyncStateStore
 import com.widgetg7.mobile.watch.WatchConnectionRepository
@@ -21,6 +22,7 @@ class HomeStateLoader {
         val batteryProtected = BatteryOptimizationHelper(appContext).loadStatus().isProtectedFromOptimization
         val watchPushPending = syncStatus.watchPushPending || PendingPushQueue(appContext).hasPending()
         val activeSyncEnabled = AppSettingsStore(appContext).isActiveSyncEnabled()
+        val displayUnit = DisplaySettingsStore(appContext).loadGlucoseDisplayUnit()
 
         return HomeStateMapper.map(
             context = appContext,
@@ -32,6 +34,7 @@ class HomeStateLoader {
             batteryProtected = batteryProtected,
             watchPushPending = watchPushPending,
             activeSyncEnabled = activeSyncEnabled,
+            displayUnit = displayUnit,
         )
     }
 }

@@ -31,7 +31,7 @@ Default application ID: `d89443d2-327c-4a6f-89e5-496bbb0317db`
 - Dexcom OAuth v3 official API
 - Direct BLE to sensor/transmitter
 - Insulin pump integration
-- mmol/L display (mg/dL only)
+- User-selectable **mg/dL** or **mmol/L** display (phone hero + wear tile/complication). Dexcom Share API values stay mg/dL internally; AGP colors use mg/dL thresholds.
 
 ## Medical note
 

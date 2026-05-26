@@ -14,8 +14,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.widgetg7.core.model.GlucoseUnitFormatter
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.battery.BatteryOptimizationHelper
+import com.widgetg7.mobile.settings.DisplaySettingsStore
 import com.widgetg7.mobile.ui.compose.WatchSetupScreen
 import com.widgetg7.mobile.ui.compose.WatchSetupUiState
 import com.widgetg7.mobile.ui.theme.WidgetG7Theme
@@ -106,8 +108,11 @@ class WatchSetupActivity : ComponentActivity() {
                 is WatchSyncVerifier.Result.Error ->
                     result.message?.takeIf { it.isNotBlank() }
                         ?: getString(R.string.home_watch_test_failed)
-                is WatchSyncVerifier.Result.Sent ->
-                    getString(R.string.home_watch_test_sent, result.valueMgDl)
+                is WatchSyncVerifier.Result.Sent -> {
+                    val unit = DisplaySettingsStore(this).loadGlucoseDisplayUnit()
+                    val formatted = GlucoseUnitFormatter.formatWithUnit(result.valueMgDl, unit)
+                    getString(R.string.home_watch_test_sent, formatted)
+                }
             }
 
         Snackbar.make(window.decorView, message, Snackbar.LENGTH_SHORT).show()

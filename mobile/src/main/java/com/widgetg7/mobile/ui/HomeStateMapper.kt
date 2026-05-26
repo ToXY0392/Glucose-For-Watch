@@ -1,6 +1,7 @@
 package com.widgetg7.mobile.ui
 
 import android.content.Context
+import com.widgetg7.core.model.GlucoseDisplayUnit
 import com.widgetg7.core.model.GlucoseRangeResolver
 import com.widgetg7.core.model.SyncStatusSnapshot
 import com.widgetg7.feature.sync.SyncReadingTextFormatter
@@ -25,6 +26,7 @@ object HomeStateMapper {
         batteryProtected: Boolean,
         watchPushPending: Boolean,
         activeSyncEnabled: Boolean,
+        displayUnit: GlucoseDisplayUnit,
         nowEpochMs: Long = System.currentTimeMillis(),
     ): HomeUiState {
         val dexcomConfigured = dexcomSettings.isConfigured()
@@ -68,7 +70,7 @@ object HomeStateMapper {
                 watchHealth = watchHealth,
                 syncState = syncState,
             )
-        val watchFace = resolveWatchFace(context, dexcomConfigured, syncStatus, nowEpochMs)
+        val watchFace = resolveWatchFace(context, dexcomConfigured, syncStatus, displayUnit, nowEpochMs)
         val syncTint =
             when {
                 !dexcomConfigured || syncStatus.lastError.isNotBlank() -> R.color.wg7_text_tertiary
@@ -93,6 +95,7 @@ object HomeStateMapper {
             syncStatusLineTextColorRes = syncStatusColors.textColorRes,
             syncStatusLineBackgroundColorRes = syncStatusColors.backgroundColorRes,
             dexcomRowStatus = resolveDexcomRowStatus(context, dexcomSettings),
+            unitRowStatus = GlucoseDisplayFormatter.unitLabel(displayUnit),
             watchRowStatus = watchRow.subtitle,
             batterySettingSubtitle =
                 if (batteryProtected) {
@@ -116,6 +119,7 @@ object HomeStateMapper {
         context: Context,
         dexcomConfigured: Boolean,
         syncStatus: SyncStatusSnapshot,
+        displayUnit: GlucoseDisplayUnit,
         nowEpochMs: Long,
     ): WatchFaceFields {
         val metaColor = ContextCompat.getColor(context, R.color.wg7_watch_face_meta)
@@ -124,9 +128,9 @@ object HomeStateMapper {
             hasReading -> {
                 val value = syncStatus.lastValueMgDl!!
                 WatchFaceFields(
-                    valueText = GlucoseDisplayFormatter.formatValueMgDl(value),
+                    valueText = GlucoseDisplayFormatter.formatValue(value, displayUnit),
                     valueColor = GlucoseRangeResolver.resolveColor(value),
-                    metaText = buildWatchFaceMeta(context, syncStatus, nowEpochMs),
+                    metaText = buildWatchFaceMeta(context, syncStatus, displayUnit, nowEpochMs),
                     metaVisible = true,
                 )
             }
@@ -150,6 +154,7 @@ object HomeStateMapper {
     private fun buildWatchFaceMeta(
         context: Context,
         syncStatus: SyncStatusSnapshot,
+        displayUnit: GlucoseDisplayUnit,
         nowEpochMs: Long,
     ): String {
         val trendLabel = SyncTrendTextFormatter.displayTrend(syncStatus.lastTrend).trim()
@@ -167,10 +172,11 @@ object HomeStateMapper {
         if (trendLabel.isNotBlank()) parts += trendLabel
         if (ageLabel.isNotBlank()) parts += ageLabel
         val suffix = parts.joinToString(" · ")
+        val unitLabel = GlucoseDisplayFormatter.unitLabel(displayUnit)
         return if (suffix.isBlank()) {
-            context.getString(R.string.home_watch_face_unit)
+            unitLabel
         } else {
-            context.getString(R.string.home_watch_face_unit_with_meta, suffix)
+            "$unitLabel · $suffix"
         }
     }
 

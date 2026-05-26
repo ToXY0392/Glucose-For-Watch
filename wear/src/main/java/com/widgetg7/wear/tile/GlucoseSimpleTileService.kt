@@ -100,7 +100,7 @@ class GlucoseSimpleTileService : TileService() {
                 .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
                 .addContent(
                     LayoutElementBuilders.Text.Builder()
-                        .setText("mg/dL")
+                        .setText(display.unitLabel)
                         .setFontStyle(
                             LayoutElementBuilders.FontStyle.Builder()
                                 .setSize(DimensionBuilders.sp(metrics.unitSp))
