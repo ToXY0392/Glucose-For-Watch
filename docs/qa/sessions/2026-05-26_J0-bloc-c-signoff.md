@@ -26,12 +26,12 @@ C.1 · C.2 · C.3 · C.4 · C.6 · C.8 — require dedicated hardware sessions; 
 
 ## Next
 
-| Day | Session |
-|-----|---------|
-| J1 | C.1 AGP 60/120/200 |
-| J2 | C.2 + C.6 |
-| J3 | C.3 offline 2h (dedicated day) |
-| J4 | C.4 + C.8 |
-| J5 | D.6 + batch PR `docs/qa/bloc-c-evidence` |
+| Day | Session | Status |
+|-----|---------|--------|
+| J1 | C.1 AGP 60/120/200 | 🔄 [checklist](2026-05-26_C1-agp-checklist.md) · `capture-c1-agp-session.ps1` |
+| J2 | C.2 + C.6 | pending |
+| J3 | C.3 offline 2h (dedicated day) | pending |
+| J4 | C.4 + C.8 | pending |
+| J5 | D.6 + batch PR `docs/qa/bloc-c-evidence` | pending |
 
 See [WORKSPACE-qa-hardware.md](../../plan/WORKSPACE-qa-hardware.md).

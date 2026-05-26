@@ -76,11 +76,19 @@ Before merging any PR that touches sync or phone lifecycle:
 .\scripts\qa\stability-gate.ps1 -Strict
 .\scripts\qa\hardware-smoke.ps1
 .\scripts\qa\qa-session-c.ps1              # C.0/C.5 automated partial
+.\scripts\qa\capture-c1-agp-session.ps1    # C.1 AGP 60/120/200 screencaps
 .\scripts\qa\soak-monitor.ps1              # X.6 — 30 min
 .\scripts\qa\soak-monitor.ps1 -DurationMinutes 480 -Label C.7
 ```
 
-After a crash: `.\scripts\qa\capture-crash-log.ps1`
+After a crash:
+
+```powershell
+.\scripts\qa\capture-crash-log.ps1           # phone FATAL logcat → docs/qa/incidents/
+.\scripts\qa\capture-crash-log.ps1 -Watch      # watch FATAL logcat
+```
+
+Output: `docs/qa/incidents/YYYY-MM-DD-crash-phone.log` (or `-watch`). Paste relevant `FATAL EXCEPTION` blocks into the incident markdown — **never** commit credentials or full unredacted logcat. See [SECURITY.md](../../SECURITY.md).
 
 Criteria: [STABILITY-GATES.md](../plan/STABILITY-GATES.md) · progress: [PROGRESS.md](../plan/PROGRESS.md)
 

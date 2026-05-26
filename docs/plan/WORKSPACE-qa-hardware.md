@@ -18,8 +18,8 @@ App fixes → owning sandbox or `feat/bloc-*` on `integrate`, not here.
 
 | # | ID | Task | Est. |
 |---|-----|------|------|
-| 1 | DOC-P0-1 | C.7 sign-off template | 30m |
-| 2 | C.1 | AGP 60/120/200 phone + tile | 2h |
+| 1 | DOC-P0-1 | C.7 sign-off template | ✅ |
+| 2 | C.1 | AGP 60/120/200 phone + tile | 🔄 | [checklist](../qa/sessions/2026-05-26_C1-agp-checklist.md) |
 | 3 | C.2 | Complication vs tile | 30m |
 | 4 | C.6 | APK reinstall + tile | 1h |
 | 5 | **C.3** | Watch offline 2h (**dedicated day**) | 2–3h |
@@ -33,8 +33,8 @@ App fixes → owning sandbox or `feat/bloc-*` on `integrate`, not here.
 
 | Day | Work |
 |-----|------|
-| J0 | Sign-off + integrate chores (DOC-P0-2/3) |
-| J1 | C.1 |
+| J0 | Sign-off + integrate chores (DOC-P0-2/3) | ✅ |
+| J1 | C.1 | 🔄 in progress |
 | J2 | C.2 + C.6 |
 | J3 | C.3 only |
 | J4 | C.4 + C.8 |

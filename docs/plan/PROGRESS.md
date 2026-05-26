@@ -187,7 +187,7 @@ S  Stability (cross-cutting, each PR)
 | D.3 | install-and-verify push/ack auto | ✅ | 4h |
 | D.4 | Single PC install doc | ✅ | dev/setup.md |
 | D.5 | Docs index plan | 🔄 | — |
-| D.6 | capture-crash-log.ps1 | 🔄 | 1h |
+| D.6 | capture-crash-log.ps1 | ✅ | doc in [dev/setup.md](../dev/setup.md) · J1 2026-05-26 |
 | D.7 | stability-gate in dev/setup.md | ✅ | dev/setup.md |
 
 **v0.5.0 tag:** [G-M7 checklist](STABILITY-GATES.md#g-m7--tag-v050)
