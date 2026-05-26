@@ -2,9 +2,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `workspace/qa-hardware` |
-| **Status** | **COMPLETE** — G-C closed · ready for PR → `integrate` |
-| **Skill** | `widget-g7-qa-hardware-scope` |
+| **Branch** | `sandbox/qa-hardware` |
+| **Status** | **COMPLETE** — G-C closed · ready for PR → `develop/integration` |
+| **Skill** | `glucose-for-watch-qa-hardware-scope` |
 
 ## Backlog (final)
 

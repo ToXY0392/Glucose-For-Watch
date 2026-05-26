@@ -1,10 +1,10 @@
-# Scope — workspace/ui-ux-kit
+# Scope — sandbox/ui-ux-kit
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `workspace/ui-ux-kit` |
+| **Branch** | `sandbox/ui-ux-kit` |
 | **Status** | dormant (until v0.5.0 tag) |
-| **Skill** | `widget-g7-ux-kit-scope` |
+| **Skill** | `glucose-for-watch-ui-ux-kit-scope` |
 
 ## Allowed paths
 
@@ -38,4 +38,4 @@ python3 toxy-ux-kit/tools/lint-agp-colors.py
 ## Security
 
 - Never commit real glucose values in design-reference assets
-- See [SECURITY.md](../../SECURITY.md) and `widget-g7-repo-hygiene`
+- See [SECURITY.md](../../SECURITY.md) and `glucose-for-watch-repo-hygiene`

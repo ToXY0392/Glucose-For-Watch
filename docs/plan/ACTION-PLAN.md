@@ -180,7 +180,7 @@ G-C ──► D tests ──► G-D ──► G-M7 (v0.5.0)
 ### Start of week (15 min)
 
 - [ ] Read [PROGRESS.md](PROGRESS.md) · update statuses
-- [ ] Run `@widget-g7-doc-backlog-sync` · [DOC-BACKLOG.md](DOC-BACKLOG.md)
+- [ ] Run `@glucose-for-watch-doc-backlog-sync` · [DOC-BACKLOG.md](DOC-BACKLOG.md)
 - [ ] Choose **1 target block** · **1 end-of-week gate**
 - [ ] Verify phone+watch adb: `adb devices -l`
 

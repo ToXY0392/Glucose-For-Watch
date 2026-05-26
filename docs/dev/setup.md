@@ -147,7 +147,7 @@ Launch Studio from WSL: `./scripts/dev/open-android-studio-wsl-project.sh`
 2. Use **LF** line endings
 3. After mobile/wear changes: `./gradlew installWidgetG7Debug`
 
-Cursor rule: `.cursor/rules/widget-g7-dual-ide-wsl.mdc`
+Cursor rule: `.cursor/rules/glucose-for-watch-dual-ide-wsl.mdc`
 
 ## Android Studio
 

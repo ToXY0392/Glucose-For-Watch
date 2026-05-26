@@ -80,9 +80,9 @@ Effort: 3h
 
 GitHub Actions schedule (Monday):
 - Open issue 'Doc drift check YYYY-MM-DD' with checklist
-- Or run widget-g7-doc-drift-checker skill manually from ritual
+- Or run glucose-for-watch-doc-drift-checker skill manually from ritual
 
-Refs: .cursor/skills/widget-g7-doc-drift-checker
+Refs: .cursor/skills/glucose-for-watch-doc-drift-checker
 "@
     },
     @{
@@ -122,7 +122,7 @@ Effort: 2h
 CI or pre-commit: if docs/dev/architecture.md changes, run
 scripts/assets/export-architecture-diagram.ps1 and fail if PNG/SVG drift.
 
-Refs: docs/assets/widget-g7-architecture.png
+Refs: docs/assets/glucose-for-watch-architecture.png
 "@
     }
 )

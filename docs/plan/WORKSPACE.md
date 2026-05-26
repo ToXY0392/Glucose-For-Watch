@@ -1,34 +1,33 @@
-# Workspace sandbox branches
+# Sandbox branches — Glucose For Watch
 
-Long-lived parallel work lanes (`workspace/*`) for Glucose For Watch. Distinct from short-lived `{feat|fix|docs}/bloc-*` branches.
+Long-lived parallel lanes (`sandbox/*`). Short-lived work: `{feat|fix|chore|docs}/bloc-*` → PR **`develop/integration`**. Releases: **`develop/integration`** → **`main`**.
 
 ## Model
 
-| Branch | Status (post v0.5.0) | Skill |
-|--------|----------------------|-------|
-| [`workspace/mobile-app`](WORKSPACE-mobile-app.md) | **ACTIVE** (Compose F0) | `widget-g7-mobile-app-scope` |
-| [`workspace/qa-hardware`](WORKSPACE-qa-hardware.md) | on-demand | `widget-g7-qa-hardware-scope` |
-| [`workspace/wear-app`](WORKSPACE-wear-app.md) | dormant | `widget-g7-wear-app-scope` |
-| [`workspace/ui-ux-kit`](WORKSPACE-ui-ux-kit.md) | dormant | `widget-g7-ux-kit-scope` |
+| Branch | Role | Skill |
+|--------|------|-------|
+| [`sandbox/mobile-app`](WORKSPACE-mobile-app.md) | Phone app (`mobile/`) | `glucose-for-watch-mobile-app-scope` |
+| [`sandbox/wear-app`](WORKSPACE-wear-app.md) | Wear tile, complication | `glucose-for-watch-wear-app-scope` |
+| [`sandbox/ui-ux-kit`](WORKSPACE-ui-ux-kit.md) | ToXY kit, tokens | `glucose-for-watch-ui-ux-kit-scope` |
+| [`sandbox/sync-platform`](WORKSPACE-sync-platform.md) | `feature/sync`, `core/model` | `glucose-for-watch-sync-platform-scope` |
+| [`sandbox/documentation`](WORKSPACE-documentation.md) | Plan, guides, agent skills | `glucose-for-watch-documentation-scope` |
+| [`sandbox/qa-hardware`](WORKSPACE-qa-hardware.md) | QA evidence, `scripts/qa` | `glucose-for-watch-qa-hardware-scope` |
 
-**Phase B (create when needed):** `workspace/sync-platform` · `workspace/infrastructure` · `workspace/dexcom-share`
+| Branch | Role |
+|--------|------|
+| **`develop/integration`** | Daily integration · CI |
+| **`main`** | Tagged releases |
 
 ## Workflow
 
 1. Checkout sandbox branch
-2. Session start: `@widget-g7-workspace-guard`
-3. Work within scope (see `.cursor/workspace-scopes/`)
-4. Weekly: `git fetch && git rebase origin/integrate`
-5. PR to `integrate` · CI green · `@widget-g7-pr-gatekeeper`
+2. `@glucose-for-watch-sandbox-guard`
+3. Work within scope (`.cursor/workspace-scopes/`)
+4. Weekly: `git fetch && git rebase origin/develop/integration`
+5. PR → `develop/integration` · CI · `@glucose-for-watch-pr-gatekeeper`
 
-## Solo dev rule (post-tag v0.5.0)
+## GitHub Project
 
-**Primary sandbox:** `workspace/mobile-app` (Bloc F · Compose v0.6.0). Rebase sandboxes weekly on `integrate`.
+Single board: [Project #1](https://github.com/users/ToXY0392/projects/1) · ritual: `@glucose-for-watch-github-project-sync`
 
-## Security
-
-- Pre-commit: `.githooks/pre-commit` (optional: `git config core.hooksPath .githooks`)
-- Never commit credentials, real glucose, unredacted logcat
-- GitHub: enable Secret scanning + Push protection (Settings → Code security)
-
-See [GITHUB-SETUP.md](GITHUB-SETUP.md) §3.1 · [AGENTS.md](../../AGENTS.md)
+See [GITHUB-SETUP.md](GITHUB-SETUP.md) · [AGENTS.md](../../AGENTS.md)

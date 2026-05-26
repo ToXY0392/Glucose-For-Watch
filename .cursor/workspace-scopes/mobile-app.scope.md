@@ -1,10 +1,10 @@
-# Scope — workspace/mobile-app
+# Scope — sandbox/mobile-app
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `workspace/mobile-app` |
-| **Status** | **ACTIVE** (primary sandbox post v0.5.0 · Bloc F) |
-| **Skill** | `widget-g7-mobile-app-scope` |
+| **Branch** | `sandbox/mobile-app` |
+| **Status** | **ACTIVE** (post v0.6.0) |
+| **Skill** | `glucose-for-watch-mobile-app-scope` |
 
 ## Allowed paths
 
@@ -29,15 +29,3 @@
 ```bash
 ./gradlew :mobile:assembleDebug :mobile:test
 ```
-
-## Backlog
-
-**Post-tag v0.5.0 (active):**
-
-1. F0–F3 — Compose M3 on `mobile/` (see [ACTION-PLAN §11](../../docs/plan/ACTION-PLAN.md#11-compose-v060))
-2. B.4 — WatchSyncVerifier via engine (`mobile/watch/WatchSyncVerifier.kt`, sync-critical)
-
-## Security
-
-- Dexcom credentials: `EncryptedSharedPreferences` only — never log tokens
-- See [docs/legal/privacy-policy.md](../../docs/legal/privacy-policy.md)

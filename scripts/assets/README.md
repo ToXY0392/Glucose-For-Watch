@@ -4,8 +4,8 @@ Utilities to generate or update project assets.
 
 ## Architecture diagram
 
-Source: [docs/assets/widget-g7-architecture.svg](../../docs/assets/widget-g7-architecture.svg)  
-Rendered PNG (README + docs): `docs/assets/widget-g7-architecture.png`
+Source: [docs/assets/glucose-for-watch-architecture.svg](../../docs/assets/glucose-for-watch-architecture.svg)  
+Rendered PNG (README + docs): `docs/assets/glucose-for-watch-architecture.png`
 
 ```powershell
 .\scripts\assets\export-architecture-diagram.ps1

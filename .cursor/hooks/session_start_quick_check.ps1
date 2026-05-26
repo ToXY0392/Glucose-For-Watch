@@ -45,8 +45,8 @@ if (-not $shouldRun) {
         "- Next run allowed after: $($lastQuickRun.AddHours($cooldownHours).ToString('u'))"
         ""
         "Skills scope:"
-        "- widget-g7-vendor-watch"
-        "- widget-g7-security-bulletin"
+        "- glucose-for-watch-vendor-watch"
+        "- glucose-for-watch-security-bulletin"
     ) -join "`n"
     Set-Content -Path $quickReport -Value $content -Encoding UTF8
     exit 0
@@ -84,8 +84,8 @@ $content = @(
     "- Summary: $summary"
     ""
     "Skills scope:"
-    "- widget-g7-vendor-watch (delta)"
-    "- widget-g7-security-bulletin (delta)"
+    "- glucose-for-watch-vendor-watch (delta)"
+    "- glucose-for-watch-security-bulletin (delta)"
     ""
     "Signals:"
 ) + $signalLines

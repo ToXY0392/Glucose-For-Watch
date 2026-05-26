@@ -22,19 +22,19 @@ try {
     $checks = @()
 
     $checks += @{
-        Name = "widget-g7-compat-matrix-maintainer"
+        Name = "glucose-for-watch-compat-matrix-maintainer"
         Target = "docs/dev/setup.md"
     }
     $checks += @{
-        Name = "widget-g7-doc-drift-checker"
+        Name = "glucose-for-watch-doc-drift-checker"
         Target = "docs/dev/setup.md"
     }
     $checks += @{
-        Name = "widget-g7-release-notes-curator"
+        Name = "glucose-for-watch-release-notes-curator"
         Target = "CHANGELOG.md"
     }
     $checks += @{
-        Name = "widget-g7-dependency-advisor"
+        Name = "glucose-for-watch-dependency-advisor"
         Target = "build.gradle.kts"
     }
 
@@ -61,7 +61,7 @@ try {
     $lines += ""
     $lines += "Next actions:"
     $lines += "- Review important signals and schedule doc/dependency updates."
-    $lines += "- Use widget-g7-run-coordinator policy for escalation."
+    $lines += "- Use glucose-for-watch-run-coordinator policy for escalation."
 
     Set-Content -Path $fullReport -Value ($lines -join "`n") -Encoding UTF8
 

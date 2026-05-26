@@ -24,18 +24,18 @@ Long-lived branches for parallel work — see **[docs/plan/WORKSPACE.md](docs/pl
 
 | Branch | Use for |
 |--------|---------|
-| `workspace/qa-hardware` | Hardware QA, `docs/qa/`, `scripts/qa/` |
-| `workspace/ui-ux-kit` | `toxy-ux-kit/`, design specs |
-| `workspace/mobile-app` | `mobile/` module only |
-| `workspace/wear-app` | `wear/` module only |
+| `sandbox/qa-hardware` | Hardware QA, `docs/qa/`, `scripts/qa/` |
+| `sandbox/ui-ux-kit` | `toxy-ux-kit/`, design specs |
+| `sandbox/mobile-app` | `mobile/` module only |
+| `sandbox/wear-app` | `wear/` module only |
 
 1. Checkout the sandbox branch
-2. Use `@widget-g7-workspace-guard` at session start
-3. Rebase weekly: `git fetch && git rebase origin/integrate`
-4. Open PR to **`integrate`** (never direct to `main`)
+2. Use `@glucose-for-watch-sandbox-guard` at session start
+3. Rebase weekly: `git fetch && git rebase origin/develop/integration`
+4. Open PR to **`develop/integration`** (never direct to `main`)
 5. CI must pass · copy [PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)
 
-Short-lived `{feat|fix|docs}/bloc-*` branches remain the default for single-bloc PRs from `integrate`.
+Short-lived `{feat|fix|docs}/bloc-*` branches remain the default for single-bloc PRs from `develop/integration`.
 
 ### Pre-commit secrets hook (optional)
 
@@ -49,7 +49,7 @@ Rejects staged `local.properties`, keystores, and `.cursor/state/` runtime files
 
 Copy the full checklist into every PR: **[docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)**.
 
-For documented PRs (plan bloc, gates, QA evidence), invoke **`@widget-g7-pr-author`** in Cursor before opening. Before merge, use **`@widget-g7-pr-gatekeeper`** when CI or review comments block the PR.
+For documented PRs (plan bloc, gates, QA evidence), invoke **`@glucose-for-watch-pr-author`** in Cursor before opening. Before merge, use **`@glucose-for-watch-pr-gatekeeper`** when CI or review comments block the PR.
 
 ### Scope
 

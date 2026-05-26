@@ -26,7 +26,7 @@ Compose phone milestone · gate **G-M8** · sideload PC install only.
 ### Verified
 
 - Gates G-F0→F3 · K8 sync smoke S1–S3 · CI green post F5
-- Tag `v0.6.0` on `integrate`
+- Tag `v0.6.0` on `develop/integration`
 
 ---
 
@@ -50,7 +50,7 @@ Sideload milestone · gate **G-M7** · PC install only (`installWidgetG7Debug`).
 ### Verified
 
 - KPIs K1–K7 · incident [2026-05-25-app-crash](../docs/qa/incidents/2026-05-25-app-crash.md) closed
-- Tag `v0.5.0` on `integrate`
+- Tag `v0.5.0` on `develop/integration`
 
 ---
 

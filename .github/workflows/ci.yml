@@ -5,12 +5,12 @@ on:
     branches:
       - main
       - master
-      - integrate
-      - 'workspace/**'
+      - develop/integration
+      - 'sandbox/**'
   pull_request:
     branches:
       - main
-      - integrate
+      - develop/integration
   workflow_dispatch:
 
 jobs:

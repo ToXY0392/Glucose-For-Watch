@@ -2,7 +2,7 @@
 
 Glucose For Watch syncs Dexcom glucose data to Wear OS for fast at-a-glance display on your watch (app, tile, and complication). The app uses the **ToXY UX kit** design tokens with **AGP-standard medical colors** for all glucose values.
 
-> Repository folder remains `Widget G7` locally for compatibility; GitHub repo: [`Glucose-For-Watch`](https://github.com/ToXY0392/Glucose-For-Watch). Gradle task `installWidgetG7Debug` unchanged.
+> Repository folder remains `Glucose-For-Watch` locally for compatibility; GitHub repo: [`Glucose-For-Watch`](https://github.com/ToXY0392/Glucose-For-Watch). Gradle task `installWidgetG7Debug` unchanged.
 
 <p align="center">
   <img alt="Android" src="https://img.shields.io/badge/Android-Mobile-3DDC84?style=for-the-badge&logo=android&logoColor=white">
@@ -12,7 +12,7 @@ Glucose For Watch syncs Dexcom glucose data to Wear OS for fast at-a-glance disp
 </p>
 
 <p align="center">
-  <img alt="Glucose For Watch sync flow: Dexcom Share → Mobile → Wear OS" src="docs/assets/widget-g7-architecture.png" width="780">
+  <img alt="Glucose For Watch sync flow: Dexcom Share → Mobile → Wear OS" src="docs/assets/glucose-for-watch-architecture.png" width="780">
 </p>
 
 ## Overview
