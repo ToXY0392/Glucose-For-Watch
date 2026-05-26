@@ -23,14 +23,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Setup Gradle cache
-        uses: gradle/actions/setup-gradle@v6
+      - name: Use preinstalled JDK 17
+        run: |
+          echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
+          echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
+          java -version
 
       - name: Ensure Gradle wrapper executable
         run: chmod +x ./gradlew
@@ -47,14 +44,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Setup Gradle cache
-        uses: gradle/actions/setup-gradle@v6
+      - name: Use preinstalled JDK 17
+        run: |
+          echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
+          echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
+          java -version
 
       - name: Ensure scripts executable
         run: chmod +x ./gradlew ./scripts/release/verify_release_artifacts.sh
@@ -72,14 +66,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup JDK 17
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-
-      - name: Setup Gradle cache
-        uses: gradle/actions/setup-gradle@v6
+      - name: Use preinstalled JDK 17
+        run: |
+          echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
+          echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
+          java -version
 
       - name: Ensure scripts executable
         run: chmod +x ./gradlew ./scripts/dev/verify_ci.sh ./scripts/release/verify_release_artifacts.sh ./scripts/release/check_legal_placeholders.sh ./scripts/release/release_dry_run.sh
