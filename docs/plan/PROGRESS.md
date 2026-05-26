@@ -1,6 +1,6 @@
 # Plan tracking — Glucose For Watch
 
-> **Last updated:** 2026-05-26 · J0 sign-off (C.7/K2/X.3) on `workspace/qa-hardware`  
+> **Last updated:** 2026-05-26 · **G-C closed** on `workspace/qa-hardware`  
 > **Distribution:** PC only (`installWidgetG7Debug`) — no Play Store  
 > **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
@@ -14,9 +14,9 @@
 | G-A | 🔄 | 2026-05-25 | M, B, C · A.4 ✅ |
 | G-M | 🔄 | 2026-05-25 | B · M.1–M.3 ✅ |
 | G-B | 🔄 | 2026-05-25 | C · B.1–B.3/B.5 ✅ |
-| **G-C** | ☐ | | **M7** |
+| **G-C** | ✅ | 2026-05-26 | — |
 | G-D | 🔄 | 2026-05-25 | M7 · D.1–D.3 ✅ |
-| **G-M7** v0.5.0 | ☐ | | F |
+| **G-M7** v0.5.0 | 🔄 | | F · **G-C ✅** |
 | G-M8 v0.6.0 | ☐ | | — |
 
 | KPI | Current | Target | Evidence |
@@ -26,7 +26,7 @@
 | K3 30 min sync | ✅ | ✅ | [X.6 soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) |
 | K4 S1–S3 | ✅ session 05-24 | ✅ post-PR sync | logs |
 | K5 Unit tests | CI OK + Dexcom 9 tests | 100 % | verify_ci |
-| K6 QA G7 | **6/7** | 7/7 | matrix C · C.0/C.5/C.7 ✅ |
+| K6 QA G7 | **7/7** | 7/7 | [bloc-c-evidence](../qa/bloc-c-evidence.md) · C.7 + waivers |
 | K7 Disconnect | ✅ | ✅ | A.2 |
 
 ---
@@ -165,14 +165,14 @@ S  Stability (cross-cutting, each PR)
 | ID | Scenario | Duration | KPI | Status |
 |----|----------|----------|-----|--------|
 | C.0 | Crash reg · kill/relaunch · sync ×10 | 30m | K1 | ✅ | [session](../qa/sessions/2026-05-25_1605-bloc-c-automated.md) · sync button ×10 manual optional |
-| C.1 | AGP 60/120/200 | 2h | visual | ☐ |
-| C.2 | Complication vs tile | 30m | K3 | ☐ |
-| C.3 | Watch offline 2h | 2–3h | catch-up | ☐ |
-| C.4 | LOW / HI | — | display | ☐ |
+| C.1 | AGP 60/120/200 | 2h | visual | **N/A** | [waived](../qa/sessions/2026-05-26_C1-agp-checklist.md) · unit tests + C.2 |
+| C.2 | Complication vs tile | 30m | K3 | ✅ | [sample](../qa/sessions/2026-05-26_0449-C2-complication-sample.md) |
+| C.3 | Watch offline 2h | 2–3h | catch-up | **N/A** | [waived](../qa/sessions/2026-05-26_C3-offline-checklist.md) |
+| C.4 | LOW / HI | — | display | **N/A** | [waived](../qa/sessions/2026-05-26_C4-low-hi-checklist.md) · not observed |
 | C.5 | Continuous sync | 30m | K3 | ✅ | [X.6 soak](../qa/soak-runs/2026-05-25_1458-X.6-soak.md) + smoke S3 |
-| C.6 | APK reinstall + tile | 1h | K4 | ☐ |
+| C.6 | APK reinstall + tile | 1h | K4 | **N/A** | [waived](../qa/sessions/2026-05-26_C6-reinstall-checklist.md) |
 | **C.7** | **Overnight charge soak** | **8h** | **K2** | ✅ | [soak](../qa/soak-runs/2026-05-26_C.7-soak.md) |
-| C.8 | Watch battery ≤20% | 1h | K1 | ☐ |
+| C.8 | Watch battery ≤20% | 1h | K1 | **N/A** | [waived](../qa/sessions/2026-05-26_C8-battery-checklist.md) · unit tests |
 
 **C.7 procedure:** [ACTION-PLAN §7](ACTION-PLAN.md#7-weekly-ritual) · deliverable [sign-off](../qa/stability-signoff-template.md)
 

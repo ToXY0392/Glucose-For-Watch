@@ -39,7 +39,7 @@ Blocks **G-C** / **G-M7** tag until done.
 | DOC-P0-1 | **C.7 soak sign-off** — fill [stability-signoff-template.md](../qa/stability-signoff-template.md) after 8 h run | QA | ✅ | [sign-off](../qa/2026-05-26-stability-signoff.md) · J0 `workspace/qa-hardware` |
 | DOC-P0-2 | **Close incident doc** — update [2026-05-25-app-crash.md](../qa/incidents/2026-05-25-app-crash.md) status → closed after G-X + C.7 | Dev | ✅ | J0 2026-05-26 |
 | DOC-P0-3 | **PROGRESS scoreboard** — refresh gates G-X/G-C/K2/K6 after C.7 | Dev | ✅ | G-X/K2/K6 updated · G-C partial (C.7 ✅) |
-| DOC-P0-4 | **QA matrix evidence** — session notes for C.2, C.3, C.8 (complication, offline, low battery) | QA | ☐ | `docs/qa/sessions/` |
+| DOC-P0-4 | **QA matrix evidence** | QA | ✅ | [bloc-c-evidence.md](../qa/bloc-c-evidence.md) |
 
 ---
 
