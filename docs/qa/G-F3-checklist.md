@@ -70,7 +70,7 @@ At end:
 
 **Required for G-F3 GO:**
 
-- [x] [C.7 soak](../soak-runs/2026-05-26_C.7-soak.md) PASS (8 h)
+- [x] [C.7 soak](soak-runs/2026-05-26_C.7-soak.md) PASS (8 h)
 - [x] Phase 2 sync 30 min PASS · `stability-gate.ps1 -CheckLogcatOnly` clean
 - [x] Sign-off [2026-05-26-g-f3-signoff.md](2026-05-26-g-f3-signoff.md) **GO**
 

@@ -11,9 +11,11 @@
 |------|------|------|
 | **AppPreviewExporterTest** | 6 Home states → PNG | `mobile/.../preview/AppPreviewExporterTest.kt` |
 | **export-app-preview.ps1** | Run export without hardware | `scripts/qa/export-app-preview.ps1` |
+| **Showkase** | Compose preview catalog (debug) | `mobile/src/debug/` · `@ShowkaseComposable` |
 | **Wear @Preview** | Tile / status Compose | `wear/.../WearStatusScreenPreview.kt` |
 | **design-reference** | Static mockups | `toxy-ux-kit/design-reference/` |
-| **CI verify_ci** | Unit + compile | `.github/workflows/ci.yml` |
+| **check_docs_links.py** | Relative link lint on `docs/` | `scripts/dev/check_docs_links.py` |
+| **CI verify_ci** | Unit + compile + doc links | `.github/workflows/ci.yml` |
 | **Dependabot** | Gradle + Actions | `.github/dependabot.yml` |
 | **Cursor skills** | doc-drift, doc-backlog-sync, pr-gatekeeper, pr-author, … | `.cursor/skills/` |
 
@@ -35,8 +37,8 @@ Created via `scripts/dev/create_automation_issues.ps1`:
 |----|-------|-----------|--------|
 | AUTO-1 | CI export PNG previews on mobile UI PR | v0.5 | 4h |
 | AUTO-2 | Static preview gallery HTML | v0.5 | 6h |
-| AUTO-3 | Showkase for Compose v0.6 | v0.6 | 1d |
-| AUTO-4 | CI markdown link checker docs/ | v0.5 | 2h |
+| AUTO-3 | Showkase for Compose v0.6 | v0.6 | done · PR #39 |
+| AUTO-4 | CI markdown link checker docs/ | v0.5 | done · `check_docs_links.py` |
 | AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | 3h |
 | AUTO-6 | Paparazzi wear tile (optional) | v0.6 | 2d |
 | AUTO-7 | Project workflow PR → In Review | v0.5 | 1h |
@@ -56,7 +58,7 @@ From [PROGRESS.md](PROGRESS.md):
 | C | C.7 sign-off, C.2/C.3/C.8 | G-C |
 | A | A.1, A.3 | G-A |
 | M | M.4 design-reference PNG | G-M |
-| B | B.4 WatchSyncVerifier | G-B |
+| B | B.4 WatchSyncVerifier | G-B | done · PR #40 |
 | D | D.6 capture-crash-log | G-D |
 | S | S.6 PR checklist sync, S.8 ACTION-PLAN | cross-cutting |
 

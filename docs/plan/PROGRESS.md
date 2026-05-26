@@ -1,6 +1,6 @@
 # Plan tracking — Glucose For Watch
 
-> **Last updated:** 2026-05-26 · **G-M8 closed** · tag `v0.6.0` on `integrate`  
+> **Last updated:** 2026-05-26 · **G-M8 closed** · tag `v0.6.0` · post-v0.6 polish in progress  
 > **Distribution:** PC only (`installWidgetG7Debug`) — no Play Store  
 > **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
@@ -138,7 +138,7 @@ S  Stability (cross-cutting, each PR)
 | M.1 | HomeUiState + HomeViewModel (F0.3 bridge) | ✅ | 6h |
 | M.2 | Hero ↔ tile parity (time, stale) | ✅ | 4h |
 | M.3 | 6 exportable preview states | ✅ | 3h |
-| M.4 | design-reference companion | ☐ | 2h |
+| M.4 | design-reference companion | ✅ | PR chore · `export-design-reference.py` |
 | M.5 | Preview doc dev/setup.md | ✅ | dev/setup.md |
 
 **G-M DoD:** G-A ✅ + previews + smoke S1–S3 · can merge **before** B if B not ready
@@ -153,7 +153,7 @@ S  Stability (cross-cutting, each PR)
 | B.2 | UI push vs ack / visible error | P1 | ✅ | 3h |
 | B.5 | Wear tile FR | P1 | ✅ | 30m |
 | B.3 | Single scheduler doc | P2 | ✅ | 2h |
-| B.4 | WatchSyncVerifier → engine | P2 | ☐ | 4h |
+| B.4 | WatchSyncVerifier → engine | P2 | ✅ | PR #40 · ack wait test |
 
 **G-B DoD:** complication ≤45s lag · FR tile · smoke seq · [STABILITY-GATES § G-B](STABILITY-GATES.md#g-b--after-pr-11-block-b)
 

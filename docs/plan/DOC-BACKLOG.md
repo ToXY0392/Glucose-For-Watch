@@ -49,9 +49,9 @@ Should ship with or shortly after **v0.5.0**; not all block the tag.
 
 | ID | Task | Effort | Status | Link / notes |
 |----|------|--------|--------|--------------|
-| DOC-P1-1 | **AUTO-9** — reference `pr-author` + `pr-gatekeeper` in [CONTRIBUTING.md](../../CONTRIBUTING.md) | 30m | ☐ | [#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21) |
-| DOC-P1-2 | **AUTO-9** — PR template hint: invoke `@widget-g7-pr-author` before opening | 15m | ☐ | `.github/pull_request_template.md` |
-| DOC-P1-3 | **M.4** — refresh `toxy-ux-kit/design-reference/` PNGs + regenerate gallery | 2h | ☐ | `py -3 toxy-ux-kit/tools/export-design-reference.py` |
+| DOC-P1-1 | **AUTO-9** — reference `pr-author` + `pr-gatekeeper` in [CONTRIBUTING.md](../../CONTRIBUTING.md) | 30m | ✅ | [#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21) |
+| DOC-P1-2 | **AUTO-9** — PR template hint: invoke `@widget-g7-pr-author` before opening | 15m | ✅ | `.github/pull_request_template.md` |
+| DOC-P1-3 | **M.4** — refresh `toxy-ux-kit/design-reference/` PNGs + regenerate gallery | 2h | ✅ | `export-design-reference.py` · HTML regen |
 | D.6 | document `capture-crash-log.ps1` in [dev/setup.md](../dev/setup.md) (or finish script + doc together) | 1h | ✅ | J1 workspace/qa-hardware |
 | DOC-P1-5 | **Architecture diagram** — verify [widget-g7-architecture.svg](../assets/widget-g7-architecture.svg) matches code · re-export PNG | 1h | AUTO-8 |
 | DOC-P1-6 | **User guide ↔ app strings** — app UI is FR (`strings.xml`) · user guide is EN · add note in [guide/user.md](../guide/user.md) or plan i18n | 1h | ☐ | Decision: EN UI vs FR UI for v0.5 |
@@ -68,7 +68,7 @@ Tracked in [AUTOMATION-BACKLOG.md](AUTOMATION-BACKLOG.md); implement when bandwi
 |----|------|-----------|--------|--------|
 | AUTO-1 | CI export PNG previews on mobile UI PRs | v0.5 | ☐ | #13 |
 | AUTO-2 | Static preview gallery HTML (offline sideload doc) | v0.5 | ☐ | #14 |
-| AUTO-4 | CI markdown link checker on `docs/` | v0.5 | ☐ | #16 |
+| AUTO-4 | CI markdown link checker on `docs/` | v0.5 | ✅ | #16 · `scripts/dev/check_docs_links.py` in verify_ci |
 | AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | ☐ | #17 |
 | AUTO-7 | Project workflow: PR opened → In Review column | v0.5 | ☐ | #19 |
 | AUTO-8 | Architecture diagram export in CI | v0.5 | ☐ | #20 |
@@ -84,9 +84,9 @@ Do **not** start until **G-M7** ✅.
 
 | ID | Task | When | Status |
 |----|------|------|--------|
-| DOC-F0-1 | Document Showkase setup + `@ShowkaseComposable` conventions | F0 start | ☐ |
+| DOC-F0-1 | Document Showkase setup + `@ShowkaseComposable` conventions | F0 start | ✅ | [dev/setup.md](../dev/setup.md) |
 | DOC-F0-2 | Update [architecture.md](../dev/architecture.md) for Compose phone module layout | F0 | ☐ |
-| DOC-F0-3 | **AUTO-3** — Showkase browser task in dev/setup.md | F0 | ☐ |
+| DOC-F0-3 | **AUTO-3** — Showkase browser task in dev/setup.md | F0 | ✅ | PR #39 |
 | DOC-F3-1 | Home Compose screen spec in `toxy-ux-kit/spec/components/` | F3 | ☐ |
 | DOC-F3-2 | Migration note: XML → Compose mapping (screens + strings) | F3 | ☐ |
 

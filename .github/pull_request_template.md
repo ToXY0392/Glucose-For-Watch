@@ -1,6 +1,7 @@
 ## Summary
 
 <!-- What does this PR change and why? Link issue: Closes #N or Refs #N -->
+<!-- Tip: invoke @widget-g7-pr-author in Cursor for bloc/gate PRs before opening -->
 
 ## Plan metadata
 

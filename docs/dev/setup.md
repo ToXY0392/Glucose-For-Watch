@@ -57,6 +57,12 @@ Debug builds include a searchable catalog of `@ShowkaseComposable` / `@Preview` 
 
 Launch from code: `startActivity(Showkase.getBrowserIntent(context))` (generated after first debug compile). Previews live in `mobile/src/debug/` — annotate with `@ShowkaseComposable` alongside `@Preview`.
 
+**Conventions:** one `@ShowkaseRoot` module (`WidgetG7ShowkaseRoot`) · preview composables `internal` · reuse `HomePreviewStates` / `SyncTestFixtures` for realistic Home states · KSP `2.3.9` + Showkase `1.0.5` on `:mobile` debug only.
+
+Design tokens handoff (M.4): `py -3 toxy-ux-kit/tools/export-design-reference.py` → open `toxy-ux-kit/design-reference/index.html`.
+
+Doc link check (CI): `py -3 scripts/dev/check_docs_links.py` (also in `verify_ci.sh`).
+
 List devices: `adb devices -l`.
 
 ### PC sideload (distribution v0.5.0)
