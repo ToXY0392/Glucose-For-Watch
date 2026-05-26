@@ -1,4 +1,4 @@
-package com.widgetg7.mobile.ui
+﻿package com.widgetg7.mobile.ui
 
 import android.content.res.ColorStateList
 import android.graphics.drawable.GradientDrawable

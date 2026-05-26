@@ -9,7 +9,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.test.core.app.ApplicationProvider
-import com.widgetg7.core.model.AgpGlucoseColors
 import com.widgetg7.core.testing.SyncTestFixtures
 import com.widgetg7.mobile.R
 import com.widgetg7.mobile.settings.DexcomUserSettings
@@ -28,7 +27,8 @@ import java.io.File
 import java.io.FileOutputStream
 
 /**
- * Renders [R.layout.activity_main] to PNG for design review (M.3).
+ * Renders home preview states to PNG for design review (M.3).
+ * Uses [R.layout.activity_main] preview fixture (main res; runtime is [HomeScreen] Compose).
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE, sdk = [28])
