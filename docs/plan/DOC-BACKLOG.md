@@ -66,8 +66,8 @@ Tracked in [AUTOMATION-BACKLOG.md](AUTOMATION-BACKLOG.md); implement when bandwi
 
 | ID | Task | Milestone | Status | GitHub |
 |----|------|-----------|--------|--------|
-| AUTO-1 | CI export PNG previews on mobile UI PRs | v0.5 | ☐ | #13 |
-| AUTO-2 | Static preview gallery HTML (offline sideload doc) | v0.5 | ☐ | #14 |
+| AUTO-1 | CI export PNG previews on mobile UI PRs | v0.5 | ✅ | #13 · `preview-export.yml` |
+| AUTO-2 | Static preview gallery HTML (offline sideload doc) | v0.5 | ✅ | #14 · `generate_preview_gallery.py` |
 | AUTO-4 | CI markdown link checker on `docs/` | v0.5 | ✅ | #16 · `scripts/dev/check_docs_links.py` in verify_ci |
 | AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | ☐ | #17 |
 | AUTO-7 | Project workflow: PR opened → In Review column | v0.5 | ☐ | #19 |
