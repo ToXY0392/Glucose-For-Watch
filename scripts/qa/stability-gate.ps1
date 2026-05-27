@@ -34,7 +34,7 @@ function Step-Ok { param([string]$Msg) Write-Host "[OK] $Msg" -ForegroundColor G
 function Step-Warn { param([string]$Msg) Write-Host "[WARN] $Msg" -ForegroundColor Yellow; $script:warn++ }
 function Step-Fail { param([string]$Msg) Write-Host "[FAIL] $Msg" -ForegroundColor Red; $script:fail++ }
 
-Write-Host "`n=== Widget G7 stability gate ===" -ForegroundColor Cyan
+Write-Host "`n=== Glucose For Watch stability gate ===" -ForegroundColor Cyan
 
 if (-not $CheckLogcatOnly -and -not $SkipCi) {
     Write-Host "`n-- verify_ci.sh --" -ForegroundColor DarkCyan

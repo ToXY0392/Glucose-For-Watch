@@ -4,7 +4,7 @@ description: Triages Dependabot PRs for Glucose For Watch — small scoped merge
 disable-model-invocation: true
 ---
 
-# Widget G7 Dependabot Triage
+# Glucose For Watch Dependabot Triage
 
 ## Config
 

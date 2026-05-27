@@ -1,13 +1,13 @@
 ---
 name: glucose-for-watch-vendor-watch
-description: Scans Android, Wear OS, AGP, Gradle, Kotlin, and Dexcom updates, then classifies real impact for Widget G7 into immediate, planned, or ignored actions.
+description: Scans Android, Wear OS, AGP, Gradle, Kotlin, and Dexcom updates, then classifies real impact for Glucose For Watch into immediate, planned, or ignored actions.
 disable-model-invocation: true
 ---
 
-# Widget G7 Vendor Watch
+# Glucose For Watch Vendor Watch
 
 ## Objective
-Provide actionable vendor monitoring for the Widget G7 repo.
+Provide actionable vendor monitoring for the Glucose For Watch repo.
 
 ## Sources to monitor
 - Android Developers (Android + Jetpack)
@@ -26,7 +26,7 @@ Provide actionable vendor monitoring for the Widget G7 repo.
 ## Workflow
 1. Record current repo versions and assumptions.
 2. Collect vendor updates since the last run (delta mode).
-3. Identify only real impacts on Widget G7:
+3. Identify only real impacts on Glucose For Watch:
    - breaking changes
    - deprecations
    - min SDK / tooling compatibility

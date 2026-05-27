@@ -7,7 +7,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Widget G7 Mobile App Scope
+# Glucose For Watch Mobile App Scope
 
 ## Branch
 

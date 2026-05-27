@@ -8,7 +8,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Widget G7 UX Kit Scope
+# Glucose For Watch UX Kit Scope
 
 ## Branch
 

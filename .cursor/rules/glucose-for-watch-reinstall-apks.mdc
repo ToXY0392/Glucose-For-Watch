@@ -4,7 +4,7 @@ globs: mobile/**/*,wear/**/*
 alwaysApply: false
 ---
 
-# Widget G7 deployment after changes
+# Glucose For Watch deployment after changes
 
 When you **modify** code or resources under `mobile/` or `wear/` (files covered by the globs above), at the end of a change that compiles:
 

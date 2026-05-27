@@ -4,7 +4,7 @@ description: Syncs Glucose For Watch GitHub Project with docs/plan/PROGRESS.md s
 disable-model-invocation: true
 ---
 
-# Widget G7 GitHub Project Sync
+# Glucose For Watch GitHub Project Sync
 
 ## Sources of truth
 
@@ -38,7 +38,7 @@ Use template `.github/ISSUE_TEMPLATE/bloc_task.md`:
 
 - Title: `[bloc-x] X.5a — description`
 - Labels: `bloc-x`, `gate-blocker` if blocking M7/M8
-- Milestone: v0.5.0 or v0.6.0
+- Milestone: v0.7.0 post-v0.6
 - Evidence URL → `docs/qa/soak-runs/` or `docs/qa/incidents/` after hardware
 
 ## After PR merge
@@ -50,4 +50,4 @@ Use template `.github/ISSUE_TEMPLATE/bloc_task.md`:
 ## Repo naming
 
 - GitHub: `ToXY0392/Glucose-For-Watch`
-- Local folder: **`Widget G7`** (unchanged)
+- Local folder: **`Glucose-For-Watch`**

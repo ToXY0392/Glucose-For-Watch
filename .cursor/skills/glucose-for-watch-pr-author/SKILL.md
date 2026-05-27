@@ -4,7 +4,7 @@ description: Drafts complete, documented pull requests for Glucose For Watch —
 disable-model-invocation: true
 ---
 
-# Widget G7 PR Author
+# Glucose For Watch PR Author
 
 ## Role
 

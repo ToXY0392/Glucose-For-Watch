@@ -4,7 +4,7 @@ description: Validates Glucose For Watch PR readiness against bloc gates, verify
 disable-model-invocation: true
 ---
 
-# Widget G7 PR Gatekeeper
+# Glucose For Watch PR Gatekeeper
 
 ## Goal
 

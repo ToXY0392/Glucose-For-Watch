@@ -1,10 +1,10 @@
 ---
 name: glucose-for-watch-session-start-deferred-maintenance
-description: Runs a full maintenance cycle shortly after opening the Cursor project for Widget G7, with aggregated results and action prioritization.
+description: Runs a full maintenance cycle shortly after opening the Cursor project for Glucose For Watch, with aggregated results and action prioritization.
 disable-model-invocation: true
 ---
 
-# Widget G7 Session Start Deferred Maintenance
+# Glucose For Watch Session Start Deferred Maintenance
 
 ## Objective
 Run heavy checks after session startup.

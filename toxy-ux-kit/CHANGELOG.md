@@ -1,6 +1,6 @@
 # Changelog — ToXY UX Kit
 
-Independent from Widget G7 app releases.
+Independent from Glucose For Watch app releases.
 
 ## [0.2.0] — 2026-05-23
 

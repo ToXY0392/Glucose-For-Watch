@@ -4,7 +4,7 @@ description: Reviews phone→watch glucose sync health — push backoff, offline
 disable-model-invocation: true
 ---
 
-# Widget G7 Sync Health Reviewer
+# Glucose For Watch Sync Health Reviewer
 
 ## Goal
 Verify end-to-end sync: Dexcom Share → phone cache → Wear Data Layer → watch cache → tile/complication → ack.

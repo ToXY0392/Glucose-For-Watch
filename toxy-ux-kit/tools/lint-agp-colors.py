@@ -5,7 +5,7 @@ AGP color guard — fail CI if glucose UI uses ToXY mint instead of medical colo
 Usage:
   python toxy-ux-kit/tools/lint-agp-colors.py
 
-See .cursor/skills/widget-g7-agp-color-guard/SKILL.md
+See .cursor/skills/glucose-for-watch-agp-color-guard/SKILL.md
 """
 
 from __future__ import annotations

@@ -4,7 +4,7 @@ description: Enforces AGP medical color rules — glucose values use agp.glucose
 disable-model-invocation: true
 ---
 
-# Widget G7 AGP Color Guard
+# Glucose For Watch AGP Color Guard
 
 ## Rule
 **Medical layer:** glucose numbers, range bands, trend arrows (when fresh) → `GlucoseRangeResolver` / `agp_*` colors.

@@ -1,10 +1,10 @@
 ---
 name: glucose-for-watch-security-bulletin
-description: Tracks CVEs and security advisories for Android dependencies and build tools used by Widget G7, then prioritizes fixes by severity and exploitability.
+description: Tracks CVEs and security advisories for Android dependencies and build tools used by Glucose For Watch, then prioritizes fixes by severity and exploitability.
 disable-model-invocation: true
 ---
 
-# Widget G7 Security Bulletin
+# Glucose For Watch Security Bulletin
 
 ## Objective
 Provide action-oriented security monitoring for mobile + wear.
@@ -19,7 +19,7 @@ Provide action-oriented security monitoring for mobile + wear.
 2. Collect relevant security advisories and CVEs.
 3. Evaluate each item by:
    - severity
-   - exploitability in the Widget G7 context
+   - exploitability in the Glucose For Watch context
    - real exposure (build-time / runtime)
 4. Classify:
    - `Critical`

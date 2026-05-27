@@ -68,7 +68,7 @@ def main() -> None:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Widget G7 — Mobile home preview gallery</title>
+  <title>Glucose For Watch — Mobile home preview gallery</title>
   <style>
     :root {{
       --bg: #0f172a;

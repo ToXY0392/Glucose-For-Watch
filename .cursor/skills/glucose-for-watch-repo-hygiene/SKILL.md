@@ -4,7 +4,7 @@ description: Audits Glucose For Watch git hygiene — gitignore, cached runtime 
 disable-model-invocation: true
 ---
 
-# Widget G7 Repo Hygiene
+# Glucose For Watch Repo Hygiene
 
 ## Never commit
 
