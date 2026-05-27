@@ -44,7 +44,8 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 
 | Location | Description |
 |----------|-------------|
-| [qa/incidents/](qa/incidents/) | Open/closed incident reports |
+| [qa/incidents/CRASH-REGISTRY.md](qa/incidents/CRASH-REGISTRY.md) | Known phone crashes · root causes · fixes |
+| [qa/incidents/](qa/incidents/) | Per-incident reports (open/closed) |
 | [qa/soak-runs/](qa/soak-runs/) | Soak test logs |
 | [qa/sessions/](qa/sessions/) | Hardware QA sessions |
 | [qa/stability-signoff-template.md](qa/stability-signoff-template.md) | Gate G-C sign-off template |
