@@ -9,6 +9,7 @@ import androidx.wear.watchface.complications.data.PlainComplicationText
 import androidx.wear.watchface.complications.data.RangedValueComplicationData
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
+import com.glucoseforwatch.core.model.GlucoseUnitFormatter
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModel
 import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModelFactory
@@ -19,10 +20,12 @@ internal object GlucoseComplicationDataFactory {
         val display: WearGlucoseSurfaceModel,
         val title: String,
         val valueMgDl: Int,
+        val displayUnit: GlucoseDisplayUnit,
     )
 
     fun fromSnapshot(snapshot: GlucoseSnapshot?): RequestPayload {
         val display = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+        val displayUnit = snapshot?.displayUnit ?: GlucoseDisplayUnit.MG_DL
         val unitLabel = snapshot?.unitLabel() ?: GlucoseDisplayUnit.MG_DL.label()
         val title =
             if (snapshot == null) {
@@ -34,6 +37,7 @@ internal object GlucoseComplicationDataFactory {
             display = display,
             title = title,
             valueMgDl = display.valueMgDl ?: 128,
+            displayUnit = displayUnit,
         )
     }
 
@@ -84,23 +88,28 @@ internal object GlucoseComplicationDataFactory {
         tapAction: PendingIntent?,
     ): RangedValueComplicationData {
         val stale = payload.display.stale
+        val unit = payload.displayUnit
+        val rangedMin = GlucoseUnitFormatter.rangedMin(unit)
+        val rangedMax = GlucoseUnitFormatter.rangedMax(unit)
         val rangedValue =
             if (stale) {
-                RANGED_UNKNOWN_PLACEHOLDER
+                GlucoseUnitFormatter.rangedUnknownPlaceholder(unit)
             } else {
-                payload.valueMgDl.coerceIn(RANGED_MIN_MG_DL, RANGED_MAX_MG_DL).toFloat()
+                GlucoseUnitFormatter
+                    .toRangedDisplayValue(payload.valueMgDl, unit)
+                    .coerceIn(rangedMin, rangedMax)
             }
         return RangedValueComplicationData.Builder(
             value = rangedValue,
-            min = RANGED_MIN_MG_DL.toFloat(),
-            max = RANGED_MAX_MG_DL.toFloat(),
+            min = rangedMin,
+            max = rangedMax,
             contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setText(plainText(payload.display.valueText))
             .setTitle(plainText(payload.title))
             .setColorRamp(
                 AgpComplicationColorRamp.forGlucoseRange(
-                    minMgDl = RANGED_MIN_MG_DL.toFloat(),
-                    maxMgDl = RANGED_MAX_MG_DL.toFloat(),
+                    minMgDl = GlucoseUnitFormatter.DISPLAY_LOW_MAX_MG_DL.toFloat(),
+                    maxMgDl = GlucoseUnitFormatter.DISPLAY_HIGH_MIN_MG_DL.toFloat(),
                     stale = stale,
                 ),
             )
@@ -109,8 +118,4 @@ internal object GlucoseComplicationDataFactory {
     }
 
     private fun plainText(text: String) = PlainComplicationText.Builder(text).build()
-
-    private const val RANGED_MIN_MG_DL = 40
-    private const val RANGED_MAX_MG_DL = 400
-    private const val RANGED_UNKNOWN_PLACEHOLDER = 120f
 }
