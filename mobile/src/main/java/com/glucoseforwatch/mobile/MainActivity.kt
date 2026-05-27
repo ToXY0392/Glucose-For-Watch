@@ -13,7 +13,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -25,9 +25,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.colorResource
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.glucoseforwatch.mobile.settings.AppSettingsStore
@@ -69,14 +69,17 @@ class MainActivity : ComponentActivity() {
                         modifier =
                             Modifier
                                 .fillMaxSize()
-                                .padding(padding),
+                                .padding(padding)
+                                .background(
+                                    Brush.verticalGradient(
+                                        colors =
+                                            listOf(
+                                                colorResource(R.color.gfw_canvas_start),
+                                                colorResource(R.color.gfw_canvas_end),
+                                            ),
+                                    ),
+                                ),
                     ) {
-                        Image(
-                            painter = painterResource(R.drawable.bg_companion_canvas),
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.FillBounds,
-                        )
                         HomeScreen(
                             state = uiState,
                             syncEnabled = !syncBusy,

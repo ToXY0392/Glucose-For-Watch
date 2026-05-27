@@ -132,11 +132,14 @@ class DexcomSettingsActivity : ComponentActivity() {
                 settingsStore.setActiveSyncEnabled(true)
                 launchStateStore.markDexcomEntryCompleted()
                 syncStatusRepository.saveFetchedReading("dexcom-share", reading)
-                ActiveGlucoseSyncController.start(this@DexcomSettingsActivity)
-                val syncResult = PhoneGlucoseSyncEngine(this@DexcomSettingsActivity).run(
-                    triggeredFromWatch = false,
-                    forcePushCurrentReading = true,
-                )
+                val syncResult =
+                    PhoneGlucoseSyncEngine(this@DexcomSettingsActivity).run(
+                        triggeredFromWatch = false,
+                        forcePushCurrentReading = true,
+                    )
+                if (!firstConnectionFlow) {
+                    ActiveGlucoseSyncController.start(this@DexcomSettingsActivity)
+                }
                 val statusMessage = connectionStatusMessage(syncResult)
                 uiState =
                     uiState.copy(
@@ -224,9 +227,9 @@ class DexcomSettingsActivity : ComponentActivity() {
 
     private fun readSettingsFromState(): DexcomUserSettings =
         DexcomUserSettings(
-            username = uiState.username,
-            password = uiState.password,
-            server = toServerCode(uiState.serverLabel),
+            username = uiState.username.trim(),
+            password = uiState.password.trim(),
+            server = toServerCode(uiState.serverLabel.trim()),
         )
 
     private fun setBusy(isBusy: Boolean) {

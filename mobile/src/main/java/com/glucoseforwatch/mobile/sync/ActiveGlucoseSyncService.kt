@@ -80,6 +80,12 @@ class ActiveGlucoseSyncService : Service() {
         super.onDestroy()
     }
 
+    override fun onTimeout(startId: Int, fgsType: Int) {
+        super.onTimeout(startId, fgsType)
+        Log.w(TAG, "fgs_timeout startId=$startId fgsType=$fgsType — stopping to avoid system crash")
+        stopActiveSync()
+    }
+
     private fun startLoop(): Boolean {
         if (loopJob?.isActive == true) return false
         PhoneSyncStateStore(this).recordActiveServiceState("running")
