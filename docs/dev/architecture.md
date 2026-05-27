@@ -96,6 +96,7 @@ Source: `core/datalayer-contract/.../GlucoseDataLayerContract.kt`
 | `timestamp_epoch_ms` | long | Reading timestamp |
 | `sequence_id` | long | Monotonic push sequence |
 | `stale` | boolean | Age > threshold on watch |
+| `displayUnit` | string | `MG_DL` or `MMOL_L` — display unit for tile/complication text (internal value stays mg/dL) |
 
 ### Ack keys
 

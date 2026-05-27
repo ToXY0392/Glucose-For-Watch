@@ -23,6 +23,28 @@ object GlucoseUnitFormatter {
     fun formatWithUnit(valueMgDl: Int, unit: GlucoseDisplayUnit): String =
         "${formatValue(valueMgDl, unit)} ${unitLabel(unit)}"
 
+    /** Min/max for [androidx.wear.watchface.complications.data.RangedValueComplicationData] in display units. */
+    fun rangedMin(unit: GlucoseDisplayUnit): Float =
+        when (unit) {
+            GlucoseDisplayUnit.MG_DL -> DISPLAY_LOW_MAX_MG_DL.toFloat()
+            GlucoseDisplayUnit.MMOL_L -> (DISPLAY_LOW_MAX_MG_DL / MG_DL_PER_MMOL).toFloat()
+        }
+
+    fun rangedMax(unit: GlucoseDisplayUnit): Float =
+        when (unit) {
+            GlucoseDisplayUnit.MG_DL -> DISPLAY_HIGH_MIN_MG_DL.toFloat()
+            GlucoseDisplayUnit.MMOL_L -> (DISPLAY_HIGH_MIN_MG_DL / MG_DL_PER_MMOL).toFloat()
+        }
+
+    fun toRangedDisplayValue(valueMgDl: Int, unit: GlucoseDisplayUnit): Float =
+        when (unit) {
+            GlucoseDisplayUnit.MG_DL -> valueMgDl.toFloat()
+            GlucoseDisplayUnit.MMOL_L -> (valueMgDl / MG_DL_PER_MMOL).toFloat()
+        }
+
+    /** Neutral placeholder when reading is stale (120 mg/dL equivalent). */
+    fun rangedUnknownPlaceholder(unit: GlucoseDisplayUnit): Float = toRangedDisplayValue(120, unit)
+
     private fun formatMmol(valueMgDl: Int): String {
         val mmol = valueMgDl / MG_DL_PER_MMOL
         return String.format(Locale.US, "%.1f", mmol)

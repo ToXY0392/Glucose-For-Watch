@@ -30,4 +30,13 @@ class GlucoseUnitFormatterTest {
         assertEquals(GlucoseDisplayUnit.MMOL_L, GlucoseDisplayUnit.fromStorage("mmol/L"))
         assertEquals(GlucoseDisplayUnit.MG_DL, GlucoseDisplayUnit.fromStorage(null))
     }
+
+    @Test
+    fun ranged_scale_uses_display_unit() {
+        assertEquals(40f, GlucoseUnitFormatter.rangedMin(GlucoseDisplayUnit.MG_DL))
+        assertEquals(400f, GlucoseUnitFormatter.rangedMax(GlucoseDisplayUnit.MG_DL))
+        assertEquals(6.659f, GlucoseUnitFormatter.toRangedDisplayValue(120, GlucoseDisplayUnit.MMOL_L), 0.001f)
+        assertEquals(2.220f, GlucoseUnitFormatter.rangedMin(GlucoseDisplayUnit.MMOL_L), 0.001f)
+        assertEquals(22.199f, GlucoseUnitFormatter.rangedMax(GlucoseDisplayUnit.MMOL_L), 0.001f)
+    }
 }

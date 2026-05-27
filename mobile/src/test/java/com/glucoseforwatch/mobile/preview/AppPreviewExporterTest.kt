@@ -47,6 +47,11 @@ class AppPreviewExporterTest {
     }
 
     @Test
+    fun exportMobileHomePreview_connected_mmol() {
+        exportPreview("mobile-home-connected-mmol", connectedState(GlucoseDisplayUnit.MMOL_L))
+    }
+
+    @Test
     fun exportMobileHomePreview_dexcomOff() {
         exportPreview("mobile-home-dexcom-off", dexcomOffState())
     }
@@ -116,7 +121,7 @@ class AppPreviewExporterTest {
         println("APP_PREVIEW=${outFile.absolutePath}")
     }
 
-    private fun connectedState(): HomeUiState {
+    private fun connectedState(displayUnit: GlucoseDisplayUnit = GlucoseDisplayUnit.MG_DL): HomeUiState {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val now = 1_700_000_000_000L
         return HomeStateMapper.map(
@@ -135,7 +140,7 @@ class AppPreviewExporterTest {
             batteryProtected = true,
             watchPushPending = false,
             activeSyncEnabled = true,
-            displayUnit = GlucoseDisplayUnit.MG_DL,
+            displayUnit = displayUnit,
             nowEpochMs = now,
         )
     }
