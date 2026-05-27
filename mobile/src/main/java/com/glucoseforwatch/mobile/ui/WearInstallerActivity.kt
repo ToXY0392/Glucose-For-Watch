@@ -4,50 +4,43 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.widget.ImageButton
-import android.widget.ProgressBar
-import android.widget.ScrollView
-import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.res.colorResource
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
 import com.glucoseforwatch.feature.watchinstall.WearDirectAdbInstaller
 import com.glucoseforwatch.feature.watchinstall.WearEmbeddedApkRepository
 import com.glucoseforwatch.feature.watchinstall.WearInstallOcr
 import com.glucoseforwatch.feature.watchinstall.WearInstallOcrParsed
 import com.glucoseforwatch.feature.watchinstall.WearInstallOcrParser
 import com.glucoseforwatch.mobile.R
+import com.glucoseforwatch.mobile.ui.compose.WearInstallerScreen
+import com.glucoseforwatch.mobile.ui.compose.WearInstallerUiState
+import com.glucoseforwatch.mobile.ui.theme.GlucoseForWatchTheme
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /** Walks through direct Wear app install via ADB Wi-Fi (Kadb). */
-class WearInstallerActivity : AppCompatActivity() {
-    private var baseScrollPaddingTop = 0
-
-    private lateinit var installerScroll: ScrollView
-    private lateinit var directSection: View
+class WearInstallerActivity : ComponentActivity() {
     private lateinit var embeddedRepo: WearEmbeddedApkRepository
-    private lateinit var embeddedInfo: TextView
-    private lateinit var pairButton: MaterialButton
-    private lateinit var installDirectButton: MaterialButton
-    private lateinit var ocrButton: MaterialButton
-    private lateinit var directProgress: ProgressBar
-    private lateinit var directStatus: TextView
-    private lateinit var ipInput: TextInputEditText
-    private lateinit var pairPortInput: TextInputEditText
-    private lateinit var pairCodeInput: TextInputEditText
-    private lateinit var adbPortInput: TextInputEditText
+    private var uiState by mutableStateOf(WearInstallerUiState())
+    private var scrollToDirectToken by mutableIntStateOf(0)
 
     private lateinit var cameraCaptureUri: Uri
 
@@ -74,63 +67,50 @@ class WearInstallerActivity : AppCompatActivity() {
             }
         }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_wear_installer)
-
         embeddedRepo = WearEmbeddedApkRepository(this)
-
-        val scroll = findViewById<ScrollView>(R.id.wearInstallerScroll)
-        installerScroll = scroll
-        directSection = findViewById(R.id.wearInstallerDirectCard)
-        baseScrollPaddingTop = scroll.paddingTop
-        ViewCompat.setOnApplyWindowInsetsListener(scroll) { view, insets ->
-            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(
-                view.paddingLeft,
-                baseScrollPaddingTop + bars.top,
-                view.paddingRight,
-                view.paddingBottom + bars.bottom,
+        val apkAvailable = embeddedRepo.embeddedApkAvailable()
+        uiState =
+            uiState.copy(
+                installEnabled = apkAvailable,
+                showEmbeddedApkMissing = !apkAvailable,
             )
-            insets
-        }
-        ViewCompat.requestApplyInsets(scroll)
 
-        findViewById<ImageButton>(R.id.wearInstallerBack).setOnClickListener { finish() }
-
-        embeddedInfo = findViewById(R.id.wearInstallerEmbeddedInfo)
-
-        ipInput = findViewById(R.id.wearInstallerDirectIpInput)
-        pairPortInput = findViewById(R.id.wearInstallerDirectPairPortInput)
-        pairCodeInput = findViewById(R.id.wearInstallerDirectPairCodeInput)
-        adbPortInput = findViewById(R.id.wearInstallerDirectAdbPortInput)
-        pairButton = findViewById(R.id.wearInstallerDirectPairButton)
-        installDirectButton = findViewById(R.id.wearInstallerDirectInstallButton)
-        ocrButton = findViewById(R.id.wearInstallerDirectOcrButton)
-        directProgress = findViewById(R.id.wearInstallerDirectProgress)
-        directStatus = findViewById(R.id.wearInstallerDirectStatus)
-
-        pairButton.setOnClickListener { runPairWireless() }
-        installDirectButton.setOnClickListener { runDirectInstall() }
-        ocrButton.setOnClickListener { showWearOcrSourceDialog() }
-
-        if (embeddedRepo.embeddedApkAvailable()) {
-            embeddedInfo.visibility = View.GONE
-            installDirectButton.isEnabled = true
-            installDirectButton.alpha = 1f
-        } else {
-            embeddedInfo.text = getString(R.string.wear_install_apk_missing)
-            embeddedInfo.visibility = View.VISIBLE
-            installDirectButton.isEnabled = false
-            installDirectButton.alpha = 0.5f
+        enableEdgeToEdge()
+        setContent {
+            GlucoseForWatchTheme {
+                WearInstallerScreen(
+                    state = uiState.copy(scrollToDirectSectionToken = scrollToDirectToken),
+                    onIpChange = { uiState = uiState.copy(ip = it) },
+                    onPairPortChange = { uiState = uiState.copy(pairPort = it) },
+                    onPairCodeChange = { uiState = uiState.copy(pairCode = it) },
+                    onAdbPortChange = { uiState = uiState.copy(adbPort = it) },
+                    onOcrClick = ::showWearOcrSourceDialog,
+                    onPairClick = ::runPairWireless,
+                    onInstallClick = ::runDirectInstall,
+                    onBack = { finish() },
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    colors =
+                                        listOf(
+                                            colorResource(R.color.gfw_canvas_start),
+                                            colorResource(R.color.gfw_canvas_end),
+                                        ),
+                                ),
+                            ),
+                )
+            }
         }
     }
 
     private fun runPairWireless() {
-        val host = ipInput.text?.toString()?.trim().orEmpty()
-        val pairPort = pairPortInput.text?.toString()?.trim()?.toIntOrNull()
-        val code = pairCodeInput.text?.toString()?.trim().orEmpty()
+        val host = uiState.ip.trim()
+        val pairPort = uiState.pairPort.trim().toIntOrNull()
+        val code = uiState.pairCode.trim()
         if (host.isEmpty() || pairPort == null || code.length != 6) {
             showDirectStatus(getString(R.string.wear_install_direct_err_pair_fields), error = true)
             return
@@ -155,8 +135,8 @@ class WearInstallerActivity : AppCompatActivity() {
     }
 
     private fun runDirectInstall() {
-        val host = ipInput.text?.toString()?.trim().orEmpty()
-        val adbPort = adbPortInput.text?.toString()?.trim()?.toIntOrNull()
+        val host = uiState.ip.trim()
+        val adbPort = uiState.adbPort.trim().toIntOrNull()
         if (host.isEmpty() || adbPort == null) {
             showDirectStatus(getString(R.string.wear_install_direct_err_fill), error = true)
             return
@@ -186,10 +166,11 @@ class WearInstallerActivity : AppCompatActivity() {
     }
 
     private fun setDirectBusy(busy: Boolean) {
-        pairButton.isEnabled = !busy
-        ocrButton.isEnabled = !busy
-        installDirectButton.isEnabled = !busy && embeddedRepo.embeddedApkAvailable()
-        directProgress.visibility = if (busy) View.VISIBLE else View.GONE
+        uiState =
+            uiState.copy(
+                busy = busy,
+                installEnabled = !busy && embeddedRepo.embeddedApkAvailable(),
+            )
     }
 
     private fun showWearOcrSourceDialog() {
@@ -268,72 +249,40 @@ class WearInstallerActivity : AppCompatActivity() {
         }
     }
 
-    private fun clearDirectInstallInputs() {
-        ipInput.text = null
-        pairPortInput.text = null
-        pairCodeInput.text = null
-        adbPortInput.text = null
-    }
-
-    private fun scrollDirectSectionIntoView() {
-        installerScroll.post {
-            val target = maxOf(0, directSection.top - 24)
-            installerScroll.smoothScrollTo(0, target)
-        }
-    }
-
     private fun applyOcrParsed(parsed: WearInstallOcrParsed) {
-        ipInput.post {
-            clearDirectInstallInputs()
-            var filled = false
-            parsed.ip?.let {
-                ipInput.setText(it)
-                ipInput.text?.length?.let { len -> ipInput.setSelection(len) }
-                filled = true
-            }
-            parsed.pairPort?.let {
-                val s = it.toString()
-                pairPortInput.setText(s)
-                pairPortInput.text?.length?.let { len -> pairPortInput.setSelection(len) }
-                filled = true
-            }
-            parsed.pairCode?.let {
-                pairCodeInput.setText(it)
-                pairCodeInput.text?.length?.let { len -> pairCodeInput.setSelection(len) }
-                filled = true
-            }
-            parsed.adbPort?.let {
-                val s = it.toString()
-                adbPortInput.setText(s)
-                adbPortInput.text?.length?.let { len -> adbPortInput.setSelection(len) }
-                filled = true
-            }
-            scrollDirectSectionIntoView()
-            val complete =
-                parsed.ip != null &&
-                    parsed.pairPort != null &&
-                    parsed.pairCode != null &&
-                    parsed.adbPort != null
-            when {
-                !filled -> showDirectStatus(getString(R.string.wear_install_direct_ocr_none), error = true)
-                parsed.ip == null ->
-                    showDirectStatus(getString(R.string.wear_install_direct_ocr_no_ip), error = true)
-                complete ->
-                    showDirectStatus(getString(R.string.wear_install_direct_ocr_complete), error = false)
-                else -> showDirectStatus(getString(R.string.wear_install_direct_ocr_partial), error = false)
-            }
+        uiState =
+            uiState.copy(
+                ip = parsed.ip.orEmpty(),
+                pairPort = parsed.pairPort?.toString().orEmpty(),
+                pairCode = parsed.pairCode.orEmpty(),
+                adbPort = parsed.adbPort?.toString().orEmpty(),
+            )
+        scrollToDirectToken++
+        val filled =
+            parsed.ip != null ||
+                parsed.pairPort != null ||
+                parsed.pairCode != null ||
+                parsed.adbPort != null
+        val complete =
+            parsed.ip != null &&
+                parsed.pairPort != null &&
+                parsed.pairCode != null &&
+                parsed.adbPort != null
+        when {
+            !filled -> showDirectStatus(getString(R.string.wear_install_direct_ocr_none), error = true)
+            parsed.ip == null ->
+                showDirectStatus(getString(R.string.wear_install_direct_ocr_no_ip), error = true)
+            complete ->
+                showDirectStatus(getString(R.string.wear_install_direct_ocr_complete), error = false)
+            else -> showDirectStatus(getString(R.string.wear_install_direct_ocr_partial), error = false)
         }
     }
-
 
     private fun showDirectStatus(message: String, error: Boolean) {
-        directStatus.visibility = View.VISIBLE
-        directStatus.text = message
-        directStatus.setTextColor(
-            ContextCompat.getColor(
-                this,
-                if (error) R.color.wg7_danger else R.color.wg7_accent_dark,
-            ),
-        )
+        uiState =
+            uiState.copy(
+                statusMessage = message,
+                statusIsError = error,
+            )
     }
 }
