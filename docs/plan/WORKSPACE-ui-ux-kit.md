@@ -2,9 +2,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `workspace/ui-ux-kit` |
+| **Branch** | `sandbox/ui-ux-kit` |
 | **Status** | dormant (until v0.5.0 tag) |
-| **Skill** | `widget-g7-ux-kit-scope` |
+| **Skill** | `glucose-for-watch-ui-ux-kit-scope` |
 | **Scope file** | [.cursor/workspace-scopes/ui-ux-kit.scope.md](../../.cursor/workspace-scopes/ui-ux-kit.scope.md) |
 
 ## Allowed paths
@@ -30,12 +30,12 @@ python3 toxy-ux-kit/tools/export-design-reference.py
 
 ## Android export
 
-Only on explicit request → `@widget-g7-toxy-theme-maintainer`
+Only on explicit request → `@glucose-for-watch-toxy-theme-maintainer`
 
 ## Rebase (weekly while dormant)
 
 ```bash
-git fetch origin && git rebase origin/integrate
+git fetch origin && git rebase origin/develop/integration
 ```
 
 No code commits until post-tag unless user activates sandbox.

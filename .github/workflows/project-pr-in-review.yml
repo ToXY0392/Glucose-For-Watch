@@ -1,0 +1,30 @@
+name: Project PR In Review
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+    branches:
+      - develop/integration
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  move-linked-issues:
+    name: Move linked issues to In Review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure script executable
+        run: chmod +x ./scripts/dev/project_pr_in_review.sh
+
+      - name: Update Project #1 status
+        env:
+          GH_TOKEN: ${{ secrets.PROJECTS_TOKEN }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          GFW_PROJECT_ID: PVT_kwHODxpB9c4BYyWH
+        run: bash ./scripts/dev/project_pr_in_review.sh

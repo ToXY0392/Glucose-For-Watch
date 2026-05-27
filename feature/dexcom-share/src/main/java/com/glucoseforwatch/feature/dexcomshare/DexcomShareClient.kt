@@ -1,0 +1,302 @@
+package com.glucoseforwatch.feature.dexcomshare
+
+import com.glucoseforwatch.core.model.GlucoseReading
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.math.roundToInt
+
+/** Dexcom Share account settings and server region for the REST API. */
+data class DexcomShareConfig(
+    val username: String,
+    val password: String,
+    val server: String,
+    val applicationId: String,
+) {
+    /** True when all Dexcom Share login fields and server (US/OUS) are set. */
+    fun isConfigured(): Boolean {
+        if (username.isBlank()) return false
+        if (password.isBlank()) return false
+        if (applicationId.isBlank()) return false
+        return server.uppercase() in setOf("US", "OUS")
+    }
+
+    fun baseUrl(): String {
+        return when (server.uppercase()) {
+            "OUS" -> "https://shareous1.dexcom.com"
+            else -> "https://share2.dexcom.com"
+        }
+    }
+}
+
+/** Classification of Dexcom Share failures for error policy and UI. */
+enum class DexcomShareErrorKind {
+    AUTH,
+    SESSION,
+    NETWORK,
+    NO_DATA,
+    UNKNOWN,
+}
+
+/** Typed failure from [DexcomShareClient] with a [DexcomShareErrorKind]. */
+class DexcomShareException(
+    val kind: DexcomShareErrorKind,
+    override val message: String,
+) : IllegalStateException(message)
+
+/**
+ * Fetches the latest glucose reading from Dexcom Share over HTTPS.
+ *
+ * Sessions are cached per account; readings older than two minutes are marked stale.
+ */
+class DexcomShareClient(
+    private val config: DexcomShareConfig,
+) {
+    suspend fun latest(): GlucoseReading = withContext(Dispatchers.IO) {
+        require(config.isConfigured()) { "Dexcom Share config is not valid" }
+
+        val values = readLatestValuesWithSession()
+        if (values.length() == 0) {
+            throw DexcomShareException(DexcomShareErrorKind.NO_DATA, "Aucune mesure Dexcom disponible.")
+        }
+
+        val newest = values.getJSONObject(0)
+        val previous = values.optJSONObject(1)
+
+        val value = newest.readInt("Value", "value")
+            ?: throw DexcomShareException(DexcomShareErrorKind.UNKNOWN, "Valeur glucose Dexcom manquante.")
+        val trend = newest.readTrend()
+        val timestampMs = newest.readTimestampMs() ?: System.currentTimeMillis()
+        val delta = previous?.let {
+            val prevValue = it.readInt("Value", "value")
+            if (prevValue == null) 0 else value - prevValue
+        } ?: 0
+        val stale = System.currentTimeMillis() - timestampMs > STALE_AFTER_MS
+
+        GlucoseReading(
+            valueMgDl = value,
+            trend = trend,
+            deltaMgDl = delta,
+            timestampEpochMs = timestampMs,
+            stale = stale,
+        )
+    }
+
+    private fun readLatestValuesWithSession(): JSONArray {
+        val cacheKey = config.cacheKey()
+        DexcomShareSessionCache.sessionFor(cacheKey)?.let { cachedSession ->
+            try {
+                return readLatestValues(cachedSession)
+            } catch (error: DexcomShareException) {
+                if (error.kind != DexcomShareErrorKind.SESSION) throw error
+                DexcomShareSessionCache.clear(cacheKey)
+            }
+        }
+
+        val sessionId = createSession()
+        DexcomShareSessionCache.save(cacheKey, sessionId)
+        return try {
+            readLatestValues(sessionId)
+        } catch (error: DexcomShareException) {
+            if (error.kind == DexcomShareErrorKind.SESSION) {
+                DexcomShareSessionCache.clear(cacheKey)
+            }
+            throw error
+        }
+    }
+
+    private fun createSession(): String {
+        val accountId = authenticate()
+        return login(accountId)
+    }
+
+    private fun authenticate(): String {
+        val endpoint = "${config.baseUrl()}/ShareWebServices/Services/General/AuthenticatePublisherAccount"
+        val body = JSONObject()
+            .put("accountName", config.username)
+            .put("password", config.password)
+            .put("applicationId", config.applicationId)
+            .toString()
+
+        val raw = postJson(endpoint, body)
+        return raw.trim().trim('"').takeIf { it.isNotBlank() }
+            ?: throw DexcomShareException(DexcomShareErrorKind.AUTH, "Connexion Dexcom refusee.")
+    }
+
+    private fun login(accountId: String): String {
+        val endpoint = "${config.baseUrl()}/ShareWebServices/Services/General/LoginPublisherAccountById"
+        val body = JSONObject()
+            .put("accountId", accountId)
+            .put("password", config.password)
+            .put("applicationId", config.applicationId)
+            .toString()
+
+        val raw = postJson(endpoint, body)
+        return raw.trim().trim('"').takeIf { it.isNotBlank() }
+            ?: throw DexcomShareException(DexcomShareErrorKind.AUTH, "Connexion Dexcom refusee.")
+    }
+
+    private fun readLatestValues(sessionId: String): JSONArray {
+        val endpoint =
+            "${config.baseUrl()}/ShareWebServices/Services/Publisher/ReadPublisherLatestGlucoseValues"
+        val body = JSONObject()
+            .put("sessionId", sessionId)
+            .put("minutes", 1440)
+            .put("maxCount", 2)
+            .toString()
+
+        return JSONArray(postJson(endpoint, body, "Dexcom Share read"))
+    }
+
+    private fun postJson(url: String, payload: String, label: String = "Dexcom Share auth"): String {
+        val connection = (URL(url).openConnection() as HttpURLConnection).apply {
+            requestMethod = "POST"
+            connectTimeout = 10_000
+            readTimeout = 10_000
+            doOutput = true
+            setRequestProperty("Accept", "application/json")
+            setRequestProperty("Content-Type", "application/json")
+        }
+
+        try {
+            connection.outputStream.use { out ->
+                out.write(payload.toByteArray(Charsets.UTF_8))
+            }
+            val code = connection.responseCode
+            val body = readBody(if (code in 200..299) connection.inputStream else connection.errorStream)
+            if (code !in 200..299) {
+                throw DexcomShareHttpClassifier.classifyFailure(code, body, label)
+            }
+            return body
+        } catch (_: IOException) {
+            throw DexcomShareException(
+                DexcomShareErrorKind.NETWORK,
+                "Impossible de contacter Dexcom pour le moment.",
+            )
+        } finally {
+            connection.disconnect()
+        }
+    }
+
+    private fun readBody(stream: InputStream?): String {
+        if (stream == null) return ""
+        return BufferedReader(InputStreamReader(stream)).use { reader ->
+            buildString {
+                var line = reader.readLine()
+                while (line != null) {
+                    append(line)
+                    line = reader.readLine()
+                }
+            }
+        }
+    }
+
+    companion object {
+        private const val STALE_AFTER_MS = 2 * 60 * 1000L
+    }
+}
+
+private object DexcomShareSessionCache {
+    private val sessions = mutableMapOf<String, CachedSession>()
+
+    @Synchronized
+    fun sessionFor(cacheKey: String): String? {
+        val session = sessions[cacheKey] ?: return null
+        val ageMs = System.currentTimeMillis() - session.createdAtEpochMs
+        return session.sessionId.takeIf { ageMs < SESSION_TTL_MS }
+    }
+
+    @Synchronized
+    fun save(cacheKey: String, sessionId: String) {
+        sessions[cacheKey] = CachedSession(sessionId, System.currentTimeMillis())
+    }
+
+    @Synchronized
+    fun clear(cacheKey: String) {
+        sessions.remove(cacheKey)
+    }
+
+    private data class CachedSession(
+        val sessionId: String,
+        val createdAtEpochMs: Long,
+    )
+
+    private const val SESSION_TTL_MS = 30 * 60 * 1000L
+}
+
+private fun DexcomShareConfig.cacheKey(): String =
+    "${server.trim().uppercase()}|${username.trim().lowercase()}|${applicationId.trim()}"
+
+private fun JSONObject.readInt(vararg keys: String): Int? {
+    for (key in keys) {
+        if (!has(key) || isNull(key)) continue
+        val value = get(key)
+        when (value) {
+            is Number -> return value.toInt()
+            is String -> value.toDoubleOrNull()?.roundToInt()?.let { return it }
+        }
+    }
+    return null
+}
+
+private fun JSONObject.readTimestampMs(): Long? {
+    val wt = optString("WT", "").trim()
+    if (wt.isNotEmpty()) {
+        val digits = Regex("-?\\d+").find(wt)?.value?.toLongOrNull()
+        if (digits != null) return if (digits < 10_000_000_000L) digits * 1000L else digits
+    }
+
+    val candidates = arrayOf("Timestamp", "timestamp", "DT", "ST")
+    for (key in candidates) {
+        if (!has(key) || isNull(key)) continue
+        val raw = get(key)
+        val value = when (raw) {
+            is Number -> raw.toLong()
+            is String -> raw.toLongOrNull()
+            else -> null
+        } ?: continue
+        return if (value < 10_000_000_000L) value * 1000L else value
+    }
+    return null
+}
+
+private fun JSONObject.readTrend(): String {
+    val raw = when {
+        has("Trend") && !isNull("Trend") -> get("Trend")
+        has("TrendDirection") && !isNull("TrendDirection") -> get("TrendDirection")
+        has("trend") && !isNull("trend") -> get("trend")
+        else -> "Flat"
+    }
+
+    val token = when (raw) {
+        is Number -> when (raw.toInt()) {
+            1 -> "DoubleUp"
+            2 -> "SingleUp"
+            3 -> "FortyFiveUp"
+            4 -> "Flat"
+            5 -> "FortyFiveDown"
+            6 -> "SingleDown"
+            7 -> "DoubleDown"
+            else -> "Flat"
+        }
+        else -> raw.toString()
+    }.uppercase()
+
+    return when (token) {
+        "DOUBLEUP", "DOUBLE_UP" -> "UP"
+        "SINGLEUP", "SINGLE_UP" -> "UP"
+        "FORTYFIVEUP", "FORTY_FIVE_UP" -> "UP_RIGHT"
+        "FLAT", "NONE" -> "FLAT"
+        "FORTYFIVEDOWN", "FORTY_FIVE_DOWN" -> "DOWN_RIGHT"
+        "SINGLEDOWN", "SINGLE_DOWN" -> "DOWN"
+        "DOUBLEDOWN", "DOUBLE_DOWN" -> "DOWN"
+        else -> "FLAT"
+    }
+}

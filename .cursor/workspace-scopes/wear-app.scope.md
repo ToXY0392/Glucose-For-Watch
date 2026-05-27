@@ -1,10 +1,10 @@
-# Scope — workspace/wear-app
+# Scope — sandbox/wear-app
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `workspace/wear-app` |
+| **Branch** | `sandbox/wear-app` |
 | **Status** | dormant (trigger-based) |
-| **Skill** | `widget-g7-wear-app-scope` |
+| **Skill** | `glucose-for-watch-wear-app-scope` |
 
 ## Allowed paths
 

@@ -2,9 +2,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `workspace/mobile-app` |
+| **Branch** | `sandbox/mobile-app` |
 | **Status** | dormant (until v0.5.0 tag) |
-| **Skill** | `widget-g7-mobile-app-scope` |
+| **Skill** | `glucose-for-watch-mobile-app-scope` |
 | **Scope file** | [.cursor/workspace-scopes/mobile-app.scope.md](../../.cursor/workspace-scopes/mobile-app.scope.md) |
 
 ## Allowed paths
@@ -39,5 +39,5 @@ If B.4 touches `feature/sync/**` → `feat/bloc-b-watch-sync-verifier` or `works
 ## Rebase (weekly while dormant)
 
 ```bash
-git fetch origin && git rebase origin/integrate
+git fetch origin && git rebase origin/develop/integration
 ```

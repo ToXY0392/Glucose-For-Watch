@@ -1,0 +1,18 @@
+---
+description: On sandbox/* branches, invoke glucose-for-watch-sandbox-guard before editing files; respect sandbox path scopes.
+alwaysApply: true
+---
+
+# Workspace sandbox scopes
+
+When `git branch --show-current` matches `sandbox/*`:
+
+1. Read [.cursor/workspace-scopes/](../workspace-scopes/) for the active branch
+2. Follow the matching scope skill (`glucose-for-watch-*-scope`)
+3. **Refuse** edits outside allowed paths — route fixes to the owning sandbox or `feat/bloc-*` on `develop/integration`
+4. Before commit: `glucose-for-watch-repo-hygiene` (no secrets, no `local.properties`, no real glucose in docs/qa)
+5. PR to `develop/integration`: CI green + `glucose-for-watch-pr-gatekeeper`
+
+Post v0.6.0: **`sandbox/mobile-app`** and **`sandbox/documentation`** primary; rebase sandboxes weekly on `develop/integration`.
+
+See [docs/plan/WORKSPACE.md](../../docs/plan/WORKSPACE.md).

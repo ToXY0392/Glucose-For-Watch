@@ -5,7 +5,7 @@ AGP color guard — fail CI if glucose UI uses ToXY mint instead of medical colo
 Usage:
   python toxy-ux-kit/tools/lint-agp-colors.py
 
-See .cursor/skills/widget-g7-agp-color-guard/SKILL.md
+See .cursor/skills/glucose-for-watch-agp-color-guard/SKILL.md
 """
 
 from __future__ import annotations
@@ -17,21 +17,21 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 GLUCOSE_KT_GLOBS = [
-    "mobile/src/main/java/com/widgetg7/mobile/ui/HomeStateMapper.kt",
-    "mobile/src/main/java/com/widgetg7/mobile/ui/compose/HomeScreen.kt",
-    "wear/src/main/java/com/widgetg7/wear/tile/ToxyTileTheme.kt",
-    "wear/src/main/java/com/widgetg7/wear/tile/GlucoseSimpleTileService.kt",
-    "wear/src/main/java/com/widgetg7/wear/complication/GlucoseComplicationService.kt",
-    "wear/src/main/java/com/widgetg7/wear/display/WearGlucoseSurfaceModel.kt",
-    "wear/src/main/java/com/widgetg7/wear/data/GlucoseCache.kt",
-    "wear/src/main/java/com/widgetg7/wear/ui/WearStatusScreen.kt",
-    "wear/src/main/java/com/widgetg7/wear/ui/WearStatusUiModel.kt",
+    "mobile/src/main/java/com/glucoseforwatch/mobile/ui/HomeStateMapper.kt",
+    "mobile/src/main/java/com/glucoseforwatch/mobile/ui/compose/HomeScreen.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/tile/ToxyTileTheme.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseSimpleTileService.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/complication/GlucoseComplicationService.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/display/WearGlucoseSurfaceModel.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/data/GlucoseCache.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/ui/WearStatusScreen.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/ui/WearStatusUiModel.kt",
 ]
 
 REQUIRED_RESOLVER = {
-    ROOT / "mobile/src/main/java/com/widgetg7/mobile/ui/HomeStateMapper.kt": "GlucoseRangeResolver",
-    ROOT / "wear/src/main/java/com/widgetg7/wear/tile/ToxyTileTheme.kt": "GlucoseRangeResolver",
-    ROOT / "wear/src/main/java/com/widgetg7/wear/data/GlucoseCache.kt": "GlucoseRangeResolver",
+    ROOT / "mobile/src/main/java/com/glucoseforwatch/mobile/ui/HomeStateMapper.kt": "GlucoseRangeResolver",
+    ROOT / "wear/src/main/java/com/glucoseforwatch/wear/tile/ToxyTileTheme.kt": "GlucoseRangeResolver",
+    ROOT / "wear/src/main/java/com/glucoseforwatch/wear/data/GlucoseCache.kt": "GlucoseRangeResolver",
 }
 
 HERO_ACCENT_PATTERN = re.compile(

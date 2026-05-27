@@ -9,7 +9,7 @@
 # Usage (PowerShell EXECUTE EN ADMINISTRATEUR) :
 #   powershell -ExecutionPolicy Bypass -File .\fix-windows-studio-defender-admin.ps1
 # Avec ton chemin projet :
-#   powershell ... -File .\fix-windows-studio-defender-admin.ps1 '-ProjectPath' 'C:\chemin\vers\Widget G7'
+#   powershell ... -File .\fix-windows-studio-defender-admin.ps1 '-ProjectPath' 'C:\chemin\vers\Glucose-For-Watch'
 
 
 param(
@@ -98,8 +98,8 @@ Write-Host "--- Android Studio / Defender (admin) ---"
 
 if (-not $ProjectPath) {
     Write-Host ""
-    Write-Host "Collez le chemin ABSOLU vers le dossier Widget G7 (chaîne sous guillemets si espaces)." -ForegroundColor Yellow
-    Write-Host 'Exemple : C:\Users\Utilisateur\Desktop\THP\Projects\Widget G7' -ForegroundColor Yellow
+    Write-Host "Collez le chemin ABSOLU vers le dossier Glucose-For-Watch (chaîne sous guillemets si espaces)." -ForegroundColor Yellow
+    Write-Host 'Exemple : C:\Users\Utilisateur\Desktop\THP\Projects\Glucose-For-Watch' -ForegroundColor Yellow
     $ProjectPath = Read-Host "ProjectPath"
 }
 

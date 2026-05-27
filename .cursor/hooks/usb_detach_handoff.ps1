@@ -51,8 +51,8 @@ $reportPath = Join-Path $reportDir "usb-detach-check.md"
 New-Item -ItemType Directory -Path $stateDir -Force | Out-Null
 New-Item -ItemType Directory -Path $reportDir -Force | Out-Null
 
-$phoneSerial = $env:WIDGETG7_PHONE_SERIAL
-$watchSerial = $env:WIDGETG7_WATCH_SERIAL
+$phoneSerial = $env:GFW_PHONE_SERIAL
+$watchSerial = $env:GFW_WATCH_SERIAL
 $now = Get-Date
 $nowUtc = $now.ToUniversalTime().ToString("o")
 
@@ -61,7 +61,7 @@ if ([string]::IsNullOrWhiteSpace($phoneSerial) -or [string]::IsNullOrWhiteSpace(
         "# USB detach check"
         ""
         "- Status: skipped (serials not configured)"
-        "- Required: WIDGETG7_PHONE_SERIAL and WIDGETG7_WATCH_SERIAL"
+        "- Required: GFW_PHONE_SERIAL and GFW_WATCH_SERIAL"
     )
     exit 0
 }

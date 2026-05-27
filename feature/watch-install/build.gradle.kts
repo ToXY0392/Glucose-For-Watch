@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.widgetg7.feature.watchinstall"
+    namespace = "com.glucoseforwatch.feature.watchinstall"
     compileSdk = 36
 
     defaultConfig {

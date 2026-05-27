@@ -1,6 +1,7 @@
 ## Summary
 
 <!-- What does this PR change and why? Link issue: Closes #N or Refs #N -->
+<!-- Tip: invoke @glucose-for-watch-pr-author in Cursor for bloc/gate PRs before opening -->
 
 ## Plan metadata
 
@@ -9,7 +10,7 @@
 | **Bloc** | S / X / A / M / B / C / D / F0–F5 |
 | **Target gate** | G-X / G-A / … / G-M7 / G-M8 |
 | **Touches sync?** | yes / no |
-| **Branch** | `type/bloc-id-slug` → `integrate` |
+| **Branch** | `type/bloc-id-slug` → `develop/integration` |
 
 > Full checklist: [docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)
 
@@ -30,10 +31,10 @@
 
 ## Hardware (if sync / mobile / wear touched)
 
-- [ ] `.\gradlew.bat installWidgetG7Debug` — phone + watch OK
+- [ ] `.\gradlew.bat installGlucoseForWatchDebug` — phone + watch OK
 - [ ] `.\scripts\qa\hardware-smoke.ps1` — no critical FAIL
 - [ ] Push seq / Ack seq: _____ / _____
-- [ ] 0 new `FATAL` logcat `com.widgetg7.mobile`
+- [ ] 0 new `FATAL` logcat `com.glucoseforwatch.mobile`
 
 ## AGP / ToXY (if UI touched)
 

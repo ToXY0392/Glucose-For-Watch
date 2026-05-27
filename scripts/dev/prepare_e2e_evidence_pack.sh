@@ -12,8 +12,8 @@ NOTES_DIR="$OUT_DIR/notes"
 
 mkdir -p "$SCREENSHOTS_DIR" "$LOGS_DIR" "$NOTES_DIR"
 
-PHONE_SERIAL="${WIDGETG7_PHONE_SERIAL:-}"
-WATCH_SERIAL="${WIDGETG7_WATCH_SERIAL:-}"
+PHONE_SERIAL="${GFW_PHONE_SERIAL:-}"
+WATCH_SERIAL="${GFW_WATCH_SERIAL:-}"
 
 cat > "$OUT_DIR/README.md" <<EOF
 # E2E Evidence Pack - $TIMESTAMP
@@ -80,5 +80,5 @@ Owner:
 Rationale:
 EOF
 
-echo "[widget-g7] E2E evidence pack ready: $OUT_DIR"
+echo "[gfw] E2E evidence pack ready: $OUT_DIR"
 echo "$OUT_DIR"

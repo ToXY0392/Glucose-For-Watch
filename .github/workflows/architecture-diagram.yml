@@ -1,0 +1,35 @@
+name: Architecture diagram export
+
+on:
+  pull_request:
+    paths:
+      - "docs/dev/architecture.md"
+      - "docs/assets/glucose-for-watch-architecture.svg"
+      - "scripts/assets/export-architecture-diagram.sh"
+  push:
+    branches:
+      - develop/integration
+    paths:
+      - "docs/dev/architecture.md"
+      - "docs/assets/glucose-for-watch-architecture.svg"
+
+jobs:
+  verify-diagram:
+    name: Verify architecture PNG matches SVG
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node for resvg CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Regenerate PNG and check drift
+        run: |
+          chmod +x ./scripts/assets/export-architecture-diagram.sh
+          bash ./scripts/assets/export-architecture-diagram.sh
+          git diff --exit-code docs/assets/glucose-for-watch-architecture.png

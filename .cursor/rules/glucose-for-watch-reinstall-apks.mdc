@@ -1,0 +1,18 @@
+---
+description: Rebuild and reinstall mobile + wear debug APKs after code changes
+globs: mobile/**/*,wear/**/*
+alwaysApply: false
+---
+
+# Glucose For Watch deployment after changes
+
+When you **modify** code or resources under `mobile/` or `wear/` (files covered by the globs above), at the end of a change that compiles:
+
+1. Verify compilation passes (`assembleDebug` or equivalent).
+2. Run local deployment:
+   - **Windows**: `.\gradlew.bat installGlucoseForWatchDebug`
+   - **Unix**: `./gradlew installGlucoseForWatchDebug`
+
+This task chains `:mobile:assembleDebug`, `:wear:assembleDebug`, then `adb install` on devices defined in `local.properties` (`gfw.adb.phone.serial` and `gfw.adb.watch.serial`). If IDs change, the user updates them (see `adb devices -l`).
+
+Do not run this task repeatedly without reason; once after a batch of changes is enough.

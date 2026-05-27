@@ -3,10 +3,11 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+    id("com.google.devtools.ksp")
 }
 
 android {
-    namespace = "com.widgetg7.mobile"
+    namespace = "com.glucoseforwatch.mobile"
     compileSdk = 36
 
     defaultConfig {
@@ -15,7 +16,7 @@ android {
             ((project.findProperty("dexcomShareApplicationId") as? String)
                 ?: "d89443d2-327c-4a6f-89e5-496bbb0317db").replace("\"", "\\\"")
 
-        applicationId = "com.widgetg7.mobile"
+        applicationId = "com.glucoseforwatch.mobile"
         minSdk = 28
         targetSdk = 36
         versionCode = 25
@@ -63,12 +64,12 @@ val embeddedWearAssetOutputDir =
     }
 
 val prepareWearApkForDebugAssets by tasks.registering(Copy::class) {
-    description = "Copie wear-debug.apk → assets packagés (clé wear/widget-g7-wear.apk)."
-    group = "widget g7"
+    description = "Copie wear-debug.apk → assets packagés (clé wear/glucose-for-watch-wear.apk)."
+    group = "glucose for watch"
     dependsOn(":wear:assembleDebug")
     from(rootProject.layout.projectDirectory.file("wear/build/outputs/apk/debug/wear-debug.apk"))
     into(embeddedWearAssetOutputDir)
-    rename { "widget-g7-wear.apk" }
+    rename { "glucose-for-watch-wear.apk" }
 }
 
 // AGP 9+ : assets générés — SourceSet API interdit les Provider ; Variant API relie la tâche au variant debug.
@@ -112,6 +113,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
     implementation("androidx.compose.ui:ui-tooling-preview")
     debugImplementation("androidx.compose.ui:ui-tooling")
+
+    val showkaseVersion = "1.0.5"
+    debugImplementation("com.airbnb.android:showkase:$showkaseVersion")
+    implementation("com.airbnb.android:showkase-annotation:$showkaseVersion")
+    kspDebug("com.airbnb.android:showkase-processor:$showkaseVersion")
+
+    debugImplementation(project(":core:testing"))
 
     testImplementation(project(":core:testing"))
     testImplementation("junit:junit:4.13.2")

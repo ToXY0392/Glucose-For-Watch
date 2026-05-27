@@ -1,6 +1,6 @@
 # ToXY UX Kit
 
-**Standalone design system** for Widget G7 — independent from the Android app (`mobile/`, `wear/`).
+**Standalone design system** for Glucose For Watch — independent from the Android app (`mobile/`, `wear/`).
 
 | Layer | Namespace | Purpose |
 |-------|-----------|---------|

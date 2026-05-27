@@ -1,4 +1,4 @@
-# Agent guide — Glucose For Watch (Widget G7)
+# Agent guide — Glucose For Watch
 
 Entry point for Cursor agents working on this repository.
 
@@ -8,7 +8,7 @@ Entry point for Cursor agents working on this repository.
 |-----|------|
 | Hub | [docs/index.md](docs/index.md) |
 | Doc backlog | [docs/plan/DOC-BACKLOG.md](docs/plan/DOC-BACKLOG.md) |
-| Docs branch | [docs/plan/DOCS-BRANCH.md](docs/plan/DOCS-BRANCH.md) · [`docs`](https://github.com/ToXY0392/Glucose-For-Watch/tree/docs) on GitHub |
+| Branch model | [docs/plan/WORKSPACE.md](docs/plan/WORKSPACE.md) · integration: `develop/integration` |
 | GitHub setup | [docs/plan/GITHUB-SETUP.md](docs/plan/GITHUB-SETUP.md) |
 | PR checklist | [docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md) |
 | Progress / gates | [docs/plan/PROGRESS.md](docs/plan/PROGRESS.md) |
@@ -21,47 +21,53 @@ Entry point for Cursor agents working on this repository.
 |------|-------|
 | GitHub | `ToXY0392/Glucose-For-Watch` |
 | Local folder | `Glucose-For-Watch` |
-| Integration branch | `integrate` (formerly `rebuild`) |
+| Integration branch | `develop/integration` (formerly `rebuild`) |
 | Release branch | `main` |
 
-**Branch naming:** `{feat|fix|docs|test|chore|qa}/bloc-{id}-{slug}` (short-lived) · `workspace/*` (long-lived sandboxes)
+**Branch naming:** `{feat|fix|docs|test|chore|qa}/bloc-{id}-{slug}` (short-lived) · `sandbox/*` (long-lived sandboxes)
 
 ## Workspace sandboxes
 
 | Branch | Role | Skill |
 |--------|------|-------|
-| `workspace/qa-hardware` | QA evidence, soak, scripts/qa | `widget-g7-qa-hardware-scope` |
-| `workspace/ui-ux-kit` | ToXY kit, tokens, design-reference | `widget-g7-ux-kit-scope` |
-| `workspace/mobile-app` | Phone app (`mobile/`) | `widget-g7-mobile-app-scope` |
-| `workspace/wear-app` | Wear tile, complication, UI | `widget-g7-wear-app-scope` |
+| `sandbox/qa-hardware` | QA evidence, soak, scripts/qa | `glucose-for-watch-qa-hardware-scope` |
+| `sandbox/ui-ux-kit` | ToXY kit, tokens, design-reference | `glucose-for-watch-ui-ux-kit-scope` |
+| `sandbox/mobile-app` | Phone app (`mobile/`) | `glucose-for-watch-mobile-app-scope` |
+| `sandbox/wear-app` | Wear tile, complication, UI | `glucose-for-watch-wear-app-scope` |
+| `sandbox/sync-platform` | Sync engine, datalayer contract, core model | `glucose-for-watch-sync-platform-scope` |
+| `sandbox/documentation` | Plan, guides, skills, rules | `glucose-for-watch-documentation-scope` |
 
-Hub: [docs/plan/WORKSPACE.md](docs/plan/WORKSPACE.md) · Router: `widget-g7-workspace-guard`
+Hub: [docs/plan/WORKSPACE.md](docs/plan/WORKSPACE.md) · Router: `glucose-for-watch-sandbox-guard`
 
-Post v0.5.0 tag: **`workspace/mobile-app`** active (Bloc F); QA sandboxes on-demand (rebase weekly).
+Post v0.6.0: primary sandboxes **`sandbox/mobile-app`**, **`sandbox/documentation`**; others on-demand (rebase weekly on `develop/integration`).
 
 ## Rules (always apply)
 
-- [.cursor/rules/widget-g7-dual-ide-wsl.mdc](.cursor/rules/widget-g7-dual-ide-wsl.mdc)
-- [.cursor/rules/widget-g7-reinstall-apks.mdc](.cursor/rules/widget-g7-reinstall-apks.mdc)
-- [.cursor/rules/widget-g7-workspace-scopes.mdc](.cursor/rules/widget-g7-workspace-scopes.mdc)
+- [.cursor/rules/glucose-for-watch-dual-ide-wsl.mdc](.cursor/rules/glucose-for-watch-dual-ide-wsl.mdc)
+- [.cursor/rules/glucose-for-watch-reinstall-apks.mdc](.cursor/rules/glucose-for-watch-reinstall-apks.mdc)
+- [.cursor/rules/glucose-for-watch-sandbox-scopes.mdc](.cursor/rules/glucose-for-watch-sandbox-scopes.mdc)
 
 ## GitHub workflow skills
 
 | Task | Skill |
 |------|-------|
-| Draft complete documented PR | `widget-g7-pr-author` |
-| Before merge PR | `widget-g7-pr-gatekeeper` |
-| Git / secrets hygiene | `widget-g7-repo-hygiene` |
-| Sync DOC-BACKLOG + QA evidence | `widget-g7-doc-backlog-sync` |
-| Project + PROGRESS sync | `widget-g7-github-project-sync` |
-| Dependabot PRs | `widget-g7-dependabot-triage` + `widget-g7-dependency-advisor` |
-| Sync debugging | `widget-g7-sync-health-reviewer` |
-| Release notes | `widget-g7-release-notes-curator` |
-| Workspace scope routing | `widget-g7-workspace-guard` |
-| UX kit sandbox | `widget-g7-ux-kit-scope` |
-| Mobile sandbox | `widget-g7-mobile-app-scope` |
-| Wear sandbox | `widget-g7-wear-app-scope` |
-| QA hardware sandbox | `widget-g7-qa-hardware-scope` |
+| Draft complete documented PR | `glucose-for-watch-pr-author` |
+| Before merge PR | `glucose-for-watch-pr-gatekeeper` |
+| Git / secrets hygiene | `glucose-for-watch-repo-hygiene` |
+| Sync DOC-BACKLOG + QA evidence | `glucose-for-watch-doc-backlog-sync` |
+| Project + PROGRESS sync | `glucose-for-watch-github-project-sync` |
+| Dependabot PRs | `glucose-for-watch-dependabot-triage` + `glucose-for-watch-dependency-advisor` |
+| Sync debugging | `glucose-for-watch-sync-health-reviewer` |
+| Release notes | `glucose-for-watch-release-notes-curator` |
+| Workspace scope routing | `glucose-for-watch-sandbox-guard` |
+| UX kit sandbox | `glucose-for-watch-ui-ux-kit-scope` |
+| Mobile sandbox | `glucose-for-watch-mobile-app-scope` |
+| Wear sandbox | `glucose-for-watch-wear-app-scope` |
+| QA hardware sandbox | `glucose-for-watch-qa-hardware-scope` |
+| Sync platform sandbox | `glucose-for-watch-sync-platform-scope` |
+| Documentation sandbox | `glucose-for-watch-documentation-scope` |
+
+Agent skill prefix: **`glucose-for-watch-*`** · Android package **`com.glucoseforwatch.*`** · Gradle **`GlucoseForWatch`** · install **`installGlucoseForWatchDebug`**
 
 ## Cursor built-in skills
 
@@ -72,11 +78,11 @@ Post v0.5.0 tag: **`workspace/mobile-app`** active (Bloc F); QA sandboxes on-dem
 
 ## Hard constraints (active soak)
 
-- Do **not** run `installWidgetG7Debug`, `adb install`, or `adb uninstall` unless explicitly requested.
+- Do **not** run `installGlucoseForWatchDebug`, `adb install`, or `adb uninstall` unless explicitly requested.
 - During C.7 soak: `stability-gate.ps1 -CheckLogcatOnly` for logcat-only checks.
 
 ## Internal IDs (do not rename casually)
 
-- Gradle root: `WidgetG7`
-- Package: `com.widgetg7.*`
-- Install task: `installWidgetG7Debug`
+- Gradle root: `GlucoseForWatch`
+- Package: `com.glucoseforwatch.*`
+- Install task: `installGlucoseForWatchDebug`

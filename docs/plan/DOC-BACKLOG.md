@@ -2,7 +2,7 @@
 
 > **Living checklist** for docs, QA evidence, and doc-adjacent automation.  
 > **Not** the product backlog — see [PROGRESS.md](PROGRESS.md) and [ACTION-PLAN.md](ACTION-PLAN.md).  
-> **Maintained by:** `@widget-g7-doc-backlog-sync` · **Last updated:** 2026-05-26
+> **Maintained by:** `@glucose-for-watch-doc-backlog-sync` · **Last updated:** 2026-05-26
 
 ---
 
@@ -10,10 +10,10 @@
 
 | When | Action |
 |------|--------|
-| **Monday** | Run `@widget-g7-doc-backlog-sync` (or `.\scripts\dev\sync_doc_backlog.ps1 -Apply`) |
+| **Monday** | Run `@glucose-for-watch-doc-backlog-sync` (or `.\scripts\dev\sync_doc_backlog.ps1 -Apply`) |
 | **Before PR merge** | If behavior changed → update relevant doc · check [PR-CHECKLIST](PR-CHECKLIST.md) |
 | **After hardware QA** | Add evidence under `docs/qa/` · re-run doc backlog sync |
-| **Monthly** | Pair with `@widget-g7-doc-drift-checker` |
+| **Monthly** | Pair with `@glucose-for-watch-doc-drift-checker` |
 
 **Related:** [AUTOMATION-BACKLOG.md](AUTOMATION-BACKLOG.md) (AUTO-* CI tasks) · [docs/index.md](../index.md) (hub)
 
@@ -21,12 +21,12 @@
 
 ## Recently completed
 
-- [x] **English docs** — plan, QA templates, GitHub templates, Cursor rules/skills, UX kit specs (`integrate` · `dab9db2`)
+- [x] **English docs** — plan, QA templates, GitHub templates, Cursor rules/skills, UX kit specs (`develop/integration` · `dab9db2`)
 - [x] **Docs hub** — [docs/index.md](../index.md) with plan + GitHub links
 - [x] **PR checklist** — [PR-CHECKLIST.md](PR-CHECKLIST.md) + [.github/pull_request_template.md](../../.github/pull_request_template.md)
 - [x] **Stability docs** — [STABILITY-GATES.md](STABILITY-GATES.md) · [stability-signoff-template.md](../qa/stability-signoff-template.md)
 - [x] **GitHub setup guides** — [GITHUB-SETUP.md](GITHUB-SETUP.md) · [GITHUB-PROJECT-UI-GUIDE.md](GITHUB-PROJECT-UI-GUIDE.md)
-- [x] **pr-author skill** — `.cursor/skills/widget-g7-pr-author/` · tracked as AUTO-9 ([#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21))
+- [x] **pr-author skill** — `.cursor/skills/glucose-for-watch-pr-author/` · tracked as AUTO-9 ([#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21))
 
 ---
 
@@ -36,7 +36,7 @@ Blocks **G-C** / **G-M7** tag until done.
 
 | ID | Task | Owner | Status | Link / notes |
 |----|------|-------|--------|--------------|
-| DOC-P0-1 | **C.7 soak sign-off** — fill [stability-signoff-template.md](../qa/stability-signoff-template.md) after 8 h run | QA | ✅ | [sign-off](../qa/2026-05-26-stability-signoff.md) · J0 `workspace/qa-hardware` |
+| DOC-P0-1 | **C.7 soak sign-off** — fill [stability-signoff-template.md](../qa/stability-signoff-template.md) after 8 h run | QA | ✅ | [sign-off](../qa/2026-05-26-stability-signoff.md) · J0 `sandbox/qa-hardware` |
 | DOC-P0-2 | **Close incident doc** — update [2026-05-25-app-crash.md](../qa/incidents/2026-05-25-app-crash.md) status → closed after G-X + C.7 | Dev | ✅ | J0 2026-05-26 |
 | DOC-P0-3 | **PROGRESS scoreboard** — refresh gates G-X/G-C/K2/K6 after C.7 | Dev | ✅ | G-X/K2/K6 updated · G-C partial (C.7 ✅) |
 | DOC-P0-4 | **QA matrix evidence** | QA | ✅ | [bloc-c-evidence.md](../qa/bloc-c-evidence.md) |
@@ -49,13 +49,13 @@ Should ship with or shortly after **v0.5.0**; not all block the tag.
 
 | ID | Task | Effort | Status | Link / notes |
 |----|------|--------|--------|--------------|
-| DOC-P1-1 | **AUTO-9** — reference `pr-author` + `pr-gatekeeper` in [CONTRIBUTING.md](../../CONTRIBUTING.md) | 30m | ☐ | [#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21) |
-| DOC-P1-2 | **AUTO-9** — PR template hint: invoke `@widget-g7-pr-author` before opening | 15m | ☐ | `.github/pull_request_template.md` |
-| DOC-P1-3 | **M.4** — refresh `toxy-ux-kit/design-reference/` PNGs + regenerate gallery | 2h | ☐ | `py -3 toxy-ux-kit/tools/export-design-reference.py` |
-| D.6 | document `capture-crash-log.ps1` in [dev/setup.md](../dev/setup.md) (or finish script + doc together) | 1h | ✅ | J1 workspace/qa-hardware |
-| DOC-P1-5 | **Architecture diagram** — verify [widget-g7-architecture.svg](../assets/widget-g7-architecture.svg) matches code · re-export PNG | 1h | AUTO-8 |
+| DOC-P1-1 | **AUTO-9** — reference `pr-author` + `pr-gatekeeper` in [CONTRIBUTING.md](../../CONTRIBUTING.md) | 30m | ✅ | [#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21) |
+| DOC-P1-2 | **AUTO-9** — PR template hint: invoke `@glucose-for-watch-pr-author` before opening | 15m | ✅ | `.github/pull_request_template.md` |
+| DOC-P1-3 | **M.4** — refresh `toxy-ux-kit/design-reference/` PNGs + regenerate gallery | 2h | ✅ | `export-design-reference.py` · HTML regen |
+| D.6 | document `capture-crash-log.ps1` in [dev/setup.md](../dev/setup.md) (or finish script + doc together) | 1h | ✅ | J1 sandbox/qa-hardware |
+| DOC-P1-5 | **Architecture diagram** — verify [glucose-for-watch-architecture.svg](../assets/glucose-for-watch-architecture.svg) matches code · re-export PNG | 1h | AUTO-8 |
 | DOC-P1-6 | **User guide ↔ app strings** — app UI is FR (`strings.xml`) · user guide is EN · add note in [guide/user.md](../guide/user.md) or plan i18n | 1h | ☐ | Decision: EN UI vs FR UI for v0.5 |
-| DOC-P1-7 | **CHANGELOG v0.5.0** — draft release notes when gates pass | 1h | ☐ | `@widget-g7-release-notes-curator` |
+| DOC-P1-7 | **CHANGELOG v0.5.0** — draft release notes when gates pass | 1h | ☐ | `@glucose-for-watch-release-notes-curator` |
 | DOC-P1-8 | **S.6 / S.8 sync** — align ACTION-PLAN calendar with current PROGRESS statuses | 30m | 🔄 | Bloc S |
 
 ---
@@ -66,14 +66,14 @@ Tracked in [AUTOMATION-BACKLOG.md](AUTOMATION-BACKLOG.md); implement when bandwi
 
 | ID | Task | Milestone | Status | GitHub |
 |----|------|-----------|--------|--------|
-| AUTO-1 | CI export PNG previews on mobile UI PRs | v0.5 | ☐ | #13 |
-| AUTO-2 | Static preview gallery HTML (offline sideload doc) | v0.5 | ☐ | #14 |
-| AUTO-4 | CI markdown link checker on `docs/` | v0.5 | ☐ | #16 |
-| AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | ☐ | #17 |
-| AUTO-7 | Project workflow: PR opened → In Review column | v0.5 | ☐ | #19 |
-| AUTO-8 | Architecture diagram export in CI | v0.5 | ☐ | #20 |
-| DOC-P2-1 | Close duplicate GitHub Project **#2** (keep Project **#1**) | — | ☐ | [Project #1](https://github.com/users/ToXY0392/projects/1) |
-| DOC-P2-2 | **doc-backlog-sync skill** in ACTION-PLAN §7 weekly ritual | — | ✅ | `@widget-g7-doc-backlog-sync` |
+| AUTO-1 | CI export PNG previews on mobile UI PRs | v0.5 | ✅ | #13 · `preview-export.yml` |
+| AUTO-2 | Static preview gallery HTML (offline sideload doc) | v0.5 | ✅ | #14 · `generate_preview_gallery.py` |
+| AUTO-4 | CI markdown link checker on `docs/` | v0.5 | ✅ | #16 · `scripts/dev/check_docs_links.py` in verify_ci |
+| AUTO-5 | Weekly doc-drift scheduled issue | v0.5 | ✅ | #17 · `doc-drift-weekly.yml` |
+| AUTO-7 | Project workflow: PR opened → In Review column | v0.5 | ✅ | #19 · `project-pr-in-review.yml` |
+| AUTO-8 | Architecture diagram export in CI | v0.5 | ✅ | #20 · `architecture-diagram.yml` |
+| DOC-P2-1 | Close duplicate GitHub Project **#2** (keep Project **#1**) | — | ✅ | Project #2 closed · #1 renamed |
+| DOC-P2-2 | **doc-backlog-sync skill** in ACTION-PLAN §7 weekly ritual | — | ✅ | `@glucose-for-watch-doc-backlog-sync` |
 | DOC-P2-3 | **Docs-only branch** — CI sync to `docs` on doc path changes | v0.5 | ✅ | [DOCS-BRANCH.md](DOCS-BRANCH.md) |
 
 ---
@@ -84,9 +84,9 @@ Do **not** start until **G-M7** ✅.
 
 | ID | Task | When | Status |
 |----|------|------|--------|
-| DOC-F0-1 | Document Showkase setup + `@ShowkaseComposable` conventions | F0 start | ☐ |
+| DOC-F0-1 | Document Showkase setup + `@ShowkaseComposable` conventions | F0 start | ✅ | [dev/setup.md](../dev/setup.md) |
 | DOC-F0-2 | Update [architecture.md](../dev/architecture.md) for Compose phone module layout | F0 | ☐ |
-| DOC-F0-3 | **AUTO-3** — Showkase browser task in dev/setup.md | F0 | ☐ |
+| DOC-F0-3 | **AUTO-3** — Showkase browser task in dev/setup.md | F0 | ✅ | PR #39 |
 | DOC-F3-1 | Home Compose screen spec in `toxy-ux-kit/spec/components/` | F3 | ☐ |
 | DOC-F3-2 | Migration note: XML → Compose mapping (screens + strings) | F3 | ☐ |
 
@@ -100,9 +100,9 @@ Do **not** start until **G-M7** ✅.
 .\scripts\dev\sync_doc_backlog.ps1 -Apply   # agent/skill: update Last updated + report only
 
 # Or invoke skill (reads report + edits DOC-BACKLOG + PROGRESS cross-checks)
-# @widget-g7-doc-backlog-sync
+# @glucose-for-watch-doc-backlog-sync
 
-# GitHub Project (pair with widget-g7-github-project-sync)
+# GitHub Project (pair with glucose-for-watch-github-project-sync)
 .\scripts\dev\update_github_project_board.ps1 -ProjectNumber 1
 ```
 
@@ -129,4 +129,4 @@ Do **not** start until **G-M7** ✅.
 
 ---
 
-*Next review: Monday · bump "Last updated" when `@widget-g7-doc-backlog-sync` runs.*
+*Next review: Monday · bump "Last updated" when `@glucose-for-watch-doc-backlog-sync` runs.*

@@ -5,17 +5,57 @@ on:
     branches:
       - main
       - master
-      - integrate
-      - 'workspace/**'
+      - develop/integration
+      - 'sandbox/**'
   pull_request:
     branches:
       - main
-      - integrate
+      - develop/integration
   workflow_dispatch:
 
+# Cancel superseded runs on the same branch (saves Actions minutes).
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  detect:
+    name: Detect changed paths
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      kotlin_tree: ${{ steps.filter.outputs.kotlin_tree }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Classify diff (Kotlin tree vs docs/QA only)
+        id: filter
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+            HEAD="${{ github.event.pull_request.head.sha }}"
+          elif [ -n "${{ github.event.before }}" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            BASE="${{ github.event.before }}"
+            HEAD="${{ github.sha }}"
+          else
+            echo "kotlin_tree=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          files="$(git diff --name-only "$BASE" "$HEAD")"
+          if echo "$files" | grep -qE '^(mobile|wear|core|feature|toxy-ux-kit)/|(^|/)build\.gradle\.kts$|(^|/)settings\.gradle\.kts$|(^|/)gradle/'; then
+            echo "kotlin_tree=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "kotlin_tree=false" >> "$GITHUB_OUTPUT"
+          fi
+
   verify:
     name: Verify Linux Build Gates
+    needs: detect
+    if: needs.detect.outputs.kotlin_tree == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -35,8 +75,24 @@ jobs:
       - name: Run CI verification gates
         run: bash ./scripts/dev/verify_ci.sh
 
+  verify-docs-qa:
+    name: Verify docs and QA scripts
+    needs: detect
+    if: needs.detect.outputs.kotlin_tree == 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate documentation links
+        run: python3 scripts/dev/check_docs_links.py
+
   release-artifacts:
     name: Verify Release Artifacts
+    needs: detect
+    if: needs.detect.outputs.kotlin_tree == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 40
 
@@ -77,5 +133,3 @@ jobs:
 
       - name: Run release dry-run (technical)
         run: ALLOW_INCOMPLETE_LEGAL=1 bash ./scripts/release/release_dry_run.sh
-
-

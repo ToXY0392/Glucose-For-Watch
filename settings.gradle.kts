@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "WidgetG7"
+rootProject.name = "GlucoseForWatch"
 include(":mobile")
 include(":wear")
 include(":core:datalayer-contract")

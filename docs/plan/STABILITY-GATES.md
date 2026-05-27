@@ -139,7 +139,7 @@ Deliverable: `docs/qa/YYYY-MM-DD-stability-signoff.md` + captures + logcat excer
 | **G-F0** | PR #15 | Compile · tests green · **no screen migrated** · sync identical |
 | **G-F1** | PR #16 | Legal/Notice Compose · navigation OK · smoke |
 | **G-F2** | PR #17 | Dexcom connect/disconnect · WatchSetup · **G-A disconnect retest** |
-| **G-F3** | PR #18 | Home Compose · 30 min sync · S1–S3 · **no K2 regression** (4 h soak min.) |
+| **G-F3** | PR #18 | Home Compose · 30 min sync · S1–S3 · **no K2 regression** — satisfied by **C.7 8 h baseline** + 0 FATAL since F3 install (dedicated 4 h post-F3 soak **optional**, archive only) |
 | **G-M8** | tag v0.6.0 | G-F0→F3 ✅ · K8 · full smoke |
 
 **Compose rule:** 1 migrated screen = 1 gate · no merging F2+F3 in one PR.

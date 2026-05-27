@@ -15,7 +15,7 @@ $ErrorActionPreference = "Stop"
 $Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Set-Location $Root
 
-$PackageId = "com.widgetg7.mobile"
+$PackageId = "com.glucoseforwatch.mobile"
 $AppLabel = "Glucose For Watch"
 $ExpectedVersionName = "0.6.0"
 
@@ -119,7 +119,7 @@ function Test-SyncSequence {
     )
     if (-not $Serial) { return $true }
 
-    $stateXml = & $Adb -s $Serial shell "run-as com.widgetg7.mobile cat shared_prefs/widget_g7_phone_sync_state.xml 2>/dev/null"
+    $stateXml = & $Adb -s $Serial shell "run-as com.glucoseforwatch.mobile cat shared_prefs/gfw_phone_sync_state.xml 2>/dev/null"
     if (-not $stateXml) {
         Write-Host "  [WARN] Sync state prefs unavailable (open app once)" -ForegroundColor Yellow
         return $true
@@ -135,7 +135,11 @@ function Test-SyncSequence {
         Write-Host "  [OK] Watch ACK matches last push" -ForegroundColor Green
         return $true
     }
-    if ($pushSeq -and [int]$pushSeq -gt 0 -and $pushSeq -ne $ackSeq) {
+    $pushLong = 0L
+    $ackLong = 0L
+    if ($pushSeq) { [void][long]::TryParse($pushSeq, [ref]$pushLong) }
+    if ($ackSeq) { [void][long]::TryParse($ackSeq, [ref]$ackLong) }
+    if ($pushLong -gt 0 -and $pushLong -ne $ackLong) {
         Write-Host "  [FAIL] push/ack mismatch (push=$pushSeq ack=$ackSeq)" -ForegroundColor Red
         return $false
     }
@@ -163,10 +167,10 @@ $adb = Resolve-Adb
 Write-Host "`n=== ADB devices ===" -ForegroundColor Cyan
 $online = Get-OnlineSerials -Adb $adb
 
-$phoneSerialProp = Read-LocalProperty "widgetg7.adb.phone.serial"
-if (-not $phoneSerialProp) { $phoneSerialProp = $env:WIDGETG7_PHONE_SERIAL }
-$watchSerialProp = Read-LocalProperty "widgetg7.adb.watch.serial"
-if (-not $watchSerialProp) { $watchSerialProp = $env:WIDGETG7_WATCH_SERIAL }
+$phoneSerialProp = Read-LocalProperty "gfw.adb.phone.serial"
+if (-not $phoneSerialProp) { $phoneSerialProp = $env:GFW_PHONE_SERIAL }
+$watchSerialProp = Read-LocalProperty "gfw.adb.watch.serial"
+if (-not $watchSerialProp) { $watchSerialProp = $env:GFW_WATCH_SERIAL }
 
 $targets = Resolve-TargetSerials -Online $online -PhoneProp $phoneSerialProp -WatchProp $watchSerialProp
 
@@ -179,20 +183,20 @@ if ($online.Count -eq 0) {
 }
 
 if (-not $targets.Phone) {
-    Write-Error "Phone serial not resolved. Set widgetg7.adb.phone.serial in local.properties"
+    Write-Error "Phone serial not resolved. Set gfw.adb.phone.serial in local.properties"
 }
 
 $needWatch = -not $AllowPhoneOnly
 if ($needWatch -and -not $targets.Watch) {
     Write-Host "`n[WARN] Watch serial not found (only phone: $($targets.Phone))." -ForegroundColor Yellow
-    Write-Host "  Use -AllowPhoneOnly for mobile-only install, or set widgetg7.adb.watch.serial`n"
+    Write-Host "  Use -AllowPhoneOnly for mobile-only install, or set gfw.adb.watch.serial`n"
     if (-not $AllowPhoneOnly) { exit 1 }
 }
 
 if (-not $SkipInstall -and -not $VerifyOnly) {
     Write-Host "`n=== Build + install $AppLabel v$ExpectedVersionName ===" -ForegroundColor Cyan
     if ($targets.Phone -and $targets.Watch -and -not $AllowPhoneOnly) {
-        & .\gradlew.bat installWidgetG7Debug
+        & .\gradlew.bat installGlucoseForWatchDebug
         if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
     } elseif ($targets.Phone) {
         & .\gradlew.bat :mobile:assembleDebug :wear:assembleDebug

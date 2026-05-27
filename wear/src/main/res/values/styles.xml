@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.WidgetG7.Wear" parent="@android:style/Theme.DeviceDefault">
+    <style name="Theme.GlucoseForWatch.Wear" parent="@android:style/Theme.DeviceDefault">
         <item name="android:colorBackground">@color/wg7_tile_bg</item>
         <item name="android:windowBackground">@color/wg7_tile_bg</item>
     </style>
 
-    <style name="WidgetG7.ActivityAnimNone" parent="@android:style/Animation.Activity">
+    <style name="GlucoseForWatch.ActivityAnimNone" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/wg7_empty_anim</item>
         <item name="android:activityOpenExitAnimation">@anim/wg7_empty_anim</item>
         <item name="android:activityCloseEnterAnimation">@anim/wg7_empty_anim</item>
         <item name="android:activityCloseExitAnimation">@anim/wg7_empty_anim</item>
     </style>
 
-    <style name="Theme.WidgetG7.RefreshProxy" parent="@android:style/Theme.Translucent.NoTitleBar">
+    <style name="Theme.GlucoseForWatch.RefreshProxy" parent="@android:style/Theme.Translucent.NoTitleBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowAnimationStyle">@style/WidgetG7.ActivityAnimNone</item>
+        <item name="android:windowAnimationStyle">@style/GlucoseForWatch.ActivityAnimNone</item>
     </style>
 </resources>

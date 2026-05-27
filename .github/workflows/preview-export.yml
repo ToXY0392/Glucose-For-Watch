@@ -1,0 +1,47 @@
+name: UI Preview Export
+
+on:
+  pull_request:
+    branches:
+      - develop/integration
+      - main
+    paths:
+      - 'mobile/src/main/**'
+      - 'mobile/src/debug/**'
+      - 'mobile/src/test/**/preview/**'
+      - 'toxy-ux-kit/**'
+      - 'scripts/qa/export_app_previews.sh'
+      - 'scripts/qa/generate_preview_gallery.py'
+  workflow_dispatch:
+
+jobs:
+  export-mobile-previews:
+    name: Export mobile home PNG gallery
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use preinstalled JDK 17
+        run: |
+          echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
+          echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
+          java -version
+
+      - name: Ensure scripts executable
+        run: chmod +x ./gradlew ./scripts/qa/export_app_previews.sh
+
+      - name: Export PNG previews and HTML gallery
+        run: bash ./scripts/qa/export_app_previews.sh
+
+      - name: Upload preview gallery artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-home-preview-gallery
+          path: |
+            mobile/build/app-previews/*.png
+            mobile/build/preview-gallery/**
+          retention-days: 14
+          if-no-files-found: error

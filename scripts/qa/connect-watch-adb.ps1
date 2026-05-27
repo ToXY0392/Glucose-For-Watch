@@ -33,8 +33,8 @@ if (-not $sdkDir) { $sdkDir = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdkDir "platform-tools\adb.exe"
 if (-not (Test-Path $adb)) { Write-Error "adb not found: $adb" }
 
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
-if (-not $phone) { $phone = $env:WIDGETG7_PHONE_SERIAL }
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
+if (-not $phone) { $phone = $env:GFW_PHONE_SERIAL }
 
 Write-Host ""
 Write-Host "=== Connect Wear OS watch to adb ===" -ForegroundColor Cyan
@@ -67,7 +67,7 @@ if ($WatchIp -and $AdbPort -gt 0) {
 
 & $adb devices -l | Out-Host
 
-$watchSerial = Read-LocalProperty "widgetg7.adb.watch.serial"
+$watchSerial = Read-LocalProperty "gfw.adb.watch.serial"
 $online = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] })
 $watchOnline = $online | Where-Object { $_ -ne $phone -and $_ -notmatch "^127\.0\.0\.1" -or ($_ -match "^127\.0\.0\.1" -and $_ -notmatch "offline") }
 
@@ -90,5 +90,5 @@ if (-not $watchOnline -and -not ($watchSerial -and $online -contains $watchSeria
 }
 
 Write-Host ""
-Write-Host "Watch reachable. Update widgetg7.adb.watch.serial in local.properties if needed." -ForegroundColor Green
+Write-Host "Watch reachable. Update gfw.adb.watch.serial in local.properties if needed." -ForegroundColor Green
 exit 0

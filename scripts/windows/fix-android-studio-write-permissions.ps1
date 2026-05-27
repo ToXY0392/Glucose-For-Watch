@@ -1,6 +1,6 @@
 # Fix "Write Permissions Issue" when opening the project from Android Studio on Windows.
 # Usage (PowerShell, from any folder):
-#   powershell -ExecutionPolicy Bypass -File "\\wsl$\Ubuntu\home\YOURUSER\...\Widget-G7\scripts\windows\fix-android-studio-write-permissions.ps1" -ProjectPath "C:\Users\You\...\Widget G7"
+#   powershell -ExecutionPolicy Bypass -File "\\wsl$\Ubuntu\home\YOURUSER\...\Glucose-For-Watch\scripts\windows\fix-android-studio-write-permissions.ps1" -ProjectPath "C:\Users\You\...\Glucose-For-Watch"
 # Or if the repo is already on disk:
 #   .\scripts\windows\fix-android-studio-write-permissions.ps1
 # Without -ProjectPath: uses the repo root (two levels above this script).
@@ -37,7 +37,7 @@ try {
 } catch {
     Write-Host "Write probe FAILED: $($_.Exception.Message)"
     Write-Host "If probe fails : projet sous OneDrive, antivirus (Protection contre les ransomware), ou dossier Lecture seule. "
-    Write-Host "Déplace le projet vers ex. C:\Dev\Widget-G7 (hors Desktop/OneDrive) ou exécute ce script en admin avec -ElevatedTakeOwnership."
+    Write-Host "Déplace le projet vers ex. C:\Dev\Glucose-For-Watch (hors Desktop/OneDrive) ou exécute ce script en admin avec -ElevatedTakeOwnership."
 }
 
 # 0b. Fix ACL + lecture seule sur la chaîne de dossiers du profil (Desktop / THP / … bloquent souvent Studio).
@@ -94,6 +94,6 @@ Get-ChildItem -LiteralPath $root -Force -File -ErrorAction SilentlyContinue | Fo
 Write-Host ""
 Write-Host "Si Studio affiche encore l'erreur :"
 Write-Host "  • Windows Sécurité > Protection contre les ransomware > Accès aux dossiers contrôlés : autoriser Android Studio (studio64.exe)."
-Write-Host "  • Ou déplace le dépôt hors Desktop/OneDrive (ex. C:\Dev\Widget-G7) puis rouvre depuis ce chemin ou \\wsl$\...\Widget-G7 ."
+Write-Host "  • Ou déplace le dépôt hors Desktop/OneDrive (ex. C:\Dev\Glucose-For-Watch) puis rouvre depuis ce chemin ou \\wsl$\...\Glucose-For-Watch ."
 Write-Host "Done. Re-open the project in Android Studio (File > Invalidate Caches rarely needed)."
 exit 0

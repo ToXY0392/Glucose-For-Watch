@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="720" viewBox="0 0 900 720" role="img" aria-labelledby="title desc">
+  <title id="title">Glucose For Watch - Blood glucose sync flow</title>
+  <desc id="desc">Dexcom Share HTTPS to mobile sync engine, Wear Data Layer push, watch ack to phone.</desc>
+  <defs>
+    <linearGradient id="phoneBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e8f5e9"/>
+      <stop offset="100%" stop-color="#c8e6c9"/>
+    </linearGradient>
+    <linearGradient id="watchBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e3f2fd"/>
+      <stop offset="100%" stop-color="#bbdefb"/>
+    </linearGradient>
+    <linearGradient id="cloudBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f1f8e9"/>
+      <stop offset="100%" stop-color="#dcedc8"/>
+    </linearGradient>
+    <marker id="arrowDown" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2e7d32"/>
+    </marker>
+    <marker id="arrowUp" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#1565c0"/>
+    </marker>
+    <filter id="shadow" x="-2%" y="-2%" width="104%" height="104%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#00000022"/>
+    </filter>
+  </defs>
+
+  <rect width="900" height="720" fill="#fafafa"/>
+
+  <text x="450" y="42" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="22" font-weight="700" fill="#1b5e20">Glucose For Watch - Glycemia sync flow</text>
+  <text x="450" y="68" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="14" fill="#555">Dexcom Share - Mobile (:mobile) - Wear OS (:wear) - mg/dL - ack sequence_id</text>
+
+  <g filter="url(#shadow)">
+    <rect x="250" y="88" width="400" height="88" rx="12" fill="url(#cloudBg)" stroke="#7cb342" stroke-width="2"/>
+    <ellipse cx="310" cy="132" rx="42" ry="26" fill="#fff" stroke="#7cb342" stroke-width="1.5"/>
+    <ellipse cx="340" cy="122" rx="28" ry="18" fill="#fff" stroke="#7cb342" stroke-width="1.5"/>
+    <ellipse cx="285" cy="122" rx="22" ry="14" fill="#fff" stroke="#7cb342" stroke-width="1.5"/>
+    <text x="400" y="125" font-family="Segoe UI, system-ui, sans-serif" font-size="16" font-weight="600" fill="#33691e">Dexcom Share (HTTPS)</text>
+    <text x="400" y="148" font-family="Segoe UI, system-ui, sans-serif" font-size="13" fill="#555">G6 / G7 - feature:dexcom-share - DexcomShareClient</text>
+  </g>
+
+  <line x1="450" y1="176" x2="450" y2="208" stroke="#2e7d32" stroke-width="2.5" marker-end="url(#arrowDown)"/>
+  <text x="460" y="198" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#2e7d32">1. HTTPS read (~45 s poll)</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="212" width="760" height="248" rx="14" fill="url(#phoneBg)" stroke="#43a047" stroke-width="2"/>
+    <text x="90" y="240" font-family="Segoe UI, system-ui, sans-serif" font-size="15" font-weight="700" fill="#1b5e20">Android phone - :mobile + :feature:sync</text>
+
+    <rect x="90" y="252" width="220" height="188" rx="8" fill="#ffffffcc" stroke="#81c784"/>
+    <text x="200" y="276" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#2e7d32">Orchestration</text>
+    <text x="105" y="298" font-family="monospace" font-size="10.5" fill="#333">ActiveGlucoseSyncController</text>
+    <text x="105" y="316" font-family="monospace" font-size="10.5" fill="#333">ActiveGlucoseSyncService (FGS)</text>
+    <text x="105" y="334" font-family="monospace" font-size="10.5" fill="#333">BackgroundSyncFallback</text>
+    <text x="105" y="358" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#666">start / stop / syncNow</text>
+
+    <rect x="330" y="252" width="250" height="188" rx="8" fill="#ffffffcc" stroke="#81c784"/>
+    <text x="455" y="276" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#2e7d32">Sync engine</text>
+    <text x="345" y="298" font-family="monospace" font-size="10.5" fill="#333">PhoneGlucoseSyncEngine</text>
+    <text x="345" y="316" font-family="monospace" font-size="10.5" fill="#333">GlucoseSyncEngine</text>
+    <text x="345" y="334" font-family="monospace" font-size="10.5" fill="#333">WearSyncPublisher</text>
+    <text x="345" y="352" font-family="monospace" font-size="10.5" fill="#333">PhoneWearRefreshRequestService</text>
+    <text x="345" y="376" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#666">push on new reading</text>
+
+    <rect x="600" y="252" width="210" height="188" rx="8" fill="#ffffffcc" stroke="#81c784" stroke-dasharray="6 4"/>
+    <text x="705" y="276" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#2e7d32">Phone local state</text>
+    <text x="615" y="298" font-family="monospace" font-size="10.5" fill="#333">PhoneSyncStateStore</text>
+    <text x="615" y="320" font-family="Segoe UI, system-ui, sans-serif" font-size="10.5" fill="#555">lastPushSequenceId</text>
+    <text x="615" y="338" font-family="Segoe UI, system-ui, sans-serif" font-size="10.5" fill="#555">lastAckSequenceId</text>
+    <text x="615" y="356" font-family="Segoe UI, system-ui, sans-serif" font-size="10.5" fill="#555">timestamp - stale</text>
+  </g>
+
+  <line x1="450" y1="460" x2="450" y2="492" stroke="#2e7d32" stroke-width="2.5" marker-end="url(#arrowDown)"/>
+  <text x="458" y="482" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#2e7d32">2. /glucose/latest (setUrgent)</text>
+
+  <path d="M 520 455 Q 600 430 620 380" fill="none" stroke="#1565c0" stroke-width="2" stroke-dasharray="8 5" marker-end="url(#arrowUp)"/>
+  <text x="628" y="395" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#1565c0">3. /glucose/watch/ack</text>
+
+  <path d="M 380 455 Q 300 430 280 380" fill="none" stroke="#1565c0" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="200" y="395" font-family="Segoe UI, system-ui, sans-serif" font-size="11" fill="#1565c0">/glucose/refresh/request</text>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="496" width="760" height="168" rx="14" fill="url(#watchBg)" stroke="#1e88e5" stroke-width="2"/>
+    <text x="90" y="524" font-family="Segoe UI, system-ui, sans-serif" font-size="15" font-weight="700" fill="#0d47a1">Wear OS watch - :wear</text>
+
+    <circle cx="155" cy="590" r="52" fill="#263238" stroke="#1565c0" stroke-width="3"/>
+    <text x="155" y="582" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="22" font-weight="700" fill="#69f0ae">120</text>
+    <text x="155" y="602" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#b0bec5">mg/dL</text>
+
+    <rect x="240" y="538" width="200" height="110" rx="8" fill="#ffffffcc" stroke="#64b5f6"/>
+    <text x="340" y="560" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#1565c0">Receive</text>
+    <text x="255" y="582" font-family="monospace" font-size="10.5" fill="#333">WearDataLayerListenerService</text>
+    <text x="255" y="600" font-family="monospace" font-size="10.5" fill="#333">GlucoseCache</text>
+    <text x="255" y="618" font-family="monospace" font-size="10.5" fill="#333">GlucoseRefreshActivity</text>
+
+    <rect x="460" y="538" width="350" height="110" rx="8" fill="#ffffffcc" stroke="#64b5f6"/>
+    <text x="635" y="560" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#1565c0">AGP surfaces</text>
+    <text x="475" y="582" font-family="monospace" font-size="10.5" fill="#333">GlucoseSimpleTileService (tile)</text>
+    <text x="475" y="600" font-family="monospace" font-size="10.5" fill="#333">GlucoseComplicationService</text>
+    <text x="475" y="622" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#666">stale if age &gt; 2 min - PendingPushQueue on reconnect</text>
+  </g>
+
+  <rect x="70" y="678" width="760" height="32" rx="6" fill="#eceff1"/>
+  <text x="450" y="699" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#455a64">:core:datalayer-contract - poll 45s (120s degraded) - installGlucoseForWatchDebug sideload</text>
+</svg>

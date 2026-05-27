@@ -2,9 +2,9 @@
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `workspace/wear-app` |
+| **Branch** | `sandbox/wear-app` |
 | **Status** | dormant (trigger-based) |
-| **Skill** | `widget-g7-wear-app-scope` |
+| **Skill** | `glucose-for-watch-wear-app-scope` |
 | **Scope file** | [.cursor/workspace-scopes/wear-app.scope.md](../../.cursor/workspace-scopes/wear-app.scope.md) |
 
 ## Allowed paths
@@ -21,7 +21,7 @@ Read-only: `core/datalayer-contract/**`, `core/model/**`
 | C.6 | Tile missing after reinstall | tile service, manifest |
 | C.4 | LOW/HI colors wrong on watch | `AgpComplicationColorRamp.kt` |
 
-Document failure on `workspace/qa-hardware` first, then fix here.
+Document failure on `sandbox/qa-hardware` first, then fix here.
 
 ## Backlog (post-v0.5.0)
 
@@ -44,5 +44,5 @@ Bump `RESOURCES_VERSION` when tile resources change.
 ## Rebase (weekly while dormant)
 
 ```bash
-git fetch origin && git rebase origin/integrate
+git fetch origin && git rebase origin/develop/integration
 ```

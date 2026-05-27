@@ -4,5 +4,5 @@
 sdk.dir=C\:\\Users\\YOU\\AppData\\Local\\Android\\Sdk
 
 # USB debugging serials (adb devices -l)
-widgetg7.adb.phone.serial=XXXXXXXX
-widgetg7.adb.watch.serial=YYYYYYYY
+gfw.adb.phone.serial=XXXXXXXX
+gfw.adb.watch.serial=YYYYYYYY

@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
-echo "[widget-g7] Release verification started"
+echo "[gfw] Release verification started"
 ./gradlew :mobile:assembleRelease :wear:assembleRelease
 
 find_release_apk() {
@@ -26,7 +26,7 @@ find_release_apk() {
   fi
 
   if [[ -z "$apk" || ! -f "$apk" ]]; then
-    echo "[widget-g7] Missing release APK under $dir" >&2
+    echo "[gfw] Missing release APK under $dir" >&2
     exit 1
   fi
 
@@ -36,6 +36,6 @@ find_release_apk() {
 MOBILE_APK="$(find_release_apk mobile)"
 WEAR_APK="$(find_release_apk wear)"
 
-echo "[widget-g7] Release artifacts verified"
+echo "[gfw] Release artifacts verified"
 echo " - $MOBILE_APK"
 echo " - $WEAR_APK"

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.widgetg7.feature.sync"
+    namespace = "com.glucoseforwatch.feature.sync"
     compileSdk = 36
 
     defaultConfig {
