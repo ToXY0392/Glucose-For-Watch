@@ -135,7 +135,11 @@ function Test-SyncSequence {
         Write-Host "  [OK] Watch ACK matches last push" -ForegroundColor Green
         return $true
     }
-    if ($pushSeq -and [int]$pushSeq -gt 0 -and $pushSeq -ne $ackSeq) {
+    $pushLong = 0L
+    $ackLong = 0L
+    if ($pushSeq) { [void][long]::TryParse($pushSeq, [ref]$pushLong) }
+    if ($ackSeq) { [void][long]::TryParse($ackSeq, [ref]$ackLong) }
+    if ($pushLong -gt 0 -and $pushLong -ne $ackLong) {
         Write-Host "  [FAIL] push/ack mismatch (push=$pushSeq ack=$ackSeq)" -ForegroundColor Red
         return $false
     }

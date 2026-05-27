@@ -33,6 +33,13 @@ function Get-AppXml {
     & $adb -s $phone shell "run-as com.glucoseforwatch.mobile cat shared_prefs/$PrefsName.xml 2>/dev/null"
 }
 
+function XmlLongValue {
+    param([string]$Xml, [string]$Name)
+    if ($Xml -match "<long name=`"$Name`" value=`"([^`"]*)`"") { return [long]$matches[1] }
+    if ($Xml -match "<int name=`"$Name`" value=`"([^`"]*)`"") { return [long]$matches[1] }
+    return $null
+}
+
 function XmlValue {
     param([string]$Xml, [string]$Name)
     if ($Xml -match "<int name=`"$Name`" value=`"([^`"]*)`"") { return $matches[1] }
@@ -40,6 +47,14 @@ function XmlValue {
     if ($Xml -match "<boolean name=`"$Name`" value=`"([^`"]*)`"") { return $matches[1] }
     if ($Xml -match "<string name=`"$Name`"[^>]*>([^<]*)</string>") { return $matches[1] }
     return $null
+}
+
+function Test-WearTileProvider {
+    param([string]$Serial)
+    if (-not $Serial) { return $false }
+    $tile = & $adb -s $Serial shell dumpsys package com.glucoseforwatch.mobile 2>$null |
+        Select-String "GlucoseSimpleTileService"
+    return [bool]$tile
 }
 
 $pkg = & $adb -s $phone shell pm path com.glucoseforwatch.mobile 2>$null
@@ -54,11 +69,21 @@ $lastValue = XmlValue $sync "last_value"
 $watchPending = XmlValue $sync "watch_push_pending"
 $pushSeq = XmlValue $state "last_push_sequence_id"
 $ackSeq = XmlValue $state "last_ack_sequence_id"
+$pushSeqLong = XmlLongValue $state "last_push_sequence_id"
+$ackSeqLong = XmlLongValue $state "last_ack_sequence_id"
 $pushFails = XmlValue $state "consecutive_wear_push_failures"
 $watchApp = XmlValue $health "app_installed"
 $watchVer = XmlValue $health "app_version_name"
 $watchModel = XmlValue $health "model"
 $ackFails = XmlValue $health "ack_failure_count"
+
+$watchSerial = Read-LocalProperty "gfw.adb.watch.serial"
+$wearTileOk = Test-WearTileProvider $watchSerial
+if ($wearTileOk) {
+    Write-Host "  wear tile provider: registered" 
+} else {
+    Write-Host "  wear tile provider: MISSING (phone APK on watch? run installGlucoseForWatchDebug)" -ForegroundColor Yellow
+}
 
 Write-Host "  Hero value: $lastValue mg/dL"
 Write-Host "  watch_push_pending: $watchPending"
@@ -73,18 +98,21 @@ $fail = 0
 if ($lastValue) { Write-Host "[OK] B.1.2 Dexcom hero has value" -ForegroundColor Green; $pass++ }
 else { Write-Host "[FAIL] B.1.2 no glucose value" -ForegroundColor Red; $fail++ }
 
-if ($watchApp -eq "true" -and $watchVer -match "^0\.[45]\.") {
+if (-not $wearTileOk) {
+    Write-Host '[FAIL] B.1.1.2 Watch APK wrong variant - reinstall with installGlucoseForWatchDebug' -ForegroundColor Red
+    $fail++
+} elseif ($watchApp -eq "true" -and $watchVer -match '^0\.[456]\.') {
     Write-Host "[OK] B.1.1.2 Watch app $watchVer via Data Layer" -ForegroundColor Green; $pass++
 } else {
-    Write-Host "[WARN] B.1.1.2 Watch app not confirmed (install or open watch once)" -ForegroundColor Yellow
+    Write-Host '[WARN] B.1.1.2 Watch app not confirmed (open wear app once on watch)' -ForegroundColor Yellow
 }
 
-if ($pushSeq -and $ackSeq -and $pushSeq -eq $ackSeq) {
-    Write-Host "[OK] S3 Watch ACK matches last push" -ForegroundColor Green; $pass++
-} elseif ($pushSeq -and [int]$pushSeq -gt 0 -and $pushSeq -ne $ackSeq) {
-    Write-Host "[FAIL] S3 push/ack mismatch (push=$pushSeq ack=$ackSeq)" -ForegroundColor Red; $fail++
+if ($pushSeqLong -gt 0 -and $pushSeqLong -eq $ackSeqLong) {
+    Write-Host '[OK] S3 Watch ACK matches last push' -ForegroundColor Green; $pass++
+} elseif ($pushSeqLong -gt 0 -and $pushSeqLong -ne $ackSeqLong) {
+    Write-Host "[FAIL] S3 push/ack mismatch (push=$pushSeq ack=$ackSeq) - open wear app or tap tile sync" -ForegroundColor Red; $fail++
 } else {
-    Write-Host "[WARN] S3 no push yet - tap sync on watch tile" -ForegroundColor Yellow
+    Write-Host '[WARN] S3 no push yet - tap sync on watch tile' -ForegroundColor Yellow
 }
 
 if ($watchPending -eq "false" -and $pushFails -eq "0") {
