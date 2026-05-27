@@ -52,6 +52,8 @@ function XmlValue {
 function Test-WearTileProvider {
     param([string]$Serial)
     if (-not $Serial) { return $false }
+    $listed = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] })
+    if ($Serial -notin $listed) { return $false }
     $tile = & $adb -s $Serial shell dumpsys package com.glucoseforwatch.mobile 2>$null |
         Select-String "GlucoseSimpleTileService"
     return [bool]$tile
@@ -78,9 +80,13 @@ $watchModel = XmlValue $health "model"
 $ackFails = XmlValue $health "ack_failure_count"
 
 $watchSerial = Read-LocalProperty "gfw.adb.watch.serial"
+$adbDevices = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] })
+$watchAdbOnline = [bool]$watchSerial -and ($watchSerial -in $adbDevices)
 $wearTileOk = Test-WearTileProvider $watchSerial
 if ($wearTileOk) {
     Write-Host "  wear tile provider: registered" 
+} elseif ($watchSerial -and -not $watchAdbOnline) {
+    Write-Host "  wear tile provider: skipped (watch ADB offline — adb mdns services)" -ForegroundColor Yellow
 } else {
     Write-Host "  wear tile provider: MISSING (phone APK on watch? run installGlucoseForWatchDebug)" -ForegroundColor Yellow
 }
@@ -98,13 +104,19 @@ $fail = 0
 if ($lastValue) { Write-Host "[OK] B.1.2 Dexcom hero has value" -ForegroundColor Green; $pass++ }
 else { Write-Host "[FAIL] B.1.2 no glucose value" -ForegroundColor Red; $fail++ }
 
-if (-not $wearTileOk) {
+if ($wearTileOk) {
+    if ($watchApp -eq "true" -and $watchVer -match '^0\.[456]\.') {
+        Write-Host "[OK] B.1.1.2 Watch app $watchVer (tile + Data Layer)" -ForegroundColor Green; $pass++
+    } else {
+        Write-Host '[WARN] B.1.1.2 Watch app not confirmed (open wear app once on watch)' -ForegroundColor Yellow
+    }
+} elseif (-not $watchAdbOnline -and $watchApp -eq "true" -and $watchVer -match '^0\.[456]\.') {
+    Write-Host "[OK] B.1.1.2 Watch app $watchVer via Data Layer (tile unchecked — ADB offline)" -ForegroundColor Green; $pass++
+} elseif ($watchAdbOnline) {
     Write-Host '[FAIL] B.1.1.2 Watch APK wrong variant - reinstall with installGlucoseForWatchDebug' -ForegroundColor Red
     $fail++
-} elseif ($watchApp -eq "true" -and $watchVer -match '^0\.[456]\.') {
-    Write-Host "[OK] B.1.1.2 Watch app $watchVer via Data Layer" -ForegroundColor Green; $pass++
 } else {
-    Write-Host '[WARN] B.1.1.2 Watch app not confirmed (open wear app once on watch)' -ForegroundColor Yellow
+    Write-Host '[WARN] B.1.1.2 Watch not confirmed (connect watch ADB or open wear app once)' -ForegroundColor Yellow
 }
 
 if ($pushSeqLong -gt 0 -and $pushSeqLong -eq $ackSeqLong) {
