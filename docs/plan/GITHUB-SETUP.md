@@ -471,18 +471,6 @@ Not enforceable on GitHub without self-hosted runner:
 - `stability-gate.ps1` → manual PR checklist
 - `hardware-smoke.ps1` → Project QA Hardware column
 
-### 9.4 Actions minutes (private repo)
-
-Repo visibility: **private** (`ToXY0392/Glucose-For-Watch`). Free accounts include **2 000 Actions minutes/month** for private repos.
-
-| Symptom | Likely cause | Action |
-|---------|--------------|--------|
-| Job fails in **~2 s**, **0 steps**, `runner_id: 0` | Monthly quota exhausted or billing hold | [Settings → Billing → Plans and usage → Actions](https://github.com/settings/billing) |
-| Full CI ~10 min then **success** | Normal | — |
-| Architecture PNG drift | Regenerate on Linux: `bash scripts/assets/export-architecture-diagram.sh` | Commit PNG |
-
-When quota is depleted, merges may still proceed locally after `./gradlew` + `hardware-smoke.ps1`; re-run failed workflows after quota resets or upgrade to GitHub Pro.
-
 ---
 
 ## 10. Block mapping ↔ GitHub
