@@ -1,6 +1,6 @@
 # Plan tracking — Glucose For Watch
 
-> **Last updated:** 2026-05-26 · **G-M8 closed** · tag `v0.6.0` · post-v0.6 polish in progress  
+> **Last updated:** 2026-05-27 · **post-v0.6 closeout** (#49–#53) · tag `v0.6.0`  
 > **Distribution:** PC only (`installGlucoseForWatchDebug`) — no Play Store  
 > **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
@@ -203,8 +203,8 @@ S  Stability (cross-cutting, each PR)
 | F1 Legal/Notice | #32 | G-F1 | 2–3d |
 | F2 Dexcom/Watch | #33 | G-F2 | 1 week |
 | F3 **Home** | #34 | G-F3 | 1–1.5 weeks |
-| F4 Installer (opt.) | — | — | opt. |
-| F5 Cleanup | #36 | G-M8 | 2–3d |
+| F4 Installer | #51 | — | ✅ Compose |
+| F5 Cleanup | #52 | G-M8 | ✅ |
 
 Screen detail + tasks: [ACTION-PLAN §11](ACTION-PLAN.md#11-compose-v060) · [PROGRESS Block F history](ACTION-PLAN.md)
 
@@ -219,8 +219,10 @@ Screen detail + tasks: [ACTION-PLAN §11](ACTION-PLAN.md#11-compose-v060) · [PR
 | 2025-05-25 | No Play Store · PC sideload | Personal / dev use |
 | 2025-05-25 | C.7 8h soak blocks M7 | Overnight crash reproduced |
 | 2025-05-25 | Compose after v0.5.0 | Stability first |
-| 2025-05-25 | WearInstaller stays XML (F4 opt.) | OCR = risk |
+| 2025-05-25 | WearInstaller stays XML (F4 opt.) | OCR = risk — **superseded 2026-05-27:** F4 Compose [#51](https://github.com/ToXY0392/Glucose-For-Watch/pull/51) |
 | 2026-05-26 | G-F3 K2 = C.7 baseline · post-F3 4 h optional | C.7 8 h PASS · 30 min G-F3-sync · no dedicated 4 h needed |
+| 2026-05-27 | mmol/L display + complication gauge | [#53](https://github.com/ToXY0392/Glucose-For-Watch/pull/53) · hardware validated (mg/dL default) |
+| 2026-05-27 | Post-crash fixes (FGS + Compose home) | [#49](https://github.com/ToXY0392/Glucose-For-Watch/pull/49) · [CRASH-REGISTRY](../qa/incidents/CRASH-REGISTRY.md) |
 
 ---
 
@@ -250,4 +252,12 @@ Screen detail + tasks: [ACTION-PLAN §11](ACTION-PLAN.md#11-compose-v060) · [PR
 
 ## Backlog (post-v0.6)
 
-Play Store · Dexcom OAuth v3 · mmol/L · watch face · G6 QA · Installer Compose
+| Track | Notes |
+|-------|--------|
+| Play Store | Out of scope (sideload PC) unless policy changes |
+| Dexcom OAuth v3 | Share follower flow stays default |
+| Watch face / complication polish | Beyond mmol gauge fix ([#53](https://github.com/ToXY0392/Glucose-For-Watch/pull/53)) |
+| G6 QA | Hardware evidence when sensor available |
+| GitHub Actions quota | Private repo · [Billing](https://github.com/settings/billing) · instant-fail jobs = no runner (quota) |
+
+**Done post-v0.6:** Compose F4/F5 ([#51](https://github.com/ToXY0392/Glucose-For-Watch/pull/51)–[#52](https://github.com/ToXY0392/Glucose-For-Watch/pull/52)) · mmol/L ([#53](https://github.com/ToXY0392/Glucose-For-Watch/pull/53)) · QA scripts ([#50](https://github.com/ToXY0392/Glucose-For-Watch/pull/50))
