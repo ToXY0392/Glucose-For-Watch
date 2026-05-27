@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="ShapeAppearance.WidgetG7.HeroAsymmetric" parent="">
+    <style name="ShapeAppearance.GlucoseForWatch.HeroAsymmetric" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>
     </style>
 
-    <style name="ShapeAppearance.WidgetG7.DexcomStrip" parent="">
+    <style name="ShapeAppearance.GlucoseForWatch.DexcomStrip" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>
     </style>
 
-    <style name="ShapeAppearance.WidgetG7.TileSlashWest" parent="">
+    <style name="ShapeAppearance.GlucoseForWatch.TileSlashWest" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>
     </style>
 
-    <style name="ShapeAppearance.WidgetG7.TileSlashEast" parent="">
+    <style name="ShapeAppearance.GlucoseForWatch.TileSlashEast" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">20dp</item>
     </style>

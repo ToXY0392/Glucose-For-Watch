@@ -14,7 +14,7 @@ Automatically trace USB disconnections of test devices in the developer handoff.
 - `.cursor/state/usb-state.json`
 
 ## Preconditions
-- `WIDGETG7_PHONE_SERIAL` and `WIDGETG7_WATCH_SERIAL` defined.
+- `GFW_PHONE_SERIAL` and `GFW_WATCH_SERIAL` defined.
 - `adb` available in PATH.
 
 ## Workflow

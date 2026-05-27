@@ -32,7 +32,7 @@ if (-not (Test-Path $adb)) { Write-Error "adb not found: $adb" }
 
 $date = Get-Date -Format "yyyy-MM-dd"
 $target = if ($Watch) { "watch" } else { "phone" }
-$key = if ($Watch) { "widgetg7.adb.watch.serial" } else { "widgetg7.adb.phone.serial" }
+$key = if ($Watch) { "gfw.adb.watch.serial" } else { "gfw.adb.phone.serial" }
 $serial = Read-LocalProperty $key
 if (-not $serial) {
     $serial = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] } | Select-Object -First 1)

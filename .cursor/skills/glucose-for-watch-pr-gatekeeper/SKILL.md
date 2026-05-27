@@ -12,7 +12,7 @@ Block merge until bloc gate criteria and project checklist are satisfied.
 
 ## Hard constraints (soak / hardware session active)
 
-- **Never** run `installWidgetG7Debug`, `adb install`, `adb uninstall`, or `./gradlew install*` unless the user explicitly requests install outside an active soak.
+- **Never** run `installGlucoseForWatchDebug`, `adb install`, `adb uninstall`, or `./gradlew install*` unless the user explicitly requests install outside an active soak.
 - During C.7 soak: use `stability-gate.ps1 -CheckLogcatOnly` for logcat checks only.
 
 ## References

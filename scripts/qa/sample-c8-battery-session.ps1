@@ -47,7 +47,7 @@ function Get-WatchHealth {
         return $null
     }
     $ErrorActionPreference = $prev
-    $xml = & $Adb -s $Serial shell "run-as com.widgetg7.mobile cat shared_prefs/glucose_cache.xml 2>/dev/null"
+    $xml = & $Adb -s $Serial shell "run-as com.glucoseforwatch.mobile cat shared_prefs/glucose_cache.xml 2>/dev/null"
     if (-not $xml) { return $null }
     return [pscustomobject]@{
         Battery = XmlInt $xml "watch_battery_level"
@@ -67,15 +67,15 @@ function Get-FatalCount {
     return @(
         $chunk |
             Select-String -Pattern "FATAL EXCEPTION|AndroidRuntime.*FATAL" |
-            Where-Object { $_.Line -match "widgetg7" }
+            Where-Object { $_.Line -match "gfw" }
     ).Count
 }
 
 $sdkDir = Read-LocalProperty "sdk.dir"
 if (-not $sdkDir) { $sdkDir = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdkDir "platform-tools\adb.exe"
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
-$watch = Read-LocalProperty "widgetg7.adb.watch.serial"
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
+$watch = Read-LocalProperty "gfw.adb.watch.serial"
 if (-not $phone) { Write-Error "No phone on adb" }
 
 $sessionDir = Join-Path $Root "docs\qa\sessions"

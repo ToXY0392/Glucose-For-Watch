@@ -13,7 +13,7 @@ $ErrorActionPreference = "Stop"
 $Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Set-Location $Root
 
-$PackageId = "com.widgetg7.mobile"
+$PackageId = "com.glucoseforwatch.mobile"
 $CapturesDir = Join-Path $Root "docs\qa\captures"
 $PngPath = Join-Path $CapturesDir "live-phone.png"
 $HtmlPath = Join-Path $CapturesDir "live-phone-preview.html"
@@ -46,8 +46,8 @@ function Resolve-Adb {
 
 function Resolve-PhoneSerial {
     param([string]$Adb)
-    $prop = Read-LocalProperty "widgetg7.adb.phone.serial"
-    if (-not $prop) { $prop = $env:WIDGETG7_PHONE_SERIAL }
+    $prop = Read-LocalProperty "gfw.adb.phone.serial"
+    if (-not $prop) { $prop = $env:GFW_PHONE_SERIAL }
     $online = @(
         & $Adb devices 2>$null |
             Select-String "\sdevice$" |

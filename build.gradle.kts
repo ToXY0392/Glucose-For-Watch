@@ -14,17 +14,17 @@ plugins {
 /**
  * Déploiement debug local (Linux/Unix prioritaire, Windows compatible) :
  *
- *   widgetg7.adb.phone.serial=<id adb du téléphone>
- *   widgetg7.adb.watch.serial=<id adb de la montre>
+ *   gfw.adb.phone.serial=<id adb du téléphone>
+ *   gfw.adb.watch.serial=<id adb de la montre>
  *
  * Variables d'environnement supportées :
- *   WIDGETG7_PHONE_SERIAL, WIDGETG7_WATCH_SERIAL
+ *   GFW_PHONE_SERIAL, GFW_WATCH_SERIAL
  *   ANDROID_SDK_ROOT (ou ANDROID_HOME) si sdk.dir absent de local.properties
  *
- * Commande : ./gradlew installWidgetG7Debug   (Windows : .\gradlew.bat installWidgetG7Debug)
+ * Commande : ./gradlew installGlucoseForWatchDebug   (Windows : .\gradlew.bat installGlucoseForWatchDebug)
  */
-tasks.register("installWidgetG7Debug") {
-    group = "widget g7"
+tasks.register("installGlucoseForWatchDebug") {
+    group = "glucose for watch"
     description = "assembleDebug (mobile + wear) puis adb install sur phone et montre configurés"
     dependsOn(":mobile:assembleDebug", ":wear:assembleDebug")
 
@@ -55,17 +55,17 @@ tasks.register("installWidgetG7Debug") {
         }
 
         val phoneSerial =
-            props.getProperty("widgetg7.adb.phone.serial")?.trim()
-                ?: System.getenv("WIDGETG7_PHONE_SERIAL")?.trim()
+            props.getProperty("gfw.adb.phone.serial")?.trim()
+                ?: System.getenv("GFW_PHONE_SERIAL")?.trim()
                 ?: error(
-                    "Série phone manquante : ajoutez widgetg7.adb.phone.serial dans local.properties " +
+                    "Série phone manquante : ajoutez gfw.adb.phone.serial dans local.properties " +
                         "(liste : adb devices -l)",
                 )
         val watchSerial =
-            props.getProperty("widgetg7.adb.watch.serial")?.trim()
-                ?: System.getenv("WIDGETG7_WATCH_SERIAL")?.trim()
+            props.getProperty("gfw.adb.watch.serial")?.trim()
+                ?: System.getenv("GFW_WATCH_SERIAL")?.trim()
                 ?: error(
-                    "Série montre manquante : ajoutez widgetg7.adb.watch.serial dans local.properties " +
+                    "Série montre manquante : ajoutez gfw.adb.watch.serial dans local.properties " +
                         "(liste : adb devices -l)",
                 )
 
@@ -88,6 +88,6 @@ tasks.register("installWidgetG7Debug") {
         adb("-s", phoneSerial, "install", "-t", "-r", mobileApk.absolutePath)
         println(">>> adb install wear → $watchSerial")
         adb("-s", watchSerial, "install", "-t", "-r", wearApk.absolutePath)
-        println(">>> installWidgetG7Debug terminé")
+        println(">>> installGlucoseForWatchDebug terminé")
     }
 }

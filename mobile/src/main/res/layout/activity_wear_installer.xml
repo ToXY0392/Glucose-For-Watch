@@ -265,7 +265,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/wearInstallerDirectOcrButton"
-                    style="@style/Widget.WidgetG7.SecondaryButton"
+                    style="@style/Widget.GlucoseForWatch.SecondaryButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
@@ -275,7 +275,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/wearInstallerDirectIpLayout"
-                    style="@style/Widget.WidgetG7.InputLayout"
+                    style="@style/Widget.GlucoseForWatch.InputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -292,7 +292,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.WidgetG7.InputLayout"
+                    style="@style/Widget.GlucoseForWatch.InputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -309,7 +309,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.WidgetG7.InputLayout"
+                    style="@style/Widget.GlucoseForWatch.InputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -328,7 +328,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/wearInstallerDirectPairButton"
-                    style="@style/Widget.WidgetG7.SecondaryButton"
+                    style="@style/Widget.GlucoseForWatch.SecondaryButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -361,7 +361,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/wearInstallerDirectAdbPortLayout"
-                    style="@style/Widget.WidgetG7.InputLayout"
+                    style="@style/Widget.GlucoseForWatch.InputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
@@ -379,7 +379,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/wearInstallerDirectInstallButton"
-                    style="@style/Widget.WidgetG7.PrimaryButton"
+                    style="@style/Widget.GlucoseForWatch.PrimaryButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"

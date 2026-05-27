@@ -101,5 +101,5 @@
   </g>
 
   <rect x="70" y="678" width="760" height="32" rx="6" fill="#eceff1"/>
-  <text x="450" y="699" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#455a64">:core:datalayer-contract - poll 45s (120s degraded) - installWidgetG7Debug sideload</text>
+  <text x="450" y="699" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#455a64">:core:datalayer-contract - poll 45s (120s degraded) - installGlucoseForWatchDebug sideload</text>
 </svg>

@@ -12,12 +12,12 @@ Write-Host "`n=== Android Studio Compose Preview ===" -ForegroundColor Cyan
 Write-Host @"
 
 1. Gradle Sync (File > Sync Project with Gradle Files)
-2. Ouvrir : wear/src/main/java/com/widgetg7/wear/ui/WearStatusScreenPreview.kt
+2. Ouvrir : wear/src/main/java/com/glucoseforwatch/wear/ui/WearStatusScreenPreview.kt
 3. View > Tool Windows > Preview  (ou Split / Design)
 4. Choisir un preview : In range 120 | High 200 | Stale | No data
 
 APK debug (si appareil/AVD connecté) :
-  .\gradlew.bat installWidgetG7Debug
+  .\gradlew.bat installGlucoseForWatchDebug
 
 "@
 

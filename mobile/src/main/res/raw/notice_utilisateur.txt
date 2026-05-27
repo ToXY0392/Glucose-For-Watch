@@ -6,7 +6,7 @@ Dernière mise à jour : 30 avril 2026
 
 - Installer l'app mobile sur le téléphone.
 - Installer l'app Wear sur la montre.
-- Ouvrir Widget G7 sur le téléphone.
+- Ouvrir Glucose For Watch sur le téléphone.
 - Accepter les textes requis.
 - Se connecter avec Dexcom Share.
 - Ouvrir les paramètres montre.
@@ -30,14 +30,14 @@ Vérifier :
 - la connexion internet du téléphone ;
 - la connexion Bluetooth / Wear OS ;
 - la connexion Dexcom Share ;
-- la notification permanente Widget G7 ;
+- la notification permanente Glucose For Watch ;
 - l'autorisation de sync en veille ;
 - la batterie de la montre ;
 - la présence de la tile ou de la complication.
 
 4. Important
 
-Widget G7 n'est pas un dispositif médical officiel.
+Glucose For Watch n'est pas un dispositif médical officiel.
 
 En cas de doute, vérifier la valeur dans l'application Dexcom G7, le récepteur Dexcom ou une solution officielle adaptée.
 

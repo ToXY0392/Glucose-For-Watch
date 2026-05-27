@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.widgetg7.core.datalayer"
+    namespace = "com.glucoseforwatch.core.datalayer"
     compileSdk = 36
 
     defaultConfig {

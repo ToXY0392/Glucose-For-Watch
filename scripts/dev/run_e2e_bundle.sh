@@ -33,18 +33,18 @@ fi
 
 echo "[gfw] Preparing evidence pack"
 EVIDENCE_DIR="$(bash ./scripts/dev/prepare_e2e_evidence_pack.sh | tail -n 1)"
-export WIDGETG7_E2E_EVIDENCE_DIR="$EVIDENCE_DIR"
+export GFW_E2E_EVIDENCE_DIR="$EVIDENCE_DIR"
 
-if [[ -n "${WIDGETG7_PHONE_SERIAL:-}" && -n "${WIDGETG7_WATCH_SERIAL:-}" ]]; then
+if [[ -n "${GFW_PHONE_SERIAL:-}" && -n "${GFW_WATCH_SERIAL:-}" ]]; then
   echo "[gfw] Collecting diagnostics pack"
   DIAGNOSTICS_DIR="$(bash ./scripts/dev/collect_sync_diagnostics.sh | tail -n 1)"
-  export WIDGETG7_DIAGNOSTICS_DIR="$DIAGNOSTICS_DIR"
+  export GFW_DIAGNOSTICS_DIR="$DIAGNOSTICS_DIR"
 else
   if [[ "$REQUIRE_DIAGNOSTICS" -eq 1 ]]; then
-    echo "[gfw] --full requires diagnostics; set WIDGETG7_PHONE_SERIAL and WIDGETG7_WATCH_SERIAL" >&2
+    echo "[gfw] --full requires diagnostics; set GFW_PHONE_SERIAL and GFW_WATCH_SERIAL" >&2
     exit 1
   fi
-  echo "[gfw] Diagnostics skipped (set WIDGETG7_PHONE_SERIAL and WIDGETG7_WATCH_SERIAL)"
+  echo "[gfw] Diagnostics skipped (set GFW_PHONE_SERIAL and GFW_WATCH_SERIAL)"
 fi
 
 echo "[gfw] Finalizing closure pack"

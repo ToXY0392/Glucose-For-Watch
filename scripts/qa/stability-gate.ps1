@@ -59,13 +59,13 @@ if (-not $CheckLogcatOnly -and -not $SkipCi) {
 $sdkDir = Read-LocalProperty "sdk.dir"
 if (-not $sdkDir) { $sdkDir = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdkDir "platform-tools\adb.exe"
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
 
 if (-not $CheckLogcatOnly) {
     if (-not (Test-Path $adb)) {
         Step-Warn "adb introuvable - hardware smoke ignore"
     } elseif (-not $phone) {
-        Step-Warn "widgetg7.adb.phone.serial absent - hardware smoke ignore"
+        Step-Warn "gfw.adb.phone.serial absent - hardware smoke ignore"
     } else {
         Write-Host "`n-- hardware-smoke.ps1 --" -ForegroundColor DarkCyan
         try {
@@ -83,15 +83,15 @@ if (Test-Path $adb) {
         $phone = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] } | Select-Object -First 1)
     }
     if ($phone) {
-        Write-Host "`n-- logcat FATAL (com.widgetg7.mobile) --" -ForegroundColor DarkCyan
+        Write-Host "`n-- logcat FATAL (com.glucoseforwatch.mobile) --" -ForegroundColor DarkCyan
         $fatals = & $adb -s $phone logcat -d -v time 2>$null |
-            Select-String -Pattern "FATAL EXCEPTION.*com\.widgetg7\.mobile|Process: com\.widgetg7\.mobile.*FATAL" |
+            Select-String -Pattern "FATAL EXCEPTION.*com\.gfw\.mobile|Process: com\.gfw\.mobile.*FATAL" |
             Select-Object -Last 5
         if ($fatals) {
             Step-Fail "FATAL logcat detecte ($($fatals.Count) recent(s))"
             $fatals | ForEach-Object { Write-Host "  $_" -ForegroundColor DarkRed }
         } else {
-            Step-Ok "aucun FATAL recent com.widgetg7.mobile"
+            Step-Ok "aucun FATAL recent com.glucoseforwatch.mobile"
         }
     } else {
         Step-Warn "pas de phone adb pour scan logcat"

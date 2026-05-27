@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Final prose polish: Widget G7 -> Glucose For Watch (agent/docs/scripts)."""
+"""Final prose polish: Glucose For Watch -> Glucose For Watch (agent/docs/scripts)."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -19,9 +19,9 @@ TEXT_FILES = [
 ]
 
 REPLACEMENTS = [
-    ("[widget-g7]", "[gfw]"),
-    ("widget-g7-agp-color-guard", "glucose-for-watch-agp-color-guard"),
-    ("Widget G7", "Glucose For Watch"),
+    ("[glucose-for-watch]", "[gfw]"),
+    ("glucose-for-watch-agp-color-guard", "glucose-for-watch-agp-color-guard"),
+    ("Glucose For Watch", "Glucose For Watch"),
     ("v0.5.0 or v0.6.0", "v0.7.0 post-v0.6"),
     (
         "- Local folder: **`Glucose For Watch`** (unchanged)",

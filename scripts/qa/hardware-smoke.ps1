@@ -20,7 +20,7 @@ function Read-LocalProperty {
 $sdkDir = Read-LocalProperty "sdk.dir"
 if (-not $sdkDir) { $sdkDir = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdkDir "platform-tools\adb.exe"
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
 if (-not $phone) {
     $phone = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] } | Select-Object -First 1)
 }
@@ -30,7 +30,7 @@ Write-Host "`n=== Glucose For Watch hardware smoke ($phone) ===" -ForegroundColo
 
 function Get-AppXml {
     param([string]$PrefsName)
-    & $adb -s $phone shell "run-as com.widgetg7.mobile cat shared_prefs/$PrefsName.xml 2>/dev/null"
+    & $adb -s $phone shell "run-as com.glucoseforwatch.mobile cat shared_prefs/$PrefsName.xml 2>/dev/null"
 }
 
 function XmlValue {
@@ -42,12 +42,12 @@ function XmlValue {
     return $null
 }
 
-$pkg = & $adb -s $phone shell pm path com.widgetg7.mobile 2>$null
+$pkg = & $adb -s $phone shell pm path com.glucoseforwatch.mobile 2>$null
 if (-not $pkg) { Write-Host "[FAIL] App not installed" -ForegroundColor Red; exit 1 }
-Write-Host "[OK] com.widgetg7.mobile installed" -ForegroundColor Green
+Write-Host "[OK] com.glucoseforwatch.mobile installed" -ForegroundColor Green
 
 $sync = Get-AppXml "widget_g7_sync_status"
-$state = Get-AppXml "widget_g7_phone_sync_state"
+$state = Get-AppXml "gfw_phone_sync_state"
 $health = Get-AppXml "widget_g7_watch_health"
 
 $lastValue = XmlValue $sync "last_value"

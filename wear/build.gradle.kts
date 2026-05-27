@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.widgetg7.wear"
+    namespace = "com.glucoseforwatch.wear"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.widgetg7.mobile"
+        applicationId = "com.glucoseforwatch.mobile"
         minSdk = 30
         targetSdk = 36
         versionCode = 25

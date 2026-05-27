@@ -21,8 +21,8 @@
 
 ## Logcat
 
-- Phone FATAL widgetg7: 0
-- Watch FATAL widgetg7: 0
+- Phone FATAL gfw: 0
+- Watch FATAL gfw: 0
 
 ## Gate note
 

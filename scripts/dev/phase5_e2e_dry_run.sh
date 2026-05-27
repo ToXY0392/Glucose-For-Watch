@@ -11,7 +11,7 @@ bash ./scripts/release/verify_release_artifacts.sh
 bash ./scripts/release/check_legal_placeholders.sh
 
 echo "[gfw] Optional diagnostics collection"
-echo " - set WIDGETG7_PHONE_SERIAL and WIDGETG7_WATCH_SERIAL"
+echo " - set GFW_PHONE_SERIAL and GFW_WATCH_SERIAL"
 echo " - run: bash ./scripts/dev/collect_sync_diagnostics.sh"
 
 echo "[gfw] Phase 5 E2E dry-run completed"

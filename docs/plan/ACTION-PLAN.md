@@ -188,7 +188,7 @@ G-C ──► D tests ──► G-D ──► G-M7 (v0.5.0)
 
 ```powershell
 .\scripts\qa\stability-gate.ps1 -Strict
-.\gradlew.bat installWidgetG7Debug   # if touching mobile/wear
+.\gradlew.bat installGlucoseForWatchDebug   # if touching mobile/wear
 ```
 
 - [ ] Fill in [PR-CHECKLIST.md](PR-CHECKLIST.md)
@@ -231,7 +231,7 @@ G-C ──► D tests ──► G-D ──► G-M7 (v0.5.0)
 | Compile mobile/wear | verify_ci | — | each PR |
 | Push/ack seq | hardware-smoke | — | if adb |
 | FATAL logcat | stability-gate | — | each PR |
-| Install APK | installWidgetG7Debug | — | post-change |
+| Install APK | installGlucoseForWatchDebug | — | post-change |
 | AGP colors | — | C.1 | 1× gate |
 | Soak 8h | — | C.7 | 1× M7 |
 | Complication 30m | — | C.2 | 1× G-B/C |
@@ -268,7 +268,7 @@ Summary:
 | F4 | Installer | OCR | optional XML |
 | F5 | cleanup | low | full smoke |
 
-**Reuse:** `HomeViewModel` (Block M) · `WidgetG7Theme` toxy tokens · `@Preview` replaces Robolectric.
+**Reuse:** `HomeViewModel` (Block M) · `GlucoseForWatchTheme` toxy tokens · `@Preview` replaces Robolectric.
 
 ---
 

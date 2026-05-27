@@ -28,17 +28,19 @@ if (-not $sdk) { $sdk = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdk "platform-tools\adb.exe"
 if (-not (Test-Path $adb)) { Write-Error "adb not found: $adb" }
 
-# Packages historiques ou doublons possibles (canonique = com.widgetg7.mobile)
+# Packages historiques ou doublons possibles (canonique = com.glucoseforwatch.mobile)
 $LegacyPackages = @(
-    "com.widgetg7.wear"
-    "com.widgetg7"
-    "com.toxy.mobile"
-    "com.toxy.wear"
-    "com.toxy"
-    "com.widgetg7.mobile.debug"
+    "com.widgetg7.mobile",
+    "com.widgetg7.wear",
+    "com.widgetg7",
+    "com.glucoseforwatch.wear",
+    "com.toxy.mobile",
+    "com.toxy.wear",
+    "com.toxy",
+    "com.glucoseforwatch.mobile.debug"
 )
 
-$CurrentPackage = "com.widgetg7.mobile"
+$CurrentPackage = "com.glucoseforwatch.mobile"
 
 Write-Host "`n=== Uninstall legacy apps ===" -ForegroundColor Cyan
 & $adb devices -l | Out-Host

@@ -48,7 +48,7 @@ If `feature/sync/**` must change → stop · use `feat/bloc-b-*` or `workspace/s
 
 ## Hard constraints (soak)
 
-Do not run `installWidgetG7Debug` / `adb install` during active soak unless user explicitly asks.
+Do not run `installGlucoseForWatchDebug` / `adb install` during active soak unless user explicitly asks.
 
 ## Output
 

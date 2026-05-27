@@ -24,10 +24,10 @@ Copy/paste into every PR description.
 
 ### Hardware (if mobile/wear touched or bloc gate)
 
-- [ ] `.\gradlew.bat installWidgetG7Debug` — OK phone + watch
+- [ ] `.\gradlew.bat installGlucoseForWatchDebug` — OK phone + watch
 - [ ] `.\scripts\qa\hardware-smoke.ps1` — no critical FAIL
 - [ ] Push seq / Ack seq noted: _____ / _____
-- [ ] 0 new `FATAL` logcat `com.widgetg7.mobile`
+- [ ] 0 new `FATAL` logcat `com.glucoseforwatch.mobile`
 
 ### Code quality
 
@@ -61,6 +61,6 @@ Copy/paste into every PR description.
 ## Rollback (if post-merge issue)
 
 1. `git revert <commit>`
-2. `installWidgetG7Debug`
+2. `installGlucoseForWatchDebug`
 3. `stability-gate.ps1 -Strict`
 4. Incident report + retest minimum **G-X** if sync

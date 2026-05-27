@@ -18,7 +18,7 @@ Glucose For Watch syncs Dexcom Share glucose from a phone to a Wear OS companion
 | `:feature:dexcom-share` | Dexcom Share HTTP client |
 | `:feature:watch-install` | Embedded wear APK install (debug) |
 
-Both apps share `applicationId = com.widgetg7.mobile`.
+Both apps share `applicationId = com.glucoseforwatch.mobile`.
 
 ## Sync flow
 
@@ -122,7 +122,7 @@ Spec: [toxy-ux-kit/spec/01-agp-medical-layer.md](../../toxy-ux-kit/spec/01-agp-m
 
 ```powershell
 .\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
-.\gradlew.bat installWidgetG7Debug
+.\gradlew.bat installGlucoseForWatchDebug
 ```
 
 - Phone and watch values match

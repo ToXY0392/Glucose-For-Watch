@@ -29,13 +29,13 @@ function Read-LocalProperty {
 $sdkDir = Read-LocalProperty "sdk.dir"
 if (-not $sdkDir) { $sdkDir = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdkDir "platform-tools\adb.exe"
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
 if (-not $phone) {
     $phone = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] } | Select-Object -First 1)
 }
 if (-not $phone) { Write-Error "No phone on adb" }
 
-$PackageId = "com.widgetg7.mobile"
+$PackageId = "com.glucoseforwatch.mobile"
 $sessionDir = Join-Path $Root "docs\qa\sessions"
 New-Item -ItemType Directory -Force -Path $sessionDir | Out-Null
 $stamp = Get-Date -Format "yyyy-MM-dd_HHmm"
@@ -48,7 +48,7 @@ function Get-FatalLines {
     return @(
         $chunk |
             Select-String -Pattern "FATAL EXCEPTION|AndroidRuntime.*FATAL" |
-            Where-Object { $_.Line -match "widgetg7" } |
+            Where-Object { $_.Line -match "gfw" } |
             ForEach-Object { $_.Line }
     )
 }

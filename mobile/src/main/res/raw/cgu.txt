@@ -6,7 +6,7 @@ Le texte juridique definitif est maintenu hors depot (voir docs/CGU.md en local)
 En attendant publication Play Store, cette application est distribuee en sideload PC.
 
 1. Objet
-Widget G7 affiche la glycemie Dexcom sur telephone et montre Wear OS a usage personnel.
+Glucose For Watch affiche la glycemie Dexcom sur telephone et montre Wear OS a usage personnel.
 
 2. Avertissement medical
 Cette application ne remplace pas un dispositif medical certifie ni un avis medical.

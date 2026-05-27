@@ -47,7 +47,7 @@ function XmlInt {
 
 function Get-PhoneHero {
     param([string]$Adb, [string]$Serial)
-    $xml = & $Adb -s $Serial shell "run-as com.widgetg7.mobile cat shared_prefs/widget_g7_sync_status.xml 2>/dev/null"
+    $xml = & $Adb -s $Serial shell "run-as com.glucoseforwatch.mobile cat shared_prefs/widget_g7_sync_status.xml 2>/dev/null"
     return XmlInt $xml "last_value"
 }
 
@@ -58,7 +58,7 @@ function Get-WatchCacheValue {
     $state = & $Adb -s $Serial get-state 2>$null
     $ErrorActionPreference = $prev
     if ($state -ne "device") { return $null }
-    $xml = & $Adb -s $Serial shell "run-as com.widgetg7.mobile cat shared_prefs/glucose_cache.xml 2>/dev/null"
+    $xml = & $Adb -s $Serial shell "run-as com.glucoseforwatch.mobile cat shared_prefs/glucose_cache.xml 2>/dev/null"
     return XmlInt $xml "valueMgDl"
 }
 
@@ -73,7 +73,7 @@ function Get-FatalCount {
     return @(
         $chunk |
             Select-String -Pattern "FATAL EXCEPTION|AndroidRuntime.*FATAL" |
-            Where-Object { $_.Line -match "widgetg7" }
+            Where-Object { $_.Line -match "gfw" }
     ).Count
 }
 
@@ -128,8 +128,8 @@ function Watch-Online {
 $sdkDir = Read-LocalProperty "sdk.dir"
 if (-not $sdkDir) { $sdkDir = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdkDir "platform-tools\adb.exe"
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
-$watch = Read-LocalProperty "widgetg7.adb.watch.serial"
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
+$watch = Read-LocalProperty "gfw.adb.watch.serial"
 if (-not $phone) {
     $phone = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] } | Where-Object { $_ -notmatch "^adb-" } | Select-Object -First 1)
 }
@@ -142,7 +142,7 @@ $reportPath = Join-Path $sessionDir "$stamp-C3-offline-sample.md"
 
 Write-Host "`n=== C.3 offline session (${OfflineMinutes}m offline) ===" -ForegroundColor Cyan
 Write-Host "Phone: $phone"
-Write-Host "Watch: $(if ($watch) { $watch } else { 'n/a - set widgetg7.adb.watch.serial' })`n"
+Write-Host "Watch: $(if ($watch) { $watch } else { 'n/a - set gfw.adb.watch.serial' })`n"
 
 & $adb -s $phone logcat -c | Out-Null
 if ($watch -and (Watch-Online -Adb $adb -Serial $watch)) {
@@ -287,8 +287,8 @@ $lines += @(
     ""
     "## Logcat"
     ""
-    "- Phone FATAL widgetg7: $phoneFatals"
-    "- Watch FATAL widgetg7: $watchFatals"
+    "- Phone FATAL gfw: $phoneFatals"
+    "- Watch FATAL gfw: $watchFatals"
     ""
 )
 $lines | Set-Content -Path $reportPath -Encoding UTF8

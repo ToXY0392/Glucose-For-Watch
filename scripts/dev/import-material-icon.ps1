@@ -35,7 +35,7 @@ $styleFolder = switch ($Style) {
 }
 
 $apiListUrl = "https://api.github.com/repos/google/material-design-icons/contents/symbols/android/$IconName/$styleFolder?ref=master"
-$ghHeaders = @{ "User-Agent" = "WidgetG7-import-script" }
+$ghHeaders = @{ "User-Agent" = "GlucoseForWatch-import-script" }
 
 Write-Host "`n=== Material Symbols (official) ===" -ForegroundColor Cyan
 Write-Host "Icon : $IconName | Style : $Style | Size : ${Size}px | Target : $Target`n"

@@ -17,7 +17,7 @@ param(
     [switch]$LaunchApp
 )
 
-$PackageId = "com.widgetg7.mobile"
+$PackageId = "com.glucoseforwatch.mobile"
 
 $ErrorActionPreference = "Stop"
 $Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
@@ -42,12 +42,12 @@ if (-not (Test-Path $adb)) {
     Write-Error "adb not found: $adb - set sdk.dir in local.properties"
 }
 
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
-$watch = Read-LocalProperty "widgetg7.adb.watch.serial"
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
+$watch = Read-LocalProperty "gfw.adb.watch.serial"
 if (-not $phone) {
     $phone = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] } | Select-Object -First 1)
 }
-if (-not $phone) { Write-Error "No phone on adb. Connect Pixel 8a or set widgetg7.adb.phone.serial" }
+if (-not $phone) { Write-Error "No phone on adb. Connect Pixel 8a or set gfw.adb.phone.serial" }
 
 $captureDir = Join-Path $Root "docs\qa\captures"
 $sessionDir = Join-Path $Root "docs\qa\sessions"
@@ -115,7 +115,7 @@ function Invoke-C1Capture {
             Write-Warning "Watch serial configured but not online: $watch"
         }
     } elseif (-not $PhoneOnly) {
-        Write-Host "[INFO] No widgetg7.adb.watch.serial - phone capture only" -ForegroundColor Yellow
+        Write-Host "[INFO] No gfw.adb.watch.serial - phone capture only" -ForegroundColor Yellow
     }
 
     return $files
