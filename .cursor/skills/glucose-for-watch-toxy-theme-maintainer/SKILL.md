@@ -4,7 +4,7 @@ description: Keeps ToXY chrome tokens in sync between toxy-ux-kit JSON, exported
 disable-model-invocation: true
 ---
 
-# Widget G7 ToXY Theme Maintainer
+# Glucose For Watch ToXY Theme Maintainer
 
 ## Goal
 Single source of truth: `toxy-ux-kit/tokens/toxy.color.json` → export → `mobile/src/main/res/values/toxy_colors.xml`.

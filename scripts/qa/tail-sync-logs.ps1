@@ -33,10 +33,10 @@ if (-not $sdkDir -or -not (Test-Path $sdkDir)) { $sdkDir = Join-Path $env:LOCALA
 $adb = Join-Path $sdkDir "platform-tools\adb.exe"
 if (-not (Test-Path $adb)) { Write-Error "adb not found: $adb" }
 
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
-if (-not $phone) { $phone = $env:WIDGETG7_PHONE_SERIAL }
-$watch = Read-LocalProperty "widgetg7.adb.watch.serial"
-if (-not $watch) { $watch = $env:WIDGETG7_WATCH_SERIAL }
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
+if (-not $phone) { $phone = $env:GFW_PHONE_SERIAL }
+$watch = Read-LocalProperty "gfw.adb.watch.serial"
+if (-not $watch) { $watch = $env:GFW_WATCH_SERIAL }
 
 $tags = "WG7.PhoneSyncEngine|WG7.PhoneWearRefresh|WG7.WearDataLayer|WG7.Complication|GlucoseRefresh"
 

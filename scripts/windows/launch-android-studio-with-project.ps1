@@ -1,10 +1,10 @@
 # Lance Android Studio en lui passant le dossier projet (evite certains soucis File > Open).
 # Usage (PowerShell normal) :
 #   .\launch-android-studio-with-project.ps1
-#   .\launch-android-studio-with-project.ps1 -ProjectPath "C:\Dev\Widget-G7"
+#   .\launch-android-studio-with-project.ps1 -ProjectPath "C:\Dev\Glucose-For-Watch"
 
 param(
-    [string] $ProjectPath = "C:\Dev\Widget-G7"
+    [string] $ProjectPath = "C:\Dev\Glucose-For-Watch"
 )
 
 $studio = @(

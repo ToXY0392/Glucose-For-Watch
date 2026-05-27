@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Widget.WidgetG7.SectionCard" parent="Widget.Material3.CardView.Elevated">
+    <style name="Widget.GlucoseForWatch.SectionCard" parent="Widget.Material3.CardView.Elevated">
         <item name="cardBackgroundColor">@color/wg7_surface</item>
         <item name="strokeColor">@color/wg7_card_stroke</item>
         <item name="strokeWidth">@dimen/wg7_accent_stroke</item>
@@ -9,7 +9,7 @@
         <item name="contentPadding">0dp</item>
     </style>
 
-    <style name="Widget.WidgetG7.PrimaryButton" parent="Widget.Material3.Button">
+    <style name="Widget.GlucoseForWatch.PrimaryButton" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/wg7_surface</item>
         <item name="strokeColor">@color/wg7_card_stroke</item>
         <item name="strokeWidth">@dimen/wg7_accent_stroke</item>
@@ -21,7 +21,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Widget.WidgetG7.SecondaryButton" parent="Widget.Material3.Button.OutlinedButton">
+    <style name="Widget.GlucoseForWatch.SecondaryButton" parent="Widget.Material3.Button.OutlinedButton">
         <item name="backgroundTint">@color/wg7_surface</item>
         <item name="strokeColor">@color/wg7_card_stroke</item>
         <item name="strokeWidth">@dimen/wg7_accent_stroke</item>
@@ -33,7 +33,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Widget.WidgetG7.CompactSecondaryButton" parent="Widget.WidgetG7.SecondaryButton">
+    <style name="Widget.GlucoseForWatch.CompactSecondaryButton" parent="Widget.GlucoseForWatch.SecondaryButton">
         <item name="android:minHeight">36dp</item>
         <item name="android:paddingStart">14dp</item>
         <item name="android:paddingEnd">14dp</item>
@@ -42,16 +42,16 @@
         <item name="android:insetBottom">0dp</item>
     </style>
 
-    <style name="Widget.WidgetG7.InputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
+    <style name="Widget.GlucoseForWatch.InputLayout" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">@color/wg7_surface_alt</item>
         <item name="boxStrokeColor">@color/wg7_outline</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxStrokeWidthFocused">1dp</item>
         <item name="hintTextColor">@color/wg7_text_secondary</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.WidgetG7.Input</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearance.GlucoseForWatch.Input</item>
     </style>
 
-    <style name="ShapeAppearance.WidgetG7.Input" parent="">
+    <style name="ShapeAppearance.GlucoseForWatch.Input" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">18dp</item>
     </style>

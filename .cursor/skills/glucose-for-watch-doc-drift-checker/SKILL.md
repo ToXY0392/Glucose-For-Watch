@@ -1,6 +1,6 @@
 ---
 name: glucose-for-watch-doc-drift-checker
-description: Compares Widget G7 internal documentation against recent official docs, detects obsolescence, proposes a prioritized patch, and applies doc updates when editing is authorized.
+description: Compares Glucose For Watch internal documentation against recent official docs, detects obsolescence, proposes a prioritized patch, and applies doc updates when editing is authorized.
 disable-model-invocation: true
 ---
 

@@ -14,7 +14,7 @@ $watch = $serials | Where-Object { $_ -ne $phone -and $_ -notmatch "^emulator-" 
 
 if ($phone -and $watch) {
     Write-Host "Phone + montre detectes -> install complete" -ForegroundColor Green
-    .\gradlew.bat installWidgetG7Debug
+    .\gradlew.bat installGlucoseForWatchDebug
     exit $LASTEXITCODE
 }
 
@@ -22,7 +22,7 @@ if ($phone) {
     Write-Host "Phone seul -> install mobile" -ForegroundColor Green
     $env:ANDROID_SERIAL = $phone
     .\gradlew.bat :mobile:installDebug
-    & $adb -s $phone shell am start -n com.widgetg7.mobile/.SplashActivity
+    & $adb -s $phone shell am start -n com.glucoseforwatch.mobile/.SplashActivity
     exit $LASTEXITCODE
 }
 

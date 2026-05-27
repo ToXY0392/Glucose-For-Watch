@@ -1,0 +1,25 @@
+package com.glucoseforwatch.mobile.sync
+
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import com.glucoseforwatch.mobile.settings.AppSettingsStore
+
+/** Alarm receiver: starts active sync or enqueues a one-shot Worker. */
+class PhoneAutoSyncReceiver : BroadcastReceiver() {
+
+    override fun onReceive(context: Context, intent: Intent?) {
+        if (!AppSettingsStore(context).loadDexcomSettings().isConfigured()) {
+            return
+        }
+
+        val settingsStore = AppSettingsStore(context)
+        PhoneAutoSyncScheduler.schedule(context)
+        if (settingsStore.isActiveSyncEnabled()) {
+            ActiveGlucoseSyncController.start(context)
+            return
+        }
+
+        BackgroundSyncFallback.enqueueImmediateSync(context)
+    }
+}

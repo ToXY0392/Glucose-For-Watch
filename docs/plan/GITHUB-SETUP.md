@@ -28,7 +28,7 @@
 ### Target architecture
 
 ```
-GitHub Repo (Widget G7)
+GitHub Repo (Glucose For Watch)
 ├── Branches
 │   ├── main              ← tagged releases (v0.5.0, v0.6.0)
 │   ├── integrate         ← daily integration (formerly rebuild)
@@ -535,7 +535,7 @@ Create these issues **in order** and add them to the Project (milestone v0.5.0 e
 
 | Issue | Block | Gate |
 |-------|------|------|
-| `[bloc-f0] F0 — Gradle Compose + WidgetG7Theme` | F0 | G-F0 |
+| `[bloc-f0] F0 — Gradle Compose + GlucoseForWatchTheme` | F0 | G-F0 |
 | `[bloc-f3] F3 — HomeScreen Compose + G-F3 gate` | F3 | G-F3 |
 
 ---
@@ -606,7 +606,7 @@ Create these issues **in order** and add them to the Project (milestone v0.5.0 e
 ## Appendix — AGENTS.md (suggested excerpt)
 
 ```markdown
-# Agent guide — Widget G7
+# Agent guide — Glucose For Watch
 
 ## Plan docs
 - Hub: docs/index.md

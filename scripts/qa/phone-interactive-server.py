@@ -16,7 +16,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 HTML_PATH = Path(__file__).with_name("phone-interactive-remote.html")
-PACKAGE = "com.widgetg7.mobile/.SplashActivity"
+PACKAGE = "com.glucoseforwatch.mobile/.SplashActivity"
 
 KEY_BACK = 4
 KEY_HOME = 3
@@ -182,13 +182,13 @@ def make_handler(phone: PhoneController, html: bytes):
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Interactive phone mirror for Cursor")
-    parser.add_argument("--adb", default=os.environ.get("WIDGETG7_ADB", "adb"))
-    parser.add_argument("--serial", default=os.environ.get("WIDGETG7_PHONE_SERIAL", ""))
+    parser.add_argument("--adb", default=os.environ.get("GFW_ADB", "adb"))
+    parser.add_argument("--serial", default=os.environ.get("GFW_PHONE_SERIAL", ""))
     parser.add_argument("--port", type=int, default=8766)
     args = parser.parse_args()
 
     if not args.serial:
-        print("Missing --serial or WIDGETG7_PHONE_SERIAL", file=sys.stderr)
+        print("Missing --serial or GFW_PHONE_SERIAL", file=sys.stderr)
         return 1
 
     if not HTML_PATH.is_file():

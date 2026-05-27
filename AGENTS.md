@@ -67,7 +67,7 @@ Post v0.6.0: primary sandboxes **`sandbox/mobile-app`**, **`sandbox/documentatio
 | Sync platform sandbox | `glucose-for-watch-sync-platform-scope` |
 | Documentation sandbox | `glucose-for-watch-documentation-scope` |
 
-Agent skill prefix: **`glucose-for-watch-*`** (Android/Gradle IDs remain `WidgetG7` / `com.widgetg7.*`).
+Agent skill prefix: **`glucose-for-watch-*`** · Android package **`com.glucoseforwatch.*`** · Gradle **`GlucoseForWatch`** · install **`installGlucoseForWatchDebug`**
 
 ## Cursor built-in skills
 
@@ -78,11 +78,11 @@ Agent skill prefix: **`glucose-for-watch-*`** (Android/Gradle IDs remain `Widget
 
 ## Hard constraints (active soak)
 
-- Do **not** run `installWidgetG7Debug`, `adb install`, or `adb uninstall` unless explicitly requested.
+- Do **not** run `installGlucoseForWatchDebug`, `adb install`, or `adb uninstall` unless explicitly requested.
 - During C.7 soak: `stability-gate.ps1 -CheckLogcatOnly` for logcat-only checks.
 
 ## Internal IDs (do not rename casually)
 
-- Gradle root: `WidgetG7`
-- Package: `com.widgetg7.*`
-- Install task: `installWidgetG7Debug`
+- Gradle root: `GlucoseForWatch`
+- Package: `com.glucoseforwatch.*`
+- Install task: `installGlucoseForWatchDebug`

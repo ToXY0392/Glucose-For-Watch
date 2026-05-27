@@ -4,7 +4,7 @@ description: Detects USB disconnections of phone or watch via ADB and automatica
 disable-model-invocation: true
 ---
 
-# Widget G7 USB Detach Handoff Writer
+# Glucose For Watch USB Detach Handoff Writer
 
 ## Objective
 Automatically trace USB disconnections of test devices in the developer handoff.
@@ -14,7 +14,7 @@ Automatically trace USB disconnections of test devices in the developer handoff.
 - `.cursor/state/usb-state.json`
 
 ## Preconditions
-- `WIDGETG7_PHONE_SERIAL` and `WIDGETG7_WATCH_SERIAL` defined.
+- `GFW_PHONE_SERIAL` and `GFW_WATCH_SERIAL` defined.
 - `adb` available in PATH.
 
 ## Workflow

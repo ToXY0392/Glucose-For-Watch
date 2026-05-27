@@ -1,7 +1,7 @@
 # Plan tracking — Glucose For Watch
 
 > **Last updated:** 2026-05-26 · **G-M8 closed** · tag `v0.6.0` · post-v0.6 polish in progress  
-> **Distribution:** PC only (`installWidgetG7Debug`) — no Play Store  
+> **Distribution:** PC only (`installGlucoseForWatchDebug`) — no Play Store  
 > **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
 ---
@@ -228,7 +228,7 @@ Screen detail + tasks: [ACTION-PLAN §11](ACTION-PLAN.md#11-compose-v060) · [PR
 
 ```powershell
 # Dev loop
-.\gradlew.bat installWidgetG7Debug
+.\gradlew.bat installGlucoseForWatchDebug
 
 # Before PR merge
 .\scripts\qa\stability-gate.ps1 -Strict

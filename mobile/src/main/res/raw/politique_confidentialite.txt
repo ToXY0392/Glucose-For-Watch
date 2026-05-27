@@ -6,13 +6,13 @@ Ce texte est prêt à l'usage. Une relecture juridique finale reste recommandée
 
 1. Responsable du traitement
 
-- Nom / raison sociale : Projet Widget G7
+- Nom / raison sociale : Projet Glucose For Watch
 - Adresse : Communication sur demande via e-mail vie privée
-- E-mail vie privée : privacy.widgetg7@proton.me
+- E-mail vie privée : privacy.gfw@proton.me
 
 2. Données traitées
 
-Selon la configuration, Widget G7 peut traiter :
+Selon la configuration, Glucose For Watch peut traiter :
 
 - identifiants Dexcom Share saisis par l'utilisateur ;
 - paramètres de configuration ;
@@ -60,7 +60,7 @@ L'application doit limiter les logs sensibles, protéger le stockage local et é
 
 Selon le droit applicable, l'utilisateur peut disposer de droits sur ses données.
 
-Modalités de contact : Demande par e-mail à privacy.widgetg7@proton.me
+Modalités de contact : Demande par e-mail à privacy.gfw@proton.me
 
 10. Autorité de contrôle
 

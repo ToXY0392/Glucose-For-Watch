@@ -4,7 +4,7 @@ description: Drafts complete, documented pull requests for Glucose For Watch —
 disable-model-invocation: true
 ---
 
-# Widget G7 PR Author
+# Glucose For Watch PR Author
 
 ## Role
 
@@ -18,7 +18,7 @@ Prepare **complete PR packages** before review. Pair with `glucose-for-watch-pr-
 
 ## Hard constraints
 
-- **Never** run `installWidgetG7Debug` / `adb install` during active soak (C.7) unless user explicitly asks.
+- **Never** run `installGlucoseForWatchDebug` / `adb install` during active soak (C.7) unless user explicitly asks.
 - One PR = one measurable bloc objective ([ACTION-PLAN P2](../../../docs/plan/ACTION-PLAN.md)).
 - No credentials, real glucose, or `local.properties` in commits/captures.
 

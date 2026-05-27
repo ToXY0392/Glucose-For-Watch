@@ -15,7 +15,7 @@ Compose phone milestone · gate **G-M8** · sideload PC install only.
 ### Added
 
 - Phone UI Compose M3: Legal, Notice, Dexcom, WatchSetup, **Home** (`HomeScreen`)
-- `WidgetG7Theme` + ToXY phone palette · Compose Gradle BOM
+- `GlucoseForWatchTheme` + ToXY phone palette · Compose Gradle BOM
 - G-F3 QA gate: `docs/qa/G-F3-checklist.md` · `scripts/qa/g-f3-gate.ps1`
 
 ### Changed
@@ -32,7 +32,7 @@ Compose phone milestone · gate **G-M8** · sideload PC install only.
 
 ## [0.5.0] — 2026-05-26
 
-Sideload milestone · gate **G-M7** · PC install only (`installWidgetG7Debug`).
+Sideload milestone · gate **G-M7** · PC install only (`installGlucoseForWatchDebug`).
 
 ### Added
 

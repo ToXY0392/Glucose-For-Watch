@@ -7,7 +7,7 @@
 param(
     [int]$DurationMinutes = 30,
     [string]$Label = "X.6",
-    [string]$PackageId = "com.widgetg7.mobile",
+    [string]$PackageId = "com.glucoseforwatch.mobile",
     [switch]$ClearLogcat = $true,
     [int]$PollSeconds = 60
 )
@@ -33,7 +33,7 @@ if (-not $sdkDir) { $sdkDir = Join-Path $env:LOCALAPPDATA "Android\Sdk" }
 $adb = Join-Path $sdkDir "platform-tools\adb.exe"
 if (-not (Test-Path $adb)) { Write-Error "adb not found: $adb" }
 
-$phone = Read-LocalProperty "widgetg7.adb.phone.serial"
+$phone = Read-LocalProperty "gfw.adb.phone.serial"
 if (-not $phone) {
     $phone = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] } | Select-Object -First 1)
 }
@@ -68,7 +68,7 @@ while ((Get-Date) -lt $deadline) {
     $fatalLogMatches = @(
         $chunk |
             Select-String -Pattern "FATAL EXCEPTION|AndroidRuntime.*FATAL" |
-            Where-Object { $_.Line -match [regex]::Escape($PackageId) -or $_.Line -match "com\.widgetg7" }
+            Where-Object { $_.Line -match [regex]::Escape($PackageId) -or $_.Line -match "com\.gfw" }
     )
     foreach ($hit in $fatalLogMatches) {
         if ($fatalHits -notcontains $hit.Line) {

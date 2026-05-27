@@ -3,9 +3,9 @@
   "name": "ToXY UX Kit",
   "id": "com.toxy.ux-kit",
   "version": "0.2.0",
-  "description": "Standalone design system for Widget G7 — brand chrome (ToXY) and medical glucose colors (AGP). Independent from the Android app modules.",
+  "description": "Standalone design system for Glucose For Watch — brand chrome (ToXY) and medical glucose colors (AGP). Independent from the Android app modules.",
   "license": "UNLICENSED",
-  "maintainers": ["Widget G7 project"],
+  "maintainers": ["Glucose For Watch project"],
   "platforms": {
     "android-mobile": { "minSdk": 28, "designUnit": "dp/sp" },
     "wear-os-tile": { "minSdk": 30, "designUnit": "dp/sp" },
@@ -25,12 +25,12 @@
     }
   },
   "consumers": {
-    "widget-g7-mobile": {
+    "glucose-for-watch-mobile": {
       "path": "../mobile/src/main/res/values",
       "exportScript": "tools/export-android-colors.py"
     },
-    "widget-g7-wear": {
-      "path": "../wear/src/main/java/com/widgetg7/wear/theme",
+    "glucose-for-watch-wear": {
+      "path": "../wear/src/main/java/com/glucoseforwatch/wear/theme",
       "note": "Protolayout constants generated manually or via export script"
     }
   },

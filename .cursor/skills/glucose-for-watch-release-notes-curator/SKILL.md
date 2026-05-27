@@ -1,10 +1,10 @@
 ---
 name: glucose-for-watch-release-notes-curator
-description: Aggregates official release notes from Android, Wear OS, AGP, Gradle, Kotlin, and Dexcom vendors, then extracts points applicable to Widget G7 to pre-fill CHANGELOG.md.
+description: Aggregates official release notes from Android, Wear OS, AGP, Gradle, Kotlin, and Dexcom vendors, then extracts points applicable to Glucose For Watch to pre-fill CHANGELOG.md.
 disable-model-invocation: true
 ---
 
-# Widget G7 Release Notes Curator
+# Glucose For Watch Release Notes Curator
 
 ## Objective
 Maintain a useful changelog aligned with upstream changes.
@@ -25,7 +25,7 @@ Maintain a useful changelog aligned with upstream changes.
 - `Upstream changes`
   - source
   - change
-  - Widget G7 impact
+  - Glucose For Watch impact
   - action
 
 ## Rules

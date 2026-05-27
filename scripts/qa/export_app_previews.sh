@@ -8,7 +8,7 @@ cd "$ROOT_DIR"
 
 echo "[gfw] Exporting mobile home preview PNGs"
 ./gradlew :mobile:testDebugUnitTest \
-  --tests "com.widgetg7.mobile.preview.AppPreviewExporterTest"
+  --tests "com.glucoseforwatch.mobile.preview.AppPreviewExporterTest"
 
 PREVIEW_DIR="$ROOT_DIR/mobile/build/app-previews"
 if ! compgen -G "$PREVIEW_DIR/*.png" > /dev/null; then

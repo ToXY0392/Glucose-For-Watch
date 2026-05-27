@@ -1,10 +1,10 @@
 ---
 name: glucose-for-watch-session-start-quick-check
-description: Runs a lightweight check at Cursor session start for Widget G7, in delta mode, to quickly surface critical vendor/security updates.
+description: Runs a lightweight check at Cursor session start for Glucose For Watch, in delta mode, to quickly surface critical vendor/security updates.
 disable-model-invocation: true
 ---
 
-# Widget G7 Session Start Quick Check
+# Glucose For Watch Session Start Quick Check
 
 ## Objective
 Run a quick check when opening the project without slowing the session.

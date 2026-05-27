@@ -31,10 +31,10 @@
 
 ## Hardware (if sync / mobile / wear touched)
 
-- [ ] `.\gradlew.bat installWidgetG7Debug` — phone + watch OK
+- [ ] `.\gradlew.bat installGlucoseForWatchDebug` — phone + watch OK
 - [ ] `.\scripts\qa\hardware-smoke.ps1` — no critical FAIL
 - [ ] Push seq / Ack seq: _____ / _____
-- [ ] 0 new `FATAL` logcat `com.widgetg7.mobile`
+- [ ] 0 new `FATAL` logcat `com.glucoseforwatch.mobile`
 
 ## AGP / ToXY (if UI touched)
 

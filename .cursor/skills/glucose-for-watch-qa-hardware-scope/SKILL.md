@@ -8,7 +8,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Widget G7 QA Hardware Scope
+# Glucose For Watch QA Hardware Scope
 
 ## Branch
 

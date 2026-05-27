@@ -2,7 +2,7 @@
 
 Glucose For Watch syncs Dexcom glucose data to Wear OS for fast at-a-glance display on your watch (app, tile, and complication). The app uses the **ToXY UX kit** design tokens with **AGP-standard medical colors** for all glucose values.
 
-> Repository folder remains `Glucose-For-Watch` locally for compatibility; GitHub repo: [`Glucose-For-Watch`](https://github.com/ToXY0392/Glucose-For-Watch). Gradle task `installWidgetG7Debug` unchanged.
+> Repository folder: **`Glucose-For-Watch`** · GitHub: [`Glucose-For-Watch`](https://github.com/ToXY0392/Glucose-For-Watch) · install: `installGlucoseForWatchDebug`
 
 <p align="center">
   <img alt="Android" src="https://img.shields.io/badge/Android-Mobile-3DDC84?style=for-the-badge&logo=android&logoColor=white">
@@ -35,7 +35,7 @@ Android Studio, JDK **JBR 21**, Gradle **9.4.1**, `compileSdk 36`, phone + Wear 
 
 ## Quick start
 
-1. Install debug APKs on phone and watch (`installWidgetG7Debug`).
+1. Install debug APKs on phone and watch (`installGlucoseForWatchDebug`).
 2. Open the app, accept legal screens, connect Dexcom Share, tap **Sync**.
 3. Add the tile or complication on the watch.
 
@@ -45,7 +45,7 @@ Full steps: [guide/user.md](docs/guide/user.md).
 
 ```powershell
 .\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
-.\gradlew.bat installWidgetG7Debug
+.\gradlew.bat installGlucoseForWatchDebug
 ```
 
 APK paths, QA scripts, and troubleshooting: [dev/setup.md](docs/dev/setup.md).

@@ -1,10 +1,10 @@
 ---
 name: glucose-for-watch-dependency-advisor
-description: Analyzes AGP, Gradle, Kotlin, and dependency versions in the Widget G7 repo, then proposes a safe upgrade strategy with a small-PR plan and rollback.
+description: Analyzes AGP, Gradle, Kotlin, and dependency versions in the Glucose For Watch repo, then proposes a safe upgrade strategy with a small-PR plan and rollback.
 disable-model-invocation: true
 ---
 
-# Widget G7 Dependency Advisor
+# Glucose For Watch Dependency Advisor
 
 ## Objective
 Plan stable, auditable version upgrades.

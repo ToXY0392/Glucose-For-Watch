@@ -14,7 +14,7 @@ $ErrorActionPreference = "Stop"
 $Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Set-Location $Root
 
-$PackageId = "com.widgetg7.mobile"
+$PackageId = "com.glucoseforwatch.mobile"
 $ServerScript = Join-Path $PSScriptRoot "phone-interactive-server.py"
 
 function Read-LocalProperty {
@@ -42,8 +42,8 @@ function Resolve-Adb {
 
 function Resolve-PhoneSerial {
     param([string]$Adb)
-    $prop = Read-LocalProperty "widgetg7.adb.phone.serial"
-    if (-not $prop) { $prop = $env:WIDGETG7_PHONE_SERIAL }
+    $prop = Read-LocalProperty "gfw.adb.phone.serial"
+    if (-not $prop) { $prop = $env:GFW_PHONE_SERIAL }
     $online = @(
         & $Adb devices 2>$null |
             Select-String "\sdevice$" |
@@ -78,8 +78,8 @@ if ($Launch) {
     Start-Sleep -Seconds 1
 }
 
-$env:WIDGETG7_ADB = $adb
-$env:WIDGETG7_PHONE_SERIAL = $serial
+$env:GFW_ADB = $adb
+$env:GFW_PHONE_SERIAL = $serial
 
 Start-Job -Name "wg7-phone-interactive" -ScriptBlock {
     param($PyScript, $PortNum, $AdbPath, $PhoneSerial)

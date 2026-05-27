@@ -29,7 +29,7 @@ OUT_DIR="build/e2e-closure/$TIMESTAMP"
 LOGS_DIR="$OUT_DIR/logs"
 mkdir -p "$LOGS_DIR"
 
-EVIDENCE_DIR="${WIDGETG7_E2E_EVIDENCE_DIR:-}"
+EVIDENCE_DIR="${GFW_E2E_EVIDENCE_DIR:-}"
 if [[ -z "$EVIDENCE_DIR" ]]; then
   EVIDENCE_DIR="$(latest_dir "build/e2e-evidence" || true)"
 fi
@@ -39,7 +39,7 @@ if [[ -z "$EVIDENCE_DIR" || ! -d "$EVIDENCE_DIR" ]]; then
   EVIDENCE_DIR="$(bash ./scripts/dev/prepare_e2e_evidence_pack.sh | tail -n 1)"
 fi
 
-DIAGNOSTICS_DIR="${WIDGETG7_DIAGNOSTICS_DIR:-}"
+DIAGNOSTICS_DIR="${GFW_DIAGNOSTICS_DIR:-}"
 if [[ -z "$DIAGNOSTICS_DIR" ]]; then
   DIAGNOSTICS_DIR="$(latest_dir "build/diagnostics" || true)"
 fi

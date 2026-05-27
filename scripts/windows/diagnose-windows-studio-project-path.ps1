@@ -2,7 +2,7 @@
 # « This project folder has restricted write permissions » dans Android Studio.
 #
 # Usage (PowerShell normal) :
-#   .\diagnose-windows-studio-project-path.ps1 -ProjectPath "C:\Users\...\Projects\Widget G7"
+#   .\diagnose-windows-studio-project-path.ps1 -ProjectPath "C:\Users\...\Projects\Glucose-For-Watch"
 
 param(
     [Parameter(Mandatory = $true)]
@@ -29,7 +29,7 @@ if ($ProjectPath -match 'OneDrive|SkyDrive') {
 # Espace dans le nom du dossier parent
 $leaf = Split-Path $ProjectPath -Leaf
 if ($leaf -match '\s') {
-    Write-Host "ATTENTION: Le dossier projet contient des espaces ('$leaf'). Renommer en Widget-G7 elimine des bugs rares d outils." -ForegroundColor Yellow
+    Write-Host "ATTENTION: Le dossier projet contient des espaces ('$leaf'). Utiliser Glucose-For-Watch (sans espaces) elimine des bugs rares d outils." -ForegroundColor Yellow
 }
 
 # Test ecriture .NET (proche de ce que la JVM peut voir)

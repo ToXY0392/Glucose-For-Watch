@@ -31,6 +31,6 @@ Write-Host "Build + install :mobile..." -ForegroundColor Cyan
 .\gradlew.bat :mobile:installDebug
 
 Write-Host "Lancement SplashActivity..." -ForegroundColor Cyan
-& $adb -s $serial shell am start -n com.widgetg7.mobile/.SplashActivity
+& $adb -s $serial shell am start -n com.glucoseforwatch.mobile/.SplashActivity
 
 Write-Host "`n[OK] Glucose For Watch lance sur $serial" -ForegroundColor Green

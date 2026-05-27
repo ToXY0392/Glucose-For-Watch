@@ -4,7 +4,7 @@ description: Syncs docs/plan/DOC-BACKLOG.md with PROGRESS.md, QA evidence, GitHu
 disable-model-invocation: true
 ---
 
-# Widget G7 Doc Backlog Sync
+# Glucose For Watch Doc Backlog Sync
 
 ## Source of truth
 

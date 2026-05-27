@@ -7,7 +7,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Widget G7 Wear App Scope
+# Glucose For Watch Wear App Scope
 
 ## Branch
 
@@ -46,7 +46,7 @@ Bump `RESOURCES_VERSION` when tile drawables or protolayout resources change.
 
 ## Hard constraints (soak)
 
-Do not run `installWidgetG7Debug` / `adb install` during active soak unless user explicitly asks.
+Do not run `installGlucoseForWatchDebug` / `adb install` during active soak unless user explicitly asks.
 
 ## Output
 

@@ -1,10 +1,10 @@
 ---
 name: glucose-for-watch-compat-matrix-maintainer
-description: Maintains the Android Studio, JDK, AGP, Gradle, Kotlin, and Wear OS compatibility matrix for Widget G7, flags risky combinations, and updates docs/dev/setup.md.
+description: Maintains the Android Studio, JDK, AGP, Gradle, Kotlin, and Wear OS compatibility matrix for Glucose For Watch, flags risky combinations, and updates docs/dev/setup.md.
 disable-model-invocation: true
 ---
 
-# Widget G7 Compat Matrix Maintainer
+# Glucose For Watch Compat Matrix Maintainer
 
 ## Objective
 Keep a reliable compatibility matrix for build and development.

@@ -4,11 +4,11 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
-PHONE_SERIAL="${WIDGETG7_PHONE_SERIAL:-}"
-WATCH_SERIAL="${WIDGETG7_WATCH_SERIAL:-}"
+PHONE_SERIAL="${GFW_PHONE_SERIAL:-}"
+WATCH_SERIAL="${GFW_WATCH_SERIAL:-}"
 
 if [[ -z "$PHONE_SERIAL" || -z "$WATCH_SERIAL" ]]; then
-  echo "[gfw] Missing serials. Set WIDGETG7_PHONE_SERIAL and WIDGETG7_WATCH_SERIAL." >&2
+  echo "[gfw] Missing serials. Set GFW_PHONE_SERIAL and GFW_WATCH_SERIAL." >&2
   exit 1
 fi
 

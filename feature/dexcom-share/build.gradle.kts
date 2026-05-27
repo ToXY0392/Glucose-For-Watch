@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.widgetg7.feature.dexcomshare"
+    namespace = "com.glucoseforwatch.feature.dexcomshare"
     compileSdk = 36
 
     defaultConfig {

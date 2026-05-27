@@ -1,10 +1,10 @@
 ---
 name: glucose-for-watch-run-coordinator
-description: Orders recurring execution of Widget G7 maintenance skills with locking, cooldown, deduplication, and alert strategy to limit noise.
+description: Orders recurring execution of Glucose For Watch maintenance skills with locking, cooldown, deduplication, and alert strategy to limit noise.
 disable-model-invocation: true
 ---
 
-# Widget G7 Run Coordinator
+# Glucose For Watch Run Coordinator
 
 ## Objective
 Coordinate automation of all monitoring/maintenance skills without spam.
