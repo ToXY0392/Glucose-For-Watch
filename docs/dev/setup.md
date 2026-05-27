@@ -127,8 +127,8 @@ Work on **one Git copy** from both environments:
 
 | Tool | Path |
 |------|------|
-| Cursor (WSL) | `/home/<user>/.../Widget-G7` |
-| Android Studio (Windows) | `\\wsl.localhost\Ubuntu\home\<user>\...\Widget-G7` |
+| Cursor (WSL) | `/home/<user>/.../Glucose-For-Watch` |
+| Android Studio (Windows) | `\\wsl.localhost\Ubuntu\home\<user>\...\Glucose-For-Watch` |
 
 Do not maintain a second clone on `C:\Users\...\Desktop`.
 
@@ -182,7 +182,7 @@ If Studio shows **Write Permissions Issue**, run as Administrator:
 
 ```powershell
 cd scripts\windows
-.\fix-windows-studio-defender-admin.ps1 -ProjectPath "C:\Dev\Widget-G7"
+.\fix-windows-studio-defender-admin.ps1 -ProjectPath "C:\Dev\Glucose-For-Watch"
 ```
 
 Prefer `C:\Dev\Glucose-For-Watch` (no spaces) or a WSL UNC path over Desktop/OneDrive.

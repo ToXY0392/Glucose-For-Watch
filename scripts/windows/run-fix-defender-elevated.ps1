@@ -1,11 +1,11 @@
 # Cree une fenetre UAC puis execute fix-windows-studio-defender-admin.ps1 en administrateur.
 # Usage :
 #   powershell.exe -File .\run-fix-defender-elevated.ps1
-#   powershell.exe -File .\run-fix-defender-elevated.ps1 "C:\Dev\Widget-G7"
+#   powershell.exe -File .\run-fix-defender-elevated.ps1 "C:\Dev\Glucose-For-Watch"
 
 param(
     [Parameter(Position = 0)]
-    [string] $ProjectPath = "C:\Dev\Widget-G7"
+    [string] $ProjectPath = "C:\Dev\Glucose-For-Watch"
 )
 
 $ErrorActionPreference = "Stop"

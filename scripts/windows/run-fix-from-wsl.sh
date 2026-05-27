@@ -2,8 +2,8 @@
 # Lance les correctifs Windows depuis WSL (interop powershell.exe).
 #
 # Usage :
-#   ./scripts/windows/run-fix-from-wsl.sh "C:\Users\You\Desktop\THP\Projects\Widget G7"
-#   ./scripts/windows/run-fix-from-wsl.sh "/mnt/c/Users/You/Desktop/THP/Projects/Widget G7"
+#   ./scripts/windows/run-fix-from-wsl.sh "C:\Users\You\Desktop\THP\Projects\Glucose-For-Watch"
+#   ./scripts/windows/run-fix-from-wsl.sh "/mnt/c/Users/You/Desktop/THP/Projects/Glucose-For-Watch"
 # Options (dans n'importe quel ordre apres le chemin) :
 #   --takeown-admin      PowerShell eleve (takeown sur le projet)
 #   --with-gradle-jvm    ecrit org.gradle.java.home dans %USERPROFILE%\.gradle\gradle.properties
@@ -35,7 +35,7 @@ for arg in "$@"; do
 done
 
 if [[ -z "$PROJECT" ]]; then
-  echo "Usage: $0 <Windows-or-/mnt/c path to Widget-G7> [--takeown-admin] [--with-gradle-jvm]"
+  echo "Usage: $0 <Windows-or-/mnt/c path to Glucose-For-Watch> [--takeown-admin] [--with-gradle-jvm]"
   exit 1
 fi
 
@@ -56,5 +56,5 @@ fi
 
 echo ""
 echo "Si Android Studio affiche encore des droits d ecriture : lancer en ADMIN Windows :"
-echo "  scripts/windows/fix-windows-studio-defender-admin.ps1 -ProjectPath \"<ton chemin Widget G7>\""
+echo "  scripts/windows/fix-windows-studio-defender-admin.ps1 -ProjectPath \"<ton chemin Glucose-For-Watch>\""
 echo "Voir docs/dev/setup.md section Windows write permissions."

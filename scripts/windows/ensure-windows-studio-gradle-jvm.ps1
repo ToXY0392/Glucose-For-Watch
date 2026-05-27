@@ -38,7 +38,7 @@ if ($content -match '(?m)^org\.gradle\.java\.home\s*=') {
     $content = $content -replace '(?m)^org\.gradle\.java\.home\s*=.*$', $line
 } else {
     if ($content -and -not $content.EndsWith("`n")) { $content += "`n" }
-    $content += "# Widget-G7 : JDK Gradle = JBR Android Studio (genere par ensure-windows-studio-gradle-jvm.ps1)`n$line`n"
+    $content += "# Glucose-For-Watch : JDK Gradle = JBR Android Studio (genere par ensure-windows-studio-gradle-jvm.ps1)`n$line`n"
 }
 
 Set-Content -LiteralPath $file -Value $content -Encoding utf8
