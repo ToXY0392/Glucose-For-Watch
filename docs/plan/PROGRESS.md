@@ -258,6 +258,6 @@ Screen detail + tasks: [ACTION-PLAN §11](ACTION-PLAN.md#11-compose-v060) · [PR
 | Dexcom OAuth v3 | Share follower flow stays default |
 | Watch face / complication polish | Beyond mmol gauge fix ([#53](https://github.com/ToXY0392/Glucose-For-Watch/pull/53)) |
 | G6 QA | Hardware evidence when sensor available |
-| GitHub Actions quota | Private repo · [Billing](https://github.com/settings/billing) · instant-fail jobs = no runner (quota) |
+| GitHub Actions | Public repo since 2026-05-27 · [Actions billing](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions) · merge when CI green |
 
 **Done post-v0.6:** Compose F4/F5 ([#51](https://github.com/ToXY0392/Glucose-For-Watch/pull/51)–[#52](https://github.com/ToXY0392/Glucose-For-Watch/pull/52)) · mmol/L ([#53](https://github.com/ToXY0392/Glucose-For-Watch/pull/53)) · QA scripts ([#50](https://github.com/ToXY0392/Glucose-For-Watch/pull/50))

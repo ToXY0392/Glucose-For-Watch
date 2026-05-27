@@ -471,17 +471,18 @@ Not enforceable on GitHub without self-hosted runner:
 - `stability-gate.ps1` → manual PR checklist
 - `hardware-smoke.ps1` → Project QA Hardware column
 
-### 9.4 Actions minutes (private repo)
+### 9.4 GitHub Actions (public repo)
 
-Repo visibility: **private** (`ToXY0392/Glucose-For-Watch`). Free accounts include **2 000 Actions minutes/month** for private repos.
+Repo visibility: **public** ([ToXY0392/Glucose-For-Watch](https://github.com/ToXY0392/Glucose-For-Watch)). Public repositories use **standard GitHub-hosted runners** with **generous free minute allowances** (see [GitHub Actions billing](https://docs.github.com/en/billing/managing-billing-for-github-actions/about-billing-for-github-actions)).
 
 | Symptom | Likely cause | Action |
 |---------|--------------|--------|
-| Job fails in **~2 s**, **0 steps**, `runner_id: 0` | Monthly quota exhausted or billing hold | [Settings → Billing → Plans and usage → Actions](https://github.com/settings/billing) |
-| Full CI ~10 min then **success** | Normal | — |
+| Job fails in **~2 s**, **0 steps**, `runner_id: 0` | Transient outage, org policy, or (if repo made private again) quota exhausted | Re-run workflow · [Actions usage](https://github.com/settings/billing) if private |
+| Full CI ~10 min then **success** | Normal (Kotlin tree changed) | — |
+| Docs/QA PR: **Verify docs and QA scripts** ~5 s | Normal (`ci.yml` skips Gradle when only `docs/**` or `scripts/qa/**` change) | — |
 | Architecture PNG drift | Regenerate on Linux: `bash scripts/assets/export-architecture-diagram.sh` | Commit PNG |
 
-When quota is depleted, merges may still proceed locally after `./gradlew` + `hardware-smoke.ps1`; re-run failed workflows after quota resets or upgrade to GitHub Pro.
+**2026-05-27:** repo switched from private → public after repeated `runner_id: 0` failures (private quota exhausted). Prefer **green CI before merge**; local fallback: `./gradlew` + `hardware-smoke.ps1`.
 
 ---
 
