@@ -124,7 +124,7 @@ def main() -> None:
   <div class="wrap">
     <header>
       <h1>Mobile home — Robolectric preview gallery</h1>
-      <p>Generated from <code>AppPreviewExporterTest</code> (XML fixture bound via <code>HomeUiBinder</code>).
+      <p>Generated from <code>AppPreviewExporterTest</code> (Compose <code>HomeScreen</code>).
          Open offline after <code>export_app_previews.sh</code> or download the CI artifact.</p>
       <p class="meta">Generated {generated} · {len(pngs)} state(s)</p>
     </header>

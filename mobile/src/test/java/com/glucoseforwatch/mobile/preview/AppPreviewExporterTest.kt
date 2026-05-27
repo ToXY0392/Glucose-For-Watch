@@ -3,11 +3,15 @@ package com.glucoseforwatch.mobile.preview
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.view.ContextThemeWrapper
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageButton
-import android.widget.TextView
+import androidx.activity.ComponentActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.colorResource
 import androidx.test.core.app.ApplicationProvider
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
 import com.glucoseforwatch.core.testing.SyncTestFixtures
@@ -15,12 +19,14 @@ import com.glucoseforwatch.mobile.R
 import com.glucoseforwatch.mobile.settings.DexcomUserSettings
 import com.glucoseforwatch.mobile.sync.PhoneSyncStateSnapshot
 import com.glucoseforwatch.mobile.ui.HomeStateMapper
-import com.glucoseforwatch.mobile.ui.HomeUiBinder
 import com.glucoseforwatch.mobile.ui.HomeUiState
+import com.glucoseforwatch.mobile.ui.compose.HomeScreen
+import com.glucoseforwatch.mobile.ui.theme.GlucoseForWatchTheme
 import com.glucoseforwatch.mobile.watch.WatchConnectionStatus
 import com.glucoseforwatch.mobile.watch.WatchSyncHealthStatus
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
@@ -29,7 +35,7 @@ import java.io.FileOutputStream
 
 /**
  * Renders home preview states to PNG for design review (M.3).
- * Uses [R.layout.activity_main] preview fixture (main res; runtime is [HomeScreen] Compose).
+ * Uses [HomeScreen] Compose (same surface as runtime [MainActivity]).
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest = Config.NONE, sdk = [28])
@@ -66,28 +72,42 @@ class AppPreviewExporterTest {
     }
 
     private fun exportPreview(fileStem: String, state: HomeUiState) {
-        val appContext = ApplicationProvider.getApplicationContext<Context>()
-        val themed = ContextThemeWrapper(appContext, R.style.Theme_GlucoseForWatch_Phone)
-        val root =
-            LayoutInflater.from(themed).inflate(R.layout.activity_main, null, false)
-        HomeUiBinder.bind(
-            syncNowButton = root.findViewById(R.id.syncNowButton),
-            homeWatchFaceValue = root.findViewById(R.id.homeWatchFaceValue),
-            homeWatchFaceMeta = root.findViewById(R.id.homeWatchFaceMeta),
-            homeConnectionStatus = root.findViewById(R.id.homeConnectionStatus),
-            homeBatteryStatus = root.findViewById(R.id.homeBatteryStatus),
-            homeBatteryIcon = root.findViewById(R.id.homeBatteryIcon),
-            homeStatusSeparator = root.findViewById(R.id.homeStatusSeparator),
-            homeSyncAgeStatus = root.findViewById(R.id.homeSyncAgeStatus),
-            homeSyncStatusLine = root.findViewById(R.id.homeSyncStatusLine),
-            homeBatterySettingSubtitle = root.findViewById(R.id.homeBatterySettingSubtitle),
-            homeInstallSettingRow = root.findViewById(R.id.homeInstallSettingRow),
-            dexcomRowStatus = root.findViewById(R.id.dexcomRowStatus),
-            watchRowStatus = root.findViewById(R.id.watchRowStatus),
-            state = state,
-        )
+        val activity = Robolectric.buildActivity(ComponentActivity::class.java).setup().get()
+        val composeView = ComposeView(activity)
+        composeView.setContent {
+            GlucoseForWatchTheme {
+                Box(
+                    modifier =
+                        Modifier
+                            .fillMaxSize()
+                            .background(
+                                Brush.verticalGradient(
+                                    colors =
+                                        listOf(
+                                            colorResource(R.color.gfw_canvas_start),
+                                            colorResource(R.color.gfw_canvas_end),
+                                        ),
+                                ),
+                            ),
+                ) {
+                    HomeScreen(
+                        state = state,
+                        syncEnabled = true,
+                        onSyncClick = {},
+                        onDexcomClick = {},
+                        onWatchClick = {},
+                        onUnitClick = {},
+                        onBatteryClick = {},
+                        onInstallClick = {},
+                        onNoticeClick = {},
+                        onPermissionsClick = {},
+                    )
+                }
+            }
+        }
+        activity.setContentView(composeView)
 
-        val bitmap = captureView(root)
+        val bitmap = captureView(composeView)
         val outDir = File("build/app-previews").also { it.mkdirs() }
         val outFile = File(outDir, "$fileStem.png")
         FileOutputStream(outFile).use { stream ->
