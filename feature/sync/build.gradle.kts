@@ -29,7 +29,7 @@ dependencies {
     implementation(project(":core:datalayer-contract"))
     implementation(project(":core:model"))
     implementation("androidx.core:core-ktx:1.18.0")
-    implementation("com.google.android.gms:play-services-wearable:19.0.0")
+    implementation("com.google.android.gms:play-services-wearable:20.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
     testImplementation(project(":core:testing"))

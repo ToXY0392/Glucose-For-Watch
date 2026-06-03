@@ -52,7 +52,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")
     implementation("androidx.wear.compose:compose-material3:1.5.6")
     implementation("androidx.wear.compose:compose-foundation:1.5.6")
-    implementation("com.google.android.gms:play-services-wearable:19.0.0")
+    implementation("com.google.android.gms:play-services-wearable:20.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
     implementation("androidx.wear:wear:1.4.0")
