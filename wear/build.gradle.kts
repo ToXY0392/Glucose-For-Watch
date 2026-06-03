@@ -59,8 +59,8 @@ dependencies {
     implementation("androidx.wear.watchface:watchface-complications-data:1.2.1")
     implementation("androidx.wear.watchface:watchface-complications-data-source:1.2.1")
 
-    implementation("androidx.wear.tiles:tiles:1.5.0")
-    implementation("androidx.wear.tiles:tiles-material:1.5.0")
+    implementation("androidx.wear.tiles:tiles:1.6.0")
+    implementation("androidx.wear.tiles:tiles-material:1.6.0")
     implementation("com.google.guava:guava:33.2.1-android")
 
     testImplementation("junit:junit:4.13.2")
