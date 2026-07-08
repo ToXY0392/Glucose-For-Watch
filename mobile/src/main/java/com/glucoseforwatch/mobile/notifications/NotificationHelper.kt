@@ -16,35 +16,36 @@ import com.glucoseforwatch.mobile.R
 import com.glucoseforwatch.mobile.sync.ActiveGlucoseSyncService
 
 /** Sync alert and foreground-service notification builders. */
-class NotificationHelper(private val context: Context) {
+class NotificationHelper @JvmOverloads constructor(
+    private val context: Context,
+    private val stateStore: NotificationStateStore = SharedPrefsNotificationStateStore(context),
+) {
 
     fun notifyDexcomReconnectRequired() {
-        if (!canNotify()) return
-        ensureChannel()
-        val notification = NotificationCompat.Builder(context, CHANNEL_SYNC_STATUS)
-            .setSmallIcon(android.R.drawable.stat_notify_error)
-            .setContentTitle("Reconnectez votre compte Dexcom")
-            .setContentText("La synchronisation ne peut plus se faire tant que vos identifiants Dexcom n'ont pas été vérifiés.")
-            .setAutoCancel(true)
-            .build()
-        NotificationManagerCompat.from(context).notify(ID_DEXCOM_AUTH, notification)
+        val title = "Reconnectez votre compte Dexcom"
+        val message =
+            "La synchronisation ne peut plus se faire tant que vos identifiants Dexcom n'ont pas été vérifiés."
+        postSyncAlertIfNeeded(
+            notificationId = ID_DEXCOM_AUTH,
+            title = title,
+            message = message,
+            smallIcon = android.R.drawable.stat_notify_error,
+        )
     }
 
     fun notifySyncInterrupted(message: String) {
-        if (!canNotify()) return
-        ensureChannel()
-        val notification = NotificationCompat.Builder(context, CHANNEL_SYNC_STATUS)
-            .setSmallIcon(android.R.drawable.stat_notify_sync_noanim)
-            .setContentTitle("Synchronisation interrompue")
-            .setContentText(message)
-            .setAutoCancel(true)
-            .build()
-        NotificationManagerCompat.from(context).notify(ID_SYNC_INTERRUPTED, notification)
+        postSyncAlertIfNeeded(
+            notificationId = ID_SYNC_INTERRUPTED,
+            title = "Synchronisation interrompue",
+            message = message,
+            smallIcon = android.R.drawable.stat_notify_sync_noanim,
+        )
     }
 
     fun cancelSyncAlerts() {
         NotificationManagerCompat.from(context).cancel(ID_DEXCOM_AUTH)
         NotificationManagerCompat.from(context).cancel(ID_SYNC_INTERRUPTED)
+        stateStore.clearAllAlerts()
     }
 
     fun buildActiveSyncNotification(): android.app.Notification {
@@ -80,11 +81,41 @@ class NotificationHelper(private val context: Context) {
             .build()
     }
 
+    private fun postSyncAlertIfNeeded(
+        notificationId: Int,
+        title: String,
+        message: String,
+        smallIcon: Int,
+    ) {
+        if (!canNotify()) return
+        if (isDuplicateActiveAlert(notificationId, title, message)) return
+
+        ensureChannel()
+        val notification = NotificationCompat.Builder(context, CHANNEL_SYNC_STATUS)
+            .setSmallIcon(smallIcon)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setAutoCancel(true)
+            .setOnlyAlertOnce(true)
+            .build()
+        NotificationManagerCompat.from(context).notify(notificationId, notification)
+        stateStore.saveLastAlert(notificationId, title, message)
+    }
+
+    private fun isDuplicateActiveAlert(
+        notificationId: Int,
+        title: String,
+        message: String,
+    ): Boolean {
+        val lastAlert = stateStore.getLastAlert(notificationId) ?: return false
+        if (lastAlert.title != title || lastAlert.message != message) return false
+        return isNotificationActive(notificationId)
+    }
+
     private fun ensureChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val existing = manager.getNotificationChannel(CHANNEL_SYNC_STATUS)
-        if (existing != null) return
+        if (manager.getNotificationChannel(CHANNEL_SYNC_STATUS) != null) return
 
         val channel = NotificationChannel(
             CHANNEL_SYNC_STATUS,
@@ -99,8 +130,7 @@ class NotificationHelper(private val context: Context) {
     private fun ensureActiveSyncChannel() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        val existing = manager.getNotificationChannel(CHANNEL_ACTIVE_SYNC)
-        if (existing != null) return
+        if (manager.getNotificationChannel(CHANNEL_ACTIVE_SYNC) != null) return
 
         val channel = NotificationChannel(
             CHANNEL_ACTIVE_SYNC,
@@ -113,8 +143,16 @@ class NotificationHelper(private val context: Context) {
     }
 
     private fun canNotify(): Boolean {
+        val notificationManager = NotificationManagerCompat.from(context)
+        if (!notificationManager.areNotificationsEnabled()) return false
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==
+            PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun isNotificationActive(id: Int): Boolean {
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return manager.activeNotifications.any { it.id == id }
     }
 
     companion object {
