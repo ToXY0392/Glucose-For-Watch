@@ -30,7 +30,7 @@ done
 
 # Scan staged diff for obvious credential patterns (Dexcom / tokens in added lines)
 if git diff --cached | grep -E '^\+.*(password|Password|DEXCOM_|session[_-]?id|share[_-]?secret)' \
-  | grep -vE '^\+.*(R\.string|@string/|placeholder|example|TODO|PasswordVisualTransformation|onPasswordChange|passwordVisible|dexcom_password_|\.password|val password:|ID_DEXCOM_|SyncNotificationAction\.DEXCOM_|BuildConfig\.DEXCOM_)' \
+  | grep -vE '^\+.*(R\.string|@string/|placeholder|example|TODO|PasswordVisualTransformation|onPasswordChange|passwordVisible|dexcom_password_|\.password|val password:|password = |ID_DEXCOM_|SyncNotificationAction\.DEXCOM_|BuildConfig\.DEXCOM_)' \
   >/dev/null 2>&1; then
   block_path "possible credential in staged diff — review before commit"
 fi

@@ -89,7 +89,7 @@ internal fun DexcomSettingsScreenPreview() {
             state =
                 DexcomSettingsUiState(
                     username = "alice",
-                    password = "********",
+                    password = "",
                     serverLabel = "Europe / OUS",
                     accountSummary = "Dexcom Share · Europe / OUS",
                     statusMessage = "Derniere sync il y a 2 min",
