@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
@@ -12,7 +13,35 @@ import com.glucoseforwatch.mobile.ui.theme.GlucoseForWatchTheme
 
 private const val PREVIEW_WIDTH_DP = 411
 private const val PREVIEW_HEIGHT_DP = 891
-private const val PREVIEW_BACKGROUND = 0xFFF1EEE9
+private const val PREVIEW_BACKGROUND = 0xFFF7F9F7
+
+@Preview(
+    name = "HomeScreen - connected",
+    device = Devices.PIXEL_7,
+    showBackground = true,
+    widthDp = PREVIEW_WIDTH_DP,
+    heightDp = PREVIEW_HEIGHT_DP,
+    backgroundColor = PREVIEW_BACKGROUND,
+)
+@Composable
+internal fun HomeScreenConnectedConfigurationPreview() {
+    val context = LocalContext.current
+    ConfigurationScreenPreviewHost {
+        HomeScreen(
+            state = HomePreviewStates.connected(context),
+            syncEnabled = true,
+            onSyncClick = {},
+            onDexcomClick = {},
+            onWatchClick = {},
+            onUnitClick = {},
+            onBatteryClick = {},
+            onInstallClick = {},
+            onNoticeClick = {},
+            onPermissionsClick = {},
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
 
 @Preview(
     name = "DexcomEntryScreen - first connect",

@@ -1,8 +1,8 @@
 package com.glucoseforwatch.mobile.ui.compose
 
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,14 +11,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -57,7 +59,16 @@ fun HomeScreen(
     onPermissionsClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val uiState = state ?: return
+    if (state == null) {
+        Box(
+            modifier = modifier.fillMaxSize().statusBarsPadding(),
+            contentAlignment = Alignment.Center,
+        ) {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
+        }
+        return
+    }
+    val uiState = state
 
     Column(
         modifier =
@@ -74,35 +85,22 @@ fun HomeScreen(
             onSyncClick = onSyncClick,
         )
 
-        HomeWatchFaceHero(
+        HomeGlucoseHero(
             glucoseValue = uiState.heroGlucoseValue,
             glucoseValueColor = uiState.watchFaceValueColor,
-            metaText = uiState.watchFaceMetaText,
-            metaVisible = uiState.watchFaceMetaVisible,
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-        )
-
-        HomeCompanionStatusRow(
+            unitLabel = uiState.unitRowStatus,
             connectionLabel = uiState.connectionLabel,
             batteryLabel = uiState.batteryLabel,
-            syncAgeLabel = uiState.syncAgeLabel,
             showBattery = uiState.showBattery,
         )
 
-        if (uiState.syncStatusLineVisible) {
-            HomeSyncStatusPill(
-                label = uiState.syncStatusLine,
-                textColorRes = uiState.syncStatusLineTextColorRes,
-                backgroundColorRes = uiState.syncStatusLineBackgroundColorRes,
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
-        }
+        Spacer(modifier = Modifier.height(24.dp))
 
         Text(
             text = stringResource(R.string.home_companion_section_settings),
             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
             color = colorResource(R.color.wg7_companion_section),
-            modifier = Modifier.padding(start = 22.dp, top = 28.dp),
+            modifier = Modifier.padding(start = 22.dp),
         )
 
         Card(
@@ -209,44 +207,73 @@ private fun HomeHeader(
 }
 
 @Composable
-private fun HomeWatchFaceHero(
+private fun HomeGlucoseHero(
     glucoseValue: String,
-    glucoseValueColor: Int,
-    metaText: String,
-    metaVisible: Boolean,
+    @ColorInt glucoseValueColor: Int,
+    unitLabel: String,
+    connectionLabel: String,
+    batteryLabel: String,
+    showBattery: Boolean,
     modifier: Modifier = Modifier,
 ) {
-    Box(
+    val statusColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val statusStyle = MaterialTheme.typography.bodyMedium
+
+    Column(
         modifier =
             modifier
-                .padding(top = 28.dp)
-                .size(260.dp)
-                .background(color = colorResource(R.color.wg7_watch_face_bg), shape = CircleShape)
-                .border(
-                    width = 2.dp,
-                    color = colorResource(R.color.wg7_watch_face_ring),
-                    shape = CircleShape,
-                ),
-        contentAlignment = Alignment.Center,
+                .fillMaxWidth()
+                .padding(top = 20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 24.dp),
+        Row(
+            verticalAlignment = Alignment.Bottom,
+            horizontalArrangement = Arrangement.Center,
         ) {
             Text(
                 text = glucoseValue,
                 color = Color(glucoseValueColor),
-                fontSize = 56.sp,
-                fontWeight = FontWeight.Black,
-                letterSpacing = (-0.04).sp,
+                fontSize = 72.sp,
+                fontWeight = FontWeight.SemiBold,
+                letterSpacing = (-0.02).sp,
             )
-            if (metaVisible) {
+            Text(
+                text = unitLabel,
+                color = statusColor,
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(start = 6.dp, bottom = 10.dp),
+            )
+        }
+
+        Row(
+            modifier = Modifier.padding(top = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.ic_bluetooth_24),
+                contentDescription = null,
+                tint = statusColor,
+                modifier = Modifier.size(16.dp),
+            )
+            Text(
+                text = connectionLabel,
+                style = statusStyle,
+                color = statusColor,
+            )
+            if (showBattery) {
+                HomeStatusBullet(color = statusColor)
+                Icon(
+                    painter = painterResource(R.drawable.ic_battery_24),
+                    contentDescription = null,
+                    tint = statusColor,
+                    modifier = Modifier.size(16.dp),
+                )
                 Text(
-                    text = metaText,
-                    color = colorResource(R.color.wg7_watch_face_meta),
-                    fontSize = 14.sp,
-                    letterSpacing = 0.02.sp,
-                    modifier = Modifier.padding(top = 6.dp),
+                    text = batteryLabel,
+                    style = statusStyle,
+                    color = statusColor,
                 )
             }
         }
@@ -254,84 +281,11 @@ private fun HomeWatchFaceHero(
 }
 
 @Composable
-private fun HomeCompanionStatusRow(
-    connectionLabel: String,
-    batteryLabel: String,
-    syncAgeLabel: String,
-    showBattery: Boolean,
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier =
-            modifier
-                .fillMaxWidth()
-                .padding(horizontal = 22.dp, vertical = 20.dp),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.ic_bluetooth_24),
-            contentDescription = null,
-            tint = colorResource(R.color.wg7_icon_tint),
-            modifier = Modifier.size(18.dp),
-        )
-        Text(
-            text = connectionLabel,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(start = 6.dp),
-        )
-        Text(
-            text = "·",
-            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-            modifier = Modifier.padding(horizontal = 8.dp),
-        )
-        if (showBattery) {
-            Icon(
-                painter = painterResource(R.drawable.ic_battery_24),
-                contentDescription = null,
-                tint = colorResource(R.color.wg7_icon_tint),
-                modifier = Modifier.size(18.dp),
-            )
-            Text(
-                text = batteryLabel,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(start = 6.dp),
-            )
-            Text(
-                text = "·",
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                modifier = Modifier.padding(horizontal = 8.dp),
-            )
-        }
-        Text(
-            text = syncAgeLabel,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-}
-
-@Composable
-private fun HomeSyncStatusPill(
-    label: String,
-    textColorRes: Int,
-    backgroundColorRes: Int,
-    modifier: Modifier = Modifier,
-) {
+private fun HomeStatusBullet(color: Color) {
     Text(
-        text = label,
-        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Medium),
-        color = colorResource(textColorRes),
-        modifier =
-            modifier
-                .padding(top = 12.dp)
-                .background(
-                    color = colorResource(backgroundColorRes),
-                    shape = RoundedCornerShape(28.dp),
-                )
-                .padding(horizontal = 14.dp, vertical = 6.dp),
+        text = "•",
+        style = MaterialTheme.typography.bodyMedium,
+        color = color.copy(alpha = 0.45f),
     )
 }
 
