@@ -1,33 +1,25 @@
 package com.glucoseforwatch.mobile.ui.compose
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -60,55 +52,22 @@ fun DexcomSettingsScreen(
     var serverExpanded by remember { mutableStateOf(false) }
     var passwordVisible by remember { mutableStateOf(false) }
 
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp, vertical = 22.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    SecondaryScreenScaffold(
+        title = stringResource(R.string.dexcom_settings_title),
+        subtitle = stringResource(R.string.dexcom_settings_subtitle),
+        onBack = onBack,
+        modifier = modifier,
     ) {
-        BrandHeader()
-        Text(
-            text = stringResource(R.string.dexcom_settings_title),
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 14.dp),
-        )
-        Text(
-            text = stringResource(R.string.dexcom_settings_subtitle),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 6.dp),
-        )
-        Card(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 18.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        ) {
-            Column(
-                modifier = Modifier.padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(0.dp),
-            ) {
-                Text(
-                    text = state.accountSummary,
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-                Text(
-                    text = state.statusMessage,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 6.dp),
-                )
+        CompanionGroupedCard(modifier = Modifier.padding(top = 24.dp)) {
+            CompanionListItem(
+                icon = R.drawable.ic_sensor_glucose,
+                title = state.accountSummary,
+                subtitle = state.statusMessage,
+            )
+        }
+
+        CompanionGroupedCard(modifier = Modifier.padding(top = 16.dp)) {
+            Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 20.dp)) {
                 OutlinedTextField(
                     value = state.username,
                     onValueChange = onUsernameChange,
@@ -116,10 +75,7 @@ fun DexcomSettingsScreen(
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                     enabled = !state.isBusy,
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(top = 18.dp),
+                    modifier = Modifier.fillMaxWidth(),
                 )
                 OutlinedTextField(
                     value = state.password,
@@ -133,15 +89,17 @@ fun DexcomSettingsScreen(
                             PasswordVisualTransformation()
                         },
                     trailingIcon = {
-                        TextButtonLikeToggle(
-                            label =
-                                if (passwordVisible) {
-                                    stringResource(R.string.dexcom_password_hide)
-                                } else {
-                                    stringResource(R.string.dexcom_password_show)
-                                },
-                            onClick = { passwordVisible = !passwordVisible },
-                        )
+                        TextButton(onClick = { passwordVisible = !passwordVisible }) {
+                            Text(
+                                text =
+                                    if (passwordVisible) {
+                                        stringResource(R.string.dexcom_password_hide)
+                                    } else {
+                                        stringResource(R.string.dexcom_password_show)
+                                    },
+                                style = MaterialTheme.typography.labelMedium,
+                            )
+                        }
                     },
                     enabled = !state.isBusy,
                     modifier =
@@ -205,31 +163,16 @@ fun DexcomSettingsScreen(
                 ) {
                     Text(state.saveButtonLabel)
                 }
-                OutlinedButton(
-                    onClick = onDisconnect,
-                    enabled = !state.isBusy,
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(top = 10.dp),
-                ) {
-                    Text(stringResource(R.string.home_dexcom_disconnect))
-                }
             }
         }
-        RoundBackButton(
-            onClick = onBack,
-            modifier = Modifier.padding(top = 14.dp),
-        )
-    }
-}
 
-@Composable
-private fun TextButtonLikeToggle(
-    label: String,
-    onClick: () -> Unit,
-) {
-    androidx.compose.material3.TextButton(onClick = onClick) {
-        Text(label, style = MaterialTheme.typography.labelMedium)
+        CompanionGroupedCard(modifier = Modifier.padding(top = 16.dp)) {
+            CompanionListItem(
+                icon = R.drawable.ic_lock_24,
+                title = stringResource(R.string.dexcom_entry_disconnect),
+                subtitle = stringResource(R.string.dexcom_entry_disconnect_message),
+                onClick = if (!state.isBusy) onDisconnect else null,
+            )
+        }
     }
 }

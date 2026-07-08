@@ -1,27 +1,20 @@
 package com.glucoseforwatch.mobile.ui.compose
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.glucoseforwatch.mobile.R
 
@@ -57,75 +50,48 @@ fun DexcomEntryScreen(
             stringResource(R.string.dexcom_entry_connect)
         }
 
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 22.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    SecondaryScreenScaffold(
+        title = stringResource(R.string.dexcom_entry_title),
+        subtitle = stringResource(R.string.dexcom_entry_subtitle),
+        onBack = onBack,
+        modifier = modifier,
     ) {
-        BrandHeader()
-        Text(
-            text = stringResource(R.string.dexcom_entry_title),
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 14.dp),
-        )
-        Text(
-            text = stringResource(R.string.dexcom_entry_subtitle),
-            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 10.dp),
-        )
-        Card(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        CompanionGroupedCard(
+            modifier = Modifier.padding(top = 24.dp),
         ) {
-            Column(
-                modifier = Modifier.padding(22.dp),
-                verticalArrangement = Arrangement.spacedBy(0.dp),
-            ) {
+            Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
                 DexcomLegalLinksText(onDocumentClick = onDocumentClick)
-                CheckboxRow(
-                    checked = state.legalTermsAccepted,
-                    onCheckedChange = onLegalTermsChange,
-                    label = stringResource(R.string.dexcom_entry_legal_terms_checkbox),
-                    modifier = Modifier.padding(top = 18.dp),
-                )
-                CheckboxRow(
-                    checked = state.medicalWarningAccepted,
-                    onCheckedChange = onMedicalWarningChange,
-                    label = stringResource(R.string.dexcom_entry_medical_checkbox),
-                    modifier = Modifier.padding(top = 8.dp),
-                )
                 Text(
                     text = stringResource(R.string.dexcom_entry_credentials_notice),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 14.dp),
+                    modifier = Modifier.padding(top = 12.dp),
                 )
-                Button(
-                    onClick = onPrimaryAction,
-                    enabled = primaryEnabled,
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(top = 26.dp),
-                ) {
-                    Text(primaryLabel)
-                }
             }
+            CompanionCardDivider()
+            DexcomConsentListItem(
+                checked = state.legalTermsAccepted,
+                label = stringResource(R.string.dexcom_entry_legal_terms_checkbox),
+                onCheckedChange = onLegalTermsChange,
+            )
+            CompanionCardDivider()
+            DexcomConsentListItem(
+                checked = state.medicalWarningAccepted,
+                label = stringResource(R.string.dexcom_entry_medical_checkbox),
+                onCheckedChange = onMedicalWarningChange,
+            )
         }
-        RoundBackButton(
-            onClick = onBack,
-            modifier = Modifier.padding(top = 12.dp),
-        )
+
+        Button(
+            onClick = onPrimaryAction,
+            enabled = primaryEnabled,
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp),
+        ) {
+            Text(primaryLabel)
+        }
     }
 
     if (state.showDisconnectDialog) {
@@ -148,25 +114,33 @@ fun DexcomEntryScreen(
 }
 
 @Composable
-private fun CheckboxRow(
+private fun DexcomConsentListItem(
     checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit,
     label: String,
+    onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.Top,
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .clickable(role = Role.Checkbox) {
+                    onCheckedChange(!checked)
+                },
     ) {
-        Checkbox(checked = checked, onCheckedChange = onCheckedChange)
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            modifier = Modifier.padding(start = 8.dp),
+        )
         Text(
             text = label,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
             modifier =
                 Modifier
-                    .padding(start = 4.dp, top = 12.dp)
-                    .weight(1f),
+                    .weight(1f)
+                    .padding(start = 4.dp, top = 14.dp, end = 16.dp, bottom = 14.dp),
         )
     }
 }

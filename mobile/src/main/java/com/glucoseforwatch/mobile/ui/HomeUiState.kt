@@ -23,4 +23,7 @@ data class HomeUiState(
     val batterySettingSubtitle: String,
     val showInstallRow: Boolean,
     @ColorRes val syncButtonTintColorRes: Int,
-)
+) {
+    /** Hero glucose value shown on the watch-face preview (alias for layout handoff). */
+    val heroGlucoseValue: String get() = watchFaceValueText
+}
