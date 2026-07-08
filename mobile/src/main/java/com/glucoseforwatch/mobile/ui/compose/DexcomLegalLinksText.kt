@@ -1,73 +1,71 @@
 package com.glucoseforwatch.mobile.ui.compose
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withLink
+import androidx.compose.ui.text.withStyle
 import com.glucoseforwatch.mobile.R
 import com.glucoseforwatch.mobile.ui.LegalDocuments
-import androidx.compose.ui.res.stringResource
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DexcomLegalLinksText(
     onDocumentClick: (String) -> Unit,
 ) {
-    FlowRow(
-        horizontalArrangement = Arrangement.Center,
-        maxItemsInEachRow = Int.MAX_VALUE,
-    ) {
-        Text(
-            text = stringResource(R.string.dexcom_entry_legal_links_prefix),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        LegalLink(stringResource(R.string.dexcom_entry_link_cgu)) {
-            onDocumentClick(LegalDocuments.DOCUMENT_TYPE_CGU)
-        }
-        Text(
-            text = stringResource(R.string.dexcom_entry_legal_links_mid_privacy),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        LegalLink(stringResource(R.string.dexcom_entry_link_privacy)) {
-            onDocumentClick(LegalDocuments.DOCUMENT_TYPE_PRIVACY)
-        }
-        Text(
-            text = stringResource(R.string.dexcom_entry_legal_links_mid_medical),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        LegalLink(stringResource(R.string.dexcom_entry_link_medical)) {
-            onDocumentClick(LegalDocuments.DOCUMENT_TYPE_MEDICAL)
-        }
-        Text(
-            text = ".",
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-    }
-}
+    val cguLabel = stringResource(R.string.dexcom_entry_link_cgu)
+    val privacyLabel = stringResource(R.string.dexcom_entry_link_privacy)
+    val medicalLabel = stringResource(R.string.dexcom_entry_link_medical)
 
-@Composable
-private fun LegalLink(
-    label: String,
-    onClick: () -> Unit,
-) {
-    TextButton(onClick = onClick) {
-        Text(
-            text = label,
-            style =
-                MaterialTheme.typography.bodyMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
-                ),
+    val bodyStyle =
+        MaterialTheme.typography.bodyMedium.copy(
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    val plainStyle = SpanStyle(color = MaterialTheme.colorScheme.onSurfaceVariant)
+    val linkStyle =
+        SpanStyle(
+            fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
         )
-    }
+
+    val annotatedText =
+        buildAnnotatedString {
+            fun plain(text: String) {
+                withStyle(plainStyle) {
+                    append(text)
+                }
+            }
+
+            fun link(
+                label: String,
+                documentType: String,
+            ) {
+                withLink(
+                    LinkAnnotation.Clickable(tag = documentType) {
+                        onDocumentClick(documentType)
+                    },
+                ) {
+                    withStyle(linkStyle) {
+                        append(label)
+                    }
+                }
+            }
+
+            plain("Lire les ")
+            link(cguLabel, LegalDocuments.DOCUMENT_TYPE_CGU)
+            plain(", la ")
+            link(privacyLabel, LegalDocuments.DOCUMENT_TYPE_PRIVACY)
+            plain(" et l'")
+            link(medicalLabel, LegalDocuments.DOCUMENT_TYPE_MEDICAL)
+            plain(".")
+        }
+
+    Text(
+        text = annotatedText,
+        style = bodyStyle,
+    )
 }
