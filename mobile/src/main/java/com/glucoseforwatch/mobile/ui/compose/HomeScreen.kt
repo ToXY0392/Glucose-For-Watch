@@ -1,6 +1,11 @@
 package com.glucoseforwatch.mobile.ui.compose
 
-import androidx.annotation.ColorInt
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,9 +13,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -23,6 +28,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -31,6 +37,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.glucoseforwatch.mobile.R
@@ -38,12 +46,15 @@ import com.glucoseforwatch.mobile.ui.HomeUiState
 
 private val HomeGlucoseValueFontSize = 80.sp
 private val HomeGlucoseUnitFontSize = 24.sp
+private val HomeGlucoseValueLineHeight = 88.dp
 private val HomeHeaderBottomSpacing = 48.dp
 private val HomeRefreshSettingsSpacing = 40.dp
 private val HomeSettingsBottomPadding = 32.dp
 private val HomeDashboardDialSize = 320.dp
 private val HomeDashboardDialBorderWidth = 3.dp
 private val HomeDashboardDialItemSpacing = 16.dp
+private val HomeDialColorAnimationSpec = tween<Color>(durationMillis = 500)
+private val HomeDialValueSlideAnimationSpec = tween<IntOffset>(durationMillis = 500)
 
 @Composable
 fun HomeScreen(
@@ -97,7 +108,7 @@ fun HomeScreen(
 
         HomeDashboardDial(
             glucoseValue = uiState.heroGlucoseValue,
-            glucoseValueColor = uiState.watchFaceValueColor,
+            glucoseValueMgDl = uiState.heroGlucoseValueMgDl,
             unitLabel = uiState.unitRowStatus,
             connectionLabel = uiState.connectionLabel,
             batteryLabel = uiState.batteryLabel,
@@ -142,23 +153,33 @@ fun HomeScreen(
 @Composable
 private fun HomeDashboardDial(
     glucoseValue: String,
-    @ColorInt glucoseValueColor: Int,
+    glucoseValueMgDl: Int?,
     unitLabel: String,
     connectionLabel: String,
     batteryLabel: String,
     showBattery: Boolean,
     syncEnabled: Boolean,
-    @ColorInt syncButtonTintColorRes: Int,
+    syncButtonTintColorRes: Int,
     onSyncClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val glucoseBand = HomeDialGlucoseColor.band(glucoseValueMgDl)
+    val fallbackColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val targetDialColor =
+        if (glucoseBand is HomeDialGlucoseBand.Unknown) fallbackColor else glucoseBand.color
+    val animatedDialColor by animateColorAsState(
+        targetValue = targetDialColor,
+        animationSpec = HomeDialColorAnimationSpec,
+        label = "homeDialColor",
+    )
+
     Box(
         modifier =
             modifier
                 .size(HomeDashboardDialSize)
                 .border(
                     width = HomeDashboardDialBorderWidth,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = animatedDialColor,
                     shape = CircleShape,
                 ),
         contentAlignment = Alignment.Center,
@@ -174,8 +195,9 @@ private fun HomeDashboardDial(
         ) {
             HomeGlucoseValue(
                 glucoseValue = glucoseValue,
-                glucoseValueColor = glucoseValueColor,
+                glucoseValueMgDl = glucoseValueMgDl,
                 unitLabel = unitLabel,
+                animatedValueColor = animatedDialColor,
             )
 
             HomeConnectionStatus(
@@ -202,38 +224,75 @@ private fun HomeDashboardDial(
 @Composable
 private fun HomeGlucoseValue(
     glucoseValue: String,
-    @ColorInt glucoseValueColor: Int,
+    glucoseValueMgDl: Int?,
     unitLabel: String,
+    animatedValueColor: Color,
     modifier: Modifier = Modifier,
 ) {
     val statusColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val displayState = HomeDialGlucoseDisplay(text = glucoseValue, valueMgDl = glucoseValueMgDl)
 
     Row(
         modifier = modifier.wrapContentWidth(),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.Bottom,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = glucoseValue,
-            color = Color(glucoseValueColor),
-            fontSize = HomeGlucoseValueFontSize,
-            fontWeight = FontWeight.SemiBold,
-            letterSpacing = (-0.02).sp,
-            maxLines = 1,
-            softWrap = false,
-            modifier = Modifier.alignByBaseline(),
-        )
+        Box(
+            modifier =
+                Modifier
+                    .height(HomeGlucoseValueLineHeight)
+                    .wrapContentWidth(),
+            contentAlignment = Alignment.Center,
+        ) {
+            AnimatedContent(
+                targetState = displayState,
+                transitionSpec = {
+                    val oldMg = initialState.valueMgDl
+                    val newMg = targetState.valueMgDl
+                    val increasing = oldMg != null && newMg != null && newMg > oldMg
+                    if (increasing) {
+                        slideInVertically(
+                            animationSpec = HomeDialValueSlideAnimationSpec,
+                            initialOffsetY = { fullHeight -> fullHeight },
+                        ) togetherWith
+                            slideOutVertically(
+                                animationSpec = HomeDialValueSlideAnimationSpec,
+                                targetOffsetY = { fullHeight -> -fullHeight },
+                            )
+                    } else {
+                        slideInVertically(
+                            animationSpec = HomeDialValueSlideAnimationSpec,
+                            initialOffsetY = { fullHeight -> -fullHeight },
+                        ) togetherWith
+                            slideOutVertically(
+                                animationSpec = HomeDialValueSlideAnimationSpec,
+                                targetOffsetY = { fullHeight -> fullHeight },
+                            )
+                    }
+                },
+                label = "homeGlucoseValue",
+            ) { display ->
+                Text(
+                    text = display.text,
+                    color = animatedValueColor,
+                    fontSize = HomeGlucoseValueFontSize,
+                    fontWeight = FontWeight.SemiBold,
+                    letterSpacing = (-0.02).sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip,
+                    softWrap = false,
+                )
+            }
+        }
         Text(
             text = unitLabel,
             color = statusColor,
             fontSize = HomeGlucoseUnitFontSize,
             fontWeight = FontWeight.Medium,
             maxLines = 1,
+            overflow = TextOverflow.Clip,
             softWrap = false,
-            modifier =
-                Modifier
-                    .alignByBaseline()
-                    .padding(start = 8.dp),
+            modifier = Modifier.padding(start = 8.dp),
         )
     }
 }

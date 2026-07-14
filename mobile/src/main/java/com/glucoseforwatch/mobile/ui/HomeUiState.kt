@@ -6,6 +6,7 @@ import androidx.annotation.ColorRes
 /** Precomputed fields bound to the home screen layout. */
 data class HomeUiState(
     val watchFaceValueText: String,
+    val watchFaceValueMgDl: Int?,
     @ColorInt val watchFaceValueColor: Int,
     val watchFaceMetaText: String,
     val watchFaceMetaVisible: Boolean,
@@ -26,4 +27,7 @@ data class HomeUiState(
 ) {
     /** Hero glucose value shown on the watch-face preview (alias for layout handoff). */
     val heroGlucoseValue: String get() = watchFaceValueText
+
+    /** Raw mg/dL used for dial color bands and value slide direction. */
+    val heroGlucoseValueMgDl: Int? get() = watchFaceValueMgDl
 }
