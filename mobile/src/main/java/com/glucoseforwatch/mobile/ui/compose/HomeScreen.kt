@@ -55,6 +55,7 @@ fun HomeScreen(
     onUnitClick: () -> Unit,
     onBatteryClick: () -> Unit,
     onPermissionsClick: () -> Unit,
+    onAboutClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (state == null) {
@@ -129,6 +130,7 @@ fun HomeScreen(
             onUnitClick = onUnitClick,
             onPermissionsClick = onPermissionsClick,
             onBatteryClick = onBatteryClick,
+            onAboutClick = onAboutClick,
             modifier =
                 Modifier
                     .fillMaxWidth()

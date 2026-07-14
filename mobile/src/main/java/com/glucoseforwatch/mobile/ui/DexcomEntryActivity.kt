@@ -36,6 +36,7 @@ import com.glucoseforwatch.mobile.sync.PhoneSyncStateStore
 import com.glucoseforwatch.mobile.sync.SyncErrorAdapter
 import com.glucoseforwatch.mobile.ui.compose.DexcomEntryScreen
 import com.glucoseforwatch.mobile.ui.compose.DexcomEntryUiState
+import com.glucoseforwatch.mobile.ui.compose.DexcomLegalDocumentType
 import com.glucoseforwatch.mobile.ui.theme.GlucoseForWatchTheme
 import kotlinx.coroutines.launch
 
@@ -91,11 +92,14 @@ class DexcomEntryActivity : ComponentActivity() {
                             uiState = uiState.copy(showDisconnectDialog = false)
                         },
                         onDocumentClick = { documentType ->
-                            startActivity(
-                                Intent(this, LegalDocumentActivity::class.java).apply {
-                                    putExtra(LegalDocumentActivity.EXTRA_DOCUMENT_TYPE, documentType)
-                                },
-                            )
+                            when (documentType) {
+                                DexcomLegalDocumentType.CGU ->
+                                    startActivity(Intent(this, CguActivity::class.java))
+                                DexcomLegalDocumentType.PRIVACY ->
+                                    startActivity(Intent(this, PrivacyPolicyActivity::class.java))
+                                DexcomLegalDocumentType.MEDICAL ->
+                                    startActivity(Intent(this, MedicalWarningActivity::class.java))
+                            }
                         },
                         onBack = { finish() },
                         modifier =

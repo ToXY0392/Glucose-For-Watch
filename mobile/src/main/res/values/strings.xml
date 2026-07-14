@@ -27,13 +27,13 @@
     <string name="home_companion_setting_permissions_sub">Notifications, batterie, réseau</string>
     <string name="home_companion_setting_install_title">Installer sur la montre</string>
     <string name="home_companion_setting_install_sub">Guide pas à pas Wear OS</string>
+    <string name="home_companion_setting_about_title">À propos</string>
+    <string name="home_companion_setting_about_sub">Informations sur l\'application</string>
+    <string name="about_version_label">Version %1$s</string>
     <string name="home_brand_tagline">Glycémie sur montre connectée</string>
     <string name="common_back">Retour</string>
     <string name="notice_title">Notice utilisateur</string>
     <string name="notice_subtitle">Retrouvez ici les étapes utiles pour utiliser l\'application.</string>
-    <string name="legal_title_cgu">CGU</string>
-    <string name="legal_title_privacy">Politique de confidentialité</string>
-    <string name="legal_title_medical">Avertissement médical</string>
     <string name="home_row_dexcom">Dexcom</string>
     <string name="home_row_watch">Montre</string>
     <string name="home_section_pilotage">Pilotage express</string>

@@ -42,6 +42,7 @@ fun HomeSettingsList(
     onUnitClick: () -> Unit,
     onPermissionsClick: () -> Unit,
     onBatteryClick: () -> Unit,
+    onAboutClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -90,6 +91,15 @@ fun HomeSettingsList(
             title = stringResource(R.string.home_companion_setting_battery_title),
             subtitle = batterySubtitle,
             onClick = onBatteryClick,
+        )
+        SettingDivider()
+
+        // 6. À propos
+        SettingItem(
+            icon = R.drawable.ic_brand_mark,
+            title = stringResource(R.string.home_companion_setting_about_title),
+            subtitle = stringResource(R.string.home_companion_setting_about_sub),
+            onClick = onAboutClick,
         )
     }
 }

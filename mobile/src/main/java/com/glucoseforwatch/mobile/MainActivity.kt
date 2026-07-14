@@ -37,7 +37,8 @@ import com.glucoseforwatch.mobile.sync.PhoneGlucoseSyncEngine
 import com.glucoseforwatch.mobile.ui.DexcomEntryActivity
 import com.glucoseforwatch.mobile.ui.HomeViewModel
 import com.glucoseforwatch.mobile.ui.ManualSyncFeedbackFormatter
-import com.glucoseforwatch.mobile.ui.NoticeActivity
+import com.glucoseforwatch.mobile.R
+import com.glucoseforwatch.mobile.ui.AboutActivity
 import com.glucoseforwatch.mobile.ui.GlucoseUnitSettingsActivity
 import com.glucoseforwatch.mobile.ui.WatchSetupActivity
 import com.glucoseforwatch.mobile.ui.WearInstallerActivity
@@ -88,6 +89,7 @@ class MainActivity : ComponentActivity() {
                             onUnitClick = { openGlucoseUnitSettings() },
                             onBatteryClick = { openBatterySettings() },
                             onPermissionsClick = { openAppDetailsSettings() },
+                            onAboutClick = { openAbout() },
                         )
                     }
                 }
@@ -142,6 +144,10 @@ class MainActivity : ComponentActivity() {
 
     private fun openGlucoseUnitSettings() {
         startActivity(Intent(this, GlucoseUnitSettingsActivity::class.java))
+    }
+
+    private fun openAbout() {
+        startActivity(Intent(this, AboutActivity::class.java))
     }
 
     private fun openWearInstaller() {

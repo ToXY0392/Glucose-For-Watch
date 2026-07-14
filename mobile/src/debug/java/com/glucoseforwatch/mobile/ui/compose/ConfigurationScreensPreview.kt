@@ -37,6 +37,7 @@ internal fun HomeScreenConnectedConfigurationPreview() {
             onUnitClick = {},
             onBatteryClick = {},
             onPermissionsClick = {},
+            onAboutClick = {},
             modifier = Modifier.fillMaxSize(),
         )
     }

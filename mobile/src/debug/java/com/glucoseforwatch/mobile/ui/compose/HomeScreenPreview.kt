@@ -25,6 +25,7 @@ internal fun HomeScreenConnectedPreview() {
             onUnitClick = {},
             onBatteryClick = {},
             onPermissionsClick = {},
+            onAboutClick = {},
             modifier =
                 Modifier
                     .fillMaxSize()
@@ -48,6 +49,7 @@ internal fun HomeScreenSyncErrorPreview() {
             onUnitClick = {},
             onBatteryClick = {},
             onPermissionsClick = {},
+            onAboutClick = {},
             modifier =
                 Modifier
                     .fillMaxSize()

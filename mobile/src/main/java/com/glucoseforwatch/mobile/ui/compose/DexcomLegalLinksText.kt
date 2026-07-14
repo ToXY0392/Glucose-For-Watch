@@ -11,7 +11,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import com.glucoseforwatch.mobile.R
-import com.glucoseforwatch.mobile.ui.LegalDocuments
+
+object DexcomLegalDocumentType {
+    const val CGU = "cgu"
+    const val PRIVACY = "privacy"
+    const val MEDICAL = "medical"
+}
 
 @Composable
 fun DexcomLegalLinksText(
@@ -56,11 +61,11 @@ fun DexcomLegalLinksText(
             }
 
             plain("Lire les ")
-            link(cguLabel, LegalDocuments.DOCUMENT_TYPE_CGU)
+            link(cguLabel, DexcomLegalDocumentType.CGU)
             plain(", la ")
-            link(privacyLabel, LegalDocuments.DOCUMENT_TYPE_PRIVACY)
+            link(privacyLabel, DexcomLegalDocumentType.PRIVACY)
             plain(" et l'")
-            link(medicalLabel, LegalDocuments.DOCUMENT_TYPE_MEDICAL)
+            link(medicalLabel, DexcomLegalDocumentType.MEDICAL)
             plain(".")
         }
 
