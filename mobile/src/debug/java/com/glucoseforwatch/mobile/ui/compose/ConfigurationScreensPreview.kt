@@ -9,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
+import com.glucoseforwatch.mobile.R
 import com.glucoseforwatch.mobile.ui.theme.GlucoseForWatchTheme
 
 private const val PREVIEW_WIDTH_DP = 411
@@ -121,6 +122,7 @@ internal fun DexcomEntryScreenConfiguredPreview() {
 )
 @Composable
 internal fun WatchSetupScreenConnectedPreview() {
+    val context = LocalContext.current
     ConfigurationScreenPreviewHost {
         WatchSetupScreen(
             state =
@@ -134,7 +136,7 @@ internal fun WatchSetupScreenConnectedPreview() {
                     watchTestLabel = "Envoyer une lecture test",
                     bluetoothStatusLabel = "Pixel Watch 2",
                     isBluetoothConnected = true,
-                    wearAppStatusLabel = "Glucose For Watch est installe sur la montre.",
+                    wearAppStatusLabel = context.getString(R.string.watch_setup_wear_ready_app),
                 ),
             onWatchSelected = {},
             onBatteryOptimization = {},
@@ -214,6 +216,24 @@ internal fun PrivacyPolicyScreenConfigurationPreview() {
 internal fun MedicalWarningScreenConfigurationPreview() {
     ConfigurationScreenPreviewHost {
         MedicalWarningScreen(
+            onBackClick = {},
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
+
+@Preview(
+    name = "AboutScreen",
+    device = Devices.PIXEL_7,
+    showBackground = true,
+    widthDp = PREVIEW_WIDTH_DP,
+    heightDp = PREVIEW_HEIGHT_DP,
+    backgroundColor = PREVIEW_BACKGROUND,
+)
+@Composable
+internal fun AboutScreenConfigurationPreview() {
+    ConfigurationScreenPreviewHost {
+        AboutScreen(
             onBackClick = {},
             modifier = Modifier.fillMaxSize(),
         )

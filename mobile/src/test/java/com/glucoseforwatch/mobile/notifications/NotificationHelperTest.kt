@@ -29,29 +29,29 @@ class NotificationHelperTest {
 
     @Test
     fun duplicate_sync_interrupted_alert_is_not_reposted_while_active() {
-        helper.notifySyncInterrupted("Erreur reseau")
+        helper.notifySyncInterrupted("Erreur réseau")
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val shadowManager = Shadows.shadowOf(manager)
         assertEquals(1, shadowManager.size())
 
-        helper.notifySyncInterrupted("Erreur reseau")
+        helper.notifySyncInterrupted("Erreur réseau")
 
         assertEquals(1, shadowManager.size())
         assertEquals(
-            LastNotificationAlert("Synchronisation interrompue", "Erreur reseau"),
+            LastNotificationAlert("Synchronisation interrompue", "Erreur réseau"),
             stateStore.getLastAlert(1002),
         )
     }
 
     @Test
     fun changed_message_reposts_sync_interrupted_alert() {
-        helper.notifySyncInterrupted("Erreur reseau")
-        helper.notifySyncInterrupted("Session Dexcom expiree")
+        helper.notifySyncInterrupted("Erreur réseau")
+        helper.notifySyncInterrupted("Session Dexcom expirée")
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         assertEquals(1, Shadows.shadowOf(manager).size())
         assertEquals(
-            LastNotificationAlert("Synchronisation interrompue", "Session Dexcom expiree"),
+            LastNotificationAlert("Synchronisation interrompue", "Session Dexcom expirée"),
             stateStore.getLastAlert(1002),
         )
     }

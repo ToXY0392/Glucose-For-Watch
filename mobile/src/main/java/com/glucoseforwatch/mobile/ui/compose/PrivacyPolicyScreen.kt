@@ -19,7 +19,29 @@ fun PrivacyPolicyScreen(
         title = PrivacyPolicyScreenTitle,
         onBackClick = onBackClick,
         modifier = modifier,
-    )
+    ) {
+        LegalBodyParagraph(
+            text = "La protection de vos données de santé est notre priorité absolue.",
+        )
+        LegalSectionHeading(text = "Fonctionnement local")
+        LegalBodyParagraph(
+            text =
+                "Glucose For Watch agit uniquement comme une passerelle entre les serveurs Dexcom " +
+                    "et votre montre connectée.",
+        )
+        LegalSectionHeading(text = "Identifiants et données")
+        LegalBodyParagraph(
+            text =
+                "Vos identifiants de connexion Dexcom sont chiffrés et stockés localement et uniquement " +
+                    "sur votre appareil. Les données glycémiques récupérées ne sont ni stockées de manière " +
+                    "permanente, ni partagées avec des tiers, ni revendues, ni envoyées sur des serveurs " +
+                    "externes nous appartenant. Elles transitent uniquement pour être affichées sur votre écran.",
+        )
+        LegalBodyParagraph(
+            text =
+                "En utilisant cette application, vous consentez à ce traitement local de vos informations.",
+        )
+    }
 }
 
 @Preview(showBackground = true, name = "Privacy Policy Screen")

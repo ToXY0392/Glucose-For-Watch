@@ -40,7 +40,7 @@ internal object GlucoseSyncRequestExecutor {
                         Log.d(TAG, "refresh_request_sent node=$nodeId")
                     }
                     .addOnFailureListener {
-                        fail(appContext, cache, healthMonitor, "Echec de synchro")
+                        fail(appContext, cache, healthMonitor, "Échec de synchro")
                     }
             }
             .addOnFailureListener {

@@ -143,13 +143,13 @@ data class RefreshStatusSnapshot(
     fun displayText(nowEpochMs: Long): String {
         val ageMs = nowEpochMs - updatedAtEpochMs
         if (status == GlucoseKeys.REFRESH_IN_PROGRESS && ageMs > PENDING_VISIBLE_MS) {
-            return "Delai depasse"
+            return "Délai dépassé"
         }
         return message.ifBlank {
             when (status) {
                 GlucoseKeys.REFRESH_IN_PROGRESS -> "Actualisation..."
                 GlucoseKeys.REFRESH_COMPLETED -> "À jour"
-                GlucoseKeys.REFRESH_FAILED -> "Echec de synchro"
+                GlucoseKeys.REFRESH_FAILED -> "Échec de synchro"
                 else -> ""
             }
         }

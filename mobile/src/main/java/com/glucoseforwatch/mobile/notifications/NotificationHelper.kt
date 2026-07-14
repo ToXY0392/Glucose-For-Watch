@@ -22,9 +22,8 @@ class NotificationHelper @JvmOverloads constructor(
 ) {
 
     fun notifyDexcomReconnectRequired() {
-        val title = "Reconnectez votre compte Dexcom"
-        val message =
-            "La synchronisation ne peut plus se faire tant que vos identifiants Dexcom n'ont pas été vérifiés."
+        val title = context.getString(R.string.notification_dexcom_reconnect_title)
+        val message = context.getString(R.string.notification_dexcom_reconnect_message)
         postSyncAlertIfNeeded(
             notificationId = ID_DEXCOM_AUTH,
             title = title,
@@ -36,7 +35,7 @@ class NotificationHelper @JvmOverloads constructor(
     fun notifySyncInterrupted(message: String) {
         postSyncAlertIfNeeded(
             notificationId = ID_SYNC_INTERRUPTED,
-            title = "Synchronisation interrompue",
+            title = context.getString(R.string.notification_sync_interrupted_title),
             message = message,
             smallIcon = android.R.drawable.stat_notify_sync_noanim,
         )
@@ -76,8 +75,8 @@ class NotificationHelper @JvmOverloads constructor(
             .setContentIntent(openIntent)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
-            .addAction(android.R.drawable.stat_notify_sync, "Synchroniser", syncNowIntent)
-            .addAction(android.R.drawable.ic_menu_close_clear_cancel, "Arreter", stopIntent)
+            .addAction(android.R.drawable.stat_notify_sync, context.getString(R.string.notification_action_sync), syncNowIntent)
+            .addAction(android.R.drawable.ic_menu_close_clear_cancel, context.getString(R.string.notification_action_stop), stopIntent)
             .build()
     }
 
@@ -119,10 +118,10 @@ class NotificationHelper @JvmOverloads constructor(
 
         val channel = NotificationChannel(
             CHANNEL_SYNC_STATUS,
-            "Etat de synchronisation",
+            context.getString(R.string.notification_channel_sync_status),
             NotificationManager.IMPORTANCE_DEFAULT,
         ).apply {
-            description = "Alertes utiles lorsque Dexcom ou la synchronisation ont besoin de votre attention."
+            description = context.getString(R.string.notification_channel_sync_status_desc)
         }
         manager.createNotificationChannel(channel)
     }
@@ -134,10 +133,10 @@ class NotificationHelper @JvmOverloads constructor(
 
         val channel = NotificationChannel(
             CHANNEL_ACTIVE_SYNC,
-            "Surveillance glycémie",
+            context.getString(R.string.notification_channel_active_sync),
             NotificationManager.IMPORTANCE_LOW,
         ).apply {
-            description = "Notification permanente utilisee pour garder la synchronisation active."
+            description = context.getString(R.string.notification_channel_active_sync_desc)
         }
         manager.createNotificationChannel(channel)
     }
