@@ -27,7 +27,7 @@
     <string name="home_companion_setting_permissions_sub">Notifications, batterie, réseau</string>
     <string name="home_companion_setting_install_title">Installer sur la montre</string>
     <string name="home_companion_setting_install_sub">Guide pas à pas Wear OS</string>
-    <string name="home_brand_tagline">Glycémie · montre connectée</string>
+    <string name="home_brand_tagline">Glycémie sur montre connectée</string>
     <string name="common_back">Retour</string>
     <string name="notice_title">Notice utilisateur</string>
     <string name="notice_subtitle">Retrouvez ici les étapes utiles pour utiliser l\'application.</string>
@@ -160,7 +160,8 @@
     <string name="dexcom_entry_legal_links_prefix">Lire les </string>
     <string name="dexcom_entry_legal_links_mid_privacy">, la </string>
     <string name="dexcom_entry_legal_links_mid_medical"> et l\'</string>
-    <string name="dexcom_entry_title">Connexion Dexcom</string>
+    <string name="dexcom_entry_title_connect">Connexion</string>
+    <string name="dexcom_entry_title_account">Compte Dexcom</string>
     <string name="dexcom_entry_subtitle">Utilisez vos identifiants Dexcom pour connecter l\'application.</string>
     <string name="dexcom_entry_legal_terms_checkbox">J\'accepte les CGU et la Politique de confidentialité.</string>
     <string name="dexcom_entry_medical_checkbox">Je reconnais l\'avertissement médical et je comprends que l\'application ne remplace ni un dispositif médical ni un avis médical.</string>
@@ -177,6 +178,7 @@
     <string name="dexcom_entry_link_privacy">Politique de confidentialité</string>
     <string name="dexcom_entry_link_medical">Avertissement médical</string>
     <string name="dexcom_entry_connect">Se connecter</string>
+    <string name="dexcom_entry_connected_account">Compte connecté : %1$s</string>
     <string name="dexcom_entry_disconnect">Se déconnecter</string>
     <string name="dexcom_entry_disconnect_message">Voulez-vous supprimer le compte Dexcom de l\'application ?</string>
     <string name="action_cancel">Annuler</string>

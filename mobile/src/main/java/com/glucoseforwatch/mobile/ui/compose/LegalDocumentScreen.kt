@@ -29,50 +29,59 @@ fun LegalDocumentScreen(
     val content = rememberRawText(config.rawResId)
     val title = stringResource(config.titleRes)
 
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .padding(horizontal = 20.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        BrandHeader()
-        Card(
+    CompanionAppScaffold(modifier = modifier) { paddingValues ->
+        Column(
             modifier =
                 Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(top = 14.dp),
-            colors =
-                CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                ),
+                    .fillMaxSize()
+                    .padding(paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(
                 modifier =
                     Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                        .padding(22.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(horizontal = 22.dp),
             ) {
-                Text(
-                    text = title,
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-                Text(
-                    text = content,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface,
+                Card(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .padding(top = 14.dp),
+                    colors =
+                        CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.surface,
+                        ),
+                ) {
+                    Column(
+                        modifier =
+                            Modifier
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
+                                .padding(22.dp),
+                        verticalArrangement = Arrangement.spacedBy(20.dp),
+                    ) {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurface,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                        Text(
+                            text = content,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+                }
+                RoundBackButton(
+                    onClick = onBack,
+                    modifier = Modifier.padding(top = 18.dp, bottom = 24.dp),
                 )
             }
         }
-        RoundBackButton(
-            onClick = onBack,
-            modifier = Modifier.padding(top = 18.dp),
-        )
     }
 }

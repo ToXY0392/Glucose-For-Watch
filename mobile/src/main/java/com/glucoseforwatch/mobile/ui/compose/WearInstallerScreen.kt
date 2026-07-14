@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.rememberScrollState
@@ -67,17 +66,23 @@ fun WearInstallerScreen(
         }
     }
 
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .verticalScroll(scrollState)
-                .padding(start = 20.dp, top = 20.dp, end = 20.dp, bottom = 40.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        BrandHeader(modifier = Modifier.padding(top = 8.dp))
-
+    CompanionAppScaffold(modifier = modifier) { paddingValues ->
+        Column(
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+                    .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Column(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 22.dp)
+                        .padding(bottom = 40.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
         Text(
             text = stringResource(R.string.wear_install_title),
             style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
@@ -338,6 +343,8 @@ fun WearInstallerScreen(
             onClick = onBack,
             modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
         )
+            }
+        }
     }
 }
 

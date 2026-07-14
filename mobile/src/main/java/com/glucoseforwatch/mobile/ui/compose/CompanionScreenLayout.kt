@@ -5,11 +5,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +20,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,11 +36,54 @@ import com.glucoseforwatch.mobile.R
 internal val CompanionCardShape = RoundedCornerShape(28.dp)
 
 @Composable
+fun CompanionAppScaffold(
+    modifier: Modifier = Modifier,
+    trailingContent: @Composable (() -> Unit)? = null,
+    content: @Composable (PaddingValues) -> Unit,
+) {
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = {
+            Surface(
+                color = MaterialTheme.colorScheme.background,
+                tonalElevation = 0.dp,
+            ) {
+                GlobalAppHeader(
+                    modifier = Modifier.fillMaxWidth(),
+                    trailingContent = trailingContent,
+                )
+            }
+        },
+        content = content,
+    )
+}
+
+@Composable
 internal fun SecondaryScreenScaffold(
     title: String,
     subtitle: String? = null,
-    showBrandHeader: Boolean = true,
     onBack: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    CompanionAppScaffold(modifier = modifier) { paddingValues ->
+        SecondaryScreenBody(
+            title = title,
+            subtitle = subtitle,
+            onBack = onBack,
+            paddingValues = paddingValues,
+            content = content,
+        )
+    }
+}
+
+@Composable
+internal fun SecondaryScreenBody(
+    title: String,
+    subtitle: String?,
+    onBack: () -> Unit,
+    paddingValues: PaddingValues,
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -46,22 +91,20 @@ internal fun SecondaryScreenScaffold(
         modifier =
             modifier
                 .fillMaxSize()
-                .statusBarsPadding()
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 22.dp, vertical = 24.dp),
+                .padding(horizontal = 22.dp)
+                .padding(bottom = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        if (showBrandHeader) {
-            BrandHeader()
-        }
         Text(
             text = title,
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
             color = MaterialTheme.colorScheme.onSurface,
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(top = if (showBrandHeader) 14.dp else 0.dp),
+                    .padding(top = 14.dp),
         )
         if (!subtitle.isNullOrBlank()) {
             Text(

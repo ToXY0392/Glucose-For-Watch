@@ -62,7 +62,6 @@ fun WatchSetupScreen(
     SecondaryScreenScaffold(
         title = stringResource(R.string.watch_setup_title),
         subtitle = stringResource(R.string.watch_setup_options_title),
-        showBrandHeader = false,
         onBack = onBack,
         modifier = modifier,
     ) {

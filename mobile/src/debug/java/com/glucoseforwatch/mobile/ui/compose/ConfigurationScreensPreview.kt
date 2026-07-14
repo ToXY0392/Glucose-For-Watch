@@ -35,8 +35,6 @@ internal fun HomeScreenConnectedConfigurationPreview() {
             onWatchClick = {},
             onUnitClick = {},
             onBatteryClick = {},
-            onInstallClick = {},
-            onNoticeClick = {},
             onPermissionsClick = {},
             modifier = Modifier.fillMaxSize(),
         )
@@ -57,13 +55,19 @@ internal fun DexcomEntryScreenFirstConnectPreview() {
         DexcomEntryScreen(
             state =
                 DexcomEntryUiState(
+                    username = "alice",
+                    serverLabel = "Europe",
                     legalTermsAccepted = true,
                     medicalWarningAccepted = true,
-                    isConfigured = false,
                 ),
+            serverOptions = listOf("Europe", "US"),
+            onUsernameChange = {},
+            onPasswordChange = {},
+            onServerChange = {},
             onLegalTermsChange = {},
             onMedicalWarningChange = {},
-            onPrimaryAction = {},
+            onConnect = {},
+            onDisconnect = {},
             onConfirmDisconnect = {},
             onDismissDisconnect = {},
             onDocumentClick = {},
@@ -87,49 +91,20 @@ internal fun DexcomEntryScreenConfiguredPreview() {
         DexcomEntryScreen(
             state =
                 DexcomEntryUiState(
-                    legalTermsAccepted = true,
-                    medicalWarningAccepted = true,
-                    isConfigured = true,
+                    isLoggedIn = true,
+                    connectedUsername = "alice",
                 ),
-            onLegalTermsChange = {},
-            onMedicalWarningChange = {},
-            onPrimaryAction = {},
-            onConfirmDisconnect = {},
-            onDismissDisconnect = {},
-            onDocumentClick = {},
-            onBack = {},
-            modifier = Modifier.fillMaxSize(),
-        )
-    }
-}
-
-@Preview(
-    name = "DexcomSettingsScreen",
-    device = Devices.PIXEL_7,
-    showBackground = true,
-    widthDp = PREVIEW_WIDTH_DP,
-    heightDp = PREVIEW_HEIGHT_DP,
-    backgroundColor = PREVIEW_BACKGROUND,
-)
-@Composable
-internal fun DexcomSettingsScreenPreview() {
-    ConfigurationScreenPreviewHost {
-        DexcomSettingsScreen(
-            state =
-                DexcomSettingsUiState(
-                    username = "alice",
-                    password = "",
-                    serverLabel = "Europe / OUS",
-                    accountSummary = "Dexcom Share · Europe / OUS",
-                    statusMessage = "Derniere sync il y a 2 min",
-                    saveButtonLabel = "Verifier et enregistrer",
-                ),
-            serverOptions = listOf("Europe / OUS", "US"),
+            serverOptions = listOf("Europe", "US"),
             onUsernameChange = {},
             onPasswordChange = {},
             onServerChange = {},
-            onSave = {},
+            onLegalTermsChange = {},
+            onMedicalWarningChange = {},
+            onConnect = {},
             onDisconnect = {},
+            onConfirmDisconnect = {},
+            onDismissDisconnect = {},
+            onDocumentClick = {},
             onBack = {},
             modifier = Modifier.fillMaxSize(),
         )

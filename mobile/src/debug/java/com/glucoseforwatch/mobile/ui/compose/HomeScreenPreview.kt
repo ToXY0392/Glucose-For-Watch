@@ -24,8 +24,6 @@ internal fun HomeScreenConnectedPreview() {
             onWatchClick = {},
             onUnitClick = {},
             onBatteryClick = {},
-            onInstallClick = {},
-            onNoticeClick = {},
             onPermissionsClick = {},
             modifier =
                 Modifier
@@ -49,8 +47,6 @@ internal fun HomeScreenSyncErrorPreview() {
             onWatchClick = {},
             onUnitClick = {},
             onBatteryClick = {},
-            onInstallClick = {},
-            onNoticeClick = {},
             onPermissionsClick = {},
             modifier =
                 Modifier

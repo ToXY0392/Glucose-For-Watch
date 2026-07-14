@@ -43,10 +43,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.DexcomSettingsActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".ui.LegalDocumentActivity"
             android:exported="false" />
 
