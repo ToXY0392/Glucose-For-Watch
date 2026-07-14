@@ -162,7 +162,7 @@
     <string name="dexcom_entry_legal_links_mid_medical"> et l\'</string>
     <string name="dexcom_entry_title_connect">Connexion</string>
     <string name="dexcom_entry_title_account">Compte Dexcom</string>
-    <string name="dexcom_entry_subtitle">Utilisez vos identifiants Dexcom pour connecter l\'application.</string>
+    <string name="dexcom_entry_subtitle">Utilisez vos identifiants Dexcom pour vous connecter.</string>
     <string name="dexcom_entry_legal_terms_checkbox">J\'accepte les CGU et la Politique de confidentialité.</string>
     <string name="dexcom_entry_medical_checkbox">Je reconnais l\'avertissement médical et je comprends que l\'application ne remplace ni un dispositif médical ni un avis médical.</string>
     <string name="dexcom_entry_credentials_notice">Vos identifiants Dexcom peuvent être stockés localement sur cet appareil afin de permettre le fonctionnement de l\'application.</string>
