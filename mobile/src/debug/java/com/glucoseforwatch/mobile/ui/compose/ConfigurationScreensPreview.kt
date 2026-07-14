@@ -166,6 +166,60 @@ internal fun GlucoseUnitSettingsScreenPreview() {
     }
 }
 
+@Preview(
+    name = "CguScreen",
+    device = Devices.PIXEL_7,
+    showBackground = true,
+    widthDp = PREVIEW_WIDTH_DP,
+    heightDp = PREVIEW_HEIGHT_DP,
+    backgroundColor = PREVIEW_BACKGROUND,
+)
+@Composable
+internal fun CguScreenConfigurationPreview() {
+    ConfigurationScreenPreviewHost {
+        CguScreen(
+            onBackClick = {},
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
+
+@Preview(
+    name = "PrivacyPolicyScreen",
+    device = Devices.PIXEL_7,
+    showBackground = true,
+    widthDp = PREVIEW_WIDTH_DP,
+    heightDp = PREVIEW_HEIGHT_DP,
+    backgroundColor = PREVIEW_BACKGROUND,
+)
+@Composable
+internal fun PrivacyPolicyScreenConfigurationPreview() {
+    ConfigurationScreenPreviewHost {
+        PrivacyPolicyScreen(
+            onBackClick = {},
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
+
+@Preview(
+    name = "MedicalWarningScreen",
+    device = Devices.PIXEL_7,
+    showBackground = true,
+    widthDp = PREVIEW_WIDTH_DP,
+    heightDp = PREVIEW_HEIGHT_DP,
+    backgroundColor = PREVIEW_BACKGROUND,
+)
+@Composable
+internal fun MedicalWarningScreenConfigurationPreview() {
+    ConfigurationScreenPreviewHost {
+        MedicalWarningScreen(
+            onBackClick = {},
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+}
+
 @Composable
 internal fun ConfigurationScreenPreviewHost(content: @Composable () -> Unit) {
     GlucoseForWatchTheme {
