@@ -4,7 +4,7 @@
 
     <!-- AGP medical layer — glucose range colors (tonalités adoucies, toujours distinctes) -->
 
-    <color name="agp_veryLow">#C54B47</color>
+    <color name="agp_veryLow">#D32F2F</color>
     <color name="agp_low">#D46363</color>
     <color name="agp_inRange">#3A9B6E</color>
     <color name="agp_high">#A8742F</color>
