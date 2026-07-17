@@ -5,3 +5,8 @@
 # ML Kit — reconnaissance de texte (assistant installation montre)
 -keep class com.google.mlkit.** { *; }
 -dontwarn com.google.mlkit.**
+
+# Wear Data Layer listeners (release minify)
+-keep class * extends com.google.android.gms.wearable.WearableListenerService { *; }
+-keep class com.glucoseforwatch.wear.services.WearDataLayerListenerService { *; }
+-keep class com.glucoseforwatch.mobile.sync.PhoneWearRefreshRequestService { *; }

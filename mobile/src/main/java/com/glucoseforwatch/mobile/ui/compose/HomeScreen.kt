@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
@@ -71,10 +70,7 @@ fun HomeScreen(
 ) {
     if (state == null) {
         Column(
-            modifier =
-                modifier
-                    .fillMaxSize()
-                    .statusBarsPadding(),
+            modifier = modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Top,
         ) {
             GlobalAppHeader(modifier = Modifier.fillMaxWidth())
@@ -97,7 +93,6 @@ fun HomeScreen(
         modifier =
             modifier
                 .fillMaxSize()
-                .statusBarsPadding()
                 .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,

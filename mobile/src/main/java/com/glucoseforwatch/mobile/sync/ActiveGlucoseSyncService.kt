@@ -3,8 +3,10 @@ package com.glucoseforwatch.mobile.sync
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.os.IBinder
 import android.util.Log
+import androidx.core.app.ServiceCompat
 import com.glucoseforwatch.core.model.GlucoseReading
 import com.glucoseforwatch.mobile.notifications.NotificationHelper
 import com.glucoseforwatch.mobile.settings.AppSettingsStore
@@ -37,6 +39,7 @@ class ActiveGlucoseSyncService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        isRunning = true
         if (!foregroundActive) {
             stopSelf()
             return START_NOT_STICKY
@@ -70,6 +73,7 @@ class ActiveGlucoseSyncService : Service() {
 
     override fun onDestroy() {
         loopJob?.cancel()
+        isRunning = false
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
         if (
             AppSettingsStore(this).isActiveSyncEnabled() &&
@@ -216,9 +220,11 @@ class ActiveGlucoseSyncService : Service() {
     private fun promoteToForeground(): Boolean {
         return ActiveGlucoseSyncForegroundGate.promote {
             PhoneSyncStateStore(this).recordActiveServiceState("starting")
-            startForeground(
+            ServiceCompat.startForeground(
+                this,
                 NotificationHelper.ID_ACTIVE_SYNC,
                 NotificationHelper(this).buildActiveSyncNotification(),
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC,
             )
             PhoneSyncStateStore(this).recordActiveServiceState("running")
         }
@@ -241,6 +247,10 @@ class ActiveGlucoseSyncService : Service() {
         private const val ACTION_STOP = "com.glucoseforwatch.mobile.sync.action.STOP_ACTIVE_SYNC"
         private const val POLL_INTERVAL_DEGRADED_MS = WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS
         private const val FALLBACK_RESTART_MS = 30_000L
+
+        /** True while the FGS instance is started; used to skip redundant WorkManager sync. */
+        @Volatile
+        var isRunning: Boolean = false
 
         fun startIntent(context: Context): Intent =
             Intent(context, ActiveGlucoseSyncService::class.java).setAction(ACTION_START)
