@@ -23,6 +23,7 @@ import com.glucoseforwatch.mobile.ui.compose.WatchSetupUiState
 import com.glucoseforwatch.mobile.ui.theme.GlucoseForWatchTheme
 import com.glucoseforwatch.mobile.watch.ConnectedWatchNode
 import com.glucoseforwatch.mobile.watch.WatchConnectionRepository
+import com.glucoseforwatch.mobile.watch.WatchSyncHealthRepository
 import com.glucoseforwatch.mobile.watch.WatchSyncVerifier
 import kotlinx.coroutines.launch
 
@@ -135,14 +136,31 @@ class WatchSetupActivity : ComponentActivity() {
 
     private suspend fun refreshWatchChoices() {
         val repository = WatchConnectionRepository(this)
-        connectedWatches = repository.loadConnectedWatches()
+        val watchStatus = repository.loadStatus()
+        val watchHealth = WatchSyncHealthRepository(this).load()
+        val wearAppStatusLabel =
+            when {
+                watchHealth == null -> ""
+                watchHealth.appInstalled -> getString(R.string.watch_setup_wear_ready_app)
+                else -> getString(R.string.watch_setup_wear_not_ready)
+            }
+        val bluetoothStatusLabel =
+            if (watchStatus.connected) {
+                watchStatus.displayName
+            } else {
+                ""
+            }
 
+        connectedWatches = repository.loadConnectedWatches()
         val showSelector = connectedWatches.size > 1
         if (!showSelector) {
             uiState =
                 uiState.copy(
                     showWatchSelector = false,
                     watchNames = emptyList(),
+                    bluetoothStatusLabel = bluetoothStatusLabel,
+                    isBluetoothConnected = watchStatus.connected,
+                    wearAppStatusLabel = wearAppStatusLabel,
                 )
             return
         }
@@ -157,6 +175,9 @@ class WatchSetupActivity : ComponentActivity() {
                 showWatchSelector = true,
                 watchNames = connectedWatches.map { it.displayName },
                 selectedWatchIndex = selectedIndex,
+                bluetoothStatusLabel = bluetoothStatusLabel,
+                isBluetoothConnected = watchStatus.connected,
+                wearAppStatusLabel = wearAppStatusLabel,
             )
         applyingSelection = false
     }

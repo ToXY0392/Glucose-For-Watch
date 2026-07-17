@@ -103,9 +103,8 @@ class AppPreviewExporterTest {
                         onWatchClick = {},
                         onUnitClick = {},
                         onBatteryClick = {},
-                        onInstallClick = {},
-                        onNoticeClick = {},
                         onPermissionsClick = {},
+                        onAboutClick = {},
                     )
                 }
             }
