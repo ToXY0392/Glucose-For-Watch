@@ -11,15 +11,26 @@ labels: enhancement
 
 ## Proposed solution
 
+<!-- Describe the feature clearly. -->
+
 ## Alternatives considered
+
+<!-- Other approaches you thought about. -->
 
 ## Scope
 
 - [ ] Phone app
 - [ ] Wear tile / complication
-- [ ] Sync / offline
+- [ ] Sync / offline / Data Layer
 - [ ] UX kit (`toxy-ux-kit/`)
-- [ ] Documentation
+- [ ] Documentation / tooling
+
+## Acceptance criteria
+
+<!-- How will we know it is done? -->
+
+- [ ]
+- [ ]
 
 ## Additional context
 

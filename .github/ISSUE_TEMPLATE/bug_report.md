@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Report a sync, watch, or Dexcom issue
+about: Report a crash, sync, watch, or Dexcom issue
 title: "[bug] "
 labels: bug
 ---
@@ -15,7 +15,11 @@ labels: bug
 
 ## Expected behavior
 
+<!-- What should happen? -->
+
 ## Actual behavior
+
+<!-- What happens instead? -->
 
 ## Steps to reproduce
 
@@ -23,9 +27,24 @@ labels: bug
 2.
 3.
 
-## Logs / screenshots
+## Logs
 
-<!-- Optional: logcat excerpt, tile screenshot, phone home screen -->
+<!-- Optional: logcat excerpt (`com.glucoseforwatch.mobile` / wear). Redact credentials and real glucose. -->
+
+```text
+Paste relevant log lines here
+```
+
+## Device details
+
+| Device | Model | OS / Wear OS | Notes |
+|--------|-------|--------------|-------|
+| Phone | | | |
+| Watch | | | |
+
+## Screenshots
+
+<!-- Optional: phone home, tile, complication — no real glucose / PII -->
 
 ## Regression?
 

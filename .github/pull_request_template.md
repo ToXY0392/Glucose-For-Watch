@@ -1,7 +1,14 @@
-## Summary
+## Description
 
-<!-- What does this PR change and why? Link issue: Closes #N or Refs #N -->
-<!-- Tip: invoke @glucose-for-watch-pr-author in Cursor for bloc/gate PRs before opening -->
+<!-- What does this PR change and why? Link: Closes #N or Refs #N -->
+
+## Type
+
+- [ ] Bug fix
+- [ ] Feature
+- [ ] Refactor / tech debt
+- [ ] Docs / UX kit only
+- [ ] QA evidence / scripts only
 
 ## Plan metadata
 
@@ -14,51 +21,46 @@
 
 > Full checklist: [docs/plan/PR-CHECKLIST.md](docs/plan/PR-CHECKLIST.md)
 
-## Type
+## Tests performed
 
-- [ ] Bug fix
-- [ ] Feature
-- [ ] Refactor / tech debt
-- [ ] Docs / UX kit only
-- [ ] QA evidence / scripts only
-
-## Test plan
+### Automated
 
 - [ ] `bash scripts/dev/verify_ci.sh` — PASS
 - [ ] `./gradlew test` — modules touched
-- [ ] `.\scripts\qa\stability-gate.ps1` — PASS (or `-Strict` if hardware)
 - [ ] `./gradlew.bat :mobile:assembleDebug :wear:assembleDebug`
 
-## Hardware (if sync / mobile / wear touched)
+### Mobile
+
+- [ ] Phone UI / navigation OK
+- [ ] Dexcom connect / disconnect (if touched)
+- [ ] Notifications / FGS (if touched)
+
+### Wear OS
+
+- [ ] Tile renders without flicker
+- [ ] Complication updates (if touched)
+- [ ] Forced sync phone → watch OK
+
+### Hardware (if sync / mobile / wear)
 
 - [ ] `.\gradlew.bat installGlucoseForWatchDebug` — phone + watch OK
-- [ ] `.\scripts\qa\hardware-smoke.ps1` — no critical FAIL
 - [ ] Push seq / Ack seq: _____ / _____
 - [ ] 0 new `FATAL` logcat `com.glucoseforwatch.mobile`
 
-## AGP / ToXY (if UI touched)
+## Screenshots / captures (if UI)
+
+<!-- Attach phone / tile / complication captures — no real glucose / PII -->
+
+- [ ] N/A
+- [ ] Attached below / in `docs/qa/captures/`
+
+## AGP / ToXY (if UI)
 
 - [ ] Glucose values use AGP colors only (`GlucoseRangeResolver` / `agp_*`)
-- [ ] ToXY mint accent for chrome only (buttons, sync UI, backgrounds)
-- [ ] Design tokens updated in `toxy-ux-kit/` when colors change
-
-## Gate bloc (check if applicable)
-
-- [ ] **G-X** — FGS fallback · 30 min no crash
-- [ ] **G-A** — disconnect entry=settings · notifications · sync feedback
-- [ ] **G-M** — 6 previews · hero/tile parity
-- [ ] **G-B** — complication 30 min · tile FR
-- [ ] **G-C** — stability sign-off linked
-- [ ] **G-D** — Dexcom tests · install script
-- [ ] **G-F*** — Compose phase · sync non-regressive
+- [ ] ToXY mint accent for chrome only
+- [ ] Tokens updated in `toxy-ux-kit/` when colors change
 
 ## After merge
 
-- [ ] Update [docs/plan/PROGRESS.md](docs/plan/PROGRESS.md) scoreboard
-- [ ] QA evidence in `docs/qa/` if hardware session
+- [ ] Update [docs/plan/PROGRESS.md](docs/plan/PROGRESS.md) if gate/scoreboard impacted
 - [ ] Close / update linked GitHub Project card
-
-## Dexcom / hardware (if applicable)
-
-- [ ] Tested with G6 and/or G7 Share
-- [ ] Offline → reconnect scenario checked
