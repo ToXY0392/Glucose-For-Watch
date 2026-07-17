@@ -9,5 +9,5 @@ object SyncMessageCatalog {
     const val SYNC_TIMEOUT = "Délai dépassé pendant la synchronisation."
     const val UNKNOWN_ERROR = "Erreur inconnue"
     const val SYNC_NEEDS_ATTENTION = "La synchronisation a besoin de votre attention."
-    const val DEGRADED_SUFFIX = "Mode dégradé montre actif (<20 % batterie) : cadence réduite."
+    const val DEGRADED_SUFFIX = "Mode degrade montre actif (<20% batterie): cadence reduite."
 }

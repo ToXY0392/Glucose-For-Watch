@@ -48,3 +48,8 @@ Thumbs.db
 analytics.settings
 .tmp-*.jar
 .android-user-home/
+
+# Node (logo compress script deps — never vendor)
+node_modules/
+**/node_modules/
+
