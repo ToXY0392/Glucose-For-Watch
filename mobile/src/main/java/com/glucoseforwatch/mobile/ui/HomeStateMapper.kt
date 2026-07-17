@@ -83,6 +83,7 @@ object HomeStateMapper {
 
         return HomeUiState(
             watchFaceValueText = watchFace.valueText,
+            watchFaceValueMgDl = watchFace.valueMgDl,
             watchFaceValueColor = watchFace.valueColor,
             watchFaceMetaText = watchFace.metaText,
             watchFaceMetaVisible = watchFace.metaVisible,
@@ -110,6 +111,7 @@ object HomeStateMapper {
 
     private data class WatchFaceFields(
         val valueText: String,
+        val valueMgDl: Int?,
         val valueColor: Int,
         val metaText: String,
         val metaVisible: Boolean,
@@ -129,6 +131,7 @@ object HomeStateMapper {
                 val value = syncStatus.lastValueMgDl!!
                 WatchFaceFields(
                     valueText = GlucoseDisplayFormatter.formatValue(value, displayUnit),
+                    valueMgDl = value,
                     valueColor = GlucoseRangeResolver.resolveColor(value),
                     metaText = buildWatchFaceMeta(context, syncStatus, displayUnit, nowEpochMs),
                     metaVisible = true,
@@ -137,6 +140,7 @@ object HomeStateMapper {
             !dexcomConfigured ->
                 WatchFaceFields(
                     valueText = context.getString(R.string.home_companion_watch_face_empty),
+                    valueMgDl = null,
                     valueColor = metaColor,
                     metaText = context.getString(R.string.home_hero_connect),
                     metaVisible = true,
@@ -144,6 +148,7 @@ object HomeStateMapper {
             else ->
                 WatchFaceFields(
                     valueText = context.getString(R.string.home_companion_watch_face_empty),
+                    valueMgDl = null,
                     valueColor = metaColor,
                     metaText = context.getString(R.string.home_hero_waiting),
                     metaVisible = true,

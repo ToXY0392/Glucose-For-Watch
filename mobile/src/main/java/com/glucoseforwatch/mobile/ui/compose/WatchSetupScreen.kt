@@ -1,20 +1,13 @@
 package com.glucoseforwatch.mobile.ui.compose
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +15,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.glucoseforwatch.mobile.R
 
@@ -37,6 +28,9 @@ data class WatchSetupUiState(
     val batteryButtonEnabled: Boolean = true,
     val watchTestEnabled: Boolean = false,
     val watchTestLabel: String = "",
+    val bluetoothStatusLabel: String = "",
+    val isBluetoothConnected: Boolean = false,
+    val wearAppStatusLabel: String = "",
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,96 +46,102 @@ fun WatchSetupScreen(
 ) {
     var watchMenuExpanded by remember { mutableStateOf(false) }
     val selectedWatchLabel = state.watchNames.getOrNull(state.selectedWatchIndex).orEmpty()
-
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .statusBarsPadding()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp, vertical = 24.dp),
-    ) {
-        Text(
-            text = stringResource(R.string.watch_setup_title),
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onSurface,
+    val bluetoothTitle =
+        state.bluetoothStatusLabel.ifBlank {
+            stringResource(R.string.home_companion_setting_watch_title)
+        }
+    val bluetoothSubtitle =
+        stringResource(
+            if (state.isBluetoothConnected) {
+                R.string.home_companion_connected
+            } else {
+                R.string.home_companion_disconnected
+            },
         )
-        if (state.showWatchSelector) {
-            Text(
-                text = stringResource(R.string.watch_setup_primary_watch),
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 20.dp),
+
+    SecondaryScreenScaffold(
+        title = stringResource(R.string.watch_setup_title),
+        subtitle = stringResource(R.string.watch_setup_options_title),
+        onBack = onBack,
+        modifier = modifier,
+    ) {
+        CompanionGroupedCard(modifier = Modifier.padding(top = 24.dp)) {
+            CompanionListItem(
+                icon = R.drawable.ic_bluetooth_24,
+                title = bluetoothTitle,
+                subtitle = bluetoothSubtitle,
             )
-            ExposedDropdownMenuBox(
-                expanded = watchMenuExpanded,
-                onExpandedChange = { watchMenuExpanded = it },
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-            ) {
-                OutlinedTextField(
-                    value = selectedWatchLabel,
-                    onValueChange = {},
-                    readOnly = true,
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = watchMenuExpanded) },
+            if (state.wearAppStatusLabel.isNotBlank()) {
+                CompanionCardDivider()
+                CompanionListItem(
+                    icon = R.drawable.ic_watch_24,
+                    title = stringResource(R.string.home_companion_setting_watch_title),
+                    subtitle = state.wearAppStatusLabel,
+                )
+            }
+            if (state.showWatchSelector) {
+                CompanionCardDivider()
+                ExposedDropdownMenuBox(
+                    expanded = watchMenuExpanded,
+                    onExpandedChange = { watchMenuExpanded = it },
                     modifier =
                         Modifier
-                            .menuAnchor()
-                            .fillMaxWidth(),
-                )
-                ExposedDropdownMenu(
-                    expanded = watchMenuExpanded,
-                    onDismissRequest = { watchMenuExpanded = false },
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 12.dp),
                 ) {
-                    state.watchNames.forEachIndexed { index, name ->
-                        DropdownMenuItem(
-                            text = { Text(name) },
-                            onClick = {
-                                onWatchSelected(index)
-                                watchMenuExpanded = false
-                            },
-                        )
+                    OutlinedTextField(
+                        value = selectedWatchLabel,
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.watch_setup_primary_watch)) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = watchMenuExpanded) },
+                        modifier =
+                            Modifier
+                                .menuAnchor()
+                                .fillMaxWidth(),
+                    )
+                    ExposedDropdownMenu(
+                        expanded = watchMenuExpanded,
+                        onDismissRequest = { watchMenuExpanded = false },
+                    ) {
+                        state.watchNames.forEachIndexed { index, name ->
+                            DropdownMenuItem(
+                                text = { Text(name) },
+                                onClick = {
+                                    onWatchSelected(index)
+                                    watchMenuExpanded = false
+                                },
+                            )
+                        }
                     }
                 }
             }
         }
-        OutlinedButton(
-            onClick = onBatteryOptimization,
-            enabled = state.batteryButtonEnabled,
+
+        Button(
+            onClick = onInstallWear,
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp),
         ) {
-            Text(state.batteryButtonLabel)
-        }
-        OutlinedButton(
-            onClick = onInstallWear,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-        ) {
             Text(stringResource(R.string.watch_setup_install_wear))
         }
-        OutlinedButton(
-            onClick = onWatchTest,
-            enabled = state.watchTestEnabled,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-        ) {
-            Text(state.watchTestLabel)
+
+        CompanionGroupedCard(modifier = Modifier.padding(top = 16.dp)) {
+            CompanionListItem(
+                icon = R.drawable.ic_battery_saver_24,
+                title = stringResource(R.string.home_companion_setting_battery_title),
+                subtitle = state.batteryButtonLabel,
+                onClick = if (state.batteryButtonEnabled) onBatteryOptimization else null,
+            )
+            CompanionCardDivider()
+            CompanionListItem(
+                icon = R.drawable.ic_refresh_24,
+                title = stringResource(R.string.home_watch_test),
+                subtitle = state.watchTestLabel,
+                onClick = if (state.watchTestEnabled) onWatchTest else null,
+            )
         }
-        RoundBackButton(
-            onClick = onBack,
-            modifier =
-                Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(top = 24.dp),
-        )
     }
 }

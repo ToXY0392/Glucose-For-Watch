@@ -19,7 +19,9 @@ data class WearGlucoseSurfaceModel(
 /** Maps a cached [GlucoseSnapshot] into [WearGlucoseSurfaceModel] for tile and complication. */
 object WearGlucoseSurfaceModelFactory {
     fun fromSnapshot(snapshot: GlucoseSnapshot?): WearGlucoseSurfaceModel {
-        val trendArrow = snapshot?.trendArrow().orEmpty()
+        // No placeholder glyph ("?") — invalid / missing trend → empty string.
+        val trendArrow =
+            snapshot?.trendArrow().orEmpty().takeUnless { it == "?" }.orEmpty()
         val showTrend = snapshot != null && trendArrow.isNotEmpty()
         return WearGlucoseSurfaceModel(
             valueText = snapshot?.displayValueText() ?: "--",

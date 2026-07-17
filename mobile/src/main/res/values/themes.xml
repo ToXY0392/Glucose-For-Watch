@@ -17,7 +17,7 @@
         <item name="colorSurfaceVariant">@color/wg7_surface_alt</item>
         <item name="colorOnSurfaceVariant">@color/wg7_text_secondary</item>
         <item name="android:colorBackground">@color/gfw_canvas_end</item>
-        <item name="colorSurfaceContainer">@color/wg7_surface</item>
+        <item name="colorSurfaceContainer">@color/wg7_companion_group</item>
         <item name="colorSurfaceContainerLow">@color/gfw_canvas_end</item>
         <item name="colorPrimaryContainer">@color/wg7_surface_alt</item>
         <item name="colorSecondaryContainer">@color/wg7_surface_alt</item>

@@ -35,10 +35,10 @@ import com.glucoseforwatch.mobile.sync.ActiveGlucoseSyncController
 import com.glucoseforwatch.mobile.sync.PhoneAutoSyncScheduler
 import com.glucoseforwatch.mobile.sync.PhoneGlucoseSyncEngine
 import com.glucoseforwatch.mobile.ui.DexcomEntryActivity
-import com.glucoseforwatch.mobile.ui.DexcomSettingsActivity
 import com.glucoseforwatch.mobile.ui.HomeViewModel
 import com.glucoseforwatch.mobile.ui.ManualSyncFeedbackFormatter
-import com.glucoseforwatch.mobile.ui.NoticeActivity
+import com.glucoseforwatch.mobile.R
+import com.glucoseforwatch.mobile.ui.AboutActivity
 import com.glucoseforwatch.mobile.ui.GlucoseUnitSettingsActivity
 import com.glucoseforwatch.mobile.ui.WatchSetupActivity
 import com.glucoseforwatch.mobile.ui.WearInstallerActivity
@@ -88,11 +88,8 @@ class MainActivity : ComponentActivity() {
                             onWatchClick = { openWatchSetup() },
                             onUnitClick = { openGlucoseUnitSettings() },
                             onBatteryClick = { openBatterySettings() },
-                            onInstallClick = { openWearInstaller() },
-                            onNoticeClick = {
-                                startActivity(Intent(this@MainActivity, NoticeActivity::class.java))
-                            },
                             onPermissionsClick = { openAppDetailsSettings() },
+                            onAboutClick = { openAbout() },
                         )
                     }
                 }
@@ -138,12 +135,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun openDexcomFlow() {
-        val settings = AppSettingsStore(this).loadDexcomSettings()
-        if (settings.isConfigured()) {
-            startActivity(Intent(this, DexcomSettingsActivity::class.java))
-        } else {
-            startActivity(Intent(this, DexcomEntryActivity::class.java))
-        }
+        startActivity(Intent(this, DexcomEntryActivity::class.java))
     }
 
     private fun openWatchSetup() {
@@ -152,6 +144,10 @@ class MainActivity : ComponentActivity() {
 
     private fun openGlucoseUnitSettings() {
         startActivity(Intent(this, GlucoseUnitSettingsActivity::class.java))
+    }
+
+    private fun openAbout() {
+        startActivity(Intent(this, AboutActivity::class.java))
     }
 
     private fun openWearInstaller() {

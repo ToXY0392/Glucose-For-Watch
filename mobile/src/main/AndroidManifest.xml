@@ -43,11 +43,19 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.DexcomSettingsActivity"
+            android:name=".ui.CguActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ui.LegalDocumentActivity"
+            android:name=".ui.PrivacyPolicyActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.MedicalWarningActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.AboutActivity"
             android:exported="false" />
 
         <activity

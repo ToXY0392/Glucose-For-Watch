@@ -1,21 +1,16 @@
 package com.glucoseforwatch.mobile.ui.compose
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
@@ -30,81 +25,56 @@ fun GlucoseUnitSettingsScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 20.dp, vertical = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    SecondaryScreenScaffold(
+        title = stringResource(R.string.glucose_unit_settings_title),
+        subtitle = stringResource(R.string.glucose_unit_settings_subtitle),
+        onBack = onBack,
+        modifier = modifier,
     ) {
-        BrandHeader()
-        Text(
-            text = stringResource(R.string.glucose_unit_settings_title),
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 14.dp),
-        )
-        Text(
-            text = stringResource(R.string.glucose_unit_settings_subtitle),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp),
-        )
-        Card(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 22.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        ) {
-            Column(modifier = Modifier.padding(vertical = 8.dp)) {
-                UnitOptionRow(
-                    label = stringResource(R.string.glucose_unit_mg_dl),
-                    selected = selectedUnit == GlucoseDisplayUnit.MG_DL,
-                    onClick = { onUnitSelected(GlucoseDisplayUnit.MG_DL) },
-                )
-                UnitOptionRow(
-                    label = stringResource(R.string.glucose_unit_mmol_l),
-                    selected = selectedUnit == GlucoseDisplayUnit.MMOL_L,
-                    onClick = { onUnitSelected(GlucoseDisplayUnit.MMOL_L) },
-                )
-            }
+        CompanionGroupedCard(modifier = Modifier.padding(top = 24.dp)) {
+            GlucoseUnitListItem(
+                label = stringResource(R.string.glucose_unit_mg_dl),
+                selected = selectedUnit == GlucoseDisplayUnit.MG_DL,
+                onClick = { onUnitSelected(GlucoseDisplayUnit.MG_DL) },
+            )
+            CompanionCardDivider()
+            GlucoseUnitListItem(
+                label = stringResource(R.string.glucose_unit_mmol_l),
+                selected = selectedUnit == GlucoseDisplayUnit.MMOL_L,
+                onClick = { onUnitSelected(GlucoseDisplayUnit.MMOL_L) },
+            )
         }
-        RoundBackButton(
-            onClick = onBack,
-            modifier = Modifier.padding(top = 22.dp, bottom = 28.dp),
-        )
     }
 }
 
 @Composable
-private fun UnitOptionRow(
+private fun GlucoseUnitListItem(
     label: String,
     selected: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row(
+    ListItem(
         modifier =
             modifier
                 .fillMaxWidth()
-                .clickable(role = Role.RadioButton, onClick = onClick)
-                .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        RadioButton(selected = selected, onClick = null)
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium),
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(start = 8.dp),
-        )
-    }
+                .clickable(role = Role.RadioButton, onClick = onClick),
+        colors =
+            ListItemDefaults.colors(
+                containerColor = colorResource(R.color.wg7_companion_group),
+            ),
+        headlineContent = {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Medium),
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        },
+        trailingContent = {
+            RadioButton(
+                selected = selected,
+                onClick = null,
+            )
+        },
+    )
 }
