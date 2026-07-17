@@ -2,30 +2,38 @@
 .gradle/
 build/
 **/build/
+.cxx/
+captures/
 
-# Secrets et machine locale â€” ne pas commiter (SDK, sÃ©ries adb, surcharge locale)
+# Secrets et machine locale ? ne pas committer (SDK, séries adb, surcharge locale)
 local.properties
+keystore.properties
+*.pem
+*.p12
 
 # IDE
 .idea/
 *.iml
+*.ipr
+*.iws
 
-# Keystore
+# Keystore / signing
 *.jks
 *.keystore
 
-# Legal / contenu gardÃ© hors dÃ©pÃ´t (voir docs)
+# Legal / contenu gardé hors dépôt (voir docs)
 docs/CGU.md
 
-# Cache compilateur Kotlin (bruit IDE, rÃ©gÃ©nÃ©rÃ©)
+# Cache compilateur Kotlin (bruit IDE, régénéré)
 .kotlin/
 
-# MÃ©tadonnÃ©es tooling Android sous la racine du projet
+# Métadonnées tooling Android sous la racine du projet
 .android/
 
 # OS
 .DS_Store
 Thumbs.db
+Desktop.ini
 
 # Outils locaux hors repo
 .android-home/
@@ -39,7 +47,7 @@ Thumbs.db
 .gradle-user-home-mobile-french-fix/
 .gradle-user-home-mobile-french-fix-2/
 .gradle-user-home-serial/
-# Cursor runtime (Ã©tat session local)
+# Cursor runtime (état session local)
 .cursor/state/*
 !.cursor/state/.gitkeep
 
@@ -49,7 +57,11 @@ analytics.settings
 .tmp-*.jar
 .android-user-home/
 
-# Node (logo compress script deps — never vendor)
+# Node (logo compress script deps ? never vendor)
 node_modules/
 **/node_modules/
 
+# Local release artifacts
+*.apk
+*.aab
+!**/src/**/assets/**/*.apk

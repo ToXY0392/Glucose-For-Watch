@@ -12,7 +12,7 @@ enum class GlucoseRange {
 
 /** ARGB colors for each [GlucoseRange] band (AGP / time-in-range palette). */
 object AgpGlucoseColors {
-    const val VERY_LOW = 0xFFC54B47.toInt()
+    const val VERY_LOW = 0xFFD32F2F.toInt()
     const val LOW = 0xFFD46363.toInt()
     const val IN_RANGE = 0xFF3A9B6E.toInt()
     const val HIGH = 0xFFA8742F.toInt()

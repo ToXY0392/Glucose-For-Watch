@@ -22,6 +22,10 @@ object BackgroundSyncFallback {
     }
 
     fun enqueueImmediateSync(context: Context) {
+        if (ActiveGlucoseSyncService.isRunning) {
+            Log.i(TAG, "skip_workmanager_fgs_already_running")
+            return
+        }
         val work =
             OneTimeWorkRequestBuilder<PhoneGlucoseSyncWorker>()
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 15, TimeUnit.SECONDS)
