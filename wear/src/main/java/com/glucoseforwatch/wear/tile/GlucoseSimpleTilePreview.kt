@@ -3,12 +3,14 @@ package com.glucoseforwatch.wear.tile
 import android.content.Context
 import androidx.wear.tiles.tooling.preview.Preview
 import androidx.wear.tiles.tooling.preview.TilePreviewData
-import androidx.wear.tiles.tooling.preview.TilePreviewHelper
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 
 /**
  * Wear Tiles Design-pane previews (ProtoLayout — not Compose).
+ *
+ * Uses the same [GlucoseSimpleTileLayout.buildRoot] / [emptyResources] as release
+ * (minimal layout: value + unit/trend + sync — no header Image).
  *
  * **Android Studio** (Koala Feature Drop+ / Narwhal+): module `:wear`, variant **debug**.
  * Open this file → **Split** → previews listed by [name].
@@ -37,20 +39,14 @@ private fun previewTile(
         onTileResourceRequest = { GlucoseSimpleTileLayout.emptyResources() },
         onTileRequest = { request ->
             val device = request.deviceConfiguration
-            val metrics =
-                ToxyTileTheme.layoutMetrics(
-                    screenWidthDp = device.screenWidthDp,
-                    screenHeightDp = device.screenHeightDp,
-                    screenShape = device.screenShape,
-                )
-            val root =
-                GlucoseSimpleTileLayout.buildRoot(
-                    context = context,
-                    snapshot = snapshot,
-                    metrics = metrics,
-                    syncLocked = syncLocked,
-                )
-            TilePreviewHelper.singleTimelineEntryTileBuilder(root).build()
+            GlucoseSimpleTileLayout.buildTile(
+                context = context,
+                snapshot = snapshot,
+                syncLocked = syncLocked,
+                screenWidthDp = device.screenWidthDp,
+                screenHeightDp = device.screenHeightDp,
+                screenShape = device.screenShape,
+            )
         },
     )
 

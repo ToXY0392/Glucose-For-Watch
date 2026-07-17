@@ -1,9 +1,12 @@
 package com.glucoseforwatch.core.datalayer
 
+import androidx.annotation.Keep
+
 /**
  * Wear Data Layer paths and DataMap keys shared by phone and watch modules.
  * [PUSH_VERSION] bumps invalidate stale payloads on both sides.
  */
+@Keep
 object GlucoseDataLayerContract {
     const val PATH_LATEST = "/glucose/latest"
     const val PATH_REFRESH_REQUEST = "/glucose/refresh/request"

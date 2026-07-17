@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.ComponentName
 import android.content.Intent
 import android.util.Log
+import androidx.annotation.Keep
 import androidx.wear.watchface.complications.data.ComplicationData
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceService
@@ -15,31 +16,35 @@ import com.glucoseforwatch.wear.data.GlucoseCache
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 
 /**
- * Watch face complication for current glucose.
+ * Watch face complication for current glucose (V2 ComponentName).
  *
- * Uses [ComplicationDataSourceService] (callback API) for reliable binding on Wear OS 5.
- * Hybrid refresh: system polling (manifest 300 s) + push on new readings + screen-on wake.
+ * Renamed from GlucoseComplicationService so SysUI drops zombie slots that kept a frozen
+ * value after reinstall and ignored [ComplicationDataSourceUpdateRequester] pushes.
  */
-class GlucoseComplicationService : ComplicationDataSourceService() {
+@Keep
+class GlucoseComplicationServiceV2 : ComplicationDataSourceService() {
+
+    override fun onCreate() {
+        super.onCreate()
+        Log.w(TAG, "service onCreate (provider V2 bound)")
+    }
 
     override fun onComplicationActivated(complicationInstanceId: Int, type: ComplicationType) {
         ComplicationInstanceRegistry.register(this, complicationInstanceId)
-        Log.i(TAG, "activated instance=$complicationInstanceId type=$type")
+        Log.w(TAG, "activated instance=$complicationInstanceId type=$type")
         requestComplicationUpdate(complicationInstanceId)
     }
 
     override fun onComplicationDeactivated(complicationInstanceId: Int) {
         ComplicationInstanceRegistry.unregister(this, complicationInstanceId)
-        Log.i(TAG, "deactivated instance=$complicationInstanceId")
+        Log.w(TAG, "deactivated instance=$complicationInstanceId")
     }
 
     private fun requestComplicationUpdate(complicationInstanceId: Int) {
         runCatching {
             ComplicationDataSourceUpdateRequester
-                .create(
-                    applicationContext,
-                    ComponentName(applicationContext, GlucoseComplicationService::class.java),
-                ).requestUpdate(complicationInstanceId)
+                .create(applicationContext, ComponentName(this, GlucoseComplicationServiceV2::class.java))
+                .requestUpdate(complicationInstanceId)
         }.onFailure { Log.w(TAG, "requestUpdate failed instance=$complicationInstanceId", it) }
     }
 
@@ -57,18 +62,23 @@ class GlucoseComplicationService : ComplicationDataSourceService() {
             stale = false,
         )
 
+    /**
+     * System entry point for complication refreshes (androidx equivalent of the old
+     * update-requested callback). Log must appear after each SysUI query.
+     */
     override fun onComplicationRequest(
         request: ComplicationRequest,
         listener: ComplicationRequestListener,
     ) {
         runCatching {
             val snapshot = GlucoseCache(this).load()
-            Log.i(
+            Log.w(
                 TAG,
-                "onComplicationRequest instance=${request.complicationInstanceId} " +
+                "onComplicationRequest HIT instance=${request.complicationInstanceId} " +
                     "type=${request.complicationType} value=${snapshot?.valueMgDl} " +
-                    "stale=${snapshot?.stale}",
+                    "ts=${snapshot?.timestampEpochMs} stale=${snapshot?.stale}",
             )
+            ComplicationInstanceRegistry.register(this, request.complicationInstanceId)
             val data =
                 buildForSnapshot(
                     type = request.complicationType,

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SysUI PREVIEW / TileService icon — Zero-Ghost purge.
+  New resource name (not tile_glucose_*) to bust Wear carousel cache.
+  Content: opaque black only — no shapes, text stubs, discs, or droplet.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="192dp"
+    android:height="192dp"
+    android:viewportWidth="192"
+    android:viewportHeight="192">
+    <path
+        android:fillColor="#FF000000"
+        android:pathData="M0,0h192v192h-192z" />
+</vector>

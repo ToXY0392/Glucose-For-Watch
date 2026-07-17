@@ -1,6 +1,9 @@
 package com.glucoseforwatch.core.model
 
+import androidx.annotation.Keep
+
 /** User-facing glucose concentration unit (internal storage stays mg/dL). */
+@Keep
 enum class GlucoseDisplayUnit {
     MG_DL,
     MMOL_L,

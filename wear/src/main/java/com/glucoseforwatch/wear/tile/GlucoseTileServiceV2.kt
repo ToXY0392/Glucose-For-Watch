@@ -1,5 +1,6 @@
 package com.glucoseforwatch.wear.tile
 
+import androidx.annotation.Keep
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.tiles.RequestBuilders
 import androidx.wear.tiles.TileBuilders
@@ -8,8 +9,12 @@ import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 import com.glucoseforwatch.wear.data.GlucoseCache
 
-/** Glucose tile: AGP-colored value, unit, trend, and sync action. */
-class GlucoseSimpleTileService : TileService() {
+/**
+ * Glucose tile V2 — new [TileService] component name to force Wear SysUI to drop
+ * cached carousel / framebuffer snapshots from the previous provider instance.
+ */
+@Keep
+class GlucoseTileServiceV2 : TileService() {
 
     override fun onTileRequest(
         requestParams: RequestBuilders.TileRequest,
@@ -35,6 +40,7 @@ class GlucoseSimpleTileService : TileService() {
     override fun onTileResourcesRequest(
         requestParams: RequestBuilders.ResourcesRequest,
     ): ListenableFuture<ResourceBuilders.Resources> {
+        // Text/ARGB-only tile — never add Image resource mappings here.
         return Futures.immediateFuture(GlucoseSimpleTileLayout.emptyResources())
     }
 }

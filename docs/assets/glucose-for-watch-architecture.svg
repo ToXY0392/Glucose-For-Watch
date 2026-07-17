@@ -95,7 +95,7 @@
 
     <rect x="460" y="538" width="350" height="110" rx="8" fill="#ffffffcc" stroke="#64b5f6"/>
     <text x="635" y="560" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#1565c0">AGP surfaces</text>
-    <text x="475" y="582" font-family="monospace" font-size="10.5" fill="#333">GlucoseSimpleTileService (tile)</text>
+    <text x="475" y="582" font-family="monospace" font-size="10.5" fill="#333">GlucoseTileServiceV2 (tile)</text>
     <text x="475" y="600" font-family="monospace" font-size="10.5" fill="#333">GlucoseComplicationService</text>
     <text x="475" y="622" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#666">stale if age &gt; 2 min - PendingPushQueue on reconnect</text>
   </g>

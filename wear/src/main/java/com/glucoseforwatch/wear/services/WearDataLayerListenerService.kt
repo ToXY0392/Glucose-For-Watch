@@ -1,6 +1,7 @@
 package com.glucoseforwatch.wear.services
 
 import android.util.Log
+import androidx.annotation.Keep
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
@@ -28,6 +29,7 @@ import kotlinx.coroutines.tasks.await
  *
  * Persists readings, sends ACKs, updates tile/complication, and reports watch health.
  */
+@Keep
 class WearDataLayerListenerService : WearableListenerService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -95,6 +97,8 @@ class WearDataLayerListenerService : WearableListenerService() {
                 if (status != GlucoseKeys.REFRESH_IN_PROGRESS) {
                     GlucoseSyncCoordinator.endSync()
                     requestTileUpdateImmediate()
+                    // Tile-only here: PATH_LATEST already pushes complication on new seq/ts.
+                    // Extra force pushes get SysUI to ignore the provider.
                     healthMonitor.updateAndReport()
                 }
             }
@@ -112,10 +116,12 @@ class WearDataLayerListenerService : WearableListenerService() {
     }
 
     private fun notifyComplicationReading(snapshot: GlucoseSnapshot, sequenceId: Long) {
+        // force=false: new seq/ts opens the gate; avoids SysUI throttle from spam.
         ComplicationUpdateNotifier.notifyReadingChanged(
             context = this,
             sequenceId = sequenceId,
             readingTimestampEpochMs = snapshot.timestampEpochMs,
+            force = false,
         )
     }
 

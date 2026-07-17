@@ -1,10 +1,12 @@
 package com.glucoseforwatch.wear.display
 
+import androidx.annotation.Keep
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import com.glucoseforwatch.wear.tile.ToxyTileTheme
 
 /** Shared glucose display state for tile and complication (AGP + stale rules). */
+@Keep
 data class WearGlucoseSurfaceModel(
     val valueText: String,
     val trendArrow: String,
@@ -17,6 +19,7 @@ data class WearGlucoseSurfaceModel(
 )
 
 /** Maps a cached [GlucoseSnapshot] into [WearGlucoseSurfaceModel] for tile and complication. */
+@Keep
 object WearGlucoseSurfaceModelFactory {
     fun fromSnapshot(snapshot: GlucoseSnapshot?): WearGlucoseSurfaceModel {
         // No placeholder glyph ("?") — invalid / missing trend → empty string.

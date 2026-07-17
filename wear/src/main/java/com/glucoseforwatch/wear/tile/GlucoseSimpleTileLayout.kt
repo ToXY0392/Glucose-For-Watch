@@ -1,6 +1,7 @@
 package com.glucoseforwatch.wear.tile
 
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.wear.protolayout.ActionBuilders
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DimensionBuilders
@@ -14,7 +15,8 @@ import com.glucoseforwatch.wear.R
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModelFactory
 
-/** ProtoLayout builder for [GlucoseSimpleTileService] and Android Studio tile previews. */
+/** ProtoLayout builder for [GlucoseTileServiceV2] and Android Studio tile previews. */
+@Keep
 internal object GlucoseSimpleTileLayout {
 
     fun buildTile(
@@ -47,10 +49,17 @@ internal object GlucoseSimpleTileLayout {
             .build()
     }
 
-    fun emptyResources(): ResourceBuilders.Resources =
-        ResourceBuilders.Resources.Builder()
+    /**
+     * Layout is text/ARGB-only (no ProtoLayout Image). Resource map must stay empty —
+     * never register drawables here (Wear caches them across versions).
+     * Bump [ToxyTileTheme.RESOURCES_VERSION] on every layout/resource contract change.
+     */
+    fun emptyResources(): ResourceBuilders.Resources {
+        // Explicit empty map + fresh version string forces Wear to drop stale Image mappings.
+        return ResourceBuilders.Resources.Builder()
             .setVersion(ToxyTileTheme.RESOURCES_VERSION)
             .build()
+    }
 
     fun buildRoot(
         context: Context,
@@ -59,6 +68,11 @@ internal object GlucoseSimpleTileLayout {
         syncLocked: Boolean,
     ): LayoutElementBuilders.LayoutElement {
         val display = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+        // AGP ARGB must be opaque 0xAARRGGBB — never theme / Material primary / transparent.
+        val glucoseArgb = opaqueArgb(display.valueColorArgb)
+        val trendArgb = opaqueArgb(display.trendColorArgb)
+        val trendColorProp = ColorBuilders.ColorProp.Builder(trendArgb).build()
+        val unitColorProp = ColorBuilders.ColorProp.Builder(ToxyTileTheme.UNIT_TEXT).build()
 
         val value =
             LayoutElementBuilders.Text.Builder()
@@ -68,7 +82,7 @@ internal object GlucoseSimpleTileLayout {
                         .setSize(DimensionBuilders.sp(metrics.valueSp))
                         .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
                         .setPreferredFontFamilies("monospace")
-                        .setColor(ColorBuilders.argb(display.valueColorArgb))
+                        .setColor(ColorBuilders.ColorProp.Builder(glucoseArgb).build())
                         .build(),
                 )
                 .setMaxLines(1)
@@ -84,7 +98,6 @@ internal object GlucoseSimpleTileLayout {
                 .addContent(value)
                 .build()
 
-        // Unit + trend slot as one centered block (no asymmetric padding).
         val metaRow =
             LayoutElementBuilders.Row.Builder()
                 .setWidth(DimensionBuilders.wrap())
@@ -96,7 +109,7 @@ internal object GlucoseSimpleTileLayout {
                             LayoutElementBuilders.FontStyle.Builder()
                                 .setSize(DimensionBuilders.sp(metrics.unitSp))
                                 .setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
-                                .setColor(ColorBuilders.argb(ToxyTileTheme.UNIT_TEXT))
+                                .setColor(unitColorProp)
                                 .build(),
                         )
                         .setMaxLines(1)
@@ -112,7 +125,7 @@ internal object GlucoseSimpleTileLayout {
                     buildTrendSlot(
                         showTrend = display.showTrend,
                         trendArrow = display.trendArrow,
-                        trendColorArgb = display.trendColorArgb,
+                        trendColorProp = trendColorProp,
                         metrics = metrics,
                     ),
                 )
@@ -126,8 +139,6 @@ internal object GlucoseSimpleTileLayout {
                 .addContent(metaRow)
                 .build()
 
-        // Vertical balance: flex above glucose block + flex above sync text
-        // so the pill-less "Synchro" does not pin everything to the bottom.
         val contentColumn =
             LayoutElementBuilders.Column.Builder()
                 .setWidth(DimensionBuilders.expand())
@@ -178,7 +189,7 @@ internal object GlucoseSimpleTileLayout {
                     )
                     .setBackground(
                         ModifiersBuilders.Background.Builder()
-                            .setColor(ColorBuilders.argb(ToxyTileTheme.BACKGROUND))
+                            .setColor(ColorBuilders.ColorProp.Builder(ToxyTileTheme.BACKGROUND).build())
                             .build(),
                     )
                     .build(),
@@ -187,14 +198,10 @@ internal object GlucoseSimpleTileLayout {
             .build()
     }
 
-    /**
-     * Fixed-size trend slot for layout stability. When [showTrend] is false or the
-     * arrow is empty/invalid, text is "" (never "?").
-     */
     private fun buildTrendSlot(
         showTrend: Boolean,
         trendArrow: String,
-        trendColorArgb: Int,
+        trendColorProp: ColorBuilders.ColorProp,
         metrics: ToxyTileTheme.TileLayoutMetrics,
     ): LayoutElementBuilders.LayoutElement {
         val arrowText = if (showTrend && trendArrow.isNotEmpty() && trendArrow != "?") {
@@ -202,8 +209,12 @@ internal object GlucoseSimpleTileLayout {
         } else {
             ""
         }
-        val arrowColor =
-            if (arrowText.isNotEmpty()) trendColorArgb else ToxyTileTheme.TRANSPARENT
+        val colorProp =
+            if (arrowText.isNotEmpty()) {
+                trendColorProp
+            } else {
+                ColorBuilders.ColorProp.Builder(ToxyTileTheme.TRANSPARENT).build()
+            }
 
         return LayoutElementBuilders.Box.Builder()
             .setWidth(DimensionBuilders.dp(metrics.trendSlotWidthDp))
@@ -217,7 +228,7 @@ internal object GlucoseSimpleTileLayout {
                         LayoutElementBuilders.FontStyle.Builder()
                             .setSize(DimensionBuilders.sp(metrics.trendSp))
                             .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
-                            .setColor(ColorBuilders.argb(arrowColor))
+                            .setColor(colorProp)
                             .build(),
                     )
                     .setMaxLines(1)
@@ -227,7 +238,10 @@ internal object GlucoseSimpleTileLayout {
             .build()
     }
 
-    /** Minimal sync control: accent text only — no grey pill / background. */
+    /** Force opaque alpha so ProtoLayout never paints white/transparent AGP values. */
+    private fun opaqueArgb(argb: Int): Int =
+        if ((argb ushr 24) == 0) argb or 0xFF000000.toInt() else argb
+
     fun buildSyncAction(
         context: Context,
         syncLocked: Boolean,
@@ -248,7 +262,7 @@ internal object GlucoseSimpleTileLayout {
                     LayoutElementBuilders.FontStyle.Builder()
                         .setSize(DimensionBuilders.sp(ToxyTileTheme.SYNC_TEXT_SP))
                         .setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
-                        .setColor(ColorBuilders.argb(textColor))
+                        .setColor(ColorBuilders.ColorProp.Builder(textColor).build())
                         .build(),
                 )
                 .setMaxLines(1)

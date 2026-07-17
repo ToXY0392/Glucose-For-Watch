@@ -15,7 +15,7 @@ Verify end-to-end sync: Dexcom Share → phone cache → Wear Data Layer → wat
 - `mobile/.../sync/PhoneSyncStateStore.kt` (`consecutiveWearPushFailures`)
 - `wear/.../services/WearDataLayerListenerService.kt`
 - `wear/.../sync/WatchSyncHealthMonitor.kt`
-- `wear/.../tile/GlucoseSimpleTileService.kt` (45 s freshness + sync button)
+- `wear/.../tile/GlucoseTileServiceV2.kt` (45 s freshness + sync button)
 
 ## Review checklist
 1. Push failure increments counter; success resets it.

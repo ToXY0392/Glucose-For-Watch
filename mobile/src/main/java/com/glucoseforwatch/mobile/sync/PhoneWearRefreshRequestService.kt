@@ -1,6 +1,7 @@
 package com.glucoseforwatch.mobile.sync
 
 import android.util.Log
+import androidx.annotation.Keep
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
 import com.google.android.gms.wearable.DataMapItem
@@ -15,6 +16,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 
 /** Wearable listener for watch refresh requests, acks, and status payloads. */
+@Keep
 class PhoneWearRefreshRequestService : WearableListenerService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 

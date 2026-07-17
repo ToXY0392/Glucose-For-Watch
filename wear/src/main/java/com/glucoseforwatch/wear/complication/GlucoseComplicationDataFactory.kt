@@ -1,26 +1,34 @@
 package com.glucoseforwatch.wear.complication
 
 import android.app.PendingIntent
-import android.content.Intent
+import androidx.annotation.Keep
 import androidx.wear.watchface.complications.data.ComplicationData
 import androidx.wear.watchface.complications.data.ComplicationType
 import androidx.wear.watchface.complications.data.LongTextComplicationData
 import androidx.wear.watchface.complications.data.PlainComplicationText
 import androidx.wear.watchface.complications.data.RangedValueComplicationData
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
+import androidx.wear.watchface.complications.data.TimeRange
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
 import com.glucoseforwatch.core.model.GlucoseUnitFormatter
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModel
 import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModelFactory
+import java.time.Instant
 
-/** Builds complication payloads shared by [GlucoseComplicationService] (tile-aligned AGP semantics). */
+/** Builds complication payloads shared by [GlucoseComplicationServiceV2] (tile-aligned AGP semantics). */
+@Keep
 internal object GlucoseComplicationDataFactory {
+    /** SysUI must re-query when this window ends — safety net if pushes are dropped. */
+    private const val VALIDITY_WINDOW_MS = 6L * 60_000L
+
+    @Keep
     data class RequestPayload(
         val display: WearGlucoseSurfaceModel,
         val title: String,
         val valueMgDl: Int,
         val displayUnit: GlucoseDisplayUnit,
+        val timestampEpochMs: Long,
     )
 
     fun fromSnapshot(snapshot: GlucoseSnapshot?): RequestPayload {
@@ -38,6 +46,7 @@ internal object GlucoseComplicationDataFactory {
             title = title,
             valueMgDl = display.valueMgDl ?: 128,
             displayUnit = displayUnit,
+            timestampEpochMs = snapshot?.timestampEpochMs ?: System.currentTimeMillis(),
         )
     }
 
@@ -59,6 +68,12 @@ internal object GlucoseComplicationDataFactory {
     private fun secondaryMetadata(unitLabel: String, metadata: String): String =
         if (metadata.isBlank()) unitLabel else "$unitLabel $metadata"
 
+    private fun validityRange(payload: RequestPayload): TimeRange {
+        val startMs = payload.timestampEpochMs.coerceAtMost(System.currentTimeMillis())
+        val endMs = startMs + VALIDITY_WINDOW_MS
+        return TimeRange.between(Instant.ofEpochMilli(startMs), Instant.ofEpochMilli(endMs))
+    }
+
     private fun buildShortTextData(
         payload: RequestPayload,
         tapAction: PendingIntent?,
@@ -67,6 +82,7 @@ internal object GlucoseComplicationDataFactory {
             text = plainText(payload.display.valueText),
             contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setTitle(plainText(payload.title))
+            .setValidTimeRange(validityRange(payload))
             .apply { tapAction?.let { setTapAction(it) } }
             .build()
     }
@@ -79,6 +95,7 @@ internal object GlucoseComplicationDataFactory {
             text = plainText("${payload.display.valueText} ${payload.title}"),
             contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setTitle(plainText(payload.display.valueText))
+            .setValidTimeRange(validityRange(payload))
             .apply { tapAction?.let { setTapAction(it) } }
             .build()
     }
@@ -106,6 +123,7 @@ internal object GlucoseComplicationDataFactory {
             contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setText(plainText(payload.display.valueText))
             .setTitle(plainText(payload.title))
+            .setValidTimeRange(validityRange(payload))
             .setColorRamp(
                 AgpComplicationColorRamp.forGlucoseRange(
                     minMgDl = GlucoseUnitFormatter.DISPLAY_LOW_MAX_MG_DL.toFloat(),

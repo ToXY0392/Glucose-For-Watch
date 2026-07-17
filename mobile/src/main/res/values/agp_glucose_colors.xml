@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-
-    <!-- AGP medical layer — glucose range colors (tonalités adoucies, toujours distinctes) -->
-
+    <!-- AGP medical layer — aligned with AgpGlucoseColors (no blue) -->
     <color name="agp_veryLow">#D32F2F</color>
-    <color name="agp_low">#D46363</color>
-    <color name="agp_inRange">#3A9B6E</color>
-    <color name="agp_high">#A8742F</color>
-    <color name="agp_veryHigh">#C9743F</color>
+    <color name="agp_low">#D32F2F</color>
+    <color name="agp_inRange">#008000</color>
+    <color name="agp_high">#FFCC00</color>
+    <color name="agp_veryHigh">#FF9900</color>
     <color name="agp_unknown">#9A948D</color>
-
 </resources>

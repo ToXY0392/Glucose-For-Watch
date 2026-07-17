@@ -14,9 +14,13 @@
     <string name="wear_open_on_phone_hint">Utilisez Glucose For Watch sur le téléphone.</string>
     <string name="tile_glucose_simple_label">Glycémie</string>
     <string name="tile_glucose_simple_description">Taux, unité et tendance</string>
+    <!-- V2 provider identity — new ComponentName + labels force SysUI tile instance recreate. -->
+    <string name="tile_glucose_v2_label">Glycémie</string>
+    <string name="tile_glucose_v2_description">Taux, unité et tendance (v2)</string>
     <string name="tile_sync_action">sync</string>
     <string name="tile_sync_in_progress">sync…</string>
     <string name="complication_provider_label">Glycémie</string>
+    <string name="complication_provider_v2_label">Glycémie V2</string>
     <string name="wear_complication_not_linked">Complication non liée au cadran</string>
     <string name="wear_complication_setup_hint">Cadran → Personnaliser → slot → Glycémie (Glucose For Watch)</string>
 </resources>

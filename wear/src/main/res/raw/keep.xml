@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Force-keep tile/complication resources under shrinkResources=true. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/tile_new_minimal_01,@drawable/ic_complication_provider,@drawable/ic_wear_launcher,@color/wg7_tile_bg,@color/toxy_background,@color/toxy_text_primary,@color/toxy_text_secondary,@color/toxy_accent,@color/toxy_sync_warn,@color/toxy_sync_error,@string/tile_sync_action,@string/tile_sync_in_progress,@string/tile_glucose_v2_label,@string/tile_glucose_v2_description,@string/complication_provider_label,@string/complication_provider_v2_label"
+    tools:shrinkMode="strict" />
