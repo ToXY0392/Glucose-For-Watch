@@ -59,8 +59,15 @@ dependencies {
     implementation("androidx.wear.watchface:watchface-complications-data:1.2.1")
     implementation("androidx.wear.watchface:watchface-complications-data-source:1.2.1")
 
-    implementation("androidx.wear.tiles:tiles:1.5.0")
-    implementation("androidx.wear.tiles:tiles-material:1.5.0")
+    // Wear Tiles runtime + Studio Design-pane tooling (aligned versions).
+    // Docs: https://developer.android.com/training/wearables/tiles/debug
+    // tiles-tooling-preview / wear-tooling-preview = implementation (Studio discovery)
+    // tiles-tooling = debugImplementation (preview renderer)
+    implementation("androidx.wear.tiles:tiles:1.6.1")
+    implementation("androidx.wear.tiles:tiles-material:1.6.1")
+    implementation("androidx.wear.tiles:tiles-tooling-preview:1.6.1")
+    implementation("androidx.wear:wear-tooling-preview:1.0.0")
+    debugImplementation("androidx.wear.tiles:tiles-tooling:1.6.1")
     implementation("com.google.guava:guava:33.2.1-android")
 
     testImplementation("junit:junit:4.13.2")

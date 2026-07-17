@@ -34,7 +34,7 @@ data class GlucoseSnapshot(
         "FLAT" -> "\u2192"
         "DOWN_RIGHT" -> "\u2198"
         "DOWN" -> "\u2193"
-        else -> "?"
+        else -> ""
     }
 
     fun signedDelta(): String = if (deltaMgDl >= 0) "+$deltaMgDl" else deltaMgDl.toString()
