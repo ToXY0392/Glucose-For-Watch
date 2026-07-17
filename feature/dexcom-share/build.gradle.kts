@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.glucoseforwatch.feature.dexcomshare"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 28
