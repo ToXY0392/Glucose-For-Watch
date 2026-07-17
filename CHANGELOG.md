@@ -14,7 +14,6 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
 - **[Wear] Refonte du bouton Synchro :** Design minimaliste sans fond avec texte d'accentuation et rééquilibrage de l'espace vertical.
 - **[Phone/Core] Lisibilité accrue :** Intensification de la couleur rouge pour les alertes de glycémie (seuils `VERY_LOW` / `LOW` vers `#D32F2F`) pour un meilleur contraste en extérieur.
-- **[Tech] Préparation Android 17 :** Ajout d'une architecture de compatibilité (`Android17Compat.kt`) pour les futurs tests d'API 37.
 - **[Repo] Standardisation :** Refonte du `README.md`, ajout des templates GitHub (PR, Issues) et renforcement du `.gitignore`.
 
 ### 🐛 Corrections de bugs (Fixed)
