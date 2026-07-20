@@ -37,7 +37,7 @@ jobs:
         run: bash ./scripts/qa/export_app_previews.sh
 
       - name: Upload preview gallery artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mobile-home-preview-gallery
           path: |
