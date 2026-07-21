@@ -10,8 +10,9 @@ import com.google.common.util.concurrent.ListenableFuture
 import com.glucoseforwatch.wear.data.GlucoseCache
 
 /**
- * Glucose tile V2 — new [TileService] component name to force Wear SysUI to drop
- * cached carousel / framebuffer snapshots from the previous provider instance.
+ * Glucose tile V2 — static medical ProtoLayout via [GlucoseSimpleTileLayout].
+ * New [TileService] component name forces Wear SysUI to drop cached carousel /
+ * framebuffer snapshots from the previous provider instance.
  */
 @Keep
 class GlucoseTileServiceV2 : TileService() {
@@ -23,6 +24,7 @@ class GlucoseTileServiceV2 : TileService() {
         val snapshot = cache.load()
         val syncLocked = GlucoseSyncCoordinator.isSyncLocked(cache)
         val deviceConfiguration = requestParams.deviceConfiguration
+        val nowEpochMs = System.currentTimeMillis()
 
         val tile =
             GlucoseSimpleTileLayout.buildTile(
@@ -32,6 +34,7 @@ class GlucoseTileServiceV2 : TileService() {
                 screenWidthDp = deviceConfiguration.screenWidthDp,
                 screenHeightDp = deviceConfiguration.screenHeightDp,
                 screenShape = deviceConfiguration.screenShape,
+                nowEpochMs = nowEpochMs,
             )
 
         return Futures.immediateFuture(tile)

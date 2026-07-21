@@ -29,6 +29,13 @@
     public <methods>;
     public static <methods>;
 }
+-keep class com.glucoseforwatch.wear.tile.GlucoseTileChrome { *; }
+-keep class com.glucoseforwatch.wear.tile.GlucoseTileChrome$* { *; }
+-keepclassmembers class com.glucoseforwatch.wear.tile.GlucoseTileChrome {
+    public static <fields>;
+    public static <methods>;
+}
+# Complication / shared surface still references ToxyTileTheme color helpers.
 -keep class com.glucoseforwatch.wear.tile.ToxyTileTheme { *; }
 -keep class com.glucoseforwatch.wear.tile.ToxyTileTheme$* { *; }
 -keepclassmembers class com.glucoseforwatch.wear.tile.ToxyTileTheme {
