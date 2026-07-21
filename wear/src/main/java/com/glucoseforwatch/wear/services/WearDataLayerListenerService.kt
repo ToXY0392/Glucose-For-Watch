@@ -97,8 +97,10 @@ class WearDataLayerListenerService : WearableListenerService() {
                 if (status != GlucoseKeys.REFRESH_IN_PROGRESS) {
                     GlucoseSyncCoordinator.endSync()
                     requestTileUpdateImmediate()
-                    // Tile-only here: PATH_LATEST already pushes complication on new seq/ts.
-                    // Extra force pushes get SysUI to ignore the provider.
+                    if (status == GlucoseKeys.REFRESH_FAILED) {
+                        // Force complication onto degraded "---" without waiting for SysUI period.
+                        notifyComplicationDegraded()
+                    }
                     healthMonitor.updateAndReport()
                 }
             }
@@ -122,6 +124,14 @@ class WearDataLayerListenerService : WearableListenerService() {
             sequenceId = sequenceId,
             readingTimestampEpochMs = snapshot.timestampEpochMs,
             force = false,
+        )
+    }
+
+    /** Push complication after sync failure so SysUI shows disconnected placeholder promptly. */
+    private fun notifyComplicationDegraded() {
+        ComplicationUpdateNotifier.notifyReadingChanged(
+            context = this,
+            force = true,
         )
     }
 

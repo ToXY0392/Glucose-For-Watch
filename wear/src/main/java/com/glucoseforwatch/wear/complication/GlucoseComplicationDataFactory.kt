@@ -14,13 +14,18 @@ import com.glucoseforwatch.core.model.GlucoseUnitFormatter
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModel
 import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModelFactory
-import java.time.Instant
 
 /** Builds complication payloads shared by [GlucoseComplicationServiceV2] (tile-aligned AGP semantics). */
 @Keep
 internal object GlucoseComplicationDataFactory {
-    /** SysUI must re-query when this window ends — safety net if pushes are dropped. */
-    private const val VALIDITY_WINDOW_MS = 6L * 60_000L
+    /**
+     * Align with tile chrome: after this age, show disconnected placeholder instead of
+     * the last numeric reading (SysUI must still keep the slot visible).
+     */
+    const val STALE_AFTER_MS = 15L * 60_000L
+
+    /** Clear disconnect / no-data glyph for short complication slots. */
+    const val DISCONNECTED_VALUE = "---"
 
     @Keep
     data class RequestPayload(
@@ -29,25 +34,53 @@ internal object GlucoseComplicationDataFactory {
         val valueMgDl: Int,
         val displayUnit: GlucoseDisplayUnit,
         val timestampEpochMs: Long,
+        /** True when cache empty or reading older than [STALE_AFTER_MS]. */
+        val disconnected: Boolean = false,
     )
 
-    fun fromSnapshot(snapshot: GlucoseSnapshot?): RequestPayload {
-        val display = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+    fun fromSnapshot(
+        snapshot: GlucoseSnapshot?,
+        nowEpochMs: Long = System.currentTimeMillis(),
+    ): RequestPayload {
         val displayUnit = snapshot?.displayUnit ?: GlucoseDisplayUnit.MG_DL
         val unitLabel = snapshot?.unitLabel() ?: GlucoseDisplayUnit.MG_DL.label()
-        val title =
-            if (snapshot == null) {
-                unitLabel
-            } else {
-                secondaryMetadata(unitLabel, snapshot.compactTrendOnlyLabel())
-            }
+        val disconnected = isDisconnected(snapshot, nowEpochMs)
+
+        if (disconnected) {
+            val base = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+            return RequestPayload(
+                display =
+                    base.copy(
+                        valueText = DISCONNECTED_VALUE,
+                        trendArrow = "",
+                        showTrend = false,
+                        stale = true,
+                        valueMgDl = null,
+                        unitLabel = unitLabel,
+                    ),
+                title = unitLabel,
+                valueMgDl = base.valueMgDl ?: 128,
+                displayUnit = displayUnit,
+                timestampEpochMs = nowEpochMs,
+                disconnected = true,
+            )
+        }
+
+        val display = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
         return RequestPayload(
             display = display,
-            title = title,
+            title = secondaryMetadata(unitLabel, snapshot!!.compactTrendOnlyLabel()),
             valueMgDl = display.valueMgDl ?: 128,
             displayUnit = displayUnit,
-            timestampEpochMs = snapshot?.timestampEpochMs ?: System.currentTimeMillis(),
+            timestampEpochMs = snapshot.timestampEpochMs,
+            disconnected = false,
         )
+    }
+
+    fun isDisconnected(snapshot: GlucoseSnapshot?, nowEpochMs: Long = System.currentTimeMillis()): Boolean {
+        if (snapshot == null) return true
+        if (snapshot.timestampEpochMs <= 0L) return true
+        return (nowEpochMs - snapshot.timestampEpochMs) > STALE_AFTER_MS
     }
 
     fun buildData(
@@ -68,11 +101,12 @@ internal object GlucoseComplicationDataFactory {
     private fun secondaryMetadata(unitLabel: String, metadata: String): String =
         if (metadata.isBlank()) unitLabel else "$unitLabel $metadata"
 
-    private fun validityRange(payload: RequestPayload): TimeRange {
-        val startMs = payload.timestampEpochMs.coerceAtMost(System.currentTimeMillis())
-        val endMs = startMs + VALIDITY_WINDOW_MS
-        return TimeRange.between(Instant.ofEpochMilli(startMs), Instant.ofEpochMilli(endMs))
-    }
+    /**
+     * Never expire relative to the medical reading timestamp — that caused SysUI to hide
+     * the slot after ~6 minutes offline. Keep the complication always visible; freshness
+     * is expressed in the text ("---") instead.
+     */
+    private fun validityRange(): TimeRange = TimeRange.ALWAYS
 
     private fun buildShortTextData(
         payload: RequestPayload,
@@ -82,7 +116,7 @@ internal object GlucoseComplicationDataFactory {
             text = plainText(payload.display.valueText),
             contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setTitle(plainText(payload.title))
-            .setValidTimeRange(validityRange(payload))
+            .setValidTimeRange(validityRange())
             .apply { tapAction?.let { setTapAction(it) } }
             .build()
     }
@@ -95,7 +129,7 @@ internal object GlucoseComplicationDataFactory {
             text = plainText("${payload.display.valueText} ${payload.title}"),
             contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setTitle(plainText(payload.display.valueText))
-            .setValidTimeRange(validityRange(payload))
+            .setValidTimeRange(validityRange())
             .apply { tapAction?.let { setTapAction(it) } }
             .build()
     }
@@ -104,7 +138,7 @@ internal object GlucoseComplicationDataFactory {
         payload: RequestPayload,
         tapAction: PendingIntent?,
     ): RangedValueComplicationData {
-        val stale = payload.display.stale
+        val stale = payload.display.stale || payload.disconnected
         val unit = payload.displayUnit
         val rangedMin = GlucoseUnitFormatter.rangedMin(unit)
         val rangedMax = GlucoseUnitFormatter.rangedMax(unit)
@@ -123,7 +157,7 @@ internal object GlucoseComplicationDataFactory {
             contentDescription = PlainComplicationText.Builder("Glycémie actuelle").build(),
         ).setText(plainText(payload.display.valueText))
             .setTitle(plainText(payload.title))
-            .setValidTimeRange(validityRange(payload))
+            .setValidTimeRange(validityRange())
             .setColorRamp(
                 AgpComplicationColorRamp.forGlucoseRange(
                     minMgDl = GlucoseUnitFormatter.DISPLAY_LOW_MAX_MG_DL.toFloat(),
