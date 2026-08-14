@@ -9,17 +9,31 @@ package com.glucoseforwatch.core
  */
 object DebugConfig {
     val DEBUG: Boolean by lazy {
+        // 1) attempt to read application BuildConfig.DEBUG via reflection
         try {
             val cls = Class.forName("com.glucoseforwatch.mobile.BuildConfig")
             val field = cls.getDeclaredField("DEBUG")
-            field.getBoolean(null)
-        } catch (t: Throwable) {
-            // Fallback: treat non-user builds as debug (userdebug/eng)
-            try {
-                android.os.Build.TYPE != "user"
-            } catch (_: Throwable) {
-                false
-            }
+            val value = field.getBoolean(null)
+            if (value) return@lazy true
+        } catch (_: Throwable) {
+            // ignore and try next
+        }
+
+        // 2) allow forcing debug via system property gfw.forceDebug (settable with adb shell setprop)
+        try {
+            val sp = Class.forName("android.os.SystemProperties")
+            val getBoolean = sp.getMethod("getBoolean", String::class.java, java.lang.Boolean.TYPE)
+            val forced = getBoolean.invoke(null, "gfw.forceDebug", false) as Boolean
+            if (forced) return@lazy true
+        } catch (_: Throwable) {
+            // ignore
+        }
+
+        // 3) fallback: non-user builds considered debug
+        try {
+            android.os.Build.TYPE != "user"
+        } catch (_: Throwable) {
+            false
         }
     }
 }
