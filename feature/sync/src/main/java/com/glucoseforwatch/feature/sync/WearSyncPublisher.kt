@@ -52,7 +52,7 @@ class WearSyncPublisher(
 
         Wearable.getDataClient(context).putDataItem(request).await()
 
-        if (BuildConfig.DEBUG) {
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
             try {
                 Log.d(TAG, "putDataItem completed sequenceId=$sequenceId path=${GlucoseDataLayerContract.PATH_LATEST}")
             } catch (_: Throwable) { }
