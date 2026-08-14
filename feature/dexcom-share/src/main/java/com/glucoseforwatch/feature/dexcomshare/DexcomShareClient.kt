@@ -12,6 +12,11 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.math.roundToInt
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 
 /** Dexcom Share account settings and server region for the REST API. */
 data class DexcomShareConfig(
@@ -56,11 +61,6 @@ class DexcomShareException(
  *
  * Sessions are cached per account; readings older than two minutes are marked stale.
  */
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
 
 class DexcomShareClient(
     private val config: DexcomShareConfig,
