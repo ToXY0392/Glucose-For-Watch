@@ -42,9 +42,9 @@ class WearSyncPublisher(
         }.asPutDataRequest().setUrgent()
 
         // Debug trace for Data Layer put (only enabled in debug builds via BuildConfig.DEBUG)
-        if (com.glucoseforwatch.core.DebugConfig.DEBUG) {
+        if (com.glucoseforwatch.feature.sync.BuildConfig.DEBUG) {
             try {
-                Log.d(TAG, "putDataItem path=${GlucoseDataLayerContract.PATH_LATEST} sequenceId=$sequenceId ts=${reading.timestampEpochMs} value=${reading.valueMgDl} stale=${reading.stale} node=$nodeId")
+                Log.d(TAG, "putDataItem path=${GlucoseDataLayerContract.PATH_LATEST} sequenceId=$sequenceId ts=${reading.timestampEpochMs} value=<REDACTED> stale=${reading.stale} node=$nodeId")
             } catch (t: Throwable) {
                 // best-effort logging; do not fail push for logging errors
             }
