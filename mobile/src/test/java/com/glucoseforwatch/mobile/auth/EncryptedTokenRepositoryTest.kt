@@ -25,7 +25,8 @@ class EncryptedTokenRepositoryTest {
         legacy.edit().putString("access_token", "legacy_access").putString("refresh_token", "legacy_refresh").commit()
 
         // instantiate repository - migration should run in init
-        val repo = EncryptedTokenRepository(ctx)
+        val testEncrypted = ctx.getSharedPreferences("test_encrypted", Context.MODE_PRIVATE)
+        val repo = EncryptedTokenRepository(ctx, testEncrypted)
 
         // assert tokens are accessible via repo
         assertEquals("legacy_access", repo.getAccessToken())
