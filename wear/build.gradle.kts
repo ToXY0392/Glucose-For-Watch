@@ -30,6 +30,8 @@ android {
     }
 
     buildFeatures {
+        // Generate BuildConfig to allow BuildConfig.DEBUG guards in wear module
+        buildConfig = true
         compose = true
     }
 
