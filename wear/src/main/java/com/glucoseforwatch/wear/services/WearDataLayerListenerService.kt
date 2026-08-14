@@ -58,7 +58,7 @@ class WearDataLayerListenerService : WearableListenerService() {
                     .ifBlank { item.uri.host.orEmpty() }
 
                 // Debug trace for Data Layer receive (watch) — only in debug builds
-                if (Log.isLoggable(TAG, Log.DEBUG)) {
+                if (com.glucoseforwatch.core.DebugConfig.DEBUG) {
                     try {
                         Log.d(TAG, "onDataChanged path=${item.uri.path} sequenceId=$sequenceId ts=${snapshot.timestampEpochMs} value=${snapshot.valueMgDl} stale=${snapshot.stale} from=$sourcePhoneNodeId")
                     } catch (_: Throwable) { }
