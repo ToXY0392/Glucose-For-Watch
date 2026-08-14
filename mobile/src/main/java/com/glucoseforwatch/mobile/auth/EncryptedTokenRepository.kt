@@ -23,7 +23,7 @@ class EncryptedTokenRepository(private val context: Context, private val testEnc
         private const val KEY_REFRESH = "refresh_token"
     }
 
-    private val prefs: SharedPreferences by lazy { createEncryptedPreferences(context.applicationContext) }
+    private val prefs: SharedPreferences by lazy { testEncryptedPrefs ?: createEncryptedPreferences(context.applicationContext) }
 
     init {
         try {
