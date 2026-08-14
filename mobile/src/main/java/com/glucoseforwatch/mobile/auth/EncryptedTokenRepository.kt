@@ -15,7 +15,7 @@ import android.util.Log
  *  - iterate a candidate list of legacy prefs names and check for keys ACCESS_TOKEN / REFRESH_TOKEN
  *  - if found, copy values to encrypted prefs and only then clear the legacy prefs
  */
-class EncryptedTokenRepository(private val context: Context) : TokenRepository {
+class EncryptedTokenRepository(private val context: Context, private val testEncryptedPrefs: SharedPreferences? = null) : TokenRepository {
     companion object {
         private const val TAG = "WG7.TokenRepo"
         private const val PREFS_NAME = "gfw_encrypted_tokens"

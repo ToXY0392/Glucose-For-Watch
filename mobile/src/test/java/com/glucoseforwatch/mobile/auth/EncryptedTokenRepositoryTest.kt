@@ -12,6 +12,7 @@ import org.robolectric.RobolectricTestRunner
  * EncryptedSharedPreferences-backed repository.
  */
 @RunWith(RobolectricTestRunner::class)
+@org.robolectric.annotation.Config(sdk = [33])
 class EncryptedTokenRepositoryTest {
     @Test
     fun `migrates legacy tokens into encrypted storage and clears legacy prefs`() {
