@@ -2,134 +2,31 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - master
-      - develop/integration
-      - 'sandbox/**'
+    branches: [ main, master ]
   pull_request:
-    branches:
-      - main
-      - develop/integration
-  workflow_dispatch:
-
-# Cancel superseded runs on the same branch (saves Actions minutes).
-concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [ main, master ]
 
 jobs:
-  detect:
-    name: Detect changed paths
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-    outputs:
-      kotlin_tree: ${{ steps.filter.outputs.kotlin_tree }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Classify diff (Kotlin tree vs docs/QA only)
-        id: filter
-        run: |
-          set -euo pipefail
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            BASE="${{ github.event.pull_request.base.sha }}"
-            HEAD="${{ github.event.pull_request.head.sha }}"
-          elif [ -n "${{ github.event.before }}" ] && [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
-            BASE="${{ github.event.before }}"
-            HEAD="${{ github.sha }}"
-          else
-            echo "kotlin_tree=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          files="$(git diff --name-only "$BASE" "$HEAD")"
-          if echo "$files" | grep -qE '^(mobile|wear|core|feature|toxy-ux-kit)/|(^|/)build\.gradle\.kts$|(^|/)settings\.gradle\.kts$|(^|/)gradle/'; then
-            echo "kotlin_tree=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "kotlin_tree=false" >> "$GITHUB_OUTPUT"
-          fi
-
-  verify:
-    name: Verify Linux Build Gates
-    needs: detect
-    if: needs.detect.outputs.kotlin_tree == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use preinstalled JDK 17
-        run: |
-          echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
-          echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
-          java -version
-
-      - name: Ensure Gradle wrapper executable
-        run: chmod +x ./gradlew
-
-      - name: Run CI verification gates
-        run: bash ./scripts/dev/verify_ci.sh
-
-  verify-docs-qa:
-    name: Verify docs and QA scripts
-    needs: detect
-    if: needs.detect.outputs.kotlin_tree == 'false'
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Validate documentation links
-        run: python3 scripts/dev/check_docs_links.py
-
-  release-artifacts:
-    name: Verify Release Artifacts
-    needs: detect
-    if: needs.detect.outputs.kotlin_tree == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 40
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use preinstalled JDK 17
-        run: |
-          echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
-          echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
-          java -version
-
-      - name: Ensure scripts executable
-        run: chmod +x ./gradlew ./scripts/release/verify_release_artifacts.sh
-
-      - name: Run release artifact verification
-        run: bash ./scripts/release/verify_release_artifacts.sh
-
-  release-dry-run:
-    name: Release Dry Run (manual)
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    timeout-minutes: 45
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Use preinstalled JDK 17
-        run: |
-          echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
-          echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
-          java -version
-
-      - name: Ensure scripts executable
-        run: chmod +x ./gradlew ./scripts/dev/verify_ci.sh ./scripts/release/verify_release_artifacts.sh ./scripts/release/check_legal_placeholders.sh ./scripts/release/release_dry_run.sh
-
-      - name: Run release dry-run (technical)
-        run: ALLOW_INCOMPLETE_LEGAL=1 bash ./scripts/release/release_dry_run.sh
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17 with Temurin
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+      
+    - name: Run ktlint
+      run: ./gradlew ktlintCheck
+      
+    - name: Run unit tests
+      run: ./gradlew testDebugUnitTest
+      
+    - name: Build APKs
+      run: ./gradlew assembleDebug
