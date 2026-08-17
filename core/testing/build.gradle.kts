@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.glucoseforwatch.core.testing"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 28

@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "com.glucoseforwatch.wear"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.glucoseforwatch.mobile"
         minSdk = 30
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 25
         versionName = "0.6.0"
     }
