@@ -8,7 +8,9 @@ plugins {
     id("com.android.library") version "9.3.0" apply false
     id("org.jetbrains.kotlin.android") version "2.3.20" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.3.20" apply false
+    kotlin("kapt") version "1.8.20" apply false // Specify Kotlin version for compatibility
     id("com.google.devtools.ksp") version "2.3.10" apply false
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
 }
 
 /**
@@ -89,5 +91,13 @@ tasks.register("installGlucoseForWatchDebug") {
         println(">>> adb install wear → $watchSerial")
         adb("-s", watchSerial, "install", "-t", "-r", wearApk.absolutePath)
         println(">>> installGlucoseForWatchDebug terminé")
+    }
+}
+
+ktlint {
+    version.set("0.50.0")
+    enableExperimentalRules.set(true)
+    reporters {
+        reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
     }
 }

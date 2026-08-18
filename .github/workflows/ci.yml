@@ -2,32 +2,19 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - master
-      - develop/integration
-      - 'sandbox/**'
+    branches: [ main, master ]
   pull_request:
-    branches:
-      - main
-      - develop/integration
-  workflow_dispatch:
-
-# Cancel superseded runs on the same branch (saves Actions minutes).
-concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [ main, master ]
 
 jobs:
   detect:
-    name: Detect changed paths
+    name: Detect changed file trees
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     outputs:
       kotlin_tree: ${{ steps.filter.outputs.kotlin_tree }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -61,7 +48,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Use preinstalled JDK 17
         run: |
@@ -84,7 +71,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Validate documentation links
         run: python3 scripts/dev/check_docs_links.py
@@ -98,7 +85,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Use preinstalled JDK 17
         run: |
@@ -120,7 +107,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Use preinstalled JDK 17
         run: |

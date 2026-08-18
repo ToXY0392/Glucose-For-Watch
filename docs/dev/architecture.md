@@ -33,7 +33,7 @@ Both apps share `applicationId = com.glucoseforwatch.mobile`.
 
 **Phone:** `ActiveGlucoseSyncController`, `ActiveGlucoseSyncService`, `BackgroundSyncFallback`, `PhoneGlucoseSyncEngine`, `GlucoseSyncEngine`, `WearSyncPublisher`, `PhoneWearRefreshRequestService`, `PhoneSyncStateStore`
 
-**Watch:** `WearDataLayerListenerService`, `GlucoseCache`, `GlucoseSimpleTileService`, `GlucoseComplicationService`, `GlucoseRefreshActivity`
+**Watch:** `WearDataLayerListenerService`, `GlucoseCache`, `GlucoseTileServiceV2`, `GlucoseComplicationService`, `GlucoseRefreshActivity`
 
 ### Scheduler ownership (B.3)
 

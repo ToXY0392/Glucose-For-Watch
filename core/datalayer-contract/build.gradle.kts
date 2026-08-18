@@ -24,3 +24,7 @@ kotlin {
         jvmTarget.set(JvmTarget.JVM_17)
     }
 }
+
+dependencies {
+    implementation("androidx.annotation:annotation:1.9.1")
+}

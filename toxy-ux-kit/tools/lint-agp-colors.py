@@ -20,7 +20,7 @@ GLUCOSE_KT_GLOBS = [
     "mobile/src/main/java/com/glucoseforwatch/mobile/ui/HomeStateMapper.kt",
     "mobile/src/main/java/com/glucoseforwatch/mobile/ui/compose/HomeScreen.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/tile/ToxyTileTheme.kt",
-    "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseSimpleTileService.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseTileServiceV2.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/complication/GlucoseComplicationService.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/display/WearGlucoseSurfaceModel.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/data/GlucoseCache.kt",

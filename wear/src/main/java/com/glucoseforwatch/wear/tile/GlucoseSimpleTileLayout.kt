@@ -1,6 +1,7 @@
 package com.glucoseforwatch.wear.tile
 
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.wear.protolayout.ActionBuilders
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DimensionBuilders
@@ -12,9 +13,15 @@ import androidx.wear.protolayout.TimelineBuilders
 import androidx.wear.tiles.TileBuilders
 import com.glucoseforwatch.wear.R
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
-import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModelFactory
 
-/** ProtoLayout builder for [GlucoseSimpleTileService] and Android Studio tile previews. */
+/**
+ * Static ProtoLayout for [GlucoseTileServiceV2].
+ *
+ * Tree shape is fixed every frame (no conditional Row/Column/Box creation).
+ * Missing data fills slots with neutral placeholders; colors are explicit ARGB
+ * from [GlucoseTileChrome] (no Toxy / Material theme defaults).
+ */
+@Keep
 internal object GlucoseSimpleTileLayout {
 
     fun buildTile(
@@ -24,17 +31,18 @@ internal object GlucoseSimpleTileLayout {
         screenWidthDp: Int,
         screenHeightDp: Int,
         screenShape: Int,
+        nowEpochMs: Long = System.currentTimeMillis(),
     ): TileBuilders.Tile {
         val metrics =
-            ToxyTileTheme.layoutMetrics(
+            GlucoseTileChrome.layoutMetrics(
                 screenWidthDp = screenWidthDp,
                 screenHeightDp = screenHeightDp,
                 screenShape = screenShape,
             )
-        val root = buildRoot(context, snapshot, metrics, syncLocked)
+        val root = buildRoot(context, snapshot, metrics, syncLocked, nowEpochMs)
         return TileBuilders.Tile.Builder()
-            .setResourcesVersion(ToxyTileTheme.RESOURCES_VERSION)
-            .setFreshnessIntervalMillis(ToxyTileTheme.FRESHNESS_INTERVAL_MS)
+            .setResourcesVersion(GlucoseTileChrome.RESOURCES_VERSION)
+            .setFreshnessIntervalMillis(GlucoseTileChrome.FRESHNESS_INTERVAL_MS)
             .setTileTimeline(
                 TimelineBuilders.Timeline.Builder()
                     .addTimelineEntry(
@@ -47,75 +55,110 @@ internal object GlucoseSimpleTileLayout {
             .build()
     }
 
-    fun emptyResources(): ResourceBuilders.Resources =
-        ResourceBuilders.Resources.Builder()
-            .setVersion(ToxyTileTheme.RESOURCES_VERSION)
+    /**
+     * Layout is text/ARGB-only (no ProtoLayout Image). Resource map must stay empty —
+     * never register drawables here (Wear caches them across versions).
+     * Bump [GlucoseTileChrome.RESOURCES_VERSION] on every layout/resource contract change.
+     */
+    fun emptyResources(): ResourceBuilders.Resources {
+        return ResourceBuilders.Resources.Builder()
+            .setVersion(GlucoseTileChrome.RESOURCES_VERSION)
             .build()
+    }
 
     fun buildRoot(
         context: Context,
         snapshot: GlucoseSnapshot?,
-        metrics: ToxyTileTheme.TileLayoutMetrics,
+        metrics: GlucoseTileChrome.TileLayoutMetrics,
         syncLocked: Boolean,
+        nowEpochMs: Long = System.currentTimeMillis(),
     ): LayoutElementBuilders.LayoutElement {
-        val display = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+        val presentation =
+            GlucoseTileChrome.presentation(
+                snapshot = snapshot,
+                syncLocked = syncLocked,
+                staleStatusLabel = context.getString(R.string.wear_status_stale),
+                syncActionLabel = context.getString(R.string.tile_sync_action),
+                syncInProgressLabel = context.getString(R.string.tile_sync_in_progress),
+                nowEpochMs = nowEpochMs,
+            )
 
-        val value =
-            LayoutElementBuilders.Text.Builder()
-                .setText(display.valueText)
-                .setFontStyle(
-                    LayoutElementBuilders.FontStyle.Builder()
-                        .setSize(DimensionBuilders.sp(metrics.valueSp))
-                        .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
-                        .setPreferredFontFamilies("monospace")
-                        .setColor(ColorBuilders.argb(display.valueColorArgb))
-                        .build(),
-                )
-                .setMaxLines(1)
-                .setMultilineAlignment(LayoutElementBuilders.TEXT_ALIGN_CENTER)
-                .build()
+        val valueColor = ColorBuilders.ColorProp.Builder(presentation.valueArgb).build()
+        val unitColor = ColorBuilders.ColorProp.Builder(presentation.unitArgb).build()
+        val trendColor = ColorBuilders.ColorProp.Builder(presentation.trendArgb).build()
+        val statusColor = ColorBuilders.ColorProp.Builder(presentation.statusArgb).build()
 
-        val valueRow =
+        // --- Fixed slots (always present) ---
+        val valueSlot =
             LayoutElementBuilders.Box.Builder()
                 .setWidth(DimensionBuilders.dp(metrics.valueRowWidthDp))
                 .setHeight(DimensionBuilders.dp(metrics.valueRowHeightDp))
                 .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
                 .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-                .addContent(value)
-                .build()
-
-        // Unit + trend slot as one centered block (no asymmetric padding).
-        val metaRow =
-            LayoutElementBuilders.Row.Builder()
-                .setWidth(DimensionBuilders.wrap())
-                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
                 .addContent(
                     LayoutElementBuilders.Text.Builder()
-                        .setText(display.unitLabel)
+                        .setText(presentation.valueText)
                         .setFontStyle(
                             LayoutElementBuilders.FontStyle.Builder()
-                                .setSize(DimensionBuilders.sp(metrics.unitSp))
-                                .setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
-                                .setColor(ColorBuilders.argb(ToxyTileTheme.UNIT_TEXT))
+                                .setSize(DimensionBuilders.sp(metrics.valueSp))
+                                .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
+                                .setPreferredFontFamilies("monospace")
+                                .setColor(valueColor)
                                 .build(),
                         )
                         .setMaxLines(1)
                         .setMultilineAlignment(LayoutElementBuilders.TEXT_ALIGN_CENTER)
                         .build(),
                 )
+                .build()
+
+        val unitText =
+            LayoutElementBuilders.Text.Builder()
+                .setText(presentation.unitLabel)
+                .setFontStyle(
+                    LayoutElementBuilders.FontStyle.Builder()
+                        .setSize(DimensionBuilders.sp(metrics.unitSp))
+                        .setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
+                        .setColor(unitColor)
+                        .build(),
+                )
+                .setMaxLines(1)
+                .setMultilineAlignment(LayoutElementBuilders.TEXT_ALIGN_CENTER)
+                .build()
+
+        val trendSlot =
+            LayoutElementBuilders.Box.Builder()
+                .setWidth(DimensionBuilders.dp(metrics.trendSlotWidthDp))
+                .setHeight(DimensionBuilders.dp(metrics.trendSlotHeightDp))
+                .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+                .addContent(
+                    LayoutElementBuilders.Text.Builder()
+                        .setText(presentation.trendText)
+                        .setFontStyle(
+                            LayoutElementBuilders.FontStyle.Builder()
+                                .setSize(DimensionBuilders.sp(metrics.trendSp))
+                                .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
+                                .setColor(trendColor)
+                                .build(),
+                        )
+                        .setMaxLines(1)
+                        .setMultilineAlignment(LayoutElementBuilders.TEXT_ALIGN_CENTER)
+                        .build(),
+                )
+                .build()
+
+        val metaRow =
+            LayoutElementBuilders.Row.Builder()
+                .setWidth(DimensionBuilders.wrap())
+                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+                .addContent(unitText)
                 .addContent(
                     LayoutElementBuilders.Spacer.Builder()
                         .setWidth(DimensionBuilders.dp(metrics.trendGapDp))
                         .build(),
                 )
-                .addContent(
-                    buildTrendSlot(
-                        showTrend = display.showTrend,
-                        trendArrow = display.trendArrow,
-                        trendColorArgb = display.trendColorArgb,
-                        metrics = metrics,
-                    ),
-                )
+                .addContent(trendSlot)
                 .build()
 
         val metaRowCentered =
@@ -126,8 +169,8 @@ internal object GlucoseSimpleTileLayout {
                 .addContent(metaRow)
                 .build()
 
-        // Vertical balance: flex above glucose block + flex above sync text
-        // so the pill-less "Synchro" does not pin everything to the bottom.
+        val statusSlot = buildStatusSlot(context, presentation, statusColor)
+
         val contentColumn =
             LayoutElementBuilders.Column.Builder()
                 .setWidth(DimensionBuilders.expand())
@@ -143,7 +186,7 @@ internal object GlucoseSimpleTileLayout {
                         .setHeight(DimensionBuilders.expand())
                         .build(),
                 )
-                .addContent(valueRow)
+                .addContent(valueSlot)
                 .addContent(
                     LayoutElementBuilders.Spacer.Builder()
                         .setHeight(DimensionBuilders.dp(metrics.valueMetaGapDp))
@@ -155,7 +198,7 @@ internal object GlucoseSimpleTileLayout {
                         .setHeight(DimensionBuilders.expand())
                         .build(),
                 )
-                .addContent(buildSyncAction(context, syncLocked))
+                .addContent(statusSlot)
                 .addContent(
                     LayoutElementBuilders.Spacer.Builder()
                         .setHeight(DimensionBuilders.dp(metrics.bottomPadDp))
@@ -178,7 +221,9 @@ internal object GlucoseSimpleTileLayout {
                     )
                     .setBackground(
                         ModifiersBuilders.Background.Builder()
-                            .setColor(ColorBuilders.argb(ToxyTileTheme.BACKGROUND))
+                            .setColor(
+                                ColorBuilders.ColorProp.Builder(GlucoseTileChrome.BACKGROUND).build(),
+                            )
                             .build(),
                     )
                     .build(),
@@ -188,87 +233,38 @@ internal object GlucoseSimpleTileLayout {
     }
 
     /**
-     * Fixed-size trend slot for layout stability. When [showTrend] is false or the
-     * arrow is empty/invalid, text is "" (never "?").
+     * Bottom status / sync slot — always the same Box + Text + Clickable tree.
+     * Label text is data-driven (sync / sync… / Donnée périmée).
      */
-    private fun buildTrendSlot(
-        showTrend: Boolean,
-        trendArrow: String,
-        trendColorArgb: Int,
-        metrics: ToxyTileTheme.TileLayoutMetrics,
-    ): LayoutElementBuilders.LayoutElement {
-        val arrowText = if (showTrend && trendArrow.isNotEmpty() && trendArrow != "?") {
-            trendArrow
-        } else {
-            ""
-        }
-        val arrowColor =
-            if (arrowText.isNotEmpty()) trendColorArgb else ToxyTileTheme.TRANSPARENT
-
-        return LayoutElementBuilders.Box.Builder()
-            .setWidth(DimensionBuilders.dp(metrics.trendSlotWidthDp))
-            .setHeight(DimensionBuilders.dp(metrics.trendSlotHeightDp))
-            .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-            .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-            .addContent(
-                LayoutElementBuilders.Text.Builder()
-                    .setText(arrowText)
-                    .setFontStyle(
-                        LayoutElementBuilders.FontStyle.Builder()
-                            .setSize(DimensionBuilders.sp(metrics.trendSp))
-                            .setWeight(LayoutElementBuilders.FONT_WEIGHT_BOLD)
-                            .setColor(ColorBuilders.argb(arrowColor))
-                            .build(),
-                    )
-                    .setMaxLines(1)
-                    .setMultilineAlignment(LayoutElementBuilders.TEXT_ALIGN_CENTER)
-                    .build(),
-            )
-            .build()
-    }
-
-    /** Minimal sync control: accent text only — no grey pill / background. */
-    fun buildSyncAction(
+    private fun buildStatusSlot(
         context: Context,
-        syncLocked: Boolean,
+        presentation: GlucoseTileChrome.TilePresentation,
+        statusColor: ColorBuilders.ColorProp,
     ): LayoutElementBuilders.LayoutElement {
-        val label =
-            if (syncLocked) {
-                context.getString(R.string.tile_sync_in_progress)
-            } else {
-                context.getString(R.string.tile_sync_action)
-            }
-        val textColor =
-            if (syncLocked) ToxyTileTheme.SYNC_LOCKED_ACCENT else ToxyTileTheme.SYNC_ACCENT
-
-        val syncLabel =
+        val statusLabel =
             LayoutElementBuilders.Text.Builder()
-                .setText(label)
+                .setText(presentation.statusText)
                 .setFontStyle(
                     LayoutElementBuilders.FontStyle.Builder()
-                        .setSize(DimensionBuilders.sp(ToxyTileTheme.SYNC_TEXT_SP))
+                        .setSize(DimensionBuilders.sp(GlucoseTileChrome.SYNC_TEXT_SP))
                         .setWeight(LayoutElementBuilders.FONT_WEIGHT_MEDIUM)
-                        .setColor(ColorBuilders.argb(textColor))
+                        .setColor(statusColor)
                         .build(),
                 )
                 .setMaxLines(1)
                 .setMultilineAlignment(LayoutElementBuilders.TEXT_ALIGN_CENTER)
                 .build()
 
-        val box =
-            LayoutElementBuilders.Box.Builder()
-                .setWidth(DimensionBuilders.wrap())
-                .setHeight(DimensionBuilders.dp(ToxyTileTheme.SYNC_TEXT_SLOT_HEIGHT_DP))
-                .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
-                .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
-                .addContent(syncLabel)
-
-        if (!syncLocked) {
-            box.setModifiers(
+        return LayoutElementBuilders.Box.Builder()
+            .setWidth(DimensionBuilders.wrap())
+            .setHeight(DimensionBuilders.dp(GlucoseTileChrome.STATUS_SLOT_HEIGHT_DP))
+            .setHorizontalAlignment(LayoutElementBuilders.HORIZONTAL_ALIGN_CENTER)
+            .setVerticalAlignment(LayoutElementBuilders.VERTICAL_ALIGN_CENTER)
+            .setModifiers(
                 ModifiersBuilders.Modifiers.Builder()
                     .setClickable(
                         ModifiersBuilders.Clickable.Builder()
-                            .setId(ToxyTileTheme.SYNC_CLICK_ID)
+                            .setId(GlucoseTileChrome.SYNC_CLICK_ID)
                             .setOnClick(
                                 ActionBuilders.LaunchAction.Builder()
                                     .setAndroidActivity(
@@ -283,8 +279,7 @@ internal object GlucoseSimpleTileLayout {
                     )
                     .build(),
             )
-        }
-
-        return box.build()
+            .addContent(statusLabel)
+            .build()
     }
 }

@@ -25,6 +25,31 @@ class GlucoseComplicationDataFactoryTest {
         assertEquals("166", payload.display.valueText)
         assertEquals(166, payload.valueMgDl)
         assertEquals(GlucoseDisplayUnit.MG_DL, payload.displayUnit)
+        assertEquals(false, payload.disconnected)
+    }
+
+    @Test
+    fun fromSnapshot_null_showsDisconnectedPlaceholder() {
+        val payload = GlucoseComplicationDataFactory.fromSnapshot(null)
+        assertEquals(GlucoseComplicationDataFactory.DISCONNECTED_VALUE, payload.display.valueText)
+        assertEquals(true, payload.disconnected)
+    }
+
+    @Test
+    fun fromSnapshot_olderThanFifteenMinutes_showsDisconnectedPlaceholder() {
+        val now = 2_000_000_000L
+        val snapshot =
+            GlucoseSnapshot(
+                valueMgDl = 118,
+                trend = "FLAT",
+                deltaMgDl = 0,
+                timestampEpochMs = now - (16 * 60 * 1000L),
+                stale = false,
+            )
+        val payload = GlucoseComplicationDataFactory.fromSnapshot(snapshot, nowEpochMs = now)
+        assertEquals(GlucoseComplicationDataFactory.DISCONNECTED_VALUE, payload.display.valueText)
+        assertEquals(true, payload.disconnected)
+        assertEquals("", payload.display.trendArrow)
     }
 
     @Test

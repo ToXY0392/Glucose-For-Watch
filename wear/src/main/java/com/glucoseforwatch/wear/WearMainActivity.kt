@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.Keep
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.setValue
@@ -14,6 +15,7 @@ import com.glucoseforwatch.wear.ui.WearStatusScreen
 import com.glucoseforwatch.wear.ui.theme.GlucoseForWatchWearTheme
 
 /** Launcher: glucose status (Compose M3) aligned with tile + complication. */
+@Keep
 class WearMainActivity : ComponentActivity() {
     private var refreshKey by mutableIntStateOf(0)
 

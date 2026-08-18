@@ -16,6 +16,7 @@ enum class GlucoseSemanticLevel {
 }
 
 /** Latest glucose reading from the phone, with display helpers for tile and complication. */
+@androidx.annotation.Keep
 data class GlucoseSnapshot(
     val valueMgDl: Int,
     val trend: String,

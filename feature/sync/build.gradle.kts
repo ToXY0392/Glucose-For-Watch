@@ -17,6 +17,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    buildFeatures {
+        // Ensure BuildConfig is generated for library module so BuildConfig.DEBUG guards compile
+        buildConfig = true
+    }
 }
 
 kotlin {

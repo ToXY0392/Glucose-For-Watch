@@ -3,21 +3,27 @@ package com.glucoseforwatch.wear.complication
 import android.content.ComponentName
 import android.content.Context
 import android.util.Log
+import androidx.annotation.Keep
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 
+@Keep
 internal object ComplicationUpdateNotifier {
     private const val TAG = "WG7.Complication"
     private const val PREFS = "widget_g7_complication_push"
     private const val KEY_LAST_SEQUENCE = "last_push_sequence_id"
     private const val KEY_LAST_TIMESTAMP = "last_push_reading_ts"
     private const val KEY_LAST_PUSH_AT = "last_push_at_ms"
-    /** Wear OS throttles push updates; avoid spamming requestUpdateAll. */
-    private const val MIN_PUSH_INTERVAL_MS = 45_000L
+    /**
+     * Wear OS docs: do not request updates more often than ~every 5 minutes on average,
+     * or SysUI may ignore subsequent [ComplicationDataSourceUpdateRequester] calls.
+     */
+    private const val MIN_PUSH_INTERVAL_MS = 300_000L
 
     /**
      * Request complication refresh after a new glucose reading lands on the watch.
-     * Always pushes when [sequenceId] or [readingTimestampEpochMs] changes; otherwise respects
-     * [MIN_PUSH_INTERVAL_MS]. Use [force] for screen-on / user-visible wake paths.
+     *
+     * When [force] is true, [MIN_PUSH_INTERVAL_MS] is ignored. Prefer force=false and rely
+     * on [sequenceId] / [readingTimestampEpochMs] so Dexcom ~5 min cadence stays compliant.
      */
     fun notifyReadingChanged(
         context: Context,
@@ -34,7 +40,6 @@ internal object ComplicationUpdateNotifier {
         pushUpdates(appContext)
     }
 
-    /** @deprecated Prefer [notifyReadingChanged]. Kept for wake / resume paths. */
     fun requestUpdateAll(context: Context) {
         notifyReadingChanged(context, force = true)
     }
@@ -67,20 +72,23 @@ internal object ComplicationUpdateNotifier {
     }
 
     private fun pushUpdates(context: Context) {
+        val component = ComponentName(context, GlucoseComplicationServiceV2::class.java)
+        val requester = ComplicationDataSourceUpdateRequester.create(context, component)
+        val instanceIds = ComplicationInstanceRegistry.activeInstanceIds(context)
+
+        // One path only — never double-fire requestUpdate + requestUpdateAll (SysUI throttle).
         runCatching {
-            val requester =
-                ComplicationDataSourceUpdateRequester.create(
-                    context,
-                    ComponentName(context, GlucoseComplicationService::class.java),
-                )
-            val instanceIds = ComplicationInstanceRegistry.activeInstanceIds(context)
             if (instanceIds.isNotEmpty()) {
                 requester.requestUpdate(*instanceIds)
-                Log.i(TAG, "requestUpdate instances=${instanceIds.toList()}")
+                Log.w(TAG, "push requestUpdate instances=${instanceIds.toList()} component=${component.className}")
             } else {
                 requester.requestUpdateAll()
-                Log.i(TAG, "requestUpdateAll (no registered instances)")
+                Log.w(
+                    TAG,
+                    "push requestUpdateAll (no local ids) component=${component.className} — " +
+                        "re-select complication V2 on the watch face if HIT logs never appear",
+                )
             }
-        }.onFailure { Log.w(TAG, "complication push failed", it) }
+        }.onFailure { Log.e(TAG, "complication push failed", it) }
     }
 }

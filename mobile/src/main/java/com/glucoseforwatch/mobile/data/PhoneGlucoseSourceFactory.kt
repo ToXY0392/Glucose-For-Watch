@@ -22,7 +22,11 @@ object PhoneGlucoseSourceFactory {
         return if (dexcomShareConfig.isConfigured()) {
             object : PhoneGlucoseSource {
                 override val sourceName: String = "dexcom-share"
-                private val client = DexcomShareClient(dexcomShareConfig)
+                private val okHttpClient = okhttp3.OkHttpClient.Builder()
+                    .addInterceptor(com.glucoseforwatch.mobile.auth.TokenAuthInterceptor(context.applicationContext))
+                    .build()
+
+                private val client = DexcomShareClient(dexcomShareConfig, okHttpClient)
 
                 override suspend fun latest() = client.latest()
             }

@@ -1,6 +1,9 @@
 package com.glucoseforwatch.core.model
 
+import androidx.annotation.Keep
+
 /** AGP / Time-in-Range glucose band for medical UI coloring. */
+@Keep
 enum class GlucoseRange {
     VERY_LOW,
     LOW,
@@ -10,13 +13,24 @@ enum class GlucoseRange {
     UNKNOWN,
 }
 
-/** ARGB colors for each [GlucoseRange] band (AGP / time-in-range palette). */
+/**
+ * ARGB medical palette for glucose values.
+ *
+ * Blue is banned for glycemic display. In-range must read as frank green;
+ * hypo as vivid red; hyper as yellow then orange.
+ */
+@Keep
 object AgpGlucoseColors {
+    /** Vivid alert red — VERY_LOW and LOW. */
     const val VERY_LOW = 0xFFD32F2F.toInt()
-    const val LOW = 0xFFD46363.toInt()
-    const val IN_RANGE = 0xFF3A9B6E.toInt()
-    const val HIGH = 0xFFA8742F.toInt()
-    const val VERY_HIGH = 0xFFC9743F.toInt()
+    const val LOW = 0xFFD32F2F.toInt()
+    /** Frank green — in target / IN_RANGE (never Material primary blue). */
+    const val IN_RANGE = 0xFF008000.toInt()
+    /** Alert yellow — HIGH. */
+    const val HIGH = 0xFFFFCC00.toInt()
+    /** Alert orange — VERY_HIGH. */
+    const val VERY_HIGH = 0xFFFF9900.toInt()
+    /** Neutral gray — stale / missing (never blue). */
     const val UNKNOWN = 0xFF9A948D.toInt()
 
     fun colorFor(range: GlucoseRange): Int =
@@ -31,6 +45,7 @@ object AgpGlucoseColors {
 }
 
 /** Maps mg/dL values to [GlucoseRange] bands and AGP display colors. */
+@Keep
 object GlucoseRangeResolver {
     fun resolveRange(mgDl: Int): GlucoseRange =
         when {

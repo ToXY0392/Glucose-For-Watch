@@ -24,10 +24,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Local ProGuard/Doze validation only — no production keystore yet.
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
     buildFeatures {
+        // Generate BuildConfig to allow BuildConfig.DEBUG guards in wear module
+        buildConfig = true
         compose = true
     }
 

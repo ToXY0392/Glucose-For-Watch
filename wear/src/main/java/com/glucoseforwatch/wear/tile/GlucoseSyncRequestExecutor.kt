@@ -3,6 +3,7 @@ package com.glucoseforwatch.wear.tile
 import android.content.Context
 import android.util.Log
 import com.google.android.gms.wearable.Wearable
+import com.glucoseforwatch.wear.complication.ComplicationUpdateNotifier
 import com.glucoseforwatch.wear.data.GlucoseCache
 import com.glucoseforwatch.wear.data.GlucoseKeys
 import com.glucoseforwatch.wear.sync.PhoneNode
@@ -58,5 +59,7 @@ internal object GlucoseSyncRequestExecutor {
         healthMonitor.updateAndReport()
         GlucoseSyncCoordinator.endSync()
         GlucoseTileUpdateRequester.requestUpdateImmediate(context)
+        // Immediate complication refresh → degraded "---" while offline / phone unreachable.
+        ComplicationUpdateNotifier.notifyReadingChanged(context = context, force = true)
     }
 }

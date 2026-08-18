@@ -1,8 +1,10 @@
 package com.glucoseforwatch.wear.complication
 
 import android.content.Context
+import androidx.annotation.Keep
 
 /** Active complication slot IDs registered by the system (activate/deactivate callbacks). */
+@Keep
 internal object ComplicationInstanceRegistry {
     private const val PREFS = "widget_g7_complication_instances"
 

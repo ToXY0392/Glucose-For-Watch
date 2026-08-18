@@ -12,6 +12,11 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.math.roundToInt
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 
 /** Dexcom Share account settings and server region for the REST API. */
 data class DexcomShareConfig(
@@ -56,8 +61,10 @@ class DexcomShareException(
  *
  * Sessions are cached per account; readings older than two minutes are marked stale.
  */
+
 class DexcomShareClient(
     private val config: DexcomShareConfig,
+    private val okHttpClient: OkHttpClient? = null,
 ) {
     suspend fun latest(): GlucoseReading = withContext(Dispatchers.IO) {
         require(config.isConfigured()) { "Dexcom Share config is not valid" }
@@ -156,6 +163,35 @@ class DexcomShareClient(
     }
 
     private fun postJson(url: String, payload: String, label: String = "Dexcom Share auth"): String {
+        // If an OkHttpClient is provided, prefer it (allows TokenAuthInterceptor to inject headers).
+        okHttpClient?.let { client ->
+            try {
+                val mediaType = "application/json".toMediaType()
+                val body = payload.toRequestBody(mediaType)
+                val request = Request.Builder()
+                    .url(url)
+                    .post(body)
+                    .addHeader("Accept", "application/json")
+                    .addHeader("Content-Type", "application/json")
+                    .build()
+
+                client.newCall(request).execute().use { response ->
+                    val code = response.code
+                    val responseBody = response.body?.string() ?: ""
+                    if (code !in 200..299) {
+                        throw DexcomShareHttpClassifier.classifyFailure(code, responseBody, label)
+                    }
+                    return responseBody
+                }
+            } catch (_: IOException) {
+                throw DexcomShareException(
+                    DexcomShareErrorKind.NETWORK,
+                    "Impossible de contacter Dexcom pour le moment.",
+                )
+            }
+        }
+
+        // Fallback to the existing HttpURLConnection-based implementation.
         val connection = (URL(url).openConnection() as HttpURLConnection).apply {
             requestMethod = "POST"
             connectTimeout = 10_000
