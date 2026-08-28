@@ -4,8 +4,8 @@ import java.util.Properties
 // Modules + packages: docs/dev/architecture.md (Modules), docs/dev/setup.md (Project layout)
 
 plugins {
-    id("com.android.application") version "9.3.0" apply false
-    id("com.android.library") version "9.3.0" apply false
+    id("com.android.application") version "9.3.2" apply false
+    id("com.android.library") version "9.3.2" apply false
     id("org.jetbrains.kotlin.android") version "2.3.20" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.3.20" apply false
     kotlin("kapt") version "1.8.20" apply false // Specify Kotlin version for compatibility
