@@ -1,108 +1,52 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+﻿<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-feature android:name="android.hardware.type.watch" />
+    <uses-permission android:name="com.google.android.wearable.permission.RECEIVE_COMPLICATION_DATA" />
 
     <application
-        android:name="com.glucoseforwatch.wear.GlucoseForWatchWearApplication"
-        android:allowBackup="false"
-        android:icon="@drawable/ic_wear_launcher"
+        android:name=".GlucoseForWatchWearApplication"
+        android:allowBackup="true"
+        android:icon="@android:drawable/ic_menu_info_details"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_wear_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GlucoseForWatch.Wear">
-
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="false" />
+        android:theme="@android:style/Theme.DeviceDefault">
 
         <activity
-            android:name="com.glucoseforwatch.wear.WearMainActivity"
+            android:name=".WearMainActivity"
             android:exported="true"
-            android:taskAffinity=""
-            android:theme="@style/Theme.GlucoseForWatch.Wear">
+            android:taskAffinity="">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.glucoseforwatch.wear.tile.GlucoseRefreshActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:noHistory="true"
-            android:taskAffinity=""
-            android:theme="@style/Theme.GlucoseForWatch.RefreshProxy" />
-
+        <!-- Complication V2 Service -->
         <service
-            android:name="com.glucoseforwatch.wear.services.WearDataLayerListenerService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
-                <data
-                    android:host="*"
-                    android:path="/glucose/latest"
-                    android:scheme="wear" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
-                <data
-                    android:host="*"
-                    android:path="/glucose/refresh/status"
-                    android:scheme="wear" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
-                <data
-                    android:host="*"
-                    android:path="/watch/status/request"
-                    android:scheme="wear" />
-            </intent-filter>
-        </service>
-
-        <service
-            android:name="com.glucoseforwatch.wear.complication.GlucoseComplicationServiceV2"
+            android:name=".complication.GlucoseComplicationServiceV2"
             android:exported="true"
-            android:icon="@drawable/ic_complication_provider"
-            android:label="@string/complication_provider_v2_label"
             android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
-            <!-- Required so SysUI can wake the provider (ACTION_*_UPDATE_REQUEST, not *_REQUESTED). -->
             <intent-filter>
-                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+                <action android:name="androidx.wear.watchface.complications.datasource.BIND_COMPLICATION_DATA_SOURCE" />
             </intent-filter>
-
             <meta-data
-                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
-                android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
-            <!-- Docs: 0 (push-only) or >= 300. Values like 45 are invalid and can break updates. -->
-            <meta-data
-                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
-                android:value="300" />
-            <meta-data
-                android:name="androidx.wear.watchface.complications.datasource.SUPPORTED_TYPES"
-                android:value="SHORT_TEXT,LONG_TEXT,RANGED_VALUE" />
-            <meta-data
-                android:name="androidx.wear.watchface.complications.datasource.UPDATE_PERIOD_SECONDS"
-                android:value="300" />
+                android:name="androidx.wear.watchface.complications.datasource.DEFAULT_PROVIDER_TYPE"
+                android:value="SHORT_TEXT" />
         </service>
 
+        <!-- Tile V2 Service -->
         <service
-            android:name="com.glucoseforwatch.wear.tile.GlucoseTileServiceV2"
-            android:description="@string/tile_glucose_v2_description"
+            android:name=".tile.GlucoseTileServiceV2"
             android:exported="true"
-            android:icon="@drawable/tile_new_minimal_01"
-            android:label="@string/tile_glucose_v2_label"
+            android:label="@string/app_name"
             android:permission="com.google.android.wearable.permission.BIND_TILE_PROVIDER">
             <intent-filter>
                 <action android:name="androidx.wear.tiles.action.BIND_TILE_PROVIDER" />
             </intent-filter>
-            <!-- Zero-Ghost PREVIEW: opaque black — new ComponentName = new SysUI instance. -->
             <meta-data
                 android:name="androidx.wear.tiles.PREVIEW"
-                android:resource="@drawable/tile_new_minimal_01" />
+                android:resource="@android:drawable/ic_menu_info_details" />
         </service>
 
     </application>
+
 </manifest>
