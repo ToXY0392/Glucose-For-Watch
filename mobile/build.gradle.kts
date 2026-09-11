@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.glucoseforwatch.mobile"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         //noinspection SpellCheckingInspection
@@ -19,7 +19,7 @@ android {
 
         applicationId = "com.glucoseforwatch.mobile"
         minSdk = 28
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 25
         versionName = "0.6.0"
 
