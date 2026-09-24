@@ -18,7 +18,8 @@ Glucose For Watch syncs Dexcom Share glucose from a phone to a Wear OS companion
 | `:feature:dexcom-share` | Dexcom Share HTTP client |
 | `:feature:watch-install` | Embedded wear APK install (debug) |
 
-Both apps share `applicationId = com.glucoseforwatch.mobile`.
+The phone app uses `com.glucoseforwatch.mobile` and the Wear app uses
+`com.glucoseforwatch.wear`, so both APKs can be installed independently.
 
 ## Sync flow
 

@@ -153,7 +153,8 @@ Cursor rule: `.cursor/rules/glucose-for-watch-dual-ide-wsl.mdc`
 
 Set **Gradle JDK** to embedded JBR (File → Settings → Build Tools → Gradle).
 
-Run configurations: `:mobile` (Android App), `:wear` (Wear OS). Both share `applicationId = com.glucoseforwatch.mobile`.
+Run configurations: `:mobile` (Android App), `:wear` (Wear OS). The phone uses
+`com.glucoseforwatch.mobile` and the Wear APK uses `com.glucoseforwatch.wear`.
 
 Official refs: [Android Studio](https://developer.android.com/studio) · [AGP ↔ Gradle](https://developer.android.com/build/releases/gradle-plugin)
 
