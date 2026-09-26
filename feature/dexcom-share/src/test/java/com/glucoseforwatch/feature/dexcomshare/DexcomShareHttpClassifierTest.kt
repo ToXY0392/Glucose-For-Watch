@@ -35,6 +35,16 @@ class DexcomShareHttpClassifierTest {
     }
 
     @Test
+    fun sessionFailure_inSuccessfulResponseBody_isSession() {
+        val error = DexcomShareHttpClassifier.sessionFailure(
+            "\"SessionIdNotFound\"",
+            "Dexcom Share read",
+        )
+
+        assertEquals(DexcomShareErrorKind.SESSION, error?.kind)
+    }
+
+    @Test
     fun classifyFailure_503_isNetwork() {
         val error = DexcomShareHttpClassifier.classifyFailure(
             503,

@@ -30,13 +30,14 @@ data class DexcomShareConfig(
         if (username.isBlank()) return false
         if (password.isBlank()) return false
         if (applicationId.isBlank()) return false
-        return server.uppercase() in setOf("US", "OUS")
+        return server.trim().uppercase() in setOf("US", "OUS")
     }
 
     fun baseUrl(): String {
-        return when (server.uppercase()) {
+        return when (server.trim().uppercase()) {
             "OUS" -> "https://shareous1.dexcom.com"
-            else -> "https://share2.dexcom.com"
+            "US" -> "https://share2.dexcom.com"
+            else -> throw IllegalArgumentException("Unsupported Dexcom Share server: $server")
         }
     }
 }
@@ -98,24 +99,23 @@ class DexcomShareClient(
 
     private fun readLatestValuesWithSession(): JSONArray {
         val cacheKey = config.cacheKey()
-        DexcomShareSessionCache.sessionFor(cacheKey)?.let { cachedSession ->
-            try {
-                return readLatestValues(cachedSession)
-            } catch (error: DexcomShareException) {
-                if (error.kind != DexcomShareErrorKind.SESSION) throw error
-                DexcomShareSessionCache.clear(cacheKey)
-            }
-        }
+        var sessionId = DexcomShareSessionCache.sessionFor(cacheKey)
+            ?: createSession().also { DexcomShareSessionCache.save(cacheKey, it) }
+        var sessionRenewals = 0
 
-        val sessionId = createSession()
-        DexcomShareSessionCache.save(cacheKey, sessionId)
-        return try {
-            readLatestValues(sessionId)
-        } catch (error: DexcomShareException) {
-            if (error.kind == DexcomShareErrorKind.SESSION) {
+        while (true) {
+            try {
+                return readLatestValues(sessionId)
+            } catch (error: DexcomShareException) {
+                if (error.kind != DexcomShareErrorKind.SESSION || sessionRenewals >= MAX_SESSION_RENEWALS) {
+                    DexcomShareSessionCache.clear(cacheKey)
+                    throw error
+                }
                 DexcomShareSessionCache.clear(cacheKey)
+                sessionId = createSession()
+                DexcomShareSessionCache.save(cacheKey, sessionId)
+                sessionRenewals += 1
             }
-            throw error
         }
     }
 
@@ -159,7 +159,9 @@ class DexcomShareClient(
             .put("maxCount", 2)
             .toString()
 
-        return JSONArray(postJson(endpoint, body, "Dexcom Share read"))
+        val response = postJson(endpoint, body, "Dexcom Share read")
+        DexcomShareHttpClassifier.sessionFailure(response, "Dexcom Share read")?.let { throw it }
+        return JSONArray(response)
     }
 
     private fun postJson(url: String, payload: String, label: String = "Dexcom Share auth"): String {
@@ -236,6 +238,7 @@ class DexcomShareClient(
 
     companion object {
         private const val STALE_AFTER_MS = 2 * 60 * 1000L
+        private const val MAX_SESSION_RENEWALS = 1
     }
 }
 
