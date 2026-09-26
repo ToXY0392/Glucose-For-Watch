@@ -12,6 +12,7 @@ import androidx.wear.watchface.complications.datasource.ComplicationRequest
 import androidx.wear.watchface.complications.datasource.ComplicationDataSourceUpdateRequester
 import com.glucoseforwatch.wear.WearMainActivity
 import com.glucoseforwatch.wear.data.GlucoseCache
+import java.util.concurrent.TimeUnit
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 
 @Keep
@@ -60,6 +61,16 @@ class GlucoseComplicationServiceV2 : ComplicationDataSourceService() {
         runCatching {
             val snapshot = GlucoseCache(this).load()
             ComplicationInstanceRegistry.register(this, request.complicationInstanceId)
+            val ageMinutes = snapshot?.let {
+                TimeUnit.MILLISECONDS.toMinutes(
+                    (System.currentTimeMillis() - it.timestampEpochMs).coerceAtLeast(0L),
+                )
+            }
+            Log.i(
+                TAG,
+                "onComplicationRequest instance=${request.complicationInstanceId} " +
+                    "type=${request.complicationType} ageMinutes=$ageMinutes stale=${snapshot?.stale}",
+            )
             val data = buildForSnapshot(
                 type = request.complicationType,
                 snapshot = snapshot,

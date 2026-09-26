@@ -75,20 +75,13 @@ internal object ComplicationUpdateNotifier {
         val component = ComponentName(context, GlucoseComplicationServiceV2::class.java)
         val requester = ComplicationDataSourceUpdateRequester.create(context, component)
         val instanceIds = ComplicationInstanceRegistry.activeInstanceIds(context)
-
-        // One path only — never double-fire requestUpdate + requestUpdateAll (SysUI throttle).
         runCatching {
             if (instanceIds.isNotEmpty()) {
                 requester.requestUpdate(*instanceIds)
-                Log.w(TAG, "push requestUpdate instances=${instanceIds.toList()} component=${component.className}")
             } else {
                 requester.requestUpdateAll()
-                Log.w(
-                    TAG,
-                    "push requestUpdateAll (no local ids) component=${component.className} — " +
-                        "re-select complication V2 on the watch face if HIT logs never appear",
-                )
             }
-        }.onFailure { Log.e(TAG, "complication push failed", it) }
+            Log.i(TAG, "refresh_requested instances=${instanceIds.toList()} component=${component.className}")
+        }.onFailure { Log.e(TAG, "complication refresh failed component=${component.className}", it) }
     }
 }

@@ -34,7 +34,7 @@ The phone app uses `com.glucoseforwatch.mobile` and the Wear app uses
 
 **Phone:** `ActiveGlucoseSyncController`, `ActiveGlucoseSyncService`, `BackgroundSyncFallback`, `PhoneGlucoseSyncEngine`, `GlucoseSyncEngine`, `WearSyncPublisher`, `PhoneWearRefreshRequestService`, `PhoneSyncStateStore`
 
-**Watch:** `WearDataLayerListenerService`, `GlucoseCache`, `GlucoseTileServiceV2`, `GlucoseComplicationService`, `GlucoseRefreshActivity`
+**Watch:** `WearDataLayerListenerService`, `GlucoseCache`, `GlucoseTileServiceV2`, `GlucoseComplicationServiceV2`, `GlucoseRefreshActivity`
 
 ### Scheduler ownership (B.3)
 

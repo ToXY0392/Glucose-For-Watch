@@ -29,6 +29,23 @@ class GlucoseComplicationDataFactoryTest {
     }
 
     @Test
+    fun complicationAndWearSurfaceUseSameCachedGlucoseText() {
+        val snapshot =
+            GlucoseSnapshot(
+                valueMgDl = 199,
+                trend = "UP",
+                deltaMgDl = 4,
+                timestampEpochMs = System.currentTimeMillis(),
+                stale = false,
+            )
+
+        val complication = GlucoseComplicationDataFactory.fromSnapshot(snapshot)
+        val wearSurface = WearGlucoseSurfaceModelFactory.fromSnapshot(snapshot)
+
+        assertEquals(wearSurface.valueText, complication.display.valueText)
+    }
+
+    @Test
     fun fromSnapshot_null_showsDisconnectedPlaceholder() {
         val payload = GlucoseComplicationDataFactory.fromSnapshot(null)
         assertEquals(GlucoseComplicationDataFactory.DISCONNECTED_VALUE, payload.display.valueText)
