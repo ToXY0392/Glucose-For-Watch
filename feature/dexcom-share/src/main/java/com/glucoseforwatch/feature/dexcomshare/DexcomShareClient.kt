@@ -60,7 +60,8 @@ class DexcomShareException(
 /**
  * Fetches the latest glucose reading from Dexcom Share over HTTPS.
  *
- * Sessions are cached per account; readings older than two minutes are marked stale.
+ * Sessions are cached per account and renewed once when Dexcom reports expiry.
+ * Readings older than two minutes are marked stale.
  */
 
 class DexcomShareClient(

@@ -8,6 +8,10 @@ import com.glucoseforwatch.wear.data.GlucoseCache
 import com.google.common.util.concurrent.Futures
 import com.google.common.util.concurrent.ListenableFuture
 
+/**
+ * Serves the glucose tile from the Wear cache; the launcher preview icon is
+ * intentionally separate from this text-first tile content.
+ */
 class GlucoseTileServiceV2 : TileService() {
 
     override fun onTileRequest(requestParams: RequestBuilders.TileRequest): ListenableFuture<TileBuilders.Tile> {

@@ -8,22 +8,20 @@ import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import kotlin.math.min
 
 /**
- * Chrome tokens and AGP glucose coloring for the Wear tile.
+ * Shared Wear surface-model colors and legacy layout tokens.
  *
- * Layout metrics adapt padding/typography to [screenWidthDp] and [screenShape].
- * Sync button and glucose/trend slots use **fixed** dp sizes so data changes
- * (value digits, trend presence, sync lock) do not shift the ProtoLayout.
+ * The ProtoLayout tile is rendered independently by [GlucoseTileChrome].
  *
  * Medical value colors come only from [AgpGlucoseColors] / [GlucoseRangeResolver]
  * — never Material primary / blue chrome.
  */
 @Keep
 object ToxyTileTheme {
-    /** Bump on every ProtoLayout / resource-map change to bust Wear tile resource cache. */
+    /** Legacy token; the active ProtoLayout cache version is [GlucoseTileChrome.RESOURCES_VERSION]. */
     const val RESOURCES_VERSION = "simple-tile-v22-GlucoseTileServiceV2-zero-ghost"
     const val FRESHNESS_INTERVAL_MS = 45_000L
     const val COMPLICATION_REFRESH_INTERVAL_MS = 15_000L
-    /** Clickable id — bumped with V2 provider to avoid stale click routing. */
+    /** Legacy click ID; the active tile uses [GlucoseTileChrome.SYNC_CLICK_ID]. */
     const val SYNC_CLICK_ID = "sync_v2"
 
     const val BACKGROUND = 0xFF0F1419.toInt()

@@ -15,6 +15,7 @@ import com.glucoseforwatch.wear.data.GlucoseCache
 import java.util.concurrent.TimeUnit
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 
+/** The sole registered glucose complication provider, labelled "Glycémie". */
 @Keep
 class GlucoseComplicationServiceV2 : ComplicationDataSourceService() {
 

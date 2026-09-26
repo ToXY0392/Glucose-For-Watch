@@ -14,7 +14,7 @@
     <string name="wear_open_on_phone_hint">Utilisez Glucose For Watch sur le téléphone.</string>
     <string name="tile_glucose_simple_label">Glycémie</string>
     <string name="tile_glucose_simple_description">Taux, unité et tendance</string>
-    <!-- V2 provider identity — new ComponentName + labels force SysUI tile instance recreate. -->
+    <!-- V2 tile identity; this label is separate from the complication provider label below. -->
     <string name="tile_glucose_v2_label">Glycémie</string>
     <string name="tile_glucose_v2_description">Taux, unité et tendance (v2)</string>
     <string name="tile_sync_action">sync</string>

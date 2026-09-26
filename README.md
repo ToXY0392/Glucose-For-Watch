@@ -37,7 +37,7 @@
 | UI (wear) | Wear Compose + **ProtoLayout / Tiles** + complications |
 | Sync | Wearable **Data Layer**, ack-based delivery |
 | Background | **Foreground Service** (`dataSync`) + **WorkManager** fallback + alarms |
-| Build | AGP **9.3**, Gradle **9.5**, `compileSdk` / `targetSdk` **36** |
+| Build | AGP **9.3.3**, Gradle **9.6.1**, `compileSdk` / `targetSdk` **36** |
 | Design | ToXY UX kit chrome + **AGP** medical colors for glucose |
 
 Architecture deep-dive: [docs/dev/architecture.md](docs/dev/architecture.md).

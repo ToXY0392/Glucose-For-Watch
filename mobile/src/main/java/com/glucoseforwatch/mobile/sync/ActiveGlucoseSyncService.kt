@@ -23,7 +23,11 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.math.min
 
-/** Foreground service polling Dexcom and pushing readings to the watch. */
+/**
+ * Foreground service polling Dexcom and pushing readings to the watch.
+ * Failed passes retry silently with exponential backoff before the failure
+ * policy surfaces a notification.
+ */
 class ActiveGlucoseSyncService : Service() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val syncMutex = Mutex()

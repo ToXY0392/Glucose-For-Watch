@@ -9,7 +9,7 @@ enum class SyncNotificationAction {
 /**
  * Decides whether a failed sync should surface a reconnect or interrupted notification.
  *
- * Auth failures need two consecutive AUTH errors; other failures need three in a row.
+ * Notify at exactly two consecutive AUTH errors or three consecutive sync failures.
  */
 object SyncFailurePolicy {
     fun decideNotificationAction(
