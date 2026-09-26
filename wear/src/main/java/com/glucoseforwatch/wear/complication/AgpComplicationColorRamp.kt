@@ -1,11 +1,13 @@
 package com.glucoseforwatch.wear.complication
 
+import androidx.annotation.Keep
 import androidx.wear.watchface.complications.data.ColorRamp
 import com.glucoseforwatch.core.model.AgpGlucoseColors
 import com.glucoseforwatch.core.model.GlucoseRangeResolver
 import kotlin.math.roundToInt
 
 /** AGP medical color ramp for [androidx.wear.watchface.complications.data.RangedValueComplicationData]. */
+@Keep
 internal object AgpComplicationColorRamp {
     private const val STOP_COUNT = 13
 

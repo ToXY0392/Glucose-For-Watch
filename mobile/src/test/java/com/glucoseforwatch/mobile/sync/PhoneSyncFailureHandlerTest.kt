@@ -44,7 +44,7 @@ class PhoneSyncFailureHandlerTest {
     }
 
     @Test
-    fun consecutive_failures_trigger_sync_interrupted_notification() {
+    fun third_consecutive_failure_triggers_sync_interrupted_notification() {
         val status = SyncTestFixtures.syncStatusSnapshot(
             authFailureCount = 0,
             consecutiveFailureCount = 2,
@@ -57,5 +57,20 @@ class PhoneSyncFailureHandlerTest {
 
         assertEquals(SyncErrorCategory.OTHER, outcome.category)
         assertEquals(SyncNotificationAction.SYNC_INTERRUPTED, outcome.notificationAction)
+    }
+
+    @Test
+    fun fourth_consecutive_failure_does_not_repeat_sync_interrupted_notification() {
+        val status = SyncTestFixtures.syncStatusSnapshot(
+            authFailureCount = 0,
+            consecutiveFailureCount = 3,
+        )
+
+        val outcome = PhoneSyncFailureHandler.evaluate(
+            error = IllegalStateException("network unavailable"),
+            currentStatus = status,
+        )
+
+        assertEquals(null, outcome.notificationAction)
     }
 }

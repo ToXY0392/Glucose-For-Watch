@@ -8,6 +8,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ServiceCompat
 import com.glucoseforwatch.core.model.GlucoseReading
+import com.glucoseforwatch.feature.sync.SyncExecutionResult
 import com.glucoseforwatch.mobile.notifications.NotificationHelper
 import com.glucoseforwatch.mobile.settings.AppSettingsStore
 import com.glucoseforwatch.mobile.watch.WatchSyncHealthRepository
@@ -20,13 +21,19 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlin.math.min
 
-/** Foreground service polling Dexcom and pushing readings to the watch. */
+/**
+ * Foreground service polling Dexcom and pushing readings to the watch.
+ * Failed passes retry silently with exponential backoff before the failure
+ * policy surfaces a notification.
+ */
 class ActiveGlucoseSyncService : Service() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val syncMutex = Mutex()
     private var loopJob: Job? = null
     private var foregroundActive = false
+    private var consecutiveSyncFailures = 0
     private lateinit var reconnectDetector: WatchReconnectDetector
 
     override fun onCreate() {
@@ -127,6 +134,8 @@ class ActiveGlucoseSyncService : Service() {
                 triggeredFromWatch = triggeredFromWatch,
                 forcePushCurrentReading = forcePushCurrentReading,
             )
+            consecutiveSyncFailures =
+                if (result is SyncExecutionResult.Failure) consecutiveSyncFailures + 1 else 0
             Log.i(
                 TAG,
                 "sync_pass_result triggeredFromWatch=$triggeredFromWatch forcePush=$forcePushCurrentReading result=${result::class.simpleName}",
@@ -192,6 +201,11 @@ class ActiveGlucoseSyncService : Service() {
     }
 
     private fun nextPollIntervalMs(): Long {
+        if (consecutiveSyncFailures > 0) {
+            val exponent = (consecutiveSyncFailures - 1).coerceAtMost(MAX_RETRY_BACKOFF_EXPONENT)
+            return min(SYNC_RETRY_MAX_INTERVAL_MS, SYNC_RETRY_BASE_INTERVAL_MS * (1L shl exponent))
+        }
+
         val health = WatchSyncHealthRepository(this).load()
         val intervalMs = WatchBatteryPolicy.pollIntervalMs(health)
         if (intervalMs == WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS) {
@@ -247,6 +261,9 @@ class ActiveGlucoseSyncService : Service() {
         private const val ACTION_STOP = "com.glucoseforwatch.mobile.sync.action.STOP_ACTIVE_SYNC"
         private const val POLL_INTERVAL_DEGRADED_MS = WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS
         private const val FALLBACK_RESTART_MS = 30_000L
+        private const val SYNC_RETRY_BASE_INTERVAL_MS = 15_000L
+        private const val SYNC_RETRY_MAX_INTERVAL_MS = 5 * 60_000L
+        private const val MAX_RETRY_BACKOFF_EXPONENT = 10
 
         /** True while the FGS instance is started; used to skip redundant WorkManager sync. */
         @Volatile

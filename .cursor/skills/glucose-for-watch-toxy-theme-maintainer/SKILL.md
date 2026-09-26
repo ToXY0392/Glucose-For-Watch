@@ -14,7 +14,8 @@ Single source of truth: `toxy-ux-kit/tokens/toxy.color.json` → export → `mob
 2. Run: `wsl python3 toxy-ux-kit/tools/export-android-colors.py`
 3. Copy or diff `toxy-ux-kit/tools/export/output/toxy_colors.xml` into `mobile/src/main/res/values/`.
 4. Keep `colors.xml` `wg7_*` entries as **aliases** to `toxy_*` (chrome only).
-5. Update `wear/.../tile/ToxyTileTheme.kt` if tile chrome constants changed.
+5. Update `wear/.../tile/GlucoseTileChrome.kt` for ProtoLayout tile chrome;
+   `ToxyTileTheme.kt` supplies the shared Wear status/complication color model.
 6. Bump `toxy-ux-kit/CHANGELOG.md` and tile `RESOURCES_VERSION` if watch surfaces change.
 
 ## Rules

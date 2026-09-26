@@ -20,8 +20,10 @@ GLUCOSE_KT_GLOBS = [
     "mobile/src/main/java/com/glucoseforwatch/mobile/ui/HomeStateMapper.kt",
     "mobile/src/main/java/com/glucoseforwatch/mobile/ui/compose/HomeScreen.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/tile/ToxyTileTheme.kt",
-    "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseSimpleTileService.kt",
-    "wear/src/main/java/com/glucoseforwatch/wear/complication/GlucoseComplicationService.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseTileChrome.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseSimpleTileLayout.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseTileServiceV2.kt",
+    "wear/src/main/java/com/glucoseforwatch/wear/complication/GlucoseComplicationServiceV2.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/display/WearGlucoseSurfaceModel.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/data/GlucoseCache.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/ui/WearStatusScreen.kt",
@@ -31,6 +33,7 @@ GLUCOSE_KT_GLOBS = [
 REQUIRED_RESOLVER = {
     ROOT / "mobile/src/main/java/com/glucoseforwatch/mobile/ui/HomeStateMapper.kt": "GlucoseRangeResolver",
     ROOT / "wear/src/main/java/com/glucoseforwatch/wear/tile/ToxyTileTheme.kt": "GlucoseRangeResolver",
+    ROOT / "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseTileChrome.kt": "GlucoseRangeResolver",
     ROOT / "wear/src/main/java/com/glucoseforwatch/wear/data/GlucoseCache.kt": "GlucoseRangeResolver",
 }
 

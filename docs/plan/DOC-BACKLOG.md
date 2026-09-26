@@ -2,7 +2,7 @@
 
 > **Living checklist** for docs, QA evidence, and doc-adjacent automation.  
 > **Not** the product backlog — see [PROGRESS.md](PROGRESS.md) and [ACTION-PLAN.md](ACTION-PLAN.md).  
-> **Maintained by:** `@glucose-for-watch-doc-backlog-sync` · **Last updated:** 2026-05-26
+> **Maintained by:** `@glucose-for-watch-doc-backlog-sync` · **Last updated:** 2026-08-01
 
 ---
 
@@ -40,6 +40,7 @@ Blocks **G-C** / **G-M7** tag until done.
 | DOC-P0-2 | **Close incident doc** — update [2026-05-25-app-crash.md](../qa/incidents/2026-05-25-app-crash.md) status → closed after G-X + C.7 | Dev | ✅ | J0 2026-05-26 |
 | DOC-P0-3 | **PROGRESS scoreboard** — refresh gates G-X/G-C/K2/K6 after C.7 | Dev | ✅ | G-X/K2/K6 updated · G-C partial (C.7 ✅) |
 | DOC-P0-4 | **QA matrix evidence** | QA | ✅ | [bloc-c-evidence.md](../qa/bloc-c-evidence.md) |
+| DOC-P0-5 | **Fix: wear applicationId conflict (resolved)** — Verify Wear applicationId no longer collides with mobile; installation + complication discovery validated | Dev | ✅ | Fixed in local build & validated via adb install (2026-08-14) |
 
 ---
 
@@ -128,5 +129,37 @@ Do **not** start until **G-M7** ✅.
 | [AGENTS.md](../../AGENTS.md) | Cursor agent entry |
 
 ---
+
+## Recommended technical backlog (post-mortem additions)
+
+Following the recent fixes (wear applicationId resolved and Data Layer validation), the following prioritized tasks are recommended to improve observability, security and reliability of phone↔watch sync.
+
+### P0 — Immediate (release-blocking / 48–72h)
+| ID | Task | Owner | Effort | Status | Notes |
+|----|------|-------|--------|--------|-------|
+| DOC-P0-6 | Harden token storage — migrate Dexcom tokens to EncryptedSharedPreferences / Android Keystore | Dev | 1d | ☐ | Audit current storage; migrate and add unit test. |
+| DOC-P0-7 | Add explicit DataLayer tracing logs (PutDataRequest id, path, ts) on mobile and onDataChanged logs on Wear | Dev | 0.5d | ☐ | Quick wins for debugging (debug build only). |
+| DOC-P0-8 | Secret scanning + policy in CI (git history scan) | Dev/CI | 0.5d | ☐ | Add GitHub secret scanning + trufflehog/detect-secrets stage. |
+
+### P1 — Short term (1–2 weeks)
+| ID | Task | Owner | Effort | Status | Notes |
+|----|------|-------|--------|--------|-------|
+| DOC-P1-9 | CI: configure release signing with secure keystore (CI secrets) and prevent debug-key release signing | CI | 1d | ☐ | Ensure release pipeline uses encrypted keystore in GitHub Actions/Runner. |
+| DOC-P1-10 | Instrument metrics & tracing for DataLayer (requestId, latency, success rate) | Dev | 3d | ☐ | Add lightweight telemetry with opt‑in and privacy controls. |
+| DOC-P1-11 | E2E phone↔wear tests (emulators) added to CI (smoke) | QA/Dev | 3–5d | ☐ | Minimal test to assert onDataChanged and complication update. |
+| DOC-P1-12 | Integrate detekt & ktlint into CI and fail on new critical issues | Dev | 1d | ☐ | Enforce style and static checks. |
+
+### P2 — Medium term (2–4 weeks)
+| ID | Task | Owner | Effort | Status | Notes |
+|----|------|-------|--------|--------|-------|
+| DOC-P2-13 | Implement batching/throttling & TTL for DataItems (debounce frequent updates) | Dev | 3–7d | ☐ | Reduce wakeups and improve battery life. |
+| DOC-P2-14 | Soak tests + battery profiling for sync flow (24–72h runs) | QA | 4–7d | ☐ | Collect battery & latency metrics; file QA evidence. |
+| DOC-P2-15 | Contract versioning & migration plan for Data Layer schema | Dev | 2–4d | ☐ | Ensure backward compatibility during rolling upgrades. |
+
+### Cross-cutting / Documentation items
+- Add a short HOWTO in `docs/dev/setup.md` explaining how to enable DataLayer debug logs and how to capture phone + watch logcats (commands + expected entries).
+- Add a privacy checklist for medical data handling before any public release (token retention policy, encryption, analytics opt‑in). Link from this backlog.
+
+*These items should be created as issues and linked to this DOC-BACKLOG (IDs above are suggested).* 
 
 *Next review: Monday · bump "Last updated" when `@glucose-for-watch-doc-backlog-sync` runs.*

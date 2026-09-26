@@ -1,5 +1,6 @@
 package com.glucoseforwatch.wear.tile
 
+import androidx.annotation.Keep
 import androidx.wear.protolayout.DeviceParametersBuilders
 import com.glucoseforwatch.core.model.AgpGlucoseColors
 import com.glucoseforwatch.core.model.GlucoseRangeResolver
@@ -7,23 +8,27 @@ import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import kotlin.math.min
 
 /**
- * Chrome tokens and AGP glucose coloring for the Wear tile.
+ * Shared Wear surface-model colors and legacy layout tokens.
  *
- * Layout metrics adapt padding/typography to [screenWidthDp] and [screenShape].
- * Sync button and glucose/trend slots use **fixed** dp sizes so data changes
- * (value digits, trend presence, sync lock) do not shift the ProtoLayout.
+ * The ProtoLayout tile is rendered independently by [GlucoseTileChrome].
+ *
+ * Medical value colors come only from [AgpGlucoseColors] / [GlucoseRangeResolver]
+ * — never Material primary / blue chrome.
  */
+@Keep
 object ToxyTileTheme {
-    const val RESOURCES_VERSION = "simple-tile-v15-sync-label"
+    /** Legacy token; the active ProtoLayout cache version is [GlucoseTileChrome.RESOURCES_VERSION]. */
+    const val RESOURCES_VERSION = "simple-tile-v22-GlucoseTileServiceV2-zero-ghost"
     const val FRESHNESS_INTERVAL_MS = 45_000L
     const val COMPLICATION_REFRESH_INTERVAL_MS = 15_000L
-    const val SYNC_CLICK_ID = "sync"
+    /** Legacy click ID; the active tile uses [GlucoseTileChrome.SYNC_CLICK_ID]. */
+    const val SYNC_CLICK_ID = "sync_v2"
 
     const val BACKGROUND = 0xFF0F1419.toInt()
     const val UNIT_TEXT = 0xFF9CA3AF.toInt()
-    /** Light accent for minimal "sync" text on dark tile. */
-    const val SYNC_ACCENT = 0xFFB8D9F5.toInt()
-    const val SYNC_BG = 0x338FC7FF.toInt()
+    /** Neutral chrome for sync label — blue is banned on medical surfaces. */
+    const val SYNC_ACCENT = 0xFFD1D5DB.toInt()
+    const val SYNC_BG = 0x33D1D5DB.toInt()
     const val SYNC_LOCKED_ACCENT = 0xFF6B7280.toInt()
     const val SYNC_LOCKED_BG = 0x226B7280.toInt()
     /** Fully transparent — trend placeholder when [showTrend] is false. */
@@ -79,7 +84,6 @@ object ToxyTileTheme {
         val trendSp = if (compact) 20f else 24f
         return TileLayoutMetrics(
             horizontalPadDp = inset,
-            // Smaller fixed pads; expand Spacers in the layout handle vertical balance.
             topPadDp = if (round) 8f else if (compact) 6f else 4f,
             bottomPadDp = if (round) 14f else if (compact) 10f else 8f,
             valueSp = if (compact) 38f else 44f,
@@ -92,7 +96,6 @@ object ToxyTileTheme {
             valueRowWidthDp = VALUE_ROW_WIDTH_DP,
             valueRowHeightDp = if (compact) 44f else 48f,
             trendGapDp = if (compact) 8f else 10f,
-            // Slot sized for a single trend glyph at [trendSp]; independent of arrow text.
             trendSlotWidthDp = if (compact) 22f else 26f,
             trendSlotHeightDp = trendSp + 4f,
         )
@@ -105,6 +108,7 @@ object ToxyTileTheme {
             else -> baseSp
         }
 
+    /** Glycemic value color — AGP only, never theme primary. */
     fun valueColorArgb(snapshot: GlucoseSnapshot?): Int =
         if (snapshot == null) {
             AgpGlucoseColors.UNKNOWN

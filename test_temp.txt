@@ -1,0 +1,22 @@
+
+package com.glucoseforwatch.utils
+
+import androidx.compose.ui.graphics.Color
+
+/**
+ * Test file for temporary verification
+ */
+
+/**
+ * Returns a Color based on glucose value.
+ * - Green if the value is between 70.0 and 180.0 (inclusive).
+ * - Red if the value is outside this range.
+ * - Gray if the value is null.
+ */
+fun getColorForGlucose(value: Double?): Color {
+    return when {
+        value == null -> Color.Gray
+        value in 70.0..180.0 -> Color.Green
+        else -> Color.Red
+    }
+}

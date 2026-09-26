@@ -5,8 +5,8 @@
 | Component | Version |
 |-----------|---------|
 | Android Studio | Recent stable |
-| Gradle wrapper | 9.4.1 |
-| Android Gradle Plugin | 9.2.1 |
+| Gradle wrapper | 9.6.1 |
+| Android Gradle Plugin | 9.3.3 |
 | Kotlin | 2.3.20 |
 | JDK (Gradle) | JBR 21 |
 | compileSdk | 36 |
@@ -28,12 +28,12 @@ gfw.adb.phone.serial=<phone_serial>
 gfw.adb.watch.serial=<watch_serial>
 ```
 
-Dexcom Share credentials in `gradle.properties` (never commit):
+Dexcom Share account credentials are entered in the phone app and stored in
+encrypted preferences. Do not put account credentials in Gradle properties.
+The optional build property below configures the Dexcom Share protocol
+application ID; it is unrelated to the account login or region:
 
 ```properties
-dexcomShareUsername=...
-dexcomSharePassword=...
-dexcomShareServer=US
 dexcomShareApplicationId=d89443d2-327c-4a6f-89e5-496bbb0317db
 ```
 
@@ -153,7 +153,9 @@ Cursor rule: `.cursor/rules/glucose-for-watch-dual-ide-wsl.mdc`
 
 Set **Gradle JDK** to embedded JBR (File → Settings → Build Tools → Gradle).
 
-Run configurations: `:mobile` (Android App), `:wear` (Wear OS). Both share `applicationId = com.glucoseforwatch.mobile`.
+Run configurations: `:mobile` (Android App), `:wear` (Wear OS). The modules
+have distinct source namespaces, but both APKs currently use the application ID
+`com.glucoseforwatch.mobile`; install them on their respective phone and watch.
 
 Official refs: [Android Studio](https://developer.android.com/studio) · [AGP ↔ Gradle](https://developer.android.com/build/releases/gradle-plugin)
 

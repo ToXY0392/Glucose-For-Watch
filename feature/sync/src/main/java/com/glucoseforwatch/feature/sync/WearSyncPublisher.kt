@@ -3,6 +3,7 @@ package com.glucoseforwatch.feature.sync
 import android.content.Context
 import com.google.android.gms.wearable.PutDataMapRequest
 import com.google.android.gms.wearable.Wearable
+import android.util.Log
 import com.glucoseforwatch.core.datalayer.GlucoseDataLayerContract
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
 import com.glucoseforwatch.core.model.GlucoseReading
@@ -40,7 +41,26 @@ class WearSyncPublisher(
             }
         }.asPutDataRequest().setUrgent()
 
+        // Debug trace for Data Layer put (only enabled in debug builds via BuildConfig.DEBUG)
+        if (com.glucoseforwatch.feature.sync.BuildConfig.DEBUG) {
+            try {
+                Log.d(TAG, "putDataItem path=${GlucoseDataLayerContract.PATH_LATEST} sequenceId=$sequenceId ts=${reading.timestampEpochMs} value=<REDACTED> stale=${reading.stale} node=$nodeId")
+            } catch (t: Throwable) {
+                // best-effort logging; do not fail push for logging errors
+            }
+        }
+
         Wearable.getDataClient(context).putDataItem(request).await()
+
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            try {
+                Log.d(TAG, "putDataItem completed sequenceId=$sequenceId path=${GlucoseDataLayerContract.PATH_LATEST}")
+            } catch (_: Throwable) { }
+        }
         return true
+    }
+
+    companion object {
+        private const val TAG = "WG7.WearSyncPublisher"
     }
 }
