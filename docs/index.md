@@ -8,6 +8,7 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 |----------|-------------|
 | [guide/user.md](guide/user.md) | Install, daily use, troubleshooting |
 | [guide/dexcom.md](guide/dexcom.md) | Dexcom G6/G7, Share API, regions |
+| [guide/xdrip.md](guide/xdrip.md) | xDrip+ configuration, integrations, audit and troubleshooting |
 | [legal/medical-disclaimer.md](legal/medical-disclaimer.md) | Medical disclaimer |
 | [legal/privacy-policy.md](legal/privacy-policy.md) | Privacy policy |
 | [legal/publication-checklist.md](legal/publication-checklist.md) | Pre-release legal review |
