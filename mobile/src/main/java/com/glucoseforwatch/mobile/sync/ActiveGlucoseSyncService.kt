@@ -12,15 +12,19 @@ import com.glucoseforwatch.feature.sync.SyncExecutionResult
 import com.glucoseforwatch.mobile.notifications.NotificationHelper
 import com.glucoseforwatch.mobile.settings.AppSettingsStore
 import com.glucoseforwatch.mobile.watch.WatchSyncHealthRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withTimeout
 import kotlin.math.min
 
 /**
@@ -29,9 +33,11 @@ import kotlin.math.min
  * policy surfaces a notification.
  */
 class ActiveGlucoseSyncService : Service() {
-    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val serviceJob = SupervisorJob()
+    private val serviceScope = CoroutineScope(serviceJob + Dispatchers.IO)
     private val syncMutex = Mutex()
     private var loopJob: Job? = null
+    private var immediateSyncJob: Job? = null
     private var foregroundActive = false
     private var consecutiveSyncFailures = 0
     private lateinit var reconnectDetector: WatchReconnectDetector
@@ -80,6 +86,8 @@ class ActiveGlucoseSyncService : Service() {
 
     override fun onDestroy() {
         loopJob?.cancel()
+        immediateSyncJob?.cancel()
+        serviceJob.cancel()
         isRunning = false
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
         if (
@@ -110,7 +118,8 @@ class ActiveGlucoseSyncService : Service() {
     }
 
     private fun requestImmediateSync() {
-        serviceScope.launch {
+        immediateSyncJob?.cancel()
+        immediateSyncJob = serviceScope.launch {
             runSyncPass(triggeredFromWatch = false, forcePushCurrentReading = true)
         }
     }
@@ -171,14 +180,23 @@ class ActiveGlucoseSyncService : Service() {
             val reading = delayedState.toLastPushedReading() ?: return
             val nextRepushCount = delayedState.unackedRepushCount + 1
             val sequenceId = PhoneSyncStateStore(this).nextSequenceId()
-            val pushed =
-                runCatching {
+            val pushed = try {
+                withTimeout(WEAR_PUSH_TIMEOUT_MS) {
                     PhoneWearSyncService(this).pushLatest(reading, sequenceId)
-                }.getOrElse { error ->
-                    PhoneSyncStateStore(this).recordPushFailure(error.message.orEmpty())
-                    Log.w(TAG, "repush_failed error=${error.message}", error)
-                    false
                 }
+            } catch (e: TimeoutCancellationException) {
+                // A push deadline is recoverable; cancellation of the service is not.
+                if (!currentCoroutineContext().isActive) throw e
+                PhoneSyncStateStore(this).recordPushFailure(e.message.orEmpty())
+                Log.w(TAG, "repush_failed error=${e.message}", e)
+                false
+            } catch (e: CancellationException) {
+                throw e
+            } catch (error: Throwable) {
+                PhoneSyncStateStore(this).recordPushFailure(error.message.orEmpty())
+                Log.w(TAG, "repush_failed error=${error.message}", error)
+                false
+            }
             if (!pushed) {
                 PhoneSyncStateStore(this).recordWearPushUndelivered()
                 Log.w(TAG, "repush_skipped push_unavailable repushCount=$nextRepushCount")
@@ -248,6 +266,7 @@ class ActiveGlucoseSyncService : Service() {
         AppSettingsStore(this).setActiveSyncEnabled(false)
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
         loopJob?.cancel()
+        immediateSyncJob?.cancel()
         if (foregroundActive) {
             stopForeground(STOP_FOREGROUND_REMOVE)
         }
@@ -261,6 +280,7 @@ class ActiveGlucoseSyncService : Service() {
         private const val ACTION_STOP = "com.glucoseforwatch.mobile.sync.action.STOP_ACTIVE_SYNC"
         private const val POLL_INTERVAL_DEGRADED_MS = WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS
         private const val FALLBACK_RESTART_MS = 30_000L
+        private const val WEAR_PUSH_TIMEOUT_MS = 8_000L
         private const val SYNC_RETRY_BASE_INTERVAL_MS = 15_000L
         private const val SYNC_RETRY_MAX_INTERVAL_MS = 5 * 60_000L
         private const val MAX_RETRY_BACKOFF_EXPONENT = 10
