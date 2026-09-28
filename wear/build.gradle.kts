@@ -60,8 +60,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
     implementation("androidx.wear:wear:1.4.0")
-    implementation("androidx.wear.watchface:watchface-complications-data:1.2.1")
-    implementation("androidx.wear.watchface:watchface-complications-data-source:1.2.1")
+    implementation("androidx.wear.watchface:watchface-complications-data:1.3.0")
+    implementation("androidx.wear.watchface:watchface-complications-data-source:1.3.0")
 
     // Wear Tiles runtime + Studio Design-pane tooling (aligned versions).
     // Docs: https://developer.android.com/training/wearables/tiles/debug
