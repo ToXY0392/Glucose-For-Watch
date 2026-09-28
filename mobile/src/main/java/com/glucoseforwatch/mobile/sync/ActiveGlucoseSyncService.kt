@@ -182,7 +182,7 @@ class ActiveGlucoseSyncService : Service() {
             val sequenceId = PhoneSyncStateStore(this).nextSequenceId()
             val pushed = try {
                 withTimeout(WEAR_PUSH_TIMEOUT_MS) {
-                    PhoneWearSyncService(this).pushLatest(reading, sequenceId)
+                    PhoneWearSyncService(this@ActiveGlucoseSyncService).pushLatest(reading, sequenceId)
                 }
             } catch (e: TimeoutCancellationException) {
                 // A push deadline is recoverable; cancellation of the service is not.
