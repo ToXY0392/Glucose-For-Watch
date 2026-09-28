@@ -18,12 +18,22 @@ Install Glucose For Watch and see your Dexcom glucose on Wear OS (app, tile, com
 - Follower credentials (not the patient app login unless Share is configured)
 - Dexcom **G6 or G7** — see [dexcom.md](dexcom.md)
 - Wear OS watch paired with an **Android** phone
+- Phone and watch APKs are installed on their respective devices; both currently
+  use the Android application ID `com.glucoseforwatch.mobile`.
 
 ## Daily use
 
-- Glucose updates automatically every ~45 s when the watch is connected.
+- The phone checks for Dexcom updates every 45 s in normal conditions (every
+  120 s in low-battery / limited-sync mode); Dexcom readings themselves usually
+  arrive on Dexcom's own update cadence.
 - The phone keeps fetching from Dexcom when the watch is off-wrist; data catches up on reconnect.
-- Values use **AGP medical colors**: green in range, yellow/orange high, red low, grey trend when stale (> 2 min).
+- Values use **AGP medical colors**: green in range, red low, and yellow/orange
+  high. The Dexcom reading/Wear cache is flagged stale after 2 min; the tile
+  dims old readings after 15 min, while the complication switches to a
+  placeholder after 15 min.
+- Network failures retry silently with backoff. The interrupted-sync
+  notification is shown only after three consecutive failures; authentication
+  failures prompt reconnection after two consecutive failures.
 
 ### Phone home screen
 
@@ -41,6 +51,10 @@ Install Glucose For Watch and see your Dexcom glucose on Wear OS (app, tile, com
 | Number | Latest synced glucose (AGP-colored) |
 | Trend arrow | Direction of change |
 | Sync button | Request refresh from phone |
+
+The tile has no logo in its scrolling preview. The Wear app launcher icon uses
+the same logo as the phone app; the complication's picker icon also uses that
+logo.
 
 ### Complication
 
@@ -71,6 +85,9 @@ Bluetooth off, phone app killed by battery optimizer, or watch out of range. Ope
 ### Sync button does nothing
 
 Check Dexcom credentials, internet connectivity, and error messages. Restart the phone app.
+
+If you uninstall and reinstall the phone app, enter your Dexcom Share settings
+again; Android clears the app's encrypted local settings on uninstall.
 
 ### Dexcom authentication errors
 

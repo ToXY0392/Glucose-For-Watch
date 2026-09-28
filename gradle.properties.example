@@ -2,10 +2,7 @@ org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
 android.useAndroidX=true
 kotlin.code.style=official
 
-# Dexcom Share
-dexcomShareUsername=ton_email_ou_identifiant
-dexcomSharePassword=ton_mot_de_passe
-dexcomShareServer=OUS
+# Optional build-time Dexcom Share protocol application ID (not account credentials).
 dexcomShareApplicationId=d89443d2-327c-4a6f-89e5-496bbb0317db
 
 # Relay backend optionnel

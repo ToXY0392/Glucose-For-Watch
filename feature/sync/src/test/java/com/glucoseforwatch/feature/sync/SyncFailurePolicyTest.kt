@@ -25,6 +25,28 @@ class SyncFailurePolicyTest {
     }
 
     @Test
+    fun failures_after_notification_threshold_do_not_repeat_alert() {
+        val action = SyncFailurePolicy.decideNotificationAction(
+            lastErrorCategory = "NETWORK",
+            authFailureCount = 0,
+            consecutiveFailureCount = 4,
+        )
+
+        assertEquals(null, action)
+    }
+
+    @Test
+    fun repeated_auth_failures_only_trigger_reconnect_at_threshold() {
+        val action = SyncFailurePolicy.decideNotificationAction(
+            lastErrorCategory = "AUTH",
+            authFailureCount = 3,
+            consecutiveFailureCount = 3,
+        )
+
+        assertEquals(null, action)
+    }
+
+    @Test
     fun low_failure_counts_do_not_trigger_notification() {
         val action = SyncFailurePolicy.decideNotificationAction(
             lastErrorCategory = "OTHER",

@@ -1,6 +1,7 @@
 package com.glucoseforwatch.wear.services
 
 import android.util.Log
+import androidx.annotation.Keep
 import com.google.android.gms.tasks.Tasks
 import com.google.android.gms.wearable.DataEvent
 import com.google.android.gms.wearable.DataEventBuffer
@@ -28,6 +29,7 @@ import kotlinx.coroutines.tasks.await
  *
  * Persists readings, sends ACKs, updates tile/complication, and reports watch health.
  */
+@Keep
 class WearDataLayerListenerService : WearableListenerService() {
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -54,6 +56,14 @@ class WearDataLayerListenerService : WearableListenerService() {
                 val sequenceId = map.getLong(GlucoseKeys.SEQUENCE_ID)
                 val sourcePhoneNodeId = map.getString(GlucoseKeys.SOURCE_PHONE_NODE_ID).orEmpty()
                     .ifBlank { item.uri.host.orEmpty() }
+
+                // Debug trace for Data Layer receive (watch) — only in debug builds
+                if (com.glucoseforwatch.wear.BuildConfig.DEBUG) {
+                    try {
+                        Log.d(TAG, "onDataChanged path=${item.uri.path} sequenceId=$sequenceId ts=${snapshot.timestampEpochMs} value=<REDACTED> stale=${snapshot.stale} from=$sourcePhoneNodeId")
+                    } catch (_: Throwable) { }
+                }
+
                 if (sourcePhoneNodeId.isNotBlank()) {
                     cache.recordLastPhoneNodeId(sourcePhoneNodeId)
                 }
@@ -95,6 +105,10 @@ class WearDataLayerListenerService : WearableListenerService() {
                 if (status != GlucoseKeys.REFRESH_IN_PROGRESS) {
                     GlucoseSyncCoordinator.endSync()
                     requestTileUpdateImmediate()
+                    if (status == GlucoseKeys.REFRESH_FAILED) {
+                        // Force complication onto degraded "---" without waiting for SysUI period.
+                        notifyComplicationDegraded()
+                    }
                     healthMonitor.updateAndReport()
                 }
             }
@@ -112,10 +126,20 @@ class WearDataLayerListenerService : WearableListenerService() {
     }
 
     private fun notifyComplicationReading(snapshot: GlucoseSnapshot, sequenceId: Long) {
+        // force=false: new seq/ts opens the gate; avoids SysUI throttle from spam.
         ComplicationUpdateNotifier.notifyReadingChanged(
             context = this,
             sequenceId = sequenceId,
             readingTimestampEpochMs = snapshot.timestampEpochMs,
+            force = false,
+        )
+    }
+
+    /** Push complication after sync failure so SysUI shows disconnected placeholder promptly. */
+    private fun notifyComplicationDegraded() {
+        ComplicationUpdateNotifier.notifyReadingChanged(
+            context = this,
+            force = true,
         )
     }
 

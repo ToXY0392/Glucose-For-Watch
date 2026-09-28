@@ -7,14 +7,12 @@
 
 ```
 ┌─────────────────────────┐
-│      [ToXY background]  │
+│      [black canvas]     │
 │                         │
 │         120             │  ← agp.glucose.* (by range)
 │       mg/dL  ↗          │  ← toxy text.secondary + agp trend
 │                         │
-│    ┌─────────────────┐  │
-│    │    ↻ Sync       │  │  ← toxy.accent icon, ≥48dp
-│    └─────────────────┘  │
+│       ↻ sync            │  ← clickable neutral status text
 └─────────────────────────┘
 ```
 
@@ -22,17 +20,24 @@
 
 | Element | Token |
 |---------|-------|
-| Background | `toxy.color.background.top` |
+| Background | Absolute black (`#000000`) |
 | Value | `agp.glucose.*` |
 | Unit | `toxy.color.text.secondary` |
 | Trend (fresh) | same AGP as value |
 | Trend (stale) | `agp.glucose.unknown` |
-| Sync button | `toxy.color.accent.default` |
+| Sync action | Neutral gray text (`#D1D5DB`); no filled button |
 
 ## Interaction
 
 - Sync button → `GlucoseRefreshActivity` → phone fetch
-- Freshness: `toxy.motion.tile.freshnessIntervalMs` (45 s)
+- Tile requests refresh at the 45 s cadence. It visually dims readings older
+  than 15 min; this is separate from the 2 min stale flag in the Dexcom/Wear
+  cache.
+- The current clickable status slot is 28 dp high. The 48 dp touch-target
+  recommendation below remains a design target and is not yet met by this tile.
+
+The scrolling tile preview is a plain black icon with no logo. The Wear app
+launcher icon and complication picker icon use the phone app logo.
 
 ## States
 

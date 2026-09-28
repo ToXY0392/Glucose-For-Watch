@@ -16,7 +16,10 @@ import com.glucoseforwatch.feature.sync.WearSyncPort
 import com.glucoseforwatch.mobile.data.PhoneGlucoseSourceFactory
 import com.glucoseforwatch.mobile.notifications.NotificationHelper
 import com.glucoseforwatch.mobile.watch.WatchSyncHealthRepository
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withTimeout
 
 /** Phone-side glucose sync: Dexcom Share fetch, watch push, and push-failure tracking. */
@@ -99,10 +102,14 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
             NotificationHelper(context).cancelSyncAlerts()
             result
         } catch (t: TimeoutCancellationException) {
+            // Keep this operation's deadline as a sync failure, not caller cancellation.
+            if (!currentCoroutineContext().isActive) throw t
             handleFailure(
                 triggeredFromWatch = triggeredFromWatch,
                 error = IllegalStateException(SyncMessageCatalog.SYNC_TIMEOUT, t),
             )
+        } catch (e: CancellationException) {
+            throw e
         } catch (t: Throwable) {
             handleFailure(triggeredFromWatch, t)
         }

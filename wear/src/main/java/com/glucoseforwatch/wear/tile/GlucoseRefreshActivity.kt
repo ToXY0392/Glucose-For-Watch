@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.annotation.Keep
 import com.glucoseforwatch.wear.data.GlucoseCache
 
 /** Zero-UI trampoline: acquire sync lock, mark pending, dispatch request, exit immediately. */
+@Keep
 class GlucoseRefreshActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

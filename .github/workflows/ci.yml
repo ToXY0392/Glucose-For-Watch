@@ -2,27 +2,14 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - master
-      - develop/integration
-      - 'sandbox/**'
+    branches: [ main, master ]
   pull_request:
-    branches:
-      - main
-      - develop/integration
-  workflow_dispatch:
-
-# Cancel superseded runs on the same branch (saves Actions minutes).
-concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [ main, master ]
 
 jobs:
   detect:
-    name: Detect changed paths
+    name: Detect changed file trees
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     outputs:
       kotlin_tree: ${{ steps.filter.outputs.kotlin_tree }}
     steps:

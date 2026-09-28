@@ -55,7 +55,7 @@ function Test-WearTileProvider {
     $listed = @(& $adb devices | Select-String "\sdevice$" | ForEach-Object { ($_ -split "\s+")[0] })
     if ($Serial -notin $listed) { return $false }
     $tile = & $adb -s $Serial shell dumpsys package com.glucoseforwatch.mobile 2>$null |
-        Select-String "GlucoseSimpleTileService"
+        Select-String "GlucoseTileServiceV2"
     return [bool]$tile
 }
 
