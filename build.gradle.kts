@@ -5,7 +5,7 @@ import java.util.Properties
 
 plugins {
     id("com.android.application") version "9.3.3" apply false
-    id("com.android.library") version "9.3.3" apply false
+    id("com.android.library") version "9.4.1" apply false
     id("org.jetbrains.kotlin.android") version "2.3.20" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.3.20" apply false
     kotlin("kapt") version "1.8.20" apply false // Specify Kotlin version for compatibility
