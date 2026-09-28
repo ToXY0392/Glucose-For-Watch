@@ -6,14 +6,12 @@ on:
       - "docs/dev/architecture.md"
       - "docs/assets/glucose-for-watch-architecture.svg"
       - "scripts/assets/export-architecture-diagram.sh"
-      - ".github/workflows/architecture-diagram.yml"
   push:
     branches:
       - develop/integration
     paths:
       - "docs/dev/architecture.md"
       - "docs/assets/glucose-for-watch-architecture.svg"
-      - ".github/workflows/architecture-diagram.yml"
 
 jobs:
   verify-diagram:
@@ -30,19 +28,8 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Regenerate PNG
+      - name: Regenerate PNG and check drift
         run: |
           chmod +x ./scripts/assets/export-architecture-diagram.sh
           bash ./scripts/assets/export-architecture-diagram.sh
-
-      - name: Upload rendered PNG
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: architecture-diagram-render
-          path: docs/assets/glucose-for-watch-architecture.png
-          if-no-files-found: ignore
-
-      - name: Check PNG drift
-        run: |
           git diff --exit-code docs/assets/glucose-for-watch-architecture.png
