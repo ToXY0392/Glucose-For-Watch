@@ -39,7 +39,7 @@ internal object GlucoseTileUpdateRequester {
             Runnable {
                 lastScheduledAt = 0L
                 pending = null
-                TileService.getUpdater(appContext).requestUpdate(GlucoseSimpleTileService::class.java)
+                TileService.getUpdater(appContext).requestUpdate(GlucoseTileServiceV2::class.java)
             }.also { handler.postDelayed(it, delay) }
     }
 }

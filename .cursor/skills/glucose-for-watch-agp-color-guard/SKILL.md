@@ -17,7 +17,7 @@ disable-model-invocation: true
 | &lt; 54 | veryLow `#9C0000` |
 | 54–69 | low `#E00000` |
 | 70–180 | inRange `#008000` |
-| 181–250 | high `#FFCC00` |
+| 181–250 | high `#FFCC00` (tile uses alert orange `#FF9900`) |
 | &gt; 250 | veryHigh `#FF9900` |
 | stale / no data | unknown `#64748B` |
 
@@ -30,8 +30,8 @@ rg "wg7_accent|toxy_accent" --glob "*.kt" wear/ mobile/ | rg -i "glucose|value|h
 ## Touch points
 - `core/model/GlucoseRange.kt`
 - `mobile/.../MainActivity.kt` (hero value)
-- `wear/.../tile/ToxyTileTheme.kt`
-- `wear/.../complication/GlucoseComplicationService.kt`
+- `wear/.../tile/GlucoseTileChrome.kt`
+- `wear/.../complication/GlucoseComplicationServiceV2.kt`
 - `wear/.../data/GlucoseSnapshot.semanticColorArgb()`
 
 ## Output

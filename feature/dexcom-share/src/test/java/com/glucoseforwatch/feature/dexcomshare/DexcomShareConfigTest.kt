@@ -49,4 +49,18 @@ class DexcomShareConfigTest {
         )
         assertTrue(config.isConfigured())
     }
+
+    @Test
+    fun baseUrl_doesNotRouteAnUnknownServerToUs() {
+        val config = DexcomShareConfig(
+            username = "user",
+            password = "example-password",
+            server = "EU",
+            applicationId = "app-id",
+        )
+
+        org.junit.Assert.assertThrows(IllegalArgumentException::class.java) {
+            config.baseUrl()
+        }
+    }
 }

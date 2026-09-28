@@ -9,7 +9,7 @@ enum class SyncNotificationAction {
 /**
  * Decides whether a failed sync should surface a reconnect or interrupted notification.
  *
- * Auth failures need two consecutive AUTH errors; other failures need three in a row.
+ * Notify at exactly two consecutive AUTH errors or three consecutive sync failures.
  */
 object SyncFailurePolicy {
     fun decideNotificationAction(
@@ -18,13 +18,20 @@ object SyncFailurePolicy {
         consecutiveFailureCount: Int,
     ): SyncNotificationAction? {
         return when {
-            lastErrorCategory == "AUTH" && authFailureCount >= 2 ->
-                SyncNotificationAction.DEXCOM_RECONNECT_REQUIRED
+            lastErrorCategory == "AUTH" ->
+                if (authFailureCount == AUTH_FAILURE_NOTIFICATION_THRESHOLD) {
+                    SyncNotificationAction.DEXCOM_RECONNECT_REQUIRED
+                } else {
+                    null
+                }
 
-            consecutiveFailureCount >= 3 ->
+            consecutiveFailureCount == SYNC_FAILURE_NOTIFICATION_THRESHOLD ->
                 SyncNotificationAction.SYNC_INTERRUPTED
 
             else -> null
         }
     }
+
+    private const val AUTH_FAILURE_NOTIFICATION_THRESHOLD = 2
+    private const val SYNC_FAILURE_NOTIFICATION_THRESHOLD = 3
 }

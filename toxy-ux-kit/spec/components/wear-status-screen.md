@@ -59,4 +59,6 @@ See [sync-states.md](sync-states.md).
 
 ## Parity with tile
 
-Same data source as tile + complication (`WearGlucoseSurfaceModelFactory`). Do not use mint on glucose numerals.
+The screen, tile, and complication read the same Wear glucose cache; their
+surface formatting and stale-display thresholds are separate. Do not use mint
+on glucose numerals.
