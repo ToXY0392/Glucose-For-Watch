@@ -7,6 +7,9 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+val gfwVersionCode = providers.gradleProperty("gfwVersionCode").get().toInt()
+val gfwVersionName = providers.gradleProperty("gfwVersionName").get()
+
 android {
     namespace = "com.glucoseforwatch.mobile"
     compileSdk = 37
@@ -20,8 +23,8 @@ android {
         applicationId = "com.glucoseforwatch.mobile"
         minSdk = 28
         targetSdk = 37
-        versionCode = 25
-        versionName = "0.6.0"
+        versionCode = gfwVersionCode
+        versionName = gfwVersionName
 
         buildConfigField("String", "DEXCOM_SHARE_APPLICATION_ID", "\"$dexcomShareApplicationId\"")
     }

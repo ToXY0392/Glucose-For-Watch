@@ -1,7 +1,7 @@
 # Glucose For Watch
 
 <p align="center">
-  <img alt="Version" src="https://img.shields.io/badge/version-0.6.0-0B3D2E?style=for-the-badge">
+  <img alt="Version 1.0.0 candidate" src="https://img.shields.io/badge/version-1.0.0%20candidate-FBBC04?style=for-the-badge">
   <img alt="Android 17 readiness" src="https://img.shields.io/badge/Android%2017-preview%20validation%20pending-FBBC04?style=for-the-badge&logo=android&logoColor=white">
   <img alt="Wear OS" src="https://img.shields.io/badge/Wear%20OS-Tile%20%2B%20Complication-4285F4?style=for-the-badge&logo=wearos&logoColor=white">
   <br>
@@ -87,7 +87,7 @@ Then run:
 
 After installation, open the phone app, review the in-app legal notices, enter the Dexcom Share credentials and region, and start synchronization. Add the Glucose For Watch tile or a supported complication to the watch as needed.
 
-Debug APKs are not attached to the [latest GitHub release](https://github.com/ToXY0392/Glucose-For-Watch/releases/tag/v0.6.0); build them from source using the instructions above.
+The latest published release is [v0.6.0](https://github.com/ToXY0392/Glucose-For-Watch/releases/tag/v0.6.0). Version 1.0.0 is a release candidate, not a published release; build debug APKs from source using the instructions above.
 
 ## Project structure
 
