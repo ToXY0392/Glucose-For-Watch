@@ -6,7 +6,7 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
 ## [Unreleased]
 
-> La version 1.0.0 est en préparation; elle n'a pas encore été publiée.
+> La version 1.0.0 est en préparation comme release GitHub de sideload personnel; elle n'a pas encore été publiée.
 
 ### Ajouté
 
@@ -18,6 +18,7 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
 - Le téléphone et la montre utilisent une source commune pour le nom et le code de version dans `gradle.properties`.
 - Les critères v1.0 et validations appareil sont séparés des anciens jalons v0.5/v0.6.
+- La licence autorise le téléchargement et l'installation personnelle des APK officiels publiés par le titulaire sur ce dépôt GitHub uniquement.
 
 ### Corrigé
 
