@@ -38,6 +38,21 @@ sync service with exponential backoff (15 seconds up to 5 minutes). The
 interrupted-sync notification appears after three consecutive failures; the
 reconnect notification appears after two consecutive authentication failures.
 
+## Dexcom Share service outages
+
+The app depends on Dexcom Share to fetch new glucose readings; it does not read
+directly from the sensor over Bluetooth or use an independent glucose source.
+If Dexcom Share is unavailable, the phone cannot obtain fresh readings and
+cannot send new readings to the watch. Automatic retries may recover after the
+service returns, but they cannot bypass an outage.
+
+Previously cached readings may remain visible while the service is unavailable.
+They are not current readings: the app marks old data stale, and the watch tile
+and complication eventually dim or replace old values. Do not use a stale
+cached value for treatment decisions. Check the official Dexcom app and follow
+the [medical disclaimer](../legal/medical-disclaimer.md). For user steps, see
+[troubleshooting](user.md#dexcom-share-unavailable).
+
 ## Not supported
 
 - Dexcom OAuth v3 official API
