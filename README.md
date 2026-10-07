@@ -138,6 +138,69 @@ APK outputs:
 
 The phone app prompts for Dexcom Share settings on first configuration. Reinstalling after uninstall may erase local credentials and settings. Follow the [user guide](docs/guide/user.md), then add the Wear tile and complication from the watch UI.
 
+### Installation avancée via Android Studio
+
+Cette méthode est facultative et s’adresse aux personnes qui souhaitent compiler
+le projet depuis ses sources ou installer directement l’APK Wear OS avec ADB.
+Pour une installation classique à partir d’APK, consultez le [guide utilisateur](docs/guide/user.md).
+
+#### Ouvrir et compiler le projet
+
+1. Dans Android Studio, choisissez **Open**, puis sélectionnez le dossier racine
+   `Glucose-For-Watch` (celui qui contient `settings.gradle.kts`).
+2. Attendez la synchronisation Gradle et installez les composants du SDK
+   demandés, notamment Android SDK Platform 36.
+3. Dans la fenêtre **Gradle**, exécutez `:mobile:assembleDebug` pour l’APK du
+   téléphone et `:wear:assembleDebug` pour celui de la montre. Vous pouvez aussi
+   lancer les deux tâches ensemble depuis le terminal intégré :
+
+   ```powershell
+   .\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
+   ```
+
+Les APK générés se trouvent dans
+`mobile/build/outputs/apk/debug/mobile-debug.apk` et
+`wear/build/outputs/apk/debug/wear-debug.apk`. Une Release peut nommer son APK
+Wear OS `GlucoseForWatch-wear.apk` ; le build local conserve le nom
+`wear-debug.apk`.
+
+#### Installer l’APK Wear OS avec le débogage sans fil
+
+1. Sur la montre, activez les **Options pour les développeurs** (appuyez
+   plusieurs fois sur **Numéro de build** dans **Paramètres > Système > À propos**,
+   si nécessaire), puis activez **Débogage sans fil** dans ces options. Les
+   intitulés peuvent varier selon la version de Wear OS.
+2. Connectez la montre et l’ordinateur au même réseau Wi-Fi. Dans Android
+   Studio, ouvrez **Device Manager > Pair Devices Using Wi-Fi** et suivez les
+   indications de jumelage affichées par Android Studio et la montre.
+3. Une fois la montre connectée, repérez son identifiant avec
+   `adb devices -l`. Si vous utilisez ADB manuellement, le port de jumelage et
+   le port de connexion affichés par la montre sont distincts :
+
+   ```powershell
+   adb pair <adresse-ip-montre>:<port-jumelage>
+   adb connect <adresse-ip-montre>:<port-de-connexion>
+   adb devices -l
+   ```
+
+4. Depuis le dossier contenant l’APK, installez-le en ciblant explicitement la
+   montre. Pour l’asset de Release nommé `GlucoseForWatch-wear.apk` :
+
+   ```powershell
+   adb -s <adresse-ip-montre>:<port-de-connexion> install -r .\GlucoseForWatch-wear.apk
+   ```
+
+   Pour installer le build Wear OS compilé localement, utilisez plutôt :
+
+   ```powershell
+   adb -s <adresse-ip-montre>:<port-de-connexion> install -r .\wear\build\outputs\apk\debug\wear-debug.apk
+   ```
+
+L’option `-r` met à jour l’application existante sans la désinstaller. Vérifiez
+que l’identifiant ADB correspond bien à la montre avant l’installation. Les
+modules téléphone et Wear OS partagent actuellement le même `applicationId` ;
+installez chaque APK uniquement sur son appareil prévu.
+
 ## Repository layout
 
 ```text
