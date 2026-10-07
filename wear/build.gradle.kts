@@ -60,8 +60,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
 
     implementation("androidx.wear:wear:1.4.0")
-    implementation("androidx.wear.watchface:watchface-complications-data:1.2.1")
-    implementation("androidx.wear.watchface:watchface-complications-data-source:1.2.1")
+    implementation("androidx.wear.watchface:watchface-complications-data:1.3.0")
+    implementation("androidx.wear.watchface:watchface-complications-data-source:1.3.0")
 
     // Wear Tiles runtime + Studio Design-pane tooling (aligned versions).
     // Docs: https://developer.android.com/training/wearables/tiles/debug
@@ -75,6 +75,7 @@ dependencies {
     implementation("com.google.guava:guava:33.2.1-android")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.robolectric:robolectric:4.17")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
