@@ -87,7 +87,9 @@ Then run:
 
 After installation, open the phone app, review the in-app legal notices, enter the Dexcom Share credentials and region, and start synchronization. Add the Glucose For Watch tile or a supported complication to the watch as needed.
 
-The latest published release is [v0.6.0](https://github.com/ToXY0392/Glucose-For-Watch/releases/tag/v0.6.0). Version 1.0.0 is a release candidate, not a published release; build debug APKs from source using the instructions above.
+The latest published release is [v0.6.0](https://github.com/ToXY0392/Glucose-For-Watch/releases/tag/v0.6.0). Version 1.0.0 is not published yet. The project is not distributed through Google Play; official APKs may be published on this repository for personal sideloading only.
+
+Official APKs are signed with the Android debug key. Install updates only when they are signed with the same key as the installed app. Do not uninstall an existing installation before backing up anything important: uninstalling removes local app data. The debug signing key may change, and future updates are not guaranteed to remain compatible.
 
 ## Project structure
 
@@ -134,4 +136,4 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Developme
 
 ## License
 
-This project is licensed for personal sideload use. Redistribution, modification, and commercial use require explicit permission. See [LICENSE](LICENSE).
+The [license](LICENSE) permits downloading and installing official APKs published by the copyright holder in this repository for personal, non-commercial sideloading on devices you own or control. It does not permit redistribution, modification, commercial use, or app-store publication.

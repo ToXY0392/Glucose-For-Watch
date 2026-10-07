@@ -157,11 +157,11 @@ The v0.6.0 evidence is a historical baseline, not a sign-off for code changed af
 | 3 | Fresh phone-to-watch sync, manual refresh, stale-data behavior, and complication/tile parity pass on the candidate build | Operator confirms all required device tests were completed; see [device validation report](../qa/2026-10-07-v1-device-validation.md). Scenario-level logs were not provided. |
 | 4 | Overnight/background stability is revalidated after the post-v0.6.0 sync and Android 17 changes | Operator confirms required device and stability testing was completed; detailed soak logs were not provided. |
 | 5 | Android 17/API 37 support claims match actual device validation; otherwise keep the readiness badge explicitly pending | Operator confirms required API 37 device validation was completed; device/OS details were not provided. |
-| 6 | Legal/publication checklist is completed for the intended sideload-only distribution; license restrictions are unchanged | [Publication checklist](../legal/publication-checklist.md) and reviewer sign-off |
-| 7 | Any distributed APK is signed with a stable, owner-controlled release key; never publish an APK signed with the debug key | Signing/build evidence kept outside the repository |
+| 6 | Legal/publication checklist is completed for the intended owner-published, personal-sideload distribution | [Publication checklist](../legal/publication-checklist.md) and operator sign-off |
+| 7 | Owner-built Phone and Wear debug APKs match the tested installation certificate; private keystore is preserved outside the repository | Local certificate comparison; never commit the keystore |
 | 8 | Release notes, changelog, and version metadata agree; only then create the tag and GitHub release | Release checklist |
 
-**Current decision: NO-GO.** The operator confirms required candidate device tests, including stability and API 37 validation, are complete and reports daily use without observed bugs. The publication checklist and production release-key evidence remain outstanding. CI and operator-reported device results alone do not authorize a v1.0.0 release. See [v1.0.0 readiness](V1-RELEASE-READINESS.md).
+**Current decision: NO-GO.** The operator confirms required candidate device tests, including stability and API 37 validation, are complete and reports daily use without observed bugs. The updated publication checklist and matching owner-built APK signatures remain outstanding. CI and operator-reported device results alone do not authorize a v1.0.0 release. See [v1.0.0 readiness](V1-RELEASE-READINESS.md).
 
 ---
 

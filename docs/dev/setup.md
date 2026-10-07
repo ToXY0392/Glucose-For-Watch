@@ -67,7 +67,9 @@ List devices: `adb devices -l`.
 
 ### PC sideload (current distribution scope)
 
-The project currently supports owner-managed sideloading only; it is not a Play Store release. The latest published version is v0.6.0. The v1.0.0 candidate is not signed off or published. Do not distribute release APKs built with the debug signing key.
+The project supports personal sideloading only; it is not a Play Store release. The latest published version is v0.6.0. Version 1.0.0 is not published yet. The license permits personal installation of official APKs published by the copyright holder on this GitHub repository; it does not permit third-party redistribution.
+
+Official APKs use the Android debug signing key. Android updates require the same signing certificate as the installed app. Keep the owner's debug keystore backed up privately and do not commit or publish the keystore itself. If a future APK uses a different key, Android will reject it as an update; uninstalling first removes local app data.
 
 ```powershell
 # Optional: remove legacy package IDs

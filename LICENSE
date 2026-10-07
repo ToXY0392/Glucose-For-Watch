@@ -2,9 +2,25 @@
 
 All rights reserved.
 
-This software is provided for personal sideload use. Redistribution,
-modification, or commercial use requires explicit permission from the
-copyright holder.
+## Limited personal sideload permission
+
+The copyright holder grants you a non-exclusive, non-transferable permission
+to download and install official APK binaries published by the copyright
+holder in this GitHub repository, solely for your own personal, non-commercial
+use on devices you own or control.
+
+This permission applies only to those official APK binaries. It does not grant
+permission to redistribute, mirror, repackage, modify, or commercially use
+the software, nor to publish it through an app store. Any other use requires
+separate written permission from the copyright holder. Public access to the
+source code on GitHub does not grant additional rights to use or redistribute
+the source.
+
+Official APKs are debug-signed and are not production- or Play Store-ready.
+Android accepts an update only when it is signed with the same certificate as
+the installed app. The copyright holder does not guarantee that future APKs
+will remain compatible with an earlier debug signing key. Uninstalling an app
+to change signing keys can erase its local data.
 
 See docs/legal/medical-disclaimer.md:
 Glucose For Watch is not a certified medical device.
