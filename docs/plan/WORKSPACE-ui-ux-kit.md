@@ -1,9 +1,9 @@
-# Workspace — ui-ux-kit
+# Workspace scope — ui-ux-kit
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `sandbox/ui-ux-kit` |
-| **Status** | dormant (until v0.5.0 tag) |
+| **Branch** | No permanent branch; use a short-lived `feat/bloc-*` or `docs/bloc-*` branch |
+| **Status** | Available on demand |
 | **Skill** | `glucose-for-watch-ui-ux-kit-scope` |
 | **Scope file** | [.cursor/workspace-scopes/ui-ux-kit.scope.md](../../.cursor/workspace-scopes/ui-ux-kit.scope.md) |
 
@@ -32,10 +32,4 @@ python3 toxy-ux-kit/tools/export-design-reference.py
 
 Only on explicit request → `@glucose-for-watch-toxy-theme-maintainer`
 
-## Rebase (weekly while dormant)
-
-```bash
-git fetch origin && git rebase origin/develop/integration
-```
-
-No code commits until post-tag unless user activates sandbox.
+Start temporary work branches from `develop/integration`; the scope and validation tools remain available without a permanent sandbox branch.
