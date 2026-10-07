@@ -22,7 +22,7 @@ The phone app handles Dexcom Share access and synchronization. The watch compani
 - Supports automatic background updates and manual refresh from the phone or watch tile.
 - Shows sync status and marks cached watch readings as stale when they are no longer recent.
 
-Glucose For Watch uses Dexcom Share credentials; it does not connect directly to a sensor over Bluetooth. Dexcom Share must be enabled for the account.
+Glucose For Watch uses Dexcom Share credentials; it does not connect directly to a sensor over Bluetooth. Dexcom Share must be enabled for the account. If Dexcom Share is unavailable, fresh readings and phone-to-watch updates stop until the service recovers; see the [Dexcom outage guidance](docs/guide/dexcom.md#dexcom-share-service-outages).
 
 ## Requirements
 
