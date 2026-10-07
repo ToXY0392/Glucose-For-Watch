@@ -1,30 +1,25 @@
-# Sandbox branches — Glucose For Watch
+# Branch model — Glucose For Watch
 
-Long-lived parallel lanes (`sandbox/*`). Short-lived work: `{feat|fix|chore|docs}/bloc-*` → PR **`develop/integration`**. Releases: **`develop/integration`** → **`main`**.
+Keep the permanent branch set small. Short-lived work uses `{feat|fix|chore|docs|test|qa}/bloc-*` and targets **`develop/integration`**. Releases flow from **`develop/integration`** to **`main`**.
 
 ## Model
 
-| Branch | Role | Skill |
-|--------|------|-------|
-| [`sandbox/mobile-app`](WORKSPACE-mobile-app.md) | Phone app (`mobile/`) | `glucose-for-watch-mobile-app-scope` |
-| [`sandbox/wear-app`](WORKSPACE-wear-app.md) | Wear tile, complication | `glucose-for-watch-wear-app-scope` |
-| [`sandbox/ui-ux-kit`](WORKSPACE-ui-ux-kit.md) | ToXY kit, tokens | `glucose-for-watch-ui-ux-kit-scope` |
-| [`sandbox/sync-platform`](WORKSPACE-sync-platform.md) | `feature/sync`, `core/model` | `glucose-for-watch-sync-platform-scope` |
-| [`sandbox/documentation`](WORKSPACE-documentation.md) | Plan, guides, agent skills | `glucose-for-watch-documentation-scope` |
-| [`sandbox/qa-hardware`](WORKSPACE-qa-hardware.md) | QA evidence, `scripts/qa` | `glucose-for-watch-qa-hardware-scope` |
-
 | Branch | Role |
 |--------|------|
-| **`develop/integration`** | Daily integration · CI |
-| **`main`** | Tagged releases |
+| **`main`** | Tagged releases; protected |
+| **`develop/integration`** | Daily integration and CI; protected |
+| [`sandbox/mobile-app`](WORKSPACE-mobile-app.md) | Long-lived phone-app lane (`mobile/`) |
+| [`sandbox/documentation`](WORKSPACE-documentation.md) | Long-lived documentation lane |
+
+Wear, sync, UI/UX, and QA scope guides remain available, but do not have permanent branches. Use a short-lived branch and the relevant scope guide/skill when that work is scheduled.
 
 ## Workflow
 
-1. Checkout sandbox branch
-2. `@glucose-for-watch-sandbox-guard`
-3. Work within scope (`.cursor/workspace-scopes/`)
-4. Weekly: `git fetch && git rebase origin/develop/integration`
-5. PR → `develop/integration` · CI · `@glucose-for-watch-pr-gatekeeper`
+1. Start from an up-to-date `develop/integration`; use `sandbox/mobile-app` or `sandbox/documentation` only for continuing work in those lanes.
+2. Use a short-lived `{feat|fix|chore|docs|test|qa}/bloc-*` branch for other work and follow its scope guide.
+3. Run `@glucose-for-watch-sandbox-guard` when working in a sandbox and respect `.cursor/workspace-scopes/`.
+4. Open a PR to `develop/integration`; pass CI and `@glucose-for-watch-pr-gatekeeper`.
+5. Delete short-lived branches after merge. Do not delete or force-push protected branches.
 
 ## GitHub Project
 
