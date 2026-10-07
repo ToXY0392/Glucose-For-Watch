@@ -34,9 +34,18 @@ Pre-release legal and safety review for Glucose For Watch.
 - [ ] Permission justifications documented
 - [ ] Wear companion declared correctly
 
+## Sideload release (v1.0.0)
+
+- [ ] Confirm the distribution remains owner-managed personal sideloading and complies with [LICENSE](../../LICENSE)
+- [ ] Do not distribute APKs built with the debug signing key
+- [ ] Validate the phone and Wear APK version name and code match
+- [ ] Complete current-device sync, Wear display, reconnect, and stability validation
+- [ ] Remove real glucose values, account data, and device identifiers from published evidence
+- [ ] Keep the Android 17 readiness claim pending until API 37 hardware validation is signed off
+
 ## Sign-off
 
 | Role | Name | Date |
 |------|------|------|
-| Developer | | |
-| Reviewer | | |
+| Developer / operator | | |
+| Independent reviewer (if available) | | |

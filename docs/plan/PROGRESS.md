@@ -1,8 +1,9 @@
 # Plan tracking — Glucose For Watch
 
-> **Last updated:** 2026-05-27 · **post-v0.6 closeout** (#49–#53) · tag `v0.6.0`  
+> **Last updated:** 2026-10-07 · v1.0.0 release candidate
 > **Distribution:** PC only (`installGlucoseForWatchDebug`) — no Play Store  
-> **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (operational) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
+> **Release status:** candidate only; not tagged or published. v0.6.0 hardware sign-offs are historical and do not cover subsequent changes. See [v1.0.0 readiness](V1-RELEASE-READINESS.md).
+> **Plan docs:** [ACTION-PLAN.md](ACTION-PLAN.md) (historical v0.5/v0.6 plan) · [STABILITY-GATES.md](STABILITY-GATES.md) · [PR-CHECKLIST.md](PR-CHECKLIST.md)
 
 ---
 
@@ -38,6 +39,7 @@
 |---------|------|------|-------------|
 | **v0.5.0** sideload | Stable · QA 7/7 · PC install | G-M7 | S4 |
 | **v0.6.0** Compose | Phone UI Compose M3 · sync OK | G-M8 | S8 |
+| **v1.0.0** candidate | Release readiness and fresh post-v0.6 validation | G-V1 | No date until Go |
 
 **Critical path:** X.5 → G-X → … → **C.7 soak** → G-M7 → F3 → G-M8  
 → Detail: [ACTION-PLAN §2](ACTION-PLAN.md#2-critical-path)
@@ -48,12 +50,13 @@
 
 | Indicator | Value |
 |-----------|-------|
-| App | v0.6.0 (vc 25) |
-| Phone | Pixel 8a · Android 14+ |
-| Watch | Pixel Watch 2 (session 05-26) |
+| App candidate | v1.0.0 (vc 26; not released) |
+| Last signed-off phone baseline | Android 14+ (2026-05-26) |
+| Last signed-off watch baseline | Pixel Watch 2 (2026-05-26) |
 | P0 crash | FGS mitigated · C.7 8h PASS · incident closed | |
 | Phone UI | **Compose M3** ✅ |
 | Wear UI | Compose M3 ✅ |
+| v1.0.0 release gate | **NO-GO** pending current-device, legal, Android 17, and signing validation |
 
 ---
 
