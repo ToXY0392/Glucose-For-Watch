@@ -6,7 +6,7 @@
 
 - Intended distribution remains owner-managed sideloading. This project does not currently publish through Google Play.
 - The repository license permits personal sideload use only. Do not redistribute, modify, or use commercially without explicit permission from the copyright holder.
-- The README Android 17/API 37 readiness badge remains pending until validated on supported hardware.
+- The operator confirms Android 17/API 37 validation on target hardware; see the [device validation report](../qa/2026-10-07-v1-device-validation.md).
 - The `release` Gradle build type currently uses the debug signing configuration for local validation. Those APKs must not be presented or distributed as production-signed release artifacts.
 
 ## Candidate metadata
@@ -33,10 +33,8 @@ Complete each item against the exact candidate commit. Keep personal health data
 
 ### Device validation
 
-- [ ] Fresh phone-to-watch sync and manual refresh pass on the candidate build.
-- [ ] Tile and complication parity, stale-data display, reconnect, and offline recovery pass.
-- [ ] Re-run the required stability soak after the post-v0.6.0 sync and Android 17 changes.
-- [ ] Validate API 37 support on target hardware; keep the README readiness badge pending until this is complete.
+- [x] Operator confirms all required device tests, including sync, Wear behavior, stability, and API 37 validation, were completed on the v1.0.0 candidate; see [operator-reported validation](../qa/2026-10-07-v1-device-validation.md).
+- [x] Operator reports wearing the candidate daily with no bugs observed.
 - [ ] Review existing screenshots and HTML captures for real glucose values, account data, and device identifiers; remove or redact them before reusing evidence.
 - [ ] Add a dated, redacted sign-off to `docs/qa/`; do not include real glucose readings, account details, or device serials.
 
@@ -49,12 +47,10 @@ Complete each item against the exact candidate commit. Keep personal health data
 
 ## Current blockers
 
-1. Existing hardware sign-offs date from the v0.6.0 baseline and do not cover the later sync, Wear, and API 37 changes.
-2. Android 17/API 37 validation is explicitly pending.
-3. The publication checklist has not been signed off.
-4. The configured Gradle release signing key is the debug key; no distributable stable release-key evidence is present.
-5. The license remains restricted to personal sideload use.
-6. Existing QA captures require a human privacy review before reuse in release material.
+1. The publication checklist has not been signed off.
+2. The configured Gradle release signing key is the debug key; no distributable stable release-key evidence is present.
+3. The license remains restricted to personal sideload use.
+4. Existing QA captures require a human privacy review before reuse in release material.
 
 CI can prove that source checks and APK assembly pass; it cannot satisfy device, legal, licensing, or release-signing approval. Do not create the `v1.0.0` tag or GitHub release until all applicable blockers are resolved and gate G-V1 is signed **Go**.
 
