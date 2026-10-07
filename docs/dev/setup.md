@@ -65,9 +65,9 @@ Doc link check (CI): `py -3 scripts/dev/check_docs_links.py` (also in `verify_ci
 
 List devices: `adb devices -l`.
 
-### PC sideload (distribution v0.5.0)
+### PC sideload (current distribution scope)
 
-No Play Store — install debug builds from the dev machine only:
+The project currently supports owner-managed sideloading only; it is not a Play Store release. The latest published version is v0.6.0. The v1.0.0 candidate is not signed off or published. Do not distribute release APKs built with the debug signing key.
 
 ```powershell
 # Optional: remove legacy package IDs

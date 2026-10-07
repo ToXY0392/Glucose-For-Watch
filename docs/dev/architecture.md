@@ -16,7 +16,9 @@ Glucose For Watch syncs Dexcom Share glucose from a phone to a Wear OS companion
 | `:core:datalayer-contract` | Wear Data Layer paths and keys |
 | `:feature:sync` | `GlucoseSyncEngine`, publishers, policies |
 | `:feature:dexcom-share` | Dexcom Share HTTP client |
-| `:feature:watch-install` | Embedded wear APK install (debug) |
+| `:feature:watch-install` | Embedded Wear APK install support (debug) |
+
+Phone and Wear release metadata (`gfwVersionName`, `gfwVersionCode`) is defined once in root `gradle.properties` and consumed by both application modules.
 
 The modules have distinct source namespaces (`com.glucoseforwatch.mobile` and
 `com.glucoseforwatch.wear`), but both APKs currently use the application ID

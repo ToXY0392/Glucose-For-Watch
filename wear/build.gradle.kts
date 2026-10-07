@@ -4,6 +4,9 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+val gfwVersionCode = providers.gradleProperty("gfwVersionCode").get().toInt()
+val gfwVersionName = providers.gradleProperty("gfwVersionName").get()
+
 android {
     namespace = "com.glucoseforwatch.wear"
     compileSdk = 37
@@ -12,8 +15,8 @@ android {
         applicationId = "com.glucoseforwatch.mobile"
         minSdk = 30
         targetSdk = 37
-        versionCode = 25
-        versionName = "0.6.0"
+        versionCode = gfwVersionCode
+        versionName = gfwVersionName
     }
 
     buildTypes {

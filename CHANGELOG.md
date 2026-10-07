@@ -6,9 +6,27 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 
 ## [Unreleased]
 
+> La version 1.0.0 est en préparation; elle n'a pas encore été publiée.
+
+### Ajouté
+
+- Gestion du renouvellement des jetons Dexcom Share et migration chiffrée des identifiants.
+- Préparation de la compatibilité Android 17 (API 37) et améliorations des tuiles/complications Wear OS.
+- Guide de configuration et de compatibilité xDrip+.
+
+### Modifié
+
+- Le téléphone et la montre utilisent une source commune pour le nom et le code de version dans `gradle.properties`.
+- Les critères v1.0 et validations appareil sont séparés des anciens jalons v0.5/v0.6.
+
+### Corrigé
+
+- Classification des réponses Dexcom Share et gestion des échecs/reprises de synchronisation.
+- Affichage des complications Wear et règles de conservation R8 pour les builds release.
+
 ---
 
-## [0.6.0] - 2026-07-17
+## [0.6.0] - 2026-05-26
 
 ### 🚀 Améliorations (Added & Changed)
 
