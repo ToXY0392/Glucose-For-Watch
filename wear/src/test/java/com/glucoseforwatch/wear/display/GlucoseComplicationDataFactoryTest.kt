@@ -7,7 +7,10 @@ import com.glucoseforwatch.wear.complication.GlucoseComplicationDataFactory
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class GlucoseComplicationDataFactoryTest {
 
     @Test
