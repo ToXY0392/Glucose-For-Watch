@@ -2,9 +2,22 @@ name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches:
+      - main
+      - master
+      - develop/integration
+      - 'feat/**'
+      - 'fix/**'
+      - 'docs/**'
+      - 'test/**'
+      - 'chore/**'
+      - 'qa/**'
+      - 'sandbox/**'
   pull_request:
-    branches: [ main, master ]
+    branches:
+      - main
+      - master
+      - develop/integration
 
 jobs:
   detect:
