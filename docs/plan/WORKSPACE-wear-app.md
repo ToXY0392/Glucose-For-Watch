@@ -1,9 +1,9 @@
-# Workspace — wear-app
+# Workspace scope — wear-app
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `sandbox/wear-app` |
-| **Status** | dormant (trigger-based) |
+| **Branch** | No permanent branch; use a short-lived `feat/bloc-*` or `fix/bloc-*` branch |
+| **Status** | Available on demand |
 | **Skill** | `glucose-for-watch-wear-app-scope` |
 | **Scope file** | [.cursor/workspace-scopes/wear-app.scope.md](../../.cursor/workspace-scopes/wear-app.scope.md) |
 
@@ -21,7 +21,7 @@ Read-only: `core/datalayer-contract/**`, `core/model/**`
 | C.6 | Tile missing after reinstall | tile service, manifest |
 | C.4 | LOW/HI colors wrong on watch | `AgpComplicationColorRamp.kt` |
 
-Document failure on `sandbox/qa-hardware` first, then fix here.
+Record QA evidence using the QA scope, then fix the issue on a short-lived Wear branch.
 
 ## Backlog (post-v0.5.0)
 
@@ -40,9 +40,3 @@ No planned work unless QA triggers fire.
 ## Tile rule
 
 Bump `RESOURCES_VERSION` when tile resources change.
-
-## Rebase (weekly while dormant)
-
-```bash
-git fetch origin && git rebase origin/develop/integration
-```

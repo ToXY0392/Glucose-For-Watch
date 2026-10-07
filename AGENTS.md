@@ -24,22 +24,18 @@ Entry point for Cursor agents working on this repository.
 | Integration branch | `develop/integration` (formerly `rebuild`) |
 | Release branch | `main` |
 
-**Branch naming:** `{feat|fix|docs|test|chore|qa}/bloc-{id}-{slug}` (short-lived) · `sandbox/*` (long-lived sandboxes)
+**Branch naming:** `{feat|fix|docs|test|chore|qa}/bloc-{id}-{slug}` (short-lived). Avoid the legacy `feature/` prefix.
 
-## Workspace sandboxes
+## Long-lived workspace sandboxes
 
 | Branch | Role | Skill |
 |--------|------|-------|
-| `sandbox/qa-hardware` | QA evidence, soak, scripts/qa | `glucose-for-watch-qa-hardware-scope` |
-| `sandbox/ui-ux-kit` | ToXY kit, tokens, design-reference | `glucose-for-watch-ui-ux-kit-scope` |
 | `sandbox/mobile-app` | Phone app (`mobile/`) | `glucose-for-watch-mobile-app-scope` |
-| `sandbox/wear-app` | Wear tile, complication, UI | `glucose-for-watch-wear-app-scope` |
-| `sandbox/sync-platform` | Sync engine, datalayer contract, core model | `glucose-for-watch-sync-platform-scope` |
 | `sandbox/documentation` | Plan, guides, skills, rules | `glucose-for-watch-documentation-scope` |
 
 Hub: [docs/plan/WORKSPACE.md](docs/plan/WORKSPACE.md) · Router: `glucose-for-watch-sandbox-guard`
 
-Post v0.6.0: primary sandboxes **`sandbox/mobile-app`**, **`sandbox/documentation`**; others on-demand (rebase weekly on `develop/integration`).
+Only `sandbox/mobile-app` and `sandbox/documentation` are long-lived. Use the corresponding scope and skill for other areas on a short-lived `feat/`, `fix/`, `qa/`, or `docs/` branch; create another persistent sandbox only by explicit decision.
 
 ## Rules (always apply)
 

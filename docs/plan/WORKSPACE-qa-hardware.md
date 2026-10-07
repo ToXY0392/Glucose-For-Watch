@@ -1,10 +1,12 @@
-# Workspace — qa-hardware
+# Workspace scope — qa-hardware
 
 | Field | Value |
 |-------|-------|
-| **Branch** | `sandbox/qa-hardware` |
-| **Status** | **COMPLETE** — G-C closed · ready for PR → `develop/integration` |
+| **Branch** | No permanent branch; use a short-lived `qa/bloc-*` branch |
+| **Status** | **COMPLETE** — G-C closed |
 | **Skill** | `glucose-for-watch-qa-hardware-scope` |
+
+The scope and evidence remain in the repository. Create a temporary branch from `develop/integration` when new QA work is scheduled.
 
 ## Backlog (final)
 

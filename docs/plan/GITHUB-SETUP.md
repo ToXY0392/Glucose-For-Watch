@@ -30,9 +30,11 @@
 ```
 GitHub Repo (Glucose For Watch)
 ├── Branches
-│   ├── main              ← tagged releases (v0.5.0, v0.6.0)
-│   ├── integrate         ← daily integration (formerly rebuild)
-│   └── feat|fix|docs|qa/bloc-*  ← short-lived branches (1–5 d)
+│   ├── main                    ← tagged releases
+│   ├── develop/integration     ← daily integration and CI
+│   ├── sandbox/mobile-app      ← long-lived mobile lane
+│   ├── sandbox/documentation  ← long-lived documentation lane
+│   └── {feat|fix|docs|qa}/bloc-* ← short-lived work branches
 ├── Issues                ← 1 issue = 1 atomic task (X.5a, C.7…)
 ├── Pull Requests         ← 1 PR = 1 block or measurable sub-goal
 ├── Milestones            ← v0.5.0 · v0.6.0
@@ -111,21 +113,16 @@ git rm --cached .android-user-home/debug.keystore.lock .tmp-protolayout-classes.
 
 | Branch | Type | Role | Merge into |
 |---------|------|------|------------|
-| `main` | long-lived | Stable releases · M7/M8 tags | — |
-| `develop/integration` | long-lived | Daily integration · CI | `main` (post-gate) |
-| `docs` | long-lived | Docs-only mirror (auto-sync, no direct edits) | — |
-| `sandbox/qa-hardware` | long-lived | Hardware QA · evidence · scripts/qa | `develop/integration` |
-| `sandbox/ui-ux-kit` | long-lived | ToXY kit · tokens · design-reference | `develop/integration` |
+| `main` | protected | Tagged releases | — |
+| `develop/integration` | protected | Daily integration · CI | `main` (post-gate) |
 | `sandbox/mobile-app` | long-lived | Phone app (`mobile/`) | `develop/integration` |
-| `sandbox/wear-app` | long-lived | Wear tile · complication · UI | `develop/integration` |
-| `release/v0.5` | long-lived (temp.) | Bugfix freeze before v0.5.0 tag | `main` |
-| `{type}/bloc-{id}-{slug}` | short-lived | Single-bloc PR from develop/integration | `develop/integration` |
+| `sandbox/documentation` | long-lived | Plans, guides, agent rules | `develop/integration` |
+| `{type}/bloc-{id}-{slug}` | short-lived | Single-goal PR from integration | `develop/integration` |
+| `dependabot/*` | automated, temporary | Dependency update PRs | PR target |
 
-See [DOCS-BRANCH.md](DOCS-BRANCH.md) for the `docs` branch workflow · [WORKSPACE.md](WORKSPACE.md) for sandbox backlog and scopes.
+Wear, sync, UI/UX, and QA scopes are maintained as guides, not permanent branches. See [WORKSPACE.md](WORKSPACE.md) for scope routing and branch workflow.
 
-**Phase B (create when needed):** `workspace/sync-platform` · `workspace/infrastructure` · `workspace/dexcom-share`
-
-**Allowed types:** `feat` · `fix` · `docs` · `test` · `chore` · `qa` · `design`
+**Allowed short-lived types:** `feat` · `fix` · `docs` · `test` · `chore` · `qa`. Use `feat/`, not the legacy `feature/` prefix.
 
 **Plan-aligned examples:**
 
@@ -142,55 +139,44 @@ chore/bloc-s-repo-hygiene     → cross-cutting
 qa/bloc-c-soak-night          → C.7 hardware session
 ```
 
-### 3.2 Migration `rebuild` → `develop/integration`
+### 3.2 Integration branch
 
-```powershell
-git checkout rebuild
-git branch -m integrate
-git push origin -u integrate
-# Update CI (see Phase 7) then:
-git push origin --delete rebuild
-```
+The migration from `rebuild` is complete. `develop/integration` is the current integration branch; do not recreate `integrate` or `rebuild`.
 
-### 3.3 Branches to audit / close
+### 3.3 Branch lifecycle
 
-| Current branch | Action |
-|------------------|--------|
-| `design` | **Replaced** by `sandbox/ui-ux-kit` (rebased on `develop/integration`) · delete |
-| `dev` | Delete (stale, 0 unique commits) |
-| `phase/test` | Delete · QA → `sandbox/qa-hardware` |
-| `rebuild` | Delete if still on origin (renamed to `develop/integration`) |
-| `docs` | Keep (auto-sync mirror) |
+| Branch kind | Lifecycle |
+|----------------|----------|
+| `main`, `develop/integration` | Protected; changes only through pull requests and required CI |
+| `sandbox/mobile-app`, `sandbox/documentation` | Long-lived; keep aligned with `develop/integration` |
+| `{type}/bloc-*` | Short-lived; delete after merge |
+| `dependabot/*` | Keep while its PR is open; delete after merge or closure |
+| Other scopes (Wear, sync, UI/UX, QA) | Use a short-lived branch when work is scheduled; no permanent sandbox |
 
 ### 3.3.1 Workspace security
 
 | Measure | Detail |
 |---------|--------|
-| PR `sandbox/*` → `develop/integration` | CI `Verify Linux Build Gates` required |
+| PR to `main` or `develop/integration` | Required CI checks: `Verify Linux Build Gates` and `Verify docs and QA scripts` |
+| Branch rules | Pull request required · branches up to date · no force-pushes or deletions · admins included |
+| Delete after merge | Enabled for merged pull request source branches |
 | Secret scanning | GitHub Settings → Code security → enable + push protection |
 | Pre-commit | `.githooks/pre-commit` · `git config core.hooksPath .githooks` |
 | Scope skills | `.cursor/skills/glucose-for-watch-*-scope` · `glucose-for-watch-sandbox-guard` |
 | Sensitive paths | [.github/CODEOWNERS](../../.github/CODEOWNERS) |
 
-### 3.4 Branch protection for `main`
-
-**Settings → Branches → Add rule → `main`**
+### 3.4 Branch protection for `main` and `develop/integration`
 
 | Option | Value |
 |--------|--------|
 | Require pull request before merging | ✅ |
-| Required approvals | 0 (solo) or 1 if co-dev |
-| Require status checks | ✅ `Verify Linux Build Gates` |
+| Required approvals | 0 (solo repository) |
+| Required status checks | ✅ `Verify Linux Build Gates`, `Verify docs and QA scripts` |
 | Require branches up to date | ✅ |
-| Do not allow bypassing | ✅ |
-| Restrict pushes | ✅ (nobody except you via PR) |
+| Apply rules to administrators | ✅ |
+| Allow force-pushes / deletions | ❌ / ❌ |
 
-### 3.5 Protection for `develop/integration` (recommended)
-
-| Option | Value |
-|--------|--------|
-| Require status checks | ✅ CI verify |
-| Allow direct push | ✅ (solo dev daily) |
+Direct pushes are not allowed; use a PR even for solo work. The source branch is deleted automatically after merge.
 
 ---
 
@@ -592,9 +578,10 @@ Create these issues **in order** and add them to the Project (milestone v0.5.0 e
 - [ ] `LICENSE` · `SECURITY.md` · `AGENTS.md`
 
 ### Phase 1 — Branches
-- [ ] `rebuild` → `develop/integration`
-- [ ] `main` protection active
-- [ ] Stale branches cleaned up
+- [x] `develop/integration` is the integration branch
+- [x] `main` and `develop/integration` protected by PR and CI checks
+- [x] Stale task branches and unused permanent sandboxes cleaned up
+- [x] Delete merged source branches automatically
 
 ### Phase 2 — Labels & milestones
 - [ ] Block + gate labels created
