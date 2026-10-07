@@ -75,6 +75,7 @@ dependencies {
     implementation("com.google.guava:guava:33.2.1-android")
 
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.robolectric:robolectric:4.17")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
