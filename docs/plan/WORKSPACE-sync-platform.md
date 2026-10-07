@@ -1,6 +1,6 @@
-# Glucose For Watch — sync platform sandbox
+# Glucose For Watch — sync platform scope
 
-Branch: **`sandbox/sync-platform`**
+No permanent `sandbox/sync-platform` branch. Use a short-lived `feat/bloc-*` or `fix/bloc-*` branch from `develop/integration` when sync work is scheduled.
 
 Scope: [sync-platform.scope.md](../../.cursor/workspace-scopes/sync-platform.scope.md)
 
