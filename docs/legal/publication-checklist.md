@@ -43,7 +43,7 @@ Pre-release legal and safety review for Glucose For Watch.
 - [ ] Validate the phone and Wear APK version name and code match
 - [ ] Complete current-device sync, Wear display, reconnect, stability, and API 37 validation on the v1.0.0 candidate itself; record the installed candidate version in the QA report
 - [ ] Remove real glucose values, account data, and device identifiers from published evidence
-- [ ] Keep the Android 17/API 37 readiness claim pending until the v1.0.0 candidate is validated on target hardware and recorded in [the QA report](../qa/2026-10-07-v1-device-validation.md)
+- [ ] Ensure the Android 17/API 37 claim matches the candidate device check recorded in [the QA report](../qa/2026-10-07-v1-device-validation.md)
 
 ## Sign-off
 

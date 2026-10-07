@@ -154,14 +154,14 @@ The v0.6.0 evidence is a historical baseline, not a sign-off for code changed af
 |---|-----------|----------|
 | 1 | CI unit tests, token/AGP checks, and release APK builds pass on the candidate commit | GitHub Actions run |
 | 2 | Phone and Wear APKs report the same version name and version code | Release artifact metadata |
-| 3 | Fresh phone-to-watch sync, manual refresh, stale-data behavior, and complication/tile parity pass on the candidate build | Outstanding: ADB found v0.6.0 installed on the operator's daily-use devices; see [device-version verification](../qa/2026-10-07-v1-device-validation.md). |
-| 4 | Overnight/background stability is revalidated after the post-v0.6.0 sync and Android 17 changes | Outstanding on v1.0.0; the reported daily-use results are from installed v0.6.0. |
-| 5 | Android 17/API 37 support claims match actual device validation; otherwise keep the readiness badge explicitly pending | Outstanding on v1.0.0; connected daily-use devices are on v0.6.0. |
+| 3 | Fresh phone-to-watch sync, manual refresh, stale-data behavior, and complication/tile parity pass on the candidate build | Operator reports v1.0.0 works very well on the target phone and watch; detailed scenario results are not recorded. See [device validation](../qa/2026-10-07-v1-device-validation.md). |
+| 4 | Overnight/background stability is revalidated after the post-v0.6.0 sync and Android 17 changes | Operator reports the candidate works very well; a dedicated soak result is not recorded. |
+| 5 | Android 17/API 37 support claims match actual device validation; otherwise keep the readiness badge explicitly pending | Candidate installed and operator-checked on Pixel 8a and Pixel Watch 2, both Android 17/API 37; see [device validation](../qa/2026-10-07-v1-device-validation.md). |
 | 6 | Legal/publication checklist is completed for the intended owner-published, personal-sideload distribution | [Publication checklist](../legal/publication-checklist.md) and operator sign-off |
 | 7 | Owner-built Phone and Wear debug APKs match the tested installation certificate; private keystore is preserved outside the repository | Local certificate comparison; never commit the keystore |
 | 8 | Release notes, changelog, and version metadata agree; only then create the tag and GitHub release | Release checklist |
 
-**Current decision: NO-GO.** The owner-built candidate's signature matches the installed apps, but ADB confirms the daily-use phone and watch are still on v0.6.0; candidate sync, stability, and API 37 validation therefore remain outstanding. The updated publication checklist and matching APK signatures must also be completed before release. See [v1.0.0 readiness](V1-RELEASE-READINESS.md).
+**Current decision: NO-GO for publication.** The candidate is installed on both target devices, both run Android 17/API 37, the signatures match, and the operator reports that it works very well. Formal detailed scenario/soak evidence may still be added; publication checklist sign-off and final owner-built artifact verification remain outstanding. See [v1.0.0 readiness](V1-RELEASE-READINESS.md).
 
 ---
 
