@@ -1,17 +1,15 @@
-# v1.0.0 candidate - operator-reported device validation
+# v1.0.0 candidate - device-version verification
 
-## Report
+## Operator report and device check
 
-As of 2026-10-07, the operator confirms that all required device tests have been completed on the v1.0.0 candidate (version code 26), including sync, Wear behavior, stability, and API 37 validation. The operator wears this candidate daily and reports that no bugs have been observed.
+The operator reported completing device tests and wearing what they believed was the v1.0.0 candidate daily, with no bugs observed.
 
-## Scope and limits
+On 2026-10-07, ADB inspection of the operator's connected daily-use devices found Glucose For Watch `0.6.0` (version code `25`) installed on both the Pixel 8a phone and Pixel Watch 2. The installed Phone and Wear APK signing certificates both match the owner's local debug keystore used to build the v1.0.0 candidate (`1.0.0`, version code `26`).
 
-- This records the operator's report; it is not an independently witnessed test report.
-- Device models, OS/API levels, individual scenario results, test dates, logs, and soak duration were not provided and are intentionally not inferred.
-- This is the operator's confirmation of the device test scope; scenario-level artifacts are not attached.
-- This report does not confirm legal review or production signing.
-- No real glucose values, account details, device identifiers, or credentials are included.
+## Conclusion
 
-## Release-gate status
+The signature match means the candidate APKs are compatible with the installed apps from a signing-certificate perspective. It does **not** establish that the v1.0.0 candidate was installed or tested on these devices. The operator's no-bug daily-use report therefore applies to the installed v0.6.0 apps unless candidate testing on other devices is separately documented.
 
-This report supersedes the assumption that there is no post-v0.6.0 operator device validation. Keep publication and release-signing checks open until their evidence is available.
+No app was installed or uninstalled during this check. The phone and watch remain on v0.6.0. Do not claim candidate hardware validation or publish the API 37 readiness badge as validated until the v1.0.0 candidate is tested on target devices.
+
+No real glucose values, account details, device serials, or credentials are included.

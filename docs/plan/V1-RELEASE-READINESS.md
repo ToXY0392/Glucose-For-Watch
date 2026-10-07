@@ -6,7 +6,7 @@
 
 - Intended distribution remains owner-managed sideloading. This project does not currently publish through Google Play.
 - The repository license permits personal installation of official APKs published by the copyright holder on this repository only. It does not grant third-party redistribution, modification, commercial use, or app-store publication.
-- The operator confirms Android 17/API 37 validation on target hardware; see the [device validation report](../qa/2026-10-07-v1-device-validation.md).
+- ADB confirmed the operator's connected daily-use phone and watch remain on v0.6.0 (version code 25); the v1.0.0 candidate has not yet been verified on these devices. See the [device-version verification report](../qa/2026-10-07-v1-device-validation.md).
 - The Gradle `debug` variant is the intended sideload artifact. It is signed with the owner's Android debug key; never describe it as production-signed or Play Store-ready.
 - Release APKs must be built by the owner with the same private debug keystore used for the tested installation. Do not attach ephemeral CI-signed artifacts; an Android update must match the installed app's signing certificate.
 - The updated [LICENSE](../../LICENSE) permits downloading and installing only official APKs published by the copyright holder on this repository, for personal, non-commercial use. It does not authorize third-party redistribution.
@@ -36,8 +36,9 @@ Complete each item against the exact candidate commit. Keep personal health data
 
 ### Device validation
 
-- [x] Operator confirms all required device tests, including sync, Wear behavior, stability, and API 37 validation, were completed on the v1.0.0 candidate; see [operator-reported validation](../qa/2026-10-07-v1-device-validation.md).
-- [x] Operator reports wearing the candidate daily with no bugs observed.
+- [x] Confirm the installed Phone and Wear apps use the same signing certificate as the owner-built candidate APKs; see the [device-version verification report](../qa/2026-10-07-v1-device-validation.md).
+- [ ] Install and validate the v1.0.0 candidate on the target phone and watch; current daily-use installations are still v0.6.0.
+- [ ] Validate API 37 on the v1.0.0 candidate and keep the README readiness badge pending until then.
 - [ ] Review existing screenshots and HTML captures for real glucose values, account data, and device identifiers; remove or redact them before reusing evidence.
 - [ ] Add a dated, redacted sign-off to `docs/qa/`; do not include real glucose readings, account details, or device serials.
 
@@ -50,9 +51,10 @@ Complete each item against the exact candidate commit. Keep personal health data
 
 ## Current blockers
 
-1. The updated personal-sideload license and publication checklist need operator sign-off for this exact release.
-2. Final owner-built debug APKs must be checked against the signing certificate of the tested installation before attachment.
-3. Existing QA captures require a human privacy review before reuse in release material.
+1. Candidate device validation remains outstanding: ADB found v0.6.0 installed on the operator's daily-use phone and watch.
+2. The updated personal-sideload license and publication checklist need operator sign-off for this exact release.
+3. Final owner-built debug APKs must be checked against the signing certificate of the tested installation before attachment.
+4. Existing QA captures require a human privacy review before reuse in release material.
 
 CI can prove source checks and APK assembly, but its APK signatures may not match the owner's installed build. Do not create the `v1.0.0` tag or GitHub release until the applicable publication checklist is signed, both owner-built APKs are checked against the tested signing certificate, and gate G-V1 is signed **Go**.
 
