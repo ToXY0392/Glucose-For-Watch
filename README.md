@@ -1,5 +1,14 @@
 # Glucose For Watch
 
+<p align="center">
+  <img alt="Version" src="https://img.shields.io/badge/version-0.6.0-0B3D2E?style=for-the-badge">
+  <img alt="Android 17 readiness" src="https://img.shields.io/badge/Android%2017-preview%20validation%20pending-FBBC04?style=for-the-badge&logo=android&logoColor=white">
+  <img alt="Wear OS" src="https://img.shields.io/badge/Wear%20OS-Tile%20%2B%20Complication-4285F4?style=for-the-badge&logo=wearos&logoColor=white">
+  <br>
+  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-2.3.20-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
+  <img alt="Jetpack Compose" src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white">
+</p>
+
 Glucose For Watch is an Android phone app and Wear OS companion that retrieves glucose readings from Dexcom Share and displays them on a paired watch.
 
 The phone app handles Dexcom Share access and synchronization. The watch companion presents the latest reading in its app, a Wear OS tile, and supported watch-face complications.
