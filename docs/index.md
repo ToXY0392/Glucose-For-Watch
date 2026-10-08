@@ -21,6 +21,7 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [dev/architecture.md](dev/architecture.md) | Modules, sync flow, Data Layer contract |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | PR guidelines, sync tests, code style |
 | [plan/ACTION-PLAN.md](plan/ACTION-PLAN.md) | Historical implementation plan (v0.5 → v0.6) |
+| [plan/DIRECT-SENSOR-MIGRATION.md](plan/DIRECT-SENSOR-MIGRATION.md) | Audit and gated plan for direct G6/G7 collection with Share fallback |
 | [plan/PROGRESS.md](plan/PROGRESS.md) | Block status and scoreboard |
 | [plan/STABILITY-GATES.md](plan/STABILITY-GATES.md) | Blocking release criteria |
 | [plan/PR-CHECKLIST.md](plan/PR-CHECKLIST.md) | Copy-paste PR checklist |
