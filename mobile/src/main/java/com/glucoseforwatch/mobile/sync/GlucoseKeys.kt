@@ -40,6 +40,8 @@ object GlucoseKeys {
     const val WATCH_SUPPORTS_COMPLICATION = GlucoseDataLayerContract.WATCH_SUPPORTS_COMPLICATION
     const val WATCH_ACK_FAILURE_COUNT = GlucoseDataLayerContract.WATCH_ACK_FAILURE_COUNT
     const val SOURCE_PHONE_NODE_ID = GlucoseDataLayerContract.SOURCE_PHONE_NODE_ID
+    const val READING_SOURCE = GlucoseDataLayerContract.READING_SOURCE
+    const val SOURCE_ENVELOPE_VERSION = GlucoseDataLayerContract.SOURCE_ENVELOPE_VERSION
     const val ACK_READING_TIMESTAMP_EPOCH_MS = GlucoseDataLayerContract.ACK_READING_TIMESTAMP_EPOCH_MS
     const val ACK_SEQUENCE_ID = GlucoseDataLayerContract.ACK_SEQUENCE_ID
     const val ACK_RECEIVED_AT = GlucoseDataLayerContract.ACK_RECEIVED_AT

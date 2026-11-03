@@ -2,6 +2,26 @@ package com.glucoseforwatch.core.datalayer
 
 import androidx.annotation.Keep
 
+enum class ReadingSource(val wireValue: String) {
+    SHARE("SHARE"),
+    DIRECT_G7("DIRECT_G7"),
+}
+
+enum class ReadingSourceEnvelopeRejection {
+    INCOMPLETE_ENVELOPE,
+    UNSUPPORTED_VERSION,
+    UNKNOWN_SOURCE,
+}
+
+sealed interface ReadingSourceResolution {
+    data class Accepted(
+        val source: ReadingSource,
+        val isLegacy: Boolean,
+    ) : ReadingSourceResolution
+
+    data class Rejected(val reason: ReadingSourceEnvelopeRejection) : ReadingSourceResolution
+}
+
 /**
  * Wear Data Layer paths and DataMap keys shared by phone and watch modules.
  * [PUSH_VERSION] bumps invalidate stale payloads on both sides.
@@ -24,6 +44,11 @@ object GlucoseDataLayerContract {
     const val SEQUENCE_ID = "sequenceId"
     const val TARGET_NODE_ID = "targetNodeId"
     const val SOURCE_PHONE_NODE_ID = "sourcePhoneNodeId"
+    const val READING_SOURCE = "readingSource"
+    const val SOURCE_ENVELOPE_VERSION = "sourceEnvelopeVersion"
+    const val SOURCE_ENVELOPE_VERSION_1 = 1
+    const val SOURCE_SHARE = "SHARE"
+    const val SOURCE_DIRECT_G7 = "DIRECT_G7"
     const val REFRESH_STATUS = "refreshStatus"
     const val REFRESH_MESSAGE = "refreshMessage"
     const val REFRESH_UPDATED_AT = "refreshUpdatedAt"
@@ -49,4 +74,35 @@ object GlucoseDataLayerContract {
     const val ACK_SEQUENCE_ID = "ackSequenceId"
     const val ACK_RECEIVED_AT = "ackReceivedAt"
     const val PUSH_VERSION = "pushVersion"
+
+    /**
+     * Resolves the additive source envelope without changing the existing payload.
+     * Legacy payloads omit both fields and are treated as Share.
+     */
+    fun resolveReadingSource(schemaVersion: Int?, source: String?): ReadingSourceResolution {
+        if (schemaVersion == null && source == null) {
+            return ReadingSourceResolution.Accepted(
+                source = ReadingSource.SHARE,
+                isLegacy = true,
+            )
+        }
+        if (schemaVersion == null || source == null) {
+            return ReadingSourceResolution.Rejected(
+                ReadingSourceEnvelopeRejection.INCOMPLETE_ENVELOPE,
+            )
+        }
+        if (schemaVersion != SOURCE_ENVELOPE_VERSION_1) {
+            return ReadingSourceResolution.Rejected(
+                ReadingSourceEnvelopeRejection.UNSUPPORTED_VERSION,
+            )
+        }
+        val resolvedSource = when (source) {
+            SOURCE_SHARE -> ReadingSource.SHARE
+            SOURCE_DIRECT_G7 -> ReadingSource.DIRECT_G7
+            else -> null
+        } ?: return ReadingSourceResolution.Rejected(
+            ReadingSourceEnvelopeRejection.UNKNOWN_SOURCE,
+        )
+        return ReadingSourceResolution.Accepted(source = resolvedSource, isLegacy = false)
+    }
 }

@@ -98,6 +98,8 @@ object GlucoseKeys {
     const val SEQUENCE_ID = GlucoseDataLayerContract.SEQUENCE_ID
     const val TARGET_NODE_ID = GlucoseDataLayerContract.TARGET_NODE_ID
     const val SOURCE_PHONE_NODE_ID = GlucoseDataLayerContract.SOURCE_PHONE_NODE_ID
+    const val READING_SOURCE = GlucoseDataLayerContract.READING_SOURCE
+    const val SOURCE_ENVELOPE_VERSION = GlucoseDataLayerContract.SOURCE_ENVELOPE_VERSION
     const val HISTORY = "history"
     const val REFRESH_STATUS = GlucoseDataLayerContract.REFRESH_STATUS
     const val REFRESH_MESSAGE = GlucoseDataLayerContract.REFRESH_MESSAGE
