@@ -16,9 +16,10 @@ _Màj : 2026-11-26 · branche : develop/integration_
 - 2026-11-26 Tendance Dexcom absente / NotComputable / RateOutOfRange / inconnue → `NONE` (pas de flèche montre, « tendance indisponible » téléphone), plus jamais `FLAT` — pourquoi : fausse flèche « stable ». PR #130.
 - 2026-11-26 Dependabot : #114 (constraintlayout 2.2.2) fusionnée ; #115 (kapt 2.4.21) fermée — plugin kapt déclaré `apply false`, jamais appliqué ; sa version doit suivre Kotlin.
 
+- 2026-11-26 Déclaration kapt inutilisée retirée de `build.gradle.kts` ; Dependabot cible `develop/integration` (`target-branch`) — pourquoi : plus de PR Dependabot sur `main` ni de back-merge après chaque bump.
+
 ## Prochaines étapes
-1. Optionnel : retirer la déclaration kapt inutilisée de `build.gradle.kts` (évite de futures PR Dependabot).
-2. Optionnel : `target-branch: develop/integration` dans `.github/dependabot.yml` pour éviter les back-merges.
+- Rien d'ouvert.
 
 ## Pièges connus
 - `main` protégée : PR obligatoire, push direct refusé. Ce qui est fusionné sur `main` doit revenir sur `develop/integration` (back-merge), sinon dérive.
