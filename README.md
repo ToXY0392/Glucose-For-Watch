@@ -45,14 +45,7 @@ flowchart LR
     W -.->|"/glucose/watch/ack"| P
 ```
 
-<details>
-<summary>Detailed sync flow</summary>
-<br>
-
-<img alt="Glucose For Watch sync flow: Dexcom Share to phone to Wear OS watch" src="docs/assets/glucose-for-watch-architecture.png" width="760">
-
 More in the [architecture guide](docs/dev/architecture.md).
-</details>
 
 ## Requirements
 
