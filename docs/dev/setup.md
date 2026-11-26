@@ -5,11 +5,11 @@
 | Component | Version |
 |-----------|---------|
 | Android Studio | Recent stable |
-| Gradle wrapper | 9.6.1 |
-| Android Gradle Plugin | 9.4.1 |
-| Kotlin | 2.3.20 |
+| Gradle wrapper | 9.9.2 |
+| Android Gradle Plugin | 9.5.3 |
+| Kotlin | 2.4.21 |
 | JDK (Gradle) | JBR 21 |
-| compileSdk / targetSdk | 37 |
+| compileSdk / targetSdk | 37 / 37 (`:mobile` compileSdk 37.1) |
 
 Optional: Wear OS watch + Android phone for device testing.
 
