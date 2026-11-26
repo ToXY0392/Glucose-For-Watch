@@ -1,6 +1,10 @@
 # CLAUDE.md — Glucose For Watch
 
-Guide complet agents : [AGENTS.md](AGENTS.md) (branches, sandboxes, contraintes soak). Ce fichier le complète, ne le remplace pas.
+Guide complet agents (branches, sandboxes, contraintes soak), importé ici car Claude Code ne le charge pas seul :
+
+@AGENTS.md
+
+Ce fichier le complète, ne le remplace pas.
 
 ## Architecture (court)
 
