@@ -59,6 +59,13 @@ android {
         unitTests.isIncludeAndroidResources = true
     }
 
+    packaging {
+        resources {
+            // BouncyCastle 1.86 (via kadb) ships the same license file in bcprov, bcpkix and bcutil.
+            excludes += "META-INF/LICENSE.md"
+        }
+    }
+
 }
 
 kotlin {
@@ -99,7 +106,7 @@ dependencies {
     implementation(project(":feature:watch-install"))
     implementation("com.google.mlkit:text-recognition:16.0.1")
     implementation("androidx.exifinterface:exifinterface:1.4.2")
-    implementation("com.flyfishxu:kadb:2.1.1")
+    implementation("com.flyfishxu:kadb:2.1.5")
     implementation("androidx.core:core-ktx:1.19.1")
     implementation("androidx.core:core-splashscreen:1.2.0")
     implementation("androidx.appcompat:appcompat:1.8.0")

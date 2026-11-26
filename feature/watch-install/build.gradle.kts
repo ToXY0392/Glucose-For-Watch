@@ -26,7 +26,7 @@ kotlin {
 }
 
 dependencies {
-    implementation("com.flyfishxu:kadb:2.1.1")
+    implementation("com.flyfishxu:kadb:2.1.5")
     implementation("com.google.mlkit:text-recognition:16.0.1")
     implementation("androidx.exifinterface:exifinterface:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
