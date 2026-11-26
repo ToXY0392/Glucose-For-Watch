@@ -89,6 +89,35 @@ jobs:
       - name: Validate documentation links
         run: python3 scripts/dev/check_docs_links.py
 
+  verify-skills:
+    name: Verify agent skills
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint skills (.claude/skills)
+        run: python3 scripts/dev/sync_skills.py --lint
+
+      - name: Check Cursor mirror is in sync (.cursor/skills)
+        run: python3 scripts/dev/sync_skills.py --check
+
+      - name: Smoke-test device install guard hook
+        run: |
+          set -euo pipefail
+          hook=.claude/hooks/guard-device-install.sh
+          ask() { printf '{"tool_input":{"command":"%s"}}' "$1" | bash "$hook" | grep -q '"permissionDecision":"ask"'; }
+          ask './gradlew installGlucoseForWatchDebug'
+          ask 'adb -s SERIAL install -r app.apk'
+          ask 'adb uninstall com.glucoseforwatch.mobile'
+          # `! cmd` never trips `set -e`, so check the negative cases explicitly.
+          for safe in 'adb devices -l' './gradlew :wear:test'; do
+            if ask "$safe"; then echo "guard hook wrongly asks for: $safe"; exit 1; fi
+          done
+          echo "guard hook OK"
+
   release-artifacts:
     name: Verify Release Artifacts
     needs: detect

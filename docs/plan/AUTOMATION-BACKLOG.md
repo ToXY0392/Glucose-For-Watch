@@ -17,7 +17,7 @@
 | **check_docs_links.py** | Relative link lint on `docs/` | `scripts/dev/check_docs_links.py` |
 | **CI verify_ci** | Unit + compile + doc links | `.github/workflows/ci.yml` |
 | **Dependabot** | Gradle + Actions | `.github/dependabot.yml` |
-| **Cursor skills** | doc-drift, doc-backlog-sync, pr-gatekeeper, pr-author, … | `.cursor/skills/` |
+| **Agent skills** | doc-drift, doc-backlog-sync, pr-gatekeeper, pr-author, … | `.claude/skills/` (mirrored to `.cursor/skills/`) |
 
 **Storybook** = web ecosystem (React). Relevant equivalent here:
 

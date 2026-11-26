@@ -26,7 +26,7 @@
 - [x] **PR checklist** — [PR-CHECKLIST.md](PR-CHECKLIST.md) + [.github/pull_request_template.md](../../.github/pull_request_template.md)
 - [x] **Stability docs** — [STABILITY-GATES.md](STABILITY-GATES.md) · [stability-signoff-template.md](../qa/stability-signoff-template.md)
 - [x] **GitHub setup guides** — [GITHUB-SETUP.md](GITHUB-SETUP.md) · [GITHUB-PROJECT-UI-GUIDE.md](GITHUB-PROJECT-UI-GUIDE.md)
-- [x] **pr-author skill** — `.cursor/skills/glucose-for-watch-pr-author/` · tracked as AUTO-9 ([#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21))
+- [x] **pr-author skill** — `.claude/skills/glucose-for-watch-pr-author/` · tracked as AUTO-9 ([#21](https://github.com/ToXY0392/Glucose-For-Watch/issues/21))
 
 ---
 
@@ -56,7 +56,7 @@ Should ship with or shortly after **v0.5.0**; not all block the tag.
 | D.6 | document `capture-crash-log.ps1` in [dev/setup.md](../dev/setup.md) (or finish script + doc together) | 1h | ✅ | J1 sandbox/qa-hardware |
 | DOC-P1-5 | **Architecture diagram** — verify [glucose-for-watch-architecture.svg](../assets/glucose-for-watch-architecture.svg) matches code · re-export PNG | 1h | AUTO-8 |
 | DOC-P1-6 | **User guide ↔ app strings** — app UI is FR (`strings.xml`) · user guide is EN · add note in [guide/user.md](../guide/user.md) or plan i18n | 1h | ☐ | Decision: EN UI vs FR UI for v0.5 |
-| DOC-P1-7 | **CHANGELOG v0.5.0** — draft release notes when gates pass | 1h | ☐ | `@glucose-for-watch-release-notes-curator` |
+| DOC-P1-7 | **CHANGELOG v0.5.0** — draft release notes when gates pass | 1h | ☐ | `glucose-for-watch-vendor-security-watch` (mode `changelog`) |
 | DOC-P1-8 | **S.6 / S.8 sync** — align ACTION-PLAN calendar with current PROGRESS statuses | 30m | 🔄 | Bloc S |
 
 ---

@@ -7,7 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 
 TEXT_FILES = [
-    *ROOT.glob(".cursor/skills/**/SKILL.md"),
+    *ROOT.glob(".claude/skills/**/SKILL.md"),  # canonical source; run sync_skills.py afterwards
     *ROOT.glob(".cursor/rules/*.mdc"),
     ROOT / "docs/plan/GITHUB-SETUP.md",
     ROOT / "toxy-ux-kit/README.md",

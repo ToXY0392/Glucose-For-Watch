@@ -33,6 +33,7 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [plan/DOC-BACKLOG.md](plan/DOC-BACKLOG.md) | Documentation backlog (living checklist · `@glucose-for-watch-doc-backlog-sync`) |
 | [plan/DOCS-BRANCH.md](plan/DOCS-BRANCH.md) | Docs-only branch (`docs`) · auto-sync from other branches |
 | [plan/WORKSPACE.md](plan/WORKSPACE.md) | Long-lived `sandbox/*` sandbox branches · scopes · backlog |
+| [plan/SKILLS-PLAN.md](plan/SKILLS-PLAN.md) | Agent skills layout (`.claude/skills` + Cursor mirror), invocation policy, optimisation log |
 
 ## Design
 
