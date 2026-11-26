@@ -46,7 +46,9 @@ CI job **Verify agent skills** (`.github/workflows/ci.yml`) runs `--lint`, `--ch
 | 2 | 26 → 21 project skills: `vendor-security-watch` (vendor-watch + security-bulletin + release-notes-curator), `maintenance-run` (run-coordinator + 2 session-start skills), compat matrix folded into `dependency-advisor` | `d6fee7b` |
 | 3 | Descriptions with "Use when"; 16 auto / 5 manual project skills; path-based scopes; `sandbox-guard` rewritten; `pr-author` split into `references/` and its diff base fixed | `87acd67` |
 | 4 | Imported `android-testing-setup`, `wear-compose-m3`, `android-permissions-security` (android/skills) and `verification-before-completion` (obra/superpowers), pinned and annotated | `7b09c91` |
-| 5 | CI job, AGENTS.md catalogue, doc references, this page | this PR |
+| 5 | CI job, AGENTS.md catalogue, doc references, this page | `e1c33e0` |
+| 6 | LF enforced for `.claude/**` and `.cursor/skills/**` (CRLF frontmatter was not parsed by Claude Code) | #126 |
+| 7 | Back-merge `main` → `develop/integration`; the 4 Claude working-method skills from #122 renamed with the project prefix | back-merge PR |
 
 ### Removed skill names → replacement
 
@@ -59,6 +61,10 @@ CI job **Verify agent skills** (`.github/workflows/ci.yml`) runs `--lint`, `--ch
 | `glucose-for-watch-session-start-quick-check` | `glucose-for-watch-maintenance-run` (pack `quick`) |
 | `glucose-for-watch-session-start-deferred-maintenance` | `glucose-for-watch-maintenance-run` (pack `full`) |
 | `glucose-for-watch-compat-matrix-maintainer` | `glucose-for-watch-dependency-advisor` |
+| `economie` | `glucose-for-watch-economie` |
+| `memoire-projet` | `glucose-for-watch-memoire-projet` |
+| `plan-et-execution` | `glucose-for-watch-plan-et-execution` |
+| `revue-et-git` | `glucose-for-watch-revue-et-git` |
 
 ## Open follow-ups
 

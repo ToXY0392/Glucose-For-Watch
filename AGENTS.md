@@ -68,6 +68,15 @@ Source: [.claude/skills/](.claude/skills/) · plan and policy: [docs/plan/SKILLS
 | Sync debugging | `glucose-for-watch-sync-health-reviewer` |
 | Dependabot PRs | `glucose-for-watch-dependabot-triage` |
 
+### Claude Code working method (auto)
+
+| Task | Skill |
+|------|-------|
+| Token / quota economy (model routing, targeted reads) | `glucose-for-watch-economie` |
+| Plan (3-5 points, validated) then incremental execution | `glucose-for-watch-plan-et-execution` |
+| Session memory (`.claude/SESSION_MEMORY.md`) | `glucose-for-watch-memoire-projet` |
+| Pre-commit review + commit message | `glucose-for-watch-revue-et-git` |
+
 ### Scopes (auto)
 
 | Area | Skill |

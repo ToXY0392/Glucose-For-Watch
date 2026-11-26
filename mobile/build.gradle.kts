@@ -7,6 +7,9 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+val gfwVersionCode = providers.gradleProperty("gfwVersionCode").get().toInt()
+val gfwVersionName = providers.gradleProperty("gfwVersionName").get()
+
 android {
     namespace = "com.glucoseforwatch.mobile"
     compileSdk = 37
@@ -20,8 +23,8 @@ android {
         applicationId = "com.glucoseforwatch.mobile"
         minSdk = 28
         targetSdk = 37
-        versionCode = 25
-        versionName = "0.6.0"
+        versionCode = gfwVersionCode
+        versionName = gfwVersionName
 
         buildConfigField("String", "DEXCOM_SHARE_APPLICATION_ID", "\"$dexcomShareApplicationId\"")
     }
@@ -96,7 +99,7 @@ dependencies {
     implementation("com.flyfishxu:kadb:2.1.1")
     implementation("androidx.core:core-ktx:1.18.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.appcompat:appcompat:1.8.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
     implementation("com.google.android.material:material:1.13.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.10.0")

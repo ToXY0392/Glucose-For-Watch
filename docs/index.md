@@ -20,18 +20,18 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [dev/setup.md](dev/setup.md) | Environment, build, QA scripts, dual IDE (WSL + Studio) |
 | [dev/architecture.md](dev/architecture.md) | Modules, sync flow, Data Layer contract |
 | [../CONTRIBUTING.md](../CONTRIBUTING.md) | PR guidelines, sync tests, code style |
-| [plan/ACTION-PLAN.md](plan/ACTION-PLAN.md) | Operational plan (v0.5 → v0.6) |
+| [plan/ACTION-PLAN.md](plan/ACTION-PLAN.md) | Historical implementation plan (v0.5 → v0.6) |
 | [plan/DIRECT-SENSOR-MIGRATION.md](plan/DIRECT-SENSOR-MIGRATION.md) | Audit and gated plan for direct G6/G7 collection with Share fallback |
 | [plan/PROGRESS.md](plan/PROGRESS.md) | Block status and scoreboard |
 | [plan/STABILITY-GATES.md](plan/STABILITY-GATES.md) | Blocking release criteria |
 | [plan/PR-CHECKLIST.md](plan/PR-CHECKLIST.md) | Copy-paste PR checklist |
-| [../AGENTS.md](../AGENTS.md) | Cursor agent guide · GitHub workflow skills |
+| [../AGENTS.md](../AGENTS.md) | Agent guide (Claude Code + Cursor) · skills catalogue |
 | [plan/GITHUB-SETUP.md](plan/GITHUB-SETUP.md) | GitHub repo + Project configuration plan |
 | [plan/GITHUB-IMPORT-ISSUES.md](plan/GITHUB-IMPORT-ISSUES.md) | P0 issues + labels import checklist |
 | [plan/GITHUB-PROJECT-UI-GUIDE.md](plan/GITHUB-PROJECT-UI-GUIDE.md) | Project board setup (UI step-by-step) |
 | [plan/AUTOMATION-BACKLOG.md](plan/AUTOMATION-BACKLOG.md) | Doc/CI automation backlog (Showkase, previews) |
 | [plan/DOC-BACKLOG.md](plan/DOC-BACKLOG.md) | Documentation backlog (living checklist · `@glucose-for-watch-doc-backlog-sync`) |
-| [plan/DOCS-BRANCH.md](plan/DOCS-BRANCH.md) | Docs-only branch (`docs`) · auto-sync from other branches |
+| [plan/DOCS-BRANCH.md](plan/DOCS-BRANCH.md) | Retired docs-only branch model (historical note) |
 | [plan/WORKSPACE.md](plan/WORKSPACE.md) | Long-lived `sandbox/*` sandbox branches · scopes · backlog |
 | [plan/SKILLS-PLAN.md](plan/SKILLS-PLAN.md) | Agent skills layout (`.claude/skills` + Cursor mirror), invocation policy, optimisation log |
 
@@ -58,3 +58,4 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | Document | Description |
 |----------|-------------|
 | [../CHANGELOG.md](../CHANGELOG.md) | Version history |
+| [plan/V1-RELEASE-READINESS.md](plan/V1-RELEASE-READINESS.md) | v1.0.0 candidate checklist and current release blockers |
