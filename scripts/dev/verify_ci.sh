@@ -10,10 +10,12 @@ python3 toxy-ux-kit/tools/lint-agp-colors.py
 python3 scripts/dev/check_docs_links.py
 ./gradlew \
   :core:model:testDebugUnitTest \
+  :core:datalayer-contract:testDebugUnitTest \
   :feature:dexcom-share:assembleDebug \
   :feature:dexcom-share:testDebugUnitTest \
   :feature:sync:testDebugUnitTest \
   :feature:watch-install:assembleDebug \
+  :feature:watch-install:testDebugUnitTest \
   :mobile:testDebugUnitTest \
   :wear:testDebugUnitTest \
   :mobile:compileDebugKotlin \
