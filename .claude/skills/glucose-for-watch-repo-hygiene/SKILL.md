@@ -1,7 +1,6 @@
 ---
 name: glucose-for-watch-repo-hygiene
-description: Audits Glucose For Watch git hygiene — gitignore, cached runtime artefacts, secrets scan, LF consistency. Use before commits, Phase 0 cleanup, or when the user asks to clean the repository.
-disable-model-invocation: true
+description: Audits Glucose For Watch git hygiene: gitignore, cached runtime artefacts, secrets and real glucose values in the diff, LF consistency. Use when about to commit, during cleanup, or when the user asks to clean the repository.
 ---
 
 # Glucose For Watch Repo Hygiene

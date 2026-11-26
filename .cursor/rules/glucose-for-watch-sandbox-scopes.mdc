@@ -1,13 +1,13 @@
 ---
-description: On sandbox/* branches, invoke glucose-for-watch-sandbox-guard before editing files; respect sandbox path scopes.
+description: Before editing files, invoke glucose-for-watch-sandbox-guard (branch lock on sandbox/*, path-based scope elsewhere); respect scope paths.
 alwaysApply: true
 ---
 
 # Workspace sandbox scopes
 
-When `git branch --show-current` matches `sandbox/*`:
+Before editing files on any branch (branch lock on `sandbox/*`, path-based scope on short-lived branches):
 
-1. Read [.cursor/workspace-scopes/](../workspace-scopes/) for the active branch
+1. Run `glucose-for-watch-sandbox-guard` and read [.cursor/workspace-scopes/](../workspace-scopes/) for the matching scope
 2. Follow the matching scope skill (`glucose-for-watch-*-scope`)
 3. **Refuse** edits outside allowed paths — route fixes to the owning sandbox or `feat/bloc-*` on `develop/integration`
 4. Before commit: `glucose-for-watch-repo-hygiene` (no secrets, no `local.properties`, no real glucose in docs/qa)

@@ -1,7 +1,6 @@
 ---
 name: glucose-for-watch-dependabot-triage
-description: Triages Dependabot PRs for Glucose For Watch — small scoped merges, no feature bloc mixing, coordinates with glucose-for-watch-dependency-advisor. Use when Dependabot opens PRs or when reviewing dependency upgrades.
-disable-model-invocation: true
+description: Triages Dependabot PRs for Glucose For Watch: classifies patch/minor/major/actions-only, keeps one concern per PR and routes toolchain bumps to glucose-for-watch-dependency-advisor. Use when Dependabot opens a PR or when reviewing a dependency upgrade PR.
 ---
 
 # Glucose For Watch Dependabot Triage

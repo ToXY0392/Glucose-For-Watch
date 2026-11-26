@@ -1,6 +1,6 @@
 ---
 name: glucose-for-watch-doc-backlog-sync
-description: Syncs docs/plan/DOC-BACKLOG.md with PROGRESS.md, QA evidence, GitHub issues, and repo signals. Use on Monday planning, after hardware QA sessions, before v0.5 tag, or when the user asks to update the documentation backlog.
+description: Syncs docs/plan/DOC-BACKLOG.md with PROGRESS.md, QA evidence, GitHub issues and repo signals. Use when the user asks to update the documentation backlog, on Monday planning, after a hardware QA session, or before a release tag.
 disable-model-invocation: true
 ---
 

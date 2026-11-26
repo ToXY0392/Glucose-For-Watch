@@ -1,7 +1,6 @@
 ---
 name: glucose-for-watch-agp-color-guard
-description: Enforces AGP medical color rules — glucose values use agp.glucose tokens only, never ToXY mint. Use when adding glucose UI on phone, wear tile, or complications.
-disable-model-invocation: true
+description: Enforces AGP medical color rules in Glucose For Watch: glucose values, range bands and fresh trend arrows use agp_* tokens via GlucoseRangeResolver, never ToXY mint. Use when adding or changing glucose UI on the phone, wear tile or complications, or when reviewing a diff that touches glucose colors.
 ---
 
 # Glucose For Watch AGP Color Guard

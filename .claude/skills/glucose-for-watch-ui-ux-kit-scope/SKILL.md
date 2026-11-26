@@ -1,18 +1,13 @@
 ---
 name: glucose-for-watch-ui-ux-kit-scope
-description: >-
-  Scope-limited work on sandbox/ui-ux-kit — toxy-ux-kit tokens, specs,
-  design-reference only. Use when checked out on sandbox/ui-ux-kit or when
-  editing ToXY kit paths. Refuses mobile/wear/feature changes unless user
-  explicitly requests Android color export.
-disable-model-invocation: true
+description: Path scope for ToXY design kit work in Glucose For Watch: toxy-ux-kit tokens, specs and docs/design only; mobile, wear and feature edits refused unless the user asks for an Android color export. Use when a change touches toxy-ux-kit/ or docs/design/.
 ---
 
 # Glucose For Watch UX Kit Scope
 
-## Branch
+## Activation
 
-Expected: **`sandbox/ui-ux-kit`**. If on another branch, warn and confirm before editing kit paths.
+Path-based: applies on any short-lived branch (`feat/`, `fix/`, `qa/`, `test/`, …) whose changes touch the allowed paths below. `sandbox/ui-ux-kit` is dormant — do not recreate it without an explicit decision ([WORKSPACE.md](../../../docs/plan/WORKSPACE.md)). PR target: **`develop/integration`**.
 
 Scope reference: [.cursor/workspace-scopes/ui-ux-kit.scope.md](../../../.cursor/workspace-scopes/ui-ux-kit.scope.md)
 

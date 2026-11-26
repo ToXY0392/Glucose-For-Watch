@@ -1,7 +1,6 @@
 ---
 name: glucose-for-watch-sync-health-reviewer
-description: Reviews phone→watch glucose sync health — push backoff, offline badge, ack path, tile refresh. Use when debugging sync stalls or offline/reconnect behavior.
-disable-model-invocation: true
+description: Reviews phone-to-watch glucose sync health in Glucose For Watch: push backoff, offline badge, ack path and tile refresh. Use when debugging sync stalls, offline or reconnect behavior, or reviewing a diff that touches sync code.
 ---
 
 # Glucose For Watch Sync Health Reviewer

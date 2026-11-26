@@ -1,17 +1,13 @@
 ---
 name: glucose-for-watch-mobile-app-scope
-description: >-
-  Scope-limited work on sandbox/mobile-app — mobile module only. Use when
-  checked out on sandbox/mobile-app or when the user asks for phone-only
-  changes. Refuses wear, ux-kit tokens, and shared module edits.
-disable-model-invocation: true
+description: Path scope for phone app work in Glucose For Watch: mobile/ only, shared modules read-only, wear and ux-kit tokens forbidden. Use when on sandbox/mobile-app, or when a change on any branch touches mobile/ only.
 ---
 
 # Glucose For Watch Mobile App Scope
 
 ## Branch
 
-Expected: **`sandbox/mobile-app`**. Warn if branch mismatch.
+Long-lived: **`sandbox/mobile-app`**. Also applies on a short-lived branch whose changes touch `mobile/` only.
 
 Scope reference: [.cursor/workspace-scopes/mobile-app.scope.md](../../../.cursor/workspace-scopes/mobile-app.scope.md)
 

@@ -1,6 +1,6 @@
 ---
 name: glucose-for-watch-doc-drift-checker
-description: Compares Glucose For Watch internal documentation against recent official docs, detects obsolescence, proposes a prioritized patch, and applies doc updates when editing is authorized.
+description: Compares Glucose For Watch internal documentation against recent official Android, Wear OS, AGP, Gradle and Kotlin docs, reports obsolescence by priority and applies doc patches when editing is authorised. Use when running the monthly doc drift check, after a toolchain upgrade, or when the user suspects docs are outdated.
 disable-model-invocation: true
 ---
 

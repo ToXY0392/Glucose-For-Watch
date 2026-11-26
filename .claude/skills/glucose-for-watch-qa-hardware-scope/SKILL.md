@@ -1,18 +1,13 @@
 ---
 name: glucose-for-watch-qa-hardware-scope
-description: >-
-  Scope-limited hardware QA and evidence on sandbox/qa-hardware — docs/qa
-  and scripts/qa only. Use for soak sessions, C.* matrix, captures, and
-  stability sign-off. Refuses direct app code edits; routes fixes to owning
-  sandbox.
-disable-model-invocation: true
+description: Path scope for hardware QA evidence in Glucose For Watch: docs/qa and scripts/qa only, no app code edits, fixes routed to the owning area. Use when recording soak sessions, the C.* matrix, captures or stability sign-off, on a qa/ branch or any branch touching docs/qa or scripts/qa.
 ---
 
 # Glucose For Watch QA Hardware Scope
 
-## Branch
+## Activation
 
-Expected: **`sandbox/qa-hardware`** (sole active sandbox pre v0.5.0 tag).
+Path-based: applies on any short-lived branch (`feat/`, `fix/`, `qa/`, `test/`, …) whose changes touch the allowed paths below. `sandbox/qa-hardware` is dormant — do not recreate it without an explicit decision ([WORKSPACE.md](../../../docs/plan/WORKSPACE.md)). PR target: **`develop/integration`**.
 
 Scope reference: [.cursor/workspace-scopes/qa-hardware.scope.md](../../../.cursor/workspace-scopes/qa-hardware.scope.md)
 
@@ -24,7 +19,7 @@ Scope reference: [.cursor/workspace-scopes/qa-hardware.scope.md](../../../.curso
 ## Forbidden (hard block)
 
 - Direct edits to `mobile/`, `wear/`, `feature/`, `core/`
-- If a session fails: document failure · open fix on `wear-app`, `mobile-app`, or `feat/bloc-*` · re-run session
+- If a session fails: document failure · open the fix on `sandbox/mobile-app` or a `fix/bloc-*` branch · re-run session
 
 ## PR strategy
 

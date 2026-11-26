@@ -10,7 +10,7 @@
 
 - `docs/plan/**`, `docs/dev/**`, `docs/guide/**`, `docs/legal/**`, `docs/index.md`
 - `AGENTS.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `README.md`, `SECURITY.md`
-- `.cursor/skills/**`, `.cursor/rules/**`, `.cursor/workspace-scopes/**`
+- `.claude/skills/**` (canonical skills; `.cursor/skills/**` is the generated mirror), `.cursor/rules/**`, `.cursor/workspace-scopes/**`
 
 ## Routage
 

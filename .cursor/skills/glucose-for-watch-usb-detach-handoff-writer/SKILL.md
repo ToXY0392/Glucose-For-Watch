@@ -1,6 +1,6 @@
 ---
 name: glucose-for-watch-usb-detach-handoff-writer
-description: Detects USB disconnections of phone or watch via ADB and automatically adds a timestamped entry in .cursor/state/developer-handoff.md to ease resumption.
+description: Detects USB disconnections of the test phone or watch via ADB and adds a timestamped incident to .cursor/state/developer-handoff.md. Use when the user asks to log a device disconnect or to refresh the developer handoff during a hardware or soak session.
 disable-model-invocation: true
 ---
 
