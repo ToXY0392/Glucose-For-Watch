@@ -1,6 +1,8 @@
 # Agent guide — Glucose For Watch
 
-Entry point for Cursor agents working on this repository.
+Entry point for coding agents (Claude Code and Cursor) working on this repository.
+
+**Skills:** canonical source is [.claude/skills/](.claude/skills/) (read by Claude Code). [.cursor/skills/](.cursor/skills/) is a generated mirror for Cursor — never edit it by hand; run `python3 scripts/dev/sync_skills.py` after changing a skill (CI checks the mirror with `--check` and validates skills with `--lint`).
 
 ## Docs
 
@@ -42,6 +44,12 @@ Only `sandbox/mobile-app` and `sandbox/documentation` are long-lived. Use the co
 - [.cursor/rules/glucose-for-watch-dual-ide-wsl.mdc](.cursor/rules/glucose-for-watch-dual-ide-wsl.mdc)
 - [.cursor/rules/glucose-for-watch-reinstall-apks.mdc](.cursor/rules/glucose-for-watch-reinstall-apks.mdc)
 - [.cursor/rules/glucose-for-watch-sandbox-scopes.mdc](.cursor/rules/glucose-for-watch-sandbox-scopes.mdc)
+
+Cursor loads these `.mdc` files itself. Claude Code does not, so their content is summarised here:
+
+- **Single working copy (WSL + Android Studio):** one editable clone under WSL, opened by Android Studio through `\\wsl$`; `local.properties` stays out of git; LF line endings; avoid concurrent Gradle syncs.
+- **After `mobile/` or `wear/` changes:** compile and run module tests. Install on devices **only on explicit user request** (see hard constraints). Claude Code asks for confirmation through the hook in [.claude/settings.json](.claude/settings.json).
+- **Scopes:** before editing, check the branch and the paths you touch with `glucose-for-watch-sandbox-guard`; refuse out-of-scope edits; run `glucose-for-watch-repo-hygiene` before commit; PR to `develop/integration` with `glucose-for-watch-pr-gatekeeper`.
 
 ## GitHub workflow skills
 

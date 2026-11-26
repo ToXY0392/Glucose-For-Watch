@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 Expected: **`sandbox/ui-ux-kit`**. If on another branch, warn and confirm before editing kit paths.
 
-Scope reference: [.cursor/workspace-scopes/ui-ux-kit.scope.md](../../workspace-scopes/ui-ux-kit.scope.md)
+Scope reference: [.cursor/workspace-scopes/ui-ux-kit.scope.md](../../../.cursor/workspace-scopes/ui-ux-kit.scope.md)
 
 ## Allowed
 

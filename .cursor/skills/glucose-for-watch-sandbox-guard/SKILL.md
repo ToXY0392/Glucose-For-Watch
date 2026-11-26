@@ -30,7 +30,7 @@ git branch --show-current
 | `sandbox/qa-hardware` | `glucose-for-watch-qa-hardware-scope` |
 | `develop/integration`, `main`, `feat/*`, `fix/*`, … | No scope lock |
 
-Scope files: [.cursor/workspace-scopes/](../../workspace-scopes/)
+Scope files: [.cursor/workspace-scopes/](../../../.cursor/workspace-scopes/)
 
 ## Step 3 — Refuse out-of-scope edits
 

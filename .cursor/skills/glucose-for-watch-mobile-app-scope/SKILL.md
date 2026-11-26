@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 Expected: **`sandbox/mobile-app`**. Warn if branch mismatch.
 
-Scope reference: [.cursor/workspace-scopes/mobile-app.scope.md](../../workspace-scopes/mobile-app.scope.md)
+Scope reference: [.cursor/workspace-scopes/mobile-app.scope.md](../../../.cursor/workspace-scopes/mobile-app.scope.md)
 
 ## Allowed
 
@@ -42,7 +42,7 @@ If `feature/sync/**` must change → stop · use `feat/bloc-b-*` or `workspace/s
 
 ## Security
 
-- `EncryptedSharedPreferences` for Dexcom credentials — never log tokens/passwords
+- `EncryptedSharedPreferences` for Dexcom credentials — never log tokens or secrets
 - Run `glucose-for-watch-repo-hygiene` before commit
 - [privacy-policy.md](../../../docs/legal/privacy-policy.md)
 

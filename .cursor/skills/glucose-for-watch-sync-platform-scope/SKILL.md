@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Branch: **`sandbox/sync-platform`** · PR target: **`develop/integration`**
 
-Read [.cursor/workspace-scopes/sync-platform.scope.md](../../workspace-scopes/sync-platform.scope.md).
+Read [.cursor/workspace-scopes/sync-platform.scope.md](../../../.cursor/workspace-scopes/sync-platform.scope.md).
 
 Before commit: **`glucose-for-watch-repo-hygiene`** · PR: **`glucose-for-watch-pr-gatekeeper`**.
 

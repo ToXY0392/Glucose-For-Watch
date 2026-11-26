@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 Expected: **`sandbox/wear-app`**. Warn if branch mismatch.
 
-Scope reference: [.cursor/workspace-scopes/wear-app.scope.md](../../workspace-scopes/wear-app.scope.md)
+Scope reference: [.cursor/workspace-scopes/wear-app.scope.md](../../../.cursor/workspace-scopes/wear-app.scope.md)
 
 ## Allowed
 

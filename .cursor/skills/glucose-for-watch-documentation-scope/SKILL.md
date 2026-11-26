@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Branch: **`sandbox/documentation`** · PR target: **`develop/integration`**
 
-Read [.cursor/workspace-scopes/documentation.scope.md](../../workspace-scopes/documentation.scope.md).
+Read [.cursor/workspace-scopes/documentation.scope.md](../../../.cursor/workspace-scopes/documentation.scope.md).
 
 **No published `docs` mirror branch** — documentation lives on `develop/integration` and `main`.
 

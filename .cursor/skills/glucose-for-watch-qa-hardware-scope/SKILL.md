@@ -14,7 +14,7 @@ disable-model-invocation: true
 
 Expected: **`sandbox/qa-hardware`** (sole active sandbox pre v0.5.0 tag).
 
-Scope reference: [.cursor/workspace-scopes/qa-hardware.scope.md](../../workspace-scopes/qa-hardware.scope.md)
+Scope reference: [.cursor/workspace-scopes/qa-hardware.scope.md](../../../.cursor/workspace-scopes/qa-hardware.scope.md)
 
 ## Allowed
 
