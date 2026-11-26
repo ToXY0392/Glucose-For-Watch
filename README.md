@@ -12,7 +12,7 @@ in the watch app, a tile, and watch-face complications.
 <img alt="Wear OS API 30+" src="https://img.shields.io/badge/Wear%20OS-API%2030%2B-4285F4?style=flat-square&logo=wearos&logoColor=white">
 <img alt="Android 17 candidate device check passed" src="https://img.shields.io/badge/Android%2017-candidate%20device%20check%20passed-0B3D2E?style=flat-square&logo=android&logoColor=white">
 <br>
-<img alt="Kotlin 2.3.20" src="https://img.shields.io/badge/Kotlin-2.3.20-7F52FF?style=flat-square&logo=kotlin&logoColor=white">
+<img alt="Kotlin 2.4.21" src="https://img.shields.io/badge/Kotlin-2.4.21-7F52FF?style=flat-square&logo=kotlin&logoColor=white">
 <img alt="Jetpack Compose Material 3" src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white">
 
 [Features](#features) · [How it works](#how-it-works) · [Install](#install) · [Build from source](#build-from-source) · [Documentation](#documentation)
