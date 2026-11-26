@@ -111,7 +111,7 @@ dependencies {
     implementation("androidx.wear:wear-remote-interactions:1.2.0")
     implementation("androidx.work:work-runtime-ktx:2.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
     val composeBom = platform("androidx.compose:compose-bom:2025.04.01")
     implementation(composeBom)
