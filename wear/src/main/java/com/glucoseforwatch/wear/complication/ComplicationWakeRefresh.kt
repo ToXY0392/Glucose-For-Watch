@@ -18,7 +18,7 @@ internal class ComplicationWakeRefresh : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent?) {
         if (intent?.action != Intent.ACTION_SCREEN_ON) return
         val snapshot = GlucoseCache(context.applicationContext).load() ?: return
-        Log.i(TAG, "screen_on -> complication refresh value=${snapshot.valueMgDl}")
+        Log.i(TAG, "screen_on -> complication refresh value=<REDACTED>")
         ComplicationUpdateNotifier.notifyReadingChanged(
             context = context,
             readingTimestampEpochMs = snapshot.timestampEpochMs,
