@@ -25,7 +25,7 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [plan/PROGRESS.md](plan/PROGRESS.md) | Block status and scoreboard |
 | [plan/STABILITY-GATES.md](plan/STABILITY-GATES.md) | Blocking release criteria |
 | [plan/PR-CHECKLIST.md](plan/PR-CHECKLIST.md) | Copy-paste PR checklist |
-| [../AGENTS.md](../AGENTS.md) | Cursor agent guide · GitHub workflow skills |
+| [../AGENTS.md](../AGENTS.md) | Agent guide (Claude Code + Cursor) · skills catalogue |
 | [plan/GITHUB-SETUP.md](plan/GITHUB-SETUP.md) | GitHub repo + Project configuration plan |
 | [plan/GITHUB-IMPORT-ISSUES.md](plan/GITHUB-IMPORT-ISSUES.md) | P0 issues + labels import checklist |
 | [plan/GITHUB-PROJECT-UI-GUIDE.md](plan/GITHUB-PROJECT-UI-GUIDE.md) | Project board setup (UI step-by-step) |
@@ -33,6 +33,7 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 | [plan/DOC-BACKLOG.md](plan/DOC-BACKLOG.md) | Documentation backlog (living checklist · `@glucose-for-watch-doc-backlog-sync`) |
 | [plan/DOCS-BRANCH.md](plan/DOCS-BRANCH.md) | Retired docs-only branch model (historical note) |
 | [plan/WORKSPACE.md](plan/WORKSPACE.md) | Long-lived `sandbox/*` sandbox branches · scopes · backlog |
+| [plan/SKILLS-PLAN.md](plan/SKILLS-PLAN.md) | Agent skills layout (`.claude/skills` + Cursor mirror), invocation policy, optimisation log |
 
 ## Design
 

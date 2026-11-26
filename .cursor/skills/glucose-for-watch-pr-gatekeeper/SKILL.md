@@ -1,7 +1,6 @@
 ---
 name: glucose-for-watch-pr-gatekeeper
-description: Validates Glucose For Watch PR readiness against bloc gates, verify_ci.sh, stability-gate.ps1, and PR-CHECKLIST before merge. Use before merging PRs, when reviewing pull requests, or when the user asks if a gate is ready.
-disable-model-invocation: true
+description: Validates Glucose For Watch PR readiness against bloc gates, verify_ci.sh, stability-gate.ps1 and PR-CHECKLIST before merge. Use when the user asks whether a PR or gate is ready, before merging a PR, or when reviewing a pull request.
 ---
 
 # Glucose For Watch PR Gatekeeper

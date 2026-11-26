@@ -18,7 +18,7 @@ Détails : [docs/dev/architecture.md](docs/dev/architecture.md).
 | `:core:model` / `:core:datalayer-contract` / `:core:testing` | Modèles, contrat Data Layer, fixtures |
 | `:feature:sync` / `:feature:dexcom-share` / `:feature:watch-install` | Moteur sync, client HTTP Dexcom, install APK wear |
 
-Stack : Kotlin 2.3.20 · AGP 9.3.3 · Gradle 9.6.1 · JBR 21 · compileSdk 36 · Compose.
+Stack : Kotlin 2.3.20 · AGP 9.4.1 · Gradle 9.6.1 · JBR 21 · compileSdk 37 · Compose.
 
 ## Commandes (PowerShell, racine)
 
@@ -59,5 +59,6 @@ Interdit sans demande explicite : `installGlucoseForWatchDebug`, `adb install`, 
 
 ## Skills projet
 
-`/economie` · `/plan-et-execution` · `/memoire-projet` · `/revue-et-git`
+`/glucose-for-watch-economie` · `/glucose-for-watch-plan-et-execution` · `/glucose-for-watch-memoire-projet` · `/glucose-for-watch-revue-et-git`
+Catalogue complet : [AGENTS.md](AGENTS.md#skills-catalogue).
 Mémoire de session : [.claude/SESSION_MEMORY.md](.claude/SESSION_MEMORY.md) — lire en début de session.

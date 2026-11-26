@@ -1,6 +1,8 @@
 # Agent guide — Glucose For Watch
 
-Entry point for Cursor agents working on this repository.
+Entry point for coding agents (Claude Code and Cursor) working on this repository.
+
+**Skills:** canonical source is [.claude/skills/](.claude/skills/) (read by Claude Code). [.cursor/skills/](.cursor/skills/) is a generated mirror for Cursor — never edit it by hand; run `python3 scripts/dev/sync_skills.py` after changing a skill (CI checks the mirror with `--check` and validates skills with `--lint`).
 
 ## Docs
 
@@ -43,34 +45,89 @@ Only `sandbox/mobile-app` and `sandbox/documentation` are long-lived. Use the co
 - [.cursor/rules/glucose-for-watch-reinstall-apks.mdc](.cursor/rules/glucose-for-watch-reinstall-apks.mdc)
 - [.cursor/rules/glucose-for-watch-sandbox-scopes.mdc](.cursor/rules/glucose-for-watch-sandbox-scopes.mdc)
 
-## GitHub workflow skills
+Cursor loads these `.mdc` files itself. Claude Code does not, so their content is summarised here:
+
+- **Single working copy (WSL + Android Studio):** one editable clone under WSL, opened by Android Studio through `\\wsl$`; `local.properties` stays out of git; LF line endings; avoid concurrent Gradle syncs.
+- **After `mobile/` or `wear/` changes:** compile and run module tests. Install on devices **only on explicit user request** (see hard constraints). Claude Code asks for confirmation through the hook in [.claude/settings.json](.claude/settings.json).
+- **Scopes:** before editing, check the branch and the paths you touch with `glucose-for-watch-sandbox-guard`; refuse out-of-scope edits; run `glucose-for-watch-repo-hygiene` before commit; PR to `develop/integration` with `glucose-for-watch-pr-gatekeeper`.
+
+## Skills catalogue
+
+Source: [.claude/skills/](.claude/skills/) · plan and policy: [docs/plan/SKILLS-PLAN.md](docs/plan/SKILLS-PLAN.md). **Auto** = the agent may load it on its own; **manual** = invoke it by name (`/name` in Claude Code, `@name` in Cursor).
+
+### Workflow and guards (auto)
 
 | Task | Skill |
 |------|-------|
+| Scope routing (branch + paths) | `glucose-for-watch-sandbox-guard` |
 | Draft complete documented PR | `glucose-for-watch-pr-author` |
 | Before merge PR | `glucose-for-watch-pr-gatekeeper` |
-| Git / secrets hygiene | `glucose-for-watch-repo-hygiene` |
-| Sync DOC-BACKLOG + QA evidence | `glucose-for-watch-doc-backlog-sync` |
-| Project + PROGRESS sync | `glucose-for-watch-github-project-sync` |
-| Dependabot PRs | `glucose-for-watch-dependabot-triage` + `glucose-for-watch-dependency-advisor` |
+| Git / secrets hygiene before commit | `glucose-for-watch-repo-hygiene` |
+| Glucose colours (AGP medical layer) | `glucose-for-watch-agp-color-guard` |
+| ToXY chrome tokens | `glucose-for-watch-toxy-theme-maintainer` |
 | Sync debugging | `glucose-for-watch-sync-health-reviewer` |
-| Release notes | `glucose-for-watch-release-notes-curator` |
-| Workspace scope routing | `glucose-for-watch-sandbox-guard` |
-| UX kit sandbox | `glucose-for-watch-ui-ux-kit-scope` |
-| Mobile sandbox | `glucose-for-watch-mobile-app-scope` |
-| Wear sandbox | `glucose-for-watch-wear-app-scope` |
-| QA hardware sandbox | `glucose-for-watch-qa-hardware-scope` |
-| Sync platform sandbox | `glucose-for-watch-sync-platform-scope` |
-| Documentation sandbox | `glucose-for-watch-documentation-scope` |
+| Dependabot PRs | `glucose-for-watch-dependabot-triage` |
+
+### Claude Code working method (auto)
+
+| Task | Skill |
+|------|-------|
+| Token / quota economy (model routing, targeted reads) | `glucose-for-watch-economie` |
+| Plan (3-5 points, validated) then incremental execution | `glucose-for-watch-plan-et-execution` |
+| Session memory (`.claude/SESSION_MEMORY.md`) | `glucose-for-watch-memoire-projet` |
+| Pre-commit review + commit message | `glucose-for-watch-revue-et-git` |
+
+### Scopes (auto)
+
+| Area | Skill |
+|------|-------|
+| `mobile/` · long-lived `sandbox/mobile-app` | `glucose-for-watch-mobile-app-scope` |
+| docs + agent config · long-lived `sandbox/documentation` | `glucose-for-watch-documentation-scope` |
+| `wear/` | `glucose-for-watch-wear-app-scope` |
+| `feature/sync`, datalayer contract, core model | `glucose-for-watch-sync-platform-scope` |
+| `toxy-ux-kit/`, `docs/design/` | `glucose-for-watch-ui-ux-kit-scope` |
+| `docs/qa/`, `scripts/qa/` | `glucose-for-watch-qa-hardware-scope` |
+
+### Planning and maintenance (manual)
+
+| Task | Skill |
+|------|-------|
+| Toolchain / dependency upgrades + compat matrix | `glucose-for-watch-dependency-advisor` |
+| Vendor watch, CVEs, CHANGELOG upstream section | `glucose-for-watch-vendor-security-watch` |
+| Doc drift vs official docs | `glucose-for-watch-doc-drift-checker` |
+| Sync DOC-BACKLOG + QA evidence | `glucose-for-watch-doc-backlog-sync` |
+| Project board + PROGRESS sync | `glucose-for-watch-github-project-sync` |
+| Recurring maintenance packs (quick / full / release) | `glucose-for-watch-maintenance-run` |
+| USB detach → developer handoff (soak sessions) | `glucose-for-watch-usb-detach-handoff-writer` |
+
+### Third-party (auto, pinned, with project overrides)
+
+| Task | Skill | Upstream |
+|------|-------|----------|
+| Android test strategy / harness | `android-testing-setup` | android/skills (Apache-2.0) |
+| Wear Compose Material3 UI | `wear-compose-m3` | android/skills (Apache-2.0) |
+| Manifest / IPC / runtime permission audit | `android-permissions-security` | android/skills (Apache-2.0) |
+| Evidence before "done" claims | `verification-before-completion` | obra/superpowers (MIT) |
+| AGP 9 migration (built-in Kotlin, new DSL) | `agp-9-upgrade` | android/skills (Apache-2.0) |
+| Intent / exported component / PendingIntent audit | `android-intent-security` | android/skills (Apache-2.0) |
+| ANR risk audit, ANR trace triage | `anr-audit-and-fix` | android/skills (Apache-2.0) |
+| Wear OS widgets (Glance Wear), only on request | `wear-widgets` | android/skills (Apache-2.0) |
+| Root cause before any fix | `systematic-debugging` | obra/superpowers (MIT) |
+| Test first for logic changes | `test-driven-development` | obra/superpowers (MIT) |
+| Play policy / Data safety audit (**manual**) | `play-policy-insights` | android/skills (Apache-2.0) |
+| R8 keep-rule analysis (**manual**) | `r8-analyzer` | android/skills (Apache-2.0) |
+
+Provenance and local changes: `SOURCE.md` in each folder.
 
 Agent skill prefix: **`glucose-for-watch-*`** · Android package **`com.glucoseforwatch.*`** · Gradle **`GlucoseForWatch`** · install **`installGlucoseForWatchDebug`**
 
-## Cursor built-in skills
+## Built-in skills
 
-| Task | Skill |
-|------|-------|
-| PR blocked on CI / comments | `babysit` |
-| Split large branch | `split-to-prs` |
+| Task | Cursor | Claude Code |
+|------|--------|-------------|
+| PR blocked on CI / comments | `babysit` | `/steward` (user-typed) |
+| Split large branch | `split-to-prs` | — (ask the agent to split) |
+| Code review of the branch | — | `/code-review`, `/security-review` |
 
 ## Hard constraints (active soak)
 

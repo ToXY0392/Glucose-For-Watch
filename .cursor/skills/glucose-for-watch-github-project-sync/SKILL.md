@@ -1,6 +1,6 @@
 ---
 name: glucose-for-watch-github-project-sync
-description: Syncs Glucose For Watch GitHub Project with docs/plan/PROGRESS.md scoreboard, issue templates, and weekly ritual. Use on Monday planning, after gate updates, or when importing bloc tasks to GitHub Project.
+description: Syncs the Glucose For Watch GitHub Project with the docs/plan/PROGRESS.md scoreboard, issue templates and weekly ritual. Use when the user asks to update the project board, on Monday planning, after gate updates, or when importing bloc tasks to GitHub Project.
 disable-model-invocation: true
 ---
 

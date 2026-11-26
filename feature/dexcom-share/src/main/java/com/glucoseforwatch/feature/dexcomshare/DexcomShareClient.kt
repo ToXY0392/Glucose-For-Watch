@@ -312,10 +312,18 @@ private fun JSONObject.readTrend(): String {
         has("Trend") && !isNull("Trend") -> get("Trend")
         has("TrendDirection") && !isNull("TrendDirection") -> get("TrendDirection")
         has("trend") && !isNull("trend") -> get("trend")
-        else -> "Flat"
+        else -> null
     }
+    return mapDexcomTrend(raw)
+}
 
+/**
+ * Maps a raw Dexcom trend (numeric code or name) to the app token.
+ * Missing, NotComputable, RateOutOfRange or unknown trends map to "NONE" (no arrow), never to "FLAT".
+ */
+internal fun mapDexcomTrend(raw: Any?): String {
     val token = when (raw) {
+        null -> return "NONE"
         is Number -> when (raw.toInt()) {
             1 -> "DoubleUp"
             2 -> "SingleUp"
@@ -324,7 +332,7 @@ private fun JSONObject.readTrend(): String {
             5 -> "FortyFiveDown"
             6 -> "SingleDown"
             7 -> "DoubleDown"
-            else -> "Flat"
+            else -> "None"
         }
         else -> raw.toString()
     }.uppercase()
@@ -333,10 +341,10 @@ private fun JSONObject.readTrend(): String {
         "DOUBLEUP", "DOUBLE_UP" -> "UP"
         "SINGLEUP", "SINGLE_UP" -> "UP"
         "FORTYFIVEUP", "FORTY_FIVE_UP" -> "UP_RIGHT"
-        "FLAT", "NONE" -> "FLAT"
+        "FLAT" -> "FLAT"
         "FORTYFIVEDOWN", "FORTY_FIVE_DOWN" -> "DOWN_RIGHT"
         "SINGLEDOWN", "SINGLE_DOWN" -> "DOWN"
         "DOUBLEDOWN", "DOUBLE_DOWN" -> "DOWN"
-        else -> "FLAT"
+        else -> "NONE"
     }
 }

@@ -1,0 +1,4 @@
+# Agent config must keep LF on every checkout (core.autocrlf=true on Windows):
+# Claude Code does not parse CRLF skill frontmatter, and bash hooks break on CRLF.
+.claude/** text eol=lf
+.cursor/skills/** text eol=lf

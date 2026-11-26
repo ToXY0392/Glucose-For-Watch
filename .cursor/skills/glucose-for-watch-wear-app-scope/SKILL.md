@@ -1,19 +1,15 @@
 ---
 name: glucose-for-watch-wear-app-scope
-description: >-
-  Scope-limited work on sandbox/wear-app — wear module, tile, complication,
-  Compose UI only. Use when checked out on sandbox/wear-app or for wear-only
-  tasks. Refuses mobile and Dexcom feature code.
-disable-model-invocation: true
+description: Path scope for watch app work in Glucose For Watch: wear/ only (tile, complication, Compose UI), shared contract read-only, mobile and Dexcom code forbidden. Use when a change on any branch touches wear/ only.
 ---
 
 # Glucose For Watch Wear App Scope
 
-## Branch
+## Activation
 
-Expected: **`sandbox/wear-app`**. Warn if branch mismatch.
+Path-based: applies on any short-lived branch (`feat/`, `fix/`, `qa/`, `test/`, …) whose changes touch the allowed paths below. `sandbox/wear-app` is dormant — do not recreate it without an explicit decision ([WORKSPACE.md](../../../docs/plan/WORKSPACE.md)). PR target: **`develop/integration`**.
 
-Scope reference: [.cursor/workspace-scopes/wear-app.scope.md](../../workspace-scopes/wear-app.scope.md)
+Scope reference: [.cursor/workspace-scopes/wear-app.scope.md](../../../.cursor/workspace-scopes/wear-app.scope.md)
 
 ## Allowed
 

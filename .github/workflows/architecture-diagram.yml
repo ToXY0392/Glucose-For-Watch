@@ -6,6 +6,7 @@ on:
       - "docs/dev/architecture.md"
       - "docs/assets/glucose-for-watch-architecture.svg"
       - "scripts/assets/export-architecture-diagram.sh"
+      - ".github/workflows/architecture-diagram.yml"
   push:
     branches:
       - develop/integration
@@ -16,7 +17,8 @@ on:
 jobs:
   verify-diagram:
     name: Verify architecture PNG matches SVG
-    runs-on: ubuntu-latest
+    # Pinned image: the PNG must render identically run after run.
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
 
     steps:
@@ -28,8 +30,21 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install pinned diagram fonts
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-dejavu-core
+          dpkg -s fonts-dejavu-core | grep '^Version'
+
       - name: Regenerate PNG and check drift
         run: |
           chmod +x ./scripts/assets/export-architecture-diagram.sh
           bash ./scripts/assets/export-architecture-diagram.sh
           git diff --exit-code docs/assets/glucose-for-watch-architecture.png
+
+      - name: Upload regenerated PNG (commit it to fix the drift)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: glucose-for-watch-architecture-png
+          path: docs/assets/glucose-for-watch-architecture.png

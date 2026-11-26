@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(gh pr view *)",
+      "Bash(gh pr list *)",
+      "Bash(gh pr checks *)",
+      "Bash(gh pr diff *)",
+      "Bash(gh run view *)",
+      "Bash(./gradlew :*:testDebugUnitTest *)",
+      "Bash(py -3 scripts/dev/check_docs_links.py)",
+      "Bash(python3 scripts/dev/sync_skills.py --check)",
+      "PowerShell(git status *)",
+      "PowerShell(git diff *)",
+      "PowerShell(git log *)",
+      "PowerShell(git show *)",
+      "PowerShell(gh pr view *)",
+      "PowerShell(gh pr list *)",
+      "PowerShell(gh pr checks *)",
+      "PowerShell(gh pr diff *)",
+      "PowerShell(gh run view *)",
+      "PowerShell(.\\gradlew.bat :*:testDebugUnitTest *)",
+      "PowerShell(py -3 scripts/dev/check_docs_links.py)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-device-install.sh\"",
+            "timeout": 10,
+            "statusMessage": "Checking device install guard"
+          }
+        ]
+      }
+    ]
+  }
+}

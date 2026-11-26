@@ -162,7 +162,7 @@ The migration from `rebuild` is complete. `develop/integration` is the current i
 | Delete after merge | Enabled for merged pull request source branches |
 | Secret scanning | GitHub Settings → Code security → enable + push protection |
 | Pre-commit | `.githooks/pre-commit` · `git config core.hooksPath .githooks` |
-| Scope skills | `.cursor/skills/glucose-for-watch-*-scope` · `glucose-for-watch-sandbox-guard` |
+| Scope skills | `.claude/skills/glucose-for-watch-*-scope` · `glucose-for-watch-sandbox-guard` |
 | Sensitive paths | [.github/CODEOWNERS](../../.github/CODEOWNERS) |
 
 ### 3.4 Branch protection for `main` and `develop/integration`
@@ -466,7 +466,7 @@ Repo visibility: **public** ([ToXY0392/Glucose-For-Watch](https://github.com/ToX
 | Job fails in **~2 s**, **0 steps**, `runner_id: 0` | Transient outage, org policy, or (if repo made private again) quota exhausted | Re-run workflow · [Actions usage](https://github.com/settings/billing) if private |
 | Full CI ~10 min then **success** | Normal (Kotlin tree changed) | — |
 | Docs/QA PR: **Verify docs and QA scripts** ~5 s | Normal (`ci.yml` skips Gradle when only `docs/**` or `scripts/qa/**` change) | — |
-| Architecture PNG drift | Regenerate on Linux: `bash scripts/assets/export-architecture-diagram.sh` | Commit PNG |
+| Architecture PNG drift | Download the `glucose-for-watch-architecture-png` artifact from the failed run (or regenerate under WSL with `fonts-dejavu-core`: `bash scripts/assets/export-architecture-diagram.sh`) | Commit PNG |
 
 **2026-05-27:** repo switched from private → public after repeated `runner_id: 0` failures (private quota exhausted). Prefer **green CI before merge**; local fallback: `./gradlew` + `hardware-smoke.ps1`.
 

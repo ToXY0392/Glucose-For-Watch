@@ -65,3 +65,10 @@ node_modules/
 *.apk
 *.aab
 !**/src/**/assets/**/*.apk
+
+# Claude Code personal overrides
+.claude/settings.local.json
+
+# Third-party skill scratch output (play-policy-insights, r8-analyzer)
+.scratch/
+/tmp/

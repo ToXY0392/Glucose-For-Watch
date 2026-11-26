@@ -1,7 +1,6 @@
 ---
 name: glucose-for-watch-toxy-theme-maintainer
-description: Keeps ToXY chrome tokens in sync between toxy-ux-kit JSON, exported XML, and Android resources. Use when changing brand colors, accents, or migrating wg7_* aliases.
-disable-model-invocation: true
+description: Keeps ToXY chrome tokens in sync between toxy-ux-kit JSON, exported XML and Android resources in Glucose For Watch. Use when changing brand colors or accents, exporting the kit to Android, or migrating wg7_* aliases.
 ---
 
 # Glucose For Watch ToXY Theme Maintainer

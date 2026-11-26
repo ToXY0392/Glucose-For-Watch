@@ -2,19 +2,44 @@ version: 2
 updates:
   - package-ecosystem: gradle
     directory: /
+    target-branch: develop/integration
     schedule:
       interval: weekly
       day: monday
     labels:
       - area:infra
       - bloc-s
-    open-pull-requests-limit: 2
+    open-pull-requests-limit: 5
     commit-message:
       prefix: chore
       include: scope
+    # A dependency joins the first group whose patterns match it, so `test` comes before `androidx`.
+    groups:
+      test:
+        patterns:
+          - "junit:junit"
+          - "org.robolectric:*"
+          - "androidx.test*"
+      kotlin-toolchain:
+        patterns:
+          - "org.jetbrains.kotlin.*"
+          - "com.google.devtools.ksp"
+          - "com.android.*"
+      androidx:
+        patterns:
+          - "androidx.*"
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # OkHttp 5 changes the API; that migration is done by hand.
+      - dependency-name: "com.squareup.okhttp3:*"
+        update-types:
+          - "version-update:semver-major"
 
   - package-ecosystem: github-actions
     directory: /
+    target-branch: develop/integration
     schedule:
       interval: weekly
       day: monday
