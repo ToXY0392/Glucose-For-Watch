@@ -44,7 +44,7 @@ jobs:
 
       - name: Upload regenerated PNG (commit it to fix the drift)
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: glucose-for-watch-architecture-png
           path: docs/assets/glucose-for-watch-architecture.png
