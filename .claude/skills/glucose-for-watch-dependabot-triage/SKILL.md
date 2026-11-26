@@ -13,7 +13,7 @@ disable-model-invocation: true
 ## Rules
 
 1. **One concern per PR** — never merge Dependabot with feature bloc work.
-2. **AGP / Gradle / Kotlin major bumps** — invoke `glucose-for-watch-dependency-advisor` first; may need compat matrix update (`glucose-for-watch-compat-matrix-maintainer`).
+2. **AGP / Gradle / Kotlin major bumps** — invoke `glucose-for-watch-dependency-advisor` first (it also checks the compat matrix).
 3. **GitHub Actions bumps** — run `verify_ci.sh` after merge; check workflow breaking changes.
 4. **Transitive only** — prefer merge if CI green and no AGP conflict.
 5. During **soak C.7** — merge low-risk PRs only if CI green; no local install required for CI-only deps.
