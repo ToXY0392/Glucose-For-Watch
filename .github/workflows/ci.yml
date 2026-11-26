@@ -46,7 +46,7 @@ jobs:
             exit 0
           fi
           files="$(git diff --name-only "$BASE" "$HEAD")"
-          if echo "$files" | grep -qE '^(mobile|wear|core|feature|toxy-ux-kit)/|(^|/)build\.gradle\.kts$|(^|/)settings\.gradle\.kts$|^gradle\.properties$|(^|/)gradle/'; then
+          if echo "$files" | grep -qE '^(mobile|wear|core|feature|toxy-ux-kit)/|(^|/)build\.gradle\.kts$|(^|/)settings\.gradle\.kts$|^gradle\.properties$|(^|/)gradle/|^\.github/workflows/ci\.yml$|^scripts/dev/verify_ci\.sh$'; then
             echo "kotlin_tree=true" >> "$GITHUB_OUTPUT"
           else
             echo "kotlin_tree=false" >> "$GITHUB_OUTPUT"
@@ -68,6 +68,18 @@ jobs:
           echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
           echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
           java -version
+
+      - name: Set up Gradle (wrapper + dependency cache)
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop/integration' }}
+
+      - name: Cache Robolectric Android jars
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2/repository/org/robolectric
+          key: robolectric-${{ hashFiles('mobile/build.gradle.kts', 'wear/build.gradle.kts') }}
+          restore-keys: robolectric-
 
       - name: Ensure Gradle wrapper executable
         run: chmod +x ./gradlew
@@ -134,6 +146,11 @@ jobs:
           echo "JAVA_HOME=${JAVA_HOME_17_X64}" >> "$GITHUB_ENV"
           echo "${JAVA_HOME_17_X64}/bin" >> "$GITHUB_PATH"
           java -version
+
+      - name: Set up Gradle (wrapper + dependency cache)
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/develop/integration' }}
 
       - name: Ensure scripts executable
         run: chmod +x ./gradlew ./scripts/release/verify_release_artifacts.sh
