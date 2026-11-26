@@ -108,6 +108,14 @@ Source: [.claude/skills/](.claude/skills/) · plan and policy: [docs/plan/SKILLS
 | Wear Compose Material3 UI | `wear-compose-m3` | android/skills (Apache-2.0) |
 | Manifest / IPC / runtime permission audit | `android-permissions-security` | android/skills (Apache-2.0) |
 | Evidence before "done" claims | `verification-before-completion` | obra/superpowers (MIT) |
+| AGP 9 migration (built-in Kotlin, new DSL) | `agp-9-upgrade` | android/skills (Apache-2.0) |
+| Intent / exported component / PendingIntent audit | `android-intent-security` | android/skills (Apache-2.0) |
+| ANR risk audit, ANR trace triage | `anr-audit-and-fix` | android/skills (Apache-2.0) |
+| Wear OS widgets (Glance Wear), only on request | `wear-widgets` | android/skills (Apache-2.0) |
+| Root cause before any fix | `systematic-debugging` | obra/superpowers (MIT) |
+| Test first for logic changes | `test-driven-development` | obra/superpowers (MIT) |
+| Play policy / Data safety audit (**manual**) | `play-policy-insights` | android/skills (Apache-2.0) |
+| R8 keep-rule analysis (**manual**) | `r8-analyzer` | android/skills (Apache-2.0) |
 
 Provenance and local changes: `SOURCE.md` in each folder.
 
