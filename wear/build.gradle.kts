@@ -70,11 +70,11 @@ dependencies {
     // Docs: https://developer.android.com/training/wearables/tiles/debug
     // tiles-tooling-preview / wear-tooling-preview = implementation (Studio discovery)
     // tiles-tooling = debugImplementation (preview renderer)
-    implementation("androidx.wear.tiles:tiles:1.6.1")
-    implementation("androidx.wear.tiles:tiles-material:1.6.1")
-    implementation("androidx.wear.tiles:tiles-tooling-preview:1.6.1")
+    implementation("androidx.wear.tiles:tiles:1.6.2")
+    implementation("androidx.wear.tiles:tiles-material:1.6.2")
+    implementation("androidx.wear.tiles:tiles-tooling-preview:1.6.2")
     implementation("androidx.wear:wear-tooling-preview:1.0.0")
-    debugImplementation("androidx.wear.tiles:tiles-tooling:1.6.1")
+    debugImplementation("androidx.wear.tiles:tiles-tooling:1.6.2")
     implementation("com.google.guava:guava:33.2.1-android")
 
     testImplementation("junit:junit:4.13.2")
