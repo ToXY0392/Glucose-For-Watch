@@ -29,7 +29,7 @@ class EncryptedTokenRepository(private val context: Context, private val testEnc
         try {
             migrateFromLegacyIfNeeded()
         } catch (t: Throwable) {
-            Log.w(TAG, "token migration failed: ${'$'}t")
+            Log.w(TAG, "token migration failed: ${t.javaClass.simpleName}")
         }
     }
 
@@ -64,7 +64,7 @@ class EncryptedTokenRepository(private val context: Context, private val testEnc
                         refresh?.let { putString(KEY_REFRESH, it) }
                     }.commit()
                 } catch (t: Throwable) {
-                    Log.w(TAG, "failed to write encrypted tokens: ${'$'}t")
+                    Log.w(TAG, "failed to write encrypted tokens: ${t.javaClass.simpleName}")
                     false
                 }
 
