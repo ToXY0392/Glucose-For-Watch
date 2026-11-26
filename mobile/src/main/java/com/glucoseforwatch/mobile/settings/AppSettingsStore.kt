@@ -17,9 +17,14 @@ data class DexcomUserSettings(
     fun isConfigured(): Boolean = username.isNotBlank() && password.isNotBlank()
 }
 
-/** Encrypted storage for Dexcom settings and active-sync toggle. */
+/**
+ * Encrypted storage for Dexcom settings and active-sync toggle.
+ * The encrypted preferences are created once per process: building the master key and
+ * EncryptedSharedPreferences hits the Android Keystore, and this store is instantiated
+ * from many short-lived callers (services, receivers, UI).
+ */
 class AppSettingsStore(context: Context) {
-    private val prefs: SharedPreferences = createPreferences(context)
+    private val prefs: SharedPreferences = sharedPreferences(context.applicationContext)
 
     fun loadDexcomSettings(): DexcomUserSettings {
         return DexcomUserSettings(
@@ -65,21 +70,29 @@ class AppSettingsStore(context: Context) {
         )
     }
 
-    private fun createPreferences(context: Context): SharedPreferences {
-        val masterKey = MasterKey.Builder(context)
-            .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-            .build()
-
-        return EncryptedSharedPreferences.create(
-            context,
-            PREFS_NAME,
-            masterKey,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
-        )
-    }
-
     companion object {
+        @Volatile
+        private var cachedPrefs: SharedPreferences? = null
+
+        private fun sharedPreferences(appContext: Context): SharedPreferences =
+            cachedPrefs ?: synchronized(this) {
+                cachedPrefs ?: createPreferences(appContext).also { cachedPrefs = it }
+            }
+
+        private fun createPreferences(context: Context): SharedPreferences {
+            val masterKey = MasterKey.Builder(context)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                .build()
+
+            return EncryptedSharedPreferences.create(
+                context,
+                PREFS_NAME,
+                masterKey,
+                EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
+            )
+        }
+
         private const val PREFS_NAME = "widget_g7_settings"
         private const val KEY_DEXCOM_USERNAME = "dexcom_username"
         private const val KEY_DEXCOM_PASSWORD = "dexcom_password"
