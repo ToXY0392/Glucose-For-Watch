@@ -12,13 +12,16 @@ _Màj : 2026-11-26 · branche : develop/integration_
 - 2026-11-26 Rapport consultant : https://claude.ai/artifact/2RjEK1kUCdnG2GEX4pmmfT
 - 2026-11-26 Back-merge `main` → `develop/integration` fait (PR #127) ; plus de dérive.
 - 2026-11-26 Build `:mobile` réparé : caches `.gradle/`, `.gradle-user*` et `build/` supprimés (référençaient l'ancien chemin `Desktop\THP\Projects`). `:mobile:assembleDebug :wear:assembleDebug` OK.
+- 2026-11-26 Allowlist Claude Code (`.claude/settings.json`) : git/gh lecture seule + `:<module>:testDebugUnitTest` — PR #129. `git branch` exclu (permet `-D`).
+- 2026-11-26 Tendance Dexcom absente / NotComputable / RateOutOfRange / inconnue → `NONE` (pas de flèche montre, « tendance indisponible » téléphone), plus jamais `FLAT` — pourquoi : fausse flèche « stable ». PR #130.
+- 2026-11-26 Dependabot : #114 (constraintlayout 2.2.2) fusionnée ; #115 (kapt 2.4.21) fermée — plugin kapt déclaré `apply false`, jamais appliqué ; sa version doit suivre Kotlin.
 
 ## Prochaines étapes
-1. Compléter `.claude/settings.json` : allowlist lecture seule + tests ciblés (le hook y est déjà).
-2. Décider : `DexcomShareClient.readTrend()` renvoie `Flat` si tendance absente.
-3. Trier Dependabot #115 (kapt 1.8 → 2.4, majeur) et #114 (constraintlayout patch).
+1. Optionnel : retirer la déclaration kapt inutilisée de `build.gradle.kts` (évite de futures PR Dependabot).
+2. Optionnel : `target-branch: develop/integration` dans `.github/dependabot.yml` pour éviter les back-merges.
 
 ## Pièges connus
 - `main` protégée : PR obligatoire, push direct refusé. Ce qui est fusionné sur `main` doit revenir sur `develop/integration` (back-merge), sinon dérive.
 - `core.autocrlf=true` : `.gitattributes` force LF pour `.claude/**` — un SKILL.md en CRLF n'est pas lu par Claude Code (`--lint` le signale).
+- PowerShell 5.1 + `git commit -m` / `gh --body` avec guillemets internes : arguments cassés → passer par `-F` / `--body-file` (fichier UTF-8 **sans BOM**, sinon BOM dans le titre du commit).
 - Chemins longs Windows dans les caches Gradle : `Remove-Item` échoue → `[System.IO.Directory]::Delete("\\?\<chemin>", $true)`.
