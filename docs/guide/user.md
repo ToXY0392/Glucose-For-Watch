@@ -34,6 +34,9 @@ Install Glucose For Watch and see your Dexcom glucose on Wear OS (app, tile, com
 - Network failures retry silently with backoff. The interrupted-sync
   notification is shown only after three consecutive failures; authentication
   failures prompt reconnection after two consecutive failures.
+- New readings depend on Dexcom Share availability. A Dexcom Share outage stops
+  fresh readings and phone-to-watch updates; cached values can remain visible
+  but become stale. See [Dexcom Share unavailable](#dexcom-share-unavailable).
 
 ### Phone home screen
 
@@ -92,6 +95,20 @@ again; Android clears the app's encrypted local settings on uninstall.
 ### Dexcom authentication errors
 
 Verify Share is enabled in the official Dexcom app, confirm US vs OUS server, update password if changed.
+
+### Dexcom Share unavailable
+
+The app retrieves readings from Dexcom Share and does not connect directly to
+the glucose sensor. If Dexcom Share has an outage, Glucose For Watch cannot
+fetch fresh readings or forward new readings to the watch. Automatic retries
+resume when the service is reachable again; there is no app-side way to bypass
+a Dexcom service outage.
+
+Cached readings may still appear on the phone or watch. Check their timestamp
+and stale indication; an old value is not a current reading. Check the official
+Dexcom app for current readings, and do not base treatment decisions on stale
+cached data. Once Share is available again, open Glucose For Watch and tap
+**Sync** if an update has not arrived.
 
 ### Healthy sync checklist
 

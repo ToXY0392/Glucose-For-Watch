@@ -5,9 +5,9 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT_DIR"
 
 FILES=(
-  "docs/CGU.md"
-  "docs/POLITIQUE_CONFIDENTIALITE.md"
-  "docs/LEGAL_PUBLICATION_CHECKLIST.md"
+  "docs/legal/medical-disclaimer.md"
+  "docs/legal/privacy-policy.md"
+  "docs/legal/publication-checklist.md"
 )
 
 echo "[gfw] Checking legal placeholders"
@@ -23,7 +23,7 @@ if [[ "$missing_file" -ne 0 ]]; then
   exit 1
 fi
 
-if grep -nE "\\[À compléter\\]|\\[A completer\\]|\\[À completer\\]" "${FILES[@]}"; then
+if grep -niE "\\[(TODO|TBD|TO BE COMPLETED|À compléter|A completer)[^]]*\\]|REPLACE_ME|example\\.com" "${FILES[@]}"; then
   if [[ "${ALLOW_INCOMPLETE_LEGAL:-0}" == "1" ]]; then
     echo "[gfw] Legal placeholders detected but allowed (ALLOW_INCOMPLETE_LEGAL=1)"
     exit 0

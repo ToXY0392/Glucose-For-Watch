@@ -1,7 +1,7 @@
 # Stability gates — Glucose For Watch
 
 > **Role:** **blocking** criteria between each block in the [PROGRESS.md plan](PROGRESS.md).  
-> **Rule:** no tag (`v0.5.0`, `v0.6.0`) without a signed **Go** on the corresponding gate.
+> **Rule:** no release tag without a signed **Go** on the matching gate. The v0.5.0 and v0.6.0 sections below are historical sign-offs; current v1.0.0 criteria are in [G-V1](#g-v1--v100-release-candidate).
 
 ---
 
@@ -143,6 +143,25 @@ Deliverable: `docs/qa/YYYY-MM-DD-stability-signoff.md` + captures + logcat excer
 | **G-M8** | tag v0.6.0 | G-F0→F3 ✅ · K8 · full smoke |
 
 **Compose rule:** 1 migrated screen = 1 gate · no merging F2+F3 in one PR.
+
+---
+
+## G-V1 — v1.0.0 release candidate
+
+The v0.6.0 evidence is a historical baseline, not a sign-off for code changed afterward. A v1.0.0 tag or public release remains blocked until every item below is reviewed on the exact release commit.
+
+| # | Criterion | Evidence |
+|---|-----------|----------|
+| 1 | CI unit tests, token/AGP checks, and release APK builds pass on the candidate commit | GitHub Actions run |
+| 2 | Phone and Wear APKs report the same version name and version code | Release artifact metadata |
+| 3 | Fresh phone-to-watch sync, manual refresh, stale-data behavior, and complication/tile parity pass on the candidate build | Operator reports v1.0.0 works very well on the target phone and watch; detailed scenario results are not recorded. See [device validation](../qa/2026-10-07-v1-device-validation.md). |
+| 4 | Overnight/background stability is revalidated after the post-v0.6.0 sync and Android 17 changes | Operator reports the candidate works very well; a dedicated soak result is not recorded. |
+| 5 | Android 17/API 37 support claims match actual device validation; otherwise keep the readiness badge explicitly pending | Candidate installed and operator-checked on Pixel 8a and Pixel Watch 2, both Android 17/API 37; see [device validation](../qa/2026-10-07-v1-device-validation.md). |
+| 6 | Legal/publication checklist is completed for the intended owner-published, personal-sideload distribution | [Publication checklist](../legal/publication-checklist.md) and operator sign-off |
+| 7 | Owner-built Phone and Wear debug APKs match the tested installation certificate; private keystore is preserved outside the repository | Local certificate comparison; never commit the keystore |
+| 8 | Release notes, changelog, and version metadata agree; only then create the tag and GitHub release | Release checklist |
+
+**Current decision: NO-GO for publication.** The candidate is installed on both target devices, both run Android 17/API 37, the signatures match, and the operator reports that it works very well. Formal detailed scenario/soak evidence may still be added; publication checklist sign-off and final owner-built artifact verification remain outstanding. See [v1.0.0 readiness](V1-RELEASE-READINESS.md).
 
 ---
 

@@ -10,7 +10,7 @@
 |-------|-------|
 | Date | 2026-05-26 |
 | App version | 0.4.0 (vc 23) |
-| Phone | Pixel 8a · 41031JEKB03416 |
+| Phone | Pixel 8a · [redacted] |
 | Watch | Pixel Watch 2 · wireless adb |
 | Target gate | **G-C** · K2 C.7 · sideload v0.5.0 |
 
