@@ -57,8 +57,8 @@ dependencies {
     implementation("androidx.core:core-ktx:1.19.1")
     implementation("androidx.activity:activity-compose:1.13.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.11.1")
-    implementation("androidx.wear.compose:compose-material3:1.5.6")
-    implementation("androidx.wear.compose:compose-foundation:1.5.6")
+    implementation("androidx.wear.compose:compose-material3:1.7.2")
+    implementation("androidx.wear.compose:compose-foundation:1.7.2")
     implementation("com.google.android.gms:play-services-wearable:20.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
 
@@ -82,5 +82,5 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 
     debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.wear.compose:compose-ui-tooling:1.5.6")
+    debugImplementation("androidx.wear.compose:compose-ui-tooling:1.7.2")
 }
