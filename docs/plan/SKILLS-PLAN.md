@@ -11,6 +11,7 @@ How agent skills are organised for Claude Code and Cursor, and what changed in t
 | [`scripts/dev/sync_skills.py`](../../scripts/dev/sync_skills.py) | Mirror (`sync_skills.py`), stale-mirror check (`--check`), validation (`--lint`). |
 | [`.claude/settings.json`](../../.claude/settings.json) + [`.claude/hooks/`](../../.claude/hooks/) | Claude Code hooks (device-install guard). |
 | [`.cursor/rules/`](../../.cursor/rules/) | Cursor rules; their content is summarised in [AGENTS.md](../../AGENTS.md) for Claude Code. |
+| [`.gitattributes`](../../.gitattributes) | Forces LF for `.claude/**` and `.cursor/skills/**`: Claude Code does not parse CRLF frontmatter (`--lint` flags it). |
 
 After changing a skill:
 
