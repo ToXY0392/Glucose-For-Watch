@@ -12,7 +12,10 @@ val gfwVersionName = providers.gradleProperty("gfwVersionName").get()
 
 android {
     namespace = "com.glucoseforwatch.mobile"
-    compileSdk = 37
+    compileSdk {
+        // 37.1: Compose 1.13 (compose-bom 2026.11.01) requires it in its AAR metadata.
+        version = release(37) { minorApiLevel = 1 }
+    }
 
     defaultConfig {
         //noinspection SpellCheckingInspection
@@ -113,7 +116,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
-    val composeBom = platform("androidx.compose:compose-bom:2025.04.01")
+    val composeBom = platform("androidx.compose:compose-bom:2026.11.01")
     implementation(composeBom)
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.runtime:runtime-livedata")
