@@ -1,74 +1,102 @@
+<div align="center">
+
 # Glucose For Watch
 
-<p align="center">
-  <img alt="Version 1.0.0 candidate" src="https://img.shields.io/badge/version-1.0.0%20candidate-FBBC04?style=for-the-badge">
-  <img alt="Android 17 candidate device check" src="https://img.shields.io/badge/Android%2017-candidate%20device%20check%20passed-0B3D2E?style=for-the-badge&logo=android&logoColor=white">
-  <img alt="Wear OS" src="https://img.shields.io/badge/Wear%20OS-Tile%20%2B%20Complication-4285F4?style=for-the-badge&logo=wearos&logoColor=white">
-  <br>
-  <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-2.3.20-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white">
-  <img alt="Jetpack Compose" src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white">
-</p>
+**Your Dexcom glucose readings, at a glance on your Wear OS watch.**
 
-Glucose For Watch is an Android phone app and Wear OS companion that retrieves glucose readings from Dexcom Share and displays them on a paired watch.
+An Android phone app that reads Dexcom Share and keeps a Wear OS companion in sync —
+in the watch app, a tile, and watch-face complications.
 
-The phone app handles Dexcom Share access and synchronization. The watch companion presents the latest reading in its app, a Wear OS tile, and supported watch-face complications.
+<img alt="Version 1.0.0 candidate" src="https://img.shields.io/badge/version-1.0.0%20candidate-FBBC04?style=flat-square">
+<img alt="Android 9+" src="https://img.shields.io/badge/Android-9%2B%20(API%2028)-3DDC84?style=flat-square&logo=android&logoColor=white">
+<img alt="Wear OS API 30+" src="https://img.shields.io/badge/Wear%20OS-API%2030%2B-4285F4?style=flat-square&logo=wearos&logoColor=white">
+<img alt="Android 17 candidate device check passed" src="https://img.shields.io/badge/Android%2017-candidate%20device%20check%20passed-0B3D2E?style=flat-square&logo=android&logoColor=white">
+<br>
+<img alt="Kotlin 2.3.20" src="https://img.shields.io/badge/Kotlin-2.3.20-7F52FF?style=flat-square&logo=kotlin&logoColor=white">
+<img alt="Jetpack Compose Material 3" src="https://img.shields.io/badge/Jetpack%20Compose-Material%203-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white">
+
+[Features](#features) · [How it works](#how-it-works) · [Install](#install) · [Build from source](#build-from-source) · [Documentation](#documentation)
+
+</div>
+
+> [!WARNING]
+> **Not a certified medical device.** Readings are for information only and must not be the sole basis for treatment decisions. Confirm them with an official Dexcom app and follow your healthcare provider's guidance. Read the full [medical disclaimer](docs/legal/medical-disclaimer.md).
 
 ## Features
 
-- Reads glucose data from Dexcom Share for Dexcom G6 and G7 accounts.
-- Sends readings from an Android phone to a paired Wear OS watch using the Wearable Data Layer.
-- Displays readings in **mg/dL** or **mmol/L** on the phone and watch.
-- Provides a phone app, a watch tile, and short-text, long-text, and ranged-value complications.
-- Supports automatic background updates and manual refresh from the phone or watch tile.
-- Shows sync status and marks cached watch readings as stale when they are no longer recent.
+| | |
+|---|---|
+| 📡 **Dexcom Share** | Reads glucose data for Dexcom **G6** and **G7** accounts |
+| ⌚ **Phone → watch sync** | Sends each reading to the paired watch over the Wearable Data Layer |
+| 🧩 **Watch surfaces** | Watch app, a tile, and short-text, long-text and ranged-value complications |
+| 📏 **Units** | **mg/dL** or **mmol/L**, on the phone and the watch |
+| 🔄 **Updates** | Automatic background updates, plus manual refresh from the phone or the watch tile |
+| 🕒 **Freshness** | Sync status on the phone; cached watch readings are marked stale when they are no longer recent |
 
-Glucose For Watch uses Dexcom Share credentials; it does not connect directly to a sensor over Bluetooth. Dexcom Share must be enabled for the account. If Dexcom Share is unavailable, fresh readings and phone-to-watch updates stop until the service recovers; see the [Dexcom outage guidance](docs/guide/dexcom.md#dexcom-share-service-outages).
+> [!NOTE]
+> Glucose For Watch uses **Dexcom Share credentials**; it does not connect to a sensor over Bluetooth. Sharing must be enabled on the account. If Dexcom Share is down, fresh readings and phone-to-watch updates stop until the service recovers — see the [outage guidance](docs/guide/dexcom.md#dexcom-share-service-outages).
+
+## How it works
+
+```mermaid
+flowchart LR
+    D["☁️ Dexcom Share<br/>(HTTPS)"] -->|"poll ~45 s"| P["📱 Phone app<br/>sync engine"]
+    P -->|"/glucose/latest"| W["⌚ Wear OS app<br/>cache · tile · complications"]
+    W -.->|"/glucose/watch/ack"| P
+```
+
+More in the [architecture guide](docs/dev/architecture.md).
 
 ## Requirements
 
-### To use the apps
+| To use the apps | To build from source |
+|---|---|
+| Android phone, **Android 9 (API 28)** or later | Android Studio with the Android SDK |
+| Wear OS watch, **API 30** or later, paired with the phone | **Android SDK Platform 37** |
+| Dexcom Share account with sharing enabled and follower credentials | **JDK 17+** (JBR 21 recommended in Android Studio) |
+| Internet connection on the phone | |
 
-- An Android phone running Android 9 (API 28) or later.
-- A Wear OS watch running Android API 30 or later, paired with the phone.
-- A Dexcom Share account with sharing enabled and the appropriate follower credentials.
-- An internet connection on the phone to retrieve readings from Dexcom Share.
+## Install
 
-### To build from source
+The latest published release is **[v0.6.0](https://github.com/ToXY0392/Glucose-For-Watch/releases/tag/v0.6.0)**. Version 1.0.0 is not published yet.
 
-- Android Studio with a compatible Android SDK.
-- Android SDK Platform 36.
-- JDK 17 or later. JBR 21 is recommended when building from Android Studio.
+1. Install the phone APK on your phone and the watch APK on your Wear OS watch.
+2. Open the phone app and review the in-app legal notices.
+3. Enter your Dexcom Share credentials and region, then start synchronization.
+4. On the watch, add the **Glucose For Watch** tile or a supported complication.
 
-The phone app supports Android API 28 and later. The Wear OS app supports Android API 30 and later.
+> [!IMPORTANT]
+> The app is **not distributed through Google Play**. Official APKs may be published in this repository for personal sideloading only.
+> - They are signed with the Android **debug key**. Install an update only if it is signed with the same key as the installed app.
+> - Uninstalling removes local app data: back up anything important first.
+> - The debug signing key may change; future updates are not guaranteed to stay compatible.
 
-## Build and install
+## Build from source
 
-Clone the repository and open it in Android Studio, or build from a terminal.
-
-Create a local `local.properties` file in the repository root and set the path to your Android SDK:
+**1. Point Gradle to your Android SDK** in a `local.properties` file at the repository root (never commit it):
 
 ```properties
 sdk.dir=/path/to/Android/sdk
 ```
 
-Do not commit `local.properties`.
-
-Build both debug APKs:
-
-```powershell
-.\gradlew.bat :mobile:assembleDebug :wear:assembleDebug
-```
+**2. Build both debug APKs:**
 
 ```bash
-./gradlew :mobile:assembleDebug :wear:assembleDebug
+./gradlew :mobile:assembleDebug :wear:assembleDebug     # Windows: .\gradlew.bat …
 ```
 
-The APKs are written to:
+| APK | Output |
+|---|---|
+| 📱 Phone | `mobile/build/outputs/apk/debug/mobile-debug.apk` |
+| ⌚ Watch | `wear/build/outputs/apk/debug/wear-debug.apk` |
 
-- Phone: `mobile/build/outputs/apk/debug/mobile-debug.apk`
-- Watch: `wear/build/outputs/apk/debug/wear-debug.apk`
+**3. Install** each APK on its device with Android Studio or ADB.
 
-Install each APK on its corresponding device using Android Studio or ADB. For the repository's combined phone-and-watch install task, configure the optional phone and watch serials in `local.properties`:
+<details>
+<summary>Install on phone and watch in one command</summary>
+<br>
+
+Add the device serials to `local.properties`:
 
 ```properties
 gfw.adb.phone.serial=<phone_adb_serial>
@@ -77,63 +105,50 @@ gfw.adb.watch.serial=<watch_adb_serial>
 
 Then run:
 
-```powershell
-.\gradlew.bat installGlucoseForWatchDebug
-```
-
 ```bash
-./gradlew installGlucoseForWatchDebug
+./gradlew installGlucoseForWatchDebug     # Windows: .\gradlew.bat installGlucoseForWatchDebug
 ```
+</details>
 
-After installation, open the phone app, review the in-app legal notices, enter the Dexcom Share credentials and region, and start synchronization. Add the Glucose For Watch tile or a supported complication to the watch as needed.
-
-The latest published release is [v0.6.0](https://github.com/ToXY0392/Glucose-For-Watch/releases/tag/v0.6.0). Version 1.0.0 is not published yet. The project is not distributed through Google Play; official APKs may be published on this repository for personal sideloading only.
-
-Official APKs are signed with the Android debug key. Install updates only when they are signed with the same key as the installed app. Do not uninstall an existing installation before backing up anything important: uninstalling removes local app data. The debug signing key may change, and future updates are not guaranteed to remain compatible.
+More commands in the [developer setup guide](docs/dev/setup.md).
 
 ## Project structure
 
 | Path | Purpose |
 |------|---------|
-| `mobile/` | Android phone app, Dexcom access, and sync control |
-| `wear/` | Wear OS companion app, tile, and complications |
+| `mobile/` | Android phone app, Dexcom access and sync control |
+| `wear/` | Wear OS companion app, tile and complications |
 | `core/model/` | Shared glucose and sync models |
 | `core/datalayer-contract/` | Phone-to-watch data contract |
 | `feature/dexcom-share/` | Dexcom Share client |
 | `feature/sync/` | Synchronization logic |
 | `feature/watch-install/` | Debug watch installation support |
-| `docs/` | User guides, technical documentation, and policies |
+| `docs/` | User guides, technical documentation and policies |
 | `scripts/` | Development and QA tools |
-
-For a detailed module overview and synchronization flow, see [the architecture guide](docs/dev/architecture.md).
 
 ## Privacy and security
 
-- Dexcom Share credentials are stored encrypted on the phone.
-- Glucose readings are cached locally on the phone and watch for synchronization and display.
-- Never commit credentials, `local.properties`, keystores, signing secrets, or real glucose readings.
-- Do not include credentials or identifiable health data in issues, logs, screenshots, or pull requests.
+- 🔐 Dexcom Share credentials are stored **encrypted** on the phone.
+- 💾 Glucose readings are cached locally on the phone and watch for sync and display.
+- 🚫 Never commit credentials, `local.properties`, keystores, signing secrets or real glucose readings.
+- 🙈 Keep credentials and identifiable health data out of issues, logs, screenshots and pull requests.
 
-Read the [privacy policy](docs/legal/privacy-policy.md) and [security policy](SECURITY.md) for details.
-
-## Medical disclaimer
-
-Glucose For Watch is **not a certified medical device**. Its readings are for informational purposes and must not be used as the sole basis for treatment decisions. Confirm readings with an official Dexcom app and follow your healthcare provider's guidance.
-
-Read the full [medical disclaimer](docs/legal/medical-disclaimer.md).
+Details: [privacy policy](docs/legal/privacy-policy.md) · [security policy](SECURITY.md)
 
 ## Documentation
 
-- [User guide](docs/guide/user.md)
-- [Dexcom Share compatibility and setup](docs/guide/dexcom.md)
-- [Developer setup and build commands](docs/dev/setup.md)
-- [Architecture and synchronization flow](docs/dev/architecture.md)
-- [Documentation index](docs/index.md)
+| Guide | |
+|---|---|
+| 👤 [User guide](docs/guide/user.md) | Setup and everyday use |
+| 🩸 [Dexcom Share](docs/guide/dexcom.md) | G6 / G7 compatibility, requirements, outages |
+| 🛠️ [Developer setup](docs/dev/setup.md) | Toolchain and build commands |
+| 🧭 [Architecture](docs/dev/architecture.md) | Modules and synchronization flow |
+| 📚 [Documentation index](docs/index.md) | Everything else |
 
 ## Contributing
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Development changes are reviewed through pull requests and the repository's automated checks.
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Changes are reviewed through pull requests and the repository's automated checks.
 
 ## License
 
-The [license](LICENSE) permits downloading and installing official APKs published by the copyright holder in this repository for personal, non-commercial sideloading on devices you own or control. It does not permit redistribution, modification, commercial use, or app-store publication.
+The [license](LICENSE) allows downloading and installing official APKs published by the copyright holder in this repository, for **personal, non-commercial sideloading** on devices you own or control. It does not allow redistribution, modification, commercial use or app-store publication.
