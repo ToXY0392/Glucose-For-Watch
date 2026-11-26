@@ -8,6 +8,7 @@ object SyncTrendTextFormatter {
         "FLAT" -> "stable"
         "DOWN_RIGHT" -> "en baisse légère"
         "DOWN" -> "en baisse"
+        "NONE" -> "tendance indisponible"
         else -> trend
     }
 }

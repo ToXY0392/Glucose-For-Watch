@@ -14,6 +14,11 @@ class SyncTrendTextFormatterTest {
     }
 
     @Test
+    fun none_trend_is_reported_as_unavailable() {
+        assertEquals("tendance indisponible", SyncTrendTextFormatter.displayTrend("NONE"))
+    }
+
+    @Test
     fun unknown_trend_is_preserved() {
         assertEquals("CUSTOM", SyncTrendTextFormatter.displayTrend("CUSTOM"))
     }
