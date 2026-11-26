@@ -1,13 +1,13 @@
 ---
-name: plan-et-execution
-description: Workflow en 2 phases strictes — plan court (3-5 points) validé par l'utilisateur avant toute édition, puis exécution incrémentale vérifiée par tests unitaires ciblés. Utiliser pour toute feature, fix ou refacto non trivial.
+name: glucose-for-watch-plan-et-execution
+description: Two-phase workflow for Glucose For Watch: a short 3-5 point plan validated by the user before any edit, then incremental execution checked by targeted unit tests. Use when starting any non-trivial feature, fix or refactor.
 ---
 
 # Plan puis exécution
 
 ## Phase 1 — Plan (aucune édition)
 
-1. Lire uniquement le code concerné (voir skill `economie`).
+1. Lire uniquement le code concerné (voir skill `glucose-for-watch-economie`).
 2. Produire un plan **3 à 5 points** max :
    - objectif en 1 ligne
    - fichiers touchés (chemins exacts)
@@ -30,5 +30,7 @@ Pour chaque étape du plan :
 
 ## Fin
 
+- Aucune affirmation « fait / vert » sans sortie de commande fraîche (skill `verification-before-completion`).
+- Scope des fichiers touchés : `glucose-for-watch-sandbox-guard`.
 - Rapport : étapes faites, tests lancés + résultat réel, reste à faire.
-- Mettre à jour `.claude/SESSION_MEMORY.md` (skill `memoire-projet`).
+- Mettre à jour `.claude/SESSION_MEMORY.md` (skill `glucose-for-watch-memoire-projet`).

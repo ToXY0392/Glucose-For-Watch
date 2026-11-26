@@ -1,6 +1,6 @@
 ---
-name: economie
-description: Économie de quotas/tokens — routage de modèle léger, lectures ciblées, pas de scans globaux, /compact ou /clear entre tâches. Utiliser en début de tâche ou quand le contexte grossit.
+name: glucose-for-watch-economie
+description: Keeps Claude Code sessions on Glucose For Watch cheap: model routing (Sonnet default, Haiku for lookups, Opus only on request), targeted reads instead of repo-wide scans, module-level Gradle tasks, /compact or /clear between tasks. Use when starting a task or when the context is getting large.
 ---
 
 # Économie de quotas
@@ -25,6 +25,6 @@ Changer de modèle : `/model sonnet`. Ne pas lancer de subagent Opus de sa propr
 
 ## Contexte
 
-- Fin de tâche → mettre à jour `.claude/SESSION_MEMORY.md` (skill `memoire-projet`), puis suggérer `/clear`.
+- Fin de tâche → mettre à jour `.claude/SESSION_MEMORY.md` (skill `glucose-for-watch-memoire-projet`), puis suggérer `/clear`.
 - Même tâche mais contexte long → suggérer `/compact`.
 - Sorties d'outils volumineuses → résumer, ne pas recopier.

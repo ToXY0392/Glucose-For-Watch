@@ -59,5 +59,6 @@ Interdit sans demande explicite : `installGlucoseForWatchDebug`, `adb install`, 
 
 ## Skills projet
 
-`/economie` · `/plan-et-execution` · `/memoire-projet` · `/revue-et-git`
+`/glucose-for-watch-economie` · `/glucose-for-watch-plan-et-execution` · `/glucose-for-watch-memoire-projet` · `/glucose-for-watch-revue-et-git`
+Catalogue complet : [AGENTS.md](AGENTS.md#skills-catalogue).
 Mémoire de session : [.claude/SESSION_MEMORY.md](.claude/SESSION_MEMORY.md) — lire en début de session.

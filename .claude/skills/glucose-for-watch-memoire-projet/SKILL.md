@@ -1,6 +1,6 @@
 ---
-name: memoire-projet
-description: Maintient .claude/SESSION_MEMORY.md — état d'avancement, décisions d'architecture, prochaines étapes — pour survivre aux /clear. Lire en début de session ; mettre à jour en fin de tâche ou avant /clear ou /compact.
+name: glucose-for-watch-memoire-projet
+description: Maintains .claude/SESSION_MEMORY.md (current work, decisions, next steps, known pitfalls) so context survives /clear. Use when starting a session (read it), and when finishing a task or before /clear or /compact (update it).
 ---
 
 # Mémoire projet

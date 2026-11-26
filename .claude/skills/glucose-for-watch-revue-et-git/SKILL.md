@@ -1,6 +1,6 @@
 ---
-name: revue-et-git
-description: Revue avant commit/push — vérifie git diff, lance les tests des modules touchés, met à jour TODO.md s'il existe, prépare un message de commit propre. Utiliser avant tout commit ou push.
+name: glucose-for-watch-revue-et-git
+description: Pre-commit review for Glucose For Watch: checks the diff, runs tests of the touched modules, updates TODO.md if present and drafts a Conventional Commits message. Use when about to commit or push.
 ---
 
 # Revue et Git
@@ -19,6 +19,8 @@ Vérifier :
 - pas de code mort, `println`, `TODO` ajouté sans raison ;
 - branche ≠ `main` et ≠ `develop/integration` (sinon créer `{feat|fix|docs|test|chore}/bloc-{id}-{slug}`).
 
+Secrets, artefacts runtime et valeurs glucose réelles : appliquer aussi `glucose-for-watch-repo-hygiene`. Skill modifié : `python3 scripts/dev/sync_skills.py` puis `--lint`.
+
 ## 2. Tests des modules touchés
 
 Déduire les modules depuis `git diff --name-only`, puis :
@@ -33,7 +35,7 @@ Rapporter le résultat réel. Rouge → pas de commit.
 ## 3. TODO.md
 
 S'il existe : cocher les items faits, ajouter les suites découvertes. Sinon ne pas le créer.
-Mettre à jour `.claude/SESSION_MEMORY.md` (skill `memoire-projet`).
+Mettre à jour `.claude/SESSION_MEMORY.md` (skill `glucose-for-watch-memoire-projet`).
 
 ## 4. Message de commit
 
@@ -49,4 +51,4 @@ Types : `feat` `fix` `docs` `test` `chore` `refactor`. Scope = module (`sync`, `
 
 ## 5. Push
 
-Commit et push **uniquement sur demande explicite**. Jamais `--force` ni `--no-verify`. PR → skill Cursor `glucose-for-watch-pr-author`, base `develop/integration`.
+Commit et push **uniquement sur demande explicite**. Jamais `--force` ni `--no-verify`. PR → skill `glucose-for-watch-pr-author`, base `develop/integration`.
