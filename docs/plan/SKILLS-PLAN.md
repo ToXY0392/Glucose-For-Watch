@@ -49,6 +49,7 @@ CI job **Verify agent skills** (`.github/workflows/ci.yml`) runs `--lint`, `--ch
 | 5 | CI job, AGENTS.md catalogue, doc references, this page | `e1c33e0` |
 | 6 | LF enforced for `.claude/**` and `.cursor/skills/**` (CRLF frontmatter was not parsed by Claude Code) | #126 |
 | 7 | Back-merge `main` → `develop/integration`; the 4 Claude working-method skills from #122 renamed with the project prefix | back-merge PR |
+| 8 | Imported `agp-9-upgrade`, `android-intent-security`, `anr-audit-and-fix`, `wear-widgets`, `play-policy-insights`, `r8-analyzer` (android/skills) and `systematic-debugging`, `test-driven-development` (obra/superpowers), same pinned commits. `play-policy-insights` and `r8-analyzer` are manual only (network / release build). `.scratch/` and `/tmp/` git-ignored | skills import PR |
 
 ### Removed skill names → replacement
 
