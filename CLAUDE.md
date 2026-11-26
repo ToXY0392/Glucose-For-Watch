@@ -18,7 +18,7 @@ Détails : [docs/dev/architecture.md](docs/dev/architecture.md).
 | `:core:model` / `:core:datalayer-contract` / `:core:testing` | Modèles, contrat Data Layer, fixtures |
 | `:feature:sync` / `:feature:dexcom-share` / `:feature:watch-install` | Moteur sync, client HTTP Dexcom, install APK wear |
 
-Stack : Kotlin 2.3.20 · AGP 9.3.3 · Gradle 9.6.1 · JBR 21 · compileSdk 36 · Compose.
+Stack : Kotlin 2.3.20 · AGP 9.4.1 · Gradle 9.6.1 · JBR 21 · compileSdk 36 · Compose.
 
 ## Commandes (PowerShell, racine)
 
