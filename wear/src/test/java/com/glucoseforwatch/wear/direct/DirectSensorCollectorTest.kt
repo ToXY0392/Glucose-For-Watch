@@ -77,16 +77,32 @@ class DirectSensorCollectorTest {
     }
 
     @Test
-    fun unsupported_and_recoverable_transport_events_remain_explicit() {
+    fun recoverable_transport_errors_remain_explicit() {
+        val transport = FakeBleTransport()
+        val collector = DirectSensorCollector(transport)
+        collector.start(isConfigured = true, hasBluetoothPermission = true)
+
+        transport.emit(DirectTransportEvent.RecoverableError("connection_timeout"))
+        assertEquals(DirectCollectorState.RecoverableError("connection_timeout"), collector.state)
+        assertEquals(0, transport.stopCount)
+    }
+
+    @Test
+    fun unsupported_stops_the_transport_and_allows_a_later_start() {
         val transport = FakeBleTransport()
         val collector = DirectSensorCollector(transport)
         collector.start(isConfigured = true, hasBluetoothPermission = true)
 
         transport.emit(DirectTransportEvent.Unsupported("sensor_generation_unsupported"))
         assertEquals(DirectCollectorState.Unsupported("sensor_generation_unsupported"), collector.state)
+        assertEquals(1, transport.stopCount)
 
         transport.emit(DirectTransportEvent.RecoverableError("connection_timeout"))
-        assertEquals(DirectCollectorState.RecoverableError("connection_timeout"), collector.state)
+        assertEquals(DirectCollectorState.Unsupported("sensor_generation_unsupported"), collector.state)
+
+        collector.start(isConfigured = true, hasBluetoothPermission = true)
+        assertEquals(2, transport.startCount)
+        assertEquals(DirectCollectorState.Scanning, collector.state)
     }
 
     @Test

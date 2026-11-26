@@ -22,6 +22,13 @@ internal sealed interface DirectTransportEvent {
     data class RecoverableError(val reasonCode: String) : DirectTransportEvent
 }
 
+/**
+ * BLE link to the sensor, driven by [DirectSensorCollector].
+ *
+ * After [DirectTransportEvent.Disconnected] the transport owns reconnection: it keeps running
+ * and emits [DirectTransportEvent.ScanStarted] again when it retries. The collector stays active.
+ * [DirectTransportEvent.Unsupported] is terminal: the collector calls [stop] and ignores later events.
+ */
 internal interface DirectSensorTransport {
     fun start(onEvent: (DirectTransportEvent) -> Unit)
     fun stop()
@@ -70,6 +77,16 @@ internal class DirectSensorCollector(
     @Synchronized
     private fun onTransportEvent(event: DirectTransportEvent) {
         if (!active) return
+        if (event is DirectTransportEvent.Unsupported) {
+            // Terminal: release the transport so a later start() can retry from scratch.
+            active = false
+            try {
+                transport.stop()
+            } finally {
+                transition(DirectCollectorState.Unsupported(event.reasonCode))
+            }
+            return
+        }
         val next = when (event) {
             DirectTransportEvent.ScanStarted -> DirectCollectorState.Scanning
             DirectTransportEvent.DeviceFound -> DirectCollectorState.Connecting
@@ -82,7 +99,7 @@ internal class DirectSensorCollector(
                 else -> DirectCollectorState.Receiving(event.timestampEpochMs)
             }
             DirectTransportEvent.Disconnected -> DirectCollectorState.Disconnected
-            is DirectTransportEvent.Unsupported -> DirectCollectorState.Unsupported(event.reasonCode)
+            is DirectTransportEvent.Unsupported -> return // handled above
             is DirectTransportEvent.RecoverableError ->
                 DirectCollectorState.RecoverableError(event.reasonCode)
         }

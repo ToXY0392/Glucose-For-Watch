@@ -13,6 +13,8 @@ internal enum class GlucosePayloadRejection {
     SOURCE_ENVELOPE_VERSION_UNSUPPORTED,
     SOURCE_ENVELOPE_SOURCE_UNKNOWN,
     MISSING_REQUIRED_FIELD,
+    INVALID_VALUE,
+    INVALID_TREND,
     INVALID_MEASUREMENT_TIMESTAMP,
     INVALID_RECEIVE_TIMESTAMP,
 }
@@ -26,8 +28,20 @@ internal sealed interface GlucosePayloadMapping {
     data class Rejected(val reason: GlucosePayloadRejection) : GlucosePayloadMapping
 }
 
-/** Converts a Share or direct-source payload into the model consumed by the arbiter. */
+/**
+ * Converts a Share or direct-source payload into the model consumed by the arbiter.
+ * This is the source-specific validation the arbiter expects from its callers:
+ * glucose range and trend vocabulary are checked here.
+ */
 internal object GlucosePayloadMapper {
+    // TODO(prototype): 40..400 mg/dL is the Dexcom displayable range. How the G7 encodes
+    // LOW / HIGH readings is unknown; until it is, anything outside is rejected, not clamped.
+    private const val MIN_VALUE_MG_DL = 40
+    private const val MAX_VALUE_MG_DL = 400
+
+    /** Trend values the phone writes to the Data Layer (see DexcomShareClient trend mapping). */
+    private val SUPPORTED_TRENDS = setOf("UP", "UP_RIGHT", "FLAT", "DOWN_RIGHT", "DOWN")
+
     fun map(
         sourceEnvelopeVersion: Int?,
         readingSource: String?,
@@ -53,6 +67,12 @@ internal object GlucosePayloadMapper {
             measurementAtEpochMs == null || isStale == null
         ) {
             return GlucosePayloadMapping.Rejected(GlucosePayloadRejection.MISSING_REQUIRED_FIELD)
+        }
+        if (valueMgDl !in MIN_VALUE_MG_DL..MAX_VALUE_MG_DL) {
+            return GlucosePayloadMapping.Rejected(GlucosePayloadRejection.INVALID_VALUE)
+        }
+        if (trend !in SUPPORTED_TRENDS) {
+            return GlucosePayloadMapping.Rejected(GlucosePayloadRejection.INVALID_TREND)
         }
         if (measurementAtEpochMs <= 0L) {
             return GlucosePayloadMapping.Rejected(

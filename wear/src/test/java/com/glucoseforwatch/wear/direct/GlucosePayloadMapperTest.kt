@@ -8,6 +8,7 @@ import com.glucoseforwatch.core.model.GlucoseSourceArbiter
 import com.glucoseforwatch.core.model.ReadingAcceptance
 import com.glucoseforwatch.core.model.SourcedGlucoseReading
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class GlucosePayloadMapperTest {
@@ -96,6 +97,34 @@ class GlucosePayloadMapperTest {
     }
 
     @Test
+    fun values_outside_the_displayable_range_are_rejected() {
+        listOf(-5, 0, 39, 401, 9_999).forEach { value ->
+            assertEquals(
+                "valueMgDl=$value",
+                GlucosePayloadMapping.Rejected(GlucosePayloadRejection.INVALID_VALUE),
+                mapPayload(valueMgDl = value),
+            )
+        }
+        listOf(40, 400).forEach { value ->
+            assertTrue("valueMgDl=$value", mapPayload(valueMgDl = value) is GlucosePayloadMapping.Accepted)
+        }
+    }
+
+    @Test
+    fun trends_outside_the_wire_vocabulary_are_rejected() {
+        listOf("XYZ", "DOUBLE_UP", "flat").forEach { trend ->
+            assertEquals(
+                "trend=$trend",
+                GlucosePayloadMapping.Rejected(GlucosePayloadRejection.INVALID_TREND),
+                mapPayload(trend = trend),
+            )
+        }
+        listOf("UP", "UP_RIGHT", "FLAT", "DOWN_RIGHT", "DOWN").forEach { trend ->
+            assertTrue("trend=$trend", mapPayload(trend = trend) is GlucosePayloadMapping.Accepted)
+        }
+    }
+
+    @Test
     fun legacy_payload_maps_to_share_and_is_accepted_by_the_arbiter() {
         val result = mapPayload()
         val mapped = result as GlucosePayloadMapping.Accepted
@@ -118,13 +147,14 @@ class GlucosePayloadMapperTest {
         sourceEnvelopeVersion: Int? = null,
         readingSource: String? = null,
         valueMgDl: Int? = 110,
+        trend: String? = "FLAT",
         measurementAtEpochMs: Long? = 10_000L,
         receivedAtEpochMs: Long = 10_250L,
     ) = GlucosePayloadMapper.map(
         sourceEnvelopeVersion = sourceEnvelopeVersion,
         readingSource = readingSource,
         valueMgDl = valueMgDl,
-        trend = "FLAT",
+        trend = trend,
         deltaMgDl = 0,
         measurementAtEpochMs = measurementAtEpochMs,
         isStale = false,
