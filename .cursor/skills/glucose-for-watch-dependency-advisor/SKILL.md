@@ -1,39 +1,54 @@
 ---
 name: glucose-for-watch-dependency-advisor
-description: Analyzes AGP, Gradle, Kotlin, and dependency versions in the Glucose For Watch repo, then proposes a safe upgrade strategy with a small-PR plan and rollback.
+description: Analyzes AGP, Gradle, Kotlin, JDK, Android Studio and library versions in Glucose For Watch, maintains the compatibility matrix in docs/dev/setup.md, and proposes a safe small-PR upgrade plan with rollback. Use when planning a dependency or toolchain upgrade, before merging a major Dependabot bump, or when checking whether a tooling combination is supported.
 disable-model-invocation: true
 ---
 
 # Glucose For Watch Dependency Advisor
 
-## Objective
-Plan stable, auditable version upgrades.
+Also covers the former `compat-matrix-maintainer`.
 
-## Inputs to analyze
-- `build.gradle.kts`
-- `settings.gradle.kts`
+## Inputs
+
+- `build.gradle.kts`, `settings.gradle.kts`, `**/build.gradle.kts`
 - `gradle/wrapper/gradle-wrapper.properties`
-- `**/build.gradle.kts` modules
+- `docs/dev/setup.md` (compatibility matrix), `README.md`
 
-## Workflow
-1. Build the current state of critical versions (AGP/Gradle/Kotlin/libs).
-2. Evaluate tooling compatibility (Android Studio, JDK, AGP, Gradle, Kotlin).
-3. Propose a low-risk upgrade order:
-   1) Kotlin
-   2) AGP
-   3) Gradle wrapper
-   4) application libraries
-4. Define a rollback plan per step.
-5. Generate a small-PR plan (one theme per PR).
+## Step 1 — Current state
 
-## Expected output
-- **Current state**
-- **Recommended target**
-- **Migration plan by PR**
-- **Rollback**
-- **Validation tests per PR**
+Record the effective versions of AGP, Gradle, Kotlin, JDK, compile/target/min SDK and critical libraries (Wear Compose, Tiles, watchface).
+
+## Step 2 — Compatibility matrix
+
+Check each combination against official compatibility tables and mark it:
+
+| Status | Meaning |
+|--------|---------|
+| `Valid` | Officially supported |
+| `Risk` | Works but outside the documented range — add a mitigation |
+| `Unsupported` | Must change before release |
+
+Update the matrix in `docs/dev/setup.md` only if the user authorises editing.
+
+## Step 3 — Upgrade plan
+
+Low-risk order, one theme per PR (`chore/deps-*` branch):
+
+1. Kotlin
+2. AGP
+3. Gradle wrapper
+4. Application libraries
+
+For each step: reason · target version · validation (`bash scripts/dev/verify_ci.sh`, module tests) · rollback (revert the single PR).
+
+## Output
+
+- **Current state** · **Matrix** (with `Risk`/`Unsupported` mitigations) · **Recommended target**
+- **Migration plan by PR** · **Validation per PR** · **Rollback**
+- Matrix patch applied: yes / no
 
 ## Rules
-- Give the reason for each upgrade.
-- Avoid massive version jumps.
-- Prioritize build compatibility over optimizations.
+
+- Give the reason for each upgrade; avoid large version jumps.
+- Build compatibility first, optimisations later.
+- Never mix an upgrade with feature bloc work.

@@ -22,7 +22,7 @@ try {
     $checks = @()
 
     $checks += @{
-        Name = "glucose-for-watch-compat-matrix-maintainer"
+        Name = "glucose-for-watch-dependency-advisor (compat matrix)"
         Target = "docs/dev/setup.md"
     }
     $checks += @{
@@ -30,7 +30,7 @@ try {
         Target = "docs/dev/setup.md"
     }
     $checks += @{
-        Name = "glucose-for-watch-release-notes-curator"
+        Name = "glucose-for-watch-vendor-security-watch (changelog)"
         Target = "CHANGELOG.md"
     }
     $checks += @{
@@ -61,7 +61,7 @@ try {
     $lines += ""
     $lines += "Next actions:"
     $lines += "- Review important signals and schedule doc/dependency updates."
-    $lines += "- Use glucose-for-watch-run-coordinator policy for escalation."
+    $lines += "- Use glucose-for-watch-maintenance-run policy for escalation."
 
     Set-Content -Path $fullReport -Value ($lines -join "`n") -Encoding UTF8
 

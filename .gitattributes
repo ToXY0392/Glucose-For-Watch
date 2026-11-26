@@ -1,0 +1,2 @@
+# Claude Code hooks run under bash (Git Bash / WSL): CRLF would break them.
+.claude/hooks/*.sh text eol=lf

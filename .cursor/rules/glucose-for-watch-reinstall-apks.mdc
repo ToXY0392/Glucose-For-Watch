@@ -1,18 +1,19 @@
 ---
-description: Rebuild and reinstall mobile + wear debug APKs after code changes
+description: After mobile/wear changes, compile; install debug APKs on devices only when the user explicitly asks
 globs: mobile/**/*,wear/**/*
 alwaysApply: false
 ---
 
 # Glucose For Watch deployment after changes
 
-When you **modify** code or resources under `mobile/` or `wear/` (files covered by the globs above), at the end of a change that compiles:
+When you **modify** code or resources under `mobile/` or `wear/` (files covered by the globs above), at the end of a change:
 
-1. Verify compilation passes (`assembleDebug` or equivalent).
-2. Run local deployment:
+1. Verify compilation passes (`assembleDebug` or equivalent) and run the module tests.
+2. **Do not install on devices by default.** Run `installGlucoseForWatchDebug` / `adb install` / `adb uninstall` **only when the user explicitly asks** — this is a hard constraint while the C.7 soak is active (see [AGENTS.md](../../AGENTS.md)). Otherwise, tell the user the change is ready to install.
+3. When the user asks for a deployment:
    - **Windows**: `.\gradlew.bat installGlucoseForWatchDebug`
    - **Unix**: `./gradlew installGlucoseForWatchDebug`
 
 This task chains `:mobile:assembleDebug`, `:wear:assembleDebug`, then `adb install` on devices defined in `local.properties` (`gfw.adb.phone.serial` and `gfw.adb.watch.serial`). If IDs change, the user updates them (see `adb devices -l`).
 
-Do not run this task repeatedly without reason; once after a batch of changes is enough.
+Claude Code enforces the same rule with a confirmation hook: [.claude/hooks/guard-device-install.sh](../../.claude/hooks/guard-device-install.sh).

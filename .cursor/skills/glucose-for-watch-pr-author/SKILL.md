@@ -1,7 +1,6 @@
 ---
 name: glucose-for-watch-pr-author
-description: Drafts complete, documented pull requests for Glucose For Watch — branch naming, issue linking, PR body from diff, doc updates, test plan, and evidence paths. Use when opening a PR, preparing a merge request, or when the user asks for a full documented PR description.
-disable-model-invocation: true
+description: Drafts complete, documented pull requests for Glucose For Watch: branch naming, issue linking, PR body from the diff, doc update matrix, test plan and evidence paths. Use when opening a PR, preparing a merge request, or when the user asks for a full documented PR description.
 ---
 
 # Glucose For Watch PR Author
@@ -36,8 +35,8 @@ Prepare **complete PR packages** before review. Pair with `glucose-for-watch-pr-
 ### 1. Scope check
 
 ```bash
-git diff integrate...HEAD --stat
-git log integrate..HEAD --oneline
+git diff origin/develop/integration...HEAD --stat
+git log origin/develop/integration..HEAD --oneline
 ```
 
 Confirm:
@@ -101,7 +100,7 @@ Examples:
 
 ### 6. Fill PR body
 
-Use template below. Copy [PR-CHECKLIST](../../../docs/plan/PR-CHECKLIST.md) gate section for target gate.
+Use [references/pr-body-template.md](references/pr-body-template.md). Copy [PR-CHECKLIST](../../../docs/plan/PR-CHECKLIST.md) gate section for target gate.
 
 ### 7. Post-open checklist
 
@@ -110,85 +109,10 @@ Use template below. Copy [PR-CHECKLIST](../../../docs/plan/PR-CHECKLIST.md) gate
 - [ ] CI green on `develop/integration` target
 - [ ] Request self-review with `glucose-for-watch-pr-gatekeeper` before merge
 
----
+## PR body and bloc hints
 
-## PR body template
-
-```markdown
-## Summary
-
-[2–4 sentences: problem, solution, user impact. Link: Closes #N]
-
-## Plan metadata
-
-| Field | Value |
-|-------|-------|
-| **Bloc** | [X / A / M / B / C / D / F0–F5 / S] |
-| **Target gate** | [G-X / … / G-M8] |
-| **Touch sync?** | [yes / no] |
-| **Branch** | `[type]/bloc-[id]-[slug]` → `develop/integration` |
-| **Issue** | Closes #N |
-
-## What changed
-
-- [Bullet per logical unit — file/module level]
-- [No wall of filenames; group by concern]
-
-## Documentation
-
-- [ ] [list updated doc paths, or "None — reason"]
-- [ ] PROGRESS.md update planned post-merge: [yes/no + what rows]
-
-## Test plan
-
-| Check | Result | Notes |
-|-------|--------|-------|
-| `verify_ci.sh` | PASS / FAIL | |
-| `./gradlew test` | PASS / FAIL | modules: … |
-| `stability-gate.ps1` | PASS / FAIL / N/A | soak: logcat-only if C.7 |
-| Manual / hardware | N/A / done | push/ack seq: _ / _ |
-
-## AGP / ToXY (if UI)
-
-- [ ] Glucose values → AGP only (`agp_*`)
-- [ ] ToXY mint → chrome only
-- [ ] Tokens updated in `toxy-ux-kit/` if colors changed
-- [ ] Preview PNG: `docs/qa/captures/` or export-app-preview
-
-## Gate [G-XX] criteria
-
-[Paste relevant rows from STABILITY-GATES — mark each with evidence]
-
-## Evidence
-
-- [Links to docs/qa/…, soak log, screenshot path — no real glucose]
-- [Logcat excerpt if crash fix — redact PII]
-
-## Rollback
-
-[1–2 sentences: revert commit + retest gate if sync touched]
-
-## After merge (author todo)
-
-- [ ] PROGRESS.md scoreboard
-- [ ] GitHub Project → Done
-- [ ] Close incident issue if applicable
-```
-
----
-
-## Bloc-specific hints
-
-| Bloc | PR must include |
-|------|-----------------|
-| **X** | FGS fallback explanation · X.7 test ref · no FATAL in logcat |
-| **A** | Notif permission flow · disconnect parity entry/settings |
-| **M** | HomeUiState fields · preview PNG paths (6 states) |
-| **B** | Complication vs tile timing · wear `strings.xml` FR |
-| **C** | Link `docs/qa/soak-runs/` or sign-off template |
-| **D** | Test count delta · script usage example |
-| **F*** | Compose phase · sync non-regression note |
-| **S** | No feature creep · infra/docs scope clear |
+- Body template: [references/pr-body-template.md](references/pr-body-template.md)
+- What each bloc's PR must include: [references/bloc-hints.md](references/bloc-hints.md)
 
 ---
 

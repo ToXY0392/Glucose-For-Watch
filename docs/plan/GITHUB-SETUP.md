@@ -162,7 +162,7 @@ The migration from `rebuild` is complete. `develop/integration` is the current i
 | Delete after merge | Enabled for merged pull request source branches |
 | Secret scanning | GitHub Settings → Code security → enable + push protection |
 | Pre-commit | `.githooks/pre-commit` · `git config core.hooksPath .githooks` |
-| Scope skills | `.cursor/skills/glucose-for-watch-*-scope` · `glucose-for-watch-sandbox-guard` |
+| Scope skills | `.claude/skills/glucose-for-watch-*-scope` · `glucose-for-watch-sandbox-guard` |
 | Sensitive paths | [.github/CODEOWNERS](../../.github/CODEOWNERS) |
 
 ### 3.4 Branch protection for `main` and `develop/integration`
