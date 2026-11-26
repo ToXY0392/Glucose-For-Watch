@@ -1,2 +1,4 @@
-# Claude Code hooks run under bash (Git Bash / WSL): CRLF would break them.
-.claude/hooks/*.sh text eol=lf
+# Agent config must keep LF on every checkout (core.autocrlf=true on Windows):
+# Claude Code does not parse CRLF skill frontmatter, and bash hooks break on CRLF.
+.claude/** text eol=lf
+.cursor/skills/** text eol=lf

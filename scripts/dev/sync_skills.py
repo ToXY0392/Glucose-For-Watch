@@ -91,6 +91,11 @@ def lint() -> int:
         if not skill_md.exists():
             errors.append(f"{rel}: missing SKILL.md")
             continue
+        if b"\r\n" in skill_md.read_bytes():
+            errors.append(
+                f"{rel}/SKILL.md: CRLF line endings — Claude Code cannot parse the frontmatter "
+                "(see .gitattributes; re-checkout the file)"
+            )
         text = skill_md.read_text(encoding="utf-8")
         meta = parse_frontmatter(text)
         if meta is None:
