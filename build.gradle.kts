@@ -4,15 +4,15 @@ import java.util.Properties
 // Modules + packages: docs/dev/architecture.md (Modules), docs/dev/setup.md (Project layout)
 
 plugins {
-    id("com.android.application") version "9.3.3" apply false
+    id("com.android.application") version "9.4.1" apply false
     id("com.android.library") version "9.4.1" apply false
     id("org.jetbrains.kotlin.android") version "2.3.20" apply false
     id("org.jetbrains.kotlin.plugin.compose") version "2.3.20" apply false
     id("com.google.devtools.ksp") version "2.3.10" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
+    id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
 }
 
-/**
+/*
  * Déploiement debug local (Linux/Unix prioritaire, Windows compatible) :
  *
  *   gfw.adb.phone.serial=<id adb du téléphone>
@@ -32,7 +32,10 @@ tasks.register("installGlucoseForWatchDebug") {
     doLast {
         val props =
             Properties().apply {
-                val f = rootProject.layout.projectDirectory.file("local.properties").asFile
+                val f =
+                    rootProject.layout.projectDirectory
+                        .file("local.properties")
+                        .asFile
                 if (f.isFile) f.inputStream().use { load(it) }
             }
         val sdkDir =
@@ -71,9 +74,13 @@ tasks.register("installGlucoseForWatchDebug") {
                 )
 
         val mobileApk =
-            rootProject.layout.projectDirectory.file("mobile/build/outputs/apk/debug/mobile-debug.apk").asFile
+            rootProject.layout.projectDirectory
+                .file("mobile/build/outputs/apk/debug/mobile-debug.apk")
+                .asFile
         val wearApk =
-            rootProject.layout.projectDirectory.file("wear/build/outputs/apk/debug/wear-debug.apk").asFile
+            rootProject.layout.projectDirectory
+                .file("wear/build/outputs/apk/debug/wear-debug.apk")
+                .asFile
         if (!mobileApk.isFile) error("APK mobile introuvable : ${mobileApk.absolutePath}")
         if (!wearApk.isFile) error("APK wear introuvable : ${wearApk.absolutePath}")
 
@@ -94,7 +101,7 @@ tasks.register("installGlucoseForWatchDebug") {
 }
 
 ktlint {
-    version.set("0.50.0")
+    version.set("1.8.0")
     enableExperimentalRules.set(true)
     reporters {
         reporter(org.jlleitschuh.gradle.ktlint.reporter.ReporterType.PLAIN)
