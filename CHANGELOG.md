@@ -25,7 +25,7 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 - OCR ML Kit en version Play Services : APK release téléphone de 50 Mo à 5,6 Mo.
 - Catalogue de versions Gradle, cache de build, lint Android en CI.
 - Nouvel accueil téléphone « Menthe & Citron » : tuiles de verre en Bento, fond menthe vers citron, police Plus Jakarta Sans, animations (entrée en cascade, chiffre qui défile, barre AGP 40–400, sync animée, retour visuel à l'appui).
-- Palette AGP « surface claire » pour les cartes claires : même teinte par plage, jaune, orange et gris assombris pour rester lisibles.
+- La carte glycémie de l'accueil est en verre foncé, avec le code couleur AGP standard (rouge, vert, jaune, orange) pour le chiffre et la barre 40–400.
 
 ### Corrigé
 

@@ -29,7 +29,7 @@ _Màj : 2026-11-27 · branche : feat/bloc-f-home-glass-bento_
 - 2026-11-27 Non fait exprès : plugin de convention pour les 8 blocs `android {}` (sur-ingénierie), ktlint sur le Kotlin des modules (reformatage massif).
 
 - 2026-11-27 PR #152 (audit complet) fusionnée dans `develop/integration`.
-- 2026-11-27 Palette AGP « surface claire » validée : `HIGH_ON_LIGHT` #A87C00, `VERY_HIGH_ON_LIGHT` #B85C00, `UNKNOWN_ON_LIGHT` #77716A dans `AgpGlucoseColors` — pourquoi : #FFCC00 / #FF9900 / #9A948D illisibles sur verre clair. Surfaces sombres (montre) gardent la palette de base.
+- 2026-11-27 **Code couleur glycémie = palette AGP standard, jamais modifiée** (rouge #D32F2F, vert #008000, jaune #FFCC00, orange #FF9900) — pourquoi : demande explicite de l'utilisateur ; la variante « surface claire » (teintes assombries) a été retirée. Toute valeur glycémie est sur fond sombre : carte glycémie de l'accueil en verre foncé quasi opaque (#0E1210 à 95 %), sinon le vert #008000 passe sous 3:1.
 - 2026-11-27 Accueil : lecture > 15 min = gris « Donnée ancienne », repère masqué ; tendance NONE = pas de flèche. Animations coupées si échelle d'animation système = 0, en aperçu Studio et à l'export PNG (`motionEnabled = false`).
 
 ## Prochaines étapes
