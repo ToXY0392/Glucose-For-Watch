@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -26,11 +26,11 @@ kotlin {
 }
 
 dependencies {
-    implementation("com.flyfishxu:kadb:2.1.5")
+    implementation(libs.kadb)
     // Unbundled: model served by Google Play Services, not ~40 MB of native libs in the APK.
-    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.2")
-    implementation("androidx.exifinterface:exifinterface:1.4.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
+    implementation(libs.play.services.mlkit.text.recognition)
+    implementation(libs.androidx.exifinterface)
+    implementation(libs.kotlinx.coroutines.play.services)
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
 }

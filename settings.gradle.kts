@@ -11,7 +11,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://jitpack.io") }
+        // JitPack only serves kadb's SPAKE2 dependency; nothing else is resolved there.
+        exclusiveContent {
+            forRepository { maven { url = uri("https://jitpack.io") } }
+            filter { includeGroup("com.github.Flyfish233") }
+        }
     }
 }
 

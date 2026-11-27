@@ -10,6 +10,7 @@ Also covers the former `compat-matrix-maintainer`.
 
 ## Inputs
 
+- `gradle/libs.versions.toml` (every dependency and plugin version lives here)
 - `build.gradle.kts`, `settings.gradle.kts`, `**/build.gradle.kts`
 - `gradle/wrapper/gradle-wrapper.properties`
 - `docs/dev/setup.md` (compatibility matrix), `README.md`

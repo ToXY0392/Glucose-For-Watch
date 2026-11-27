@@ -83,15 +83,7 @@ class WatchSyncHealthMonitor(private val context: Context) {
     private fun packageInfo(): PackageInfo =
         context.packageManager.getPackageInfo(context.packageName, 0)
 
-    private fun packageVersionCode(): Long {
-        val info = packageInfo()
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            info.longVersionCode
-        } else {
-            @Suppress("DEPRECATION")
-            info.versionCode.toLong()
-        }
-    }
+    private fun packageVersionCode(): Long = packageInfo().longVersionCode
 
     private fun currentBatteryLevel(): Int {
         val batteryIntent = context.registerReceiver(null, IntentFilter(Intent.ACTION_BATTERY_CHANGED))

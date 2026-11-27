@@ -6,6 +6,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
@@ -123,7 +124,7 @@ internal fun DexcomEntryScreenConfiguredPreview() {
 )
 @Composable
 internal fun WatchSetupScreenConnectedPreview() {
-    val context = LocalContext.current
+    val wearReadyLabel = stringResource(R.string.watch_setup_wear_ready_app)
     ConfigurationScreenPreviewHost {
         WatchSetupScreen(
             state =
@@ -137,7 +138,7 @@ internal fun WatchSetupScreenConnectedPreview() {
                     watchTestLabel = "Envoyer une lecture test",
                     bluetoothStatusLabel = "Pixel Watch 2",
                     isBluetoothConnected = true,
-                    wearAppStatusLabel = context.getString(R.string.watch_setup_wear_ready_app),
+                    wearAppStatusLabel = wearReadyLabel,
                 ),
             onWatchSelected = {},
             onBatteryOptimization = {},

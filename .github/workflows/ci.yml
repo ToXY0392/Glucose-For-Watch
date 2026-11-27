@@ -1,23 +1,17 @@
 name: CI
 
+# Short-lived and sandbox branches are verified by their pull request; pushing them
+# as well ran every job twice.
 on:
   push:
     branches:
       - main
-      - master
       - develop/integration
-      - 'feat/**'
-      - 'fix/**'
-      - 'docs/**'
-      - 'test/**'
-      - 'chore/**'
-      - 'qa/**'
-      - 'sandbox/**'
   pull_request:
     branches:
       - main
-      - master
       - develop/integration
+  workflow_dispatch:
 
 jobs:
   detect:
@@ -108,7 +102,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Lint skills (.claude/skills)
         run: python3 scripts/dev/sync_skills.py --lint

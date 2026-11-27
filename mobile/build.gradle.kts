@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 val gfwVersionCode = providers.gradleProperty("gfwVersionCode").get().toInt()
@@ -104,32 +104,30 @@ dependencies {
     implementation(project(":feature:sync"))
     implementation(project(":feature:dexcom-share"))
     implementation(project(":feature:watch-install"))
-    implementation("androidx.core:core-ktx:1.19.1")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.11.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.1")
-    implementation("androidx.activity:activity-ktx:1.13.0")
-    implementation("androidx.activity:activity-compose:1.13.0")
-    implementation("androidx.security:security-crypto:1.1.0")
-    implementation("com.google.android.gms:play-services-wearable:20.0.1")
-    implementation("androidx.work:work-runtime-ktx:2.12.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.play.services.wearable)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.kotlinx.coroutines.play.services)
 
-    val composeBom = platform("androidx.compose:compose-bom:2026.11.01")
-    implementation(composeBom)
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.11.1")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
-    val showkaseVersion = "1.0.5"
-    debugImplementation("com.airbnb.android:showkase:$showkaseVersion")
-    debugImplementation("com.airbnb.android:showkase-annotation:$showkaseVersion")
-    kspDebug("com.airbnb.android:showkase-processor:$showkaseVersion")
+    debugImplementation(libs.showkase)
+    debugImplementation(libs.showkase.annotation)
+    kspDebug(libs.showkase.processor)
 
     debugImplementation(project(":core:testing"))
 
     testImplementation(project(":core:testing"))
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("androidx.test:core:1.7.0")
-    testImplementation("org.robolectric:robolectric:4.18.1")
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.test.core)
+    testImplementation(libs.robolectric)
 }

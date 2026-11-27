@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.SystemClock
 
 /** Repeating alarm that triggers sync when the foreground service is off. */
@@ -21,21 +20,11 @@ object PhoneAutoSyncScheduler {
         val triggerAtMillis = SystemClock.elapsedRealtime() + delayMs
 
         alarmManager.cancel(pendingIntent)
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
-                alarmManager.setAndAllowWhileIdle(
-                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    triggerAtMillis,
-                    pendingIntent,
-                )
-
-            else ->
-                alarmManager.set(
-                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    triggerAtMillis,
-                    pendingIntent,
-                )
-        }
+        alarmManager.setAndAllowWhileIdle(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            triggerAtMillis,
+            pendingIntent,
+        )
     }
 
     private fun pendingIntent(context: Context): PendingIntent {

@@ -2,6 +2,7 @@ package com.glucoseforwatch.wear.tile
 
 import android.content.Context
 import androidx.annotation.Keep
+import androidx.annotation.OptIn
 import androidx.wear.protolayout.ActionBuilders
 import androidx.wear.protolayout.ColorBuilders
 import androidx.wear.protolayout.DimensionBuilders
@@ -10,6 +11,7 @@ import androidx.wear.protolayout.LayoutElementBuilders.Layout
 import androidx.wear.protolayout.ModifiersBuilders
 import androidx.wear.protolayout.ResourceBuilders
 import androidx.wear.protolayout.TimelineBuilders
+import androidx.wear.protolayout.expression.ProtoLayoutExperimental
 import androidx.wear.tiles.TileBuilders
 import com.glucoseforwatch.wear.R
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
@@ -21,6 +23,8 @@ import com.glucoseforwatch.wear.data.GlucoseSnapshot
  * Missing data fills slots with neutral placeholders; colors are explicit ARGB
  * from [GlucoseTileChrome] (no Toxy / Material theme defaults).
  */
+// FONT_WEIGHT_MEDIUM is flagged experimental by ProtoLayout.
+@OptIn(ProtoLayoutExperimental::class)
 @Keep
 internal object GlucoseSimpleTileLayout {
 
