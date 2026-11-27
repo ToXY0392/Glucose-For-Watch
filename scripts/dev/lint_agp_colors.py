@@ -26,13 +26,13 @@ APP_SOURCE_DIRS = ["mobile/src/main", "wear/src/main", "feature", "core"]
 BAND = re.compile(r"\b(VeryLow|InRange|VeryHigh|Low|High|VERY_LOW|IN_RANGE|VERY_HIGH|LOW|HIGH|veryLow|inRange|veryHigh)\b")
 COLOR_LITERAL = re.compile(r"0x[fF]{2}[0-9a-fA-F]{6}|Color\(0x|#[0-9a-fA-F]{6}\b")
 ACCENT_ON_VALUE = re.compile(
-    r"(glucose|valueColor|valueText|heroReading|displayValue).*(wg7_accent|toxy_accent|gfw_chrome_accent|colorScheme\.primary\b)",
+    r"(glucose|valueColor|valueText|heroReading|displayValue).*(wg7_accent|toxy_accent|gfw_chrome_accent|colorScheme\.primary\b|GlassPalette\.Accent\b)",
     re.IGNORECASE,
 )
 
 GLUCOSE_SURFACES = [
     "mobile/src/main/java/com/glucoseforwatch/mobile/ui/HomeStateMapper.kt",
-    "mobile/src/main/java/com/glucoseforwatch/mobile/ui/compose/HomeDialGlucoseColor.kt",
+    "mobile/src/main/java/com/glucoseforwatch/mobile/ui/compose/HomeGlucoseColor.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/tile/ToxyTileTheme.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/tile/GlucoseTileChrome.kt",
     "wear/src/main/java/com/glucoseforwatch/wear/data/GlucoseCache.kt",

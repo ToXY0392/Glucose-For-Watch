@@ -2,6 +2,7 @@ package com.glucoseforwatch.mobile.ui
 
 import android.content.Context
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
+import com.glucoseforwatch.core.model.GlucoseFreshness
 import com.glucoseforwatch.core.model.GlucoseRangeResolver
 import com.glucoseforwatch.core.model.SyncStatusSnapshot
 import com.glucoseforwatch.feature.sync.SyncReadingTextFormatter
@@ -80,6 +81,12 @@ object HomeStateMapper {
         val needsInstall =
             watchStatus.connected &&
                 (watchHealth == null || !watchHealth.appInstalled)
+        val heroStale =
+            syncStatus.lastValueMgDl != null &&
+                GlucoseFreshness.isStale(HomeReadingTimeResolver.displayEpochMs(syncStatus), nowEpochMs)
+        val heroTrend = syncStatus.lastTrend.ifBlank { "NONE" }
+        val watchBatteryPercent =
+            watchHealth?.batteryLevel?.takeIf { watchStatus.connected && it in 0..100 }
 
         return HomeUiState(
             watchFaceValueText = watchFace.valueText,
@@ -106,6 +113,12 @@ object HomeStateMapper {
                 },
             showInstallRow = needsInstall,
             syncButtonTintColorRes = syncTint,
+            heroStale = heroStale,
+            heroTrend = heroTrend,
+            heroTrendLabel = SyncTrendTextFormatter.displayTrend(heroTrend).trim(),
+            heroDisplayUnit = displayUnit,
+            watchConnected = watchStatus.connected,
+            watchBatteryPercent = watchBatteryPercent,
         )
     }
 

@@ -1,8 +1,8 @@
 # Session memory
-_Màj : 2026-11-27 · branche : chore/bloc-s-audit-optimisations_
+_Màj : 2026-11-27 · branche : feat/bloc-f-home-glass-bento_
 
 ## En cours
-- 2026-11-27 Audit complet appliqué sur `chore/bloc-s-audit-optimisations` (6 commits, PR vers `develop/integration`). Rien installé sur appareil.
+- 2026-11-27 Accueil « Menthe & Citron » full motion implémenté sur `feat/bloc-f-home-glass-bento` (commit local, pas de PR, rien installé). Maquette validée : https://claude.ai/artifact/3w3t5QpdEZ8BbCwiiuDjnY (artboard Motion).
 
 ## Décisions
 - 2026-11-26 **Bluetooth / G7 direct en pause** — pourquoi : Phase 0 bloquée (pas de capteur G7 de test isolé). Ne rien proposer sur `wear/.../direct/`, l'arbitre ou l'enveloppe source sans reprise explicite.
@@ -27,6 +27,10 @@ _Màj : 2026-11-27 · branche : chore/bloc-s-audit-optimisations_
 - 2026-11-27 ML Kit OCR non embarqué (Play Services) : APK release 50 → 5,6 Mo. kadb garde sa règle `-keep` (BouncyCastle, non testable sans appareil).
 - 2026-11-27 JitPack nécessaire (kadb → `com.github.Flyfish233:spake2-java`), restreint à ce groupe. Dossiers `mipmap-anydpi-v26` à garder (sans `-v26`, AAPT ne trouve plus les icônes).
 - 2026-11-27 Non fait exprès : plugin de convention pour les 8 blocs `android {}` (sur-ingénierie), ktlint sur le Kotlin des modules (reformatage massif).
+
+- 2026-11-27 PR #152 (audit complet) fusionnée dans `develop/integration`.
+- 2026-11-27 **Code couleur glycémie = palette AGP standard, jamais modifiée** (rouge #D32F2F, vert #008000, jaune #FFCC00, orange #FF9900) ; variante « surface claire » retirée. Carte glycémie de l'accueil en **verre clair** comme les autres tuiles — choix explicite de l'utilisateur malgré le faible contraste du jaune et de l'orange (pastille de plage + barre doublent l'info).
+- 2026-11-27 Accueil : lecture > 15 min = gris « Donnée ancienne », repère masqué ; tendance NONE = pas de flèche. Animations coupées si échelle d'animation système = 0, en aperçu Studio et à l'export PNG (`motionEnabled = false`).
 
 ## Prochaines étapes
 1. Avant release, sur appareil : réglages Dexcom rechargés après mise à jour et reboot (#137) ; OCR montre après téléchargement du modèle Play Services ; thème fenêtre framework (barre d'état, dialogue OCR) ; cadran accueil AGP (jaune sur fond clair) ; logs `poll` sur 1 h ; arrêt FGS 6 h Android 15 puis reprise alarme/WorkManager.

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Chrome UI — vert santé épuré (jamais sur la valeur glycémie AGP) -->
-    <color name="gfw_chrome_accent">#0B6640</color>
-    <color name="gfw_chrome_accent_dark">#084D31</color>
-    <color name="gfw_chrome_accent_soft">#EAF2EC</color>
-    <!-- Fond canvas — blanc frais légèrement teinté -->
-    <color name="gfw_canvas_start">#FFFFFF</color>
-    <color name="gfw_canvas_end">#F7F9F7</color>
+    <!-- Chrome UI Menthe &amp; Citron (jamais sur la valeur glycémie AGP) -->
+    <color name="gfw_chrome_accent">#2E6A48</color>
+    <color name="gfw_chrome_accent_dark">#1F4D33</color>
+    <color name="gfw_chrome_accent_soft">#E3F0E6</color>
+    <!-- Fond canvas — menthe pâle vers citron pâle -->
+    <color name="gfw_canvas_start">#DCEADA</color>
+    <color name="gfw_canvas_end">#F6E39A</color>
     <!-- Fond icône adaptative — disque blanc (style Google Watch / Wallet) -->
     <color name="gfw_launcher_background">#0B6640</color>
 </resources>

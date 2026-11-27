@@ -34,8 +34,19 @@ Behavior of each surface that shows a glucose reading. Colors:
 
 ## Phone home
 
-- `HomeScreen`: dial whose border and value use the AGP color of the reading,
-  neutral when there is no value.
+- `HomeScreen`, "Menthe & Citron": Bento of glass cards over a mint-to-lemon
+  background (`GlassBackground`, `GlassSurface`, `GlassPalette`), Plus Jakarta Sans.
+- Glucose card: same light glass as the other tiles (product choice; the standard
+  yellow and orange have low contrast on it). Value, range pill, trend arrow, corner glow and a 40–400 mg/dL bar with the
+  70 / 180 / 250 thresholds placed to scale, all in the standard AGP colors
+  (`HomeGlucoseColor`). A reading older than 15 min turns grey ("Donnée ancienne")
+  and its marker is hidden. Trend `NONE` draws no arrow.
+- Tiles: watch (status, battery), sync, Dexcom, unit; list: background sync,
+  permissions, about.
+- Motion: staggered entrance, breathing halos, value count-up with a short pop,
+  marker slide, trend rotation, sync spin then check after a successful manual sync,
+  battery fill, pressed cards scale to 96 % under a light white veil. Off when the
+  system animator scale is 0, in Studio previews and in snapshot exports.
 - Refreshed on screen and every 30 s while visible.
 
 ## Sync states
