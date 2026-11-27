@@ -41,7 +41,7 @@ Loaded by [glucose-for-watch-pr-author](../SKILL.md) step 6. Copy the gate secti
 
 - [ ] Glucose values → AGP only (`agp_*`)
 - [ ] ToXY mint → chrome only
-- [ ] Tokens updated in `toxy-ux-kit/` if colors changed
+- [ ] `python3 scripts/dev/lint_agp_colors.py` passes
 - [ ] Preview PNG: `docs/qa/captures/` or export-app-preview
 
 ## Gate [G-XX] criteria

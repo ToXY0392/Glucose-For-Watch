@@ -56,9 +56,9 @@
 
 ## AGP / ToXY (if UI)
 
-- [ ] Glucose values use AGP colors only (`GlucoseRangeResolver` / `agp_*`)
-- [ ] ToXY mint accent for chrome only
-- [ ] Tokens updated in `toxy-ux-kit/` when colors change
+- [ ] Glucose values use AGP colors only (`GlucoseRangeResolver` / `AgpGlucoseColors`)
+- [ ] Chrome accent never on a glucose value
+- [ ] `python3 scripts/dev/lint_agp_colors.py` passes
 
 ## After merge
 

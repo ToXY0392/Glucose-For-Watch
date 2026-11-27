@@ -34,7 +34,7 @@ create "area:mobile"  "C5DEF5" "Phone app"
 create "area:wear"    "C5DEF5" "Tile · complication"
 create "area:sync"    "C5DEF5" "GlucoseSyncEngine · Data Layer"
 create "area:dexcom"  "C5DEF5" "Share API · auth"
-create "area:ux-kit"  "C5DEF5" "toxy-ux-kit · AGP colors"
+create "area:ux-kit"  "C5DEF5" "AGP colors · docs/design"
 create "area:infra"   "C5DEF5" "CI · scripts · repo"
 
 create "hardware-qa"  "D4C5F9" "Session adb phone+watch"

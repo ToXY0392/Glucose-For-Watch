@@ -33,7 +33,7 @@ Read the report at `.cursor/state/reports/doc-backlog-sync.md`, then edit `DOC-B
 .\scripts\dev\sync_doc_backlog.ps1
 ```
 
-Script scans: incident status, sign-off files, QA sessions, CONTRIBUTING/PR template for AUTO-9, design-reference freshness, `capture-crash-log.ps1` presence.
+Script scans: incident status, sign-off files, QA sessions, CONTRIBUTING/PR template for AUTO-9, `capture-crash-log.ps1` presence.
 
 ### 2. Cross-read PROGRESS + DOC-BACKLOG
 
@@ -47,7 +47,6 @@ For each **P0/P1 row** in DOC-BACKLOG:
 | DOC-P0-4 | Session files exist for C.2, C.3, C.8 under `docs/qa/sessions/` |
 | DOC-P1-1 | CONTRIBUTING mentions `glucose-for-watch-pr-author` + `glucose-for-watch-pr-gatekeeper` |
 | DOC-P1-2 | PR template hints `@glucose-for-watch-pr-author` |
-| DOC-P1-3 | design-reference PNGs/index regenerated recently |
 | DOC-P1-4 | `capture-crash-log.ps1` documented in dev/setup.md |
 | DOC-P1-5 | architecture SVG/PNG matches modules (manual verify) |
 | DOC-P1-6 | user.md notes FR strings vs EN guide |

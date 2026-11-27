@@ -128,9 +128,9 @@ Source: `core/datalayer-contract/.../GlucoseDataLayerContract.kt`
 | Layer | Standard | Scope |
 |-------|----------|-------|
 | Medical (glucose values) | AGP / TIR colors | Tile, complication, phone hero |
-| Chrome | ToXY kit (Material 3 dark) | Backgrounds, buttons, navigation |
+| Chrome | `wg7_*` / `gfw_*` resources, Compose color schemes | Backgrounds, buttons, navigation |
 
-Spec: [toxy-ux-kit/spec/01-agp-medical-layer.md](../../toxy-ux-kit/spec/01-agp-medical-layer.md)
+Spec: [design/agp-medical-layer.md](../design/agp-medical-layer.md)
 
 ## Design decisions
 

@@ -59,11 +59,6 @@ $captureScriptExists = Test-Path $captureScriptPath
 $setupPath = Join-Path $repoRoot "docs/dev/setup.md"
 $captureDocumented = Test-FileContains $setupPath "capture-crash-log"
 
-$designRefPath = Join-Path $repoRoot "toxy-ux-kit/design-reference/index.html"
-$designRefAge = if (Test-Path $designRefPath) {
-    [math]::Round(($now - (Get-Item $designRefPath).LastWriteTime).TotalDays, 0)
-} else { $null }
-
 $actionPlanPath = Join-Path $repoRoot "docs/plan/ACTION-PLAN.md"
 $ritualLinked = Test-FileContains $actionPlanPath "doc-backlog-sync|DOC-BACKLOG"
 
@@ -137,7 +132,6 @@ $report = @(
     "- Incident closed: $(if ($incidentClosed) { 'yes' } else { "no (mitigated=$incidentMitigated)" })"
     "- QA sessions C.2/C.3/C.8: $(if ($missingQa.Count -eq 0) { 'complete' } else { 'missing ' + ($missingQa -join ', ') })"
     "- AUTO-9 CONTRIBUTING: $(if ($auto9Contributing) { 'done' } else { 'pending' })"
-    "- design-reference age (days): $(if ($null -ne $designRefAge) { $designRefAge } else { 'n/a' })"
     "- Applied: $(if ($Apply) { 'yes (date bump only)' } else { 'no - run skill or edit DOC-BACKLOG manually' })"
     ""
     "## Suggested status changes"

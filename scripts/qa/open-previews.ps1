@@ -4,10 +4,6 @@
 $Root = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
 Set-Location $Root
 
-Write-Host "`n=== Design reference (navigateur) ===" -ForegroundColor Cyan
-py -3 toxy-ux-kit/tools/export-design-reference.py
-Start-Process (Join-Path $Root "toxy-ux-kit\design-reference\index.html")
-
 Write-Host "`n=== Android Studio Compose Preview ===" -ForegroundColor Cyan
 Write-Host @"
 

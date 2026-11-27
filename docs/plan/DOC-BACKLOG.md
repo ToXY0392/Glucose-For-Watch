@@ -88,7 +88,7 @@ Do **not** start until **G-M7** ✅.
 | DOC-F0-1 | Document Showkase setup + `@ShowkaseComposable` conventions | F0 start | ✅ | [dev/setup.md](../dev/setup.md) |
 | DOC-F0-2 | Update [architecture.md](../dev/architecture.md) for Compose phone module layout | F0 | ☐ |
 | DOC-F0-3 | **AUTO-3** — Showkase browser task in dev/setup.md | F0 | ✅ | PR #39 |
-| DOC-F3-1 | Home Compose screen spec in `toxy-ux-kit/spec/components/` | F3 | ☐ |
+| DOC-F3-1 | Home Compose screen spec in `docs/design/surfaces.md` | F3 | ☐ |
 | DOC-F3-2 | Migration note: XML → Compose mapping (screens + strings) | F3 | ☐ |
 
 ---

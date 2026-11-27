@@ -64,7 +64,6 @@ Source: [.claude/skills/](.claude/skills/) · plan and policy: [docs/plan/SKILLS
 | Before merge PR | `glucose-for-watch-pr-gatekeeper` |
 | Git / secrets hygiene before commit | `glucose-for-watch-repo-hygiene` |
 | Glucose colours (AGP medical layer) | `glucose-for-watch-agp-color-guard` |
-| ToXY chrome tokens | `glucose-for-watch-toxy-theme-maintainer` |
 | Sync debugging | `glucose-for-watch-sync-health-reviewer` |
 | Dependabot PRs | `glucose-for-watch-dependabot-triage` |
 
@@ -82,10 +81,9 @@ Source: [.claude/skills/](.claude/skills/) · plan and policy: [docs/plan/SKILLS
 | Area | Skill |
 |------|-------|
 | `mobile/` · long-lived `sandbox/mobile-app` | `glucose-for-watch-mobile-app-scope` |
-| docs + agent config · long-lived `sandbox/documentation` | `glucose-for-watch-documentation-scope` |
+| docs (incl. `docs/design/`) + agent config · long-lived `sandbox/documentation` | `glucose-for-watch-documentation-scope` |
 | `wear/` | `glucose-for-watch-wear-app-scope` |
 | `feature/sync`, datalayer contract, core model | `glucose-for-watch-sync-platform-scope` |
-| `toxy-ux-kit/`, `docs/design/` | `glucose-for-watch-ui-ux-kit-scope` |
 | `docs/qa/`, `scripts/qa/` | `glucose-for-watch-qa-hardware-scope` |
 
 ### Planning and maintenance (manual)

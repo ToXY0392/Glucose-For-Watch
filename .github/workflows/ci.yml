@@ -46,7 +46,7 @@ jobs:
             exit 0
           fi
           files="$(git diff --name-only "$BASE" "$HEAD")"
-          if echo "$files" | grep -qE '^(mobile|wear|core|feature|toxy-ux-kit)/|(^|/)build\.gradle\.kts$|(^|/)settings\.gradle\.kts$|^gradle\.properties$|(^|/)gradle/|^\.github/workflows/ci\.yml$|^scripts/dev/verify_ci\.sh$'; then
+          if echo "$files" | grep -qE '^(mobile|wear|core|feature)/|^scripts/dev/lint_agp_colors\.py$|(^|/)build\.gradle\.kts$|(^|/)settings\.gradle\.kts$|^gradle\.properties$|(^|/)gradle/|^\.github/workflows/ci\.yml$|^scripts/dev/verify_ci\.sh$'; then
             echo "kotlin_tree=true" >> "$GITHUB_OUTPUT"
           else
             echo "kotlin_tree=false" >> "$GITHUB_OUTPUT"

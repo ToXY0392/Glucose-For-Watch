@@ -51,7 +51,7 @@ If mixed blocs → stop and suggest `split-to-prs`.
 | Path pattern | Flags |
 |--------------|-------|
 | `mobile/**/sync/`, `feature/sync/`, `wear/**/tile/` | **sync-critical** · hardware QA |
-| `mobile/**/ui/`, `wear/**/ui/`, `toxy-ux-kit/` | AGP/ToXY checklist |
+| `mobile/**/ui/`, `wear/**/ui/`, `wear/**/tile/`, `wear/**/complication/` | AGP checklist |
 | `docs/` only | docs-only · no hardware |
 | `scripts/qa/` | may need smoke notes |
 | `core/datalayer-contract/` | sync-critical + contract doc |
@@ -68,7 +68,7 @@ Update docs in the **same PR** when behavior changes:
 | Setup, scripts, QA gates | [docs/dev/setup.md](../../../docs/dev/setup.md) |
 | User-facing behavior | [docs/guide/user.md](../../../docs/guide/user.md) |
 | Dexcom auth/regions | [docs/guide/dexcom.md](../../../docs/guide/dexcom.md) |
-| ToXY tokens / AGP colors | [toxy-ux-kit/](../../../toxy-ux-kit/README.md) + specs |
+| AGP colors / glucose surfaces | [docs/design/agp-medical-layer.md](../../../docs/design/agp-medical-layer.md) + [surfaces.md](../../../docs/design/surfaces.md) |
 | Gate/bloc completion | [docs/plan/PROGRESS.md](../../../docs/plan/PROGRESS.md) (post-merge note in PR) |
 | Hardware session | New file in `docs/qa/soak-runs/` or `docs/qa/sessions/` |
 | Incident fix | Update `docs/qa/incidents/` + close issue |

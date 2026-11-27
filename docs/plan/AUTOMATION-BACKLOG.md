@@ -13,7 +13,7 @@
 | **export-app-preview.ps1** | Run export without hardware | `scripts/qa/export-app-preview.ps1` |
 | **Showkase** | Compose preview catalog (debug) | `mobile/src/debug/` · `@ShowkaseComposable` |
 | **Wear @Preview** | Tile / status Compose | `wear/.../WearStatusScreenPreview.kt` |
-| **design-reference** | Static mockups | `toxy-ux-kit/design-reference/` |
+| **design-reference** | Static mockups | removed with the ToXY kit (2026-11-27) |
 | **check_docs_links.py** | Relative link lint on `docs/` | `scripts/dev/check_docs_links.py` |
 | **CI verify_ci** | Unit + compile + doc links | `.github/workflows/ci.yml` |
 | **Dependabot** | Gradle + Actions | `.github/dependabot.yml` |

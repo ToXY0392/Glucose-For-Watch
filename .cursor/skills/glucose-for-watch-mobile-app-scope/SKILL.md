@@ -1,6 +1,6 @@
 ---
 name: glucose-for-watch-mobile-app-scope
-description: Path scope for phone app work in Glucose For Watch: mobile/ only, shared modules read-only, wear and ux-kit tokens forbidden. Use when on sandbox/mobile-app, or when a change on any branch touches mobile/ only.
+description: Path scope for phone app work in Glucose For Watch: mobile/ only, shared modules read-only, wear forbidden. Use when on sandbox/mobile-app, or when a change on any branch touches mobile/ only.
 ---
 
 # Glucose For Watch Mobile App Scope
@@ -22,7 +22,6 @@ Scope reference: [.cursor/workspace-scopes/mobile-app.scope.md](../../../.cursor
 ## Forbidden (hard block)
 
 - `wear/**`
-- `toxy-ux-kit/tokens/**`
 - `.github/**`, root Gradle files
 - Changes to Dexcom credential storage without explicit user review
 

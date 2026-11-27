@@ -22,7 +22,7 @@ labels: enhancement
 - [ ] Phone app
 - [ ] Wear tile / complication
 - [ ] Sync / offline / Data Layer
-- [ ] UX kit (`toxy-ux-kit/`)
+- [ ] Design / AGP colors (`docs/design/`)
 - [ ] Documentation / tooling
 
 ## Acceptance criteria

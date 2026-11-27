@@ -207,7 +207,7 @@ gh label create "area:mobile"  --color "C5DEF5" --description "Phone app"
 gh label create "area:wear"    --color "C5DEF5" --description "Tile · complication"
 gh label create "area:sync"     --color "C5DEF5" --description "GlucoseSyncEngine · Data Layer"
 gh label create "area:dexcom"   --color "C5DEF5" --description "Share API · auth"
-gh label create "area:ux-kit"    --color "C5DEF5" --description "toxy-ux-kit · AGP colors"
+gh label create "area:ux-kit"    --color "C5DEF5" --description "AGP colors · docs/design"
 gh label create "area:qa"       --color "C5DEF5" --description "Hardware QA · docs/qa"
 gh label create "area:infra"    --color "C5DEF5" --description "CI · scripts · repo"
 

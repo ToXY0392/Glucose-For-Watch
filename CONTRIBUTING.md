@@ -6,7 +6,7 @@ Thank you for contributing. This project syncs real health data — extra care i
 
 1. Read [dev/setup.md](docs/dev/setup.md)
 2. Read [dev/architecture.md](docs/dev/architecture.md)
-3. Read [AGP medical layer](toxy-ux-kit/spec/01-agp-medical-layer.md) — **never use brand colors on glucose values**
+3. Read [AGP medical layer](docs/design/agp-medical-layer.md) — **never use brand colors on glucose values**
 
 ## Development setup
 
@@ -25,7 +25,6 @@ Long-lived branches for parallel work — see **[docs/plan/WORKSPACE.md](docs/pl
 | Branch | Use for |
 |--------|---------|
 | `sandbox/qa-hardware` | Hardware QA, `docs/qa/`, `scripts/qa/` |
-| `sandbox/ui-ux-kit` | `toxy-ux-kit/`, design specs |
 | `sandbox/mobile-app` | `mobile/` module only |
 | `sandbox/wear-app` | `wear/` module only |
 
@@ -71,9 +70,9 @@ If you modify anything under `mobile/.../sync/`, `wear/.../tile/`, `feature/sync
 
 ### Design changes
 
-- Glucose values → AGP colors only ([spec](toxy-ux-kit/spec/01-agp-medical-layer.md))
-- UI chrome → UX kit tokens ([spec](toxy-ux-kit/spec/02-toxy-chrome-layer.md))
-- Wear tile → ≥ 48 dp touch targets ([tile spec](toxy-ux-kit/spec/components/wear-tile.md))
+- Glucose values → AGP colors only, through `GlucoseRangeResolver` ([spec](docs/design/agp-medical-layer.md)); `scripts/dev/lint_agp_colors.py` checks it
+- UI chrome → `wg7_*` / `gfw_*` resources and the Compose color schemes
+- Wear tile → ≥ 48 dp touch targets ([surfaces](docs/design/surfaces.md))
 
 ### Documentation
 

@@ -35,7 +35,7 @@ git status --short
 | `mobile/**` | `glucose-for-watch-mobile-app-scope` |
 | `wear/**` | `glucose-for-watch-wear-app-scope` |
 | `feature/sync/**`, `core/datalayer-contract/**`, `core/model/**` | `glucose-for-watch-sync-platform-scope` |
-| `toxy-ux-kit/**`, `docs/design/**` | `glucose-for-watch-ui-ux-kit-scope` |
+| `docs/design/**` | `glucose-for-watch-documentation-scope` |
 | `docs/qa/**`, `scripts/qa/**` | `glucose-for-watch-qa-hardware-scope` |
 | `docs/**` (other), `AGENTS.md`, `.claude/**`, `.cursor/**` | `glucose-for-watch-documentation-scope` |
 
