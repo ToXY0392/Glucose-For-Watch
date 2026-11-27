@@ -20,8 +20,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -29,7 +29,9 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.glucoseforwatch.mobile.settings.AppSettingsStore
 import com.glucoseforwatch.mobile.sync.ActiveGlucoseSyncController
 import com.glucoseforwatch.mobile.sync.PhoneAutoSyncScheduler
@@ -44,6 +46,7 @@ import com.glucoseforwatch.mobile.ui.WatchSetupActivity
 import com.glucoseforwatch.mobile.ui.WearInstallerActivity
 import com.glucoseforwatch.mobile.ui.compose.HomeScreen
 import com.glucoseforwatch.mobile.ui.theme.GlucoseForWatchTheme
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 /** Home screen: glucose hero, companion status, settings rows, and manual sync. */
@@ -60,7 +63,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             GlucoseForWatchTheme {
-                val uiState by homeViewModel.uiState.observeAsState()
+                val uiState by homeViewModel.uiState.collectAsState()
                 Scaffold(
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     containerColor = Color.Transparent,
@@ -98,13 +101,20 @@ class MainActivity : ComponentActivity() {
 
         scheduleAutoSyncIfReady()
         requestNotificationPermissionIfNeeded()
-        refreshHome()
+        // While visible: reload now, then on a tick so new readings and "N min" ages stay current.
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                while (true) {
+                    refreshHome()
+                    delay(HOME_REFRESH_INTERVAL_MS)
+                }
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         scheduleAutoSyncIfReady()
-        refreshHome()
     }
 
     private fun refreshHome() {
@@ -121,7 +131,7 @@ class MainActivity : ComponentActivity() {
                 return
             }
 
-            ActiveGlucoseSyncController.syncNow(this)
+            // One pass only: the engine is serialized with the foreground service loop.
             val result =
                 PhoneGlucoseSyncEngine(this).run(
                     triggeredFromWatch = false,
@@ -195,5 +205,9 @@ class MainActivity : ComponentActivity() {
         } catch (_: ActivityNotFoundException) {
             // No settings activity available on this device.
         }
+    }
+
+    private companion object {
+        const val HOME_REFRESH_INTERVAL_MS = 30_000L
     }
 }

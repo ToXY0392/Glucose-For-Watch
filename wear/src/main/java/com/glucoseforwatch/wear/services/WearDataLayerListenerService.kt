@@ -18,10 +18,7 @@ import com.glucoseforwatch.wear.sync.WatchSyncHealthMonitor
 import com.glucoseforwatch.wear.sync.WearAckSender
 import com.glucoseforwatch.wear.tile.GlucoseSyncCoordinator
 import com.glucoseforwatch.wear.tile.GlucoseTileUpdateRequester
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
 
 /**
@@ -31,9 +28,6 @@ import kotlinx.coroutines.tasks.await
  */
 @Keep
 class WearDataLayerListenerService : WearableListenerService() {
-    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-
-
     override fun onDataChanged(dataEvents: DataEventBuffer) {
         val cache = GlucoseCache(this)
         val healthMonitor = WatchSyncHealthMonitor(this)
@@ -143,15 +137,18 @@ class WearDataLayerListenerService : WearableListenerService() {
         )
     }
 
+    /**
+     * Blocks the listener's background thread (at most ~1.5 s of retries): the service may be
+     * destroyed as soon as [onDataChanged] returns, so the ack must not outlive it.
+     */
     private fun sendAck(
         cache: GlucoseCache,
         healthMonitor: WatchSyncHealthMonitor,
         readingTimestampEpochMs: Long,
         sequenceId: Long,
     ) {
-        serviceScope.launch {
-            val sender = WearAckSender()
-            val sent = sender.send {
+        val sent = runBlocking {
+            WearAckSender().send {
                 val now = System.currentTimeMillis()
                 val request = PutDataMapRequest.create(GlucoseKeys.PATH_WATCH_ACK).apply {
                     dataMap.putLong(GlucoseKeys.ACK_READING_TIMESTAMP_EPOCH_MS, readingTimestampEpochMs)
@@ -161,25 +158,34 @@ class WearDataLayerListenerService : WearableListenerService() {
                 }.asPutDataRequest().setUrgent()
                 Wearable.getDataClient(this@WearDataLayerListenerService).putDataItem(request).await()
             }
-            if (sent) {
-                return@launch
-            }
-
-            Log.w(TAG, "ack_failed sequenceId=$sequenceId attempts=${WearAckSender.MAX_ACK_ATTEMPTS}")
-            cache.recordAckFailed(sequenceId)
-            healthMonitor.recordAckFailure()
         }
+        if (sent) return
+
+        Log.w(TAG, "ack_failed sequenceId=$sequenceId attempts=${WearAckSender.MAX_ACK_ATTEMPTS}")
+        cache.recordAckFailed(sequenceId)
+        healthMonitor.recordAckFailure()
     }
 
     private fun isForThisWatch(targetNodeId: String): Boolean {
         if (targetNodeId.isBlank()) return true
-        val localNodeId = runCatching {
-            Tasks.await(Wearable.getNodeClient(this).localNode).id
-        }.getOrDefault("")
+        val localNodeId = localNodeId()
         return localNodeId.isBlank() || localNodeId == targetNodeId
+    }
+
+    /** The local node id is fixed for the process lifetime: query it once, not per event. */
+    private fun localNodeId(): String {
+        cachedLocalNodeId?.let { return it }
+        val id = runCatching { Tasks.await(Wearable.getNodeClient(this).localNode).id }
+            .getOrNull()
+            ?.takeIf { it.isNotBlank() }
+        cachedLocalNodeId = id
+        return id.orEmpty()
     }
 
     companion object {
         private const val TAG = "WG7.WearDataLayer"
+
+        @Volatile
+        private var cachedLocalNodeId: String? = null
     }
 }

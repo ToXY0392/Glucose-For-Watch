@@ -59,8 +59,6 @@ Launch from code: `startActivity(Showkase.getBrowserIntent(context))` (generated
 
 **Conventions:** one `@ShowkaseRoot` module (`GlucoseForWatchShowkaseRoot`) · preview composables `internal` · reuse `HomePreviewStates` / `SyncTestFixtures` for realistic Home states · KSP `2.3.9` + Showkase `1.0.5` on `:mobile` debug only.
 
-Design tokens handoff (M.4): `py -3 toxy-ux-kit/tools/export-design-reference.py` → open `toxy-ux-kit/design-reference/index.html`.
-
 Doc link check (CI): `py -3 scripts/dev/check_docs_links.py` (also in `verify_ci.sh`).
 
 List devices: `adb devices -l`.
@@ -200,8 +198,7 @@ Glucose-For-Watch/
 ├── core/                # model, datalayer-contract, testing
 ├── feature/             # sync, dexcom-share, watch-install
 ├── docs/
-├── scripts/
-└── toxy-ux-kit/         # Design tokens and specs
+└── scripts/
 ```
 
 ## Next steps
@@ -209,5 +206,5 @@ Glucose-For-Watch/
 - [architecture.md](architecture.md) — sync flow and Data Layer contract
 - [dexcom.md](../guide/dexcom.md) — G6/G7 compatibility
 - [user.md](../guide/user.md) — end-user sideload guide
-- [toxy-ux-kit/](../../toxy-ux-kit/README.md) — AGP colors and UI specs
+- [design/agp-medical-layer.md](../design/agp-medical-layer.md) — AGP colors and glucose surfaces
 - [CONTRIBUTING.md](../../CONTRIBUTING.md)

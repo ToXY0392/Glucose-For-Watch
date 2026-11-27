@@ -36,7 +36,7 @@ fun PremiumAppLogo(modifier: Modifier = Modifier) {
             modifier.clip(RoundedCornerShape(PremiumAppLogoCornerRadius)),
     ) {
         Image(
-            painter = painterResource(R.drawable.ic_app_logo_original_carre),
+            painter = painterResource(R.drawable.ic_launcher_foreground),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier =

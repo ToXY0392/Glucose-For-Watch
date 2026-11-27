@@ -5,9 +5,6 @@
 -keep class com.flyfishxu.kadb.** { *; }
 -dontwarn com.flyfishxu.kadb.**
 
--keep class com.google.mlkit.** { *; }
--dontwarn com.google.mlkit.**
-
 # --- Wear Data Layer (GMS binds by manifest class name) ---
 -keep class * extends com.google.android.gms.wearable.WearableListenerService { *; }
 -keep class com.glucoseforwatch.mobile.sync.PhoneWearRefreshRequestService { *; }

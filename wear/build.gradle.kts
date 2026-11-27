@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 val gfwVersionCode = providers.gradleProperty("gfwVersionCode").get().toInt()
@@ -54,33 +54,32 @@ kotlin {
 dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:datalayer-contract"))
-    implementation("androidx.core:core-ktx:1.19.1")
-    implementation("androidx.activity:activity-compose:1.13.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.11.1")
-    implementation("androidx.wear.compose:compose-material3:1.7.2")
-    implementation("androidx.wear.compose:compose-foundation:1.7.2")
-    implementation("com.google.android.gms:play-services-wearable:20.0.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.wear.compose.material3)
+    implementation(libs.androidx.wear.compose.foundation)
+    implementation(libs.play.services.wearable)
+    implementation(libs.kotlinx.coroutines.play.services)
 
-    implementation("androidx.wear:wear:1.4.0")
-    implementation("androidx.wear.watchface:watchface-complications-data:1.3.0")
-    implementation("androidx.wear.watchface:watchface-complications-data-source:1.3.0")
+    implementation(libs.androidx.wear)
+    implementation(libs.androidx.watchface.complications.data)
+    implementation(libs.androidx.watchface.complications.data.source)
 
     // Wear Tiles runtime + Studio Design-pane tooling (aligned versions).
     // Docs: https://developer.android.com/training/wearables/tiles/debug
     // tiles-tooling-preview / wear-tooling-preview = implementation (Studio discovery)
     // tiles-tooling = debugImplementation (preview renderer)
-    implementation("androidx.wear.tiles:tiles:1.6.2")
-    implementation("androidx.wear.tiles:tiles-material:1.6.2")
-    implementation("androidx.wear.tiles:tiles-tooling-preview:1.6.2")
-    implementation("androidx.wear:wear-tooling-preview:1.0.0")
-    debugImplementation("androidx.wear.tiles:tiles-tooling:1.6.2")
-    implementation("com.google.guava:guava:33.8.0-android")
+    implementation(libs.androidx.wear.tiles)
+    implementation(libs.androidx.wear.tiles.tooling.preview)
+    implementation(libs.androidx.wear.tooling.preview)
+    debugImplementation(libs.androidx.wear.tiles.tooling)
+    implementation(libs.guava)
 
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.robolectric:robolectric:4.18.1")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.kotlinx.coroutines.core)
 
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.wear.compose:compose-ui-tooling:1.7.2")
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.wear.compose.ui.tooling)
 }

@@ -1,5 +1,6 @@
 package com.glucoseforwatch.mobile.notifications
 
+import android.annotation.SuppressLint
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -97,7 +98,7 @@ class NotificationHelper @JvmOverloads constructor(
             .setAutoCancel(true)
             .setOnlyAlertOnce(true)
             .build()
-        NotificationManagerCompat.from(context).notify(notificationId, notification)
+        notifyChecked(notificationId, notification)
         stateStore.saveLastAlert(notificationId, title, message)
     }
 
@@ -112,7 +113,6 @@ class NotificationHelper @JvmOverloads constructor(
     }
 
     private fun ensureChannel() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (manager.getNotificationChannel(CHANNEL_SYNC_STATUS) != null) return
 
@@ -127,7 +127,6 @@ class NotificationHelper @JvmOverloads constructor(
     }
 
     private fun ensureActiveSyncChannel() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (manager.getNotificationChannel(CHANNEL_ACTIVE_SYNC) != null) return
 
@@ -139,6 +138,12 @@ class NotificationHelper @JvmOverloads constructor(
             description = context.getString(R.string.notification_channel_active_sync_desc)
         }
         manager.createNotificationChannel(channel)
+    }
+
+    /** POST_NOTIFICATIONS is verified by [canNotify] before every call; lint cannot follow it. */
+    @SuppressLint("MissingPermission")
+    private fun notifyChecked(notificationId: Int, notification: android.app.Notification) {
+        NotificationManagerCompat.from(context).notify(notificationId, notification)
     }
 
     private fun canNotify(): Boolean {

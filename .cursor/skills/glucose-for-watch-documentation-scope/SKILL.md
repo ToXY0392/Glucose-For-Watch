@@ -15,4 +15,4 @@ Skills: edit **`.claude/skills/`** only, then run `python3 scripts/dev/sync_skil
 
 Before commit: **`glucose-for-watch-repo-hygiene`** · run `python3 scripts/dev/check_docs_links.py`.
 
-QA evidence → `glucose-for-watch-qa-hardware-scope` on a `qa/` branch · ToXY kit → `glucose-for-watch-ui-ux-kit-scope`.
+QA evidence → `glucose-for-watch-qa-hardware-scope` on a `qa/` branch.

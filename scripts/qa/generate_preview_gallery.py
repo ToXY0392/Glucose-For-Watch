@@ -19,7 +19,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 PREVIEW_SRC = ROOT / "mobile" / "build" / "app-previews"
 GALLERY_DIR = ROOT / "mobile" / "build" / "preview-gallery"
-DESIGN_REF = ROOT / "toxy-ux-kit" / "design-reference" / "index.html"
 
 TITLES: dict[str, str] = {
     "mobile-home-connected": "Connected · 120 mg/dL · watch ack OK",
@@ -55,13 +54,6 @@ def main() -> None:
         cards.append(card_html(src.name, title_for(src.stem)))
 
     generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    design_link = (
-        '<p class="refs">ToXY token reference: '
-        '<a href="../../../toxy-ux-kit/design-reference/index.html">design-reference/index.html</a> '
-        "(run <code>py -3 toxy-ux-kit/tools/export-design-reference.py</code> locally)</p>"
-        if DESIGN_REF.is_file()
-        else ""
-    )
 
     html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -131,7 +123,6 @@ def main() -> None:
     <div class="grid">
 {chr(10).join(cards)}
     </div>
-    {design_link}
     <footer>Auto-generated — do not edit. Source: scripts/qa/generate_preview_gallery.py</footer>
   </div>
 </body>

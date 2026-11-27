@@ -19,7 +19,6 @@
 ## Forbidden
 
 - `feature/dexcom-share/**`
-- `toxy-ux-kit/**`
 - `.github/**`, root Gradle files without explicit review
 
 ## Verify

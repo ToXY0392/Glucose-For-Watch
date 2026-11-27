@@ -20,7 +20,6 @@
 ## Forbidden
 
 - `wear/**`
-- `toxy-ux-kit/tokens/**` (use exported `@color/toxy_*` only)
 - `.github/**`, root `build.gradle.kts`, `settings.gradle.kts`
 - `feature/dexcom-share/**` credential storage changes without explicit review
 

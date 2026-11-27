@@ -1,5 +1,6 @@
 package com.glucoseforwatch.mobile.ui
 
+import android.app.AlertDialog
 import android.Manifest
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -21,7 +22,6 @@ import androidx.compose.ui.res.colorResource
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.glucoseforwatch.feature.watchinstall.WearDirectAdbInstaller
 import com.glucoseforwatch.feature.watchinstall.WearEmbeddedApkRepository
 import com.glucoseforwatch.feature.watchinstall.WearInstallOcr
@@ -179,7 +179,7 @@ class WearInstallerActivity : ComponentActivity() {
                 getString(R.string.wear_install_direct_ocr_camera),
                 getString(R.string.wear_install_direct_ocr_gallery),
             )
-        MaterialAlertDialogBuilder(this)
+        AlertDialog.Builder(this)
             .setTitle(R.string.wear_install_direct_ocr_title)
             .setItems(options) { _, which ->
                 when (which) {

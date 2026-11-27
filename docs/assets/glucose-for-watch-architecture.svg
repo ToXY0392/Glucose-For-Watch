@@ -41,7 +41,7 @@
   </g>
 
   <line x1="450" y1="176" x2="450" y2="208" stroke="#2e7d32" stroke-width="2.5" marker-end="url(#arrowDown)"/>
-  <text x="460" y="198" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#2e7d32">1. HTTPS read (~45 s poll)</text>
+  <text x="460" y="198" font-family="Segoe UI, system-ui, sans-serif" font-size="12" font-weight="600" fill="#2e7d32">1. HTTPS read (5 min cadence)</text>
 
   <g filter="url(#shadow)">
     <rect x="70" y="212" width="760" height="248" rx="14" fill="url(#phoneBg)" stroke="#43a047" stroke-width="2"/>
@@ -97,10 +97,10 @@
     <text x="635" y="560" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#1565c0">AGP surfaces</text>
     <text x="475" y="582" font-family="monospace" font-size="10.5" fill="#333">GlucoseTileServiceV2 (tile)</text>
     <text x="475" y="600" font-family="monospace" font-size="10.5" fill="#333">GlucoseComplicationServiceV2 (provider: Glycémie)</text>
-    <text x="475" y="622" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#666">cache stale &gt; 2 min; tile/complication threshold: 15 min</text>
+    <text x="475" y="622" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#666">stale &gt; 15 min everywhere (GlucoseFreshness)</text>
     <text x="475" y="636" font-family="Segoe UI, system-ui, sans-serif" font-size="10" fill="#666">PendingPushQueue flushes on reconnect</text>
   </g>
 
   <rect x="70" y="678" width="760" height="32" rx="6" fill="#eceff1"/>
-  <text x="450" y="699" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#455a64">:core:datalayer-contract - poll 45s (120s degraded) - installGlucoseForWatchDebug sideload</text>
+  <text x="450" y="699" text-anchor="middle" font-family="Segoe UI, system-ui, sans-serif" font-size="12" fill="#455a64">:core:datalayer-contract - poll on reading cadence, 45s/120s when overdue - installGlucoseForWatchDebug sideload</text>
 </svg>

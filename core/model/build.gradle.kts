@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -26,6 +26,6 @@ kotlin {
 }
 
 dependencies {
-    implementation("androidx.annotation:annotation:1.11.0")
-    testImplementation("junit:junit:4.13.2")
+    implementation(libs.androidx.annotation)
+    testImplementation(libs.junit)
 }

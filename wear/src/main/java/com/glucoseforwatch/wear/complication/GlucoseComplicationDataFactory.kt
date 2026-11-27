@@ -10,6 +10,7 @@ import androidx.wear.watchface.complications.data.RangedValueComplicationData
 import androidx.wear.watchface.complications.data.ShortTextComplicationData
 import androidx.wear.watchface.complications.data.TimeRange
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
+import com.glucoseforwatch.core.model.GlucoseFreshness
 import com.glucoseforwatch.core.model.GlucoseUnitFormatter
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
 import com.glucoseforwatch.wear.display.WearGlucoseSurfaceModel
@@ -22,7 +23,7 @@ internal object GlucoseComplicationDataFactory {
      * Align with tile chrome: after this age, show disconnected placeholder instead of
      * the last numeric reading (SysUI must still keep the slot visible).
      */
-    const val STALE_AFTER_MS = 15L * 60_000L
+    const val STALE_AFTER_MS = GlucoseFreshness.STALE_AFTER_MS
 
     /** Clear disconnect / no-data glyph for short complication slots. */
     const val DISCONNECTED_VALUE = "---"
@@ -79,8 +80,7 @@ internal object GlucoseComplicationDataFactory {
 
     fun isDisconnected(snapshot: GlucoseSnapshot?, nowEpochMs: Long = System.currentTimeMillis()): Boolean {
         if (snapshot == null) return true
-        if (snapshot.timestampEpochMs <= 0L) return true
-        return (nowEpochMs - snapshot.timestampEpochMs) > STALE_AFTER_MS
+        return GlucoseFreshness.isStale(snapshot.timestampEpochMs, nowEpochMs)
     }
 
     fun buildData(

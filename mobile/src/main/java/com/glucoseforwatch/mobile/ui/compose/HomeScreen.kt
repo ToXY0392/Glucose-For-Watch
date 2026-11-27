@@ -158,10 +158,8 @@ private fun HomeDashboardDial(
     onSyncClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val glucoseBand = HomeDialGlucoseColor.band(glucoseValueMgDl)
-    val fallbackColor = MaterialTheme.colorScheme.onSurfaceVariant
     val targetDialColor =
-        if (glucoseBand is HomeDialGlucoseBand.Unknown) fallbackColor else glucoseBand.color
+        HomeDialGlucoseColor.color(glucoseValueMgDl) ?: MaterialTheme.colorScheme.onSurfaceVariant
     val animatedDialColor by animateColorAsState(
         targetValue = targetDialColor,
         animationSpec = HomeDialColorAnimationSpec,

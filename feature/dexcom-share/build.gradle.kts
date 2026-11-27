@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -27,8 +27,8 @@ kotlin {
 
 dependencies {
     implementation(project(":core:model"))
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.okhttp)
 
-    testImplementation("junit:junit:4.13.2")
+    testImplementation(libs.junit)
 }

@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Chrome UI — vert santé épuré (jamais sur la valeur glycémie AGP) -->
-    <color name="gfw_brand_bezel">#C5D4CA</color>
-    <color name="gfw_brand_glucose">@color/agp_inRange</color>
     <color name="gfw_chrome_accent">#0B6640</color>
     <color name="gfw_chrome_accent_dark">#084D31</color>
     <color name="gfw_chrome_accent_soft">#EAF2EC</color>
-    <color name="gfw_chrome_on_accent">#FFFFFF</color>
     <!-- Fond canvas — blanc frais légèrement teinté -->
     <color name="gfw_canvas_start">#FFFFFF</color>
     <color name="gfw_canvas_end">#F7F9F7</color>

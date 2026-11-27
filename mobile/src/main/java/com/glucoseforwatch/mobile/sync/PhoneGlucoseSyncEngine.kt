@@ -20,13 +20,27 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.isActive
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withTimeout
 
-/** Phone-side glucose sync: Dexcom Share fetch, watch push, and push-failure tracking. */
+/**
+ * Phone-side glucose sync: Dexcom Share fetch, watch push, and push-failure tracking.
+ *
+ * Passes are serialized process-wide: the foreground service, the manual sync button and the
+ * WorkManager fallback never fetch or push concurrently.
+ */
 class PhoneGlucoseSyncEngine(private val context: Context) {
     suspend fun run(
         triggeredFromWatch: Boolean,
         forcePushCurrentReading: Boolean = false,
+    ): SyncExecutionResult = passMutex.withLock {
+        runPass(triggeredFromWatch, forcePushCurrentReading)
+    }
+
+    private suspend fun runPass(
+        triggeredFromWatch: Boolean,
+        forcePushCurrentReading: Boolean,
     ): SyncExecutionResult {
         return try {
             val source = PhoneGlucoseSourceFactory.create(context)
@@ -152,6 +166,7 @@ class PhoneGlucoseSyncEngine(private val context: Context) {
     }
 
     companion object {
+        private val passMutex = Mutex()
         private const val TAG = "WG7.PhoneSyncEngine"
         private const val FETCH_TIMEOUT_MS = 12_000L
         private const val WEAR_PUSH_TIMEOUT_MS = 8_000L

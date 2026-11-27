@@ -8,17 +8,19 @@ description: Enforces AGP medical color rules in Glucose For Watch: glucose valu
 ## Rule
 **Medical layer:** glucose numbers, range bands, trend arrows (when fresh) → `GlucoseRangeResolver` / `agp_*` colors.
 
-**Chrome layer:** backgrounds, buttons, sync UI → `toxy_*` / `ToxyTileTheme` mint accent OK.
+**Chrome layer:** backgrounds, buttons, sync UI → `wg7_*` / `gfw_*` resources, `GlucoseTileChrome` chrome constants.
 
 ## Thresholds (mg/dL)
+Source of truth: `AgpGlucoseColors` in `core/model/GlucoseRange.kt`. Values below mirror it.
+
 | Range | Color token |
 |-------|-------------|
-| &lt; 54 | veryLow `#9C0000` |
-| 54–69 | low `#E00000` |
+| &lt; 54 | veryLow `#D32F2F` |
+| 54–69 | low `#D32F2F` |
 | 70–180 | inRange `#008000` |
-| 181–250 | high `#FFCC00` (tile uses alert orange `#FF9900`) |
+| 181–250 | high `#FFCC00` |
 | &gt; 250 | veryHigh `#FF9900` |
-| stale / no data | unknown `#64748B` |
+| stale / no data | unknown `#9A948D` |
 
 ## Enforcement grep
 ```bash

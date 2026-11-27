@@ -8,14 +8,13 @@
 
 ## Allowed paths
 
-- `docs/plan/**`, `docs/dev/**`, `docs/guide/**`, `docs/legal/**`, `docs/index.md`
+- `docs/plan/**`, `docs/dev/**`, `docs/guide/**`, `docs/legal/**`, `docs/design/**`, `docs/index.md`
 - `AGENTS.md`, `CONTRIBUTING.md`, `CHANGELOG.md`, `README.md`, `SECURITY.md`
 - `.claude/skills/**` (canonical skills; `.cursor/skills/**` is the generated mirror), `.cursor/rules/**`, `.cursor/workspace-scopes/**`
 
 ## Routage
 
 - `docs/qa/**`, `scripts/qa/**` → `sandbox/qa-hardware`
-- `toxy-ux-kit/**` → `sandbox/ui-ux-kit`
 - app code → owning sandbox
 
 ## Verify

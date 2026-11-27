@@ -41,7 +41,8 @@ Hub for all project documentation. Repository entry: [README.md](../README.md).
 |----------|-------------|
 | [assets/glucose-for-watch-architecture.svg](assets/glucose-for-watch-architecture.svg) | Sync flow diagram (source) |
 | [design/material-icons.md](design/material-icons.md) | Official Material icons import |
-| [../toxy-ux-kit/README.md](../toxy-ux-kit/README.md) | ToXY tokens, AGP medical layer, wear specs |
+| [design/agp-medical-layer.md](design/agp-medical-layer.md) | AGP medical colors, staleness rule |
+| [design/surfaces.md](design/surfaces.md) | Tile, complication, status screen, phone home |
 
 ## QA evidence (not a guide)
 

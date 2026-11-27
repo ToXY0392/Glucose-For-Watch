@@ -1,8 +1,8 @@
 # Session memory
-_Màj : 2026-11-26 · branche : develop/integration_
+_Màj : 2026-11-27 · branche : chore/bloc-s-audit-optimisations_
 
 ## En cours
-- Rien.
+- 2026-11-27 Audit complet appliqué sur `chore/bloc-s-audit-optimisations` (6 commits, PR vers `develop/integration`). Rien installé sur appareil.
 
 ## Décisions
 - 2026-11-26 **Bluetooth / G7 direct en pause** — pourquoi : Phase 0 bloquée (pas de capteur G7 de test isolé). Ne rien proposer sur `wear/.../direct/`, l'arbitre ou l'enveloppe source sans reprise explicite.
@@ -22,8 +22,14 @@ _Màj : 2026-11-26 · branche : develop/integration_
 - 2026-11-26 Tests ajoutés : parseur OCR `watch-install`, valeurs du contrat Data Layer figées (changer une clé casse une montre déjà installée) ; CI les lance — PR #134.
 - 2026-11-26 `AppSettingsStore` : prefs chiffrées créées une fois par processus (≈10 appelants) — PR #137. Migration hors `security-crypto` (déprécié) **reportée** — pourquoi : pas de faille connue, Keystore non testable en Robolectric, install interdite pendant le soak, échec = identifiants Dexcom perdus.
 
+- 2026-11-27 **toxy-ux-kit supprimé** — pourquoi : aucun lien de build, valeurs divergentes partout. Règles AGP + surfaces dans `docs/design/`. Source de vérité couleurs : `AgpGlucoseColors` ; lint `scripts/dev/lint_agp_colors.py`.
+- 2026-11-27 Polling Dexcom sur cadence 5 min (`GlucosePollScheduler`), seuil périmé unique 15 min (`GlucoseFreshness`), alarme 5 min quand le FGS tourne, tuile 60 s.
+- 2026-11-27 ML Kit OCR non embarqué (Play Services) : APK release 50 → 5,6 Mo. kadb garde sa règle `-keep` (BouncyCastle, non testable sans appareil).
+- 2026-11-27 JitPack nécessaire (kadb → `com.github.Flyfish233:spake2-java`), restreint à ce groupe. Dossiers `mipmap-anydpi-v26` à garder (sans `-v26`, AAPT ne trouve plus les icônes).
+- 2026-11-27 Non fait exprès : plugin de convention pour les 8 blocs `android {}` (sur-ingénierie), ktlint sur le Kotlin des modules (reformatage massif).
+
 ## Prochaines étapes
-1. Avant release : sur appareil, vérifier que les réglages Dexcom se rechargent après mise à jour et après reboot (effet #137).
+1. Avant release, sur appareil : réglages Dexcom rechargés après mise à jour et reboot (#137) ; OCR montre après téléchargement du modèle Play Services ; thème fenêtre framework (barre d'état, dialogue OCR) ; cadran accueil AGP (jaune sur fond clair) ; logs `poll` sur 1 h ; arrêt FGS 6 h Android 15 puis reprise alarme/WorkManager.
 2. Chantier séparé : Kotlin intégré AGP 9 (`builtInKotlin` + `newDsl`), puis options R8 avec test release sur appareil.
 3. Branches locales `docs`, `backup/*` : contenu unique non retrouvé ailleurs — décision utilisateur avant suppression.
 

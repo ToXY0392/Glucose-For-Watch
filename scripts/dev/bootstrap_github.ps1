@@ -38,7 +38,7 @@ Write-Host "=== Labels ==="
     @("area:wear", "C5DEF5", "Tile complication"),
     @("area:sync", "C5DEF5", "GlucoseSyncEngine Data Layer"),
     @("area:dexcom", "C5DEF5", "Share API auth"),
-    @("area:ux-kit", "C5DEF5", "toxy-ux-kit AGP colors"),
+    @("area:ux-kit", "C5DEF5", "AGP colors docs/design"),
     @("area:infra", "C5DEF5", "CI scripts repo"),
     @("hardware-qa", "D4C5F9", "Session adb phone watch"),
     @("docs-only", "EDEDED", "Pas de build requis")

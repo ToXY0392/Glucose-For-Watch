@@ -13,6 +13,12 @@ class PhoneAutoSyncReceiver : BroadcastReceiver() {
             return
         }
 
+        if (ActiveGlucoseSyncService.isRunning) {
+            // Service already polling: only re-arm the watchdog.
+            PhoneAutoSyncScheduler.schedule(context, delayMs = PhoneAutoSyncScheduler.WATCHDOG_INTERVAL_MS)
+            return
+        }
+
         val settingsStore = AppSettingsStore(context)
         PhoneAutoSyncScheduler.schedule(context)
         if (settingsStore.isActiveSyncEnabled()) {

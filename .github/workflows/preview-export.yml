@@ -9,7 +9,6 @@ on:
       - 'mobile/src/main/**'
       - 'mobile/src/debug/**'
       - 'mobile/src/test/**/preview/**'
-      - 'toxy-ux-kit/**'
       - 'scripts/qa/export_app_previews.sh'
       - 'scripts/qa/generate_preview_gallery.py'
   workflow_dispatch:

@@ -8,6 +8,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ServiceCompat
 import com.glucoseforwatch.core.model.GlucoseReading
+import com.glucoseforwatch.feature.sync.GlucosePollScheduler
 import com.glucoseforwatch.feature.sync.SyncExecutionResult
 import com.glucoseforwatch.mobile.notifications.NotificationHelper
 import com.glucoseforwatch.mobile.settings.AppSettingsStore
@@ -38,6 +39,7 @@ class ActiveGlucoseSyncService : Service() {
     private val syncMutex = Mutex()
     private var loopJob: Job? = null
     private var immediateSyncJob: Job? = null
+    private var repairJob: Job? = null
     private var foregroundActive = false
     private var consecutiveSyncFailures = 0
     private lateinit var reconnectDetector: WatchReconnectDetector
@@ -87,6 +89,7 @@ class ActiveGlucoseSyncService : Service() {
     override fun onDestroy() {
         loopJob?.cancel()
         immediateSyncJob?.cancel()
+        repairJob?.cancel()
         serviceJob.cancel()
         isRunning = false
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
@@ -99,10 +102,15 @@ class ActiveGlucoseSyncService : Service() {
         super.onDestroy()
     }
 
+    /**
+     * Android 15+ caps dataSync services at 6 h per 24 h. Stop as required, but keep the user's
+     * active-sync choice: onDestroy schedules the alarm, which falls back to WorkManager while
+     * the system refuses a new foreground start.
+     */
     override fun onTimeout(startId: Int, fgsType: Int) {
         super.onTimeout(startId, fgsType)
-        Log.w(TAG, "fgs_timeout startId=$startId fgsType=$fgsType — stopping to avoid system crash")
-        stopActiveSync()
+        Log.w(TAG, "fgs_timeout startId=$startId fgsType=$fgsType stopping_keep_enabled")
+        stopActiveSync(keepEnabled = true)
     }
 
     private fun startLoop(): Boolean {
@@ -149,9 +157,15 @@ class ActiveGlucoseSyncService : Service() {
                 TAG,
                 "sync_pass_result triggeredFromWatch=$triggeredFromWatch forcePush=$forcePushCurrentReading result=${result::class.simpleName}",
             )
-            repairUnackedDelivery()
             PhoneSyncStateStore(this).recordActiveServiceState("running")
         }
+        scheduleUnackedRepair()
+    }
+
+    /** Re-push loop runs outside [syncMutex] so a watch refresh never waits behind its delays. */
+    private fun scheduleUnackedRepair() {
+        repairJob?.cancel()
+        repairJob = serviceScope.launch { repairUnackedDelivery() }
     }
 
     private suspend fun flushPendingOnReconnect() {
@@ -225,11 +239,15 @@ class ActiveGlucoseSyncService : Service() {
         }
 
         val health = WatchSyncHealthRepository(this).load()
-        val intervalMs = WatchBatteryPolicy.pollIntervalMs(health)
-        if (intervalMs == WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS) {
+        val overdueIntervalMs = WatchBatteryPolicy.pollIntervalMs(health)
+        if (overdueIntervalMs == WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS) {
             Log.i(TAG, "poll_interval_degraded intervalMs=$POLL_INTERVAL_DEGRADED_MS")
         }
-        return intervalMs
+        return GlucosePollScheduler.nextDelayMs(
+            nowEpochMs = System.currentTimeMillis(),
+            lastReadingTimestampEpochMs = PhoneSyncStateStore(this).load().lastFetchedReadingTimestampEpochMs,
+            overdueIntervalMs = overdueIntervalMs,
+        )
     }
 
     private fun isWatchInDegradedBatteryMode(): Boolean {
@@ -262,11 +280,14 @@ class ActiveGlucoseSyncService : Service() {
         }
     }
 
-    private fun stopActiveSync() {
-        AppSettingsStore(this).setActiveSyncEnabled(false)
+    private fun stopActiveSync(keepEnabled: Boolean = false) {
+        if (!keepEnabled) {
+            AppSettingsStore(this).setActiveSyncEnabled(false)
+        }
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
         loopJob?.cancel()
         immediateSyncJob?.cancel()
+        repairJob?.cancel()
         if (foregroundActive) {
             stopForeground(STOP_FOREGROUND_REMOVE)
         }

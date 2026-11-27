@@ -130,10 +130,10 @@ if ($targets.Count -eq 0) {
 
 Bloc C.1 - AGP visual (STABILITY-GATES G-C)
 
-Expected AGP bands (see toxy-ux-kit/spec/01-agp-medical-layer.md):
+Expected AGP bands (see docs/design/agp-medical-layer.md):
   60  mg/dL -> low (red)
   120 mg/dL -> in range (green)
-  200 mg/dL -> high (amber)
+  200 mg/dL -> high (yellow)
 
 Phone: $phone
 Watch: $(if ($watch) { $watch } else { '(not configured)' })

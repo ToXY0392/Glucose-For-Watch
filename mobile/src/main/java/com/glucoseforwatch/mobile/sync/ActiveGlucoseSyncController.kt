@@ -1,9 +1,7 @@
 package com.glucoseforwatch.mobile.sync
 
-import android.app.ForegroundServiceStartNotAllowedException
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 
 /**
@@ -32,13 +30,10 @@ object ActiveGlucoseSyncController {
 
     private fun startForegroundServiceSafely(context: Context, intent: Intent): Boolean {
         return try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                context.startForegroundService(intent)
-            } else {
-                context.startService(intent)
-            }
+            context.startForegroundService(intent)
             true
-        } catch (error: ForegroundServiceStartNotAllowedException) {
+        } catch (error: IllegalStateException) {
+            if (!ActiveGlucoseSyncForegroundGate.isForegroundStartRefused(error)) throw error
             Log.w(TAG, "fgs_start_blocked action=${intent.action}", error)
             false
         }
