@@ -6,7 +6,7 @@ cd "$ROOT_DIR"
 
 echo "[gfw] CI verification started"
 python3 toxy-ux-kit/tools/tokens-validate.py
-python3 toxy-ux-kit/tools/lint-agp-colors.py
+python3 scripts/dev/lint_agp_colors.py
 python3 scripts/dev/check_docs_links.py
 ./gradlew \
   :core:model:testDebugUnitTest \

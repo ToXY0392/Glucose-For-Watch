@@ -1,27 +1,13 @@
 package com.glucoseforwatch.mobile.ui.compose
 
 import androidx.compose.ui.graphics.Color
+import com.glucoseforwatch.core.model.GlucoseRangeResolver
 
-/** Home dial glucose band for border and value coloring. */
-sealed class HomeDialGlucoseBand(val color: Color) {
-    data object Low : HomeDialGlucoseBand(Color(0xFFFF5252))
-
-    data object InRange : HomeDialGlucoseBand(Color(0xFF4CAF50))
-
-    data object High : HomeDialGlucoseBand(Color(0xFFFFC107))
-
-    data object Unknown : HomeDialGlucoseBand(Color.Unspecified)
-}
-
-/** Resolves dial colors from mg/dL thresholds (< 70, 70–180, > 180). */
-object HomeDialGlucoseColor {
-    fun band(valueMgDl: Int?): HomeDialGlucoseBand =
-        when {
-            valueMgDl == null -> HomeDialGlucoseBand.Unknown
-            valueMgDl < 70 -> HomeDialGlucoseBand.Low
-            valueMgDl <= 180 -> HomeDialGlucoseBand.InRange
-            else -> HomeDialGlucoseBand.High
-        }
+/** Home dial border and value color: AGP medical palette only, via [GlucoseRangeResolver]. */
+internal object HomeDialGlucoseColor {
+    /** Null when there is no value; the caller falls back to a neutral chrome color. */
+    fun color(valueMgDl: Int?): Color? =
+        valueMgDl?.let { Color(GlucoseRangeResolver.resolveColor(it)) }
 }
 
 internal data class HomeDialGlucoseDisplay(
