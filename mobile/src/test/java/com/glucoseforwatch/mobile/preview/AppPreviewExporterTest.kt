@@ -52,6 +52,16 @@ class AppPreviewExporterTest {
     }
 
     @Test
+    fun exportMobileHomePreview_high() {
+        exportPreview("mobile-home-high", connectedState(valueMgDl = 212, trend = "UP_RIGHT"))
+    }
+
+    @Test
+    fun exportMobileHomePreview_stale() {
+        exportPreview("mobile-home-stale", connectedState(readingAgeMs = 20 * 60_000L))
+    }
+
+    @Test
     fun exportMobileHomePreview_dexcomOff() {
         exportPreview("mobile-home-dexcom-off", dexcomOffState())
     }
@@ -105,6 +115,8 @@ class AppPreviewExporterTest {
                         onBatteryClick = {},
                         onPermissionsClick = {},
                         onAboutClick = {},
+                        // Static snapshot: entrance and ambient animations would capture mid-flight.
+                        motionEnabled = false,
                     )
                 }
             }
@@ -120,7 +132,12 @@ class AppPreviewExporterTest {
         println("APP_PREVIEW=${outFile.absolutePath}")
     }
 
-    private fun connectedState(displayUnit: GlucoseDisplayUnit = GlucoseDisplayUnit.MG_DL): HomeUiState {
+    private fun connectedState(
+        displayUnit: GlucoseDisplayUnit = GlucoseDisplayUnit.MG_DL,
+        valueMgDl: Int = 120,
+        trend: String = "FLAT",
+        readingAgeMs: Long = 120_000L,
+    ): HomeUiState {
         val context = ApplicationProvider.getApplicationContext<Context>()
         val now = 1_700_000_000_000L
         return HomeStateMapper.map(
@@ -128,10 +145,10 @@ class AppPreviewExporterTest {
             dexcomSettings = DexcomUserSettings("alice", "secret", "OUS"),
             syncStatus =
                 SyncTestFixtures.syncStatusSnapshot(
-                    lastValueMgDl = 120,
-                    lastTrend = "FLAT",
-                    lastReadingTimestampEpochMs = now - 120_000L,
-                    lastSyncEpochMs = now - 120_000L,
+                    lastValueMgDl = valueMgDl,
+                    lastTrend = trend,
+                    lastReadingTimestampEpochMs = now - readingAgeMs,
+                    lastSyncEpochMs = now - readingAgeMs,
                 ),
             watchStatus = connectedWatch(),
             watchHealth = installedWatchHealth(now),

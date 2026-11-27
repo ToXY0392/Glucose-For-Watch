@@ -24,6 +24,8 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 - Le cadran d'accueil du téléphone utilise la palette AGP (5 bandes) comme toutes les autres surfaces glycémie.
 - OCR ML Kit en version Play Services : APK release téléphone de 50 Mo à 5,6 Mo.
 - Catalogue de versions Gradle, cache de build, lint Android en CI.
+- Nouvel accueil téléphone « Menthe & Citron » : tuiles de verre en Bento, fond menthe vers citron, police Plus Jakarta Sans, animations (entrée en cascade, chiffre qui défile, barre AGP 40–400, sync animée, retour visuel à l'appui).
+- Palette AGP « surface claire » pour les cartes claires : même teinte par plage, jaune, orange et gris assombris pour rester lisibles.
 
 ### Corrigé
 
@@ -36,6 +38,7 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 - L'accueil se met à jour pendant qu'il est affiché et ne lit plus ses préférences sur le thread principal.
 - Montre : l'ack est envoyé avant la fin du traitement de la mesure.
 - Android 9 à 11 : plus de référence non protégée à une exception de l'API 31.
+- L'accueil affiche une lecture de plus de 15 min en gris « Donnée ancienne » au lieu de sa couleur de plage.
 
 ### Supprimé
 

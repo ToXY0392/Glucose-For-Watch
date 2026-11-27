@@ -22,6 +22,23 @@ No other file defines a glucose color, in Kotlin or XML.
 
 Blue is never used for a glucose value.
 
+### Light surfaces
+
+On a light surface (phone home glass cards) the base yellow, orange and grey fall under
+3:1 contrast. `AgpGlucoseColors.colorOnLightFor` and
+`GlucoseRangeResolver.resolveColorOnLight` / `resolveColorForReadingOnLight` keep the
+same hue per range with a darker shade. Red and green are unchanged.
+
+| Range | Constant | Color |
+|-------|----------|-------|
+| Very low, low | `VERY_LOW`, `LOW` | `#D32F2F` |
+| In range | `IN_RANGE` | `#008000` |
+| High | `HIGH_ON_LIGHT` | `#A87C00` |
+| Very high | `VERY_HIGH_ON_LIGHT` | `#B85C00` |
+| Unknown / stale | `UNKNOWN_ON_LIGHT` | `#77716A` |
+
+Dark surfaces (watch tile, complication, watch app) keep the base palette.
+
 ## Staleness
 
 One rule, `GlucoseFreshness.STALE_AFTER_MS` (15 min), for the Dexcom fetch,
@@ -34,13 +51,13 @@ depending on the surface.
 - Wear tile: glucose number, and trend arrow while fresh
 - Wear complication: value and ranged fill
 - Wear status screen: glucose number
-- Phone home: dial border and glucose value (`HomeDialGlucoseColor`)
-- Phone home: watch-face preview value
+- Phone home: glucose card value, range pill, trend arrow, glow and 40–400 scale
+  (`HomeGlucoseColor`, light-surface shades; stale readings in `UNKNOWN_ON_LIGHT`)
 
 ## Surfaces that must not use AGP
 
 Backgrounds, sync buttons, cards, unit labels and status text use the chrome
-colors: `wg7_*` / `gfw_*` resources and `ToxyPhoneColorScheme` on the phone,
+colors: `gfw_*` resources, `GlassPalette` and `ToxyPhoneColorScheme` on the phone,
 `GlucoseTileChrome` and `ToxyWearColorScheme` on the watch.
 
 ## Accessibility

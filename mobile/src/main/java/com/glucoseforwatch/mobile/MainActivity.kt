@@ -13,10 +13,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -24,14 +20,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.glucoseforwatch.feature.sync.SyncExecutionResult
 import com.glucoseforwatch.mobile.settings.AppSettingsStore
 import com.glucoseforwatch.mobile.sync.ActiveGlucoseSyncController
 import com.glucoseforwatch.mobile.sync.PhoneAutoSyncScheduler
@@ -54,6 +48,7 @@ class MainActivity : ComponentActivity() {
     private val homeViewModel: HomeViewModel by viewModels()
     private val snackbarHostState = SnackbarHostState()
     private var syncBusy by mutableStateOf(false)
+    private var syncJustSucceeded by mutableStateOf(false)
 
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* denied is OK */ }
@@ -68,33 +63,20 @@ class MainActivity : ComponentActivity() {
                     snackbarHost = { SnackbarHost(snackbarHostState) },
                     containerColor = Color.Transparent,
                 ) { padding ->
-                    Box(
-                        modifier =
-                            Modifier
-                                .fillMaxSize()
-                                .padding(padding)
-                                .background(
-                                    Brush.verticalGradient(
-                                        colors =
-                                            listOf(
-                                                colorResource(R.color.gfw_canvas_start),
-                                                colorResource(R.color.gfw_canvas_end),
-                                            ),
-                                    ),
-                                ),
-                    ) {
-                        HomeScreen(
-                            state = uiState,
-                            syncEnabled = !syncBusy,
-                            onSyncClick = { lifecycleScope.launch { runManualSync() } },
-                            onDexcomClick = { openDexcomFlow() },
-                            onWatchClick = { openWatchSetup() },
-                            onUnitClick = { openGlucoseUnitSettings() },
-                            onBatteryClick = { openBatterySettings() },
-                            onPermissionsClick = { openAppDetailsSettings() },
-                            onAboutClick = { openAbout() },
-                        )
-                    }
+                    // Background runs edge to edge; only the content respects the system bars.
+                    HomeScreen(
+                        state = uiState,
+                        syncEnabled = !syncBusy,
+                        syncJustSucceeded = syncJustSucceeded,
+                        contentPadding = padding,
+                        onSyncClick = { lifecycleScope.launch { runManualSync() } },
+                        onDexcomClick = { openDexcomFlow() },
+                        onWatchClick = { openWatchSetup() },
+                        onUnitClick = { openGlucoseUnitSettings() },
+                        onBatteryClick = { openBatterySettings() },
+                        onPermissionsClick = { openAppDetailsSettings() },
+                        onAboutClick = { openAbout() },
+                    )
                 }
             }
         }
@@ -137,6 +119,15 @@ class MainActivity : ComponentActivity() {
                     triggeredFromWatch = false,
                     forcePushCurrentReading = true,
                 )
+            syncBusy = false
+            refreshHome()
+            if (result !is SyncExecutionResult.Failure) {
+                syncJustSucceeded = true
+                lifecycleScope.launch {
+                    delay(SYNC_DONE_VISIBLE_MS)
+                    syncJustSucceeded = false
+                }
+            }
             snackbarHostState.showSnackbar(ManualSyncFeedbackFormatter.format(this, result))
         } finally {
             refreshHome()
@@ -209,5 +200,6 @@ class MainActivity : ComponentActivity() {
 
     private companion object {
         const val HOME_REFRESH_INTERVAL_MS = 30_000L
+        const val SYNC_DONE_VISIBLE_MS = 1_800L
     }
 }

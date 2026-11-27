@@ -188,6 +188,53 @@ class HomeStateMapperTest {
         assertEquals(R.color.wg7_text_tertiary, state.syncButtonTintColorRes)
     }
 
+    private fun mapReading(
+        valueMgDl: Int?,
+        readingAgeMs: Long,
+        trend: String = "FLAT",
+        displayUnit: GlucoseDisplayUnit = GlucoseDisplayUnit.MG_DL,
+    ): HomeUiState =
+        HomeStateMapper.map(
+            context = context,
+            dexcomSettings = DexcomUserSettings("alice", "secret", "OUS"),
+            syncStatus =
+                SyncTestFixtures.syncStatusSnapshot(
+                    lastValueMgDl = valueMgDl,
+                    lastReadingTimestampEpochMs = nowEpochMs - readingAgeMs,
+                    lastSyncEpochMs = nowEpochMs - readingAgeMs,
+                    lastTrend = trend,
+                ),
+            watchStatus = connectedWatch(),
+            watchHealth = installedWatchHealth(),
+            syncState = ackedSyncState(),
+            batteryProtected = true,
+            watchPushPending = false,
+            activeSyncEnabled = true,
+            displayUnit = displayUnit,
+            nowEpochMs = nowEpochMs,
+        )
+
+    @Test
+    fun hero_freshReading_isNotStale() {
+        val state = mapReading(valueMgDl = 124, readingAgeMs = 4 * 60_000L)
+        assertFalse(state.heroStale)
+        assertEquals(124, state.heroGlucoseValueMgDl)
+    }
+
+    @Test
+    fun hero_readingOlderThanFifteenMinutes_isStale() {
+        assertTrue(mapReading(valueMgDl = 124, readingAgeMs = 16 * 60_000L).heroStale)
+    }
+
+    @Test
+    fun hero_carriesTrendTokenUnitAndWatchBattery() {
+        val state = mapReading(valueMgDl = 124, readingAgeMs = 60_000L, trend = "NONE", displayUnit = GlucoseDisplayUnit.MMOL_L)
+        assertEquals("NONE", state.heroTrend)
+        assertEquals(GlucoseDisplayUnit.MMOL_L, state.heroDisplayUnit)
+        assertTrue(state.watchConnected)
+        assertEquals(installedWatchHealth().batteryLevel, state.watchBatteryPercent)
+    }
+
     private fun connectedWatch(): WatchConnectionStatus =
         WatchConnectionStatus(
             connected = true,

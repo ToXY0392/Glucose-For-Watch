@@ -164,4 +164,20 @@
     <string name="glucose_unit_settings_subtitle">Affichage sur le téléphone et la montre. Les données Dexcom restent en mg/dL en interne.</string>
     <string name="glucose_unit_mg_dl">mg/dL</string>
     <string name="glucose_unit_mmol_l">mmol/L</string>
+    <!-- Accueil Bento -->
+    <string name="home_glucose_title">Glycémie</string>
+    <string name="home_band_very_low">Très bas</string>
+    <string name="home_band_low">Sous la cible</string>
+    <string name="home_band_in_range">Dans la cible</string>
+    <string name="home_band_high">Au-dessus</string>
+    <string name="home_band_very_high">Très haut</string>
+    <string name="home_band_stale">Donnée ancienne</string>
+    <string name="home_glucose_a11y">Glycémie %1$s %2$s, %3$s, %4$s, %5$s</string>
+    <string name="home_watch_connected_a11y">Montre %1$s, batterie %2$s</string>
+    <string name="home_sync_tile_title">Synchroniser</string>
+    <string name="home_sync_tile_busy">Synchronisation…</string>
+    <string name="home_sync_tile_done">Montre à jour</string>
+    <string name="home_sync_tile_sub">Téléphone → montre</string>
+    <string name="home_unit_tile_title">Unité</string>
+    <string name="home_unit_tile_hint">Changer d\'unité</string>
 </resources>
