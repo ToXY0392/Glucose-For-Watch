@@ -58,27 +58,30 @@ All periodic sync scheduling goes through **`ActiveGlucoseSyncController`** — 
 
 | Mode | Interval |
 |------|----------|
-| Successful sync | 45 s (normal) or 120 s (low battery / `syncLimited`) |
+| After a reading | Wait until the next reading is due: reading time + 5 min + 15 s (`GlucosePollScheduler`) |
+| Reading overdue | 45 s (normal) or 120 s (low battery / `syncLimited`) until Dexcom publishes it |
 | Consecutive sync failures | Exponential backoff from 15 s, capped at 5 min |
-| Alarm fallback | 90 s |
+| Alarm fallback | 90 s; 5 min watchdog while the foreground service runs |
 
 ### Manual refresh
 
 | Source | Mechanism |
 |--------|-----------|
-| Phone Sync button | `ActiveGlucoseSyncController.syncNow()` |
+| Phone Sync button | One `PhoneGlucoseSyncEngine` pass, serialized with the service loop |
 | Watch tile Sync | `GlucoseRefreshActivity` → message `/glucose/refresh/request` |
 
 ### Offline behavior
 
 - Phone keeps fetching Dexcom regardless of watch connectivity
 - Push fails silently when no connected nodes
-- Dexcom readings and the Wear cache are flagged stale after 2 min
-- Tile visual staleness is based on reading age > 15 min; the complication uses
-  a placeholder when the reading is older than 15 min
+- One staleness rule everywhere (`GlucoseFreshness`): a reading older than
+  15 min is stale on the Dexcom fetch, the Wear cache, the tile, the
+  complication and the watch app
 - `PendingPushQueue` flushes on reconnect; WorkManager catch-up as fallback
 - Unacked delivery: repush at 10/30/60/120 s (normal) or 20/45/90 s
-  (degraded)
+  (degraded), outside the sync lock so a watch refresh never waits behind it
+- Android 15+ stops the dataSync service after 6 h per 24 h; active sync stays
+  enabled and the alarm + WorkManager fallback takes over
 - Interrupted-sync notification appears after 3 consecutive failures;
   Dexcom-auth notification appears after 2 consecutive authentication failures
 
@@ -87,9 +90,8 @@ All periodic sync scheduling goes through **`ActiveGlucoseSyncController`** — 
 The phone stores the user's Dexcom Share login details and region in encrypted
 preferences. `US` uses `share2.dexcom.com`; `OUS` uses
 `shareous1.dexcom.com`. A cached session is renewed once automatically when
-Dexcom reports it expired. Reading timestamps older than 2 minutes are flagged
-stale; that source/cache flag is distinct from the 15-minute Wear surface
-display thresholds above.
+Dexcom reports it expired. All Dexcom calls share one HTTP client and are
+cancelled with the calling coroutine, so the 12 s fetch deadline is enforced.
 
 ## Data Layer contract
 
@@ -114,7 +116,7 @@ Source: `core/datalayer-contract/.../GlucoseDataLayerContract.kt`
 | `delta` | int | Delta from previous |
 | `timestamp_epoch_ms` | long | Reading timestamp |
 | `sequence_id` | long | Monotonic push sequence |
-| `stale` | boolean | Dexcom/Wear cache reports the reading stale (over 2 min old) |
+| `stale` | boolean | Reading older than 15 min when fetched (`GlucoseFreshness`) |
 | `displayUnit` | string | `MG_DL` or `MMOL_L` — display unit for tile/complication text (internal value stays mg/dL) |
 
 ### Ack keys
@@ -147,5 +149,4 @@ Spec: [toxy-ux-kit/spec/01-agp-medical-layer.md](../../toxy-ux-kit/spec/01-agp-m
 
 - Phone and watch values match
 - `lastAckSequenceId == lastPushSequenceId`
-- Dexcom/Wear cache stale flag clears for fresh data (< 2 min)
-- Tile and complication apply their separate 15-minute display thresholds
+- Stale flag clears for fresh data (< 15 min) on phone, tile and complication

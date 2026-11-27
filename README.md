@@ -40,7 +40,7 @@ in the watch app, a tile, and watch-face complications.
 
 ```mermaid
 flowchart LR
-    D["☁️ Dexcom Share<br/>(HTTPS)"] -->|"poll ~45 s"| P["📱 Phone app<br/>sync engine"]
+    D["☁️ Dexcom Share<br/>(HTTPS)"] -->|"poll on 5 min cadence"| P["📱 Phone app<br/>sync engine"]
     P -->|"/glucose/latest"| W["⌚ Wear OS app<br/>cache · tile · complications"]
     W -.->|"/glucose/watch/ack"| P
 ```

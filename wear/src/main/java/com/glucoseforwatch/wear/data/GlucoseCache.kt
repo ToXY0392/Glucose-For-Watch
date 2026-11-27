@@ -4,6 +4,7 @@ import android.content.Context
 import com.glucoseforwatch.core.datalayer.GlucoseDataLayerContract
 import com.glucoseforwatch.core.model.AgpGlucoseColors
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
+import com.glucoseforwatch.core.model.GlucoseFreshness
 import com.glucoseforwatch.core.model.GlucoseRangeResolver
 import com.glucoseforwatch.core.model.GlucoseUnitFormatter
 
@@ -206,8 +207,7 @@ class GlucoseCache(context: Context) {
     fun load(): GlucoseSnapshot? {
         if (!prefs.contains(GlucoseKeys.TIMESTAMP_EPOCH_MS)) return null
         val timestampEpochMs = prefs.getLong(GlucoseKeys.TIMESTAMP_EPOCH_MS, 0L)
-        val ageMs = System.currentTimeMillis() - timestampEpochMs
-        val isTooOld = timestampEpochMs <= 0L || ageMs > STALE_AFTER_MS
+        val isTooOld = GlucoseFreshness.isStale(timestampEpochMs, System.currentTimeMillis())
         return GlucoseSnapshot(
             valueMgDl = prefs.getInt(GlucoseKeys.VALUE_MG_DL, 0),
             trend = prefs.getString(GlucoseKeys.TREND, "FLAT").orEmpty(),
@@ -332,7 +332,6 @@ class GlucoseCache(context: Context) {
 
     companion object {
         private const val HISTORY_LIMIT = 12
-        private const val STALE_AFTER_MS = 2 * 60 * 1000L
         private const val KEY_REFRESH_STATUS = "refresh_status"
         private const val KEY_REFRESH_MESSAGE = "refresh_message"
         private const val KEY_REFRESH_UPDATED_AT = "refresh_updated_at"

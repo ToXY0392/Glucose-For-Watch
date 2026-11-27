@@ -12,6 +12,9 @@ object PhoneAutoSyncScheduler {
     private const val REQUEST_CODE = 1001
     private const val INTERVAL_MS = 90 * 1000L
 
+    /** While the foreground service polls, the alarm is only a watchdog: one CGM period. */
+    const val WATCHDOG_INTERVAL_MS = 5 * 60 * 1000L
+
     fun schedule(context: Context, delayMs: Long = INTERVAL_MS) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val pendingIntent = pendingIntent(context)

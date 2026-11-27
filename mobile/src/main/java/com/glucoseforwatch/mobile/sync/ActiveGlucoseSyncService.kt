@@ -8,6 +8,7 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.ServiceCompat
 import com.glucoseforwatch.core.model.GlucoseReading
+import com.glucoseforwatch.feature.sync.GlucosePollScheduler
 import com.glucoseforwatch.feature.sync.SyncExecutionResult
 import com.glucoseforwatch.mobile.notifications.NotificationHelper
 import com.glucoseforwatch.mobile.settings.AppSettingsStore
@@ -238,11 +239,15 @@ class ActiveGlucoseSyncService : Service() {
         }
 
         val health = WatchSyncHealthRepository(this).load()
-        val intervalMs = WatchBatteryPolicy.pollIntervalMs(health)
-        if (intervalMs == WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS) {
+        val overdueIntervalMs = WatchBatteryPolicy.pollIntervalMs(health)
+        if (overdueIntervalMs == WatchBatteryPolicy.POLL_INTERVAL_DEGRADED_MS) {
             Log.i(TAG, "poll_interval_degraded intervalMs=$POLL_INTERVAL_DEGRADED_MS")
         }
-        return intervalMs
+        return GlucosePollScheduler.nextDelayMs(
+            nowEpochMs = System.currentTimeMillis(),
+            lastReadingTimestampEpochMs = PhoneSyncStateStore(this).load().lastFetchedReadingTimestampEpochMs,
+            overdueIntervalMs = overdueIntervalMs,
+        )
     }
 
     private fun isWatchInDegradedBatteryMode(): Boolean {

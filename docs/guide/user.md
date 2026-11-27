@@ -23,14 +23,13 @@ Install Glucose For Watch and see your Dexcom glucose on Wear OS (app, tile, com
 
 ## Daily use
 
-- The phone checks for Dexcom updates every 45 s in normal conditions (every
-  120 s in low-battery / limited-sync mode); Dexcom readings themselves usually
-  arrive on Dexcom's own update cadence.
+- Dexcom publishes a reading every 5 min. The phone checks again when the next
+  reading is due, then every 45 s until it arrives (every 120 s in
+  low-battery / limited-sync mode).
 - The phone keeps fetching from Dexcom when the watch is off-wrist; data catches up on reconnect.
 - Values use **AGP medical colors**: green in range, red low, and yellow/orange
-  high. The Dexcom reading/Wear cache is flagged stale after 2 min; the tile
-  dims old readings after 15 min, while the complication switches to a
-  placeholder after 15 min.
+  high. A reading older than 15 min is shown as stale everywhere: dimmed on
+  the tile, placeholder on the complication.
 - Network failures retry silently with backoff. The interrupted-sync
   notification is shown only after three consecutive failures; authentication
   failures prompt reconnection after two consecutive failures.
@@ -114,7 +113,7 @@ cached data. Once Share is available again, open Glucose For Watch and tap
 
 - Phone value = watch value
 - Timestamps match
-- Stale indicator off when data is fresh (< 2 min)
+- Stale indicator off when data is fresh (< 15 min)
 
 ## Support
 

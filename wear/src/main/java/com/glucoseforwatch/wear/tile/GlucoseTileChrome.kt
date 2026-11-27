@@ -4,6 +4,7 @@ import androidx.annotation.Keep
 import androidx.wear.protolayout.DeviceParametersBuilders
 import com.glucoseforwatch.core.model.AgpGlucoseColors
 import com.glucoseforwatch.core.model.GlucoseDisplayUnit
+import com.glucoseforwatch.core.model.GlucoseFreshness
 import com.glucoseforwatch.core.model.GlucoseRange
 import com.glucoseforwatch.core.model.GlucoseRangeResolver
 import com.glucoseforwatch.wear.data.GlucoseSnapshot
@@ -21,7 +22,8 @@ import kotlin.math.roundToInt
 object GlucoseTileChrome {
     /** Bump on every ProtoLayout / resource-map change to bust Wear tile resource cache. */
     const val RESOURCES_VERSION = "simple-tile-v24-orange-hyper-stale-fade"
-    const val FRESHNESS_INTERVAL_MS = 45_000L
+    /** Tile labels are per minute: refreshing faster only wakes the watch. */
+    const val FRESHNESS_INTERVAL_MS = 60_000L
     const val SYNC_CLICK_ID = "sync_v2"
 
     /** Absolute black tile canvas. */
@@ -42,7 +44,7 @@ object GlucoseTileChrome {
     const val SYNC_BUTTON_HEIGHT_DP = 40f
 
     /** Tile UI stale threshold (timestamp vs system clock). */
-    const val STALE_AFTER_MS = 15 * 60 * 1000L
+    const val STALE_AFTER_MS = GlucoseFreshness.STALE_AFTER_MS
 
     private const val COMPACT_SCREEN_WIDTH_DP = 225
     private const val MISSING_VALUE = "---"
@@ -181,10 +183,8 @@ object GlucoseTileChrome {
         )
     }
 
-    fun isStale(timestampEpochMs: Long, nowEpochMs: Long): Boolean {
-        if (timestampEpochMs <= 0L) return true
-        return (nowEpochMs - timestampEpochMs) > STALE_AFTER_MS
-    }
+    fun isStale(timestampEpochMs: Long, nowEpochMs: Long): Boolean =
+        GlucoseFreshness.isStale(timestampEpochMs, nowEpochMs)
 
     /** Neutral bottom label: "Il y a N min". */
     fun ageStatusLabel(timestampEpochMs: Long, nowEpochMs: Long): String {

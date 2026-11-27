@@ -1,5 +1,6 @@
 package com.glucoseforwatch.feature.dexcomshare
 
+import com.glucoseforwatch.core.model.GlucoseFreshness
 import com.glucoseforwatch.core.model.GlucoseReading
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -61,7 +62,7 @@ class DexcomShareException(
  * Fetches the latest glucose reading from Dexcom Share over HTTPS.
  *
  * Sessions are cached per account and renewed once when Dexcom reports expiry.
- * Readings older than two minutes are marked stale.
+ * Staleness follows [GlucoseFreshness].
  * HTTP calls share one client and are cancelled with the calling coroutine.
  */
 class DexcomShareClient(
@@ -86,7 +87,7 @@ class DexcomShareClient(
             val prevValue = it.readInt("Value", "value")
             if (prevValue == null) 0 else value - prevValue
         } ?: 0
-        val stale = System.currentTimeMillis() - timestampMs > STALE_AFTER_MS
+        val stale = GlucoseFreshness.isStale(timestampMs, System.currentTimeMillis())
 
         GlucoseReading(
             valueMgDl = value,
@@ -187,7 +188,6 @@ class DexcomShareClient(
     }
 
     companion object {
-        private const val STALE_AFTER_MS = 2 * 60 * 1000L
         private const val MAX_SESSION_RENEWALS = 1
         private val JSON_MEDIA_TYPE = "application/json".toMediaType()
     }
