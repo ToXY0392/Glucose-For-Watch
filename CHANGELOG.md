@@ -19,11 +19,28 @@ Format basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/).
 - Le téléphone et la montre utilisent une source commune pour le nom et le code de version dans `gradle.properties`.
 - Les critères v1.0 et validations appareil sont séparés des anciens jalons v0.5/v0.6.
 - La licence autorise le téléchargement et l'installation personnelle des APK officiels publiés par le titulaire sur ce dépôt GitHub uniquement.
+- Lecture Dexcom calée sur la cadence de 5 min des mesures : environ 15 requêtes par heure au lieu de 80 ; 45 s / 120 s seulement quand une mesure est en retard.
+- Une seule règle « donnée périmée » (15 min) pour la lecture Dexcom, le cache montre, la tuile, la complication et l'app montre.
+- Le cadran d'accueil du téléphone utilise la palette AGP (5 bandes) comme toutes les autres surfaces glycémie.
+- OCR ML Kit en version Play Services : APK release téléphone de 50 Mo à 5,6 Mo.
+- Catalogue de versions Gradle, cache de build, lint Android en CI.
 
 ### Corrigé
 
 - Classification des réponses Dexcom Share et gestion des échecs/reprises de synchronisation.
 - Affichage des complications Wear et règles de conservation R8 pour les builds release.
+- La sync manuelle ne lance plus deux lectures Dexcom et deux envois montre par appui.
+- Une demande de rafraîchissement depuis la montre n'attend plus derrière la boucle de réémission d'ack (jusqu'à 220 s).
+- Le délai de 12 s d'une lecture Dexcom interrompt réellement l'appel HTTP ; un seul client HTTP pour toute l'app.
+- Android 15+ : l'arrêt du service après 6 h ne désactive plus la sync active choisie par l'utilisateur.
+- L'accueil se met à jour pendant qu'il est affiché et ne lit plus ses préférences sur le thread principal.
+- Montre : l'ack est envoyé avant la fin du traitement de la mesure.
+- Android 9 à 11 : plus de référence non protégée à une exception de l'API 31.
+
+### Supprimé
+
+- Kit ToXY (`toxy-ux-kit/`), déconnecté de l'app ; règles AGP et surfaces dans `docs/design/`.
+- Code d'authentification par jeton jamais utilisé, dépendances et 131 ressources non référencées, Material Components.
 
 ---
 
