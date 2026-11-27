@@ -9,10 +9,13 @@ import com.glucoseforwatch.mobile.sync.PendingPushQueue
 import com.glucoseforwatch.mobile.sync.PhoneSyncStateStore
 import com.glucoseforwatch.mobile.watch.WatchConnectionRepository
 import com.glucoseforwatch.mobile.watch.WatchSyncHealthRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 /** Loads repositories and delegates to [HomeStateMapper]. */
 class HomeStateLoader {
-    suspend fun load(context: Context): HomeUiState {
+    /** Reads preferences (including the encrypted store) off the main thread. */
+    suspend fun load(context: Context): HomeUiState = withContext(Dispatchers.IO) {
         val appContext = context.applicationContext
         val settings = AppSettingsStore(appContext).loadDexcomSettings()
         val syncStatus = SyncStatusRepository(appContext).load()
@@ -24,7 +27,7 @@ class HomeStateLoader {
         val activeSyncEnabled = AppSettingsStore(appContext).isActiveSyncEnabled()
         val displayUnit = DisplaySettingsStore(appContext).loadGlucoseDisplayUnit()
 
-        return HomeStateMapper.map(
+        HomeStateMapper.map(
             context = appContext,
             dexcomSettings = settings,
             syncStatus = syncStatus,

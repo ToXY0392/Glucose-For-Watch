@@ -38,6 +38,7 @@ class ActiveGlucoseSyncService : Service() {
     private val syncMutex = Mutex()
     private var loopJob: Job? = null
     private var immediateSyncJob: Job? = null
+    private var repairJob: Job? = null
     private var foregroundActive = false
     private var consecutiveSyncFailures = 0
     private lateinit var reconnectDetector: WatchReconnectDetector
@@ -87,6 +88,7 @@ class ActiveGlucoseSyncService : Service() {
     override fun onDestroy() {
         loopJob?.cancel()
         immediateSyncJob?.cancel()
+        repairJob?.cancel()
         serviceJob.cancel()
         isRunning = false
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
@@ -99,10 +101,15 @@ class ActiveGlucoseSyncService : Service() {
         super.onDestroy()
     }
 
+    /**
+     * Android 15+ caps dataSync services at 6 h per 24 h. Stop as required, but keep the user's
+     * active-sync choice: onDestroy schedules the alarm, which falls back to WorkManager while
+     * the system refuses a new foreground start.
+     */
     override fun onTimeout(startId: Int, fgsType: Int) {
         super.onTimeout(startId, fgsType)
-        Log.w(TAG, "fgs_timeout startId=$startId fgsType=$fgsType — stopping to avoid system crash")
-        stopActiveSync()
+        Log.w(TAG, "fgs_timeout startId=$startId fgsType=$fgsType stopping_keep_enabled")
+        stopActiveSync(keepEnabled = true)
     }
 
     private fun startLoop(): Boolean {
@@ -149,9 +156,15 @@ class ActiveGlucoseSyncService : Service() {
                 TAG,
                 "sync_pass_result triggeredFromWatch=$triggeredFromWatch forcePush=$forcePushCurrentReading result=${result::class.simpleName}",
             )
-            repairUnackedDelivery()
             PhoneSyncStateStore(this).recordActiveServiceState("running")
         }
+        scheduleUnackedRepair()
+    }
+
+    /** Re-push loop runs outside [syncMutex] so a watch refresh never waits behind its delays. */
+    private fun scheduleUnackedRepair() {
+        repairJob?.cancel()
+        repairJob = serviceScope.launch { repairUnackedDelivery() }
     }
 
     private suspend fun flushPendingOnReconnect() {
@@ -262,11 +275,14 @@ class ActiveGlucoseSyncService : Service() {
         }
     }
 
-    private fun stopActiveSync() {
-        AppSettingsStore(this).setActiveSyncEnabled(false)
+    private fun stopActiveSync(keepEnabled: Boolean = false) {
+        if (!keepEnabled) {
+            AppSettingsStore(this).setActiveSyncEnabled(false)
+        }
         PhoneSyncStateStore(this).recordActiveServiceState("stopped")
         loopJob?.cancel()
         immediateSyncJob?.cancel()
+        repairJob?.cancel()
         if (foregroundActive) {
             stopForeground(STOP_FOREGROUND_REMOVE)
         }

@@ -161,10 +161,7 @@ class DexcomEntryActivity : ComponentActivity() {
                         server = settings.server,
                         applicationId = BuildConfig.DEXCOM_SHARE_APPLICATION_ID.trim(),
                     )
-                val okHttpClient = okhttp3.OkHttpClient.Builder()
-                    .addInterceptor(com.glucoseforwatch.mobile.auth.TokenAuthInterceptor(this@DexcomEntryActivity))
-                    .build()
-                val reading = DexcomShareClient(config, okHttpClient).latest()
+                val reading = DexcomShareClient(config).latest()
                 appSettingsStore.saveDexcomSettings(settings)
                 appSettingsStore.setActiveSyncEnabled(true)
                 launchStateStore.markDexcomEntryCompleted()

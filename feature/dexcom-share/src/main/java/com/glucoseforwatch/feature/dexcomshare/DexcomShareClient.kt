@@ -2,21 +2,21 @@ package com.glucoseforwatch.feature.dexcomshare
 
 import com.glucoseforwatch.core.model.GlucoseReading
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
-import kotlin.math.roundToInt
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.RequestBody
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.Response
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
+import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resumeWithException
+import kotlin.math.roundToInt
 
 /** Dexcom Share account settings and server region for the REST API. */
 data class DexcomShareConfig(
@@ -62,11 +62,10 @@ class DexcomShareException(
  *
  * Sessions are cached per account and renewed once when Dexcom reports expiry.
  * Readings older than two minutes are marked stale.
+ * HTTP calls share one client and are cancelled with the calling coroutine.
  */
-
 class DexcomShareClient(
     private val config: DexcomShareConfig,
-    private val okHttpClient: OkHttpClient? = null,
 ) {
     suspend fun latest(): GlucoseReading = withContext(Dispatchers.IO) {
         require(config.isConfigured()) { "Dexcom Share config is not valid" }
@@ -98,7 +97,7 @@ class DexcomShareClient(
         )
     }
 
-    private fun readLatestValuesWithSession(): JSONArray {
+    private suspend fun readLatestValuesWithSession(): JSONArray {
         val cacheKey = config.cacheKey()
         var sessionId = DexcomShareSessionCache.sessionFor(cacheKey)
             ?: createSession().also { DexcomShareSessionCache.save(cacheKey, it) }
@@ -120,12 +119,12 @@ class DexcomShareClient(
         }
     }
 
-    private fun createSession(): String {
+    private suspend fun createSession(): String {
         val accountId = authenticate()
         return login(accountId)
     }
 
-    private fun authenticate(): String {
+    private suspend fun authenticate(): String {
         val endpoint = "${config.baseUrl()}/ShareWebServices/Services/General/AuthenticatePublisherAccount"
         val body = JSONObject()
             .put("accountName", config.username)
@@ -135,10 +134,10 @@ class DexcomShareClient(
 
         val raw = postJson(endpoint, body)
         return raw.trim().trim('"').takeIf { it.isNotBlank() }
-            ?: throw DexcomShareException(DexcomShareErrorKind.AUTH, "Connexion Dexcom refusee.")
+            ?: throw DexcomShareException(DexcomShareErrorKind.AUTH, "Connexion Dexcom refusée.")
     }
 
-    private fun login(accountId: String): String {
+    private suspend fun login(accountId: String): String {
         val endpoint = "${config.baseUrl()}/ShareWebServices/Services/General/LoginPublisherAccountById"
         val body = JSONObject()
             .put("accountId", accountId)
@@ -148,10 +147,10 @@ class DexcomShareClient(
 
         val raw = postJson(endpoint, body)
         return raw.trim().trim('"').takeIf { it.isNotBlank() }
-            ?: throw DexcomShareException(DexcomShareErrorKind.AUTH, "Connexion Dexcom refusee.")
+            ?: throw DexcomShareException(DexcomShareErrorKind.AUTH, "Connexion Dexcom refusée.")
     }
 
-    private fun readLatestValues(sessionId: String): JSONArray {
+    private suspend fun readLatestValues(sessionId: String): JSONArray {
         val endpoint =
             "${config.baseUrl()}/ShareWebServices/Services/Publisher/ReadPublisherLatestGlucoseValues"
         val body = JSONObject()
@@ -165,83 +164,62 @@ class DexcomShareClient(
         return JSONArray(response)
     }
 
-    private fun postJson(url: String, payload: String, label: String = "Dexcom Share auth"): String {
-        // If an OkHttpClient is provided, prefer it (allows TokenAuthInterceptor to inject headers).
-        okHttpClient?.let { client ->
-            try {
-                val mediaType = "application/json".toMediaType()
-                val body = payload.toRequestBody(mediaType)
-                val request = Request.Builder()
-                    .url(url)
-                    .post(body)
-                    .addHeader("Accept", "application/json")
-                    .addHeader("Content-Type", "application/json")
-                    .build()
-
-                client.newCall(request).execute().use { response ->
-                    val code = response.code
-                    val responseBody = response.body?.string() ?: ""
-                    if (code !in 200..299) {
-                        throw DexcomShareHttpClassifier.classifyFailure(code, responseBody, label)
-                    }
-                    return responseBody
-                }
-            } catch (_: IOException) {
-                throw DexcomShareException(
-                    DexcomShareErrorKind.NETWORK,
-                    "Impossible de contacter Dexcom pour le moment.",
-                )
+    private suspend fun postJson(url: String, payload: String, label: String = "Dexcom Share auth"): String {
+        val request = Request.Builder()
+            .url(url)
+            .post(payload.toRequestBody(JSON_MEDIA_TYPE))
+            .addHeader("Accept", "application/json")
+            .build()
+        val (code, responseBody) = try {
+            DexcomShareHttp.client.newCall(request).await().use { response ->
+                response.code to response.body?.string().orEmpty()
             }
-        }
-
-        // Fallback to the existing HttpURLConnection-based implementation.
-        val connection = (URL(url).openConnection() as HttpURLConnection).apply {
-            requestMethod = "POST"
-            connectTimeout = 10_000
-            readTimeout = 10_000
-            doOutput = true
-            setRequestProperty("Accept", "application/json")
-            setRequestProperty("Content-Type", "application/json")
-        }
-
-        try {
-            connection.outputStream.use { out ->
-                out.write(payload.toByteArray(Charsets.UTF_8))
-            }
-            val code = connection.responseCode
-            val body = readBody(if (code in 200..299) connection.inputStream else connection.errorStream)
-            if (code !in 200..299) {
-                throw DexcomShareHttpClassifier.classifyFailure(code, body, label)
-            }
-            return body
         } catch (_: IOException) {
             throw DexcomShareException(
                 DexcomShareErrorKind.NETWORK,
                 "Impossible de contacter Dexcom pour le moment.",
             )
-        } finally {
-            connection.disconnect()
         }
-    }
-
-    private fun readBody(stream: InputStream?): String {
-        if (stream == null) return ""
-        return BufferedReader(InputStreamReader(stream)).use { reader ->
-            buildString {
-                var line = reader.readLine()
-                while (line != null) {
-                    append(line)
-                    line = reader.readLine()
-                }
-            }
+        if (code !in 200..299) {
+            throw DexcomShareHttpClassifier.classifyFailure(code, responseBody, label)
         }
+        return responseBody
     }
 
     companion object {
         private const val STALE_AFTER_MS = 2 * 60 * 1000L
         private const val MAX_SESSION_RENEWALS = 1
+        private val JSON_MEDIA_TYPE = "application/json".toMediaType()
     }
 }
+
+/** One process-wide client: a single connection pool and TLS session cache for every Dexcom call. */
+internal object DexcomShareHttp {
+    val client: OkHttpClient by lazy {
+        OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(10, TimeUnit.SECONDS)
+            .callTimeout(15, TimeUnit.SECONDS)
+            .build()
+    }
+}
+
+/** Suspends on an OkHttp call; cancelling the coroutine cancels the HTTP request. */
+private suspend fun Call.await(): Response =
+    suspendCancellableCoroutine { continuation ->
+        continuation.invokeOnCancellation { cancel() }
+        enqueue(
+            object : Callback {
+                override fun onResponse(call: Call, response: Response) {
+                    continuation.resume(response) { _, value, _ -> value.close() }
+                }
+
+                override fun onFailure(call: Call, e: IOException) {
+                    continuation.resumeWithException(e)
+                }
+            },
+        )
+    }
 
 private object DexcomShareSessionCache {
     private val sessions = mutableMapOf<String, CachedSession>()
