@@ -8,7 +8,7 @@ import com.glucoseforwatch.core.model.GlucoseRangeResolver
 /**
  * Glucose colors for the home: the standard AGP diabetes color code, through
  * [GlucoseRangeResolver]. A stale or missing reading is drawn in the AGP unknown color.
- * The glucose card is dark glass so the standard yellow and orange stay readable.
+ * Colors are never shaded per surface, including on the light glass glucose card.
  */
 internal object HomeGlucoseColor {
     const val SCALE_MIN_MG_DL = 40

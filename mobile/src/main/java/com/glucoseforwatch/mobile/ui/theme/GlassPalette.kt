@@ -27,14 +27,4 @@ internal object GlassPalette {
     val PressOverlay = Color(0x38FFFFFF)
     val Divider = Color(0x141D2A22)
     val Track = Color(0x1F1D2A22)
-
-    /*
-     * Glucose card: near-opaque dark glass. The AGP green #008000 needs a very dark ground
-     * to reach 3:1, and the AGP yellow and orange are unreadable on light glass.
-     */
-    val GlucoseCardFill = Color(0xF20E1210)
-    val GlucoseCardStroke = Color(0x59FFFFFF)
-    val OnDarkInk = Color(0xFFF1F4EF)
-    val OnDarkLabel = Color(0xFFB9C3BB)
-    val OnDarkUnit = Color(0xFFD3DAD4)
 }

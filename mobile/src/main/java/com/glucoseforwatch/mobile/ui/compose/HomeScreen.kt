@@ -239,8 +239,6 @@ private fun GlucoseCard(state: HomeUiState, motion: Boolean, modifier: Modifier 
         },
         motion = motion,
         shape = RoundedCornerShape(28.dp),
-        fill = GlassPalette.GlucoseCardFill,
-        stroke = GlassPalette.GlucoseCardStroke,
     ) {
         BandGlow(color = agpColor, motion = motion, modifier = Modifier.align(Alignment.TopEnd))
         Column(
@@ -250,7 +248,7 @@ private fun GlucoseCard(state: HomeUiState, motion: Boolean, modifier: Modifier 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = stringResource(R.string.home_glucose_title),
-                    color = GlassPalette.OnDarkLabel,
+                    color = GlassPalette.InkTertiary,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.weight(1f),
@@ -258,7 +256,7 @@ private fun GlucoseCard(state: HomeUiState, motion: Boolean, modifier: Modifier 
                 if (bandLabel != null) {
                     Text(
                         text = bandLabel,
-                        color = GlassPalette.OnDarkInk,
+                        color = GlassPalette.Ink,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         modifier =
@@ -287,11 +285,11 @@ private fun GlucoseCard(state: HomeUiState, motion: Boolean, modifier: Modifier 
                 )
                 Column(modifier = Modifier.padding(bottom = 8.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                     TrendArrow(trend = state.heroTrend, color = agpColor, motion = motion)
-                    Text(text = state.unitRowStatus, color = GlassPalette.OnDarkUnit, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                    Text(text = state.unitRowStatus, color = GlassPalette.InkSecondary, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
                 }
                 Text(
                     text = if (valueMgDl == null) state.watchFaceMetaText else state.heroTrendLabel,
-                    color = GlassPalette.OnDarkUnit,
+                    color = GlassPalette.InkSecondary,
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Bold,
                     maxLines = 2,
@@ -334,7 +332,7 @@ private fun BandGlow(color: Color, motion: Boolean, modifier: Modifier = Modifie
             1f
         }
     Canvas(modifier = modifier.offset(x = 60.dp, y = (-70).dp).size(220.dp)) {
-        drawHalo(color = color, alpha = 0.28f, center = center, radius = size.minDimension / 2f * scale)
+        drawHalo(color = color, alpha = 0.18f, center = center, radius = size.minDimension / 2f * scale)
     }
 }
 
@@ -409,8 +407,8 @@ private fun AgpScale(valueMgDl: Int?, stale: Boolean, unit: GlucoseDisplayUnit, 
                             .width(6.dp)
                             .height(18.dp)
                             .clip(RoundedCornerShape(3.dp))
-                            .background(Color.White)
-                            .border(1.5.dp, GlassPalette.GlucoseCardFill, RoundedCornerShape(3.dp)),
+                            .background(GlassPalette.Ink)
+                            .border(1.5.dp, Color.White, RoundedCornerShape(3.dp)),
                 )
             }
         }
@@ -419,7 +417,7 @@ private fun AgpScale(valueMgDl: Int?, stale: Boolean, unit: GlucoseDisplayUnit, 
             HomeGlucoseColor.scaleTicksMgDl.forEach { tick ->
                 Text(
                     text = scaleTickLabel(tick, unit),
-                    color = GlassPalette.OnDarkLabel,
+                    color = GlassPalette.InkTertiary,
                     fontSize = 11.sp,
                     fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.align(BiasAlignment(HomeGlucoseColor.scaleFraction(tick) * 2f - 1f, 0f)),

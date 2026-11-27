@@ -20,9 +20,10 @@ No other file defines a glucose color, in Kotlin or XML.
 | Very high (L2) | > 250 | `VERY_HIGH` | `#FF9900` |
 | Unknown / stale | — | `UNKNOWN` | `#9A948D` |
 
-Blue is never used for a glucose value. These colors are never lightened or darkened:
-a glucose value always sits on a dark surface where they stay readable (black watch
-tile, near-opaque dark glass card on the phone).
+Blue is never used for a glucose value. These colors are never lightened or darkened
+for a surface. On the phone home the glucose card is light glass by product choice:
+yellow and orange have low contrast there, so the range pill and the scale bar repeat
+the range. The watch surfaces are black.
 
 ## Staleness
 
@@ -37,7 +38,7 @@ depending on the surface.
 - Wear complication: value and ranged fill
 - Wear status screen: glucose number
 - Phone home: glucose card value, range pill, trend arrow, glow and 40–400 scale
-  (`HomeGlucoseColor`, dark glass card; stale readings in `UNKNOWN`)
+  (`HomeGlucoseColor`, light glass card; stale readings in `UNKNOWN`)
 
 ## Surfaces that must not use AGP
 

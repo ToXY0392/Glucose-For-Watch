@@ -36,8 +36,8 @@ Behavior of each surface that shows a glucose reading. Colors:
 
 - `HomeScreen`, "Menthe & Citron": Bento of glass cards over a mint-to-lemon
   background (`GlassBackground`, `GlassSurface`, `GlassPalette`), Plus Jakarta Sans.
-- Glucose card: near-opaque dark glass so the standard AGP colors stay readable.
-  Value, range pill, trend arrow, corner glow and a 40–400 mg/dL bar with the
+- Glucose card: same light glass as the other tiles (product choice; the standard
+  yellow and orange have low contrast on it). Value, range pill, trend arrow, corner glow and a 40–400 mg/dL bar with the
   70 / 180 / 250 thresholds placed to scale, all in the standard AGP colors
   (`HomeGlucoseColor`). A reading older than 15 min turns grey ("Donnée ancienne")
   and its marker is hidden. Trend `NONE` draws no arrow.
