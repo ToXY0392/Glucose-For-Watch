@@ -8,7 +8,7 @@ description: Enforces AGP medical color rules in Glucose For Watch: glucose valu
 ## Rule
 **Medical layer:** glucose numbers, range bands, trend arrows (when fresh) → `GlucoseRangeResolver` / `agp_*` colors.
 
-**Chrome layer:** backgrounds, buttons, sync UI → `toxy_*` / `ToxyTileTheme` mint accent OK.
+**Chrome layer:** backgrounds, buttons, sync UI → `wg7_*` / `gfw_*` resources, `GlucoseTileChrome` chrome constants.
 
 ## Thresholds (mg/dL)
 Source of truth: `AgpGlucoseColors` in `core/model/GlucoseRange.kt`. Values below mirror it.

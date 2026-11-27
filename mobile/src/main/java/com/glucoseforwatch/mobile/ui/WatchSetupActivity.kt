@@ -1,5 +1,6 @@
 package com.glucoseforwatch.mobile.ui
 
+import android.widget.Toast
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,7 +14,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import com.glucoseforwatch.core.model.GlucoseUnitFormatter
 import com.glucoseforwatch.mobile.R
 import com.glucoseforwatch.mobile.battery.BatteryOptimizationHelper
@@ -116,7 +116,7 @@ class WatchSetupActivity : ComponentActivity() {
                 }
             }
 
-        Snackbar.make(window.decorView, message, Snackbar.LENGTH_SHORT).show()
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         refreshWatchTestAvailability()
     }
 

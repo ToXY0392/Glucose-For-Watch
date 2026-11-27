@@ -62,5 +62,4 @@ console.log(
 );
 
 const logoBuffer = await buildSquareLogoBuffer(EXPORT_SIZE);
-await writeLogo("drawable-nodpi", "ic_app_logo_original_carre", logoBuffer);
 await writeLogo("drawable-nodpi", "ic_launcher_foreground", logoBuffer);

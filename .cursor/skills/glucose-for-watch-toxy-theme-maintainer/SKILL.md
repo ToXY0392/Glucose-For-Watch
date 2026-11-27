@@ -15,7 +15,7 @@ Single source of truth: `toxy-ux-kit/tokens/toxy.color.json` → export → `mob
 4. Keep `colors.xml` `wg7_*` entries as **aliases** to `toxy_*` (chrome only).
 5. Update `wear/.../tile/GlucoseTileChrome.kt` for ProtoLayout tile chrome;
    `ToxyTileTheme.kt` supplies the shared Wear status/complication color model.
-6. Bump `toxy-ux-kit/CHANGELOG.md` and tile `RESOURCES_VERSION` if watch surfaces change.
+6. Bump `toxy-ux-kit/CHANGELOG.md` and `GlucoseTileChrome.RESOURCES_VERSION` if watch surfaces change.
 
 ## Rules
 - **Never** use ToXY mint (`toxy_accent_*`) on glucose numeric values.

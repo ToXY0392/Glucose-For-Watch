@@ -27,7 +27,8 @@ kotlin {
 
 dependencies {
     implementation("com.flyfishxu:kadb:2.1.5")
-    implementation("com.google.mlkit:text-recognition:16.0.1")
+    // Unbundled: model served by Google Play Services, not ~40 MB of native libs in the APK.
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.2")
     implementation("androidx.exifinterface:exifinterface:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.11.0")
 
